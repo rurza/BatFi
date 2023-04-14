@@ -12,7 +12,6 @@
 		5BCD532429E7695A00CE0319 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD532329E7695A00CE0319 /* main.swift */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
-		5BEE219229E607FC0012A4DD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE219129E607FC0012A4DD /* Preview Assets.xcassets */; };
 		5BEE21B729E612C00012A4DD /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEE21B629E612C00012A4DD /* ServiceManagement.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,7 +66,6 @@
 		5BEE218729E607FB0012A4DD /* BatFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5BEE219129E607FC0012A4DD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -123,17 +121,8 @@
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
 				5BB80D4229E9A32B00186827 /* software.micropixels.BatFi.helper.plist */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
-				5BEE219029E607FC0012A4DD /* Preview Content */,
 			);
 			path = BatFi;
-			sourceTree = "<group>";
-		};
-		5BEE219029E607FC0012A4DD /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				5BEE219129E607FC0012A4DD /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		5BEE21B529E612C00012A4DD /* Frameworks */ = {
@@ -226,7 +215,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BEE219229E607FC0012A4DD /* Preview Assets.xcassets in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,7 +400,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BatFi/Preview Content\"";
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -439,7 +426,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BatFi/Preview Content\"";
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
