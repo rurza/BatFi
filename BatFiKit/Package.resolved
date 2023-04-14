@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "securexpc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/trilemma-dev/SecureXPC",
+      "state" : {
+        "revision" : "d6e439e2b805de8be9b584fff97cf2f6a839a656",
+        "version" : "0.8.0"
+      }
+    }
+  ],
+  "version" : 2
+}
