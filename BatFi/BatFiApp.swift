@@ -5,42 +5,36 @@
 //  Created by Adam on 11/04/2023.
 //
 
+import MenuBuilder
 import ServiceManagement
 import SwiftUI
+import SecureXPC
+
+private let plistName = "software.micropixels.BatFi.helper.plist"
+
+let client = XPCClient.forMachService(named: "")
 
 @main
 struct BatFiApp: App {
     @State private var chargingDisabled = false
+    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
 
     var body: some Scene {
-        MenuBarExtra {
-            Button {
-                Task.detached {
-                    let service = SMAppService.daemon(plistName: "software.micropixels.BatFi.helper.plist")
-                    do {
-                        print("will register, status: \(service.status.rawValue)")
-                        try service.register()
-                        print("did register")
-                    } catch {
-                        print("did not register, error: \(error)")
-                    }
-                }
-            } label: {
-                Text("Install helper tool")
-            }
-        } label: {
-            if chargingDisabled {
-                Image(systemName: "minus.plus.batteryblock")
-            } else {
-                Image(systemName: "bolt.batteryblock.fill")
+        _EmptyScene()
+    }
+}
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        let service = SMAppService.agent(plistName: plistName)
+        print("\(service) has status \(service.status)")
+        statusItem.button?.image = NSImage(systemSymbolName: "bolt.batteryblock.fill", accessibilityDescription: "BatFi")
+        statusItem.menu = NSMenu {
+            MenuItem("Install Helper tool").onSelect {
 
             }
         }
-        .onChange(of: chargingDisabled) { disable in
-            // sudo smc -k CH0B -w 02
-            // sudo smc -k CH0C -w 02
-           
-        }
-
     }
 }

@@ -1,0 +1,16 @@
+//
+//  Config.xcconfig
+//  BatFi
+//
+//  Created by Adam on 14/04/2023.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APP_BUNDLE_IDENTIFIER = software.micropixels.BatFi
+HELPER_TOOL_BUNDLE_IDENTIFIER = $(APP_BUNDLE_IDENTIFIER).helper
+
+// The app's version needs to be defined at the project level so the helper tool can encode this as a code requirement
+// mitigate downgrade attacks. See README for details.
+APP_VERSION = 1.0.0

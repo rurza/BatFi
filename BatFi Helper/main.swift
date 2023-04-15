@@ -6,12 +6,19 @@
 //
 
 import Foundation
+import SecureXPC
 
-func main() {
-    while true {
-        print("Hello Cruel World!")
-        sleep(10)
-    }
+NSLog("starting helper tool. PID \(getpid()). PPID \(getppid()).")
+
+do {
+    let server = try XPCServer.forMachService()
+    server.registerRoute(XPCRoute.uninstall, handler: uninstall)
+    server.startAndBlock()
+} catch {
+
 }
 
-main()
+private func uninstall() {
+
+}
+

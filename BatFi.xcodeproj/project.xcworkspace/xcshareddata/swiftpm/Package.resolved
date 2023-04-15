@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "menubuilder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/j-f1/MenuBuilder",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ba0202c5ff6d63f0fd7ec6b1da11a769eff15000"
+      }
+    },
+    {
       "identity" : "securexpc",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/trilemma-dev/SecureXPC",
