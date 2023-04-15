@@ -8,11 +8,5 @@
 import SecureXPC
 
 public extension XPCRoute {
-    static let uninstall = Self.named("XPCRouteWithoutMessageWithoutReply")
+    static let uninstall = Self.named("uninstall")
 }
-
-public enum Route {
-    public static let uninstall = XPCRoute.named("uninstall")
-    
-}
-

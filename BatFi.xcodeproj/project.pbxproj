@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B3C14B529EA034300746A53 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14B429EA034300746A53 /* SMC.swift */; };
+		5B11DDF629EB59DE007A993C /* SMCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommand.swift */; };
+		5B11DDF729EB59DE007A993C /* SMCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommand.swift */; };
 		5B3C14BC29EAA5BD00746A53 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Route.swift */; };
 		5B3C14BD29EAA5BD00746A53 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Route.swift */; };
 		5B3C14C029EAA5D900746A53 /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14BF29EAA5D900746A53 /* SecureXPC */; };
@@ -86,8 +87,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5B3C14B429EA034300746A53 /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
+		5B11DDF229EB4B14007A993C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B11DDF529EB59DE007A993C /* SMCCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCCommand.swift; sourceTree = "<group>"; };
+		5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListModifier.swift; sourceTree = "<group>"; };
 		5B3C14BB29EAA5BD00746A53 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
+		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		5BB80D4229E9A32B00186827 /* software.micropixels.BatFi.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.helper.plist; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BCD532129E7695A00CE0319 /* BatFi Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "BatFi Helper"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				5B3C14BB29EAA5BD00746A53 /* Route.swift */,
+				5B11DDF529EB59DE007A993C /* SMCCommand.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -132,25 +138,27 @@
 			isa = PBXGroup;
 			children = (
 				5BB80D4829E9EF6600186827 /* Config.xcconfig */,
+				5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5BCD532229E7695A00CE0319 /* BatFi Helper */ = {
+		5BCD532229E7695A00CE0319 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				5B3C14B429EA034300746A53 /* SMC.swift */,
+				5B11DDF229EB4B14007A993C /* Info.plist */,
 				5BCD532329E7695A00CE0319 /* main.swift */,
+				5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */,
 			);
-			path = "BatFi Helper";
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		5BEE217E29E607FB0012A4DD = {
 			isa = PBXGroup;
 			children = (
 				5B3C14BA29EAA5B100746A53 /* Shared */,
-				5BEE218929E607FB0012A4DD /* BatFi */,
-				5BCD532229E7695A00CE0319 /* BatFi Helper */,
+				5BEE218929E607FB0012A4DD /* App */,
+				5BCD532229E7695A00CE0319 /* Helper */,
 				5BB80D4729E9EF6600186827 /* Supporting Files */,
 				5BEE218829E607FB0012A4DD /* Products */,
 				5BEE21B529E612C00012A4DD /* Frameworks */,
@@ -166,14 +174,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5BEE218929E607FB0012A4DD /* BatFi */ = {
+		5BEE218929E607FB0012A4DD /* App */ = {
 			isa = PBXGroup;
 			children = (
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
 				5BB80D4229E9A32B00186827 /* software.micropixels.BatFi.helper.plist */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
+				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
 			);
-			path = BatFi;
+			path = App;
 			sourceTree = "<group>";
 		};
 		5BEE21B529E612C00012A4DD /* Frameworks */ = {
@@ -191,10 +200,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BCD532529E7695A00CE0319 /* Build configuration list for PBXNativeTarget "BatFi Helper" */;
 			buildPhases = (
+				5B11DDF329EB4B34007A993C /* PropertyListModifier Script */,
 				5BCD531D29E7695A00CE0319 /* Sources */,
 				5BCD531E29E7695A00CE0319 /* Frameworks */,
 				5BCD531F29E7695A00CE0319 /* CopyFiles */,
 				5B3C14B329EA000F00746A53 /* Embed Frameworks */,
+				5B11DDF429EB4D4A007A993C /* PropertyListModifier cleanup */,
 			);
 			buildRules = (
 			);
@@ -285,6 +296,47 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5B11DDF329EB4B34007A993C /* PropertyListModifier Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "PropertyListModifier Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements specify-mach-services auto-increment-version\n";
+		};
+		5B11DDF429EB4D4A007A993C /* PropertyListModifier cleanup */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "PropertyListModifier cleanup";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements cleanup-mach-services\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5BCD531D29E7695A00CE0319 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -292,7 +344,7 @@
 			files = (
 				5BCD532429E7695A00CE0319 /* main.swift in Sources */,
 				5B3C14BD29EAA5BD00746A53 /* Route.swift in Sources */,
-				5B3C14B529EA034300746A53 /* SMC.swift in Sources */,
+				5B11DDF729EB59DE007A993C /* SMCCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +354,7 @@
 			files = (
 				5B3C14BC29EAA5BD00746A53 /* Route.swift in Sources */,
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
+				5B11DDF629EB59DE007A993C /* SMCCommand.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +371,7 @@
 /* Begin XCBuildConfiguration section */
 		5BCD532629E7695A00CE0319 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
@@ -333,6 +387,7 @@
 		};
 		5BCD532729E7695A00CE0319 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
@@ -463,6 +518,7 @@
 		};
 		5BEE21AD29E607FC0012A4DD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B3C14C929EB431600746A53 /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -472,7 +528,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -489,6 +545,7 @@
 		};
 		5BEE21AE29E607FC0012A4DD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B3C14C929EB431600746A53 /* AppConfig.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -498,7 +555,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (

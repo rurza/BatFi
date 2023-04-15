@@ -1,0 +1,45 @@
+//
+//  AppConfig.xcconfig
+//  BatFi
+//
+//  Created by Adam on 15/04/2023.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "../Supporting Files/Config.xcconfig"
+
+// The display name for the sample app (for a non-sample app you would not necessarily want to define this here).
+DISPLAY_NAME = BatFi
+
+// The name of the .app bundle created by the build process. Often matches the display name, but does not need to.
+TARGET_NAME = $(DISPLAY_NAME)
+
+// The directory containing the source code and property lists for the main App.
+TARGET_DIRECTORY = App
+
+
+// MARK: - There should not be a need to modify anything below this line in this configuration file
+//
+
+// Bundle identifier used both in the info property list and so the build script knows which target it is running for.
+// If you want to change the bundle identifier, change the value for APP_BUNDLE_IDENTIFIER in Config.xcconfig.
+PRODUCT_BUNDLE_IDENTIFIER = $(APP_BUNDLE_IDENTIFIER)
+
+// The product name match the name of the .app.
+PRODUCT_NAME = $(TARGET_NAME)
+
+// It is not possible to use the Authorization framework from a sandboxed app.
+ENABLE_APP_SANDBOX = NO
+
+// Location of the info property list.
+INFOPLIST_FILE = $(TARGET_DIRECTORY)/Info.plist
+
+// Tells Xcode Archive the app is the target which should be the installable artifact (unlike the helper tool).
+SKIP_INSTALL = NO
+
+// Used by the shared code to know which target it's being built for
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = APP
+
+GENERATE_INFOPLIST_FILE = NO
