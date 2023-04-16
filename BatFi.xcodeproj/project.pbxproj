@@ -8,42 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		5B11DDF629EB59DE007A993C /* SMCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommand.swift */; };
-		5B11DDF729EB59DE007A993C /* SMCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommand.swift */; };
+		5B11DE0829EB6641007A993C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DE0729EB6641007A993C /* main.swift */; };
 		5B3C14BC29EAA5BD00746A53 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Route.swift */; };
-		5B3C14BD29EAA5BD00746A53 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Route.swift */; };
 		5B3C14C029EAA5D900746A53 /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14BF29EAA5D900746A53 /* SecureXPC */; };
-		5B3C14C229EAA65B00746A53 /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14C129EAA65B00746A53 /* SecureXPC */; };
 		5B3C14C529EAA6CC00746A53 /* MenuBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14C429EAA6CC00746A53 /* MenuBuilder */; };
-		5BB80D4129E9A2B200186827 /* BatFi Helper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5BCD532129E7695A00CE0319 /* BatFi Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5BB80D4529E9A4A100186827 /* software.micropixels.BatFi.helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5BB80D4229E9A32B00186827 /* software.micropixels.BatFi.helper.plist */; };
-		5BCD532429E7695A00CE0319 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCD532329E7695A00CE0319 /* main.swift */; };
+		5B69E6E629EB69350010AD63 /* Helper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5B11DE0529EB6641007A993C /* Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5B69E6E829EB6AB00010AD63 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5B69E6E729EB6AB00010AD63 /* Info.plist */; };
+		5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */; };
+		5B69E6EE29ECA27E0010AD63 /* HelperToolInfoPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B69E6ED29ECA2750010AD63 /* HelperToolInfoPropertyList.swift */; };
+		5B69E6EF29ECA27E0010AD63 /* HelperToolInfoPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B69E6ED29ECA2750010AD63 /* HelperToolInfoPropertyList.swift */; };
+		5B69E6F229ECA2B70010AD63 /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */; };
+		5B69E6F429ECA2C50010AD63 /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
 		5BEE21B729E612C00012A4DD /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEE21B629E612C00012A4DD /* ServiceManagement.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5BB80D3E29E9A27400186827 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5BEE217F29E607FB0012A4DD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5BCD532029E7695A00CE0319;
-			remoteInfo = "BatFi Helper";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
-		5B3C14AF29EA000800746A53 /* Embed Frameworks */ = {
+		5B11DE0329EB6641007A993C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
 			files = (
 			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
-		5B3C14B329EA000F00746A53 /* Embed Frameworks */ = {
+		5B3C14AF29EA000800746A53 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -59,7 +50,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				5BB80D4129E9A2B200186827 /* BatFi Helper in Embed Helper Tool */,
+				5B69E6E629EB69350010AD63 /* Helper in Embed Helper Tool */,
 			);
 			name = "Embed Helper Tool";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,33 +61,26 @@
 			dstPath = Contents/Library/LaunchDaemons;
 			dstSubfolderSpec = 1;
 			files = (
-				5BB80D4529E9A4A100186827 /* software.micropixels.BatFi.helper.plist in Copy Helper Property List */,
+				5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */,
 			);
 			name = "Copy Helper Property List";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BCD531F29E7695A00CE0319 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5B11DDF229EB4B14007A993C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B11DDF529EB59DE007A993C /* SMCCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCCommand.swift; sourceTree = "<group>"; };
 		5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListModifier.swift; sourceTree = "<group>"; };
+		5B11DE0529EB6641007A993C /* Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Helper; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
 		5B3C14BB29EAA5BD00746A53 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
 		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
-		5BB80D4229E9A32B00186827 /* software.micropixels.BatFi.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.helper.plist; sourceTree = "<group>"; };
+		5B69E6E429EB67F70010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B69E6E729EB6AB00010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.Helper.plist; sourceTree = "<group>"; };
+		5B69E6ED29ECA2750010AD63 /* HelperToolInfoPropertyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperToolInfoPropertyList.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		5BCD532129E7695A00CE0319 /* BatFi Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "BatFi Helper"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BCD532329E7695A00CE0319 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5BEE218729E607FB0012A4DD /* BatFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,11 +88,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5BCD531E29E7695A00CE0319 /* Frameworks */ = {
+		5B11DE0229EB6641007A993C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B3C14C229EAA65B00746A53 /* SecureXPC in Frameworks */,
+				5B69E6F429ECA2C50010AD63 /* EmbeddedPropertyList in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,17 +103,29 @@
 				5BEE21B729E612C00012A4DD /* ServiceManagement.framework in Frameworks */,
 				5B3C14C529EAA6CC00746A53 /* MenuBuilder in Frameworks */,
 				5B3C14C029EAA5D900746A53 /* SecureXPC in Frameworks */,
+				5B69E6F229ECA2B70010AD63 /* EmbeddedPropertyList in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B11DE0629EB6641007A993C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				5B69E6E429EB67F70010AD63 /* Info.plist */,
+				5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */,
+				5B11DE0729EB6641007A993C /* main.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		5B3C14BA29EAA5B100746A53 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				5B3C14BB29EAA5BD00746A53 /* Route.swift */,
 				5B11DDF529EB59DE007A993C /* SMCCommand.swift */,
+				5B69E6ED29ECA2750010AD63 /* HelperToolInfoPropertyList.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -143,23 +139,13 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5BCD532229E7695A00CE0319 /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				5B11DDF229EB4B14007A993C /* Info.plist */,
-				5BCD532329E7695A00CE0319 /* main.swift */,
-				5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */,
-			);
-			path = Helper;
-			sourceTree = "<group>";
-		};
 		5BEE217E29E607FB0012A4DD = {
 			isa = PBXGroup;
 			children = (
 				5B3C14BA29EAA5B100746A53 /* Shared */,
 				5BEE218929E607FB0012A4DD /* App */,
-				5BCD532229E7695A00CE0319 /* Helper */,
 				5BB80D4729E9EF6600186827 /* Supporting Files */,
+				5B11DE0629EB6641007A993C /* Helper */,
 				5BEE218829E607FB0012A4DD /* Products */,
 				5BEE21B529E612C00012A4DD /* Frameworks */,
 			);
@@ -169,7 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				5BEE218729E607FB0012A4DD /* BatFi.app */,
-				5BCD532129E7695A00CE0319 /* BatFi Helper */,
+				5B11DE0529EB6641007A993C /* Helper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -178,9 +164,10 @@
 			isa = PBXGroup;
 			children = (
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
-				5BB80D4229E9A32B00186827 /* software.micropixels.BatFi.helper.plist */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
+				5B69E6E729EB6AB00010AD63 /* Info.plist */,
+				5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -196,49 +183,50 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5BCD532029E7695A00CE0319 /* BatFi Helper */ = {
+		5B11DE0429EB6641007A993C /* Helper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BCD532529E7695A00CE0319 /* Build configuration list for PBXNativeTarget "BatFi Helper" */;
+			buildConfigurationList = 5B11DE0929EB6641007A993C /* Build configuration list for PBXNativeTarget "Helper" */;
 			buildPhases = (
-				5B11DDF329EB4B34007A993C /* PropertyListModifier Script */,
-				5BCD531D29E7695A00CE0319 /* Sources */,
-				5BCD531E29E7695A00CE0319 /* Frameworks */,
-				5BCD531F29E7695A00CE0319 /* CopyFiles */,
-				5B3C14B329EA000F00746A53 /* Embed Frameworks */,
-				5B11DDF429EB4D4A007A993C /* PropertyListModifier cleanup */,
+				5B11DE0D29EB6700007A993C /* ShellScript */,
+				5B11DE0129EB6641007A993C /* Sources */,
+				5B11DE0229EB6641007A993C /* Frameworks */,
+				5B11DE0329EB6641007A993C /* CopyFiles */,
+				5B69E6E529EB687B0010AD63 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "BatFi Helper";
+			name = Helper;
 			packageProductDependencies = (
-				5B3C14C129EAA65B00746A53 /* SecureXPC */,
+				5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */,
 			);
-			productName = "BatFi Helper";
-			productReference = 5BCD532129E7695A00CE0319 /* BatFi Helper */;
+			productName = Helper;
+			productReference = 5B11DE0529EB6641007A993C /* Helper */;
 			productType = "com.apple.product-type.tool";
 		};
 		5BEE218629E607FB0012A4DD /* BatFi */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BEE21AC29E607FC0012A4DD /* Build configuration list for PBXNativeTarget "BatFi" */;
 			buildPhases = (
+				5B11DDFF29EB62F1007A993C /* PropertyListModifier */,
 				5BEE218329E607FB0012A4DD /* Sources */,
 				5BEE218429E607FB0012A4DD /* Frameworks */,
 				5BEE218529E607FB0012A4DD /* Resources */,
 				5BB80D4029E9A28900186827 /* Embed Helper Tool */,
 				5BB80D4429E9A3A400186827 /* Copy Helper Property List */,
 				5B3C14AF29EA000800746A53 /* Embed Frameworks */,
+				5B11DE0029EB630F007A993C /* PropertyListModifier cleanup */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5BB80D3F29E9A27400186827 /* PBXTargetDependency */,
 			);
 			name = BatFi;
 			packageProductDependencies = (
 				5B3C14BF29EAA5D900746A53 /* SecureXPC */,
 				5B3C14C429EAA6CC00746A53 /* MenuBuilder */,
+				5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */,
 			);
 			productName = BatFi;
 			productReference = 5BEE218729E607FB0012A4DD /* BatFi.app */;
@@ -254,7 +242,7 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					5BCD532029E7695A00CE0319 = {
+					5B11DE0429EB6641007A993C = {
 						CreatedOnToolsVersion = 14.3;
 					};
 					5BEE218629E607FB0012A4DD = {
@@ -274,13 +262,14 @@
 			packageReferences = (
 				5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */,
 				5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */,
+				5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */,
 			);
 			productRefGroup = 5BEE218829E607FB0012A4DD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				5BEE218629E607FB0012A4DD /* BatFi */,
-				5BCD532029E7695A00CE0319 /* BatFi Helper */,
+				5B11DE0429EB6641007A993C /* Helper */,
 			);
 		};
 /* End PBXProject section */
@@ -290,6 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B69E6E829EB6AB00010AD63 /* Info.plist in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +287,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5B11DDF329EB4B34007A993C /* PropertyListModifier Script */ = {
+		5B11DDFF29EB62F1007A993C /* PropertyListModifier */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -307,16 +297,16 @@
 			);
 			inputPaths = (
 			);
-			name = "PropertyListModifier Script";
+			name = PropertyListModifier;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements specify-mach-services auto-increment-version\n";
+			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements specify-mach-services\n";
 		};
-		5B11DDF429EB4D4A007A993C /* PropertyListModifier cleanup */ = {
+		5B11DE0029EB630F007A993C /* PropertyListModifier cleanup */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -333,18 +323,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements cleanup-mach-services\n";
+			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n";
+		};
+		5B11DE0D29EB6700007A993C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements auto-increment-version\n";
+		};
+		5B69E6E529EB687B0010AD63 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5BCD531D29E7695A00CE0319 /* Sources */ = {
+		5B11DE0129EB6641007A993C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BCD532429E7695A00CE0319 /* main.swift in Sources */,
-				5B3C14BD29EAA5BD00746A53 /* Route.swift in Sources */,
-				5B11DDF729EB59DE007A993C /* SMCCommand.swift in Sources */,
+				5B69E6EF29ECA27E0010AD63 /* HelperToolInfoPropertyList.swift in Sources */,
+				5B11DE0829EB6641007A993C /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B69E6EE29ECA27E0010AD63 /* HelperToolInfoPropertyList.swift in Sources */,
 				5B3C14BC29EAA5BD00746A53 /* Route.swift in Sources */,
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
 				5B11DDF629EB59DE007A993C /* SMCCommand.swift in Sources */,
@@ -360,43 +386,27 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		5BB80D3F29E9A27400186827 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5BCD532029E7695A00CE0319 /* BatFi Helper */;
-			targetProxy = 5BB80D3E29E9A27400186827 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		5BCD532629E7695A00CE0319 /* Debug */ = {
+		5B11DE0A29EB6641007A993C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */;
+			baseConfigurationReference = 5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
-				OTHER_CODE_SIGN_FLAGS = "$(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)";
-				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		5BCD532729E7695A00CE0319 /* Release */ = {
+		5B11DE0B29EB6641007A993C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B3C14C829EB426700746A53 /* HelperConfig.xcconfig */;
+			baseConfigurationReference = 5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
-				OTHER_CODE_SIGN_FLAGS = "$(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)";
-				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Helper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -528,7 +538,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -555,7 +565,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO;
+				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -573,11 +583,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5BCD532529E7695A00CE0319 /* Build configuration list for PBXNativeTarget "BatFi Helper" */ = {
+		5B11DE0929EB6641007A993C /* Build configuration list for PBXNativeTarget "Helper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5BCD532629E7695A00CE0319 /* Debug */,
-				5BCD532729E7695A00CE0319 /* Release */,
+				5B11DE0A29EB6641007A993C /* Debug */,
+				5B11DE0B29EB6641007A993C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -619,6 +629,14 @@
 				kind = branch;
 			};
 		};
+		5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/trilemma-dev/EmbeddedPropertyList";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -627,15 +645,20 @@
 			package = 5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */;
 			productName = SecureXPC;
 		};
-		5B3C14C129EAA65B00746A53 /* SecureXPC */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */;
-			productName = SecureXPC;
-		};
 		5B3C14C429EAA6CC00746A53 /* MenuBuilder */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */;
 			productName = MenuBuilder;
+		};
+		5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */;
+			productName = EmbeddedPropertyList;
+		};
+		5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */;
+			productName = EmbeddedPropertyList;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

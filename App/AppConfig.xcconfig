@@ -19,6 +19,7 @@ TARGET_NAME = $(DISPLAY_NAME)
 // The directory containing the source code and property lists for the main App.
 TARGET_DIRECTORY = App
 
+LAUNCHDPLIST_FILE = $(TARGET_DIRECTORY)/$(HELPER_TOOL_BUNDLE_IDENTIFIER).plist
 
 // MARK: - There should not be a need to modify anything below this line in this configuration file
 //

@@ -47,7 +47,7 @@ func readEnvironmentVariable(name: String, description: String, isUserDefined: B
         var message = "Unable to determine \(description), missing \(name) environment variable."
         if isUserDefined {
             message += " This is a user-defined variable. Please check that the xcconfig files are present and " +
-                       "configured in the project settings."
+            "configured in the project settings."
         }
         throw ScriptError.general(message)
     }
@@ -77,6 +77,8 @@ let BuildHashKey = "BuildHash"
 let LabelKey = "Label"
 /// Key for XPC mach service used by the helper tool.
 let MachServicesKey = "MachServices"
+
+let BundleProgramKey = "BundleProgram"
 
 // App - info
 /// Key for entry in app's info property list.
@@ -317,14 +319,14 @@ enum BundleVersion {
             self = .major(major)
         }
         else if versionParts.count == 2,
-            let major = UInt(versionParts[0]),
-            let minor = UInt(versionParts[1]) {
+                let major = UInt(versionParts[0]),
+                let minor = UInt(versionParts[1]) {
             self = .majorMinor(major, minor)
         }
         else if versionParts.count == 3,
-            let major = UInt(versionParts[0]),
-            let minor = UInt(versionParts[1]),
-            let patch = UInt(versionParts[2]) {
+                let major = UInt(versionParts[0]),
+                let minor = UInt(versionParts[1]),
+                let patch = UInt(versionParts[2]) {
             self = .majorMinorPatch(major, minor, patch)
         }
         else {
@@ -334,23 +336,23 @@ enum BundleVersion {
     
     var version: String {
         switch self {
-            case .major(let major):
-                return "\(major)"
-            case .majorMinor(let major, let minor):
-                return "\(major).\(minor)"
-            case .majorMinorPatch(let major, let minor, let patch):
-                return "\(major).\(minor).\(patch)"
+        case .major(let major):
+            return "\(major)"
+        case .majorMinor(let major, let minor):
+            return "\(major).\(minor)"
+        case .majorMinorPatch(let major, let minor, let patch):
+            return "\(major).\(minor).\(patch)"
         }
     }
     
     func increment() -> BundleVersion {
         switch self {
-            case .major(let major):
-                return .major(major + 1)
-            case .majorMinor(let major, let minor):
-                return .majorMinor(major, minor + 1)
-            case .majorMinorPatch(let major, let minor, let patch):
-                return .majorMinorPatch(major, minor, patch + 1)
+        case .major(let major):
+            return .major(major + 1)
+        case .majorMinor(let major, let minor):
+            return .majorMinor(major, minor + 1)
+        case .majorMinorPatch(let major, let minor, let patch):
+            return .majorMinorPatch(major, minor, patch + 1)
         }
     }
 }
@@ -464,18 +466,29 @@ func satisfyJobBlessRequirements() throws {
     let target = try determineTargetType()
     let infoPropertyList = try infoPropertyListPath()
     switch target {
-        case .helperTool:
-            let clients = try SMAuthorizedClientsEntry()
-            let infoEntries: [String : AnyHashable] = [CFBundleIdentifierKey : try target.bundleIdentifier(),
-                                                       clients.key : clients.value]
-            try updatePropertyListWithEntries(infoEntries, atPath: infoPropertyList)
-            
-            let launchdPropertyList = try launchdPropertyListPath()
-            let label = try LabelEntry()
-            try updatePropertyListWithEntries([label.key : label.value], atPath: launchdPropertyList)
-        case .app:
-            let executables = try SMPrivilegedExecutablesEntry()
-            try updatePropertyListWithEntries([executables.key : executables.value], atPath: infoPropertyList)
+    case .helperTool:
+        let clients = try SMAuthorizedClientsEntry()
+        let infoEntries: [String : AnyHashable] = [CFBundleIdentifierKey : try target.bundleIdentifier(),
+                                                   clients.key : clients.value]
+        try updatePropertyListWithEntries(infoEntries, atPath: infoPropertyList)
+    case .app:
+        let executables = try SMPrivilegedExecutablesEntry()
+        try updatePropertyListWithEntries([executables.key : executables.value], atPath: infoPropertyList)
+
+        let launchdPropertyList = try launchdPropertyListPath()
+        let label = try LabelEntry()
+        try updatePropertyListWithEntries([label.key : label.value], atPath: launchdPropertyList)
+        let helperName = try readEnvironmentVariable(
+            name: "HELPER_NAME",
+            description: "helper name",
+            isUserDefined: true
+        )
+        try updatePropertyListWithEntries(
+            [
+                BundleProgramKey : "Contents/MacOS/" + helperName
+            ],
+            atPath: launchdPropertyList
+        )
     }
 }
 
@@ -484,37 +497,37 @@ func cleanupJobBlessRequirements() throws {
     let target = try determineTargetType()
     let infoPropertyList = try infoPropertyListPath()
     switch target {
-        case .helperTool:
-            try removePropertyListEntries(forKeys: [SMAuthorizedClientsKey, CFBundleIdentifierKey],
-                                          atPath: infoPropertyList)
-            
-            let launchdPropertyList = try launchdPropertyListPath()
-            try removePropertyListEntries(forKeys: [LabelKey], atPath: launchdPropertyList)
-        case .app:
-            try removePropertyListEntries(forKeys: [SMPrivilegedExecutablesKey], atPath: infoPropertyList)
+    case .helperTool:
+        try removePropertyListEntries(forKeys: [SMAuthorizedClientsKey, CFBundleIdentifierKey],
+                                      atPath: infoPropertyList)
+    case .app:
+        try removePropertyListEntries(forKeys: [SMPrivilegedExecutablesKey], atPath: infoPropertyList)
+
+        let launchdPropertyList = try launchdPropertyListPath()
+        try FileManager.default.removeItem(at: launchdPropertyList)
     }
 }
 
-/// Creates a MachServices entry for the helper tool, fails if called for the app.
+/// Creates a MachServices entry for the app, fails if called for the tool.
 func specifyMachServices() throws {
     let target = try determineTargetType()
     switch target {
-        case .helperTool:
-            let services = [MachServicesKey: [try TargetType.helperTool.bundleIdentifier() : true]]
-            try updatePropertyListWithEntries(services, atPath: try launchdPropertyListPath())
-        case .app:
-            throw ScriptError.general("specify-mach-services only available for helper tool")
+    case .helperTool:
+        throw ScriptError.general("specify-mach-services only available for the app")
+    case .app:
+        let services = [MachServicesKey: [try TargetType.helperTool.bundleIdentifier() : true]]
+        try updatePropertyListWithEntries(services, atPath: try launchdPropertyListPath())
     }
 }
 
-/// Removes a MachServices entry for the helper tool, fails if called for the app.
+/// Removes a MachServices entry for the app, fails if called for the tool.
 func cleanupMachServices() throws {
     let target = try determineTargetType()
     switch target {
-        case .helperTool:
-            try removePropertyListEntries(forKeys: [MachServicesKey], atPath: try launchdPropertyListPath())
-        case .app:
-            throw ScriptError.general("cleanup-mach-services only available for helper tool")
+    case .helperTool:
+        throw ScriptError.general("cleanup-mach-services only available for the app")
+    case .app:
+        try removePropertyListEntries(forKeys: [MachServicesKey], atPath: try launchdPropertyListPath())
     }
 }
 
@@ -522,11 +535,11 @@ func cleanupMachServices() throws {
 func autoIncrementVersion() throws {
     let target = try determineTargetType()
     switch target {
-        case .helperTool:
-            let infoPropertyList = try infoPropertyListPath()
-            try incrementBundleVersionIfNeeded(infoPropertyListPath: infoPropertyList)
-        case .app:
-            throw ScriptError.general("auto-increment-version only available for helper tool")
+    case .helperTool:
+        let infoPropertyList = try infoPropertyListPath()
+        try incrementBundleVersionIfNeeded(infoPropertyListPath: infoPropertyList)
+    case .app:
+        throw ScriptError.general("auto-increment-version only available for helper tool")
     }
 }
 

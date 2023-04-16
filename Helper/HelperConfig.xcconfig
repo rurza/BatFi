@@ -11,10 +11,9 @@
 #include "../Supporting Files/Config.xcconfig"
 
 // The directory containing the source code and property lists for the helper tool.
-TARGET_DIRECTORY = Helper
+TARGET_DIRECTORY = $HELPER_NAME
 
-TARGET_NAME = BatFi Helper
-
+TARGET_NAME = $HELPER_NAME
 
 //
 // MARK: - There should not be a need to modify anything below this line in this configuration file
@@ -29,15 +28,18 @@ PRODUCT_NAME = $(TARGET_NAME)
 
 // Property list locations
 INFOPLIST_FILE = $(TARGET_DIRECTORY)/Info.plist
-LAUNCHDPLIST_FILE = $(TARGET_DIRECTORY)/launchd.plist
 
 // Inlines the property list files into the helper tool's binary.
 // Note that CREATE_INFOPLIST_SECTION_IN_BINARY = YES can't be used to inline the info property list because this step
 // occurs immediately *before* any scripts are run, preventing the property list from being modified.
-OTHER_LDFLAGS = -sectcreate __TEXT __info_plist $(INFOPLIST_FILE) -sectcreate __TEXT __launchd_plist $(LAUNCHDPLIST_FILE)
+OTHER_LDFLAGS = -sectcreate __TEXT __info_plist $(INFOPLIST_FILE)
 
 // Tells Xcode Archive the helper tool shouldn't be an installable artifact (the app should be).
 SKIP_INSTALL = YES
 
 // Used by the shared code to know which target it's being built for
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = HELPER_TOOL
+
+CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO
+
+THER_CODE_SIGN_FLAGS = $(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)
