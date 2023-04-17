@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>BuildHash</key>
-	<string>ef0236da4186eef659fb04f6b19041263d8072678cadb4852388e4ddde91c197</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.6</string>
-</dict>
+<array/>
 </plist>

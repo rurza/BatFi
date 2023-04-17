@@ -1,5 +1,5 @@
 //
-//  HelperToolInfoPropertyList.swift
+//  HelperToolEmbededInfoPropertyList.swift
 //  SwiftAuthorizationSample
 //
 //  Created by Josh Kaplan on 2021-10-23
@@ -9,7 +9,7 @@ import Foundation
 import EmbeddedPropertyList
 
 /// Read only representation of the helper tool's info property list.
-struct HelperToolInfoPropertyList: Decodable {
+struct HelperToolEmbededInfoPropertyList: Decodable {
     /// Value for `SMAuthorizedClients`.
     let authorizedClients: [String]
     /// Value for `CFBundleVersion`.
@@ -25,9 +25,9 @@ struct HelperToolInfoPropertyList: Decodable {
     }
     
     /// An immutable in memory representation of the property list by attempting to read it from the helper tool.
-    static var main: HelperToolInfoPropertyList {
+    static var main: HelperToolEmbededInfoPropertyList {
         get throws {
-            try PropertyListDecoder().decode(HelperToolInfoPropertyList.self,
+            try PropertyListDecoder().decode(HelperToolEmbededInfoPropertyList.self,
                                              from: try EmbeddedPropertyListReader.info.readInternal())
         }
     }
@@ -36,7 +36,10 @@ struct HelperToolInfoPropertyList: Decodable {
     ///
     /// - Parameter url: Location of the helper tool on disk.
     init(from url: URL) throws {
-        self = try PropertyListDecoder().decode(HelperToolInfoPropertyList.self,
-                                                from: try EmbeddedPropertyListReader.info.readExternal(from: url))
+        self = try PropertyListDecoder()
+            .decode(
+                HelperToolEmbededInfoPropertyList.self,
+                from: try EmbeddedPropertyListReader.info.readExternal(from: url)
+            )
     }
 }

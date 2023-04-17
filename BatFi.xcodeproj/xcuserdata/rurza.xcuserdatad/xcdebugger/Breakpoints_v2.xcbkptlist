@@ -3,4 +3,133 @@
    uuid = "6A71AFB0-CF72-4069-BF47-9D2917C46F47"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6E97AC6D-E3E4-4EB6-BC08-C1DC8F5B558A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "App/BatFiApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "xpcResponse(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6E97AC6D-E3E4-4EB6-BC08-C1DC8F5B558A - c66fbc35715f111e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatFi.AppDelegate.xpcResponse(Swift.Result&lt;Swift.Bool, SecureXPC.XPCError&gt;) -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/BatFiApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "6E97AC6D-E3E4-4EB6-BC08-C1DC8F5B558A - c66fbc35715f113f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatFi.AppDelegate.xpcResponse(Swift.Result&lt;Swift.Bool, SecureXPC.XPCError&gt;) -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/BatFiApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F675829F-2D52-4971-A1D2-93ADBC4FECE4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "App/BatFiApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "applicationDidFinishLaunching(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F675829F-2D52-4971-A1D2-93ADBC4FECE4 - 1b09df408463e13f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; Swift.Array&lt;__C.NSMenuItem&gt; in BatFi.AppDelegate.applicationDidFinishLaunching(Foundation.Notification) -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/BatFiApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "F675829F-2D52-4971-A1D2-93ADBC4FECE4 - 619d7e930bb8232e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; Swift.Array&lt;__C.NSMenuItem&gt; in BatFi.AppDelegate.applicationDidFinishLaunching(Foundation.Notification) -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/BatFiApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "488">
+               </Location>
+               <Location
+                  uuid = "F675829F-2D52-4971-A1D2-93ADBC4FECE4 - 619d7e930bb8232e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for closure #1 @Sendable () async -&gt; () in closure #2 () -&gt; () in closure #1 () -&gt; Swift.Array&lt;__C.NSMenuItem&gt; in BatFi.AppDelegate.applicationDidFinishLaunching(Foundation.Notification) -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/BatFiApp.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "128">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "770B2573-6CFF-4FA9-91DD-DCD726B668A0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "App/BatFiApp.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "applicationDidFinishLaunching(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
