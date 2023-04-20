@@ -17,15 +17,6 @@
         "branch" : "main",
         "revision" : "ba0202c5ff6d63f0fd7ec6b1da11a769eff15000"
       }
-    },
-    {
-      "identity" : "securexpc",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/trilemma-dev/SecureXPC",
-      "state" : {
-        "revision" : "d6e439e2b805de8be9b584fff97cf2f6a839a656",
-        "version" : "0.8.0"
-      }
     }
   ],
   "version" : 2

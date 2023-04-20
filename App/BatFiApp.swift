@@ -5,6 +5,7 @@
 //  Created by Adam on 11/04/2023.
 //
 
+import Combine
 import MenuBuilder
 import ServiceManagement
 import SwiftUI
@@ -22,44 +23,31 @@ struct BatFiApp: App {
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    lazy var xpcClient: XPCClient = {
-        let client = XPCClient.forMachService(named: helperBundleIdentifier)
-        return client
-    }()
+    var client: XPCClient!
+    lazy var batteryLevelObserver = BatteryLevelObserver()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let service = SMAppService.daemon(plistName: helperPlistName)
         print("\(service) has status \(service.status)")
+        try? service.register()
+
+        client = XPCClient.forMachService(
+            named: helperBundleIdentifier,
+            withServerRequirement: try! .sameBundle
+        )
+
         statusItem.button?.image = NSImage(systemSymbolName: "bolt.batteryblock.fill", accessibilityDescription: "BatFi")
         statusItem.menu = NSMenu {
-            MenuItem("Install Helper tool").onSelect {
-                Task {
-                    do {
-                        print("will register, status: \(service.status.rawValue)")
-                        try service.register()
-                        print("did register")
-                    } catch {
-                        print("did not register, error: \(error.localizedDescription)")
-                    }
-                }
-            }
-            MenuItem("Remove the Helper tool").onSelect {
-                Task {
-                    do {
-                        print("will unregister, status: \(service.status.rawValue)")
-                        try await service.unregister()
-                        print("DID unregister, status: \(service.status.rawValue)")
-                    } catch {
-                        print("did not register, error: \(error)")
-                    }
-                }
+            MenuItem("").view {
+                BatteryInfoView(batteryLevelObserver: batteryLevelObserver)
             }
             SeparatorItem()
-            MenuItem("Turn off charging").onSelect {
-                self.xpcClient.sendMessage(
-                    SMCCommand.disableCharging,
-                    to: XPCRoute.battery,
-                    withResponse: self.xpcResponse
+            MenuItem("Turn off charging").onSelect { [weak self] in
+                guard let self = self else { return }
+                self.client.sendMessage(
+                    SMCChargingCommand.disableCharging,
+                    to: XPCRoute.charging,
+                    withResponse: self.xpcChargingResponse
                 )
             }
             SeparatorItem()
@@ -69,7 +57,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func xpcResponse(_ result: Result<Bool, XPCError>) -> Void {
+    func xpcChargingResponse(_ result: Result<Bool, XPCError>) -> Void {
         print(result)
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        let service = SMAppService.daemon(plistName: helperPlistName)
+        try? service.unregister()
     }
 }

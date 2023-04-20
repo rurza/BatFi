@@ -8,10 +8,9 @@
 import SecureXPC
 
 extension XPCRoute {
-    static let battery = Self.named("battery")
-        .withMessageType(SMCCommand.self)
+    static let charging = Self.named("charging")
+        .withMessageType(SMCChargingCommand.self)
         .withReplyType(Bool.self)
-        .throwsType(SMCCommandError.self)
 }
 
 let helperBundleIdentifier = "software.micropixels.BatFi.Helper"

@@ -8,15 +8,14 @@
 import Foundation
 import SecureXPC
 
-NSLog("starting helper tool. PID \(getpid()). PPID \(getppid()).")
 
-func runMessage(_ message: SMCCommand) throws -> Bool {
-    NSLog("blah blah")
+func chargingRouteHandler(_ message: SMCChargingCommand) throws -> Bool {
+    NSLog("running message: \(message)")
     return true
 }
 
-let server = try XPCServer.forMachService(withCriteria: .forDaemon(named: helperBundleIdentifier, withClientRequirement: .sameParentBundle))
-server.registerRoute(XPCRoute.battery, handler: runMessage)
+let server = try XPCServer.forMachService()
+server.registerRoute(XPCRoute.charging, handler: chargingRouteHandler)
 server.setErrorHandler { error in
     if case .connectionInvalid = error {
         // Ignore invalidated connections as this happens whenever the client disconnects which is not a problem
@@ -24,4 +23,6 @@ server.setErrorHandler { error in
         NSLog("error: \(error)")
     }
 }
+try SMCKit.open()
 server.startAndBlock()
+

@@ -7,26 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B11DDF629EB59DE007A993C /* SMCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommand.swift */; };
+		5B11DDF629EB59DE007A993C /* SMCCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommands.swift */; };
 		5B11DE0829EB6641007A993C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DE0729EB6641007A993C /* main.swift */; };
 		5B3C14BC29EAA5BD00746A53 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
-		5B3C14C029EAA5D900746A53 /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14BF29EAA5D900746A53 /* SecureXPC */; };
 		5B3C14C529EAA6CC00746A53 /* MenuBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14C429EAA6CC00746A53 /* MenuBuilder */; };
 		5B69E6E629EB69350010AD63 /* Helper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5B11DE0529EB6641007A993C /* Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */; };
-		5B69E6EE29ECA27E0010AD63 /* HelperToolEmbededInfoPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B69E6ED29ECA2750010AD63 /* HelperToolEmbededInfoPropertyList.swift */; };
-		5B69E6EF29ECA27E0010AD63 /* HelperToolEmbededInfoPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B69E6ED29ECA2750010AD63 /* HelperToolEmbededInfoPropertyList.swift */; };
 		5B69E6F229ECA2B70010AD63 /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */; };
 		5B69E6F429ECA2C50010AD63 /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */; };
-		5B98693329EDE1E3003F95C1 /* HelperToolPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693229EDE1E3003F95C1 /* HelperToolPropertyList.swift */; };
-		5B98693429EDE1E3003F95C1 /* HelperToolPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693229EDE1E3003F95C1 /* HelperToolPropertyList.swift */; };
-		5B98693529EDE660003F95C1 /* SMCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommand.swift */; };
+		5B98693529EDE660003F95C1 /* SMCCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommands.swift */; };
 		5B98693629EDE69A003F95C1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
 		5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693729EDE7E6003F95C1 /* SMC.swift */; };
-		5B98693A29EDF1AE003F95C1 /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5B98693929EDF1AE003F95C1 /* SecureXPC */; };
+		5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC234F929F09C0000EE2F09 /* IOKit.framework */; };
+		5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */; };
+		5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
 		5BEE21B729E612C00012A4DD /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BEE21B629E612C00012A4DD /* ServiceManagement.framework */; };
+		5BEF8FC529EF541700AFA59C /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5BEF8FC429EF541700AFA59C /* SecureXPC */; };
+		5BEF8FC729EF541D00AFA59C /* SecureXPC in Frameworks */ = {isa = PBXBuildFile; productRef = 5BEF8FC629EF541D00AFA59C /* SecureXPC */; };
+		5BEF8FCB29F086D300AFA59C /* BatteryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF8FCA29F086D300AFA59C /* BatteryInfo.swift */; };
+		5BEF8FCC29F086D300AFA59C /* BatteryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF8FCA29F086D300AFA59C /* BatteryInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +39,16 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		5B316F1429EF4CAD0058AE5E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5B3C14AF29EA000800746A53 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -74,24 +85,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5B11DDF529EB59DE007A993C /* SMCCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCCommand.swift; sourceTree = "<group>"; };
+		5B11DDF529EB59DE007A993C /* SMCCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCCommands.swift; sourceTree = "<group>"; };
 		5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListModifier.swift; sourceTree = "<group>"; };
 		5B11DE0529EB6641007A993C /* Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Helper; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
+		5B31E89329EF3EDF00ACA5F1 /* SecureXPC */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SecureXPC; path = ../SecureXPC; sourceTree = "<group>"; };
 		5B3C14BB29EAA5BD00746A53 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		5B69E6E429EB67F70010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B69E6E729EB6AB00010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.Helper.plist; sourceTree = "<group>"; };
-		5B69E6ED29ECA2750010AD63 /* HelperToolEmbededInfoPropertyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperToolEmbededInfoPropertyList.swift; sourceTree = "<group>"; };
-		5B98693229EDE1E3003F95C1 /* HelperToolPropertyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperToolPropertyList.swift; sourceTree = "<group>"; };
 		5B98693729EDE7E6003F95C1 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelObserver.swift; sourceTree = "<group>"; };
+		5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryInfoView.swift; sourceTree = "<group>"; };
 		5BEE218729E607FB0012A4DD /* BatFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		5BEF8FCA29F086D300AFA59C /* BatteryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +114,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B69E6F429ECA2C50010AD63 /* EmbeddedPropertyList in Frameworks */,
-				5B98693A29EDF1AE003F95C1 /* SecureXPC in Frameworks */,
+				5BEF8FC729EF541D00AFA59C /* SecureXPC in Frameworks */,
+				5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,8 +125,8 @@
 			files = (
 				5BEE21B729E612C00012A4DD /* ServiceManagement.framework in Frameworks */,
 				5B3C14C529EAA6CC00746A53 /* MenuBuilder in Frameworks */,
-				5B3C14C029EAA5D900746A53 /* SecureXPC in Frameworks */,
 				5B69E6F229ECA2B70010AD63 /* EmbeddedPropertyList in Frameworks */,
+				5BEF8FC529EF541700AFA59C /* SecureXPC in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,9 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				5B3C14BB29EAA5BD00746A53 /* Constants.swift */,
-				5B11DDF529EB59DE007A993C /* SMCCommand.swift */,
-				5B69E6ED29ECA2750010AD63 /* HelperToolEmbededInfoPropertyList.swift */,
-				5B98693229EDE1E3003F95C1 /* HelperToolPropertyList.swift */,
+				5B11DDF529EB59DE007A993C /* SMCCommands.swift */,
+				5BEF8FCA29F086D300AFA59C /* BatteryInfo.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -152,6 +166,7 @@
 		5BEE217E29E607FB0012A4DD = {
 			isa = PBXGroup;
 			children = (
+				5B31E89329EF3EDF00ACA5F1 /* SecureXPC */,
 				5B3C14BA29EAA5B100746A53 /* Shared */,
 				5BEE218929E607FB0012A4DD /* App */,
 				5BB80D4729E9EF6600186827 /* Supporting Files */,
@@ -174,6 +189,8 @@
 			isa = PBXGroup;
 			children = (
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
+				5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */,
+				5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
@@ -185,6 +202,7 @@
 		5BEE21B529E612C00012A4DD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5BC234F929F09C0000EE2F09 /* IOKit.framework */,
 				5BEE21B629E612C00012A4DD /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
@@ -202,6 +220,7 @@
 				5B11DE0229EB6641007A993C /* Frameworks */,
 				5B11DE0329EB6641007A993C /* CopyFiles */,
 				5B69E6E529EB687B0010AD63 /* ShellScript */,
+				5B316F1429EF4CAD0058AE5E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -210,7 +229,7 @@
 			name = Helper;
 			packageProductDependencies = (
 				5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */,
-				5B98693929EDF1AE003F95C1 /* SecureXPC */,
+				5BEF8FC629EF541D00AFA59C /* SecureXPC */,
 			);
 			productName = Helper;
 			productReference = 5B11DE0529EB6641007A993C /* Helper */;
@@ -235,9 +254,9 @@
 			);
 			name = BatFi;
 			packageProductDependencies = (
-				5B3C14BF29EAA5D900746A53 /* SecureXPC */,
 				5B3C14C429EAA6CC00746A53 /* MenuBuilder */,
 				5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */,
+				5BEF8FC429EF541700AFA59C /* SecureXPC */,
 			);
 			productName = BatFi;
 			productReference = 5BEE218729E607FB0012A4DD /* BatFi.app */;
@@ -271,7 +290,6 @@
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
-				5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */,
 				5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */,
 				5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */,
 			);
@@ -378,12 +396,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B69E6EF29ECA27E0010AD63 /* HelperToolEmbededInfoPropertyList.swift in Sources */,
-				5B98693529EDE660003F95C1 /* SMCCommand.swift in Sources */,
-				5B98693429EDE1E3003F95C1 /* HelperToolPropertyList.swift in Sources */,
+				5B98693529EDE660003F95C1 /* SMCCommands.swift in Sources */,
 				5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */,
 				5B98693629EDE69A003F95C1 /* Constants.swift in Sources */,
 				5B11DE0829EB6641007A993C /* main.swift in Sources */,
+				5BEF8FCC29F086D300AFA59C /* BatteryInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,11 +408,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B69E6EE29ECA27E0010AD63 /* HelperToolEmbededInfoPropertyList.swift in Sources */,
-				5B98693329EDE1E3003F95C1 /* HelperToolPropertyList.swift in Sources */,
 				5B3C14BC29EAA5BD00746A53 /* Constants.swift in Sources */,
+				5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */,
+				5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */,
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
-				5B11DDF629EB59DE007A993C /* SMCCommand.swift in Sources */,
+				5B11DDF629EB59DE007A993C /* SMCCommands.swift in Sources */,
+				5BEF8FCB29F086D300AFA59C /* BatteryInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -628,14 +646,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/trilemma-dev/SecureXPC";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.0;
-			};
-		};
 		5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/j-f1/MenuBuilder";
@@ -655,11 +665,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5B3C14BF29EAA5D900746A53 /* SecureXPC */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */;
-			productName = SecureXPC;
-		};
 		5B3C14C429EAA6CC00746A53 /* MenuBuilder */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */;
@@ -675,9 +680,12 @@
 			package = 5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */;
 			productName = EmbeddedPropertyList;
 		};
-		5B98693929EDF1AE003F95C1 /* SecureXPC */ = {
+		5BEF8FC429EF541700AFA59C /* SecureXPC */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5B3C14BE29EAA5D900746A53 /* XCRemoteSwiftPackageReference "SecureXPC" */;
+			productName = SecureXPC;
+		};
+		5BEF8FC629EF541D00AFA59C /* SecureXPC */ = {
+			isa = XCSwiftPackageProductDependency;
 			productName = SecureXPC;
 		};
 /* End XCSwiftPackageProductDependency section */
