@@ -9,13 +9,14 @@ import SwiftUI
 
 struct BatteryInfoView: View {
     @ObservedObject var batteryLevelObserver: BatteryLevelObserver
+    private let itemsSpace: CGFloat  = 30
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("Battery")
                     .fontWeight(.semibold)
-                Spacer()
+                Spacer(minLength: itemsSpace)
                 Group {
                     if let batteryLevel = batteryLevelObserver.batteryLevel {
                         Text("\(batteryLevel)%")
@@ -24,11 +25,12 @@ struct BatteryInfoView: View {
                     }
                 }
                 .foregroundColor(.secondary)
-            }.frame(maxWidth: .infinity)
+            }
+            .padding(.bottom, 8)
             Group {
                 HStack {
                     Text("Power source:")
-                    Spacer(minLength: 20)
+                    Spacer(minLength: itemsSpace)
                     Group {
                         if let powerSource = batteryLevelObserver.powerSource {
                             Text(powerSource)
@@ -40,14 +42,15 @@ struct BatteryInfoView: View {
                 if let timeLeftString = batteryLevelObserver.timeLeftString {
                     HStack {
                         Text("Time left:")
-                        Spacer(minLength: 20)
+                        Spacer(minLength: itemsSpace)
                         Text(timeLeftString)
                             .foregroundColor(.secondary)
                     }
                 }
             }
-            .font(.caption)
+            .font(.callout)
         }
+        .frame(maxWidth: .infinity)
         .padding(.horizontal)
         .padding(.vertical, 4)
     }
