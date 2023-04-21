@@ -14,7 +14,7 @@ struct BatteryInfoView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("Battery")
-                    .bold()
+                    .fontWeight(.semibold)
                 Spacer()
                 Group {
                     if let batteryLevel = batteryLevelObserver.batteryLevel {
@@ -25,24 +25,28 @@ struct BatteryInfoView: View {
                 }
                 .foregroundColor(.secondary)
             }.frame(maxWidth: .infinity)
-            HStack {
-                Text("Is charging:")
-                    .bold()
-                Spacer(minLength: 20)
-                Group {
-                    if let isCharging = batteryLevelObserver.isCharging {
-
-                        if isCharging {
-                            Text("charging")
+            Group {
+                HStack {
+                    Text("Power source:")
+                    Spacer(minLength: 20)
+                    Group {
+                        if let powerSource = batteryLevelObserver.powerSource {
+                            Text(powerSource)
                         } else {
-                            Text("not charging")
+                            Text("Unknown status")
                         }
-
-                    } else {
-                        Text("Unknown status")
+                    }.foregroundColor(.secondary)
+                }
+                if let timeLeftString = batteryLevelObserver.timeLeftString {
+                    HStack {
+                        Text("Time left:")
+                        Spacer(minLength: 20)
+                        Text(timeLeftString)
+                            .foregroundColor(.secondary)
                     }
-                }.foregroundColor(.secondary)
+                }
             }
+            .font(.caption)
         }
         .padding(.horizontal)
         .padding(.vertical, 4)

@@ -9,10 +9,14 @@ import Foundation
 import IOKit.ps
 
 final class BatteryLevelObserver: ObservableObject {
-    @Published var batteryLevel: Int?
-    @Published var isCharging: Bool?
+    @Published private(set) var batteryLevel: Int?
+    @Published private(set) var isCharging: Bool?
+    @Published private(set) var powerSource: String?
+    @Published private(set) var timeLeft: Int?
+    private(set) var timeLeftString: String?
 
     private var timer: Timer?
+    private lazy var timeFormatter = DateComponentsFormatter()
 
     init() {
         updateBatteryState()
@@ -52,7 +56,6 @@ final class BatteryLevelObserver: ObservableObject {
         let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
         let isCharging = info[kIOPSIsChargingKey] as? Bool
         let powerSource = info[kIOPSPowerSourceStateKey] as? String
-        let temperature = info[kIOPSTemperatureKey]
         let timeLeft = info[kIOPSTimeToEmptyKey] as? Int
 
         if let isCharging, isCharging != self.isCharging {
@@ -61,15 +64,21 @@ final class BatteryLevelObserver: ObservableObject {
         if let batteryLevel, batteryLevel != self.batteryLevel {
             self.batteryLevel = batteryLevel
         }
-        if let powerSource {
-            if powerSource == kIOPSBatteryPowerValue {
-
-            } else if powerSource == kIOPSACPowerValue {
-
+        if let powerSource, powerSource != self.powerSource {
+            self.powerSource = powerSource
+        }
+        if let timeLeft, self.timeLeft != timeLeft {
+            if isCharging == true || powerSource == kIOPSBatteryPowerValue {
+                self.timeLeft = timeLeft
             } else {
-
+                self.timeLeft = nil
+            }
+            if timeLeft > 0 {
+                let interval = Double(timeLeft) * 60
+                timeLeftString = timeFormatter.string(from: interval)!
+            } else {
+                timeLeftString = nil
             }
         }
-        print(isCharging, batteryLevel, powerSource, temperature, timeLeft)
     }
 }
