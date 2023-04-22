@@ -51,8 +51,6 @@ final class BatteryLevelObserver: ObservableObject {
         let sources = IOPSCopyPowerSourcesList(snapshot).takeUnretainedValue() as Array
         let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
 
-        print(sources)
-
         let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
         let isCharging = info[kIOPSIsChargingKey] as? Bool
         let powerSource = info[kIOPSPowerSourceStateKey] as? String

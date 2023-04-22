@@ -7,8 +7,8 @@
 
 import Combine
 import MenuBuilder
-import ServiceManagement
 import SwiftUI
+import ServiceManagement
 import SecureXPC
 
 @main
@@ -25,11 +25,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     var client: XPCClient!
     lazy var batteryLevelObserver = BatteryLevelObserver()
+    lazy var serviceRegisterer = ServiceRegisterer()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        let service = SMAppService.daemon(plistName: helperPlistName)
-        print("\(service) has status \(service.status)")
-        try? service.register()
+        Task {
+            do {
+                try await serviceRegisterer.registerServices()
+            } catch {
+                if (error as NSError).domain == "SMAppServiceErrorDomain" {
+                    SMAppService.openSystemSettingsLoginItems()
+                } else {
+                    print("service registration failed: \(error.localizedDescription)")
+                }
+            }
+        }
 
         client = XPCClient.forMachService(
             named: helperBundleIdentifier,
@@ -44,11 +53,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             SeparatorItem()
             MenuItem("Turn off charging").onSelect { [weak self] in
                 guard let self = self else { return }
-                self.client.sendMessage(
-                    SMCChargingCommand.disableCharging,
-                    to: XPCRoute.charging,
-                    withResponse: self.xpcChargingResponse
-                )
+                self.enableCharging(false)
+            }
+            MenuItem("Turn on charging").onSelect { [weak self] in
+                guard let self = self else { return }
+                self.enableCharging(true)
             }
             SeparatorItem()
             MenuItem("Quit BatFi")
@@ -57,12 +66,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func xpcChargingResponse(_ result: Result<Bool, XPCError>) -> Void {
-        print(result)
+    func applicationWillTerminate(_ notification: Notification) {
+        try? serviceRegisterer.unregisterService()
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
-        let service = SMAppService.daemon(plistName: helperPlistName)
-        try? service.unregister()
+    func enableCharging(_ enable: Bool) {
+        Task {
+            do {
+                try await self.client.sendMessage(
+                    enable ? SMCChargingCommand.enableCharging : SMCChargingCommand.disableCharging,
+                    to: XPCRoute.charging
+                )
+                self.batteryLevelObserver.updateBatteryState()
+            } catch {
+                print(error)
+            }
+        }
     }
 }

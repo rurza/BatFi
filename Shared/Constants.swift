@@ -10,7 +10,6 @@ import SecureXPC
 extension XPCRoute {
     static let charging = Self.named("charging")
         .withMessageType(SMCChargingCommand.self)
-        .withReplyType(Bool.self)
 }
 
 let helperBundleIdentifier = "software.micropixels.BatFi.Helper"

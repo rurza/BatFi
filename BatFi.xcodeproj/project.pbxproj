@@ -18,6 +18,7 @@
 		5B98693529EDE660003F95C1 /* SMCCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommands.swift */; };
 		5B98693629EDE69A003F95C1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
 		5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693729EDE7E6003F95C1 /* SMC.swift */; };
+		5BB884FD29F47FEF00A23C2B /* ServiceRegisterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */; };
 		5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC234F929F09C0000EE2F09 /* IOKit.framework */; };
 		5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */; };
 		5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */; };
@@ -39,16 +40,6 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
-		};
-		5B316F1429EF4CAD0058AE5E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5B3C14AF29EA000800746A53 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -98,6 +89,7 @@
 		5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.Helper.plist; sourceTree = "<group>"; };
 		5B98693729EDE7E6003F95C1 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRegisterer.swift; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelObserver.swift; sourceTree = "<group>"; };
 		5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryInfoView.swift; sourceTree = "<group>"; };
@@ -191,6 +183,7 @@
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
 				5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */,
 				5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */,
+				5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
@@ -220,7 +213,6 @@
 				5B11DE0229EB6641007A993C /* Frameworks */,
 				5B11DE0329EB6641007A993C /* CopyFiles */,
 				5B69E6E529EB687B0010AD63 /* ShellScript */,
-				5B316F1429EF4CAD0058AE5E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -351,7 +343,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n";
+			shellScript = "#\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n";
 		};
 		5B11DE0D29EB6700007A993C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -387,7 +379,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n\n";
+			shellScript = "#\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -414,6 +406,7 @@
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
 				5B11DDF629EB59DE007A993C /* SMCCommands.swift in Sources */,
 				5BEF8FCB29F086D300AFA59C /* BatteryInfo.swift in Sources */,
+				5BB884FD29F47FEF00A23C2B /* ServiceRegisterer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

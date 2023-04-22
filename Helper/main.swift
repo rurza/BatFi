@@ -8,10 +8,23 @@
 import Foundation
 import SecureXPC
 
-
-func chargingRouteHandler(_ message: SMCChargingCommand) throws -> Bool {
-    NSLog("running message: \(message)")
-    return true
+func chargingRouteHandler(_ message: SMCChargingCommand) throws {
+    let code = FourCharCode(fromStaticString: "CH0B")
+    let dataType = try SMCKit.keyInformation(code)
+    NSLog("dataType \(dataType)")
+    let key = SMCKey(
+        code: code,
+        info: dataType
+    )
+    var data = try SMCKit.readData(key)
+    NSLog("data \(data)")
+    switch message {
+    case .enableCharging:
+        data.0 = 00
+    case .disableCharging:
+        data.0 = 02
+    }
+    try SMCKit.writeData(key, data: data)
 }
 
 let server = try XPCServer.forMachService()
