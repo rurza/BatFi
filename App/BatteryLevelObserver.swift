@@ -16,7 +16,11 @@ final class BatteryLevelObserver: ObservableObject {
     private(set) var timeLeftString: String?
 
     private var timer: Timer?
-    private lazy var timeFormatter = DateComponentsFormatter()
+    private lazy var timeFormatter: DateComponentsFormatter = {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
+        return formatter
+    }()
 
     init() {
         updateBatteryState()
@@ -27,13 +31,13 @@ final class BatteryLevelObserver: ObservableObject {
         let batteryLevel = self.batteryLevel ?? 0
         let timerInterval: TimeInterval
         if batteryLevel < 20 {
-            timerInterval = 2
-        } else if batteryLevel >= 20 && batteryLevel < 60 {
             timerInterval = 5
+        } else if batteryLevel >= 20 && batteryLevel < 60 {
+            timerInterval = 4
         } else if batteryLevel >= 60 && batteryLevel < 80 {
-            timerInterval = 10
+            timerInterval = 3
         } else {
-            timerInterval = 20
+            timerInterval = 2
         }
         timer = Timer.scheduledTimer(
             withTimeInterval: timerInterval,

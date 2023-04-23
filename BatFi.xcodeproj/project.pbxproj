@@ -19,6 +19,9 @@
 		5B98693629EDE69A003F95C1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
 		5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693729EDE7E6003F95C1 /* SMC.swift */; };
 		5BB884FD29F47FEF00A23C2B /* ServiceRegisterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */; };
+		5BB884FF29F5C0F000A23C2B /* SMC+Charging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FE29F5C0F000A23C2B /* SMC+Charging.swift */; };
+		5BB8850229F5DCF100A23C2B /* SMCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850129F5DCF100A23C2B /* SMCError.swift */; };
+		5BB8850329F5DCF300A23C2B /* SMCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850129F5DCF100A23C2B /* SMCError.swift */; };
 		5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC234F929F09C0000EE2F09 /* IOKit.framework */; };
 		5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */; };
 		5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */; };
@@ -90,6 +93,8 @@
 		5B98693729EDE7E6003F95C1 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRegisterer.swift; sourceTree = "<group>"; };
+		5BB884FE29F5C0F000A23C2B /* SMC+Charging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMC+Charging.swift"; sourceTree = "<group>"; };
+		5BB8850129F5DCF100A23C2B /* SMCError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCError.swift; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelObserver.swift; sourceTree = "<group>"; };
 		5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryInfoView.swift; sourceTree = "<group>"; };
@@ -131,6 +136,7 @@
 				5B69E6E429EB67F70010AD63 /* Info.plist */,
 				5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */,
 				5B98693729EDE7E6003F95C1 /* SMC.swift */,
+				5BB884FE29F5C0F000A23C2B /* SMC+Charging.swift */,
 				5B11DE0729EB6641007A993C /* main.swift */,
 			);
 			path = Helper;
@@ -139,6 +145,7 @@
 		5B3C14BA29EAA5B100746A53 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				5BB8850129F5DCF100A23C2B /* SMCError.swift */,
 				5B3C14BB29EAA5BD00746A53 /* Constants.swift */,
 				5B11DDF529EB59DE007A993C /* SMCCommands.swift */,
 				5BEF8FCA29F086D300AFA59C /* BatteryInfo.swift */,
@@ -388,10 +395,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB884FF29F5C0F000A23C2B /* SMC+Charging.swift in Sources */,
 				5B98693529EDE660003F95C1 /* SMCCommands.swift in Sources */,
 				5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */,
 				5B98693629EDE69A003F95C1 /* Constants.swift in Sources */,
 				5B11DE0829EB6641007A993C /* main.swift in Sources */,
+				5BB8850229F5DCF100A23C2B /* SMCError.swift in Sources */,
 				5BEF8FCC29F086D300AFA59C /* BatteryInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B3C14BC29EAA5BD00746A53 /* Constants.swift in Sources */,
+				5BB8850329F5DCF300A23C2B /* SMCError.swift in Sources */,
 				5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */,
 				5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */,
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,

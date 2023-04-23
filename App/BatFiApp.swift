@@ -10,6 +10,7 @@ import MenuBuilder
 import SwiftUI
 import ServiceManagement
 import SecureXPC
+import IOKit.pwr_mgt
 
 @main
 struct BatFiApp: App {
@@ -32,8 +33,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 try await serviceRegisterer.registerServices()
             } catch {
-                if (error as NSError).domain == "SMAppServiceErrorDomain" {
+                let nsError = error as NSError
+                if nsError.domain == "SMAppServiceErrorDomain" && nsError.code != kSMErrorAlreadyRegistered {
                     SMAppService.openSystemSettingsLoginItems()
+                    print(nsError.code)
                 } else {
                     print("service registration failed: \(error.localizedDescription)")
                 }
@@ -70,16 +73,38 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         try? serviceRegisterer.unregisterService()
     }
 
+    private var sleepAssertion: IOPMAssertionID?
+
     func enableCharging(_ enable: Bool) {
         Task {
             do {
                 try await self.client.sendMessage(
-                    enable ? SMCChargingCommand.enableCharging : SMCChargingCommand.disableCharging,
+                    enable
+                    ? SMCChargingCommand.auto
+                    : SMCChargingCommand.forceDischarging,
                     to: XPCRoute.charging
                 )
                 self.batteryLevelObserver.updateBatteryState()
             } catch {
                 print(error)
+            }
+            if enable {
+                if let sleepAssertion {
+                    IOPMAssertionRelease(sleepAssertion)
+                }
+            } else {
+                var assertionID: IOPMAssertionID = IOPMAssertionID(0)
+                let reason: CFString = "BatFi" as NSString
+                let cfAssertion: CFString = kIOPMAssertionTypePreventSystemSleep as NSString
+                let success = IOPMAssertionCreateWithName(cfAssertion,
+                                IOPMAssertionLevel(kIOPMAssertionLevelOn),
+                                reason,
+                                &assertionID)
+                if success == kIOReturnSuccess {
+                    sleepAssertion = assertionID
+                } else {
+                    print("I will be sleeping, fucker")
+                }
             }
         }
     }

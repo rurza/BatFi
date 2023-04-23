@@ -8,6 +8,7 @@
 import Foundation
 
 enum SMCChargingCommand: Codable {
-    case enableCharging
-    case disableCharging
+    case forceDischarging
+    case auto
+    case inhibitCharging
 }

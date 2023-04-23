@@ -9,22 +9,26 @@ import Foundation
 import SecureXPC
 
 func chargingRouteHandler(_ message: SMCChargingCommand) throws {
-    let code = FourCharCode(fromStaticString: "CH0B")
-    let dataType = try SMCKit.keyInformation(code)
-    NSLog("dataType \(dataType)")
-    let key = SMCKey(
-        code: code,
-        info: dataType
-    )
-    var data = try SMCKit.readData(key)
-    NSLog("data \(data)")
+    defer { SMCKit.close() }
+    try SMCKit.open()
+
+    let disableChargingByte: UInt8
+    let inhibitChargingByte: UInt8
+
     switch message {
-    case .enableCharging:
-        data.0 = 00
-    case .disableCharging:
-        data.0 = 02
+    case .forceDischarging:
+        disableChargingByte = 1
+        inhibitChargingByte = 0
+    case .auto:
+        disableChargingByte = 0
+        inhibitChargingByte = 0
+    case .inhibitCharging:
+        disableChargingByte = 0
+        inhibitChargingByte = 1
     }
-    try SMCKit.writeData(key, data: data)
+
+    try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
+    try SMCKit.writeData(.inhibitCharging, uint8: inhibitChargingByte)
 }
 
 let server = try XPCServer.forMachService()
@@ -36,6 +40,5 @@ server.setErrorHandler { error in
         NSLog("error: \(error)")
     }
 }
-try SMCKit.open()
 server.startAndBlock()
 
