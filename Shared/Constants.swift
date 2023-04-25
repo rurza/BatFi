@@ -5,13 +5,7 @@
 //  Created by Adam on 14/04/2023.
 //
 
-import SecureXPC
-
-extension XPCRoute {
-    static let charging = Self.named("charging")
-        .withMessageType(SMCChargingCommand.self)
-        .throwsType(SMCError.self)
-}
+import Foundation
 
 let helperBundleIdentifier = "software.micropixels.BatFi.Helper"
 let helperPlistName = helperBundleIdentifier + ".plist"

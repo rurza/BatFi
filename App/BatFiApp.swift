@@ -81,7 +81,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 try await self.client.sendMessage(
                     enable
                     ? SMCChargingCommand.auto
-                    : SMCChargingCommand.forceDischarging,
+                    : SMCChargingCommand.inhibitCharging,
                     to: XPCRoute.charging
                 )
                 self.batteryLevelObserver.updateBatteryState()

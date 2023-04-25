@@ -12,3 +12,7 @@ enum SMCChargingCommand: Codable {
     case auto
     case inhibitCharging
 }
+
+enum SMCStatusCommand: Codable {
+    case status
+}

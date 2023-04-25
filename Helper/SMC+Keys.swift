@@ -1,5 +1,5 @@
 //
-//  SMC+Charging.swift
+//  SMC+Keys.swift
 //  Helper
 //
 //  Created by Adam on 23/04/2023.
@@ -15,6 +15,11 @@ extension SMCKey {
 
     static let inhibitCharging = Self(
         code: .init(fromStaticString: "CH0C"),
+        info: DataTypes.UInt8
+    )
+
+    static let lidClosed = Self(
+        code: .init(fromStaticString: "MSLD"),
         info: DataTypes.UInt8
     )
 }

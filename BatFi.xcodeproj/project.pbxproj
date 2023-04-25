@@ -19,9 +19,15 @@
 		5B98693629EDE69A003F95C1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
 		5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693729EDE7E6003F95C1 /* SMC.swift */; };
 		5BB884FD29F47FEF00A23C2B /* ServiceRegisterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */; };
-		5BB884FF29F5C0F000A23C2B /* SMC+Charging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FE29F5C0F000A23C2B /* SMC+Charging.swift */; };
+		5BB884FF29F5C0F000A23C2B /* SMC+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FE29F5C0F000A23C2B /* SMC+Keys.swift */; };
 		5BB8850229F5DCF100A23C2B /* SMCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850129F5DCF100A23C2B /* SMCError.swift */; };
 		5BB8850329F5DCF300A23C2B /* SMCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850129F5DCF100A23C2B /* SMCError.swift */; };
+		5BB8850529F723CB00A23C2B /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850429F723CB00A23C2B /* Route.swift */; };
+		5BB8850629F7323B00A23C2B /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850429F723CB00A23C2B /* Route.swift */; };
+		5BB8850829F7C26F00A23C2B /* SMC+Temperature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850729F7C26F00A23C2B /* SMC+Temperature.swift */; };
+		5BB8850A29F7C29B00A23C2B /* RouteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850929F7C29B00A23C2B /* RouteHandler.swift */; };
+		5BB8850C29F7C2F500A23C2B /* SMCStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */; };
+		5BB8850D29F7C2F500A23C2B /* SMCStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */; };
 		5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC234F929F09C0000EE2F09 /* IOKit.framework */; };
 		5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */; };
 		5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */; };
@@ -93,8 +99,12 @@
 		5B98693729EDE7E6003F95C1 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRegisterer.swift; sourceTree = "<group>"; };
-		5BB884FE29F5C0F000A23C2B /* SMC+Charging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMC+Charging.swift"; sourceTree = "<group>"; };
+		5BB884FE29F5C0F000A23C2B /* SMC+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMC+Keys.swift"; sourceTree = "<group>"; };
 		5BB8850129F5DCF100A23C2B /* SMCError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCError.swift; sourceTree = "<group>"; };
+		5BB8850429F723CB00A23C2B /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		5BB8850729F7C26F00A23C2B /* SMC+Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMC+Temperature.swift"; sourceTree = "<group>"; };
+		5BB8850929F7C29B00A23C2B /* RouteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteHandler.swift; sourceTree = "<group>"; };
+		5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCStatus.swift; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelObserver.swift; sourceTree = "<group>"; };
 		5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryInfoView.swift; sourceTree = "<group>"; };
@@ -136,8 +146,10 @@
 				5B69E6E429EB67F70010AD63 /* Info.plist */,
 				5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */,
 				5B98693729EDE7E6003F95C1 /* SMC.swift */,
-				5BB884FE29F5C0F000A23C2B /* SMC+Charging.swift */,
+				5BB8850729F7C26F00A23C2B /* SMC+Temperature.swift */,
+				5BB884FE29F5C0F000A23C2B /* SMC+Keys.swift */,
 				5B11DE0729EB6641007A993C /* main.swift */,
+				5BB8850929F7C29B00A23C2B /* RouteHandler.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -147,8 +159,10 @@
 			children = (
 				5BB8850129F5DCF100A23C2B /* SMCError.swift */,
 				5B3C14BB29EAA5BD00746A53 /* Constants.swift */,
+				5BB8850429F723CB00A23C2B /* Route.swift */,
 				5B11DDF529EB59DE007A993C /* SMCCommands.swift */,
 				5BEF8FCA29F086D300AFA59C /* BatteryInfo.swift */,
+				5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -168,8 +182,8 @@
 				5B31E89329EF3EDF00ACA5F1 /* SecureXPC */,
 				5B3C14BA29EAA5B100746A53 /* Shared */,
 				5BEE218929E607FB0012A4DD /* App */,
-				5BB80D4729E9EF6600186827 /* Supporting Files */,
 				5B11DE0629EB6641007A993C /* Helper */,
+				5BB80D4729E9EF6600186827 /* Supporting Files */,
 				5BEE218829E607FB0012A4DD /* Products */,
 				5BEE21B529E612C00012A4DD /* Frameworks */,
 			);
@@ -395,11 +409,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BB884FF29F5C0F000A23C2B /* SMC+Charging.swift in Sources */,
+				5BB8850D29F7C2F500A23C2B /* SMCStatus.swift in Sources */,
+				5BB884FF29F5C0F000A23C2B /* SMC+Keys.swift in Sources */,
+				5BB8850829F7C26F00A23C2B /* SMC+Temperature.swift in Sources */,
 				5B98693529EDE660003F95C1 /* SMCCommands.swift in Sources */,
 				5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */,
+				5BB8850A29F7C29B00A23C2B /* RouteHandler.swift in Sources */,
 				5B98693629EDE69A003F95C1 /* Constants.swift in Sources */,
 				5B11DE0829EB6641007A993C /* main.swift in Sources */,
+				5BB8850529F723CB00A23C2B /* Route.swift in Sources */,
 				5BB8850229F5DCF100A23C2B /* SMCError.swift in Sources */,
 				5BEF8FCC29F086D300AFA59C /* BatteryInfo.swift in Sources */,
 			);
@@ -409,6 +427,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB8850C29F7C2F500A23C2B /* SMCStatus.swift in Sources */,
+				5BB8850629F7323B00A23C2B /* Route.swift in Sources */,
 				5B3C14BC29EAA5BD00746A53 /* Constants.swift in Sources */,
 				5BB8850329F5DCF300A23C2B /* SMCError.swift in Sources */,
 				5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */,
