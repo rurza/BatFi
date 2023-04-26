@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "CocoaLumberjack",
-        "repositoryURL": "https://github.com/CocoaLumberjack/CocoaLumberjack.git",
-        "state": {
-          "branch": null,
-          "revision": "0188d31089b5881a269e01777be74c7316924346",
-          "version": "3.8.0"
-        }
-      },
-      {
         "package": "Defaults",
         "repositoryURL": "https://github.com/sindresorhus/Defaults",
         "state": {
@@ -38,12 +29,12 @@
         }
       },
       {
-        "package": "swift-log",
-        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "package": "SettingsKit",
+        "repositoryURL": "https://github.com/rurza/SettingsKit.git",
         "state": {
-          "branch": null,
-          "revision": "32e8d724467f8fe623624570367e3d50c5638e46",
-          "version": "1.5.2"
+          "branch": "master",
+          "revision": "1c6353d78d3d6c99cbe8b9203e6f55f2228ef5bb",
+          "version": null
         }
       }
     ]

@@ -12,7 +12,7 @@ import SecureXPC
 
 final class Charging {
     private let client: XPCClient
-    private lazy var logger = Logger(category: "⚡️")
+    private lazy var logger = Logger(category: "🪫🔋")
 
     init(client: XPCClient) {
         self.client = client

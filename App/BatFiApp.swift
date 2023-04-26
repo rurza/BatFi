@@ -25,11 +25,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var client: XPCClient = makeClient()
     lazy var serviceRegisterer = HelperManager()
-    private let batteryLevelObserver = BatteryLevelObserver()
+    private let batteryLevelObserver = BatteryLevelObserver.shared
     private var charging: Charging!
     private var timer: Timer?
 
     lazy var logger = Logger(category: "💻")
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         try? serviceRegisterer.registerServiceIfNeeded()
@@ -52,11 +56,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             SeparatorItem()
             MenuItem("Turn off charging").onSelect { [weak self] in
                 guard let self = self else { return }
-
             }
             MenuItem("Turn on charging").onSelect { [weak self] in
-                guard let self = self else { return }
-
+                Task {
+                    guard let self = self else { return }
+                    try await self.charging.autoChargingMode()
+                }
             }
             MenuItem("Inhibit charging").onSelect { [weak self] in
                 guard let self = self else { return }

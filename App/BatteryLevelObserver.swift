@@ -7,64 +7,54 @@
 
 import Foundation
 import IOKit.ps
+import os
 
 final class BatteryLevelObserver: ObservableObject {
-    @Published private(set) var batteryLevel: Int?
-    @Published private(set) var isCharging: Bool?
-    @Published private(set) var powerSource: String?
-    @Published private(set) var timeLeft: Int?
+    private(set) var batteryLevel: Int?
+    private(set) var isCharging: Bool?
+    private(set) var powerSource: String?
     private(set) var timeLeftString: String?
+    private(set) var timeLeft: Int? {
+        didSet {
+            if let timeLeft, timeLeft > 0 {
+                let interval = Double(timeLeft) * 60
+                timeLeftString = timeFormatter.string(from: interval)!
+            } else {
+                timeLeftString = nil
+            }
+        }
+    }
+    private lazy var logger = Logger(category: "⚡️")
 
-    private var timer: Timer?
     private lazy var timeFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
         return formatter
     }()
 
-    private var context = 0
+    static let shared = BatteryLevelObserver()
 
     init() {
         updateBatteryState()
-        setUpTimer()
-
-        let loop: CFRunLoopSource = IOPSNotificationCreateRunLoopSource(
-            {
-                (context: UnsafeMutableRawPointer?) in
-                debugPrint("Power source changed")
-            },
-            &context
-        ).takeRetainedValue() as CFRunLoopSource
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, CFRunLoopMode.defaultMode)
+        setUpObserving()
     }
 
-    func setUpTimer() {
-        let batteryLevel = self.batteryLevel ?? 0
-        let timerInterval: TimeInterval
-        if batteryLevel < 20 {
-            timerInterval = 5
-        } else if batteryLevel >= 20 && batteryLevel < 60 {
-            timerInterval = 4
-        } else if batteryLevel >= 60 && batteryLevel < 80 {
-            timerInterval = 3
-        } else {
-            timerInterval = 2
-        }
-        timer = Timer.scheduledTimer(
-            withTimeInterval: timerInterval,
-            repeats: false,
-            block: { [weak self] timer in
-                self?.updateBatteryState()
-                timer.invalidate()
-                self?.setUpTimer()
-            }
-        )
+    func setUpObserving() {
+        let loop: CFRunLoopSource = IOPSNotificationCreateRunLoopSource(
+            {
+                _ in
+                let observer = BatteryLevelObserver.shared
+                observer.updateBatteryState()
+            },
+            nil
+        ).takeRetainedValue() as CFRunLoopSource
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, CFRunLoopMode.commonModes)
     }
 
     func updateBatteryState() {
-        let snapshot = IOPSCopyPowerSourcesInfo().takeUnretainedValue()
-        let sources = IOPSCopyPowerSourcesList(snapshot).takeUnretainedValue() as Array
-        let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
+        let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
+        let sources = IOPSCopyPowerSourcesList(snapshot).takeRetainedValue() as Array
+        let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeRetainedValue() as! [String: AnyObject]
 
         let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
         let isCharging = info[kIOPSIsChargingKey] as? Bool
@@ -86,12 +76,7 @@ final class BatteryLevelObserver: ObservableObject {
             } else {
                 self.timeLeft = nil
             }
-            if timeLeft > 0 {
-                let interval = Double(timeLeft) * 60
-                timeLeftString = timeFormatter.string(from: interval)!
-            } else {
-                timeLeftString = nil
-            }
         }
+        objectWillChange.send()
     }
 }

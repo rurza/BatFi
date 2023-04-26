@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>BuildHash</key>
-	<string>3e6e1ac98babf1661182a957b57b7a2ce61662e794fb9f82382f99c14adc91c1</string>
+	<string>36ba4cc968d825d7202fc9b666920e9369c1ae45ee20e3094f97622e344efafe</string>
 	<key>CFBundleIdentifier</key>
 	<string>software.micropixels.BatFi.Helper</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.86</string>
+	<string>1.0.87</string>
 	<key>SMAuthorizedClients</key>
 	<array>
 		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "1.0.0" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
