@@ -40,21 +40,24 @@ final class BatteryLevelObserver: ObservableObject {
     }
 
     func setUpObserving() {
+        let context = Unmanaged.passUnretained(self).toOpaque()
         let loop: CFRunLoopSource = IOPSNotificationCreateRunLoopSource(
             {
-                _ in
-                let observer = BatteryLevelObserver.shared
-                observer.updateBatteryState()
+                context in
+                if let context {
+                    let observer = Unmanaged<BatteryLevelObserver>.fromOpaque(context).takeUnretainedValue()
+                    observer.updateBatteryState()
+                }
             },
-            nil
+            context
         ).takeRetainedValue() as CFRunLoopSource
         CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, CFRunLoopMode.commonModes)
     }
 
     func updateBatteryState() {
-        let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
-        let sources = IOPSCopyPowerSourcesList(snapshot).takeRetainedValue() as Array
-        let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeRetainedValue() as! [String: AnyObject]
+        let snapshot = IOPSCopyPowerSourcesInfo().takeUnretainedValue()
+        let sources = IOPSCopyPowerSourcesList(snapshot).takeUnretainedValue() as Array
+        let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
 
         let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
         let isCharging = info[kIOPSIsChargingKey] as? Bool
@@ -77,6 +80,7 @@ final class BatteryLevelObserver: ObservableObject {
                 self.timeLeft = nil
             }
         }
+        logger.debug("State updated: \n- is charging: \(isCharging ?? false),\n- battery level: \(batteryLevel ?? -1),\n- power source: \(powerSource ?? "not known"),\n- time left: \(self.timeLeftString ?? "not known")")
         objectWillChange.send()
     }
 }
