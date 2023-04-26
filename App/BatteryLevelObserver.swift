@@ -22,9 +22,20 @@ final class BatteryLevelObserver: ObservableObject {
         return formatter
     }()
 
+    private var context = 0
+
     init() {
         updateBatteryState()
         setUpTimer()
+
+        let loop: CFRunLoopSource = IOPSNotificationCreateRunLoopSource(
+            {
+                (context: UnsafeMutableRawPointer?) in
+                debugPrint("Power source changed")
+            },
+            &context
+        ).takeRetainedValue() as CFRunLoopSource
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, CFRunLoopMode.defaultMode)
     }
 
     func setUpTimer() {

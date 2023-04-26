@@ -7,9 +7,12 @@
 
 import Foundation
 
-struct SMCStatus: Codable {
+struct SMCStatus: Codable, CustomStringConvertible {
     let forceCharging: Bool
     let inhitbitCharging: Bool
     let lidClosed: Bool
-    let batteryTemperature: Double?
+
+    var description: String {
+        "force charging: \(forceCharging), inhitbitCharging: \(inhitbitCharging), lidClosed: \(lidClosed))"
+    }
 }

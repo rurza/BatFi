@@ -19,4 +19,4 @@ APP_VERSION = 1.0.0
 // This is referenced by the build script.
 SHARED_DIRECTORY = Shared
 
-HELPER_NAME = Helper
+HELPER_NAME = BatFiHelper

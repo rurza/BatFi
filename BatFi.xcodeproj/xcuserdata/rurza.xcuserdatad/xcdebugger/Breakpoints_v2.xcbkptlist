@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CC5A3A32-6DD8-4AE4-8BAC-85021492B3E4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../SecureXPC/Sources/SecureXPC/Server/XPCServer.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
-            landmarkName = "handleEvent(connection:event:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "DD6DDAA6-ACE1-41FD-A22D-49815F9D1310"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -34,6 +18,38 @@
             endingLineNumber = "301"
             landmarkName = "shouldAcceptMessage(connection:message:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DD6DDAA6-ACE1-41FD-A22D-49815F9D1310 - 7588c0f7d29d926b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.ParentBundleMessageAcceptor.shouldAcceptMessage(connection: __C.OS_xpc_object, message: __C.OS_xpc_object) -&gt; Swift.Bool"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "476">
+               </Location>
+               <Location
+                  uuid = "DD6DDAA6-ACE1-41FD-A22D-49815F9D1310 - 7588c0f7d29d926b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.ParentBundleMessageAcceptor.shouldAcceptMessage(connection: __C.OS_xpc_object, message: __C.OS_xpc_object) -&gt; Swift.Bool"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "644">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -81,23 +97,37 @@
                   endingLineNumber = "297"
                   offsetFromSymbolStart = "352">
                </Location>
+               <Location
+                  uuid = "58F17E45-01BC-4AA7-B4D4-A9AAFAF0AE55 - 7588c0f7d29d9363"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.ParentBundleMessageAcceptor.shouldAcceptMessage(connection: __C.OS_xpc_object, message: __C.OS_xpc_object) -&gt; Swift.Bool"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "297"
+                  endingLineNumber = "297"
+                  offsetFromSymbolStart = "444">
+               </Location>
+               <Location
+                  uuid = "58F17E45-01BC-4AA7-B4D4-A9AAFAF0AE55 - 7588c0f7d29d9363"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.ParentBundleMessageAcceptor.shouldAcceptMessage(connection: __C.OS_xpc_object, message: __C.OS_xpc_object) -&gt; Swift.Bool"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "297"
+                  endingLineNumber = "297"
+                  offsetFromSymbolStart = "492">
+               </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C2F07CF2-AC8F-4901-AF7F-404EFA3FA81B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../SecureXPC/Sources/SecureXPC/Client/XPCClient.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
-            landmarkName = "withConnection(_:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

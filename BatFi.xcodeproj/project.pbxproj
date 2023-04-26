@@ -11,14 +11,13 @@
 		5B11DE0829EB6641007A993C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DE0729EB6641007A993C /* main.swift */; };
 		5B3C14BC29EAA5BD00746A53 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
 		5B3C14C529EAA6CC00746A53 /* MenuBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = 5B3C14C429EAA6CC00746A53 /* MenuBuilder */; };
-		5B69E6E629EB69350010AD63 /* Helper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5B11DE0529EB6641007A993C /* Helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5B69E6E629EB69350010AD63 /* BatFiHelper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5B11DE0529EB6641007A993C /* BatFiHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */; };
-		5B69E6F229ECA2B70010AD63 /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */; };
-		5B69E6F429ECA2C50010AD63 /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */; };
+		5B6FC12C29F92A1300D98863 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 5B6FC12B29F92A1300D98863 /* Defaults */; };
 		5B98693529EDE660003F95C1 /* SMCCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DDF529EB59DE007A993C /* SMCCommands.swift */; };
 		5B98693629EDE69A003F95C1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3C14BB29EAA5BD00746A53 /* Constants.swift */; };
 		5B98693829EDE7E6003F95C1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98693729EDE7E6003F95C1 /* SMC.swift */; };
-		5BB884FD29F47FEF00A23C2B /* ServiceRegisterer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */; };
+		5BB884FD29F47FEF00A23C2B /* HelperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FC29F47FEF00A23C2B /* HelperManager.swift */; };
 		5BB884FF29F5C0F000A23C2B /* SMC+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB884FE29F5C0F000A23C2B /* SMC+Keys.swift */; };
 		5BB8850229F5DCF100A23C2B /* SMCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850129F5DCF100A23C2B /* SMCError.swift */; };
 		5BB8850329F5DCF300A23C2B /* SMCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850129F5DCF100A23C2B /* SMCError.swift */; };
@@ -28,6 +27,12 @@
 		5BB8850A29F7C29B00A23C2B /* RouteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850929F7C29B00A23C2B /* RouteHandler.swift */; };
 		5BB8850C29F7C2F500A23C2B /* SMCStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */; };
 		5BB8850D29F7C2F500A23C2B /* SMCStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */; };
+		5BB8851529F8101500A23C2B /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 5BB8851429F8101500A23C2B /* CocoaLumberjack */; };
+		5BB8851729F8101500A23C2B /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5BB8851629F8101500A23C2B /* CocoaLumberjackSwift */; };
+		5BB8851929F812EF00A23C2B /* Logger+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8851829F812EF00A23C2B /* Logger+.swift */; };
+		5BB8851B29F813BD00A23C2B /* Charging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8851A29F813BD00A23C2B /* Charging.swift */; };
+		5BB8851E29F817E300A23C2B /* EmbeddedPropertyList in Frameworks */ = {isa = PBXBuildFile; productRef = 5BB8851D29F817E300A23C2B /* EmbeddedPropertyList */; };
+		5BB8852029F8181700A23C2B /* HelperPropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB8851F29F8181700A23C2B /* HelperPropertyList.swift */; };
 		5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BC234F929F09C0000EE2F09 /* IOKit.framework */; };
 		5BC234FC29F12E6D00EE2F09 /* BatteryLevelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */; };
 		5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */; };
@@ -66,7 +71,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				5B69E6E629EB69350010AD63 /* Helper in Embed Helper Tool */,
+				5B69E6E629EB69350010AD63 /* BatFiHelper in Embed Helper Tool */,
 			);
 			name = "Embed Helper Tool";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,7 +92,7 @@
 /* Begin PBXFileReference section */
 		5B11DDF529EB59DE007A993C /* SMCCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCCommands.swift; sourceTree = "<group>"; };
 		5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyListModifier.swift; sourceTree = "<group>"; };
-		5B11DE0529EB6641007A993C /* Helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Helper; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B11DE0529EB6641007A993C /* BatFiHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BatFiHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
 		5B31E89329EF3EDF00ACA5F1 /* SecureXPC */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SecureXPC; path = ../SecureXPC; sourceTree = "<group>"; };
@@ -98,13 +103,16 @@
 		5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.Helper.plist; sourceTree = "<group>"; };
 		5B98693729EDE7E6003F95C1 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRegisterer.swift; sourceTree = "<group>"; };
+		5BB884FC29F47FEF00A23C2B /* HelperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperManager.swift; sourceTree = "<group>"; };
 		5BB884FE29F5C0F000A23C2B /* SMC+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMC+Keys.swift"; sourceTree = "<group>"; };
 		5BB8850129F5DCF100A23C2B /* SMCError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCError.swift; sourceTree = "<group>"; };
 		5BB8850429F723CB00A23C2B /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		5BB8850729F7C26F00A23C2B /* SMC+Temperature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMC+Temperature.swift"; sourceTree = "<group>"; };
 		5BB8850929F7C29B00A23C2B /* RouteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteHandler.swift; sourceTree = "<group>"; };
 		5BB8850B29F7C2F500A23C2B /* SMCStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMCStatus.swift; sourceTree = "<group>"; };
+		5BB8851829F812EF00A23C2B /* Logger+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+.swift"; sourceTree = "<group>"; };
+		5BB8851A29F813BD00A23C2B /* Charging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Charging.swift; sourceTree = "<group>"; };
+		5BB8851F29F8181700A23C2B /* HelperPropertyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperPropertyList.swift; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelObserver.swift; sourceTree = "<group>"; };
 		5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryInfoView.swift; sourceTree = "<group>"; };
@@ -120,9 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B69E6F429ECA2C50010AD63 /* EmbeddedPropertyList in Frameworks */,
 				5BEF8FC729EF541D00AFA59C /* SecureXPC in Frameworks */,
 				5BC234FA29F09C0000EE2F09 /* IOKit.framework in Frameworks */,
+				5BB8851E29F817E300A23C2B /* EmbeddedPropertyList in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,10 +138,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B6FC12C29F92A1300D98863 /* Defaults in Frameworks */,
+				5BB8851529F8101500A23C2B /* CocoaLumberjack in Frameworks */,
 				5BEE21B729E612C00012A4DD /* ServiceManagement.framework in Frameworks */,
 				5B3C14C529EAA6CC00746A53 /* MenuBuilder in Frameworks */,
-				5B69E6F229ECA2B70010AD63 /* EmbeddedPropertyList in Frameworks */,
 				5BEF8FC529EF541700AFA59C /* SecureXPC in Frameworks */,
+				5BB8851729F8101500A23C2B /* CocoaLumberjackSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +159,7 @@
 				5BB8850729F7C26F00A23C2B /* SMC+Temperature.swift */,
 				5BB884FE29F5C0F000A23C2B /* SMC+Keys.swift */,
 				5B11DE0729EB6641007A993C /* main.swift */,
+				5BB8851F29F8181700A23C2B /* HelperPropertyList.swift */,
 				5BB8850929F7C29B00A23C2B /* RouteHandler.swift */,
 			);
 			path = Helper;
@@ -193,7 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				5BEE218729E607FB0012A4DD /* BatFi.app */,
-				5B11DE0529EB6641007A993C /* Helper */,
+				5B11DE0529EB6641007A993C /* BatFiHelper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -204,7 +215,9 @@
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
 				5BC234FD29F1325500EE2F09 /* BatteryInfoView.swift */,
 				5BC234FB29F12E6D00EE2F09 /* BatteryLevelObserver.swift */,
-				5BB884FC29F47FEF00A23C2B /* ServiceRegisterer.swift */,
+				5BB884FC29F47FEF00A23C2B /* HelperManager.swift */,
+				5BB8851829F812EF00A23C2B /* Logger+.swift */,
+				5BB8851A29F813BD00A23C2B /* Charging.swift */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
@@ -241,11 +254,11 @@
 			);
 			name = Helper;
 			packageProductDependencies = (
-				5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */,
 				5BEF8FC629EF541D00AFA59C /* SecureXPC */,
+				5BB8851D29F817E300A23C2B /* EmbeddedPropertyList */,
 			);
 			productName = Helper;
-			productReference = 5B11DE0529EB6641007A993C /* Helper */;
+			productReference = 5B11DE0529EB6641007A993C /* BatFiHelper */;
 			productType = "com.apple.product-type.tool";
 		};
 		5BEE218629E607FB0012A4DD /* BatFi */ = {
@@ -268,8 +281,10 @@
 			name = BatFi;
 			packageProductDependencies = (
 				5B3C14C429EAA6CC00746A53 /* MenuBuilder */,
-				5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */,
 				5BEF8FC429EF541700AFA59C /* SecureXPC */,
+				5BB8851429F8101500A23C2B /* CocoaLumberjack */,
+				5BB8851629F8101500A23C2B /* CocoaLumberjackSwift */,
+				5B6FC12B29F92A1300D98863 /* Defaults */,
 			);
 			productName = BatFi;
 			productReference = 5BEE218729E607FB0012A4DD /* BatFi.app */;
@@ -304,7 +319,9 @@
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
 				5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */,
-				5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */,
+				5BB8851329F8101500A23C2B /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+				5BB8851C29F817E300A23C2B /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */,
+				5B6FC12A29F92A1300D98863 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 5BEE218829E607FB0012A4DD /* Products */;
 			projectDirPath = "";
@@ -409,6 +426,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BB8852029F8181700A23C2B /* HelperPropertyList.swift in Sources */,
 				5BB8850D29F7C2F500A23C2B /* SMCStatus.swift in Sources */,
 				5BB884FF29F5C0F000A23C2B /* SMC+Keys.swift in Sources */,
 				5BB8850829F7C26F00A23C2B /* SMC+Temperature.swift in Sources */,
@@ -435,8 +453,10 @@
 				5BC234FE29F1325500EE2F09 /* BatteryInfoView.swift in Sources */,
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
 				5B11DDF629EB59DE007A993C /* SMCCommands.swift in Sources */,
+				5BB8851B29F813BD00A23C2B /* Charging.swift in Sources */,
+				5BB8851929F812EF00A23C2B /* Logger+.swift in Sources */,
 				5BEF8FCB29F086D300AFA59C /* BatteryInfo.swift in Sources */,
-				5BB884FD29F47FEF00A23C2B /* ServiceRegisterer.swift in Sources */,
+				5BB884FD29F47FEF00A23C2B /* HelperManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +697,23 @@
 				kind = branch;
 			};
 		};
-		5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */ = {
+		5B6FC12A29F92A1300D98863 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		5BB8851329F8101500A23C2B /* XCRemoteSwiftPackageReference "CocoaLumberjack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CocoaLumberjack/CocoaLumberjack.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		5BB8851C29F817E300A23C2B /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/trilemma-dev/EmbeddedPropertyList";
 			requirement = {
@@ -693,14 +729,24 @@
 			package = 5B3C14C329EAA6CC00746A53 /* XCRemoteSwiftPackageReference "MenuBuilder" */;
 			productName = MenuBuilder;
 		};
-		5B69E6F129ECA2B70010AD63 /* EmbeddedPropertyList */ = {
+		5B6FC12B29F92A1300D98863 /* Defaults */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */;
-			productName = EmbeddedPropertyList;
+			package = 5B6FC12A29F92A1300D98863 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
-		5B69E6F329ECA2C50010AD63 /* EmbeddedPropertyList */ = {
+		5BB8851429F8101500A23C2B /* CocoaLumberjack */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5B69E6F029ECA2B70010AD63 /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */;
+			package = 5BB8851329F8101500A23C2B /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjack;
+		};
+		5BB8851629F8101500A23C2B /* CocoaLumberjackSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BB8851329F8101500A23C2B /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjackSwift;
+		};
+		5BB8851D29F817E300A23C2B /* EmbeddedPropertyList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5BB8851C29F817E300A23C2B /* XCRemoteSwiftPackageReference "EmbeddedPropertyList" */;
 			productName = EmbeddedPropertyList;
 		};
 		5BEF8FC429EF541700AFA59C /* SecureXPC */ = {

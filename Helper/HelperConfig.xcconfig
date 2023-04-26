@@ -11,7 +11,7 @@
 #include "../Supporting Files/Config.xcconfig"
 
 // The directory containing the source code and property lists for the helper tool.
-TARGET_DIRECTORY = $HELPER_NAME
+TARGET_DIRECTORY = Helper
 
 TARGET_NAME = $HELPER_NAME
 
@@ -42,4 +42,4 @@ SWIFT_ACTIVE_COMPILATION_CONDITIONS = HELPER_TOOL
 
 CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO
 
-THER_CODE_SIGN_FLAGS = $(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)
+OTHER_CODE_SIGN_FLAGS = $(inherited) -i $(PRODUCT_BUNDLE_IDENTIFIER)

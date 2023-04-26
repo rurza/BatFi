@@ -8,7 +8,7 @@
 import Foundation
 
 final class RouteHandler {
-    static func charging(_ message: SMCChargingCommand) throws {
+    static func charging(_ message: SMCChargingCommand) async throws {
         defer { SMCKit.close() }
         try SMCKit.open()
 
@@ -24,27 +24,31 @@ final class RouteHandler {
             inhibitChargingByte = 0
         case .inhibitCharging:
             disableChargingByte = 0
-            inhibitChargingByte = 1
+            inhibitChargingByte = 02
         }
 
         try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
-        try SMCKit.writeData(.inhibitCharging, uint8: inhibitChargingByte)
+        try SMCKit.writeData(.inhibitChargingC, uint8: inhibitChargingByte)
+        try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
     }
 
-    static func smcStatus(_ message: SMCStatusCommand) throws -> SMCStatus {
+    static func smcStatus(_ message: SMCStatusCommand) async throws -> SMCStatus {
         defer { SMCKit.close() }
         try SMCKit.open()
 
-        let forceCharging = try SMCKit.readData(SMCKey.disableCharging)
-        let inhibitCharging = try SMCKit.readData(SMCKey.inhibitCharging)
-        let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
-        let temperature = try SMCKit.temperature(.init(fromStaticString: "TB0T"))
+        switch message {
+        case .status:
+            let forceCharging = try SMCKit.readData(SMCKey.disableCharging)
+            let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
+            let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
+            let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
-        return SMCStatus(
-            forceCharging: forceCharging.0 == 01,
-            inhitbitCharging: inhibitCharging.0 == 01,
-            lidClosed: lidClosed.0 == 01,
-            batteryTemperature: temperature
-        )
+            return SMCStatus(
+                forceCharging: forceCharging.0 == 01,
+                inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
+                || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
+                lidClosed: lidClosed.0 == 01
+            )
+        }
     }
 }

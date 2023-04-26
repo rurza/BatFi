@@ -13,7 +13,7 @@ extension XPCRoute {
         .throwsType(SMCError.self)
 
     static let smcStatus = Self.named("smcStatus")
-        .withMessageType(SMCStatusCommand.self.self)
+        .withMessageType(SMCStatusCommand.self)
         .withReplyType(SMCStatus.self)
         .throwsType(SMCError.self)
 }

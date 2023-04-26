@@ -194,6 +194,7 @@ extension SMCKit {
         let data = try readData(SMCKey(code: sensorCode, info: DataTypes.SP78))
 
         let temperatureInCelsius = Double(fromSP78: (data.0, data.1))
+        logger.notice("temperatyre in celsius: \(temperatureInCelsius, privacy: .public)")
 
         switch unit {
         case .celsius:

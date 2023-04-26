@@ -13,8 +13,13 @@ extension SMCKey {
         info: DataTypes.UInt8
     )
 
-    static let inhibitCharging = Self(
+    static let inhibitChargingC = Self(
         code: .init(fromStaticString: "CH0C"),
+        info: DataTypes.UInt8
+    )
+
+    static let inhibitChargingB = Self(
+        code: .init(fromStaticString: "CH0B"),
         info: DataTypes.UInt8
     )
 
