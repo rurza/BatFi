@@ -615,6 +615,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B3C14C929EB431600746A53 /* AppConfig.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -642,6 +643,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B3C14C929EB431600746A53 /* AppConfig.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;

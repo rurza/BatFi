@@ -31,4 +31,6 @@ server.registerRoute(XPCRoute.charging, handler: RouteHandler.charging)
 server.registerRoute(XPCRoute.smcStatus, handler: RouteHandler.smcStatus)
 server.setErrorHandler(errorHandler)
 
-server.startAndBlock()
+server.start()
+try await Task.sleep(for: .seconds(5))
+exit(0)

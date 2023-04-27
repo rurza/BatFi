@@ -55,17 +55,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
             SeparatorItem()
             MenuItem("Turn off charging").onSelect { [weak self] in
-                guard let self = self else { return }
+                Task {
+                    guard let self = self else { return }
+                    try await self.charging.turnOffCharging()
+                }
             }
             MenuItem("Turn on charging").onSelect { [weak self] in
                 Task {
                     guard let self = self else { return }
                     try await self.charging.autoChargingMode()
                 }
-            }
-            MenuItem("Inhibit charging").onSelect { [weak self] in
-                guard let self = self else { return }
-
             }
             SeparatorItem()
             MenuItem("Quit BatFi")
