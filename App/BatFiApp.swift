@@ -39,7 +39,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         try? serviceRegisterer.registerServiceIfNeeded()
         charging = Charging(client: client)
 
-        statusItem.button?.image = NSImage(systemSymbolName: "bolt.batteryblock.fill", accessibilityDescription: "BatFi")
+        statusItem.button?.image = NSImage(named: "status.not.charging.20")
         statusItem.menu = NSMenu {
             MenuItem("").view {
                 BatteryInfoView(batteryLevelObserver: batteryLevelObserver)
