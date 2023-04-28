@@ -106,6 +106,7 @@
 		5B6FC12D29F9639C00D98863 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		5B6FC12F29F970A700D98863 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		5B6FC13129F970B200D98863 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5B6FC13629FC038500D98863 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		5B98693729EDE7E6003F95C1 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BB884FC29F47FEF00A23C2B /* HelperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperManager.swift; sourceTree = "<group>"; };
@@ -194,6 +195,7 @@
 		5BEE217E29E607FB0012A4DD = {
 			isa = PBXGroup;
 			children = (
+				5B6FC13629FC038500D98863 /* README */,
 				5B31E89329EF3EDF00ACA5F1 /* SecureXPC */,
 				5B3C14BA29EAA5B100746A53 /* Shared */,
 				5BEE218929E607FB0012A4DD /* App */,
