@@ -26,12 +26,15 @@ final class Charging {
     }
 
     func turnOffCharging() async throws {
-        let status = try await client.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
-        if status.lidClosed {
-            try await changeChargingMode(.inhibitCharging)
-        } else {
-            try await changeChargingMode(.forceDischarging)
+        client.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus) { response in
+            NSLog("\(response)")
         }
+//        let status = try await client.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
+//        if status.lidClosed {
+//            try await changeChargingMode(.inhibitCharging)
+//        } else {
+//            try await changeChargingMode(.forceDischarging)
+//        }
     }
 
     func changeChargingMode(_ command: SMCChargingCommand) async throws {

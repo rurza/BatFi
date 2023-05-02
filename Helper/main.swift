@@ -25,12 +25,18 @@ func errorHandler(_ error: XPCError) async {
     logger.notice("Quitting...")
     exit(0)
 }
+do {
+    let server = try XPCServer.forMachService(withCriteria: .forDaemon(withClientRequirement: try .sameTeamIdentifier))
+    server.registerRoute(XPCRoute.charging, handler: RouteHandler.charging)
+    server.registerRoute(XPCRoute.smcStatus, handler: RouteHandler.smcStatus)
+    server.setErrorHandler(errorHandler)
 
-let server = try XPCServer.forMachService()
-server.registerRoute(XPCRoute.charging, handler: RouteHandler.charging)
-server.registerRoute(XPCRoute.smcStatus, handler: RouteHandler.smcStatus)
-server.setErrorHandler(errorHandler)
+    logger.notice("Server is about to start.")
+    server.start()
+    try await Task.sleep(for: .seconds(5))
+    logger.notice("Time to exit. Bye!")
+    exit(0)
+} catch {
+    logger.error("Shoot! We have an error: \(error, privacy: .public)")
+}
 
-server.start()
-try await Task.sleep(for: .seconds(5))
-exit(0)

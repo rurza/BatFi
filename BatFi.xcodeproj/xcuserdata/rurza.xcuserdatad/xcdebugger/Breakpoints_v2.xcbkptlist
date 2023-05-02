@@ -130,5 +130,179 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AE50E0F0-3A2A-4776-A79E-FFF516AD9F5F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "App/Charging.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "changeChargingMode(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AE50E0F0-3A2A-4776-A79E-FFF516AD9F5F - 8893081c8c9ca447"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for BatFi.Charging.changeChargingMode(BatFi.SMCChargingCommand) async throws -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/Charging.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "144">
+               </Location>
+               <Location
+                  uuid = "AE50E0F0-3A2A-4776-A79E-FFF516AD9F5F - 8893081c8c9ca447"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for BatFi.Charging.changeChargingMode(BatFi.SMCChargingCommand) async throws -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/Charging.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "192">
+               </Location>
+               <Location
+                  uuid = "AE50E0F0-3A2A-4776-A79E-FFF516AD9F5F - 8893081c8c9ca447"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for BatFi.Charging.changeChargingMode(BatFi.SMCChargingCommand) async throws -&gt; ()"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/App/Charging.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "284">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBDF6212-27BF-45FD-A15F-ECCE23A7A867"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "parentBundleURL"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "BBDF6212-27BF-45FD-A15F-ECCE23A7A867 - 41b83b55bb74ee26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static SecureXPC.XPCServer.ClientRequirement.parentBundleURL.getter : Foundation.URL"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "137"
+                  endingLineNumber = "137"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "BBDF6212-27BF-45FD-A15F-ECCE23A7A867 - 3a2e8ac787a94a2b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.XPCServer.ClientRequirement.shouldAcceptMessage(connection: __C.OS_xpc_object, message: __C.OS_xpc_object) -&gt; Swift.Bool"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/ClientRequirement.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "68">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "81024748-EB94-41AE-B194-4C2640C1F0A5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/MachServiceCriteria.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "502"
+            endingLineNumber = "502"
+            landmarkName = "parentAppURL()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "81024748-EB94-41AE-B194-4C2640C1F0A5 - f323b37882013f2a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.plistsForDaemonOrAgent(parentURL: Foundation.URL, directory: SecureXPC.LibraryDirectory) throws -&gt; Swift.Array&lt;Swift.Dictionary&lt;Swift.String, Any&gt;&gt;"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/MachServiceCriteria.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "502"
+                  endingLineNumber = "502"
+                  offsetFromSymbolStart = "348">
+               </Location>
+               <Location
+                  uuid = "81024748-EB94-41AE-B194-4C2640C1F0A5 - f323b37882013f2a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.plistsForDaemonOrAgent(parentURL: Foundation.URL, directory: SecureXPC.LibraryDirectory) throws -&gt; Swift.Array&lt;Swift.Dictionary&lt;Swift.String, Any&gt;&gt;"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/MachServiceCriteria.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "502"
+                  endingLineNumber = "502"
+                  offsetFromSymbolStart = "456">
+               </Location>
+               <Location
+                  uuid = "81024748-EB94-41AE-B194-4C2640C1F0A5 - ab3692006978c9ef"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SecureXPC.parentAppURL() throws -&gt; Foundation.URL"
+                  moduleName = "BatFi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Library/Developer/Xcode/DerivedData/BatFi-hkjasvdzzboyvufdpvzqvkhemujc/SourcePackages/checkouts/SecureXPC/Sources/SecureXPC/Server/MachServiceCriteria.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "502"
+                  endingLineNumber = "502"
+                  offsetFromSymbolStart = "212">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
