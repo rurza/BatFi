@@ -30,7 +30,7 @@ extension SMCKey {
 }
 
 extension SMCKit {
-    public static func writeData(_ key: SMCKey, uint8: UInt8) throws {
+    static func writeData(_ key: SMCKey, uint8: UInt8) throws {
         var inputStruct = SMCParamStruct()
 
         inputStruct.key = key.code

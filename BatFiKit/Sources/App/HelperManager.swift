@@ -5,12 +5,13 @@
 //  Created by Adam on 22/04/2023.
 //
 
-import os
 import Foundation
+import os
 import ServiceManagement
+import Shared
 
 final class HelperManager {
-    lazy var service = SMAppService.daemon(plistName: helperPlistName)
+    lazy var service = SMAppService.daemon(plistName: Constant.helperPlistName)
     static let shared = HelperManager()
     private lazy var logger = Logger(category: "👹")
 

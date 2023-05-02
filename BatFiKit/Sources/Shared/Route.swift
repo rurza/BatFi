@@ -7,7 +7,7 @@
 
 import SecureXPC
 
-extension XPCRoute {
+public extension XPCRoute {
     static let charging = Self.named("charging")
         .withMessageType(SMCChargingCommand.self)
         .throwsType(SMCError.self)

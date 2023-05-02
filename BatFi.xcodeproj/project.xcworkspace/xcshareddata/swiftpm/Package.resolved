@@ -1,43 +1,77 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Defaults",
-        "repositoryURL": "https://github.com/sindresorhus/Defaults",
-        "state": {
-          "branch": "main",
-          "revision": "488ff7dd719cf18a347dcab00078483f28ee52f8",
-          "version": null
-        }
-      },
-      {
-        "package": "EmbeddedPropertyList",
-        "repositoryURL": "https://github.com/trilemma-dev/EmbeddedPropertyList",
-        "state": {
-          "branch": null,
-          "revision": "21bd832e28a9a66ecdb7b4c21910bb0487a22fe5",
-          "version": "2.0.2"
-        }
-      },
-      {
-        "package": "MenuBuilder",
-        "repositoryURL": "https://github.com/j-f1/MenuBuilder",
-        "state": {
-          "branch": "main",
-          "revision": "ba0202c5ff6d63f0fd7ec6b1da11a769eff15000",
-          "version": null
-        }
-      },
-      {
-        "package": "SettingsKit",
-        "repositoryURL": "https://github.com/rurza/SettingsKit.git",
-        "state": {
-          "branch": "master",
-          "revision": "1c6353d78d3d6c99cbe8b9203e6f55f2228ef5bb",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "combine-schedulers",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/combine-schedulers",
+      "state" : {
+        "revision" : "0625932976b3ae23949f6b816d13bd97f3b40b7c",
+        "version" : "0.10.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "branch" : "main",
+        "revision" : "488ff7dd719cf18a347dcab00078483f28ee52f8"
+      }
+    },
+    {
+      "identity" : "embeddedpropertylist",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/trilemma-dev/EmbeddedPropertyList",
+      "state" : {
+        "revision" : "21bd832e28a9a66ecdb7b4c21910bb0487a22fe5",
+        "version" : "2.0.2"
+      }
+    },
+    {
+      "identity" : "menubuilder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/j-f1/MenuBuilder",
+      "state" : {
+        "revision" : "ba0202c5ff6d63f0fd7ec6b1da11a769eff15000",
+        "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "settingskit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rurza/SettingsKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ed8b44a6f05cfe103edc809f21c7e80c0ffc2154"
+      }
+    },
+    {
+      "identity" : "swift-clocks",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-clocks",
+      "state" : {
+        "revision" : "f9acfa1a45f4483fe0f2c434a74e6f68f865d12d",
+        "version" : "0.3.0"
+      }
+    },
+    {
+      "identity" : "swift-dependencies",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-dependencies",
+      "state" : {
+        "revision" : "98650d886ec950b587d671261f06d6b59dec4052",
+        "version" : "0.4.1"
+      }
+    },
+    {
+      "identity" : "xctest-dynamic-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
+      "state" : {
+        "revision" : "4af50b38daf0037cfbab15514a241224c3f62f98",
+        "version" : "0.8.5"
+      }
+    }
+  ],
+  "version" : 2
 }

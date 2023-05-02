@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum SMCChargingCommand: Codable {
+public enum SMCChargingCommand: Codable {
     case forceDischarging
     case auto
     case inhibitCharging
 }
 
-enum SMCStatusCommand: Codable {
+public enum SMCStatusCommand: Codable {
     case status
 }

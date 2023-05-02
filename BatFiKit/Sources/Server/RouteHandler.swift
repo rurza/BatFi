@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Shared
 
 final class RouteHandler {
     static func charging(_ message: SMCChargingCommand) async throws {
