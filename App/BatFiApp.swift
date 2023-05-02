@@ -76,7 +76,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func makeClient() -> XPCClient {
         let client = XPCClient.forMachService(
             named: helperBundleIdentifier,
-            withServerRequirement: try! .sameTeamIdentifier
+            withServerRequirement: try! .sameBundle
         )
         return client
     }

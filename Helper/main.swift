@@ -26,7 +26,7 @@ func errorHandler(_ error: XPCError) async {
     exit(0)
 }
 do {
-    let server = try XPCServer.forMachService(withCriteria: .forDaemon(withClientRequirement: try .sameTeamIdentifier))
+    let server = try XPCServer.forMachService(withCriteria: .forDaemon(withClientRequirement: try .sameParentBundle))
     server.registerRoute(XPCRoute.charging, handler: RouteHandler.charging)
     server.registerRoute(XPCRoute.smcStatus, handler: RouteHandler.smcStatus)
     server.setErrorHandler(errorHandler)
