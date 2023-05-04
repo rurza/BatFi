@@ -8,6 +8,17 @@
 import Foundation
 import Server
 
-let helper = Helper()
-try await helper.start()
-exit(0)
+class Delegate: ServerDelegate {
+    func thereIsNothingToDo() {
+        exit(0)
+    }
+}
+
+let delegate = Delegate()
+let server = Server()
+server.delegate = delegate
+do {
+    try await server.start()
+} catch {
+    exit(0)
+}

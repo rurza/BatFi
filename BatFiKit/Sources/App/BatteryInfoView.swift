@@ -44,8 +44,10 @@ struct BatteryInfoView: View {
                         HStack {
                             Text("Time left:")
                             Spacer(minLength: itemsSpace)
-                            Text("\(timeLeft)")
-                                .foregroundColor(.secondary)
+                            Group {
+                                Text("\(timeLeft)")
+                            }
+                            .foregroundColor(.secondary)
                         }
                     }
                 }

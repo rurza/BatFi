@@ -39,6 +39,9 @@ extension ChargingClient: DependencyKey {
                         to: XPCRoute.charging
                     )
                 }
+            },
+            chargingStatus: {
+                try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
             }
         )
         return client

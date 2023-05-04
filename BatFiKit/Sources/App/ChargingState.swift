@@ -1,5 +1,5 @@
 //
-//  ChargingObserver.swift
+//  ChargingStateObject.swift
 //  
 //
 //  Created by Adam on 02/05/2023.
@@ -10,7 +10,7 @@ import Dependencies
 import Foundation
 
 @MainActor
-final class ChargingObserver: ObservableObject {
+final class ChargingStateObject: ObservableObject {
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Published private(set) var powerState: PowerState?
 
