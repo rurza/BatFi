@@ -10,7 +10,8 @@ import MenuBuilder
 
 final class MenuFactory {
     static func standardMenu(
-        disableCharging: @escaping () -> Void
+        disableCharging: @escaping () -> Void,
+        enableCharging: @escaping () -> Void
     ) -> NSMenu {
         NSMenu {
             MenuItem("")
@@ -20,6 +21,8 @@ final class MenuFactory {
             SeparatorItem()
             MenuItem("Disable charging")
                 .onSelect(disableCharging)
+            MenuItem("Enable charging")
+                .onSelect(enableCharging)
             SeparatorItem()
             MenuItem("Debug")
                 .submenu {

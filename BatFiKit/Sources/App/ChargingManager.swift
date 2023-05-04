@@ -6,6 +6,7 @@
 //
 
 import Charging
+import Defaults
 import Dependencies
 import Foundation
 
@@ -15,6 +16,26 @@ final class ChargingManager {
     @Dependency(\.screenParametersClient) private var screenParametersClient
 
     init() {
+        Task {
+            await setUpObserving()
+        }
+    }
+
+    private func setUpObserving() async {
+        for await _ in screenParametersClient.screenDidChangeParameters() {
+            try? await update()
+        }
+        for await _ in Defaults.updates(.limit) {
+            try? await update()
+        }
+        for await _ in powerSourceClient.powerSourceChanges() {
+            try? await update()
+        }
+    }
+
+    private func update() async throws {
+        let chargingStatus = try await chargingClient.chargingStatus()
+        let powerSourceStatus = await powerSourceClient.currentPowerSourceState()
         
     }
 }

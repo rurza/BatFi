@@ -14,6 +14,7 @@ extension PowerSourceClient: DependencyKey {
     public static var liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
         func getPowerSourceInfo() -> PowerState {
+
             let snapshot = IOPSCopyPowerSourcesInfo().takeUnretainedValue()
             let sources = IOPSCopyPowerSourcesList(snapshot).takeUnretainedValue() as Array
             let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
@@ -23,13 +24,36 @@ extension PowerSourceClient: DependencyKey {
             let powerSource = info[kIOPSPowerSourceStateKey] as? String
             let timeLeft = info[kIOPSTimeToEmptyKey] as? Int
             let timeToCharge = info[kIOPSTimeToFullChargeKey] as? Int
+            let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
+            defer {
+                IOServiceClose(service)
+                IOObjectRelease(service)
+            }
+            var cycleClount: Int?
+            if let cyclesRef = IORegistryEntryCreateCFProperty(service, kIOPMPSCycleCountKey as CFString, kCFAllocatorDefault, 0) {
+                cycleClount = cyclesRef.takeUnretainedValue() as? Int
+            }
+
+            var batteryHealth: Int?
+            if let healthRef = IORegistryEntryCreateCFProperty(service, kIOPMPSBatteryHealthKey as CFString, kCFAllocatorDefault, 0) {
+                batteryHealth = healthRef.takeUnretainedValue() as? Int
+            }
+
+            var batteryTemperature: Double?
+            if let temperatureRef = IORegistryEntryCreateCFProperty(service, kIOPMPSBatteryTemperatureKey as CFString, kCFAllocatorDefault, 0),
+               let temperature = temperatureRef.takeUnretainedValue() as? Double {
+                batteryTemperature = temperature / 100
+            }
 
             let powerState = PowerState(
                 batteryLevel: batteryLevel,
                 isCharging: isCharging,
                 powerSource: powerSource,
                 timeLeft: timeLeft,
-                timeToCharge: timeToCharge
+                timeToCharge: timeToCharge,
+                batteryCycleCount: cycleClount,
+                batteryHealth: batteryHealth,
+                batteryTemperature: batteryTemperature
             )
             return powerState
         }
@@ -44,7 +68,8 @@ extension PowerSourceClient: DependencyKey {
                     }
                     continuation.yield(getPowerSourceInfo())
                 }
-            }
+            },
+            currentPowerSourceState: getPowerSourceInfo
         )
 
         return client

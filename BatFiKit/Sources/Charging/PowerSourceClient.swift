@@ -9,4 +9,6 @@ import Foundation
 
 public struct PowerSourceClient {
     public var powerSourceChanges: () -> AsyncStream<PowerState>
+    public var currentPowerSourceState: () -> PowerState
+
 }

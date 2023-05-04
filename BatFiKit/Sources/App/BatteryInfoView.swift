@@ -9,55 +9,72 @@ import SwiftUI
 
 struct BatteryInfoView: View {
     private let itemsSpace: CGFloat  = 30
-    @StateObject private var chargingObserver = ChargingObserver()
+    @StateObject private var model = Model()
 
     var body: some View {
-        if let powerState = chargingObserver.powerState {
+        VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text("Battery")
-                        .fontWeight(.semibold)
-                    Spacer(minLength: itemsSpace)
-                    Group {
-                        if let batteryLevel = powerState.batteryLevel {
-                            Text("\(batteryLevel)%")
-                        } else {
-                            Text("Unknown status")
-                        }
-                    }
-                    .foregroundColor(.secondary)
-                }
-                .padding(.bottom, 8)
                 Group {
                     HStack {
-                        Text("Power source:")
+                        Text("Battery")
                         Spacer(minLength: itemsSpace)
-                        Group {
-                            if let powerSource = powerState.powerSource {
-                                Text(powerSource)
-                            } else {
-                                Text("Unknown status")
-                            }
-                        }.foregroundColor(.secondary)
+                        Text("\(model.state?.batteryLevel ?? 0)%")
+                        .foregroundColor(.primary)
+                        .fontWeight(.semibold)
+                        .font(.body)
                     }
-                    if let timeLeft = powerState.timeLeft {
-                        HStack {
-                            Text("Time left:")
-                            Spacer(minLength: itemsSpace)
-                            Group {
-                                Text("\(timeLeft)")
-                            }
-                            .foregroundColor(.secondary)
-                        }
+                    HStack {
+                        Text(
+                            model.state?.isCharging == false
+                            ? "Time Left"
+                            : "Time to Charge"
+                        )
+                        Spacer(minLength: itemsSpace)
+                        Text(
+                            model.state?.isCharging == false
+                            ? model.timeLeft
+                            : model.timeToCharge
+                        )
+                            .foregroundColor(.primary)
+                            .fontWeight(.semibold)
                     }
                 }
                 .font(.callout)
-                .frame(maxWidth: .infinity)
+                .foregroundColor(.secondary)
             }
-            .frame(width: 200)
-            .padding(.horizontal)
-            .padding(.vertical, 4)
+            VStack(alignment: .leading, spacing: 4) {
+                Group {
+                    HStack {
+                        Text("Power Source")
+                        Spacer(minLength: itemsSpace)
+                        if let powerSource = model.state?.powerSource {
+                            Text(powerSource)
+                        } else {
+                            Text("Unknown")
+                        }
+                    }
+
+                    HStack {
+                        Text("Cycle Count")
+                        Spacer(minLength: itemsSpace)
+                        Text("\(model.state?.batteryCycleCount?.description ?? "Unknown")")
+                    }
+                    if let temperature = model.state?.batteryTemperature {
+                        HStack {
+                            Text("Temperature")
+                            Spacer(minLength: itemsSpace)
+                            Text("\(Measurement(value: temperature, unit: UnitTemperature.celsius), format: .measurement(width: .abbreviated, usage: .person))")
+                        }
+                    }
+                }
+                .foregroundColor(.secondary)
+                .font(.callout)
+            }
+            .frame(maxWidth: .infinity)
         }
+        .frame(width: 200)
+        .padding(.horizontal)
+        .padding(.vertical, 6)
     }
 }
 

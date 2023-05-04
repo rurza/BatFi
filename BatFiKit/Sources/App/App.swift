@@ -22,6 +22,11 @@ public final class BatFi {
                 Task {
                     try await self.chargingClient.turnOffCharging()
                 }
+            },
+            enableCharging: {
+                Task {
+                    try await self.chargingClient.turnOnAutoChargingMode()
+                }
             }
         )
     }
