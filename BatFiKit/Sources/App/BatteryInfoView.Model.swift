@@ -15,13 +15,31 @@ extension BatteryInfoView {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         private(set) var state: PowerState? {
             didSet {
-                updateTimeLeft()
-                updateTimeToCharge()
+                if state?.isCharging == true {
+                    self.time = Time(value: state?.timeToCharge ?? 0, mode: .timeToCharge)
+                } else {
+                    if state?.timeLeft ?? 0 != 0 {
+                        self.time = Time(value: state?.timeLeft ?? 0, mode: .timeLeft)
+                    } else {
+                        self.time = nil
+                    }
+                }
                 objectWillChange.send()
             }
         }
-        private(set) var timeLeft: String = ""
-        private(set) var timeToCharge: String = ""
+
+        struct Time {
+            let value: Int
+            let mode: Mode
+
+            enum Mode {
+                case timeLeft
+                case timeToCharge
+            }
+        }
+
+        private(set) var time: Time?
+
 
         init() {
             Task {
@@ -38,32 +56,28 @@ extension BatteryInfoView {
             return formatter
         }()
 
-
-        func updateTimeLeft() {
-            if let timeLeft = state?.timeLeft {
-                if timeLeft > 0 {
-                    let interval = Double(timeLeft) * 60
-                    self.timeLeft = timeFormatter.string(from: interval)!
-                } else if timeLeft <= 0 {
-                    self.timeLeft = "Calculating…"
+        func timeDescription() -> String {
+            if let time {
+                if time.value > 0 {
+                    let interval = Double(time.value) * 60
+                    return timeFormatter.string(from: interval)!
+                } else {
+                    return "Calculating"
                 }
             } else {
-                self.timeLeft = "Unknown"
+                return "Unknown"
             }
         }
 
-        func updateTimeToCharge() {
-            if let timeToCharge = state?.timeToCharge {
-                if timeToCharge > 0 {
-                    let interval = Double(timeToCharge) * 60
-                    self.timeToCharge = timeFormatter.string(from: interval)!
-                } else if timeToCharge <= 0 {
-                    self.timeToCharge = "Calculating…"
-                }
-            } else {
-                self.timeToCharge = "Unknown"
+        func timeLabel() -> String? {
+            switch time?.mode {
+            case .timeLeft:
+                return "Time Left"
+            case .timeToCharge:
+                return "Time to Charge"
+            case .none:
+                return nil
             }
         }
     }
-
 }

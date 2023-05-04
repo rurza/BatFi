@@ -23,20 +23,14 @@ struct BatteryInfoView: View {
                         .fontWeight(.semibold)
                         .font(.body)
                     }
-                    HStack {
-                        Text(
-                            model.state?.isCharging == false
-                            ? "Time Left"
-                            : "Time to Charge"
-                        )
-                        Spacer(minLength: itemsSpace)
-                        Text(
-                            model.state?.isCharging == false
-                            ? model.timeLeft
-                            : model.timeToCharge
-                        )
-                            .foregroundColor(.primary)
-                            .fontWeight(.semibold)
+                    if let label = model.timeLabel() {
+                        HStack {
+                            Text(label)
+                            Spacer(minLength: itemsSpace)
+                            Text(model.timeDescription())
+                                .foregroundColor(.primary)
+                                .fontWeight(.semibold)
+                        }
                     }
                 }
                 .font(.callout)
