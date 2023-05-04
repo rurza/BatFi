@@ -130,5 +130,53 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CCA4459E-F712-4FB0-9FDE-33BAAA28DA85"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatFiKit/Sources/BatteryInfo/BatteryInfoView.Model.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "state"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "CCA4459E-F712-4FB0-9FDE-33BAAA28DA85 - c2707937d64fb61a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryInfo.BatteryInfoView.Model.state.didset : Swift.Optional&lt;PowerSource.PowerState&gt;"
+                  moduleName = "BatteryInfoTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/BatFiKit/Sources/BatteryInfo/BatteryInfoView.Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "19"
+                  endingLineNumber = "19"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "CCA4459E-F712-4FB0-9FDE-33BAAA28DA85 - c2707937d64fb67b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryInfo.BatteryInfoView.Model.state.didset : Swift.Optional&lt;PowerSource.PowerState&gt;"
+                  moduleName = "BatteryInfoTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rurza/Developer/BatFi/BatFiKit/Sources/BatteryInfo/BatteryInfoView.Model.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

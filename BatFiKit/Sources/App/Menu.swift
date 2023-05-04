@@ -5,6 +5,7 @@
 //  Created by Adam on 26/04/2023.
 //
 
+import BatteryInfo
 import Cocoa
 import MenuBuilder
 

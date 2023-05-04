@@ -3,6 +3,11 @@
 
 import PackageDescription
 
+extension Target.Dependency {
+    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
+    static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
+}
+
 let package = Package(
     name: "BatFiKit",
     platforms: [.macOS(.v13)],
@@ -15,7 +20,9 @@ let package = Package(
             name: "Charging",
             targets: ["Charging"]),
         .library(name: "App", targets: ["App"]),
-        .library(name: "Server", targets: ["Server"])
+        .library(name: "Server", targets: ["Server"]),
+        .library(name: "BatteryInfo", targets: ["BatteryInfo"]),
+        .library(name: "PowerSource", targets: ["PowerSource"])
     ],
     dependencies: [
         .package(name: "SecureXPC", path: "../SecureXPC"),
@@ -28,24 +35,35 @@ let package = Package(
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
-        .target(name: "Shared", dependencies: [.product(name: "SecureXPC", package: "SecureXPC")]),
+        .target(name: "Shared", dependencies: [.secureXPC]),
+        .target(
+            name: "PowerSource",
+            dependencies: [.dependencies, "Shared"]),
         .target(
             name: "Charging",
             dependencies: [
                 "Shared",
-                .product(name: "SecureXPC", package: "SecureXPC"),
-                .product(name: "Dependencies", package: "swift-dependencies")
+                .secureXPC,
+                .dependencies
             ]
         ),
+        .target(name: "BatteryInfo", dependencies: [
+            .dependencies,
+            "Charging",
+            "PowerSource"
+        ]),
+        .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(name: "Server", dependencies: [
             "Shared",
-            .product(name: "SecureXPC", package: "SecureXPC"),
+            .secureXPC,
             .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
         ]),
         .target(name: "App", dependencies: [
             "Shared",
             "Charging",
-            .product(name: "SecureXPC", package: "SecureXPC"),
+            "BatteryInfo",
+            "PowerSource",
+            .secureXPC,
             .product(name: "MenuBuilder", package: "MenuBuilder"),
             .product(name: "Defaults", package: "Defaults"),
             .product(name: "SettingsKit", package: "SettingsKit")

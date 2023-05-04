@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct PowerState: CustomStringConvertible {
+public struct PowerState: CustomStringConvertible, Equatable {
     public let batteryLevel: Int?
     public let isCharging: Bool?
     public let powerSource: String?
     public let timeLeft: Int?
     public let timeToCharge: Int?
     public let batteryCycleCount: Int?
-    public let batteryHealth: Int?
+    public let batteryHealth: String?
     public let batteryTemperature: Double?
 
     public var description: String {
@@ -26,7 +26,7 @@ PowerState
 - time left: \(timeLeft.safeDescription)
 - time to charge: \(timeToCharge.safeDescription)
 - cycle count: \(batteryCycleCount.safeDescription)
-- battery health: \(batteryHealth.safeDescription)
+- battery health: \(batteryHealth ?? "not known")
 - battery temperature: \(batteryTemperature?.description ?? "not known")°C
 """
     }

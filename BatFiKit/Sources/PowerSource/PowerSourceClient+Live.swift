@@ -8,12 +8,30 @@
 import Dependencies
 import Foundation
 import IOKit.ps
+import IOKit.pwr_mgt
 import os
+import Shared
 
 extension PowerSourceClient: DependencyKey {
     public static var liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
         func getPowerSourceInfo() -> PowerState {
+            func getIntValue(_ identifier: CFString, from service: io_service_t) -> Int? {
+                if let value = IORegistryEntryCreateCFProperty(service, identifier, kCFAllocatorDefault, 0) {
+                    return value.takeUnretainedValue() as? Int
+                }
+
+                return nil
+            }
+
+            func getStringValue(_ identifier: CFString, from service: io_service_t) -> String? {
+                if let value = IORegistryEntryCreateCFProperty(service, identifier, kCFAllocatorDefault, 0) {
+                    return value.takeUnretainedValue() as? String
+                }
+
+                return nil
+            }
+
 
             let snapshot = IOPSCopyPowerSourcesInfo().takeUnretainedValue()
             let sources = IOPSCopyPowerSourcesList(snapshot).takeUnretainedValue() as Array
@@ -34,10 +52,7 @@ extension PowerSourceClient: DependencyKey {
                 cycleClount = cyclesRef.takeUnretainedValue() as? Int
             }
 
-            var batteryHealth: Int?
-            if let healthRef = IORegistryEntryCreateCFProperty(service, kIOPMPSBatteryHealthKey as CFString, kCFAllocatorDefault, 0) {
-                batteryHealth = healthRef.takeUnretainedValue() as? Int
-            }
+            var batteryHealth: String? = info[kIOPSBatteryHealthKey] as? String
 
             var batteryTemperature: Double?
             if let temperatureRef = IORegistryEntryCreateCFProperty(service, kIOPMPSBatteryTemperatureKey as CFString, kCFAllocatorDefault, 0),
@@ -66,7 +81,6 @@ extension PowerSourceClient: DependencyKey {
                         logger.debug("New power state: \(powerState, privacy: .public)")
                         continuation.yield(powerState)
                     }
-                    continuation.yield(getPowerSourceInfo())
                 }
             },
             currentPowerSourceState: getPowerSourceInfo
