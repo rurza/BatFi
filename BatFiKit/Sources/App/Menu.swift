@@ -12,7 +12,8 @@ import MenuBuilder
 final class MenuFactory {
     static func standardMenu(
         disableCharging: @escaping () -> Void,
-        enableCharging: @escaping () -> Void
+        enableCharging: @escaping () -> Void,
+        openSettings: @escaping () -> Void
     ) -> NSMenu {
         NSMenu {
             MenuItem("")
@@ -34,6 +35,9 @@ final class MenuFactory {
                         try? HelperManager.shared.removeService()
                     }
                 }
+            MenuItem("Settings…")
+                .onSelect(openSettings)
+                .shortcut(",")
             SeparatorItem()
             MenuItem("Quit BatFi")
                 .onSelect(target: NSApp, action: #selector(NSApp.terminate(_:)))

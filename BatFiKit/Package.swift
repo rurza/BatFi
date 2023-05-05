@@ -6,6 +6,9 @@ import PackageDescription
 extension Target.Dependency {
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
     static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
+    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
+    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
+    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
 }
 
 let package = Package(
@@ -22,7 +25,8 @@ let package = Package(
         .library(name: "App", targets: ["App"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "BatteryInfo", targets: ["BatteryInfo"]),
-        .library(name: "PowerSource", targets: ["PowerSource"])
+        .library(name: "PowerSource", targets: ["PowerSource"]),
+        .library(name: "Settings", targets: ["Settings"])
     ],
     dependencies: [
         .package(name: "SecureXPC", path: "../SecureXPC"),
@@ -53,20 +57,27 @@ let package = Package(
             "PowerSource"
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
+        .target(name: "Settings", dependencies: [
+            .defaults,
+            .settingsKit
+        ]),
         .target(name: "Server", dependencies: [
             "Shared",
             .secureXPC,
             .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
         ]),
-        .target(name: "App", dependencies: [
-            "Shared",
-            "Charging",
-            "BatteryInfo",
-            "PowerSource",
-            .secureXPC,
-            .product(name: "MenuBuilder", package: "MenuBuilder"),
-            .product(name: "Defaults", package: "Defaults"),
-            .product(name: "SettingsKit", package: "SettingsKit")
-        ])
+        .target(
+            name: "App",
+            dependencies: [
+                "Shared",
+                "Charging",
+                "BatteryInfo",
+                "PowerSource",
+                "Settings",
+                .secureXPC,
+                .menuBuilder,
+                .defaults
+            ]
+        )
     ]
 )

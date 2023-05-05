@@ -9,6 +9,7 @@ import Charging
 import Defaults
 import Dependencies
 import Foundation
+import Settings
 
 final class ChargingManager {
     @Dependency(\.chargingClient) private var chargingClient
@@ -25,7 +26,7 @@ final class ChargingManager {
         for await _ in screenParametersClient.screenDidChangeParameters() {
             try? await update()
         }
-        for await _ in Defaults.updates(.limit) {
+        for await _ in Defaults.updates(.chargeLimit) {
             try? await update()
         }
         for await _ in powerSourceClient.powerSourceChanges() {
