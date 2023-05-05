@@ -18,7 +18,7 @@ let delegate = Delegate()
 let server = Server()
 server.delegate = delegate
 do {
-    try await server.start()
+    try server.start()
 } catch {
     exit(0)
 }

@@ -17,17 +17,14 @@ public protocol ServerDelegate: AnyObject {
 
 public final class Server {
     private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🛟")
-    private lazy var routeHandler = {
-        let routeHandler = RouteHandler { [weak self] in
-            self?.delegate?.thereIsNothingToDo()
-        }
-        return routeHandler
-    }()
+    private var timer: Timer?
+
+    private lazy var routeHandler = makeRouteHandler()
     public weak var delegate: ServerDelegate?
 
     public init() { }
 
-    public func start() async throws {
+    public func start() throws {
         do {
             let data = try EmbeddedPropertyListReader.info.readInternal()
             let plist = try PropertyListDecoder().decode(HelperPropertyList.self, from: data)
@@ -47,10 +44,27 @@ public final class Server {
             server.setErrorHandler(errorHandler)
 
             server.start()
+            RunLoop.main.run()
+            logger.error("RunLoop exited.")
         } catch {
             logger.error("Server error: \(error, privacy: .public)")
             throw error
         }
-        try await Task.sleep(for: .seconds(2))
+    }
+
+    private func makeRouteHandler() -> RouteHandler {
+        RouteHandler { [weak self] in
+            self?.setUpTimer()
+        }
+    }
+
+    private func setUpTimer() {
+        Task { @MainActor in
+            self.timer?.invalidate()
+            self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { [weak self] _ in
+                self?.logger.notice("There is nothing to do.")
+                self?.delegate?.thereIsNothingToDo()
+            }
+        }
     }
 }

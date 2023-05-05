@@ -6,23 +6,24 @@
 //
 
 import Foundation
+import Cocoa
 import os
 import Shared
 
 final class RouteHandler {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🧭")
-    private var timer: Timer?
     let handler: () -> Void
+    private lazy var queue = DispatchQueue(label: "Timer", qos: .background)
+    private var timerSource: DispatchSourceTimer?
 
     init(handler: @escaping () -> Void) {
         self.handler = handler
     }
 
     func charging(_ message: SMCChargingCommand) async throws {
-        timer?.invalidate()
         defer {
             SMCKit.close()
-            setUpTimer()
+            handler()
         }
         try SMCKit.open()
 
@@ -55,10 +56,9 @@ final class RouteHandler {
     }
 
     func smcStatus(_ message: SMCStatusCommand) async throws -> SMCStatus {
-        timer?.invalidate()
         defer {
             SMCKit.close()
-            setUpTimer()
+            handler()
         }
         try SMCKit.open()
 
@@ -78,16 +78,5 @@ final class RouteHandler {
                 lidClosed: lidClosed.0 == 01
             )
         }
-    }
-
-    func setUpTimer() {
-        timer = Timer.scheduledTimer(
-            withTimeInterval: 2,
-            repeats: false,
-            block: { [weak self] timer in
-                self?.handler()
-                timer.invalidate()
-            }
-        )
     }
 }
