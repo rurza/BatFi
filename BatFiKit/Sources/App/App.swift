@@ -33,4 +33,8 @@ public final class BatFi {
             openSettings: { self.settingsController.openSettings() }
         )
     }
+
+    public func appWillQuit() {
+        #warning("implement")
+    }
 }

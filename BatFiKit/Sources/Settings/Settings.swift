@@ -12,6 +12,7 @@ public final class SettingsController {
     private lazy var settingsWindowController = SettingsWindowController(
         panes: [
             GeneralView.pane,
+            ChargingView.pane,
             NotificationsView.pane
         ]
     )

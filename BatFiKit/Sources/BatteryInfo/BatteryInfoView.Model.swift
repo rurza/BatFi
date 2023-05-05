@@ -21,21 +21,10 @@ extension BatteryInfoView {
             }
         }
 
-        struct Time {
-            let value: Int
-            let mode: Mode
-
-            enum Mode {
-                case timeLeft
-                case timeToCharge
-            }
-        }
-
         private(set) var time: Time?
 
-
         init() {
-            state = powerSourceClient.currentPowerSourceState()
+            state = try? powerSourceClient.currentPowerSourceState()
             updateTime()
             Task {
                 for await state in powerSourceClient.powerSourceChanges() {
@@ -45,14 +34,15 @@ extension BatteryInfoView {
         }
 
         private func updateTime() {
-            if state?.isCharging == true {
-                self.time = Time(value: state?.timeToCharge ?? 0, mode: .timeToCharge)
+            if let state {
+                self.time = Time(
+                    isCharging: state.isCharging,
+                    timeLeft: state.timeLeft,
+                    timeToCharge: state.timeToCharge,
+                    batteryLevel: state.batteryLevel
+                )
             } else {
-                if state?.timeLeft ?? 0 != 0 {
-                    self.time = Time(value: state?.timeLeft ?? 0, mode: .timeLeft)
-                } else {
-                    self.time = nil
-                }
+                self.time = nil
             }
             objectWillChange.send()
         }
@@ -66,15 +56,14 @@ extension BatteryInfoView {
         }()
 
         func timeDescription() -> String {
-            if let time {
-                if time.value > 0 {
-                    let interval = Double(time.value) * 60
-                    return timeFormatter.string(from: interval)!
-                } else {
-                    return "Calculating"
-                }
-            } else {
+            switch time?.info {
+            case .claculating:
+                return "Calculating…"
+            case .unknown, .none:
                 return "Unknown"
+            case .time(let time):
+                let interval = Double(time) * 60
+                return timeFormatter.string(from: interval)!
             }
         }
 
@@ -96,7 +85,7 @@ extension BatteryInfoView {
         }
 
         func timeLabel() -> String? {
-            switch time?.mode {
+            switch time?.direction {
             case .timeLeft:
                 return "Time Left"
             case .timeToCharge:

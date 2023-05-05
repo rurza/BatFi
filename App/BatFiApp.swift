@@ -9,14 +9,6 @@ import App
 import SwiftUI
 
 @main
-struct BatFiApp: App {
-    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
-
-    var body: some Scene {
-        _EmptyScene()
-    }
-}
-
 final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var app = BatFi()
 

@@ -36,7 +36,7 @@ final class ChargingManager {
 
     private func update() async throws {
         let chargingStatus = try await chargingClient.chargingStatus()
-        let powerSourceStatus = await powerSourceClient.currentPowerSourceState()
+        let powerSourceStatus = try powerSourceClient.currentPowerSourceState()
         
     }
 }

@@ -7,7 +7,11 @@
 
 import Foundation
 
+public enum PowerSourceError: Error {
+    case infoMissing
+}
+
 public struct PowerSourceClient {
     public var powerSourceChanges: () -> AsyncStream<PowerState>
-    public var currentPowerSourceState: () -> PowerState
+    public var currentPowerSourceState: () throws -> PowerState
 }
