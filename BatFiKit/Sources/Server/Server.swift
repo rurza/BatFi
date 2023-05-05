@@ -41,6 +41,13 @@ public final class Server {
             let server = try XPCServer.forMachService()
             server.registerRoute(XPCRoute.charging, handler: routeHandler.charging)
             server.registerRoute(XPCRoute.smcStatus, handler: routeHandler.smcStatus)
+            server.registerRoute(
+                XPCRoute.quit,
+                handler: { [weak self] in
+                    self?.logger.notice("Received quit command.")
+                    exit(0)
+                }
+            )
             server.setErrorHandler(errorHandler)
 
             server.start()

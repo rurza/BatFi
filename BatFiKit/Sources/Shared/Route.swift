@@ -16,4 +16,6 @@ public extension XPCRoute {
         .withMessageType(SMCStatusCommand.self)
         .withReplyType(SMCStatus.self)
         .throwsType(SMCError.self)
+
+    static let quit = Self.named("quit")
 }

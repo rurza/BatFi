@@ -25,6 +25,7 @@ extension ChargingClient: DependencyKey {
                     SMCChargingCommand.auto,
                     to: XPCRoute.charging
                 )
+                try? await xpcClient.send(to: XPCRoute.quit)
             },
             turnOffCharging: {
                 let status = try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
@@ -39,9 +40,12 @@ extension ChargingClient: DependencyKey {
                         to: XPCRoute.charging
                     )
                 }
+                try? await xpcClient.send(to: XPCRoute.quit)
             },
             chargingStatus: {
-                try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
+                let status = try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
+                try? await xpcClient.send(to: XPCRoute.quit)
+                return status
             }
         )
         return client
