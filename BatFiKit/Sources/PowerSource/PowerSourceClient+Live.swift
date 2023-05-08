@@ -29,7 +29,11 @@ extension PowerSourceClient: DependencyKey {
                     }
                 }
             },
-            currentPowerSourceState: getPowerSourceInfo
+            currentPowerSourceState: {
+                let state = try getPowerSourceInfo()
+                logger.debug("Power state: \(state, privacy: .public)")
+                return state
+            }
         )
 
         return client

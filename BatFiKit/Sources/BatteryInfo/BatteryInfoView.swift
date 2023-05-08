@@ -21,10 +21,10 @@ public struct BatteryInfoView: View {
                         info: "\(powerState.batteryLevel)%",
                         primaryForegroundColor: true
                     )
-                    if let label = model.timeLabel() {
+                    if let description = model.time?.description {
                         BatteryMainInfo(
-                            label: label,
-                            info: model.timeDescription(),
+                            label: description.label,
+                            info: description.description,
                             primaryForegroundColor: model.time?.hasKnownTime == true
                         )
                     }

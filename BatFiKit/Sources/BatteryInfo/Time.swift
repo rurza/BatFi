@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import AppShared
 
 struct Time: Equatable {
     let info: Info
@@ -21,6 +21,35 @@ struct Time: Equatable {
         case claculating
         case unknown
         case time(Int)
+    }
+
+    struct Description {
+        let label: String
+        let description: String
+    }
+
+    var description: Description? {
+        func infoDescription() -> String? {
+            switch info {
+            case .claculating:
+                return "Calculating…"
+            case .unknown:
+                return nil
+            case .time(let time):
+                let interval = Double(time) * 60
+                return timeFormatter.string(from: interval)!
+            }
+        }
+        if let infoDescription = infoDescription() {
+            switch direction {
+            case .timeLeft:
+                return Description(label: "Time Left", description: infoDescription)
+            case .timeToCharge:
+                return Description(label:"Time to Charge", description: infoDescription)
+            }
+        } else {
+            return nil
+        }
     }
 
     var hasKnownTime: Bool {

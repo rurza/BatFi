@@ -16,23 +16,22 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "Shared",
-            targets: ["Shared"]),
-        .library(
-            name: "Charging",
-            targets: ["Charging"]),
         .library(name: "App", targets: ["App"]),
-        .library(name: "Server", targets: ["Server"]),
+        .library(name: "AppCore", targets: ["AppCore"]),
+        .library(name: "AppShared", targets: ["AppShared"]),
         .library(name: "BatteryInfo", targets: ["BatteryInfo"]),
+        .library(name: "Charging", targets: ["Charging"]),
         .library(name: "PowerSource", targets: ["PowerSource"]),
+        .library(name: "Shared", targets: ["Shared"]),
+        .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"])
     ],
     dependencies: [
-        .package(name: "SecureXPC", path: "../SecureXPC"),
+        .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "executable-path"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
         .package(url: "https://github.com/trilemma-dev/EmbeddedPropertyList", from: "2.0.0"),
-        .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
+//        .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
+        .package(name: "SettingsKit", path: "../../SettingsKit"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
     ],
@@ -53,6 +52,7 @@ let package = Package(
         ),
         .target(name: "BatteryInfo", dependencies: [
             .dependencies,
+            "AppShared",
             "Charging",
             "PowerSource"
         ]),
@@ -66,15 +66,20 @@ let package = Package(
             .secureXPC,
             .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
         ]),
+        .target(name: "AppShared"),
+        .target(name: "AppCore", dependencies: [
+            "Charging",
+            "Settings",
+            "Shared",
+            "PowerSource",
+            .dependencies
+        ]),
         .target(
             name: "App",
             dependencies: [
-                "Shared",
-                "Charging",
+                "AppCore",
                 "BatteryInfo",
-                "PowerSource",
                 "Settings",
-                .secureXPC,
                 .menuBuilder,
                 .defaults
             ]

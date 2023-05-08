@@ -10,9 +10,9 @@ import os
 import ServiceManagement
 import Shared
 
-final class HelperManager {
+public final class HelperManager {
     lazy var service = SMAppService.daemon(plistName: Constant.helperPlistName)
-    static let shared = HelperManager()
+    public static let shared = HelperManager()
     private lazy var logger = Logger(category: "👹")
 
     func registerServiceIfNeeded() throws {
@@ -21,7 +21,7 @@ final class HelperManager {
         }
     }
 
-    func registerService() throws {
+    public func registerService() throws {
         Task {
             logger.log(level: .debug, "Installing daemon...")
             do {
@@ -34,7 +34,7 @@ final class HelperManager {
         }
     }
 
-    func removeService() throws {
+    public func removeService() throws {
         Task {
             logger.log(level: .debug, "Removing daemon...")
             do {

@@ -7,6 +7,7 @@
 
 import BatteryInfo
 import Cocoa
+import AppCore
 import MenuBuilder
 
 final class MenuFactory {

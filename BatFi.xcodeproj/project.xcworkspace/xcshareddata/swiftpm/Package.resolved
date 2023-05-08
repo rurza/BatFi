@@ -37,12 +37,12 @@
       }
     },
     {
-      "identity" : "settingskit",
+      "identity" : "securexpc",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rurza/SettingsKit.git",
+      "location" : "https://github.com/trilemma-dev/SecureXPC",
       "state" : {
-        "branch" : "main",
-        "revision" : "ed8b44a6f05cfe103edc809f21c7e80c0ffc2154"
+        "branch" : "executable-path",
+        "revision" : "68529a95ea6555a82f204d8744d7af83353925b7"
       }
     },
     {

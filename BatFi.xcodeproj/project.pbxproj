@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B11DE0829EB6641007A993C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DE0729EB6641007A993C /* main.swift */; };
+		5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2836D82A05A6F000A42566 /* MainMenu.xib */; };
 		5B40B1302A01BBAA00A79785 /* Server in Frameworks */ = {isa = PBXBuildFile; productRef = 5B40B12F2A01BBAA00A79785 /* Server */; };
 		5B40B1322A01BBB800A79785 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 5B40B1312A01BBB800A79785 /* App */; };
 		5B69E6E629EB69350010AD63 /* BatFiHelper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5B11DE0529EB6641007A993C /* BatFiHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -65,6 +66,7 @@
 		5B11DE0529EB6641007A993C /* BatFiHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BatFiHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
+		5B2836D82A05A6F000A42566 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		5B68B9DF29FC0F11008AF5FD /* BatFiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BatFiKit; sourceTree = "<group>"; };
 		5B69E6E429EB67F70010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
+				5B2836D82A05A6F000A42566 /* MainMenu.xib */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
@@ -256,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
+				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +520,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = MainMenu.xib;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -544,7 +550,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = MainMenu.xib;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

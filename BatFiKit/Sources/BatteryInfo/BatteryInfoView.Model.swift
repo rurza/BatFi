@@ -5,6 +5,7 @@
 //  Created by Adam on 02/05/2023.
 //
 
+import AppShared
 import Charging
 import Dependencies
 import Foundation
@@ -47,52 +48,10 @@ extension BatteryInfoView {
             objectWillChange.send()
         }
 
-        private lazy var timeFormatter: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.allowedUnits = [.hour, .minute]
-            formatter.unitsStyle = .short
-            formatter.calendar?.locale = locale
-            return formatter
-        }()
-
-        func timeDescription() -> String {
-            switch time?.info {
-            case .claculating:
-                return "Calculating…"
-            case .unknown, .none:
-                return "Unknown"
-            case .time(let time):
-                let interval = Double(time) * 60
-                return timeFormatter.string(from: interval)!
-            }
-        }
-
-        private lazy var temperatureFormatter: MeasurementFormatter = {
-            let formatter = MeasurementFormatter()
-            formatter.unitStyle = .short
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            numberFormatter.maximumFractionDigits = 1
-            numberFormatter.locale = locale
-            formatter.numberFormatter = numberFormatter
-            return formatter
-        }()
-
         func temperatureDescription() -> String? {
             guard let temperature = state?.batteryTemperature else { return nil }
             let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
             return temperatureFormatter.string(from: measurement)
-        }
-
-        func timeLabel() -> String? {
-            switch time?.direction {
-            case .timeLeft:
-                return "Time Left"
-            case .timeToCharge:
-                return "Time to Charge"
-            case .none:
-                return nil
-            }
         }
     }
 }

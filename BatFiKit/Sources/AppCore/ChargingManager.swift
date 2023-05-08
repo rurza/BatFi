@@ -9,6 +9,7 @@ import Charging
 import Defaults
 import Dependencies
 import Foundation
+import PowerSource
 import Settings
 
 final class ChargingManager {
