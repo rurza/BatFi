@@ -1,5 +1,4 @@
 // swift-tools-version: 5.8
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -9,6 +8,7 @@ extension Target.Dependency {
     static let defaults: Self = .product(name: "Defaults", package: "Defaults")
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
+    static let asyncAlgorithm: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
 }
 
 let package = Package(
@@ -34,6 +34,7 @@ let package = Package(
         .package(name: "SettingsKit", path: "../../SettingsKit"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
+        .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -72,7 +73,8 @@ let package = Package(
             "Settings",
             "Shared",
             "PowerSource",
-            .dependencies
+            .dependencies,
+            .asyncAlgorithm
         ]),
         .target(
             name: "App",

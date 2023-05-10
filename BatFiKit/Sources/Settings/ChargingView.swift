@@ -13,6 +13,7 @@ struct ChargingView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.manageCharging) private var manageCharging
     @Default(.temperatureSwitch) private var temperatureSwitch
+    @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -37,6 +38,11 @@ struct ChargingView: View {
                     Toggle(isOn: $temperatureSwitch) {
                         Text("Automatically turn off charging when the battery gets hot")
                             .help("Turns off charging when the battery is 35°C or more.")
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Toggle(isOn: $dischargeBatteryWhenFull) {
+                        Text("Discharge battery when charged over limit")
+                            .help("When Macbook's lid is opened, the app can discharge battery until it will reach the limit")
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }

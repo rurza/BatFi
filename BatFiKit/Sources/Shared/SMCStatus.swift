@@ -8,16 +8,20 @@
 import Foundation
 
 public struct SMCStatus: Codable {
-    public let forceCharging: Bool
+    public let forceDischarging: Bool
     public let inhitbitCharging: Bool
     public let lidClosed: Bool
 
+    public var isCharging: Bool {
+        !forceDischarging && !inhitbitCharging
+    }
+
     public init(
-        forceCharging: Bool,
+        forceDischarging: Bool,
         inhitbitCharging: Bool,
         lidClosed: Bool
     ) {
-        self.forceCharging = forceCharging
+        self.forceDischarging = forceDischarging
         self.inhitbitCharging = inhitbitCharging
         self.lidClosed = lidClosed
     }

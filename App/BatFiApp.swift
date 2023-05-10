@@ -9,6 +9,7 @@ import App
 import SwiftUI
 
 @main
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var app = BatFi()
 

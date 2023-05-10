@@ -9,6 +9,7 @@ import Shared
 
 public struct ChargingClient {
     public var turnOnAutoChargingMode: () async throws -> Void
-    public var turnOffCharging: () async throws -> Void
+    public var inhibitCharging: () async throws -> Void
+    public var forceDischarge: () async throws -> Void
     public var chargingStatus: () async throws -> SMCStatus
 }

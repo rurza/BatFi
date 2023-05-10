@@ -27,19 +27,18 @@ extension ChargingClient: DependencyKey {
                 )
                 try? await xpcClient.send(to: XPCRoute.quit)
             },
-            turnOffCharging: {
-                let status = try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
-                if status.lidClosed {
-                    try await xpcClient.sendMessage(
-                        SMCChargingCommand.inhibitCharging,
-                        to: XPCRoute.charging
-                    )
-                } else {
-                    try await xpcClient.sendMessage(
-                        SMCChargingCommand.forceDischarging,
-                        to: XPCRoute.charging
-                    )
-                }
+            inhibitCharging: {
+                try await xpcClient.sendMessage(
+                    SMCChargingCommand.inhibitCharging,
+                    to: XPCRoute.charging
+                )
+                try? await xpcClient.send(to: XPCRoute.quit)
+            },
+            forceDischarge: {
+                try await xpcClient.sendMessage(
+                    SMCChargingCommand.forceDischarging,
+                    to: XPCRoute.charging
+                )
                 try? await xpcClient.send(to: XPCRoute.quit)
             },
             chargingStatus: {

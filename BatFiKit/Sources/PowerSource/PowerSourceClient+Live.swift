@@ -19,6 +19,9 @@ extension PowerSourceClient: DependencyKey {
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
+                    if let initialState = try? getPowerSourceInfo() {
+                        continuation.yield(initialState)
+                    }
                     observer.handler = {
                         if let powerState = try? getPowerSourceInfo() {
                             logger.debug("New power state: \(powerState, privacy: .public)")

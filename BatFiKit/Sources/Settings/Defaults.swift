@@ -15,6 +15,7 @@ extension Defaults.Keys {
     public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
     public static let disableCharging = Key<Bool>("disableCharging", default: false)
     public static let singleDischarging = Key<Bool>("singleDischarging", default: false)
+    public static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: true)
 
     // notifications
     public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)

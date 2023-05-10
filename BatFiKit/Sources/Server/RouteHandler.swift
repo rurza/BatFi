@@ -64,7 +64,7 @@ final class RouteHandler {
 
         switch message {
         case .status:
-            let forceCharging = try SMCKit.readData(SMCKey.disableCharging)
+            let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
             let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
             let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
             let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
@@ -72,7 +72,7 @@ final class RouteHandler {
             logger.notice("Checking SMC status")
 
             return SMCStatus(
-                forceCharging: forceCharging.0 == 01,
+                forceDischarging: forceDischarging.0 == 01,
                 inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
                 || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
                 lidClosed: lidClosed.0 == 01

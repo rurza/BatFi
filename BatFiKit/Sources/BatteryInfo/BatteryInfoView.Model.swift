@@ -25,8 +25,6 @@ extension BatteryInfoView {
         private(set) var time: Time?
 
         init() {
-            state = try? powerSourceClient.currentPowerSourceState()
-            updateTime()
             Task {
                 for await state in powerSourceClient.powerSourceChanges() {
                     self.state = state
