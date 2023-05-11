@@ -96,9 +96,12 @@ private func getPowerSourceInfo() throws -> PowerState {
         return nil
     }
 
-
-    let snapshot = IOPSCopyPowerSourcesInfo().takeUnretainedValue()
-    let sources = IOPSCopyPowerSourcesList(snapshot).takeUnretainedValue() as Array
+    let snapshotRef = IOPSCopyPowerSourcesInfo()
+    defer { snapshotRef?.release() }
+    let snapshot = snapshotRef?.takeUnretainedValue()
+    let sourcesRef = IOPSCopyPowerSourcesList(snapshot)
+    defer { sourcesRef?.release() }
+    let sources = sourcesRef!.takeUnretainedValue() as Array
     let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
 
     let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int

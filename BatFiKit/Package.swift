@@ -29,8 +29,8 @@ let package = Package(
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "executable-path"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
         .package(url: "https://github.com/trilemma-dev/EmbeddedPropertyList", from: "2.0.0"),
-//        .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
-        .package(name: "SettingsKit", path: "../../SettingsKit"),
+        .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
+//        .package(name: "SettingsKit", path: "../../SettingsKit"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0")

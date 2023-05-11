@@ -30,18 +30,6 @@ public final class ChargingManager {
 
     public init() { }
 
-    public func appWillQuit() {
-        logger.debug("App will quit")
-        let semaphore = DispatchSemaphore(value: 0)
-        Task {
-            try? await helperClient.turnOnAutoChargingMode()
-            try? await helperClient.quitChargingHelper()
-            semaphore.signal()
-        }
-        semaphore.wait()
-        logger.debug("I tried to turn on charging and quit the helper.")
-    }
-
     public func setUpObserving() {
         Task {
             await fetchChargingState(withHelperQuitting: false)
@@ -91,6 +79,31 @@ public final class ChargingManager {
         }
     }
 
+    public func appWillQuit() {
+        logger.debug("App will quit")
+        let semaphore = DispatchSemaphore(value: 0)
+        Task {
+            try? await helperClient.turnOnAutoChargingMode()
+            try? await helperClient.quitChargingHelper()
+            semaphore.signal()
+        }
+        semaphore.wait()
+        logger.debug("I tried to turn on charging and quit the helper.")
+    }
+
+    public func chargeToFull() {
+        Defaults[.forceCharge] = true
+        Task {
+            if let state {
+                await turnOnChargingIfNeeded(with: state, preventSleeping: false)
+            } else {
+                logger.debug("Charge to full – I don't have charging state and using a fallback")
+                try? await helperClient.turnOnAutoChargingMode()
+            }
+        }
+
+    }
+
     private func updateStatusWithCurrentState() async {
         let powerState = try? powerSourceClient.currentPowerSourceState()
         if let powerState {
@@ -118,7 +131,10 @@ public final class ChargingManager {
     ) async {
         let logger = Logger(category: "♟️ TASK \( UUID())")
         logger.debug("Started working on a task.")
-        guard manageCharging else {
+        if powerState.batteryLevel == 100 {
+            Defaults[.forceCharge] = false
+        }
+        guard manageCharging || Defaults[.forceCharge] else {
             try? await helperClient.turnOnAutoChargingMode()
             return
         }
