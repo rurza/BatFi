@@ -20,11 +20,10 @@ let package = Package(
         .library(name: "AppCore", targets: ["AppCore"]),
         .library(name: "AppShared", targets: ["AppShared"]),
         .library(name: "BatteryInfo", targets: ["BatteryInfo"]),
-        .library(name: "Charging", targets: ["Charging"]),
-        .library(name: "PowerSource", targets: ["PowerSource"]),
         .library(name: "Shared", targets: ["Shared"]),
         .library(name: "Server", targets: ["Server"]),
-        .library(name: "Settings", targets: ["Settings"])
+        .library(name: "Settings", targets: ["Settings"]),
+        .library(name: "ClientsLive", targets: ["ClientsLive"])
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "executable-path"),
@@ -40,22 +39,22 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(name: "Shared", dependencies: [.secureXPC]),
+        .target(name: "Clients", dependencies: [.dependencies, "Shared"]),
         .target(
-            name: "PowerSource",
-            dependencies: [.dependencies, "Shared"]),
-        .target(
-            name: "Charging",
+            name: "ClientsLive",
             dependencies: [
-                "Shared",
+                "Clients",
+                .defaults,
+                .dependencies,
                 .secureXPC,
-                .dependencies
+                "Settings",
+                "Shared"
             ]
         ),
         .target(name: "BatteryInfo", dependencies: [
             .dependencies,
             "AppShared",
-            "Charging",
-            "PowerSource"
+            "Clients"
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(name: "Settings", dependencies: [
@@ -69,10 +68,9 @@ let package = Package(
         ]),
         .target(name: "AppShared"),
         .target(name: "AppCore", dependencies: [
-            "Charging",
+            "Clients",
             "Settings",
             "Shared",
-            "PowerSource",
             .dependencies,
             .asyncAlgorithm
         ]),
@@ -81,6 +79,8 @@ let package = Package(
             name: "App",
             dependencies: [
                 "AppCore",
+                "Clients",
+                "ClientsLive",
                 "BatteryInfo",
                 "Settings",
                 .menuBuilder,

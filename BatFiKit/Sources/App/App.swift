@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import ClientsLive
 import Cocoa
 import Dependencies
 import MenuBuilder

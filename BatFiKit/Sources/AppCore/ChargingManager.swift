@@ -6,13 +6,13 @@
 //
 
 import AsyncAlgorithms
-import Charging
+import Clients
+//import ClientsLive
 import Defaults
 import Dependencies
 import Foundation
 import IOKit.pwr_mgt
 import os
-import PowerSource
 import Settings
 import Shared
 
@@ -33,9 +33,8 @@ public final class ChargingManager {
     }
 
     private func setUpObserving() {
-
         Task {
-            await fetchState()
+            await fetchChargingState(withHelperQuitting: false)
             for await ((powerState, preventSleeping), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
                 combineLatest(
                     powerSourceClient.powerSourceChanges(),
@@ -60,15 +59,23 @@ public final class ChargingManager {
         }
 
         Task {
-            for await _ in sleepClient.macDidWake() {
-                await fetchState()
-                await updateStatusWithCurrentState()
+            for await sleepNote in sleepClient.observeMacSleepStatus() {
+                switch sleepNote {
+                case .willSleep:
+                    if let state, state.mode == .forceDischarge {
+                        await inhibitChargingIfNeeded(with: state)
+                        self.state = nil
+                    }
+                case .didWake:
+                    break
+                }
+
             }
         }
 
         Task {
-            for await _ in screenParametersClient.screenDidChangeParameters() {
-                await fetchState()
+            for await _ in screenParametersClient.screenDidChangeParameters().debounce(for: .seconds(2)) {
+                await fetchChargingState(withHelperQuitting: false)
                 await updateStatusWithCurrentState()
             }
         }
@@ -99,52 +106,85 @@ public final class ChargingManager {
         preventSleeping: Bool,
         powerState: PowerState
     ) async {
-        let taskId = UUID()
-        let logger = Logger(category: "♟️ TASK \(taskId)")
+        let logger = Logger(category: "♟️ TASK \( UUID())")
         logger.debug("Started working on a task.")
         guard manageCharging else {
             try? await helperClient.turnOnAutoChargingMode(true)
             return
         }
         guard let state else {
-            await fetchState()
+            logger.warning("No charging state state")
+            await fetchChargingState(withHelperQuitting: true)
             return
         }
         do {
             let currentBatteryLevel = powerState.batteryLevel
             if currentBatteryLevel >= (chargeLimit - 1) {
                 if currentBatteryLevel > chargeLimit && allowDischarging && state.lidOpened {
-                    logger.debug("Force discharging")
-                    do {
-                        try await helperClient.forceDischarge(true)
-                    } catch {
-                        logger.critical("Failed to turn on force discharge. Error: \(error)")
-                    }
+                    await turnOnForceDischargeIfNeeded(with: state)
                 } else {
-                    logger.debug("Inhibiting charging")
-                    do {
-                        try await helperClient.inhibitCharging(true)
-                    } catch {
-                        logger.critical("Failed to turn on inhibit charging. Error: \(error)")
-                    }
+                    await inhibitChargingIfNeeded(with: state)
                 }
                 restoreSleepifNeeded()
             } else {
-                logger.debug("Turning on charging")
-                do {
-                    try await helperClient.turnOnAutoChargingMode(true)
-                } catch {
-                    logger.critical("Failed to turn on charging. Error: \(error)")
-                }
-                if preventSleeping {
-                    delaySleep()
-                }
+                await turnOnChargingIfNeeded(with: state, preventSleeping: preventSleeping)
             }
         }
-        logger.debug("DONE")
+    }
+
+    private func turnOnForceDischargeIfNeeded(with state: State) async {
+        logger.debug("Should turn on force discharging...")
+        if state.mode != .forceDischarge {
+            logger.debug("Turning on force discharging")
+            do {
+                try await helperClient.forceDischarge(true)
+                self.state?.mode = .forceDischarge
+                logger.debug("Force discharging TURNED ON")
+            } catch {
+                logger.critical("Failed to turn on force discharge. Error: \(error)")
+            }
+        } else {
+            logger.debug("Force discharging already turned on")
+        }
+    }
+
+    private func turnOnChargingIfNeeded(with state: State, preventSleeping: Bool) async {
+        logger.debug("Should turn on charging...")
+        if state.mode != .charging {
+            logger.debug("Turning on charging")
+            do {
+                try await helperClient.turnOnAutoChargingMode(true)
+                self.state?.mode = .charging
+                logger.debug("Charging TURNED ON")
+            } catch {
+                logger.critical("Failed to turn on charging. Error: \(error)")
+            }
+            if preventSleeping {
+                delaySleep()
+            }
+        } else {
+            logger.debug("Charging already turned on.")
+        }
+    }
+
+    private func inhibitChargingIfNeeded(with state: State) async {
+        logger.debug("Should inhibit charging...")
+        if state.mode != .inhibit {
+            logger.debug("Inhibiting charging")
+            do {
+                try await helperClient.inhibitCharging(true)
+                self.state?.mode = .inhibit
+                logger.debug("Inhibit Charging TURNED ON")
+            } catch {
+                logger.critical("Failed to turn on inhibit charging. Error: \(error)")
+            }
+        } else {
+            logger.debug("Inhibit charging already turned on.")
+        }
     }
 
     private func delaySleep() {
+        guard sleepAssertion == nil else { return }
         logger.debug("Delaying sleep")
         var assertionID: IOPMAssertionID = IOPMAssertionID(0)
         let reason: CFString = "BatFi" as NSString
@@ -168,9 +208,10 @@ public final class ChargingManager {
         }
     }
 
-    private func fetchState() async {
+    private func fetchChargingState(withHelperQuitting helperShouldQuit: Bool) async {
         do {
-            let chargingStatus = try await helperClient.chargingStatus(true)
+            logger.debug("Fetching charging status")
+            let chargingStatus = try await helperClient.chargingStatus(helperShouldQuit)
             let mode: State.Mode
             if chargingStatus.forceDischarging {
                 mode = .forceDischarge
@@ -181,7 +222,7 @@ public final class ChargingManager {
             }
             self.state = State(mode: mode, lidOpened: !chargingStatus.lidClosed)
         } catch {
-            logger.debug("Can not fetch state")
+            logger.error("Error fetching charging state: \(error)")
         }
     }
 }

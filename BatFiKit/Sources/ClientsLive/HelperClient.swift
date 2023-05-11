@@ -5,6 +5,7 @@
 //  Created by Adam on 02/05/2023.
 //
 
+import Clients
 import Cocoa
 import Dependencies
 import IOKit.pwr_mgt
@@ -60,11 +61,4 @@ extension HelperClient: DependencyKey {
         )
         return client
     }()
-}
-
-extension DependencyValues {
-    public var helperClient: HelperClient {
-        get { self[HelperClient.self] }
-        set { self[HelperClient.self] = newValue }
-    }
 }

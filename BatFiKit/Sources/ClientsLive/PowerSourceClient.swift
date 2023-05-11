@@ -5,6 +5,7 @@
 //  Created by Adam on 02/05/2023.
 //
 
+import Clients
 import Dependencies
 import Foundation
 import IOKit.ps
@@ -157,11 +158,4 @@ private func getPowerSourceInfo() throws -> PowerState {
         batteryTemperature: batteryTemperature
     )
     return powerState
-}
-
-extension DependencyValues {
-    public var powerSourceClient: PowerSourceClient {
-        get { self[PowerSourceClient.self] }
-        set { self[PowerSourceClient.self] = newValue }
-    }
 }

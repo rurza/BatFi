@@ -2,24 +2,19 @@
 //  DefaultsClient.swift
 //  
 //
-//  Created by Adam on 10/05/2023.
+//  Created by Adam on 11/05/2023.
 //
 
+import Clients
 import Defaults
 import Dependencies
 import Foundation
 import os
+import Settings
 import Shared
 
-struct DefaultsClient {
-    var observeChargeLimit: () -> AsyncStream<Int>
-    var observeManageCharging: () -> AsyncStream<Bool>
-    var observeAllowDischargingFullBattery: () -> AsyncStream<Bool>
-    var observePreventSleeping: () -> AsyncStream<Bool>
-}
-
 extension DefaultsClient: DependencyKey {
-    static let liveValue: DefaultsClient = {
+    public static let liveValue: DefaultsClient = {
         let logger = Logger(category: "🔧")
         let client = DefaultsClient(
             observeChargeLimit: {
@@ -50,11 +45,4 @@ extension DefaultsClient: DependencyKey {
         )
         return client
     }()
-}
-
-extension DependencyValues {
-    var defaultsClient: DefaultsClient {
-        get { self[DefaultsClient.self] }
-        set { self[DefaultsClient.self] = newValue }
-    }
 }

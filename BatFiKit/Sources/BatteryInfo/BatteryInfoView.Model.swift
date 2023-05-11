@@ -6,10 +6,9 @@
 //
 
 import AppShared
-import Charging
+import Clients
 import Dependencies
 import Foundation
-import PowerSource
 
 extension BatteryInfoView {
     @MainActor

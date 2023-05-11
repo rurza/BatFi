@@ -2,23 +2,18 @@
 //  SleepClient.swift
 //  
 //
-//  Created by Adam on 08/05/2023.
+//  Created by Adam on 11/05/2023.
 //
 
+import AsyncAlgorithms
+import Clients
 import Cocoa
 import Dependencies
 import os
 import Shared
 
-struct SleepClient {
-    var macWillSleep: () -> AsyncStream<Void>
-    var macDidWake: () -> AsyncStream<Void>
-    var screenDidSleep: () -> AsyncStream<Void>
-    var screenDidWake: () -> AsyncStream<Void>
-}
-
 extension SleepClient: DependencyKey {
-    static let liveValue: SleepClient = {
+    public static let liveValue: SleepClient = {
         let logger = Logger(category: "😴")
         func asyncStreamForNotificationName(_ notificationName: Notification.Name) -> AsyncStream<Void> {
             AsyncStream(
@@ -27,7 +22,7 @@ extension SleepClient: DependencyKey {
                     .notificationCenter
                     .notifications(named: notificationName)
                     .map { _ in
-                        NSLog("received notification for \(notificationName.rawValue)")
+                        logger.debug("received notification for \(notificationName.rawValue)")
                     }
             )
         }
@@ -44,15 +39,17 @@ extension SleepClient: DependencyKey {
             },
             screenDidWake: {
                 asyncStreamForNotificationName(NSWorkspace.screensDidWakeNotification)
+            },
+            observeMacSleepStatus: {
+                AsyncStream(
+                    merge(
+                        asyncStreamForNotificationName(NSWorkspace.willSleepNotification).map { _ in SleepNotification.willSleep },
+                        asyncStreamForNotificationName(NSWorkspace.didWakeNotification).map { _ in SleepNotification.didWake }
+                    )
+                )
+
             }
         )
         return client
     }()
-}
-
-extension DependencyValues {
-    var sleepClient: SleepClient {
-        get { self[SleepClient.self] }
-        set { self[SleepClient.self] = newValue }
-    }
 }
