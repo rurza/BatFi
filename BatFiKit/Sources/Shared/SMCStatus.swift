@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SMCStatus: Codable {
+public struct SMCStatus: Codable, CustomStringConvertible {
     public let forceDischarging: Bool
     public let inhitbitCharging: Bool
     public let lidClosed: Bool
@@ -26,4 +26,13 @@ public struct SMCStatus: Codable {
         self.lidClosed = lidClosed
     }
 
+    public var description: String {
+    """
+    Status:
+    forceDischarging: \(forceDischarging)
+    inhitbitCharging: \(inhitbitCharging)
+    lidClosed: \(lidClosed)
+    computed isCharging: \(isCharging)
+    """
+    }
 }

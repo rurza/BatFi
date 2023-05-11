@@ -51,7 +51,7 @@ public struct BatteryInfoView: View {
                 }
                 .frame(maxWidth: .infinity)
             }
-            .frame(width: 200)
+            .frame(width: 220)
             .padding(.horizontal)
             .padding(.vertical, 8)
         } else {

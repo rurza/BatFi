@@ -11,16 +11,9 @@ import os
 import SecureXPC
 import Shared
 
-public protocol ServerDelegate: AnyObject {
-    func thereIsNothingToDo()
-}
-
 public final class Server {
     private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🛟")
-    private var timer: Timer?
-
-    private lazy var routeHandler = makeRouteHandler()
-    public weak var delegate: ServerDelegate?
+    private lazy var routeHandler = RouteHandler()
 
     public init() { }
 
@@ -56,22 +49,6 @@ public final class Server {
         } catch {
             logger.error("Server error: \(error, privacy: .public)")
             throw error
-        }
-    }
-
-    private func makeRouteHandler() -> RouteHandler {
-        RouteHandler { [weak self] in
-            self?.setUpTimer()
-        }
-    }
-
-    private func setUpTimer() {
-        Task { @MainActor in
-            self.timer?.invalidate()
-            self.timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { [weak self] _ in
-                self?.logger.notice("There is nothing to do.")
-                self?.delegate?.thereIsNothingToDo()
-            }
         }
     }
 }

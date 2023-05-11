@@ -15,21 +15,22 @@ import Shared
 extension PowerSourceClient: DependencyKey {
     public static var liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
-        let observer = Observer()
+        let observer = Observer(logger: logger)
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
                     if let initialState = try? getPowerSourceInfo() {
                         continuation.yield(initialState)
                     }
-                    observer.handler = {
-                        if let powerState = try? getPowerSourceInfo() {
-                            logger.debug("New power state: \(powerState, privacy: .public)")
-                            continuation.yield(powerState)
-                        } else {
-                            logger.error("New power state, but there is an info missing")
+                    observer.handlers.append(
+                        {
+                            if let powerState = try? getPowerSourceInfo() {
+                                continuation.yield(powerState)
+                            } else {
+                                logger.error("New power state, but there is an info missing")
+                            }
                         }
-                    }
+                    )
                 }
             },
             currentPowerSourceState: {
@@ -43,9 +44,11 @@ extension PowerSourceClient: DependencyKey {
     }()
 
     private class Observer {
-        var handler: (() -> Void)?
+        let logger: Logger
+        var handlers = [() -> Void]()
 
-        init() {
+        init(logger: Logger) {
+            self.logger = logger
             setUpObserving()
         }
 
@@ -61,11 +64,12 @@ extension PowerSourceClient: DependencyKey {
                 },
                 context
             ).takeRetainedValue() as CFRunLoopSource
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), loop, CFRunLoopMode.commonModes)
+            CFRunLoopAddSource(CFRunLoopGetMain(), loop, CFRunLoopMode.commonModes)
         }
 
         func updateBatteryState() {
-            handler?()
+            logger.debug("New power state")
+            handlers.forEach { $0() }
         }
     }
 }
@@ -73,7 +77,9 @@ extension PowerSourceClient: DependencyKey {
 private func getPowerSourceInfo() throws -> PowerState {
     func getIntValue(_ identifier: CFString, from service: io_service_t) -> Int? {
         if let value = IORegistryEntryCreateCFProperty(service, identifier, kCFAllocatorDefault, 0) {
-            return value.takeUnretainedValue() as? Int
+            let int = value.takeUnretainedValue() as? Int
+            value.release()
+            return int
         }
 
         return nil
@@ -81,7 +87,9 @@ private func getPowerSourceInfo() throws -> PowerState {
 
     func getStringValue(_ identifier: CFString, from service: io_service_t) -> String? {
         if let value = IORegistryEntryCreateCFProperty(service, identifier, kCFAllocatorDefault, 0) {
-            return value.takeUnretainedValue() as? String
+            let string = value.takeUnretainedValue() as? String
+            value.release()
+            return string
         }
 
         return nil
@@ -137,7 +145,6 @@ private func getPowerSourceInfo() throws -> PowerState {
         throw PowerSourceError.infoMissing
     }
     let batteryTemperature = temperature / 100
-
 
     let powerState = PowerState(
         batteryLevel: batteryLevel,

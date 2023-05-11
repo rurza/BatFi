@@ -14,7 +14,7 @@ import Settings
 @MainActor
 public final class BatFi {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    @Dependency(\.chargingClient) var chargingClient
+    @Dependency(\.helperClient) var helperClient
     lazy var settingsController = SettingsController()
     var chargingManager: ChargingManager!
 
@@ -33,7 +33,12 @@ public final class BatFi {
         )
     }
 
-    public func appWillQuit() {
-        #warning("implement")
+    public func willQuit() {
+        let semaphore = DispatchSemaphore(value: 0)
+        Task {
+            try? await helperClient.turnOnAutoChargingMode(true)
+            semaphore.signal()
+        }
+        semaphore.wait()
     }
 }

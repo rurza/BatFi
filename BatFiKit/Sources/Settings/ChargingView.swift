@@ -10,10 +10,11 @@ import SettingsKit
 import SwiftUI
 
 struct ChargingView: View {
-    @Default(.chargeLimit) private var chargeLimit
-    @Default(.manageCharging) private var manageCharging
-    @Default(.temperatureSwitch) private var temperatureSwitch
-    @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
+    @Default(.chargeLimit)                  private var chargeLimit
+    @Default(.manageCharging)               private var manageCharging
+    @Default(.temperatureSwitch)            private var temperatureSwitch
+    @Default(.allowDischargingFullBattery)  private var dischargeBatteryWhenFull
+    @Default(.disableSleep)                 private var disableSleep
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -40,9 +41,20 @@ struct ChargingView: View {
                             .help("Turns off charging when the battery is 35°C or more.")
                             .fixedSize(horizontal: false, vertical: true)
                     }
-                    Toggle(isOn: $dischargeBatteryWhenFull) {
-                        Text("Discharge battery when charged over limit")
-                            .help("When Macbook's lid is opened, the app can discharge battery until it will reach the limit")
+                    VStack(alignment: .leading, spacing: 2) {
+                        Toggle(isOn: $dischargeBatteryWhenFull) {
+                            Text("Discharge battery when charged over limit")
+                                .withBetaLabel()
+                                .help("When Macbook's lid is opened, the app can discharge battery until it will reach the limit")
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Text("Works only with the lid opened.")
+                            .settingDescription()
+                    }
+                    Toggle(isOn: $disableSleep) {
+                        Text("Disable sleep when charging and the limit's not reached")
+                            .withBetaLabel()
+                            .help("The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep")
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }

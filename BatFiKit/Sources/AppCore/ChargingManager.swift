@@ -16,58 +16,59 @@ import PowerSource
 import Settings
 import Shared
 
-@MainActor
 public final class ChargingManager {
-    @Dependency(\.chargingClient) private var chargingClient
-    @Dependency(\.powerSourceClient) private var powerSourceClient
-    @Dependency(\.screenParametersClient) private var screenParametersClient
-    @Dependency(\.sleepClient) private var sleepClient
-    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.helperClient)             private var helperClient
+    @Dependency(\.powerSourceClient)        private var powerSourceClient
+    @Dependency(\.screenParametersClient)   private var screenParametersClient
+    @Dependency(\.sleepClient)              private var sleepClient
+    @Dependency(\.defaultsClient)           private var defaultsClient
+    @Dependency(\.suspendingClock)          private var clock
+
     private var sleepAssertion: IOPMAssertionID?
     private lazy var logger = Logger(category: "🔌👨‍💼")
+    var state: State?
 
     public init() {
         setUpObserving()
     }
 
     private func setUpObserving() {
+
         Task {
-            for await ((powerState), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
-                powerSourceClient.powerSourceChanges(),
+            await fetchState()
+            for await ((powerState, preventSleeping), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
                 combineLatest(
-                    Defaults.updates(.chargeLimit),
-                    Defaults.updates(.manageCharging),
-                    Defaults.updates(.allowDischargingFullBattery)
+                    powerSourceClient.powerSourceChanges(),
+                    defaultsClient.observePreventSleeping()
+                ),
+                combineLatest(
+                    defaultsClient.observeChargeLimit(),
+                    defaultsClient.observeManageCharging(),
+                    defaultsClient.observeAllowDischargingFullBattery()
                 )
-            ) {
-                logger.debug(
-                    """
-power source chaned OR charge limit OR "manager charging" OR "allow discharging" CHANGED
-"""
-                )
+            ).debounce(for: .seconds(1)) {
+                logger.debug("something changed")
                 await updateStatus(
                     manageCharging: manageCharging,
-                    chargeLimit: Int(chargeLimit),
+                    chargeLimit: chargeLimit,
                     allowDischarging: allowDischarging,
+                    preventSleeping: preventSleeping,
                     powerState: powerState
                 )
             }
-        }
-
-        Task {
-            for await _ in sleepClient.macWillSleep() {
-
-            }
+            logger.warning("The main loop did quit")
         }
 
         Task {
             for await _ in sleepClient.macDidWake() {
+                await fetchState()
                 await updateStatusWithCurrentState()
             }
         }
 
         Task {
             for await _ in screenParametersClient.screenDidChangeParameters() {
+                await fetchState()
                 await updateStatusWithCurrentState()
             }
         }
@@ -79,67 +80,68 @@ power source chaned OR charge limit OR "manager charging" OR "allow discharging"
             let chargeLimit = Defaults[.chargeLimit]
             let manageCharging = Defaults[.manageCharging]
             let allowDischargingFullBattery = Defaults[.allowDischargingFullBattery]
+            let preventSleeping = Defaults[.disableSleep]
             await updateStatus(
-             manageCharging: manageCharging,
-             chargeLimit: Int(chargeLimit),
-             allowDischarging: allowDischargingFullBattery,
-             powerState: powerState
+                manageCharging: manageCharging,
+                chargeLimit: Int(chargeLimit),
+                allowDischarging: allowDischargingFullBattery,
+                preventSleeping: preventSleeping,
+                powerState: powerState
             )
         }
     }
 
+    @MainActor
     private func updateStatus(
         manageCharging: Bool,
         chargeLimit: Int,
         allowDischarging: Bool,
+        preventSleeping: Bool,
         powerState: PowerState
     ) async {
-        logger.debug(#function)
+        let taskId = UUID()
+        let logger = Logger(category: "♟️ TASK \(taskId)")
+        logger.debug("Started working on a task.")
         guard manageCharging else {
-            try? await chargingClient.turnOnAutoChargingMode()
+            try? await helperClient.turnOnAutoChargingMode(true)
+            return
+        }
+        guard let state else {
+            await fetchState()
             return
         }
         do {
-            let chargingStatus = try await chargingClient.chargingStatus()
             let currentBatteryLevel = powerState.batteryLevel
             if currentBatteryLevel >= (chargeLimit - 1) {
-                if currentBatteryLevel > chargeLimit && allowDischarging && !chargingStatus.lidClosed {
-                    if !chargingStatus.forceDischarging {
-                        logger.debug("Force discharging")
-                        do {
-                            try await chargingClient.forceDischarge()
-                        } catch {
-                            logger.critical("Failed to turn on force discharge. Error: \(error)")
-                        }
+                if currentBatteryLevel > chargeLimit && allowDischarging && state.lidOpened {
+                    logger.debug("Force discharging")
+                    do {
+                        try await helperClient.forceDischarge(true)
+                    } catch {
+                        logger.critical("Failed to turn on force discharge. Error: \(error)")
                     }
                 } else {
-                    if !chargingStatus.inhitbitCharging {
-                        logger.debug("Inhibiting charging")
-                        do {
-                            try await chargingClient.inhibitCharging()
-                        } catch {
-                            logger.critical("Failed to turn on inhibit charging. Error: \(error)")
-                        }
-                        delaySleep()
-                    }
-                }
-                if let sleepAssertion {
-                    IOPMAssertionRelease(sleepAssertion)
-                }
-            } else {
-                if !chargingStatus.isCharging {
-                    logger.debug("Turning on charging")
+                    logger.debug("Inhibiting charging")
                     do {
-                        try await chargingClient.turnOnAutoChargingMode()
+                        try await helperClient.inhibitCharging(true)
                     } catch {
-                        logger.critical("Failed to turn on charging. Error: \(error)")
+                        logger.critical("Failed to turn on inhibit charging. Error: \(error)")
                     }
+                }
+                restoreSleepifNeeded()
+            } else {
+                logger.debug("Turning on charging")
+                do {
+                    try await helperClient.turnOnAutoChargingMode(true)
+                } catch {
+                    logger.critical("Failed to turn on charging. Error: \(error)")
+                }
+                if preventSleeping {
+                    delaySleep()
                 }
             }
-        } catch {
-            logger.error("Failed to get charging status. Error: \(error)")
         }
-
+        logger.debug("DONE")
     }
 
     private func delaySleep() {
@@ -156,5 +158,42 @@ power source chaned OR charge limit OR "manager charging" OR "allow discharging"
         if success == kIOReturnSuccess {
             sleepAssertion = assertionID
         }
+    }
+
+    private func restoreSleepifNeeded() {
+        if let sleepAssertion {
+            logger.debug("Returning sleep")
+            IOPMAssertionRelease(sleepAssertion)
+            self.sleepAssertion = nil
+        }
+    }
+
+    private func fetchState() async {
+        do {
+            let chargingStatus = try await helperClient.chargingStatus(true)
+            let mode: State.Mode
+            if chargingStatus.forceDischarging {
+                mode = .forceDischarge
+            } else if chargingStatus.inhitbitCharging {
+                mode = .inhibit
+            } else {
+                mode = .charging
+            }
+            self.state = State(mode: mode, lidOpened: !chargingStatus.lidClosed)
+        } catch {
+            logger.debug("Can not fetch state")
+        }
+    }
+}
+
+extension ChargingManager {
+    struct State {
+        enum Mode {
+            case charging
+            case inhibit
+            case forceDischarge
+        }
+        var mode: Mode
+        var lidOpened:Bool
     }
 }

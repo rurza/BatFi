@@ -76,6 +76,7 @@ let package = Package(
             .dependencies,
             .asyncAlgorithm
         ]),
+        .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
         .target(
             name: "App",
             dependencies: [

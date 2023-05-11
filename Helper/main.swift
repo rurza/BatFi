@@ -8,15 +8,7 @@
 import Foundation
 import Server
 
-class Delegate: ServerDelegate {
-    func thereIsNothingToDo() {
-        exit(0)
-    }
-}
-
-let delegate = Delegate()
 let server = Server()
-server.delegate = delegate
 do {
     try server.start()
 } catch {

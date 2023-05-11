@@ -12,18 +12,10 @@ import Shared
 
 final class RouteHandler {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🧭")
-    let handler: () -> Void
-    private lazy var queue = DispatchQueue(label: "Timer", qos: .background)
-    private var timerSource: DispatchSourceTimer?
-
-    init(handler: @escaping () -> Void) {
-        self.handler = handler
-    }
 
     func charging(_ message: SMCChargingCommand) async throws {
         defer {
             SMCKit.close()
-            handler()
         }
         try SMCKit.open()
 
@@ -51,14 +43,24 @@ final class RouteHandler {
             try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
         } catch {
             logger.error("SMC writing error: \(error)")
+            reset()
             throw error
+        }
+    }
+
+    func reset() {
+        do {
+            try SMCKit.writeData(.disableCharging, uint8: 0)
+            try SMCKit.writeData(.inhibitChargingC, uint8: 0)
+            try SMCKit.writeData(.inhibitChargingB, uint8: 0)
+        } catch {
+            logger.critical("Resetting charging state failed. \(error)")
         }
     }
 
     func smcStatus(_ message: SMCStatusCommand) async throws -> SMCStatus {
         defer {
             SMCKit.close()
-            handler()
         }
         try SMCKit.open()
 
