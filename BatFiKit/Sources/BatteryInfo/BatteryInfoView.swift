@@ -76,7 +76,7 @@ struct BatteryMainInfo: View {
             Text(label)
             Spacer(minLength: itemsSpace)
             Text(info)
-                .foregroundColor(primaryForegroundColor ? .primary : .secondary)
+                .foregroundStyle(primaryForegroundColor ? .primary : .secondary)
                 .fontWeight(primaryForegroundColor ? .semibold : .regular)
                 .font(.body)
         }

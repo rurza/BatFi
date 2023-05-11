@@ -21,39 +21,26 @@ extension HelperClient: DependencyKey {
             withServerRequirement: try! .sameTeamIdentifier
         )
         let client = HelperClient(
-            turnOnAutoChargingMode: { quitHelper in
+            turnOnAutoChargingMode: {
                 try await xpcClient.sendMessage(
                     SMCChargingCommand.auto,
                     to: XPCRoute.charging
                 )
-                if quitHelper {
-                    try? await xpcClient.send(to: XPCRoute.quit)
-                }
             },
-            inhibitCharging: { quitHelper in
+            inhibitCharging: {
                 try await xpcClient.sendMessage(
                     SMCChargingCommand.inhibitCharging,
                     to: XPCRoute.charging
                 )
-                if quitHelper {
-                    try? await xpcClient.send(to: XPCRoute.quit)
-                }
             },
-            forceDischarge: { quitHelper in
-                try await xpcClient.sendMessage(
+            forceDischarge: {
+                return try await xpcClient.sendMessage(
                     SMCChargingCommand.forceDischarging,
                     to: XPCRoute.charging
                 )
-                if quitHelper {
-                    try? await xpcClient.send(to: XPCRoute.quit)
-                }
             },
-            chargingStatus: { quitHelper in
-                let status = try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
-                if quitHelper {
-                    try? await xpcClient.send(to: XPCRoute.quit)
-                }
-                return status
+            chargingStatus: {
+                return try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
             },
             quitChargingHelper: {
                 try await xpcClient.send(to: XPCRoute.quit)

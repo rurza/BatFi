@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import Defaults
 import ClientsLive
 import Cocoa
 import Dependencies
@@ -15,14 +16,22 @@ import Settings
 @MainActor
 public final class BatFi {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    @Dependency(\.helperClient) var helperClient
     lazy var settingsController = SettingsController()
-    var chargingManager: ChargingManager!
+    var chargingManager = ChargingManager()
+    lazy var helperManager = HelperManager()
 
     public init() { }
 
     public func start() {
-        chargingManager = ChargingManager()
+//        if Defaults[.onboardingIsDone] {
+        Task {
+            try? helperManager.removeService()
+            try await Task.sleep(for: .seconds(1))
+            try? helperManager.registerService()
+            chargingManager.setUpObserving()
+        }
+
+//        }
         statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
         statusItem.menu = MenuFactory.standardMenu(
             disableCharging: {
@@ -35,11 +44,6 @@ public final class BatFi {
     }
 
     public func willQuit() {
-        let semaphore = DispatchSemaphore(value: 0)
-        Task {
-            try? await helperClient.turnOnAutoChargingMode(true)
-            semaphore.signal()
-        }
-        semaphore.wait()
+        chargingManager.appWillQuit()
     }
 }

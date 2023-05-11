@@ -28,11 +28,21 @@ public final class ChargingManager {
     private lazy var logger = Logger(category: "🔌👨‍💼")
     var state: State?
 
-    public init() {
-        setUpObserving()
+    public init() { }
+
+    public func appWillQuit() {
+        logger.debug("App will quit")
+        let semaphore = DispatchSemaphore(value: 0)
+        Task {
+            try? await helperClient.turnOnAutoChargingMode()
+            try? await helperClient.quitChargingHelper()
+            semaphore.signal()
+        }
+        semaphore.wait()
+        logger.debug("I tried to turn on charging and quit the helper.")
     }
 
-    private func setUpObserving() {
+    public func setUpObserving() {
         Task {
             await fetchChargingState(withHelperQuitting: false)
             for await ((powerState, preventSleeping), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
@@ -109,12 +119,12 @@ public final class ChargingManager {
         let logger = Logger(category: "♟️ TASK \( UUID())")
         logger.debug("Started working on a task.")
         guard manageCharging else {
-            try? await helperClient.turnOnAutoChargingMode(true)
+            try? await helperClient.turnOnAutoChargingMode()
             return
         }
         guard let state else {
             logger.warning("No charging state state")
-            await fetchChargingState(withHelperQuitting: true)
+            await fetchChargingState(withHelperQuitting: false)
             return
         }
         do {
@@ -137,7 +147,7 @@ public final class ChargingManager {
         if state.mode != .forceDischarge {
             logger.debug("Turning on force discharging")
             do {
-                try await helperClient.forceDischarge(true)
+                try await helperClient.forceDischarge()
                 self.state?.mode = .forceDischarge
                 logger.debug("Force discharging TURNED ON")
             } catch {
@@ -153,7 +163,7 @@ public final class ChargingManager {
         if state.mode != .charging {
             logger.debug("Turning on charging")
             do {
-                try await helperClient.turnOnAutoChargingMode(true)
+                try await helperClient.turnOnAutoChargingMode()
                 self.state?.mode = .charging
                 logger.debug("Charging TURNED ON")
             } catch {
@@ -172,7 +182,7 @@ public final class ChargingManager {
         if state.mode != .inhibit {
             logger.debug("Inhibiting charging")
             do {
-                try await helperClient.inhibitCharging(true)
+                try await helperClient.inhibitCharging()
                 self.state?.mode = .inhibit
                 logger.debug("Inhibit Charging TURNED ON")
             } catch {
@@ -211,7 +221,7 @@ public final class ChargingManager {
     private func fetchChargingState(withHelperQuitting helperShouldQuit: Bool) async {
         do {
             logger.debug("Fetching charging status")
-            let chargingStatus = try await helperClient.chargingStatus(helperShouldQuit)
+            let chargingStatus = try await helperClient.chargingStatus()
             let mode: State.Mode
             if chargingStatus.forceDischarging {
                 mode = .forceDischarge

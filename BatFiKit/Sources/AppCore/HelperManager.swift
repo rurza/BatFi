@@ -14,35 +14,27 @@ public final class HelperManager {
     lazy var service = SMAppService.daemon(plistName: Constant.helperPlistName)
     public static let shared = HelperManager()
     private lazy var logger = Logger(category: "👹")
-
-    func registerServiceIfNeeded() throws {
-        if service.status == .notRegistered {
-            try registerService()
-        }
-    }
+    
+    public init() { }
 
     public func registerService() throws {
-        Task {
-            logger.log(level: .debug, "Installing daemon...")
-            do {
-                try service.register()
-            } catch {
-                logger.error("Daemon registering error: \(error, privacy: .public)")
-                throw error
-            }
+        logger.log(level: .debug, "Installing daemon...")
+        do {
+            try service.register()
             logger.log(level: .debug, "Daemon installed succesfully")
+        } catch {
+            logger.error("Daemon registering error: \(error, privacy: .public)")
+            throw error
         }
     }
 
     public func removeService() throws {
-        Task {
-            logger.log(level: .debug, "Removing daemon...")
-            do {
-                try await service.unregister()
-            } catch {
-                logger.error("Daemon removal error: \(error, privacy: .public)")
-            }
+        logger.log(level: .debug, "Removing daemon...")
+        do {
+            try service.unregister()
             logger.log(level: .debug, "Daemon removed")
+        } catch {
+            logger.error("Daemon removal error: \(error, privacy: .public)")
         }
     }
 }

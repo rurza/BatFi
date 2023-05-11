@@ -17,6 +17,7 @@ extension Defaults.Keys {
     public static let forceCharge = Key<Bool>("forceCharge", default: false)
     public static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
     public static let disableSleep = Key<Bool>("disableSleep", default: false)
+    public static let onboardingIsDone = Key<Bool>("onboardingIsDone", default: false)
 
     // notifications
     public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)

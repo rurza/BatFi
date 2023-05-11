@@ -9,17 +9,17 @@ import Dependencies
 import Shared
 
 public struct HelperClient: TestDependencyKey {
-    public var turnOnAutoChargingMode: (_ quitHelper: Bool) async throws -> Void
-    public var inhibitCharging: (_ quitHelper: Bool) async throws -> Void
-    public var forceDischarge: (_ quitHelper: Bool) async throws -> Void
-    public var chargingStatus: (_ quitHelper: Bool) async throws -> SMCStatus
+    public var turnOnAutoChargingMode: () async throws -> Void
+    public var inhibitCharging: () async throws -> Void
+    public var forceDischarge: () async throws -> Void
+    public var chargingStatus: () async throws -> SMCStatus
     public var quitChargingHelper: () async throws -> Void
 
     public init(
-        turnOnAutoChargingMode: @escaping (Bool) async throws -> Void,
-        inhibitCharging: @escaping (Bool) async throws -> Void,
-        forceDischarge: @escaping (Bool) async throws -> Void,
-        chargingStatus: @escaping (Bool) async throws -> SMCStatus,
+        turnOnAutoChargingMode: @escaping () async throws -> Void,
+        inhibitCharging: @escaping () async throws -> Void,
+        forceDischarge: @escaping () async throws -> Void,
+        chargingStatus: @escaping () async throws -> SMCStatus,
         quitChargingHelper: @escaping () async throws -> Void
     ) {
         self.turnOnAutoChargingMode = turnOnAutoChargingMode

@@ -7,4 +7,4 @@
 
 import Foundation
 
-let settingsContentWidth: Double = 450
+let settingsContentWidth: Double = 520
