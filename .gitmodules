@@ -1,4 +1,0 @@
-[submodule "SecureXPC"]
-	path = SecureXPC
-	url = https://github.com/rurza/SecureXPC
-	branch = fix-parentAppURL-method
