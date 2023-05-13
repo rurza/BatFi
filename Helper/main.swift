@@ -22,7 +22,6 @@ do {
 
 func errorHandler(_ error: XPCError) async {
     logger.error("Server error. \(error, privacy: .public)")
-    logger.notice("Quitting...")
 }
 
 do {
