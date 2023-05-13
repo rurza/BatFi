@@ -32,7 +32,6 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/trilemma-dev/SecureXPC",
       "state" : {
-        "branch" : "main",
         "revision" : "c1050545168792c44984c3cc0ce2fa006c84e188"
       }
     },
@@ -42,7 +41,7 @@
       "location" : "https://github.com/rurza/SettingsKit.git",
       "state" : {
         "branch" : "master",
-        "revision" : "1c6353d78d3d6c99cbe8b9203e6f55f2228ef5bb"
+        "revision" : "ed8b44a6f05cfe103edc809f21c7e80c0ffc2154"
       }
     }
   ],
