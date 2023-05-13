@@ -713,8 +713,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/trilemma-dev/SecureXPC";
 			requirement = {
-				kind = revision;
-				revision = c1050545168792c44984c3cc0ce2fa006c84e188;
+				branch = main;
+				kind = branch;
 			};
 		};
 		5B6FC12A29F92A1300D98863 /* XCRemoteSwiftPackageReference "Defaults" */ = {
