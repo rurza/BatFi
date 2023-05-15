@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import AppShared
 
 public struct BatteryInfoView: View {
-    @StateObject private var model = Model()
+    @ObservedObject private var model = Model()
 
     public init() { }
 
@@ -28,6 +29,11 @@ public struct BatteryInfoView: View {
                             primaryForegroundColor: model.time?.hasKnownTime == true
                         )
                     }
+                }
+                if let description = model.modeDescription {
+                    Text(description)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 VStack(alignment: .leading, spacing: 5) {
                     BatteryAdditionalInfo(
@@ -54,6 +60,7 @@ public struct BatteryInfoView: View {
             .frame(width: 220)
             .padding(.horizontal)
             .padding(.vertical, 8)
+
         } else {
             Label(
                 "Info is missing",
@@ -83,16 +90,26 @@ struct BatteryMainInfo: View {
     }
 }
 
-struct BatteryAdditionalInfo: View {
+struct BatteryAdditionalInfo<Label: View>: View {
     private let itemsSpace: CGFloat  = 30
 
-    let label: String
+    let label: () -> Label
     let info: String
+
+    init(label: @escaping () -> Label, info: String) {
+        self.label = label
+        self.info = info
+    }
+
+    init(label: String, info: String) where Label == Text {
+        self.label = { Text(label) }
+        self.info = info
+    }
 
     var body: some View {
         HStack {
             Group {
-                Text(label)
+                label()
                 Spacer(minLength: itemsSpace)
                 Text(info)
             }

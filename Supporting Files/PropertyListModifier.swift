@@ -438,9 +438,7 @@ let scriptTasks: [String : ScriptTask] = [
     /// Specifies MachServices entry in the helper tool's launchd property list to enable XPC
     "specify-mach-services" : specifyMachServices,
     /// Cleans up changes made to Mach Services in the helper tool's launchd property list
-    "cleanup-mach-services" : cleanupMachServices,
-    /// Auto increment the bundle version number; only intended for the helper tool.
-    "auto-increment-version" : autoIncrementVersion
+    "cleanup-mach-services" : cleanupMachServices
 ]
 
 /// Determines what tasks this script should undertake in based on passed in arguments.
@@ -528,18 +526,6 @@ func cleanupMachServices() throws {
         throw ScriptError.general("cleanup-mach-services only available for the app")
     case .app:
         try removePropertyListEntries(forKeys: [MachServicesKey], atPath: try launchdPropertyListPath())
-    }
-}
-
-/// Increments the helper tool's version, fails if called for the app.
-func autoIncrementVersion() throws {
-    let target = try determineTargetType()
-    switch target {
-    case .helperTool:
-        let infoPropertyList = try infoPropertyListPath()
-        try incrementBundleVersionIfNeeded(infoPropertyListPath: infoPropertyList)
-    case .app:
-        throw ScriptError.general("auto-increment-version only available for helper tool")
     }
 }
 

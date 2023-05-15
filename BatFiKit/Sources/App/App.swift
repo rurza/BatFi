@@ -18,16 +18,15 @@ public final class BatFi {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     lazy var settingsController = SettingsController()
     var chargingManager = ChargingManager()
-    lazy var helperManager = HelperManager()
 
     public init() { }
 
     public func start() {
 //        if Defaults[.onboardingIsDone] {
         Task {
-            try? helperManager.removeService()
-            try await Task.sleep(for: .seconds(1))
-            try? helperManager.registerService()
+//            try? helperManager.removeService()
+//            try await Task.sleep(for: .seconds(1))
+//            try? helperManager.registerService()
             chargingManager.setUpObserving()
         }
 
@@ -35,9 +34,10 @@ public final class BatFi {
         statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
         statusItem.menu = MenuFactory.standardMenu(
             disableCharging: {
+                self.chargingManager.turnOffChargeToFull()
             },
-            enableCharging: {
-                
+            forceCharge: {
+                self.chargingManager.chargeToFull()
             },
             openSettings: { self.settingsController.openSettings() }
         )

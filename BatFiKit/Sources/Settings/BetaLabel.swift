@@ -11,10 +11,10 @@ struct BetaLabel: View {
     var body: some View {
         Text("BETA")
             .font(.footnote)
-            .padding(.vertical, 2)
-            .padding(.horizontal, 3)
+            .padding(.vertical, 1)
+            .padding(.horizontal, 2)
             .overlay {
-                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                RoundedRectangle(cornerRadius: 3, style: .continuous)
                     .stroke(lineWidth: 1)
             }
             .foregroundColor(.secondary)

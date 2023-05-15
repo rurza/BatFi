@@ -320,7 +320,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements auto-increment-version\n";
+			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements\n";
 		};
 		5B69E6E529EB687B0010AD63 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

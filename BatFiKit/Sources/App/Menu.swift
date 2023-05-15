@@ -13,7 +13,7 @@ import MenuBuilder
 final class MenuFactory {
     static func standardMenu(
         disableCharging: @escaping () -> Void,
-        enableCharging: @escaping () -> Void,
+        forceCharge: @escaping () -> Void,
         openSettings: @escaping () -> Void
     ) -> NSMenu {
         NSMenu {
@@ -24,16 +24,16 @@ final class MenuFactory {
             SeparatorItem()
             MenuItem("Disable charging")
                 .onSelect(disableCharging)
-            MenuItem("Enable charging")
-                .onSelect(enableCharging)
+            MenuItem("Charge to 100%")
+                .onSelect(forceCharge)
             SeparatorItem()
             MenuItem("Debug")
                 .submenu {
                     MenuItem("Install Helper").onSelect {
-                        try? HelperManager.shared.registerService()
+//                        try? HelperManager.shared.registerService()
                     }
                     MenuItem("Remove Helper").onSelect {
-                        try? HelperManager.shared.removeService()
+//                        try? HelperManager.shared.removeService()
                     }
                 }
             MenuItem("Settings…")
