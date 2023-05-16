@@ -6,44 +6,44 @@
 //
 
 import AppCore
-import Defaults
-import ClientsLive
 import Cocoa
-import Dependencies
 import MenuBuilder
 import Settings
 
 @MainActor
-public final class BatFi {
+public final class BatFi: MenuControllerDelegate {
     lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     lazy var settingsController = SettingsController()
     var chargingManager = ChargingManager()
+    var menuController: MenuController?
 
     public init() { }
 
     public func start() {
-//        if Defaults[.onboardingIsDone] {
-        Task {
-//            try? helperManager.removeService()
-//            try await Task.sleep(for: .seconds(1))
-//            try? helperManager.registerService()
-            chargingManager.setUpObserving()
-        }
-
-//        }
+        chargingManager.setUpObserving()
         statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
-        statusItem.menu = MenuFactory.standardMenu(
-            disableCharging: {
-                self.chargingManager.turnOffChargeToFull()
-            },
-            forceCharge: {
-                self.chargingManager.chargeToFull()
-            },
-            openSettings: { self.settingsController.openSettings() }
-        )
+        menuController = MenuController(statusItem: statusItem)
+        menuController?.delegate = self
     }
 
     public func willQuit() {
         chargingManager.appWillQuit()
+    }
+
+    // MARK: - MenuControllerDelegate
+    func forceCharge() {
+        chargingManager.chargeToFull()
+    }
+
+    func stopForceCharge() {
+        chargingManager.turnOffChargeToFull()
+    }
+
+    func openSettings() {
+        settingsController.openSettings()
+    }
+
+    func quitApp() {
+        NSApp.terminate(nil)
     }
 }

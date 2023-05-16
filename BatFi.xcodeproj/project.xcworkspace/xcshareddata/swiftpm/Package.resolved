@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "98650d886ec950b587d671261f06d6b59dec4052",
-        "version" : "0.4.1"
+        "revision" : "25c9b6789b4b7ada649a3808e6d8de1489082a33",
+        "version" : "0.5.0"
       }
     },
     {

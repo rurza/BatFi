@@ -9,65 +9,66 @@ import SwiftUI
 import AppShared
 
 public struct BatteryInfoView: View {
-    @ObservedObject private var model = Model()
+    @StateObject private var model = Model()
 
     public init() { }
 
     public var body: some View {
-        if let powerState = model.state {
-            VStack(alignment: .leading, spacing: 12) {
-                VStack(alignment: .leading, spacing: 5) {
-                    BatteryMainInfo(
-                        label: "Battery",
-                        info: "\(powerState.batteryLevel)%",
-                        primaryForegroundColor: true
-                    )
-                    if let description = model.time?.description {
+        Group {
+            if let powerState = model.state {
+                VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 5) {
                         BatteryMainInfo(
-                            label: description.label,
-                            info: description.description,
-                            primaryForegroundColor: model.time?.hasKnownTime == true
+                            label: "Battery",
+                            info: "\(powerState.batteryLevel)%",
+                            primaryForegroundColor: true
                         )
+                        if let description = model.time?.description {
+                            BatteryMainInfo(
+                                label: description.label,
+                                info: description.description,
+                                primaryForegroundColor: model.time?.hasKnownTime == true
+                            )
+                        }
                     }
-                }
-                if let description = model.modeDescription {
-                    Text(description)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                VStack(alignment: .leading, spacing: 5) {
-                    BatteryAdditionalInfo(
-                        label: "Power Source",
-                        info: powerState.powerSource
-                    )
-                    BatteryAdditionalInfo(
-                        label: "Cycle Count",
-                        info: "\(powerState.batteryCycleCount)"
-                    )
-                    if let temperature = model.temperatureDescription() {
+                    if let description = model.modeDescription {
+                        Text(description)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    VStack(alignment: .leading, spacing: 5) {
                         BatteryAdditionalInfo(
-                            label: "Temperature",
-                            info: temperature
+                            label: "Power Source",
+                            info: powerState.powerSource
+                        )
+                        BatteryAdditionalInfo(
+                            label: "Cycle Count",
+                            info: "\(powerState.batteryCycleCount)"
+                        )
+                        if let temperature = model.temperatureDescription() {
+                            BatteryAdditionalInfo(
+                                label: "Temperature",
+                                info: temperature
+                            )
+                        }
+                        BatteryAdditionalInfo(
+                            label: "Battery Health",
+                            info: powerState.batteryHealth
                         )
                     }
-                    BatteryAdditionalInfo(
-                        label: "Battery Health",
-                        info: powerState.batteryHealth
-                    )
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
+            } else {
+                Label(
+                    "Info is missing",
+                    systemImage: "bolt.trianglebadge.exclamationmark.fill"
+                )
+                .frame(height: 200)
             }
-            .frame(width: 220)
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-
-        } else {
-            Label(
-                "Info is missing",
-                systemImage: "bolt.trianglebadge.exclamationmark.fill"
-            )
-            .padding()
         }
+        .frame(width: 220)
+        .padding(.horizontal)
+        .padding(.vertical, 8)
     }
 }
 
@@ -116,11 +117,5 @@ struct BatteryAdditionalInfo<Label: View>: View {
             .foregroundColor(.secondary)
             .font(.callout)
         }
-    }
-}
-
-struct BatteryInfoView_Previews: PreviewProvider {
-    static var previews: some View {
-        BatteryInfoView()
     }
 }

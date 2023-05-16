@@ -7,7 +7,7 @@
 
 import AppShared
 
-extension AppChargingState.Mode {
+extension AppChargingMode {
     var stateDescription: String {
         switch self {
         case .charging:

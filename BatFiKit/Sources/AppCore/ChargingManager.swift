@@ -15,8 +15,8 @@ import os
 import Settings
 import Shared
 
-public final class ChargingManager: ObservableObject {
-    @Dependency(\.chargingClient)             private var chargingClient
+public final class ChargingManager {
+    @Dependency(\.chargingClient)           private var chargingClient
     @Dependency(\.powerSourceClient)        private var powerSourceClient
     @Dependency(\.screenParametersClient)   private var screenParametersClient
     @Dependency(\.sleepClient)              private var sleepClient
@@ -45,8 +45,8 @@ public final class ChargingManager: ObservableObject {
                     observeDefaultsClient.observeManageCharging(),
                     observeDefaultsClient.observeAllowDischargingFullBattery()
                 )
-            ).debounce(for: .seconds(1)) {
-                logger.debug("something changed")
+            ).debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
+                logger.debug("✨✨✨✨✨✨✨✨✨✨✨")
                 await updateStatus(
                     powerState: powerState,
                     chargeLimit: chargeLimit,
@@ -139,7 +139,7 @@ public final class ChargingManager: ObservableObject {
         }
         guard manageCharging && !forceCharging else {
             logger.debug("Manage charging is turned off or Force charge is turned on")
-            try? await chargingClient.turnOnAutoChargingMode()
+            await turnOnChargingIfNeeded(preventSleeping: false)
             return
         }
         guard let lidOpened = await appChargingState.lidOpened() else {
@@ -183,7 +183,7 @@ public final class ChargingManager: ObservableObject {
     private func turnOnChargingIfNeeded(preventSleeping: Bool) async {
         let mode = await appChargingState.chargingStateMode()
         logger.debug("Should turn on charging...")
-        if mode != .charging {
+        if mode != .charging && mode != .forceCharge {
             logger.debug("Turning on charging")
             do {
                 try await chargingClient.turnOnAutoChargingMode()
@@ -246,10 +246,13 @@ public final class ChargingManager: ObservableObject {
         do {
             logger.debug("Fetching charging status")
             let chargingStatus = try await chargingClient.chargingStatus()
+            let forceChargeStatus = getDefaultsClient.forceCharge()
             if chargingStatus.forceDischarging {
                 await appChargingState.updateChargingStateMode(.forceDischarge)
             } else if chargingStatus.inhitbitCharging {
                 await appChargingState.updateChargingStateMode(.inhibit)
+            } else if forceChargeStatus {
+                await appChargingState.updateChargingStateMode(.forceCharge)
             } else {
                 await appChargingState.updateChargingStateMode(.charging)
             }

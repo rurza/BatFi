@@ -11,18 +11,18 @@ import Foundation
 
 public struct AppChargingStateClient: TestDependencyKey {
 
-    public var updateChargingStateMode: (_ mode: AppChargingState.Mode) async -> Void
-    public var observeChargingStateMode: () -> AsyncStream<AppChargingState.Mode>
+    public var updateChargingStateMode: (_ mode: AppChargingMode) async -> Void
+    public var observeChargingStateMode: () -> AsyncStream<AppChargingMode>
     public var updateLidOpenedStatus: (_ opened: Bool) async -> Void
     public var lidOpened: () async -> Bool?
-    public var chargingStateMode: () async -> AppChargingState.Mode?
+    public var chargingStateMode: () async -> AppChargingMode?
 
     public init(
-        updateChargingStateMode: @escaping (AppChargingState.Mode) async -> Void,
-        observeChargingStateMode: @escaping () -> AsyncStream<AppChargingState.Mode>,
+        updateChargingStateMode: @escaping (AppChargingMode) async -> Void,
+        observeChargingStateMode: @escaping () -> AsyncStream<AppChargingMode>,
         updateLidOpenedStatus: @escaping (_ opened: Bool) async -> Void,
         lidOpened: @escaping () async -> Bool?,
-        chargingStateMode: @escaping () async -> AppChargingState.Mode?
+        chargingStateMode: @escaping () async -> AppChargingMode?
     ) {
         self.updateChargingStateMode = updateChargingStateMode
         self.observeChargingStateMode = observeChargingStateMode

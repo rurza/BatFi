@@ -15,8 +15,6 @@ extension BatteryInfoView {
     final class Model: ObservableObject {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         @Dependency(\.appChargingState) private var appChargingState
-        @Dependency(\.locale) private var locale
-
 
         private(set) var state: PowerState? {
             didSet {
@@ -33,6 +31,7 @@ extension BatteryInfoView {
         }
 
         init() {
+            self.state = try? powerSourceClient.currentPowerSourceState()
             Task {
                 for await state in powerSourceClient.powerSourceChanges() {
                     self.state = state
@@ -40,6 +39,7 @@ extension BatteryInfoView {
             }
 
             Task {
+                self.modeDescription = await appChargingState.chargingStateMode()?.stateDescription
                 for await mode in appChargingState.observeChargingStateMode() {
                     self.modeDescription = mode.stateDescription
                 }
