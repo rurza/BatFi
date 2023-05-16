@@ -16,8 +16,8 @@ public struct BatteryInfoView: View {
     public var body: some View {
         Group {
             if let powerState = model.state {
-                VStack(alignment: .leading, spacing: 12) {
-                    VStack(alignment: .leading, spacing: 5) {
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 6) {
                         BatteryMainInfo(
                             label: "Battery",
                             info: "\(powerState.batteryLevel)%",
@@ -30,13 +30,14 @@ public struct BatteryInfoView: View {
                                 primaryForegroundColor: model.time?.hasKnownTime == true
                             )
                         }
+                        if let description = model.modeDescription {
+                            Text(description)
+                                .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
-                    if let description = model.modeDescription {
-                        Text(description)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    VStack(alignment: .leading, spacing: 5) {
+                    SeparatorView()
+                    VStack(alignment: .leading, spacing: 6) {
                         BatteryAdditionalInfo(
                             label: "Power Source",
                             info: powerState.powerSource
@@ -57,6 +58,12 @@ public struct BatteryInfoView: View {
                         )
                     }
                     .frame(maxWidth: .infinity)
+                }
+                .onDisappear {
+                    model.cancelObserving()
+                }
+                .onAppear {
+                    model.setUpObserving()
                 }
             } else {
                 Label(

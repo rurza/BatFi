@@ -26,7 +26,14 @@ let package = Package(
     ],
     targets: [
         .target(name: "Shared", dependencies: [.secureXPC]),
-        .target(name: "Clients", dependencies: [.dependencies, "Shared"]),
+        .target(
+            name: "Clients",
+            dependencies: [
+                "AppShared",
+                "Shared",
+                .dependencies
+            ]
+        ),
         .target(
             name: "ClientsLive",
             dependencies: [

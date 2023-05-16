@@ -17,6 +17,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
     public let batteryCycleCount: Int
     public let batteryHealth: String
     public let batteryTemperature: Double
+    public let chargerConnected: Bool
 
     public init(
         batteryLevel: Int,
@@ -26,7 +27,8 @@ public struct PowerState: CustomStringConvertible, Equatable {
         timeToCharge: Int,
         batteryCycleCount: Int,
         batteryHealth: String,
-        batteryTemperature: Double
+        batteryTemperature: Double,
+        chargerConnected: Bool
     ) {
         self.batteryLevel = batteryLevel
         self.isCharging = isCharging
@@ -36,6 +38,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
         self.batteryCycleCount = batteryCycleCount
         self.batteryHealth = batteryHealth
         self.batteryTemperature = batteryTemperature
+        self.chargerConnected = chargerConnected
     }
 
     public var description: String {
@@ -49,6 +52,7 @@ PowerState
 - cycle count: \(batteryCycleCount)
 - battery health: \(batteryHealth)
 - battery temperature: \(batteryTemperature)°C
+- charger connected: \(chargerConnected)
 """
     }
 }

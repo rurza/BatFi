@@ -30,20 +30,31 @@ extension BatteryInfoView {
             }
         }
 
+        private var tasks: [Task<Void, Never>]?
+
         init() {
             self.state = try? powerSourceClient.currentPowerSourceState()
-            Task {
-                for await state in powerSourceClient.powerSourceChanges() {
-                    self.state = state
-                }
-            }
+        }
 
-            Task {
+        func setUpObserving() {
+            let observeChargingStateMode = Task {
                 self.modeDescription = await appChargingState.chargingStateMode()?.stateDescription
                 for await mode in appChargingState.observeChargingStateMode() {
                     self.modeDescription = mode.stateDescription
                 }
             }
+
+            let powerSourceChanges = Task {
+                for await state in powerSourceClient.powerSourceChanges() {
+                    self.state = state
+                }
+            }
+
+            tasks = [powerSourceChanges, observeChargingStateMode]
+        }
+
+        func cancelObserving() {
+            tasks?.forEach { $0.cancel() }
         }
 
         private func updateTime() {

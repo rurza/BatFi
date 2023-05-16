@@ -20,6 +20,8 @@ extension AppChargingMode {
             return "Discharging the battery to the charging limit."
         case .inhibit:
             return "The charging limit reached — inhibiting charging."
+        case .chargerNotConnected:
+            return "Charger not connected."
         }
     }
 }

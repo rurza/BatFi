@@ -134,6 +134,10 @@ public final class ChargingManager {
         defer {
             logger.debug("⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆")
         }
+        guard powerState.chargerConnected else {
+            await appChargingState.updateChargingStateMode(.chargerNotConnected)
+            return
+        }
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
@@ -245,6 +249,11 @@ public final class ChargingManager {
     private func fetchChargingState() async {
         do {
             logger.debug("Fetching charging status")
+            let powerState = try powerSourceClient.currentPowerSourceState()
+            guard powerState.chargerConnected else {
+                await appChargingState.updateChargingStateMode(.chargerNotConnected)
+                return
+            }
             let chargingStatus = try await chargingClient.chargingStatus()
             let forceChargeStatus = getDefaultsClient.forceCharge()
             if chargingStatus.forceDischarging {

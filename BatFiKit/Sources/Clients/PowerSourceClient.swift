@@ -5,6 +5,7 @@
 //  Created by Adam on 28/04/2023.
 //
 
+import AppShared
 import Dependencies
 import Foundation
 

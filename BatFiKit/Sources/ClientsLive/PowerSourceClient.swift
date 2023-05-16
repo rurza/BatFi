@@ -5,6 +5,7 @@
 //  Created by Adam on 02/05/2023.
 //
 
+import AppShared
 import Clients
 import Dependencies
 import Foundation
@@ -150,6 +151,18 @@ private func getPowerSourceInfo() throws -> PowerState {
     }
     let batteryTemperature = temperature / 100
 
+    guard
+        let chargerConnectedRef = IORegistryEntryCreateCFProperty(
+            service,
+            kIOPMPSExternalConnectedKey as CFString,
+            kCFAllocatorDefault,
+            0
+        ),
+        let chargerConnected = chargerConnectedRef.takeUnretainedValue() as? Bool else {
+        throw PowerSourceError.infoMissing
+    }
+
+
     let powerState = PowerState(
         batteryLevel: batteryLevel,
         isCharging: isCharging,
@@ -158,7 +171,8 @@ private func getPowerSourceInfo() throws -> PowerState {
         timeToCharge: timeToCharge,
         batteryCycleCount: cycleClount,
         batteryHealth: batteryHealth,
-        batteryTemperature: batteryTemperature
+        batteryTemperature: batteryTemperature,
+        chargerConnected: chargerConnected
     )
     return powerState
 }

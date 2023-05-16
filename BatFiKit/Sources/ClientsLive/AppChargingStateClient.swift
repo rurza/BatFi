@@ -16,9 +16,10 @@ extension AppChargingStateClient: DependencyKey {
     public static let liveValue: AppChargingStateClient = {
         let logger = Logger(category: "🔋")
         let state = AppChargingState.initialState
+
         let client = AppChargingStateClient(
             updateChargingStateMode: { mode in
-                logger.debug("New charging state mode: \(mode.rawValue, privacy: .public)")
+                logger.debug("Update charging state mode: \(mode.rawValue, privacy: .public)")
                 await state.updateMode(mode)
             },
             observeChargingStateMode: {
@@ -26,6 +27,7 @@ extension AppChargingStateClient: DependencyKey {
                     state.objectWillChange
                     // https://forums.swift.org/t/asyncpublisher-causes-crash-in-rather-simple-situation/56574/4
                         .buffer(size: 1, prefetch: .byRequest, whenFull: .dropOldest)
+                        .share()
                         .values
                         .compactMap { _ in
                             let value = await state.mode
@@ -70,10 +72,12 @@ private actor AppChargingState: ObservableObject {
     }
 
     func updateMode(_ mode: AppChargingMode) {
+        guard mode != self.mode else { return }
         self.mode = mode
     }
 
     func updateLidOpened(_ lidOpened: Bool) {
+        guard lidOpened != self.lidOpened else { return }
         self.lidOpened = lidOpened
     }
 }

@@ -52,10 +52,13 @@ final class MenuController {
                     BatteryInfoView()
                 }
             SeparatorItem()
-            if appChargingState != .forceCharge {
-                MenuItem("Charge to 100%").onSelect { [weak self] in
-                    self?.delegate?.forceCharge()
-                }
+            if appChargingState == .chargerNotConnected {
+                MenuItem("Charge to 100%")
+            } else if appChargingState != .forceCharge {
+                MenuItem("Charge to 100%")
+                    .onSelect { [weak self] in
+                        self?.delegate?.forceCharge()
+                    }
             } else {
                 MenuItem("Stop charging to 100%").onSelect { [weak self] in
                     self?.delegate?.stopForceCharge()

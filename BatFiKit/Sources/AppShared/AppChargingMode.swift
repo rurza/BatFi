@@ -13,4 +13,5 @@ public enum AppChargingMode: String {
     case forceDischarge
     case forceCharge
     case disabled
+    case chargerNotConnected
 }
