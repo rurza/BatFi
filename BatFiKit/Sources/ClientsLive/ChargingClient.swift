@@ -1,5 +1,5 @@
 //
-//  HelperClient+Live.swift
+//  ChargingClient+Live.swift
 //  
 //
 //  Created by Adam on 02/05/2023.
@@ -14,8 +14,8 @@ import os
 import SecureXPC
 import Shared
 
-extension HelperClient: DependencyKey {
-    public static var liveValue: HelperClient = {
+extension ChargingClient: DependencyKey {
+    public static var liveValue: ChargingClient = {
         let logger = Logger(category: "🪫🔋")
         let xpcClient = XPCClient.forMachService(
             named: Constant.helperBundleIdentifier,
@@ -29,10 +29,10 @@ extension HelperClient: DependencyKey {
             if let error = error as? XPCError, case .insecure = error {
                 do {
                     logger.debug("Trying to fix xpc communication")
-                    try HelperManager.shared.removeService()
+                    await HelperManager.liveValue.removeHelper()
                     logger.debug("Service removed")
                     try await Task.sleep(for: .seconds(1))
-                    try HelperManager.shared.registerService()
+                    await HelperManager.liveValue.installHelper()
                     logger.debug("Service installed")
                     return try await call()
                 } catch { }
@@ -99,7 +99,7 @@ extension HelperClient: DependencyKey {
             }
         }
 
-        let client = HelperClient(
+        let client = ChargingClient(
             turnOnAutoChargingMode: turnOnAutoChargingModel,
             inhibitCharging: inhibitCharging,
             forceDischarge: forceDischarge,

@@ -15,10 +15,12 @@ final class RouteHandler {
 
     func charging(_ message: SMCChargingCommand) async throws {
         defer {
+            logger.notice("Closing SMC")
             SMCKit.close()
         }
+        logger.notice("Opening SMC")
         try SMCKit.open()
-
+        logger.notice("SMC Opened")
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
 

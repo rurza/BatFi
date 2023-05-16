@@ -6,7 +6,6 @@
 //
 
 import AppShared
-import Combine
 import Clients
 import Dependencies
 import Foundation
@@ -15,6 +14,7 @@ extension BatteryInfoView {
     @MainActor
     final class Model: ObservableObject {
         @Dependency(\.powerSourceClient) private var powerSourceClient
+        @Dependency(\.appChargingState) private var appChargingState
         @Dependency(\.locale) private var locale
 
 
@@ -32,8 +32,6 @@ extension BatteryInfoView {
             }
         }
 
-        private var cancellables = Set<AnyCancellable>()
-
         init() {
             Task {
                 for await state in powerSourceClient.powerSourceChanges() {
@@ -41,13 +39,11 @@ extension BatteryInfoView {
                 }
             }
 
-            AppChargingState.shared.objectWillChange.sink { [weak self] _ in
-                Task {
-                    let description = await AppChargingState.shared.mode?.stateDescription
-                    self?.modeDescription = description
+            Task {
+                for await mode in appChargingState.observeChargingStateMode() {
+                    self.modeDescription = mode.stateDescription
                 }
             }
-            .store(in: &cancellables)
         }
 
         private func updateTime() {

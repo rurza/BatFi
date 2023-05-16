@@ -8,7 +8,7 @@
 import Dependencies
 import Shared
 
-public struct HelperClient: TestDependencyKey {
+public struct ChargingClient: TestDependencyKey {
     public var turnOnAutoChargingMode: () async throws -> Void
     public var inhibitCharging: () async throws -> Void
     public var forceDischarge: () async throws -> Void
@@ -29,12 +29,12 @@ public struct HelperClient: TestDependencyKey {
         self.quitChargingHelper = quitChargingHelper
     }
 
-    public static var testValue: HelperClient = unimplemented()
+    public static var testValue: ChargingClient = unimplemented()
 }
 
 extension DependencyValues {
-    public var helperClient: HelperClient {
-        get { self[HelperClient.self] }
-        set { self[HelperClient.self] = newValue }
+    public var chargingClient: ChargingClient {
+        get { self[ChargingClient.self] }
+        set { self[ChargingClient.self] = newValue }
     }
 }

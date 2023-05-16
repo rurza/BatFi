@@ -20,7 +20,7 @@ public actor AppChargingState: ObservableObject {
         }
     }
 
-    public static let shared = AppChargingState(mode: nil, lidOpened: nil)
+    public static let initialState = AppChargingState(mode: nil, lidOpened: nil)
 
     public init(mode: Mode?, lidOpened: Bool?) {
         self.mode = mode

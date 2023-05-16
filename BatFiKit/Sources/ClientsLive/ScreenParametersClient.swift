@@ -14,14 +14,18 @@ import Shared
 extension ScreenParametersClient: DependencyKey {
     public static var liveValue: ScreenParametersClient = {
         let logger = Logger(category: "📺")
+        var numberOfScreens = NSScreen.screens.count
         let client = ScreenParametersClient(
             screenDidChangeParameters: {
                 AsyncStream(
                     NotificationCenter
                         .default
                         .notifications(named: NSApplication.didChangeScreenParametersNotification)
+                        .filter { _ in
+                            numberOfScreens != NSScreen.screens.count
+                        }
                         .map { note -> Void in
-                            logger.debug("\(note.userInfo?.description ?? "no userInfo", privacy: .public)")
+                            numberOfScreens = NSScreen.screens.count
                             logger.debug("\(NSApplication.didChangeScreenParametersNotification.rawValue)")
                         }
                 )
