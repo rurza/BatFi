@@ -130,8 +130,10 @@ public final class ChargingManager: ObservableObject {
         preventSleeping: Bool,
         forceCharging: Bool
     ) async {
-        let logger = Logger(category: "♟️ TASK \( UUID())")
-        logger.debug("Started working on a task.")
+        logger.debug("⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇")
+        defer {
+            logger.debug("⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆")
+        }
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
@@ -158,6 +160,7 @@ public final class ChargingManager: ObservableObject {
                 await turnOnChargingIfNeeded(preventSleeping: preventSleeping)
             }
         }
+
     }
 
     private func turnOnForceDischargeIfNeeded() async {
