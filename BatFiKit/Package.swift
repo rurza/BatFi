@@ -13,7 +13,8 @@ let package = Package(
         .library(name: "Shared", targets: ["Shared"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "ClientsLive", targets: ["ClientsLive"])
+        .library(name: "ClientsLive", targets: ["ClientsLive"]),
+        .library(name: "BatteryIndicator", targets: ["BatteryIndicator"])
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
@@ -27,8 +28,10 @@ let package = Package(
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1")
     ],
     targets: [
-        .target(name: "Shared", dependencies: [.secureXPC]),
-        
+        .target(
+            name: "Shared",
+            dependencies: [.secureXPC]
+        ),
         .target(
             name: "Clients",
             dependencies: [
@@ -37,7 +40,6 @@ let package = Package(
                 .dependencies
             ]
         ),
-
         .target(
             name: "ClientsLive",
             dependencies: [
@@ -52,30 +54,24 @@ let package = Package(
                 .sparkle
             ]
         ),
-
         .target(name: "BatteryInfo", dependencies: [
             "AppShared",
             "Clients",
             .dependencies
         ]),
-
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
-
         .target(name: "Settings", dependencies: [
             "Clients",
             "DefaultsKeys",
             .settingsKit,
             .dependencies
         ]),
-
         .target(name: "Server", dependencies: [
             "Shared",
             .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList"),
             .secureXPC
         ]),
-
         .target(name: "AppShared"),
-
         .target(name: "AppCore", dependencies: [
             "AppShared",
             "Clients",
@@ -84,9 +80,7 @@ let package = Package(
             .dependencies,
             .asyncAlgorithms
         ]),
-
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
-
         .target(
             name: "App",
             dependencies: [
@@ -100,9 +94,7 @@ let package = Package(
                 .menuBuilder
             ]
         ),
-
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
-
         .target(
             name: "Notifications",
             dependencies: [
@@ -113,7 +105,8 @@ let package = Package(
                 .defaults,
                 .dependencies
             ]
-        )
+        ),
+        .target(name: "BatteryIndicator")
     ]
 )
 
