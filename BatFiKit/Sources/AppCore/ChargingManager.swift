@@ -270,9 +270,9 @@ public final class ChargingManager {
                 await appChargingState.updateChargingStateMode(.forceCharge)
             } else {
                 if powerState.chargerConnected {
-                    await appChargingState.updateChargingStateMode(.chargerNotConnected)
-                } else {
                     await appChargingState.updateChargingStateMode(.charging)
+                } else {
+                    await appChargingState.updateChargingStateMode(.chargerNotConnected)
                 }
             }
             await appChargingState.updateLidOpenedStatus(!chargingStatus.lidClosed)

@@ -30,11 +30,13 @@ extension AppChargingStateClient: DependencyKey {
                         .share()
                         .values
                         .compactMap { _ in
-                            let value = await state.mode
-                            logger.debug("App charging mode did change: \(value?.rawValue ?? "nil", privacy: .public)")
-                            return value
+                            await state.mode
                         }
                         .removeDuplicates()
+                        .map {
+                            logger.debug("App charging mode did change: \($0.rawValue, privacy: .public)")
+                            return $0
+                        }
                 )
             },
             updateLidOpenedStatus: { lidOpened in
