@@ -19,6 +19,7 @@ protocol MenuControllerDelegate: AnyObject {
     func stopForceCharge()
     func openSettings()
     func quitApp()
+    func openAbout()
 }
 
 @MainActor
@@ -64,7 +65,6 @@ final class MenuController {
                     self?.delegate?.stopForceCharge()
                 }
             }
-            SeparatorItem()
             MenuItem("Debug")
                 .submenu {
                     MenuItem("Install Helper").onSelect { [weak self] in
@@ -73,11 +73,16 @@ final class MenuController {
                     MenuItem("Remove Helper").onSelect { [weak self] in
                         Task { await self?.helperManager.removeHelper() }
                     }
-                    SeparatorItem()
+                }
+            SeparatorItem()
+            MenuItem("BatFi…")
+                .onSelect { [weak self] in
+                    self?.delegate?.openAbout()
                 }
             MenuItem("Settings…")
                 .onSelect { [weak self] in
-                    self?.delegate?.openSettings() }
+                    self?.delegate?.openSettings()
+                }
                 .shortcut(",")
             SeparatorItem()
             MenuItem("Quit BatFi")

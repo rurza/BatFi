@@ -5,6 +5,7 @@
 //  Created by Adam on 02/05/2023.
 //
 
+import AboutKit
 import AppCore
 import Cocoa
 import MenuBuilder
@@ -14,11 +15,12 @@ import UserNotifications
 
 @MainActor
 public final class BatFi: MenuControllerDelegate {
-    lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    lazy var settingsController = SettingsController()
-    var chargingManager = ChargingManager()
-    var menuController: MenuController?
-    var notificationsManager: NotificationsManager?
+    private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private lazy var settingsController = SettingsController()
+    private var chargingManager = ChargingManager()
+    private var menuController: MenuController?
+    private var notificationsManager: NotificationsManager?
+    private weak var aboutWindow: NSWindow?
 
     public init() { }
 
@@ -49,5 +51,15 @@ public final class BatFi: MenuControllerDelegate {
 
     func quitApp() {
         NSApp.terminate(nil)
+    }
+
+    func openAbout() {
+        if aboutWindow == nil {
+            let about = AboutWindow(description: "Made with ❤️ and 🔋 by")
+            about.makeKeyAndOrderFront(nil)
+            self.aboutWindow = about
+        } else {
+            aboutWindow?.makeKeyAndOrderFront(nil)
+        }
     }
 }

@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "aboutkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rurza/AboutKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "25824733b716ac0895d1c872adc499d02876e057"
+      }
+    },
+    {
       "identity" : "combine-schedulers",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/combine-schedulers",

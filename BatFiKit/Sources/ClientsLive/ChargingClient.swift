@@ -26,17 +26,21 @@ extension ChargingClient: DependencyKey {
             _ error: Error,
             call: @escaping () async  throws -> Result
         ) async throws -> Result {
-            if let error = error as? XPCError, case .insecure = error {
-                do {
-                    logger.debug("Trying to fix xpc communication")
-                    await HelperManager.liveValue.removeHelper()
-                    logger.debug("Service removed")
-                    try await Task.sleep(for: .seconds(1))
-                    await HelperManager.liveValue.installHelper()
-                    logger.debug("Service installed")
-                    return try await call()
-                } catch { }
-
+            if let error = error as? XPCError {
+                switch error {
+                case .connectionInvalid, .insecure, .connectionInterrupted:
+                    do {
+                        logger.debug("Trying to fix xpc communication")
+                        await HelperManager.liveValue.removeHelper()
+                        logger.debug("Service removed")
+                        try await Task.sleep(for: .seconds(1))
+                        await HelperManager.liveValue.installHelper()
+                        logger.debug("Service installed")
+                        return try await call()
+                    } catch { }
+                default:
+                    break
+                }
             }
             throw error
         }

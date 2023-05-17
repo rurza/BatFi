@@ -6,6 +6,7 @@
 //
 
 import AppShared
+import AsyncAlgorithms
 import Foundation
 import Clients
 import Defaults
@@ -15,6 +16,7 @@ import UserNotifications
 
 public class NotificationsManager: NSObject {
     @Dependency(\.appChargingState) private var appChargingState
+    @Dependency(\.suspendingClock) private var clock
     private lazy var center = UNUserNotificationCenter.current()
 
 
@@ -40,7 +42,8 @@ public class NotificationsManager: NSObject {
 
     func startObservingChargingStateMode() {
         task = Task {
-            for await chargingMode in appChargingState.observeChargingStateMode() {
+            for await chargingMode in appChargingState.observeChargingStateMode()
+                .debounce(for: .seconds(2), clock: AnyClock(self.clock)) {
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
         }

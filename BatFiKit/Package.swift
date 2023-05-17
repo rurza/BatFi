@@ -20,6 +20,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
         .package(url: "https://github.com/trilemma-dev/EmbeddedPropertyList", from: "2.0.0"),
         .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
+        .package(url: "https://github.com/rurza/AboutKit.git", branch: "main"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0")
@@ -76,6 +77,7 @@ let package = Package(
         .target(
             name: "App",
             dependencies: [
+                .product(name: "AboutKit", package: "AboutKit"),
                 "AppCore",
                 "Clients",
                 "ClientsLive",
@@ -92,6 +94,7 @@ let package = Package(
                 "AppShared",
                 "Clients",
                 "DefaultsKeys",
+                .asyncAlgorithms,
                 .defaults,
                 .dependencies
             ]
