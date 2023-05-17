@@ -33,6 +33,7 @@ public struct BatteryInfoView: View {
                         if let description = model.modeDescription {
                             Text(description)
                                 .foregroundStyle(.secondary)
+                                .font(.callout)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }

@@ -20,6 +20,7 @@ protocol MenuControllerDelegate: AnyObject {
     func openSettings()
     func quitApp()
     func openAbout()
+    func checkForUpdates()
 }
 
 @MainActor
@@ -78,6 +79,10 @@ final class MenuController {
             MenuItem("BatFi…")
                 .onSelect { [weak self] in
                     self?.delegate?.openAbout()
+                }
+            MenuItem("Check for Updates…")
+                .onSelect { [weak self] in
+                    self?.delegate?.checkForUpdates()
                 }
             MenuItem("Settings…")
                 .onSelect { [weak self] in

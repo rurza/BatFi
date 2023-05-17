@@ -23,10 +23,12 @@ let package = Package(
         .package(url: "https://github.com/rurza/AboutKit.git", branch: "main"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
-        .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0")
+        .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
+        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1")
     ],
     targets: [
         .target(name: "Shared", dependencies: [.secureXPC]),
+        
         .target(
             name: "Clients",
             dependencies: [
@@ -35,6 +37,7 @@ let package = Package(
                 .dependencies
             ]
         ),
+
         .target(
             name: "ClientsLive",
             dependencies: [
@@ -45,26 +48,34 @@ let package = Package(
                 .asyncAlgorithms,
                 .defaults,
                 .dependencies,
-                .secureXPC
+                .secureXPC,
+                .sparkle
             ]
         ),
+
         .target(name: "BatteryInfo", dependencies: [
             "AppShared",
             "Clients",
             .dependencies
         ]),
+
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
+
         .target(name: "Settings", dependencies: [
             "Clients",
             "DefaultsKeys",
-            .settingsKit
+            .settingsKit,
+            .dependencies
         ]),
+
         .target(name: "Server", dependencies: [
             "Shared",
             .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList"),
             .secureXPC
         ]),
+
         .target(name: "AppShared"),
+
         .target(name: "AppCore", dependencies: [
             "AppShared",
             "Clients",
@@ -73,7 +84,9 @@ let package = Package(
             .dependencies,
             .asyncAlgorithms
         ]),
+
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
+
         .target(
             name: "App",
             dependencies: [
@@ -87,7 +100,9 @@ let package = Package(
                 .menuBuilder
             ]
         ),
+
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
+
         .target(
             name: "Notifications",
             dependencies: [
@@ -109,4 +124,5 @@ extension Target.Dependency {
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
     static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
+    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
 }

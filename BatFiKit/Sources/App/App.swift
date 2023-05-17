@@ -8,6 +8,7 @@
 import AboutKit
 import AppCore
 import Cocoa
+import Dependencies
 import MenuBuilder
 import Notifications
 import Settings
@@ -21,6 +22,7 @@ public final class BatFi: MenuControllerDelegate {
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
     private weak var aboutWindow: NSWindow?
+    @Dependency(\.updater) private var updater
 
     public init() { }
 
@@ -51,6 +53,10 @@ public final class BatFi: MenuControllerDelegate {
 
     func quitApp() {
         NSApp.terminate(nil)
+    }
+
+    func checkForUpdates() {
+        updater.checkForUpdates()
     }
 
     func openAbout() {

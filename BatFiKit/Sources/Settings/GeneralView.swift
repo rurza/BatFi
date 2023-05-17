@@ -5,14 +5,18 @@
 //  Created by Adam on 05/05/2023.
 //
 
+import Clients
 import Defaults
+import Dependencies
 import SwiftUI
 import SettingsKit
 import ServiceManagement
 
 struct GeneralView: View {
     @Default(.launchAtLogin) private var launchAtLogin
-
+    @State private var automaticallyChecksForUpdates: Bool = false
+    @State private var automaticallyDownloadsUpdates: Bool = false
+    @Dependency(\.updater) private var updater
 
     var body: some View {
         Container(contentWidth: settingsContentWidth) {
@@ -25,8 +29,23 @@ struct GeneralView: View {
                             try? SMAppService.mainApp.unregister()
                         }
                     }
-                Toggle("Hide status bar icon", isOn: $launchAtLogin)
+//                Toggle("Hide status bar icon", isOn: $launchAtLogin)
             }
+            Section(title: "Updates") {
+                Toggle("Automatically check for updates", isOn: $automaticallyChecksForUpdates)
+                    .onChange(of: automaticallyChecksForUpdates) { newValue in
+                        updater.setAutomaticallyChecksForUpdates(newValue)
+                    }
+
+                Toggle("Automatically download updates", isOn: $automaticallyDownloadsUpdates)
+                    .disabled(!automaticallyChecksForUpdates)
+                    .onChange(of: automaticallyDownloadsUpdates) { newValue in
+                        updater.setAutomaticallyDownloadsUpdates(newValue)
+                    }
+            }
+        }.onAppear {
+            automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()
+            automaticallyDownloadsUpdates = updater.automaticallyDownloadsUpdates()
         }
     }
 
