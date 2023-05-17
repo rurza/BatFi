@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum AppChargingMode: String {
+public enum AppChargingMode: String, Equatable {
     case charging
     case inhibit
     case forceDischarge

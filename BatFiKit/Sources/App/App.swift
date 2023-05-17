@@ -8,7 +8,9 @@
 import AppCore
 import Cocoa
 import MenuBuilder
+import Notifications
 import Settings
+import UserNotifications
 
 @MainActor
 public final class BatFi: MenuControllerDelegate {
@@ -16,11 +18,13 @@ public final class BatFi: MenuControllerDelegate {
     lazy var settingsController = SettingsController()
     var chargingManager = ChargingManager()
     var menuController: MenuController?
+    var notificationsManager: NotificationsManager?
 
     public init() { }
 
     public func start() {
         chargingManager.setUpObserving()
+        notificationsManager = NotificationsManager()
         statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
         menuController = MenuController(statusItem: statusItem)
         menuController?.delegate = self

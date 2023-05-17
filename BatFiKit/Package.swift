@@ -81,10 +81,21 @@ let package = Package(
                 "ClientsLive",
                 "BatteryInfo",
                 "Settings",
+                "Notifications",
                 .menuBuilder
             ]
         ),
-        .target(name: "DefaultsKeys", dependencies: [.defaults])
+        .target(name: "DefaultsKeys", dependencies: [.defaults]),
+        .target(
+            name: "Notifications",
+            dependencies: [
+                "AppShared",
+                "Clients",
+                "DefaultsKeys",
+                .defaults,
+                .dependencies
+            ]
+        )
     ]
 )
 

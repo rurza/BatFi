@@ -34,6 +34,7 @@ extension AppChargingStateClient: DependencyKey {
                             logger.debug("App charging mode did change: \(value?.rawValue ?? "nil", privacy: .public)")
                             return value
                         }
+                        .removeDuplicates()
                 )
             },
             updateLidOpenedStatus: { lidOpened in

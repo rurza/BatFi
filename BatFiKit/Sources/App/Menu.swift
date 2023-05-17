@@ -52,7 +52,7 @@ final class MenuController {
                     BatteryInfoView()
                 }
             SeparatorItem()
-            if appChargingState == .chargerNotConnected {
+            if appChargingState == .forceDischarge || appChargingState == .chargerNotConnected {
                 MenuItem("Charge to 100%")
             } else if appChargingState != .forceCharge {
                 MenuItem("Charge to 100%")

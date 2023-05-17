@@ -23,3 +23,11 @@ public let temperatureFormatter: MeasurementFormatter = {
     formatter.numberFormatter = numberFormatter
     return formatter
 }()
+
+public let percentageFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .percent
+    formatter.minimumIntegerDigits = 1
+    formatter.maximumFractionDigits = 0
+    return formatter
+}()

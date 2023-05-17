@@ -134,16 +134,16 @@ public final class ChargingManager {
         defer {
             logger.debug("⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆")
         }
-        guard powerState.chargerConnected else {
-            await appChargingState.updateChargingStateMode(.chargerNotConnected)
-            return
-        }
+
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
         guard manageCharging && !forceCharging else {
             logger.debug("Manage charging is turned off or Force charge is turned on")
-            await turnOnChargingIfNeeded(preventSleeping: false)
+            await turnOnChargingIfNeeded(
+                preventSleeping: false,
+                chargerConnected: powerState.chargerConnected
+            )
             return
         }
         guard let lidOpened = await appChargingState.lidOpened() else {
@@ -158,10 +158,16 @@ public final class ChargingManager {
                     await turnOnForceDischargeIfNeeded()
                 } else {
                     await inhibitChargingIfNeeded()
+                    if !powerState.chargerConnected {
+                        await appChargingState.updateChargingStateMode(.chargerNotConnected)
+                    }
                 }
                 restoreSleepifNeeded()
             } else {
-                await turnOnChargingIfNeeded(preventSleeping: preventSleeping)
+                await turnOnChargingIfNeeded(
+                    preventSleeping: preventSleeping,
+                    chargerConnected: powerState.chargerConnected
+                )
             }
         }
 
@@ -184,14 +190,18 @@ public final class ChargingManager {
         }
     }
 
-    private func turnOnChargingIfNeeded(preventSleeping: Bool) async {
+    private func turnOnChargingIfNeeded(preventSleeping: Bool, chargerConnected: Bool) async {
         let mode = await appChargingState.chargingStateMode()
         logger.debug("Should turn on charging...")
         if mode != .charging && mode != .forceCharge {
             logger.debug("Turning on charging")
             do {
                 try await chargingClient.turnOnAutoChargingMode()
-                await appChargingState.updateChargingStateMode(.charging)
+                if chargerConnected {
+                    await appChargingState.updateChargingStateMode(.charging)
+                } else {
+                    await appChargingState.updateChargingStateMode(.chargerNotConnected)
+                }
                 logger.debug("Charging TURNED ON")
             } catch {
                 logger.critical("Failed to turn on charging. Error: \(error)")
@@ -250,10 +260,6 @@ public final class ChargingManager {
         do {
             logger.debug("Fetching charging status")
             let powerState = try powerSourceClient.currentPowerSourceState()
-            guard powerState.chargerConnected else {
-                await appChargingState.updateChargingStateMode(.chargerNotConnected)
-                return
-            }
             let chargingStatus = try await chargingClient.chargingStatus()
             let forceChargeStatus = getDefaultsClient.forceCharge()
             if chargingStatus.forceDischarging {
@@ -263,7 +269,11 @@ public final class ChargingManager {
             } else if forceChargeStatus {
                 await appChargingState.updateChargingStateMode(.forceCharge)
             } else {
-                await appChargingState.updateChargingStateMode(.charging)
+                if powerState.chargerConnected {
+                    await appChargingState.updateChargingStateMode(.chargerNotConnected)
+                } else {
+                    await appChargingState.updateChargingStateMode(.charging)
+                }
             }
             await appChargingState.updateLidOpenedStatus(!chargingStatus.lidClosed)
         } catch {
