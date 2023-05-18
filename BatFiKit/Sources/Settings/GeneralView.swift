@@ -32,8 +32,7 @@ struct GeneralView: View {
                         }
                     }
             }
-            Section(title: "Menu Bar", bottomDivider: true) {
-                //                Toggle("Hide status bar icon", isOn: $launchAtLogin)
+            Section(title: "Status Icon", bottomDivider: true) {
                 Toggle("Show monochrome icon", isOn: $monochrom)
                 Toggle("Show battery percentage", isOn: $batteryPercentage)
 

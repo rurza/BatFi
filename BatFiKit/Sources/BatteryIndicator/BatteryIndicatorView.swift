@@ -36,7 +36,7 @@ public struct BatteryIndicatorView: View {
                                 .foregroundStyle(primaryColor())
                         }
                         .overlay {
-                            if !model.monochrome {
+                            if !model.monochrome && model.chargingMode != .discharging {
                                 PercentageLabel(model: model, height: size.height)
                                     .foregroundColor(.white.opacity(0.86))
                             }
@@ -47,11 +47,15 @@ public struct BatteryIndicatorView: View {
                             )
                         }
                         .reverseMask {
-                            if model.monochrome {
+                            if model.monochrome || model.chargingMode == .discharging {
                                 PercentageLabel(model: model, height: size.height)
                             }
                         }
                     }
+                    .transition(.asymmetric(
+                        insertion: .push(from: .top).combined(with: .opacity),
+                        removal: .move(edge: .bottom).combined(with: .opacity)
+                    ))
                 } else {
                     ZStack {
                         RoundedRectangle(
@@ -65,25 +69,29 @@ public struct BatteryIndicatorView: View {
                             let width = (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
                             Rectangle()
                                 .frame(width: width)
-                                .mask {
-                                    RoundedRectangle(
-                                        cornerRadius: size.height / 5, style: .continuous
-                                    )
-                                }
+                        }
+                        .mask {
+                            RoundedRectangle(
+                                cornerRadius: size.height / 5, style: .continuous
+                            )
                         }
                         .padding(2)
                     }
                     .overlay {
-                        if !model.monochrome || model.batteryLevel < 50 {
+                        if !model.monochrome || model.batteryLevel < 55 {
                             ChargingModeSymbol(model: model, height: size.height, heightFraction: 0.6)
                                 .foregroundStyle(primaryColor())
                         }
                     }
                     .reverseMask {
-                        if model.monochrome && model.batteryLevel >= 50 {
+                        if model.monochrome && model.batteryLevel >= 55 {
                             ChargingModeSymbol(model: model, height: size.height, heightFraction: 0.6)
                         }
                     }
+                    .transition(.asymmetric(
+                        insertion: .push(from: .top).combined(with: .opacity),
+                        removal: .move(edge: .bottom).combined(with: .opacity)
+                    ))
                 }
                 HalfCircleShape()
                     .foregroundStyle(.primary)
@@ -96,10 +104,18 @@ public struct BatteryIndicatorView: View {
         }
         .animation(.spring(), value: model.batteryLevel)
         .animation(.spring(), value: model.chargingMode)
+        .animation(.spring(), value: model.showPercentage)
+        .animation(.spring(), value: model.monochrome)
     }
 
     func primaryColor() -> Color {
-        guard !model.monochrome else { return Color.primary }
+        guard !model.monochrome else {
+            if model.showPercentage {
+                return Color.primary
+            } else {
+                return Color.primary.opacity(0.85)
+            }
+        }
         guard model.batteryLevel > 10 else { return Color.red }
         switch model.chargingMode {
         case .charging:
@@ -145,6 +161,8 @@ struct DemoView: View {
 
             Divider()
             VStack(alignment: .leading) {
+                Toggle("Mono", isOn: $model.monochrome)
+                Toggle("%", isOn: $model.showPercentage)
                 HStack {
                     Button {
                         if percentage > 0 {
@@ -173,9 +191,6 @@ struct DemoView: View {
                 }
                 .pickerStyle(.radioGroup)
             }
-            Toggle("Mono", isOn: $model.monochrome)
-            Toggle("%", isOn: $model.showPercentage)
-
         }
         .onChange(of: percentage, perform: { newValue in
             model.batteryLevel = Int(newValue)
