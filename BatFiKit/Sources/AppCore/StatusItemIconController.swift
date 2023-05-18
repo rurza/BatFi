@@ -28,7 +28,12 @@ public final class StatusItemIconController {
     }
 
     weak var batteryIndicatorView: NSView?
-    private lazy var model = BatteryIndicatorView.Model(chargingMode: .discharging, batteryLevel: 0)
+    private lazy var model = BatteryIndicatorView.Model(
+        chargingMode: .discharging,
+        batteryLevel: 0,
+        monochrome: true,
+        showPercentage: true
+    )
 
     func setUpObserving() {
         Task {
@@ -44,6 +49,7 @@ public final class StatusItemIconController {
                 model.batteryLevel = powerState.batteryLevel
                 model.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
                 model.monochrome = showMonochrome
+                model.showPercentage = showPercentage
                 guard let button = statusItem.button else { continue }
                 if batteryIndicatorView == nil {
                     let hostingView = NSHostingView(rootView: BatteryIndicatorView(model: self.model))
@@ -53,7 +59,7 @@ public final class StatusItemIconController {
                     hostingView.snp.makeConstraints { make in
                         make.centerX.equalToSuperview().offset(3) // offset by the "nipple" so the battery will look centered
                         make.width.equalTo(34)
-                        make.height.equalTo(14)
+                        make.height.equalTo(13)
                         make.centerY.equalToSuperview()
                     }
                     button.snp.makeConstraints { make in

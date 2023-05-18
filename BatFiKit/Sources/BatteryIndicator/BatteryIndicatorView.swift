@@ -15,39 +15,73 @@ public struct BatteryIndicatorView: View {
         self.model = model
     }
 
-    private let secondaryOpacity = 0.4
+    private let secondaryOpacity = 0.5
     
     public var body: some View {
         GeometryReader { proxy in
             let size = proxy.size
             HStack(spacing: 1) {
-                ZStack(alignment: .leading) {
-                    GeometryReader { innerProxy in
-                        Rectangle()
-                            .foregroundStyle(.primary)
-                            .opacity(secondaryOpacity)
-                        Rectangle()
-                            .frame(
-                                width: (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                if model.showPercentage {
+                    ZStack(alignment: .leading) {
+                        GeometryReader { innerProxy in
+                            Rectangle()
+                                .foregroundStyle(.primary)
+                                .opacity(secondaryOpacity)
+                            Rectangle()
+                                .frame(
+                                    width: (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                                )
+                                .transition(.opacity)
+                                .id(model.chargingMode)
+                                .foregroundStyle(primaryColor())
+                        }
+                        .overlay {
+                            if !model.monochrome {
+                                PercentageLabel(model: model, height: size.height)
+                                    .foregroundColor(.white.opacity(0.86))
+                            }
+                        }
+                        .mask {
+                            RoundedRectangle(
+                                cornerRadius: size.height / 4, style: .continuous
                             )
-                            .transition(.opacity)
-                            .id(model.chargingMode)
-                            .foregroundStyle(primaryColor())
-                    }
-                    .overlay {
-                        if !model.monochrome {
-                            PercentageLabel(model: model, height: size.height)
-                                .foregroundColor(.white.opacity(0.86))
+                        }
+                        .reverseMask {
+                            if model.monochrome {
+                                PercentageLabel(model: model, height: size.height)
+                            }
                         }
                     }
-                    .mask {
+                } else {
+                    ZStack {
                         RoundedRectangle(
                             cornerRadius: size.height / 4, style: .continuous
                         )
+                        .stroke(lineWidth: 1)
+                        .padding(1)
+                        .foregroundStyle(.primary)
+                        .opacity(secondaryOpacity)
+                        GeometryReader { innerProxy in
+                            let width = (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                            Rectangle()
+                                .frame(width: width)
+                                .mask {
+                                    RoundedRectangle(
+                                        cornerRadius: size.height / 5, style: .continuous
+                                    )
+                                }
+                        }
+                        .padding(2)
+                    }
+                    .overlay {
+                        if !model.monochrome || model.batteryLevel < 50 {
+                            ChargingModeSymbol(model: model, height: size.height, heightFraction: 0.6)
+                                .foregroundStyle(primaryColor())
+                        }
                     }
                     .reverseMask {
-                        if model.monochrome {
-                            PercentageLabel(model: model, height: size.height)
+                        if model.monochrome && model.batteryLevel >= 50 {
+                            ChargingModeSymbol(model: model, height: size.height, heightFraction: 0.6)
                         }
                     }
                 }
@@ -96,9 +130,11 @@ extension Double {
 struct DemoView: View {
     @StateObject var model = BatteryIndicatorView.Model(
         chargingMode: .charging,
-        batteryLevel: 50
+        batteryLevel: 20,
+        monochrome: false,
+        showPercentage: false
     )
-    @State private var percentage: Double = 50
+    @State private var percentage: Double = 20
 
     var body: some View {
         VStack {
@@ -138,6 +174,8 @@ struct DemoView: View {
                 .pickerStyle(.radioGroup)
             }
             Toggle("Mono", isOn: $model.monochrome)
+            Toggle("%", isOn: $model.showPercentage)
+
         }
         .onChange(of: percentage, perform: { newValue in
             model.batteryLevel = Int(newValue)
@@ -156,7 +194,10 @@ struct DemoView_Previews: PreviewProvider {
 }
 #endif
 
-
+func fontSize(height: Double, fraction: Double) -> Double {
+    let proportion = round(height * fraction)
+    return proportion.isEven ? proportion : proportion + 1
+}
 
 struct PercentageLabel: View {
     @ObservedObject var model: BatteryIndicatorView.Model
@@ -165,32 +206,33 @@ struct PercentageLabel: View {
     var body: some View {
         HStack(spacing: 1) {
             if model.batteryLevel < 100 {
-                Group {
-                    if case .charging = model.chargingMode {
-                        Image(systemName: "bolt.fill")
-                            .transition(.opacity)
-                    } else if case .inhibited = model.chargingMode {
-                        Image(systemName: "pause.fill")
-                            .transition(.opacity)
-                    }
-                }
-                .font(.system(size: fontSize(fraction: 0.6), weight: .medium))
+                ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
             }
+            let fontHeight = fontSize(height: height, fraction: 0.85)
             RollingNumberLabel(
-                font: .system(size: fontSize(fraction: 0.85), weight: .semibold),
+                font: .system(size: fontHeight, weight: .semibold),
                 initialValue: model.batteryLevel
             )
-//            Text("\(model.batteryLevel)")
-//                .id(model.batteryLevel)
-//                .monospacedDigit()
-//                .font(.system(size: fontSize(fraction: 0.85), weight: .semibold))
-//                .transition(.asymmetric(insertion: .push(from: .top), removal: .move(edge: .bottom)))
-//                .kerning(-0.5)
         }
     }
+}
 
-    func fontSize(fraction: Double) -> Double {
-        let proportion = round(height * fraction)
-        return proportion.isEven ? proportion : proportion + 1
+struct ChargingModeSymbol: View {
+    @ObservedObject var model: BatteryIndicatorView.Model
+    let height: Double
+    let heightFraction: Double
+
+    var body: some View {
+        let height = fontSize(height: height, fraction: heightFraction)
+        Group {
+            if case .charging = model.chargingMode {
+                Image(systemName: "bolt.fill")
+                    .transition(.opacity)
+            } else if case .inhibited = model.chargingMode {
+                Image(systemName: "pause.fill")
+                    .transition(.opacity)
+            }
+        }
+        .font(.system(size: height, weight: .medium))
     }
 }

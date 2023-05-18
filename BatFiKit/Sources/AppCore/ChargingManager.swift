@@ -198,7 +198,11 @@ public final class ChargingManager {
             do {
                 try await chargingClient.turnOnAutoChargingMode()
                 if chargerConnected {
-                    await appChargingState.updateChargingStateMode(.charging)
+                    if getDefaultsClient.forceCharge() {
+                        await appChargingState.updateChargingStateMode(.forceCharge)
+                    } else {
+                        await appChargingState.updateChargingStateMode(.charging)
+                    }
                 } else {
                     await appChargingState.updateChargingStateMode(.chargerNotConnected)
                 }

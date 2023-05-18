@@ -11,11 +11,19 @@ public extension BatteryIndicatorView {
     final class Model: ObservableObject {
         @Published public var chargingMode: ChargingMode
         @Published public var batteryLevel: Int
-        @Published public var monochrome: Bool = false
+        @Published public var monochrome: Bool
+        @Published public var showPercentage: Bool
 
-        public init(chargingMode: ChargingMode, batteryLevel: Int) {
+        public init(
+            chargingMode: ChargingMode,
+            batteryLevel: Int,
+            monochrome: Bool,
+            showPercentage: Bool
+        ) {
             self.chargingMode = chargingMode
             self.batteryLevel = batteryLevel
+            self.monochrome = monochrome
+            self.showPercentage = showPercentage
         }
 
         public enum ChargingMode: Hashable {

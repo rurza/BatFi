@@ -15,6 +15,7 @@ import ServiceManagement
 struct GeneralView: View {
     @Default(.launchAtLogin) private var launchAtLogin
     @Default(.monochromeStatusIcon) private var monochrom
+    @Default(.showBatteryPercentageInStatusIcon) private var batteryPercentage
     @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
     @Dependency(\.updater) private var updater
@@ -34,6 +35,8 @@ struct GeneralView: View {
             Section(title: "Menu Bar", bottomDivider: true) {
                 //                Toggle("Hide status bar icon", isOn: $launchAtLogin)
                 Toggle("Show monochrome icon", isOn: $monochrom)
+                Toggle("Show battery percentage", isOn: $batteryPercentage)
+
             }
             Section(title: "App Updates") {
                 Toggle("Automatically check for updates", isOn: $automaticallyChecksForUpdates)
