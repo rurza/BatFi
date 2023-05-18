@@ -176,12 +176,16 @@ struct PercentageLabel: View {
                 }
                 .font(.system(size: fontSize(fraction: 0.6), weight: .medium))
             }
-            Text("\(model.batteryLevel)")
-                .id(model.batteryLevel)
-                .monospacedDigit()
-                .font(.system(size: fontSize(fraction: 0.85), weight: .semibold))
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .move(edge: .bottom)))
-                .kerning(-0.5)
+            RollingNumberLabel(
+                font: .system(size: fontSize(fraction: 0.85), weight: .semibold),
+                initialValue: model.batteryLevel
+            )
+//            Text("\(model.batteryLevel)")
+//                .id(model.batteryLevel)
+//                .monospacedDigit()
+//                .font(.system(size: fontSize(fraction: 0.85), weight: .semibold))
+//                .transition(.asymmetric(insertion: .push(from: .top), removal: .move(edge: .bottom)))
+//                .kerning(-0.5)
         }
     }
 
