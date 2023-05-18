@@ -12,7 +12,6 @@ import Dependencies
 import MenuBuilder
 import Notifications
 import Settings
-import UserNotifications
 
 @MainActor
 public final class BatFi: MenuControllerDelegate {
@@ -21,6 +20,7 @@ public final class BatFi: MenuControllerDelegate {
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
+    private var statusItemIconController: StatusItemIconController?
     private weak var aboutWindow: NSWindow?
     @Dependency(\.updater) private var updater
 
@@ -29,7 +29,8 @@ public final class BatFi: MenuControllerDelegate {
     public func start() {
         chargingManager.setUpObserving()
         notificationsManager = NotificationsManager()
-        statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
+        statusItemIconController = StatusItemIconController(statusItem: statusItem)
+//        statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
         menuController = MenuController(statusItem: statusItem)
         menuController?.delegate = self
     }
@@ -39,27 +40,27 @@ public final class BatFi: MenuControllerDelegate {
     }
 
     // MARK: - MenuControllerDelegate
-    func forceCharge() {
+    public func forceCharge() {
         chargingManager.chargeToFull()
     }
 
-    func stopForceCharge() {
+    public func stopForceCharge() {
         chargingManager.turnOffChargeToFull()
     }
 
-    func openSettings() {
+    public func openSettings() {
         settingsController.openSettings()
     }
 
-    func quitApp() {
+    public func quitApp() {
         NSApp.terminate(nil)
     }
 
-    func checkForUpdates() {
+    public func checkForUpdates() {
         updater.checkForUpdates()
     }
 
-    func openAbout() {
+    public func openAbout() {
         if aboutWindow == nil {
             let about = AboutWindow(description: "Made with ❤️ and 🔋 by")
             about.makeKeyAndOrderFront(nil)

@@ -7,46 +7,74 @@
 
 import SwiftUI
 
-struct BatteryIndicatorView: View {
-    let percentage: Int
+public struct BatteryIndicatorView: View {
 
-    var body: some View {
+    @ObservedObject private var model: Model
+
+    public init(model: Model) {
+        self.model = model
+    }
+
+    private let secondaryOpacity = 0.4
+    
+    public var body: some View {
         GeometryReader { proxy in
             let size = proxy.size
             HStack(spacing: 1) {
-                GeometryReader { innerProxy in
-                    ZStack(alignment: .leading) {
+                ZStack(alignment: .leading) {
+                    GeometryReader { innerProxy in
                         Rectangle()
-                            .foregroundStyle(.secondary)
-
+                            .foregroundStyle(.primary)
+                            .opacity(secondaryOpacity)
                         Rectangle()
                             .frame(
-                                width: (Double(percentage) / 100) * (innerProxy.size.width)
+                                width: (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
                             )
-                            .foregroundStyle(.primary)
-
+                            .transition(.opacity)
+                            .id(model.chargingMode)
+                            .foregroundStyle(primaryColor())
                     }
-                    .reverseMask {
-                        Text("\(percentage)")
-                            .font(.system(size: round(size.height * 0.8), weight: .bold))
-                            .kerning(-0.7)
+                    .overlay {
+                        if !model.monochrome {
+                            PercentageLabel(model: model, height: size.height)
+                                .foregroundColor(.white.opacity(0.86))
+                        }
                     }
                     .mask {
                         RoundedRectangle(
                             cornerRadius: size.height / 4, style: .continuous
                         )
                     }
+                    .reverseMask {
+                        if model.monochrome {
+                            PercentageLabel(model: model, height: size.height)
+                        }
+                    }
                 }
-
                 HalfCircleShape()
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
+                    .opacity(secondaryOpacity)
                     .frame(
-                        width: size.width / 7,
+                        width: size.width / 6,
                         height: size.height / 6
                     )
             }
         }
+        .animation(.spring(), value: model.batteryLevel)
+        .animation(.spring(), value: model.chargingMode)
+    }
 
+    func primaryColor() -> Color {
+        guard !model.monochrome else { return Color.primary }
+        guard model.batteryLevel > 10 else { return Color.red }
+        switch model.chargingMode {
+        case .charging:
+            return .accentColor
+        case .inhibited:
+            return .orange
+        case .discharging:
+            return .primary
+        }
     }
 }
 
@@ -60,23 +88,64 @@ struct HalfCircleShape: Shape {
     }
 }
 
+extension Double {
+    var isEven: Bool { self.remainder(dividingBy: 2) == 0 }
+}
+
 #if DEBUG
 struct DemoView: View {
-    @State private var percentage: Double = 0
+    @StateObject var model = BatteryIndicatorView.Model(
+        chargingMode: .charging,
+        batteryLevel: 50
+    )
+    @State private var percentage: Double = 50
 
     var body: some View {
         VStack {
             let _  = Self._printChanges()
-            BatteryIndicatorView(percentage: Int(percentage))
-                .animation(.spring(), value: percentage)
-                .frame(width: 32, height: 16)
+            BatteryIndicatorView(model: model)
+                .frame(width: 34, height: 14)
                 .padding()
 
-            Slider(value: $percentage, in: 0...100)
+            Divider()
+            VStack(alignment: .leading) {
+                HStack {
+                    Button {
+                        if percentage > 0 {
+                            percentage -= 1
+                        }
+                    } label: {
+                        Text("-")
+                    }
+                    Slider(value: $percentage, in: 0...100) {
+                        Text("Percentage")
+                    }
+                    Button {
+                        if percentage < 100 {
+                            percentage += 1
+                        }
+                    } label: {
+                        Text("+")
+                    }
+                }
+                Picker(selection: $model.chargingMode) {
+                    Text("Charging").tag(BatteryIndicatorView.Model.ChargingMode.charging)
+                    Text("Discharging").tag(BatteryIndicatorView.Model.ChargingMode.discharging)
+                    Text("Inhibited").tag(BatteryIndicatorView.Model.ChargingMode.inhibited)
+                } label: {
+                    Text("Choose mode:")
+                }
+                .pickerStyle(.radioGroup)
+            }
+            Toggle("Mono", isOn: $model.monochrome)
         }
+        .onChange(of: percentage, perform: { newValue in
+            model.batteryLevel = Int(newValue)
+        })
         .padding()
-        .frame(width: 200)
-        .background(Color.yellow)
+        .frame(width: 300)
+        .background(.thinMaterial)
+        .presentedWindowStyle(.hiddenTitleBar)
     }
 }
 
@@ -88,3 +157,36 @@ struct DemoView_Previews: PreviewProvider {
 #endif
 
 
+
+struct PercentageLabel: View {
+    @ObservedObject var model: BatteryIndicatorView.Model
+    let height: Double
+
+    var body: some View {
+        HStack(spacing: 1) {
+            if model.batteryLevel < 100 {
+                Group {
+                    if case .charging = model.chargingMode {
+                        Image(systemName: "bolt.fill")
+                            .transition(.opacity)
+                    } else if case .inhibited = model.chargingMode {
+                        Image(systemName: "pause.fill")
+                            .transition(.opacity)
+                    }
+                }
+                .font(.system(size: fontSize(fraction: 0.6), weight: .medium))
+            }
+            Text("\(model.batteryLevel)")
+                .id(model.batteryLevel)
+                .monospacedDigit()
+                .font(.system(size: fontSize(fraction: 0.85), weight: .semibold))
+                .transition(.asymmetric(insertion: .push(from: .top), removal: .move(edge: .bottom)))
+                .kerning(-0.5)
+        }
+    }
+
+    func fontSize(fraction: Double) -> Double {
+        let proportion = round(height * fraction)
+        return proportion.isEven ? proportion : proportion + 1
+    }
+}

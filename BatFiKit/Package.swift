@@ -2,6 +2,19 @@
 
 import PackageDescription
 
+extension Target.Dependency {
+    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
+    static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
+    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
+    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
+    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
+    static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
+    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
+    static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
+    static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
+    static let aboutKit: Self = product(name: "AboutKit", package: "AboutKit")
+}
+
 let package = Package(
     name: "BatFiKit",
     platforms: [.macOS(.v13)],
@@ -25,7 +38,8 @@ let package = Package(
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
-        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1")
+        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1"),
+        .package(url: "https://github.com/SnapKit/SnapKit", branch: "main")
     ],
     targets: [
         .target(
@@ -68,7 +82,7 @@ let package = Package(
         ]),
         .target(name: "Server", dependencies: [
             "Shared",
-            .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList"),
+            .embeddedPropertyList,
             .secureXPC
         ]),
         .target(name: "AppShared"),
@@ -78,20 +92,22 @@ let package = Package(
             "Settings",
             "Shared",
             .dependencies,
-            .asyncAlgorithms
+            .asyncAlgorithms,
+            .snapKit
         ]),
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
         .target(
             name: "App",
             dependencies: [
-                .product(name: "AboutKit", package: "AboutKit"),
                 "AppCore",
                 "Clients",
                 "ClientsLive",
+                "BatteryIndicator",
                 "BatteryInfo",
                 "Settings",
                 "Notifications",
-                .menuBuilder
+                .aboutKit,
+                .menuBuilder,
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
@@ -106,16 +122,10 @@ let package = Package(
                 .dependencies
             ]
         ),
-        .target(name: "BatteryIndicator")
+        .target(
+            name: "BatteryIndicator",
+            dependencies: [
+            ]
+        )
     ]
 )
-
-extension Target.Dependency {
-    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
-    static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
-    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
-    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
-    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
-    static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
-    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
-}

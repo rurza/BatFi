@@ -36,6 +36,7 @@ extension ChargingClient: DependencyKey {
                         try await Task.sleep(for: .seconds(1))
                         await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
+                        try await Task.sleep(for: .seconds(1))
                         return try await call()
                     } catch { }
                 default:
@@ -46,6 +47,7 @@ extension ChargingClient: DependencyKey {
         }
 
         func turnOnAutoChargingModel() async throws {
+            logger.debug("Should send \(#function)")
             do {
                 try await xpcClient.sendMessage(
                     SMCChargingCommand.auto,
@@ -60,6 +62,7 @@ extension ChargingClient: DependencyKey {
         }
 
         func inhibitCharging() async throws {
+            logger.debug("Should send \(#function)")
             do {
                 try await xpcClient.sendMessage(
                     SMCChargingCommand.inhibitCharging,
@@ -74,6 +77,7 @@ extension ChargingClient: DependencyKey {
         }
 
         func forceDischarge() async throws {
+            logger.debug("Should send \(#function)")
             do {
                 try await xpcClient.sendMessage(
                     SMCChargingCommand.forceDischarging,
@@ -85,6 +89,7 @@ extension ChargingClient: DependencyKey {
         }
 
         func chargingStatus() async throws -> SMCStatus {
+            logger.debug("Should send \(#function)")
             do {
                 return try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
             } catch {
@@ -96,6 +101,7 @@ extension ChargingClient: DependencyKey {
         }
 
         func quit() async throws {
+            logger.debug("Should send \(#function)")
             do {
                 try await xpcClient.send(to: XPCRoute.quit)
             } catch {

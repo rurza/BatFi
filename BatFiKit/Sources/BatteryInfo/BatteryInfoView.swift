@@ -16,7 +16,7 @@ public struct BatteryInfoView: View {
     public var body: some View {
         Group {
             if let powerState = model.state {
-                VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 6) {
                         BatteryMainInfo(
                             label: "Battery",
@@ -30,15 +30,16 @@ public struct BatteryInfoView: View {
                                 primaryForegroundColor: model.time?.hasKnownTime == true
                             )
                         }
-                        if let description = model.modeDescription {
-                            Text(description)
-                                .foregroundStyle(.secondary)
-                                .font(.callout)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
                     }
-                    SeparatorView()
+                    if let description = model.modeDescription {
+                        Text(description)
+                            .foregroundStyle(.secondary)
+                            .font(.callout)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+//                    SeparatorView()
                     VStack(alignment: .leading, spacing: 6) {
+
                         BatteryAdditionalInfo(
                             label: "Power Source",
                             info: powerState.powerSource
@@ -76,7 +77,7 @@ public struct BatteryInfoView: View {
         }
         .frame(width: 220)
         .padding(.horizontal)
-        .padding(.vertical, 8)
+        .padding(.vertical, 10)
     }
 }
 
