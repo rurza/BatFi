@@ -236,13 +236,17 @@ public final class ChargingManager {
                         return
                     }
                 }
-                logger.debug("Charger not connected")
-                await appChargingState.updateChargingStateMode(.chargerNotConnected)
+
             } catch {
                 logger.critical("Failed to turn on inhibit charging. Error: \(error)")
             }
         } else {
-            logger.debug("Inhibit charging already turned on.")
+            if chargerConnected {
+                logger.debug("Inhibit charging already turned on.")
+            } else {
+                logger.debug("Charger not connected")
+                await appChargingState.updateChargingStateMode(.chargerNotConnected)
+            }
         }
     }
 
