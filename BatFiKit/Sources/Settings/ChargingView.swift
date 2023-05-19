@@ -20,10 +20,22 @@ struct ChargingView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Container(contentWidth: settingsContentWidth) {
-                Section(title: "Battery", bottomDivider: true) {
+                Section(bottomDivider: true) {
+                    EmptyView()
+                } content: {
                     VStack(alignment: .leading, spacing: 6) {
-                        Toggle("Automatically manage charging", isOn: $manageCharging)
+                        HStack {
+                            Toggle(isOn: $manageCharging) {
+                                EmptyView()
+                            }
+                            .toggleStyle(.switch)
+                            Text("Automatically manage charging")
+                        }
+                        .padding(.bottom, 24)
+
                         VStack(alignment: .leading, spacing: 2) {
+                            Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
+                                .foregroundColor(manageCharging ? .primary : .secondary)
                             Slider(value: $chargeLimit, in: 60...90, step: 5) {
                                 EmptyView()
                             } minimumValueLabel: {
@@ -32,11 +44,9 @@ struct ChargingView: View {
                                 Text("90%")
                             }
                             .disabled(!manageCharging)
-                        Text("Charge up to \(Int(chargeLimit), format: .percent)")
-                                .foregroundColor(manageCharging ? .primary : .secondary)
                         }
                     }
-                    .padding(.bottom, 12)
+                    .padding(.bottom, 16)
                     Toggle(isOn: $temperatureSwitch) {
                         Text("Automatically turn off charging when the battery gets hot")
                             .help("Turns off charging when the battery is 35°C or more.")
@@ -59,18 +69,18 @@ struct ChargingView: View {
                     }
                     .disabled(!manageCharging)
                 }
-            }
-            Divider()
-            VStack(alignment: .leading, spacing: 0) {
-                Group {
-                    Text("80% is the recommended value for a day-to-day usage.")
-                    Text("You can manually override this setting by using the \"Charge to 100%\" command from the menu.")
+                Section {
+                    EmptyView()
+                } content: {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Group {
+                            Text("80% is the recommended value for a day-to-day usage.")
+                            Text("You can manually override this setting by using the \"Charge to 100%\" command from the menu.")
+                        }
+                        .settingDescription()
+                    }
                 }
-                .settingDescription()
             }
-            .padding(.vertical, 20)
-            .frame(width: settingsContentWidth)
-            .padding(.horizontal, 30)
         }
     }
 
