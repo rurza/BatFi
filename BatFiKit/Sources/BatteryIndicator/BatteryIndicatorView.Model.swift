@@ -6,9 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
 
 public extension BatteryIndicatorView {
     final class Model: ObservableObject {
+        public enum ChargingMode: Hashable {
+            case charging
+            case discharging
+            case inhibited
+        }
+
         @Published public var chargingMode: ChargingMode
         @Published public var batteryLevel: Int
         @Published public var monochrome: Bool
@@ -26,10 +33,19 @@ public extension BatteryIndicatorView {
             self.showPercentage = showPercentage
         }
 
-        public enum ChargingMode: Hashable {
-            case charging
-            case discharging
-            case inhibited
+        func primaryColor() -> Color {
+            guard !monochrome else {
+                return Color.primary
+            }
+            guard batteryLevel > 10 else { return Color.red }
+            switch chargingMode {
+            case .charging:
+                return .accentColor
+            case .inhibited:
+                return .orange
+            case .discharging:
+                return .primary
+            }
         }
     }
 }

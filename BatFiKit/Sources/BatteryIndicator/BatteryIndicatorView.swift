@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let secondaryOpacity = 0.5
+
 public struct BatteryIndicatorView: View {
 
     @ObservedObject private var model: Model
@@ -15,79 +17,18 @@ public struct BatteryIndicatorView: View {
         self.model = model
     }
 
-    private let secondaryOpacity = 0.5
-    
     public var body: some View {
         GeometryReader { proxy in
             let size = proxy.size
             HStack(spacing: 1) {
                 if model.showPercentage {
-                    ZStack(alignment: .leading) {
-                        GeometryReader { innerProxy in
-                            Rectangle()
-                                .foregroundStyle(.primary)
-                                .opacity(secondaryOpacity)
-                            Rectangle()
-                                .frame(
-                                    width: (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
-                                )
-                                .transition(.opacity)
-                                .id(model.chargingMode)
-                                .foregroundStyle(primaryColor())
-                        }
-                        .overlay {
-                            if !model.monochrome && model.chargingMode != .discharging {
-                                PercentageLabel(model: model, height: size.height)
-                                    .foregroundColor(.white.opacity(0.86))
-                            }
-                        }
-                        .mask {
-                            RoundedRectangle(
-                                cornerRadius: size.height / 4, style: .continuous
-                            )
-                        }
-                        .reverseMask {
-                            if model.monochrome || model.chargingMode == .discharging {
-                                PercentageLabel(model: model, height: size.height)
-                            }
-                        }
-                    }
+                    PercentageBatteryIndicatorView(model: model, height: size.height)
                     .transition(.asymmetric(
                         insertion: .push(from: .top).combined(with: .opacity),
                         removal: .move(edge: .bottom).combined(with: .opacity)
                     ))
                 } else {
-                    ZStack {
-                        RoundedRectangle(
-                            cornerRadius: size.height / 4, style: .continuous
-                        )
-                        .stroke(lineWidth: 1)
-                        .padding(1)
-                        .foregroundStyle(.primary)
-                        .opacity(secondaryOpacity)
-                        GeometryReader { innerProxy in
-                            let width = (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
-                            Rectangle()
-                                .frame(width: width)
-                        }
-                        .mask {
-                            RoundedRectangle(
-                                cornerRadius: size.height / 5, style: .continuous
-                            )
-                        }
-                        .padding(2)
-                    }
-                    .overlay {
-                        if !model.monochrome || model.batteryLevel < 55 {
-                            ChargingModeSymbol(model: model, height: size.height, heightFraction: 0.6)
-                                .foregroundStyle(primaryColor())
-                        }
-                    }
-                    .reverseMask {
-                        if model.monochrome && model.batteryLevel >= 55 {
-                            ChargingModeSymbol(model: model, height: size.height, heightFraction: 0.6)
-                        }
-                    }
+                    BasicBatteryIndicatorView(model: model, height: size.height)
                     .transition(.asymmetric(
                         insertion: .push(from: .top).combined(with: .opacity),
                         removal: .move(edge: .bottom).combined(with: .opacity)
@@ -107,25 +48,6 @@ public struct BatteryIndicatorView: View {
         .animation(.spring(), value: model.showPercentage)
         .animation(.spring(), value: model.monochrome)
     }
-
-    func primaryColor() -> Color {
-        guard !model.monochrome else {
-            if model.showPercentage {
-                return Color.primary
-            } else {
-                return Color.primary.opacity(0.85)
-            }
-        }
-        guard model.batteryLevel > 10 else { return Color.red }
-        switch model.chargingMode {
-        case .charging:
-            return .accentColor
-        case .inhibited:
-            return .orange
-        case .discharging:
-            return .primary
-        }
-    }
 }
 
 struct HalfCircleShape: Shape {
@@ -142,6 +64,49 @@ extension Double {
     var isEven: Bool { self.remainder(dividingBy: 2) == 0 }
 }
 
+func fontSize(height: Double, fraction: Double) -> Double {
+    let proportion = round(height * fraction)
+    return proportion.isEven ? proportion : proportion + 1
+}
+
+struct PercentageLabel: View {
+    @ObservedObject var model: BatteryIndicatorView.Model
+    let height: Double
+
+    var body: some View {
+        HStack(spacing: 1) {
+            if model.batteryLevel < 100 {
+                ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
+            }
+            let fontHeight = fontSize(height: height, fraction: 0.85)
+            RollingNumberLabel(
+                font: .system(size: fontHeight, weight: .semibold),
+                initialValue: model.batteryLevel
+            )
+        }
+    }
+}
+
+struct ChargingModeSymbol: View {
+    @ObservedObject var model: BatteryIndicatorView.Model
+    let height: Double
+    let heightFraction: Double
+
+    var body: some View {
+        let height = fontSize(height: height, fraction: heightFraction)
+        Group {
+            if case .charging = model.chargingMode {
+                Image(systemName: "bolt.fill")
+                    .transition(.opacity)
+            } else if case .inhibited = model.chargingMode {
+                Image(systemName: "pause.fill")
+                    .transition(.opacity)
+            }
+        }
+        .font(.system(size: height, weight: .medium))
+    }
+}
+
 #if DEBUG
 struct DemoView: View {
     @StateObject var model = BatteryIndicatorView.Model(
@@ -156,7 +121,7 @@ struct DemoView: View {
         VStack {
             let _  = Self._printChanges()
             BatteryIndicatorView(model: model)
-                .frame(width: 34, height: 14)
+                .frame(width: 33, height: 13)
                 .padding()
 
             Divider()
@@ -208,46 +173,3 @@ struct DemoView_Previews: PreviewProvider {
     }
 }
 #endif
-
-func fontSize(height: Double, fraction: Double) -> Double {
-    let proportion = round(height * fraction)
-    return proportion.isEven ? proportion : proportion + 1
-}
-
-struct PercentageLabel: View {
-    @ObservedObject var model: BatteryIndicatorView.Model
-    let height: Double
-
-    var body: some View {
-        HStack(spacing: 1) {
-            if model.batteryLevel < 100 {
-                ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
-            }
-            let fontHeight = fontSize(height: height, fraction: 0.85)
-            RollingNumberLabel(
-                font: .system(size: fontHeight, weight: .semibold),
-                initialValue: model.batteryLevel
-            )
-        }
-    }
-}
-
-struct ChargingModeSymbol: View {
-    @ObservedObject var model: BatteryIndicatorView.Model
-    let height: Double
-    let heightFraction: Double
-
-    var body: some View {
-        let height = fontSize(height: height, fraction: heightFraction)
-        Group {
-            if case .charging = model.chargingMode {
-                Image(systemName: "bolt.fill")
-                    .transition(.opacity)
-            } else if case .inhibited = model.chargingMode {
-                Image(systemName: "pause.fill")
-                    .transition(.opacity)
-            }
-        }
-        .font(.system(size: height, weight: .medium))
-    }
-}

@@ -59,7 +59,7 @@ public final class StatusItemIconController {
                     button.addSubview(hostingView)
                     hostingView.snp.makeConstraints { make in
                         make.centerX.equalToSuperview().offset(3) // offset by the "nipple" so the battery will look centered
-                        make.width.equalTo(34)
+                        make.width.equalTo(33)
                         make.height.equalTo(13)
                         make.centerY.equalToSuperview()
                     }
