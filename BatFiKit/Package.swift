@@ -43,9 +43,45 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "App",
+            dependencies: [
+                "AppCore",
+                "Clients",
+                "ClientsLive",
+                "BatteryIndicator",
+                "BatteryInfo",
+                "Settings",
+                "Notifications",
+                .aboutKit,
+                .menuBuilder,
+            ]
+        ),
+        .target(name: "AppCore", dependencies: [
+            "AppShared",
+            "Clients",
+            "Settings",
+            "Shared",
+            .dependencies,
+            .asyncAlgorithms,
+            .snapKit
+        ]),
+        .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
+        .target(name: "AppShared"),
+        .target(
             name: "Shared",
             dependencies: [.secureXPC]
         ),
+        .target(
+            name: "BatteryIndicator",
+            dependencies: [
+            ]
+        ),
+        .target(name: "BatteryInfo", dependencies: [
+            "AppShared",
+            "Clients",
+            .dependencies
+        ]),
+        .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(
             name: "Clients",
             dependencies: [
@@ -68,48 +104,6 @@ let package = Package(
                 .sparkle
             ]
         ),
-        .target(name: "BatteryInfo", dependencies: [
-            "AppShared",
-            "Clients",
-            .dependencies
-        ]),
-        .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
-        .target(name: "Settings", dependencies: [
-            "Clients",
-            "DefaultsKeys",
-            .settingsKit,
-            .dependencies
-        ]),
-        .target(name: "Server", dependencies: [
-            "Shared",
-            .embeddedPropertyList,
-            .secureXPC
-        ]),
-        .target(name: "AppShared"),
-        .target(name: "AppCore", dependencies: [
-            "AppShared",
-            "Clients",
-            "Settings",
-            "Shared",
-            .dependencies,
-            .asyncAlgorithms,
-            .snapKit
-        ]),
-        .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
-        .target(
-            name: "App",
-            dependencies: [
-                "AppCore",
-                "Clients",
-                "ClientsLive",
-                "BatteryIndicator",
-                "BatteryInfo",
-                "Settings",
-                "Notifications",
-                .aboutKit,
-                .menuBuilder,
-            ]
-        ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
         .target(
             name: "Notifications",
@@ -122,10 +116,16 @@ let package = Package(
                 .dependencies
             ]
         ),
-        .target(
-            name: "BatteryIndicator",
-            dependencies: [
-            ]
-        )
+        .target(name: "Server", dependencies: [
+            "Shared",
+            .embeddedPropertyList,
+            .secureXPC
+        ]),
+        .target(name: "Settings", dependencies: [
+            "Clients",
+            "DefaultsKeys",
+            .settingsKit,
+            .dependencies
+        ])
     ]
 )
