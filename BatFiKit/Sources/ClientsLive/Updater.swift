@@ -14,7 +14,7 @@ import Sparkle
 
 extension Updater: DependencyKey {
     public static let liveValue: Updater = {
-        let updaterDelegate = UpdaterDelegate()
+        let updaterDelegate = UpdaterDelegate.instance
 
         let updaterController = SPUStandardUpdaterController(
             startingUpdater: true,
@@ -34,7 +34,8 @@ extension Updater: DependencyKey {
             setAutomaticallyChecksForUpdates: { check in
                 updaterController.updater.automaticallyChecksForUpdates = check
 
-            }, setAutomaticallyDownloadsUpdates: { download in
+            },
+            setAutomaticallyDownloadsUpdates: { download in
                 updaterController.updater.automaticallyDownloadsUpdates = download
             }
         )
@@ -44,10 +45,7 @@ extension Updater: DependencyKey {
 
 
 private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
-
-    override init() {
-        super.init()
-    }
+    static let instance = UpdaterDelegate()
 
     var supportsGentleScheduledUpdateReminders: Bool {
         true
@@ -73,6 +71,7 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
             let content = UNMutableNotificationContent()
             content.title = "A new update is available"
             content.body = "Version \(update.displayVersionString) is now available"
+            content.interruptionLevel = .active
             let request = UNNotificationRequest(identifier: updateNotificationIdentifier, content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request)
         }
@@ -81,9 +80,5 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
     func standardUserDriverDidReceiveUserAttention(forUpdate update: SUAppcastItem) {
         // Dismiss active update notifications if the user has given attention to the new update
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [updateNotificationIdentifier])
-    }
-
-    deinit {
-
     }
 }
