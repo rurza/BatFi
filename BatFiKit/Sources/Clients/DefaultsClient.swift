@@ -17,19 +17,22 @@ public struct ObserveDefaultsClient: TestDependencyKey {
     public var observeAllowDischargingFullBattery: () -> AsyncStream<Bool>
     public var observePreventSleeping: () -> AsyncStream<Bool>
     public var observeForceCharging: () -> AsyncStream<Bool>
+    public var observeTemperature: () -> AsyncStream<Bool>
 
     public init(
         observeChargeLimit: @escaping () -> AsyncStream<Int>,
         observeManageCharging: @escaping () -> AsyncStream<Bool>,
         observeAllowDischargingFullBattery: @escaping () -> AsyncStream<Bool>,
         observePreventSleeping: @escaping () -> AsyncStream<Bool>,
-        observeForceCharging: @escaping () -> AsyncStream<Bool>
+        observeForceCharging: @escaping () -> AsyncStream<Bool>,
+        observeTemperature: @escaping () -> AsyncStream<Bool>
     ) {
         self.observeChargeLimit = observeChargeLimit
         self.observeManageCharging = observeManageCharging
         self.observeAllowDischargingFullBattery = observeAllowDischargingFullBattery
         self.observePreventSleeping = observePreventSleeping
         self.observeForceCharging = observeForceCharging
+        self.observeTemperature = observeTemperature
     }
 
     public static var testValue: ObserveDefaultsClient = unimplemented()
@@ -65,19 +68,22 @@ public struct GetDefaultsClient: TestDependencyKey {
     public var preventSleep: () -> Bool
     public var allowDischarging: () -> Bool
     public var forceCharge: () -> Bool
+    public var turnOffChargingHotBattery: () -> Bool
 
     public init(
         chargeLimit: @escaping () -> Int,
         manageCharging: @escaping () -> Bool,
         preventSleep: @escaping () -> Bool,
         allowDischarging: @escaping () -> Bool,
-        forceCharge: @escaping () -> Bool
+        forceCharge: @escaping () -> Bool,
+        turnOffChargingHotBattery: @escaping () -> Bool
     ) {
         self.chargeLimit = chargeLimit
         self.manageCharging = manageCharging
         self.preventSleep = preventSleep
         self.allowDischarging = allowDischarging
         self.forceCharge = forceCharge
+        self.turnOffChargingHotBattery = turnOffChargingHotBattery
     }
 
     public static var testValue: GetDefaultsClient = unimplemented()

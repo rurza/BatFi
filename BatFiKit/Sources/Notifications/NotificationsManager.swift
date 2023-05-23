@@ -17,8 +17,8 @@ import UserNotifications
 public class NotificationsManager: NSObject {
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.updater) private var updater
     private lazy var center = UNUserNotificationCenter.current()
-
 
     public override init() {
         super.init()
@@ -56,13 +56,12 @@ public class NotificationsManager: NSObject {
     }
 
     func showChargingStateModeDidChangeNotification(_ mode: AppChargingMode) async {
-        let granted = try? await center.requestAuthorization(options: [.alert, .providesAppNotificationSettings])
+        let granted = try? await center.requestAuthorization(options: [.alert])
         if granted == true {
             center.removeAllPendingNotificationRequests()
 
             let content = UNMutableNotificationContent()
             content.title = "The charging mode has changed"
-
             content.body = mode.stateDescription(Defaults[.chargeLimit] / 100)
 
             content.interruptionLevel = .active // to show the notification
@@ -78,10 +77,25 @@ public class NotificationsManager: NSObject {
     }
 }
 
-
 extension NotificationsManager: UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+                                       willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         return [.banner]
+    }
+
+    public func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        if response.notification.request.identifier == updateNotificationIdentifier
+            && response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            // If the notificaton is clicked on, make sure we bring the update in focus
+            // If the app is terminated while the notification is clicked on,
+            // this will launch the application and perform a new update check.
+            // This can be more likely to occur if the notification alert style is Alert rather than Banner
+            updater.checkForUpdates()
+        }
+        completionHandler()
     }
 }

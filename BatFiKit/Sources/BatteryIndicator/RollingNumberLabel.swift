@@ -35,6 +35,7 @@ struct RollingNumberLabel: View {
                                 ForEach(0...9, id: \.self) { digit in
                                     Text("\(digit)")
                                         .font(font)
+                                        .foregroundStyle(.primary)
                                         .frame(width: size.width, height: size.height)
                                 }
                             }

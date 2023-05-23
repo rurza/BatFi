@@ -17,10 +17,10 @@ extension ObserveDefaultsClient: DependencyKey {
     public static let liveValue: ObserveDefaultsClient = {
         let logger = Logger(category: "👀🔧")
         func asyncStreamForKey<Value>(_ key: Defaults.Keys.Key<Value>) -> AsyncStream<Value> where Value: CustomStringConvertible {
-            AsyncStream(Defaults.updates(key).map {
+            Defaults.updates(key).map {
                 logger.debug("\(key.name) did change: \($0.description)")
                 return $0
-            })
+            }.eraseToStream()
         }
 
         let client = ObserveDefaultsClient(
@@ -42,6 +42,9 @@ extension ObserveDefaultsClient: DependencyKey {
             },
             observeForceCharging: {
                 asyncStreamForKey(.forceCharge)
+            },
+            observeTemperature: {
+                asyncStreamForKey(.temperatureSwitch)
             }
         )
 

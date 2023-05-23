@@ -27,10 +27,10 @@ public final class BatFi: MenuControllerDelegate {
     public init() { }
 
     public func start() {
+        _ = updater // initialize updater
         chargingManager.setUpObserving()
         notificationsManager = NotificationsManager()
         statusItemIconController = StatusItemIconController(statusItem: statusItem)
-//        statusItem.button?.image = NSImage(systemSymbolName: "minus.plus.batteryblock.fill", accessibilityDescription: "BatFi icon")
         menuController = MenuController(statusItem: statusItem)
         menuController?.delegate = self
     }

@@ -23,21 +23,20 @@ extension AppChargingStateClient: DependencyKey {
                 await state.updateMode(mode)
             },
             observeChargingStateMode: {
-                AsyncStream(
-                    state.objectWillChange
-                    // https://forums.swift.org/t/asyncpublisher-causes-crash-in-rather-simple-situation/56574/4
-                        .buffer(size: 1, prefetch: .byRequest, whenFull: .dropOldest)
-                        .share()
-                        .values
-                        .compactMap { _ in
-                            await state.mode
-                        }
-                        .removeDuplicates()
-                        .map {
-                            logger.debug("App charging mode did change: \($0.rawValue, privacy: .public)")
-                            return $0
-                        }
-                )
+                state.objectWillChange
+                // https://forums.swift.org/t/asyncpublisher-causes-crash-in-rather-simple-situation/56574/4
+                    .buffer(size: 1, prefetch: .byRequest, whenFull: .dropOldest)
+//                        .share()
+                    .values
+                    .compactMap { _ in
+                        await state.mode
+                    }
+                    .removeDuplicates()
+                    .map {
+                        logger.debug("App charging mode did change: \($0.rawValue, privacy: .public)")
+                        return $0
+                    }
+                    .eraseToStream()
             },
             updateLidOpenedStatus: { lidOpened in
                 await state.updateLidOpened(lidOpened)

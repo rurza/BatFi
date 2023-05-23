@@ -46,7 +46,7 @@ public final class StatusItemIconController {
                 combineLatest(
                     settingsDefaults.observeShowBatteryPercentage(),
                     settingsDefaults.observeShowMonochromeIcon()
-                )).debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
+               )).debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
                 model.batteryLevel = powerState.batteryLevel
                 model.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
                 model.monochrome = showMonochrome

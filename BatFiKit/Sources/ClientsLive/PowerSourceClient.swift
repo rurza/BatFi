@@ -15,7 +15,7 @@ import os
 import Shared
 
 extension PowerSourceClient: DependencyKey {
-    public static var liveValue: PowerSourceClient = {
+    public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
         let observer = Observer(logger: logger)
         let client = PowerSourceClient(
@@ -23,6 +23,8 @@ extension PowerSourceClient: DependencyKey {
                 AsyncStream { continuation in
                     if let initialState = try? getPowerSourceInfo() {
                         continuation.yield(initialState)
+                    } else {
+                        logger.warning("Can't get the current power source info")
                     }
                     observer.handlers.append(
                         {
@@ -37,7 +39,7 @@ extension PowerSourceClient: DependencyKey {
             },
             currentPowerSourceState: {
                 let state = try getPowerSourceInfo()
-                logger.debug("Power state: \(state, privacy: .public)")
+                logger.debug("\(state, privacy: .public)")
                 return state
             }
         )

@@ -13,7 +13,7 @@ import os
 import Shared
 
 extension SetDefaultsClient: DependencyKey {
-    static public var liveValue: SetDefaultsClient = {
+    static public let liveValue: SetDefaultsClient = {
         let logger = Logger(category: "🫸🔧")
         let client = SetDefaultsClient(
             setChargeLimit: { limit in

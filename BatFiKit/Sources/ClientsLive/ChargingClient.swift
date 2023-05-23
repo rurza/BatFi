@@ -15,17 +15,23 @@ import SecureXPC
 import Shared
 
 extension ChargingClient: DependencyKey {
-    public static var liveValue: ChargingClient = {
+    public static let liveValue: ChargingClient = {
         let logger = Logger(category: "🪫🔋")
-        let xpcClient = XPCClient.forMachService(
-            named: Constant.helperBundleIdentifier,
-            withServerRequirement: try! .sameTeamIdentifier
-        )
+
+        func createClient() -> XPCClient {
+            XPCClient.forMachService(
+                named: Constant.helperBundleIdentifier,
+                withServerRequirement: try! .sameTeamIdentifier
+            )
+        }
+
+        var xpcClient = createClient()
 
         func installHelperIfPossibleForError<Result>(
             _ error: Error,
             call: @escaping () async  throws -> Result
         ) async throws -> Result {
+            logger.error("Helper error: \(error)")
             if let error = error as? XPCError {
                 switch error {
                 case .connectionInvalid, .insecure, .connectionInterrupted:
@@ -37,6 +43,7 @@ extension ChargingClient: DependencyKey {
                         await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
                         try await Task.sleep(for: .seconds(1))
+                        xpcClient = createClient()
                         return try await call()
                     } catch { }
                 default:
@@ -102,11 +109,7 @@ extension ChargingClient: DependencyKey {
 
         func quit() async throws {
             logger.debug("Should send \(#function)")
-            do {
-                try await xpcClient.send(to: XPCRoute.quit)
-            } catch {
-                try await installHelperIfPossibleForError(error, call: quit)
-            }
+            try await xpcClient.send(to: XPCRoute.quit)
         }
 
         let client = ChargingClient(

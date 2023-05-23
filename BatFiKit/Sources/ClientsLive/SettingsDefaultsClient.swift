@@ -10,9 +10,18 @@ import Clients
 import Dependencies
 import Defaults
 import DefaultsKeys
+import os
+import Shared
 
 extension SettingsDefaultsClient: DependencyKey {
     public static let liveValue: SettingsDefaultsClient = {
+        let logger = Logger(category: "👀🔧📚")
+        func asyncStreamForKey<Value>(_ key: Defaults.Keys.Key<Value>) -> AsyncStream<Value> where Value: CustomStringConvertible & Equatable {
+            Defaults.updates(key).removeDuplicates().map {
+                logger.debug("\(key.name) did change: \($0.description)")
+                return $0
+            }.eraseToStream()
+        }
         let client = SettingsDefaultsClient(
             showBatteryPercentage: { newValue in
                 if let newValue {
@@ -21,7 +30,7 @@ extension SettingsDefaultsClient: DependencyKey {
                 return Defaults[.showBatteryPercentageInStatusIcon]
             },
             observeShowBatteryPercentage: {
-                Defaults.updates(.showBatteryPercentageInStatusIcon).removeDuplicates().eraseToStream()
+                asyncStreamForKey(.showBatteryPercentageInStatusIcon)
             },
             showMonochromeIcon: { newValue in
                 if let newValue {
@@ -30,7 +39,7 @@ extension SettingsDefaultsClient: DependencyKey {
                 return Defaults[.monochromeStatusIcon]
             },
             observeShowMonochromeIcon: {
-                Defaults.updates(.monochromeStatusIcon).removeDuplicates().eraseToStream()
+                asyncStreamForKey(.monochromeStatusIcon)
             }
         )
         return client

@@ -32,18 +32,22 @@ struct BasicBatteryIndicatorView: View {
             }
             .padding(3)
         }
-        .overlay {
-            if !model.monochrome || model.batteryLevel < 55 {
-                ChargingModeSymbol(model: model, height: height, heightFraction: 0.9)
-                    .foregroundStyle(model.primaryColor())
-                    .shadow(color: .black.opacity(model.batteryLevel > 34 ? 0.3 : 0), radius: 1, x: 1)
-
+        .reverseMask {
+            ZStack {
+                if model.chargingMode == .charging {
+                    ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -1.5)
+                    ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 1.5)
+                    ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -2, y: 1)
+                    ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 2, y: -1)
+                } else if model.chargingMode == .inhibited {
+                    Image(systemName: "rectangle.portrait.fill")
+                }
             }
         }
-        .reverseMask {
-            if model.monochrome && model.batteryLevel >= 55 {
-                ChargingModeSymbol(model: model, height: height, heightFraction: 0.9)
-            }
+        .overlay {
+            ChargingModeSymbol(model: model, height: height, heightFraction: 0.9)
+                .foregroundStyle(model.primaryColor())
+                .shadow(color: .black.opacity(model.monochrome ? 0 : 0.4), radius: 4, x: 0, y: 2)
         }
     }
 }

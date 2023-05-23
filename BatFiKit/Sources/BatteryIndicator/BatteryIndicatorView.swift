@@ -69,53 +69,15 @@ func fontSize(height: Double, fraction: Double) -> Double {
     return proportion.isEven ? proportion : proportion + 1
 }
 
-struct PercentageLabel: View {
-    @ObservedObject var model: BatteryIndicatorView.Model
-    let height: Double
-
-    var body: some View {
-        HStack(spacing: 1) {
-            if model.batteryLevel < 100 {
-                ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
-            }
-            let fontHeight = fontSize(height: height, fraction: 0.85)
-            RollingNumberLabel(
-                font: .system(size: fontHeight, weight: .semibold),
-                initialValue: model.batteryLevel
-            )
-        }
-    }
-}
-
-struct ChargingModeSymbol: View {
-    @ObservedObject var model: BatteryIndicatorView.Model
-    let height: Double
-    let heightFraction: Double
-
-    var body: some View {
-        let height = fontSize(height: height, fraction: heightFraction)
-        Group {
-            if case .charging = model.chargingMode {
-                Image(systemName: "bolt.fill")
-                    .transition(.opacity)
-            } else if case .inhibited = model.chargingMode {
-                Image(systemName: "pause.fill")
-                    .transition(.opacity)
-            }
-        }
-        .font(.system(size: height, weight: .medium))
-    }
-}
-
 #if DEBUG
 struct DemoView: View {
     @StateObject var model = BatteryIndicatorView.Model(
-        chargingMode: .charging,
-        batteryLevel: 20,
-        monochrome: false,
+        chargingMode: .inhibited,
+        batteryLevel: 95,
+        monochrome: true,
         showPercentage: false
     )
-    @State private var percentage: Double = 20
+    @State private var percentage: Double = 55
 
     var body: some View {
         VStack {

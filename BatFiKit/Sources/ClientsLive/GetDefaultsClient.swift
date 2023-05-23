@@ -11,7 +11,7 @@ import DefaultsKeys
 import Dependencies
 
 extension GetDefaultsClient: DependencyKey {
-    public static var liveValue: GetDefaultsClient = {
+    public static let liveValue: GetDefaultsClient = {
         let client = GetDefaultsClient(
             chargeLimit: {
                 Int(Defaults[.chargeLimit])
@@ -27,6 +27,9 @@ extension GetDefaultsClient: DependencyKey {
             },
             forceCharge: {
                 Defaults[.forceCharge]
+            },
+            turnOffChargingHotBattery: {
+                Defaults[.temperatureSwitch]
             }
         )
         return client

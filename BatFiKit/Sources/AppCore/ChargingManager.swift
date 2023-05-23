@@ -34,11 +34,12 @@ public final class ChargingManager {
     public func setUpObserving() {
         Task {
             await fetchChargingState()
-            for await (powerState, (preventSleeping, forceCharging), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
+            for await (powerState, (preventSleeping, forceCharging, temperature), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
                 powerSourceClient.powerSourceChanges(),
                 combineLatest(
                     observeDefaultsClient.observePreventSleeping(),
-                    observeDefaultsClient.observeForceCharging()
+                    observeDefaultsClient.observeForceCharging(),
+                    observeDefaultsClient.observeTemperature()
                 ),
                 combineLatest(
                     observeDefaultsClient.observeChargeLimit(),
@@ -53,7 +54,8 @@ public final class ChargingManager {
                     manageCharging: manageCharging,
                     allowDischarging: allowDischarging,
                     preventSleeping: preventSleeping,
-                    forceCharging: forceCharging
+                    forceCharging: forceCharging,
+                    turnOffChargingWithHotBattery: temperature
                 )
             }
             logger.warning("The main loop did quit")
@@ -111,13 +113,15 @@ public final class ChargingManager {
             let allowDischargingFullBattery = getDefaultsClient.allowDischarging()
             let preventSleeping = getDefaultsClient.preventSleep()
             let forceCharging = getDefaultsClient.forceCharge()
+            let batteryTemperature = getDefaultsClient.turnOffChargingHotBattery()
             await updateStatus(
                 powerState: powerState,
                 chargeLimit: Int(chargeLimit),
                 manageCharging: manageCharging,
                 allowDischarging: allowDischargingFullBattery,
                 preventSleeping: preventSleeping,
-                forceCharging: forceCharging
+                forceCharging: forceCharging,
+                turnOffChargingWithHotBattery: batteryTemperature
             )
         }
     }
@@ -129,7 +133,8 @@ public final class ChargingManager {
         manageCharging: Bool,
         allowDischarging: Bool,
         preventSleeping: Bool,
-        forceCharging: Bool
+        forceCharging: Bool,
+        turnOffChargingWithHotBattery: Bool
     ) async {
         logger.debug("⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇")
         defer {
@@ -145,6 +150,10 @@ public final class ChargingManager {
                 preventSleeping: false,
                 chargerConnected: powerState.chargerConnected
             )
+            return
+        }
+        if turnOffChargingWithHotBattery && powerState.batteryTemperature > 35 {
+            await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
             return
         }
         guard let lidOpened = await appChargingState.lidOpened() else {
