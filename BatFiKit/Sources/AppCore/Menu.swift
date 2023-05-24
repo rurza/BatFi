@@ -37,9 +37,6 @@ public final class MenuController {
 
     private func setUpObserving() {
         Task {
-            if let mode = await appChargingState.chargingStateMode() {
-                updateMenu(appChargingState: mode)
-            }
             for await state in appChargingState.observeChargingStateMode() {
                 updateMenu(appChargingState: state)
             }

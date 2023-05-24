@@ -43,7 +43,7 @@ public class NotificationsManager: NSObject {
     func startObservingChargingStateMode() {
         task = Task {
             for await chargingMode in appChargingState.observeChargingStateMode()
-                .debounce(for: .seconds(2), clock: AnyClock(self.clock)) {
+                .debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
                 if chargingMode != .chargerNotConnected {
                     await showChargingStateModeDidChangeNotification(chargingMode)
                 }

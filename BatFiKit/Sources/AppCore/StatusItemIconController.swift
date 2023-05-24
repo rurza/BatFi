@@ -21,6 +21,7 @@ public final class StatusItemIconController {
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.settingsDefaultsClient) private var settingsDefaults
     @Dependency(\.suspendingClock) private var clock
+
     let statusItem: NSStatusItem
 
     public init(statusItem: NSStatusItem) {
@@ -46,7 +47,8 @@ public final class StatusItemIconController {
                 combineLatest(
                     settingsDefaults.observeShowBatteryPercentage(),
                     settingsDefaults.observeShowMonochromeIcon()
-               )).debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
+                ))
+                .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
                 model.batteryLevel = powerState.batteryLevel
                 model.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
                 model.monochrome = showMonochrome
@@ -71,7 +73,6 @@ public final class StatusItemIconController {
                 }
             }
         }
-
     }
 }
 

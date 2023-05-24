@@ -23,20 +23,21 @@ extension AppChargingStateClient: DependencyKey {
                 await state.updateMode(mode)
             },
             observeChargingStateMode: {
-                state.objectWillChange
-                // https://forums.swift.org/t/asyncpublisher-causes-crash-in-rather-simple-situation/56574/4
-                    .buffer(size: 1, prefetch: .byRequest, whenFull: .dropOldest)
-//                        .share()
-                    .values
-                    .compactMap { _ in
-                        await state.mode
+                AsyncStream { continuation in
+                    let streamTask = Task {
+                        continuation.yield(await state.mode)
+                        for await note in NotificationCenter.default.notifications(named: chargingModeDidChangeNotificationName) {
+                            logger.debug("Charging state mode did change")
+                            continuation.yield(note.object as? AppChargingMode)
+                        }
                     }
-                    .removeDuplicates()
-                    .map {
-                        logger.debug("App charging mode did change: \($0.rawValue, privacy: .public)")
-                        return $0
+
+                    continuation.onTermination = { _ in
+                        streamTask.cancel()
                     }
-                    .eraseToStream()
+                }
+                .compactMap { $0 }
+                .eraseToStream()
             },
             updateLidOpenedStatus: { lidOpened in
                 await state.updateLidOpened(lidOpened)
@@ -52,23 +53,15 @@ extension AppChargingStateClient: DependencyKey {
     }()
 }
 
+private let chargingModeDidChangeNotificationName = Notification.Name("ChargingModeDidChangeNotificationName")
 
-private actor AppChargingState: ObservableObject {
-
-    private(set) var mode: AppChargingMode? {
-        didSet { // we want the didSet, so we can read from the object
-            objectWillChange.send()
-        }
-    }
-    private(set) var lidOpened: Bool? {
-        didSet {
-            objectWillChange.send()
-        }
-    }
+private actor AppChargingState {
+    private(set) var mode: AppChargingMode?
+    private(set) var lidOpened: Bool?
 
     static let initialState = AppChargingState(mode: nil, lidOpened: nil)
 
-    private init(mode: AppChargingMode?, lidOpened: Bool?) {
+    init(mode: AppChargingMode?, lidOpened: Bool?) {
         self.mode = mode
         self.lidOpened = lidOpened
     }
@@ -76,6 +69,7 @@ private actor AppChargingState: ObservableObject {
     func updateMode(_ mode: AppChargingMode) {
         guard mode != self.mode else { return }
         self.mode = mode
+        NotificationCenter.default.post(name: chargingModeDidChangeNotificationName, object: mode)
     }
 
     func updateLidOpened(_ lidOpened: Bool) {

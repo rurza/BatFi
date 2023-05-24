@@ -29,10 +29,10 @@ public final class BatFi: MenuControllerDelegate {
     public func start() {
         _ = updater // initialize updater
         chargingManager.setUpObserving()
-        notificationsManager = NotificationsManager()
         statusItemIconController = StatusItemIconController(statusItem: statusItem)
         menuController = MenuController(statusItem: statusItem)
         menuController?.delegate = self
+        notificationsManager = NotificationsManager()
     }
 
     public func willQuit() {

@@ -42,20 +42,6 @@ struct RollingNumberLabel: View {
                             .offset(y: -CGFloat(animationRange[index]) * size.height)
                         }
                             .clipped()
-                            .mask(
-                                LinearGradient(
-                                    stops: [
-                                        .init(color: .black.opacity(0), location: 0),
-                                        .init(color: .black.opacity(0.3), location: 0.09),
-                                        .init(color: .black, location: 0.15),
-                                        .init(color: .black, location: 0.85),
-                                        .init(color: .black.opacity(0.3), location: 0.91),
-                                        .init(color: .black.opacity(0), location: 1),
-                                    ],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
                     )
             }
         }
@@ -83,7 +69,7 @@ struct RollingNumberLabel: View {
             if animate {
                 withAnimation(
                     .interactiveSpring(
-                        response: 0.25,
+                        response: 0.3,
                         dampingFraction: 1.1 - fraction,
                         blendDuration: 1.2 - fraction)
                 ) {

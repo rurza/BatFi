@@ -38,7 +38,6 @@ extension BatteryInfoView {
 
         func setUpObserving() {
             let observeChargingStateMode = Task {
-                self.modeDescription = await appChargingState.chargingStateMode()?.stateDescription
                 for await mode in appChargingState.observeChargingStateMode() {
                     self.modeDescription = mode.stateDescription
                 }
