@@ -27,6 +27,7 @@ public final class ChargingManager {
     @Dependency(\.appChargingState)         private var appChargingState
 
     private var sleepAssertion: IOPMAssertionID?
+    private var computerIsAsleep = false
     private lazy var logger = Logger(category: "🔌👨‍💼")
 
     public init() { }
@@ -65,11 +66,13 @@ public final class ChargingManager {
             for await sleepNote in sleepClient.observeMacSleepStatus() {
                 switch sleepNote {
                 case .willSleep:
-                    let mode = await appChargingState.chargingStateMode()
-                    if mode == .forceDischarge {
+                    let currentMode = await appChargingState.chargingStateMode()
+                    if currentMode == .forceDischarge {
                         await inhibitChargingIfNeeded(chargerConnected: false)
                     }
+                    computerIsAsleep = true
                 case .didWake:
+                    computerIsAsleep = false
                     await fetchChargingState()
                     await updateStatusWithCurrentState()
                 }
@@ -140,7 +143,7 @@ public final class ChargingManager {
         defer {
             logger.debug("⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆")
         }
-
+        logger.debug("Battery level: \(powerState.batteryLevel)")
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
@@ -161,10 +164,11 @@ public final class ChargingManager {
             await fetchChargingState()
             return
         }
+        logger.debug("Lid opened: \(lidOpened)")
         do {
             let currentBatteryLevel = powerState.batteryLevel
             if currentBatteryLevel >= chargeLimit {
-                if currentBatteryLevel > chargeLimit && allowDischarging && lidOpened {
+                if currentBatteryLevel > chargeLimit && allowDischarging && lidOpened && !computerIsAsleep {
                     await turnOnForceDischargeIfNeeded(chargerConnected: powerState.chargerConnected)
                 } else {
                     await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
@@ -201,7 +205,10 @@ public final class ChargingManager {
         }
     }
 
-    private func turnOnChargingIfNeeded(preventSleeping: Bool, chargerConnected: Bool) async {
+    private func turnOnChargingIfNeeded(
+        preventSleeping: Bool,
+        chargerConnected: Bool
+    ) async {
         let mode = await appChargingState.chargingStateMode()
         logger.debug("Should turn on charging...")
         if mode != .charging && mode != .forceCharge {
@@ -221,11 +228,11 @@ public final class ChargingManager {
             } catch {
                 logger.critical("Failed to turn on charging. Error: \(error)")
             }
-            if preventSleeping {
-                delaySleep()
-            }
         } else {
             logger.debug("Charging already turned on.")
+        }
+        if preventSleeping && chargerConnected {
+            delaySleep()
         }
     }
 
@@ -260,7 +267,11 @@ public final class ChargingManager {
     }
 
     private func delaySleep() {
-        guard sleepAssertion == nil else { return }
+        logger.debug("Should delay sleep...")
+        guard sleepAssertion == nil else {
+            logger.debug("...already delayed")
+            return
+        }
         logger.debug("Delaying sleep")
         var assertionID: IOPMAssertionID = IOPMAssertionID(0)
         let reason: CFString = "BatFi" as NSString
