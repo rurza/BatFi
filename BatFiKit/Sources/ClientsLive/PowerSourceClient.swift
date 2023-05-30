@@ -29,6 +29,7 @@ extension PowerSourceClient: DependencyKey {
                     observer.handlers.append(
                         {
                             if let powerState = try? getPowerSourceInfo() {
+                                logger.debug("Power state did change: \(powerState, privacy: .public)")
                                 continuation.yield(powerState)
                             } else {
                                 logger.error("New power state, but there is an info missing")

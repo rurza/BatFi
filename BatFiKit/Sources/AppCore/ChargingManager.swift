@@ -25,6 +25,7 @@ public final class ChargingManager {
     @Dependency(\.setDefaultsClient)        private var setDefaultsClient
     @Dependency(\.suspendingClock)          private var clock
     @Dependency(\.appChargingState)         private var appChargingState
+    @Dependency(\.sleepAssertionClient)     private var sleepAssertionClient
 
     private var sleepAssertion: IOPMAssertionID?
     private var computerIsAsleep = false
@@ -232,7 +233,7 @@ public final class ChargingManager {
             logger.debug("Charging already turned on.")
         }
         if preventSleeping && chargerConnected {
-            delaySleep()
+            delaySleepIfNeeded()
         }
     }
 
@@ -266,33 +267,12 @@ public final class ChargingManager {
         }
     }
 
-    private func delaySleep() {
-        logger.debug("Should delay sleep...")
-        guard sleepAssertion == nil else {
-            logger.debug("...already delayed")
-            return
-        }
-        logger.debug("Delaying sleep")
-        var assertionID: IOPMAssertionID = IOPMAssertionID(0)
-        let reason: CFString = "BatFi" as NSString
-        let cfAssertion: CFString = kIOPMAssertionTypePreventSystemSleep as NSString
-        let success = IOPMAssertionCreateWithName(
-            cfAssertion,
-            IOPMAssertionLevel(kIOPMAssertionLevelOn),
-            reason,
-            &assertionID
-        )
-        if success == kIOReturnSuccess {
-            sleepAssertion = assertionID
-        }
+    private func delaySleepIfNeeded() {
+        sleepAssertionClient.preventSleepIfNeeded(true)
     }
 
     private func restoreSleepifNeeded() {
-        if let sleepAssertion {
-            logger.debug("Returning sleep")
-            IOPMAssertionRelease(sleepAssertion)
-            self.sleepAssertion = nil
-        }
+        sleepAssertionClient.preventSleepIfNeeded(false)
     }
 
     private func fetchChargingState() async {
