@@ -12,7 +12,8 @@ extension Target.Dependency {
     static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
     static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
     static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
-    static let aboutKit: Self = product(name: "AboutKit", package: "AboutKit")
+    static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
+    static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
 }
 
 let package = Package(
@@ -27,7 +28,8 @@ let package = Package(
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
         .library(name: "ClientsLive", targets: ["ClientsLive"]),
-        .library(name: "BatteryIndicator", targets: ["BatteryIndicator"])
+        .library(name: "BatteryIndicator", targets: ["BatteryIndicator"]),
+        .library(name: "Onboarding", targets: ["Onboarding"])
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
@@ -39,7 +41,8 @@ let package = Package(
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1"),
-        .package(url: "https://github.com/SnapKit/SnapKit", branch: "main")
+        .package(url: "https://github.com/SnapKit/SnapKit", branch: "main"),
+        .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main")
     ],
     targets: [
         .target(
@@ -53,7 +56,7 @@ let package = Package(
                 "Settings",
                 "Notifications",
                 .aboutKit,
-                .menuBuilder,
+                .menuBuilder
             ]
         ),
         .target(name: "AppCore", dependencies: [
@@ -114,6 +117,14 @@ let package = Package(
                 .asyncAlgorithms,
                 .defaults,
                 .dependencies
+            ]
+        ),
+        .target(
+            name: "Onboarding",
+            dependencies: [
+                "DefaultsKeys",
+                .defaults,
+                .statusItemArrowKit
             ]
         ),
         .target(name: "Server", dependencies: [

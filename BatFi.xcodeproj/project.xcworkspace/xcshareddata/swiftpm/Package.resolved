@@ -82,6 +82,15 @@
       }
     },
     {
+      "identity" : "statusitemarrowkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rurza/StatusItemArrowKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1b81294b10281c22d889f887f7106384e70e019c"
+      }
+    },
+    {
       "identity" : "swift-async-algorithms",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-async-algorithms",
