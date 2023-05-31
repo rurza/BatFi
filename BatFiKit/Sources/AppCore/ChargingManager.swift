@@ -27,7 +27,6 @@ public final class ChargingManager {
     @Dependency(\.appChargingState)         private var appChargingState
     @Dependency(\.sleepAssertionClient)     private var sleepAssertionClient
 
-    private var sleepAssertion: IOPMAssertionID?
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "🔌👨‍💼")
 
@@ -231,6 +230,9 @@ public final class ChargingManager {
             }
         } else {
             logger.debug("Charging already turned on.")
+            if !chargerConnected {
+                await appChargingState.updateChargingStateMode(.chargerNotConnected)
+            }
         }
         if preventSleeping && chargerConnected {
             delaySleepIfNeeded()
