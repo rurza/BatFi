@@ -16,7 +16,7 @@ struct WelcomeView: View {
                 Text("Extend the life of your battery.")
                     .font(.system(size: 24, weight: .bold))
                 Text("BatFi helps you optimize your macOS battery performance by managing charging levels intelligently – charging to 100% only when it's needed.")
-                    .padding(.bottom, 60)
+                    .padding(.bottom, 30)
             }
         }
     }

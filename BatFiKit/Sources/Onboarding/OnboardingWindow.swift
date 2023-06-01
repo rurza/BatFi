@@ -9,10 +9,10 @@ import Cocoa
 import SwiftUI
 
 public class OnboardingWindow: NSWindow {
-    public convenience init() {
-        let vc = NSHostingController(rootView: Onboarding())
+    public init(_ installHelper: @escaping () -> Void) {
+        let vc = NSHostingController(rootView: Onboarding(didTapInstallHelper: installHelper))
         vc.sizingOptions = [.preferredContentSize]
-        self.init(contentRect: NSRect(origin: .zero, size: vc.view.fittingSize), styleMask: [.miniaturizable, .titled], backing: .buffered, defer: false)
+        super.init(contentRect: NSRect(origin: .zero, size: vc.view.fittingSize), styleMask: [.miniaturizable, .titled], backing: .buffered, defer: false)
         self.contentViewController = vc
         self.isReleasedWhenClosed = false
         self.titlebarAppearsTransparent = true

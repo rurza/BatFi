@@ -5,11 +5,15 @@
 //  Created by Adam on 31/05/2023.
 //
 
+import Defaults
+import DefaultsKeys
+import ServiceManagement
 import SwiftUI
 
 struct Onboarding: View {
     @State private var index: Int = 0
     let numberOfPages = 3
+    let didTapInstallHelper: () -> Void
 
     var body: some View {
         VStack {
@@ -19,6 +23,7 @@ struct Onboarding: View {
             ) {
                 WelcomeView().id(0)
                 ChargingLimitView().id(1)
+                FinalView().id(2)
             }
             HStack {
                 Button(
@@ -36,7 +41,7 @@ struct Onboarding: View {
                     action: {
                         switch index {
                         case 2:
-                            break
+                            didTapInstallHelper()
                         default:
                             index += 1
                         }
@@ -65,7 +70,7 @@ struct Onboarding: View {
 
 struct Onboarding_Previews: PreviewProvider {
     static var previews: some View {
-        Onboarding()
+        Onboarding(didTapInstallHelper: {})
             .frame(width: 420, height: 600)
     }
 }

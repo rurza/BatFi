@@ -19,7 +19,7 @@ struct ChargingLimitView: View {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
                 Text("Set a maximum charging percentage to prevent overcharging and improve battery longevity.")
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 15)
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
                     Slider(value: $chargeLimit, in: 60...90, step: 5) {
@@ -31,9 +31,10 @@ struct ChargingLimitView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
+                .padding(.bottom, 30)
                 Text("You can modify this setting later in the app's settings.")
                     .foregroundStyle(.secondary)
-                    .padding(.vertical, 30)
+                    .padding(.vertical, 20)
             }
         }
     }
