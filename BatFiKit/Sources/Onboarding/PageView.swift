@@ -22,7 +22,7 @@ struct PageView<Content: View>: View {
                     showsIndicators: false,
                     offset: $offset) {
                         ScrollViewReader { scrollView in
-                            HStack {
+                            HStack(spacing: 0) {
                                 content()
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .frame(width: proxy.size.width)
@@ -35,9 +35,7 @@ struct PageView<Content: View>: View {
                         }
                     }
                 .frame(width: proxy.size.width, height: proxy.size.height)
-                PageControl(count: numberOfPages, index: $index)
-                    .padding()
-                    .frame(maxHeight: .infinity, alignment: .bottom)
+               
             }
         }
     }
