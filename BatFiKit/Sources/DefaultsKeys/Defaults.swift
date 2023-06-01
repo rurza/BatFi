@@ -9,7 +9,7 @@ import Defaults
 import Foundation
 
 extension Defaults.Keys {
-    public static let launchAtLogin = Key<Bool>("launchAtLogin", default: false)
+    public static let launchAtLogin = Key<Bool>("launchAtLogin", default: true)
     public static let chargeLimit = Key<Double>("chargeLimit", default: 80)
     public static let manageCharging = Key<Bool>("manageCharging", default: true)
     public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)

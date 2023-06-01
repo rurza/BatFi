@@ -40,6 +40,18 @@ extension SettingsDefaultsClient: DependencyKey {
             },
             observeShowMonochromeIcon: {
                 asyncStreamForKey(.monochromeStatusIcon)
+            },
+            launchAtLogin: { newValue in
+                if let newValue {
+                    Defaults[.launchAtLogin] = newValue
+                }
+                return Defaults[.launchAtLogin]
+            },
+            onboardingIsDone: { newValue in
+                if let newValue {
+                    Defaults[.onboardingIsDone] = newValue
+                }
+                return Defaults[.onboardingIsDone]
             }
         )
         return client
