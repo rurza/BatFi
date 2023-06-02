@@ -17,7 +17,7 @@ struct OnboardingButtonStyle: ButtonStyle {
             .padding(.vertical, 8)
             .background(Color.accentColor)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .shadow(color: .black.opacity(0.6), radius: 8, x: 0, y: 6)
+            .shadow(color: .accentColor.opacity(0.15), radius: 8, x: 0, y: 6)
     }
 }
 

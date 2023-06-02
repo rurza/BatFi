@@ -37,10 +37,10 @@ extension ChargingClient: DependencyKey {
                 case .connectionInvalid, .insecure, .connectionInterrupted:
                     do {
                         logger.debug("Trying to fix xpc communication")
-                        await HelperManager.liveValue.removeHelper()
+                        try await HelperManager.liveValue.removeHelper()
                         logger.debug("Service removed")
                         try await Task.sleep(for: .seconds(1))
-                        await HelperManager.liveValue.installHelper()
+                        try await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
                         try await Task.sleep(for: .seconds(1))
                         xpcClient = createClient()

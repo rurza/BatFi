@@ -9,13 +9,13 @@ import Dependencies
 import ServiceManagement
 
 public struct HelperManager: TestDependencyKey {
-    public var installHelper: () async -> Void
-    public var removeHelper: () async -> Void
+    public var installHelper: () async throws -> Void
+    public var removeHelper: () async throws -> Void
     public var helperStatus: () async -> SMAppService.Status
 
     public init(
-        installHelper: @escaping () async -> Void,
-        removeHelper: @escaping () async -> Void,
+        installHelper: @escaping () async throws -> Void,
+        removeHelper: @escaping () async throws -> Void,
         helperStatus: @escaping () async -> SMAppService.Status
     ) {
         self.installHelper = installHelper

@@ -49,14 +49,16 @@ let package = Package(
             name: "App",
             dependencies: [
                 "AppCore",
-                "Clients",
-                "ClientsLive",
                 "BatteryIndicator",
                 "BatteryInfo",
-                "Settings",
+                "Clients",
+                "ClientsLive",
                 "Notifications",
+                "Onboarding",
+                "Settings",
                 .aboutKit,
-                .menuBuilder
+                .menuBuilder,
+                .statusItemArrowKit
             ]
         ),
         .target(name: "AppCore", dependencies: [
@@ -122,9 +124,9 @@ let package = Package(
         .target(
             name: "Onboarding",
             dependencies: [
+                "Clients",
                 "DefaultsKeys",
-                .defaults,
-                .statusItemArrowKit
+                .defaults
             ]
         ),
         .target(name: "Server", dependencies: [

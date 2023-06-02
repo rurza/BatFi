@@ -23,6 +23,7 @@ extension HelperManager: DependencyKey {
                     logger.log(level: .debug, "Daemon installed succesfully")
                 } catch {
                     logger.error("Daemon registering error: \(error, privacy: .public)")
+                    throw error
                 }
             },
             removeHelper: {
@@ -32,6 +33,7 @@ extension HelperManager: DependencyKey {
                     logger.log(level: .debug, "Daemon removed")
                 } catch {
                     logger.error("Daemon removal error: \(error, privacy: .public)")
+                    throw error
                 }
             },
             helperStatus: { await installer.service.status }
