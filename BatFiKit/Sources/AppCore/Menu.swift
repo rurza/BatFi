@@ -68,10 +68,10 @@ public final class MenuController {
                     MenuItem("Debug")
                         .submenu {
                             MenuItem("Install Helper").onSelect { [weak self] in
-                                Task { await try? self?.helperManager.installHelper() }
+                                Task { try? await self?.helperManager.installHelper() }
                             }
                             MenuItem("Remove Helper").onSelect { [weak self] in
-                                Task { await try? self?.helperManager.removeHelper() }
+                                Task { try? await self?.helperManager.removeHelper() }
                             }
                         }
                     SeparatorItem()

@@ -11,10 +11,12 @@ import Cocoa
 import Dependencies
 import MenuBuilder
 import Notifications
+import Onboarding
 import Settings
+import StatusItemArrowKit
 
 @MainActor
-public final class BatFi: MenuControllerDelegate {
+public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelegate {
     private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var settingsController = SettingsController()
     private var chargingManager = ChargingManager()
@@ -22,7 +24,10 @@ public final class BatFi: MenuControllerDelegate {
     private var notificationsManager: NotificationsManager?
     private var statusItemIconController: StatusItemIconController?
     private weak var aboutWindow: NSWindow?
+    private weak var onboardingWindow: OnboardingWindow?
+    private weak var arrowWindow: ArrowWindow?
     @Dependency(\.updater) private var updater
+    @Dependency(\.suspendingClock) private var clock
 
     public init() { }
 
@@ -37,6 +42,14 @@ public final class BatFi: MenuControllerDelegate {
 
     public func willQuit() {
         chargingManager.appWillQuit()
+    }
+
+    private func setUpTheApp() {
+        statusItemIconController = StatusItemIconController(statusItem: statusItem)
+        menuController = MenuController(statusItem: statusItem)
+        chargingManager.setUpObserving()
+        menuController?.delegate = self
+        notificationsManager = NotificationsManager()
     }
 
     // MARK: - MenuControllerDelegate
@@ -68,5 +81,39 @@ public final class BatFi: MenuControllerDelegate {
         } else {
             aboutWindow?.makeKeyAndOrderFront(nil)
         }
+    }
+
+    public func openOnboarding() {
+        if onboardingWindow == nil {
+            let window = OnboardingWindow { [weak self] in
+                guard let self else { return }
+                Task {
+                    self.onboardingWindow?.close()
+                    self.setUpTheApp()
+                    self.statusItemIconController?.delegate = self
+                }
+            }
+            window.makeKeyAndOrderFront(nil)
+            window.center()
+            self.onboardingWindow = window
+        } else {
+            onboardingWindow?.makeKeyAndOrderFront(nil)
+        }
+    }
+
+    @MainActor
+    private func showStatusItemArrow() {
+        let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
+        arrowWindow = window
+        window.show()
+         Task {
+             try await clock.sleep(for: .seconds(7))
+             arrowWindow?.close()
+        }
+    }
+
+    public func statusItemIconDidAppear() {
+        self.showStatusItemArrow()
+        statusItemIconController?.delegate = nil
     }
 }

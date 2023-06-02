@@ -38,15 +38,20 @@ extension HelperManager: DependencyKey {
                     throw error
                 }
             },
-            helperStatus: { await installer.service.status },
+            helperStatus: { installer.service.status },
             observeHelperStatus: {
                 return AsyncStream<SMAppService.Status> { continuation in
                     let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
                         continuation.yield(service.status)
                     }
+                    let task = Task {
+                        for await _ in SuspendingClock().timer(interval: .seconds(1)) {
+                            continuation.yield(service.status)
+                        }
+                    }
                     continuation.yield(service.status)
                     continuation.onTermination = { _ in
-                        timer.invalidate()
+                        task.cancel()
                     }
                 }
             }

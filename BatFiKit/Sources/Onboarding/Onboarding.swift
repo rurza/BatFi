@@ -31,7 +31,7 @@ struct Onboarding: View {
                 InstallHelperView().id(3)
             }
             HStack {
-                OnboardingButton(title: "Previous", isLoading: false, action: model.previousAction)
+                OnboardingButton(title: "Previous", isLoading: false, action: { model.previousAction() })
                     .opacity(model.index != 0 ? 1 : 0)
                     .animation(.spring(), value: model.index)
                     .disabled(model.isLoading)
@@ -40,7 +40,7 @@ struct Onboarding: View {
                 OnboardingButton(
                     title: nextButtonTitle,
                     isLoading: model.isLoading,
-                    action: model.nextAction
+                    action: { model.nextAction() }
                 )
                 .disabled(model.isLoading)
                 .animation(.spring(), value: model.index)
@@ -50,7 +50,7 @@ struct Onboarding: View {
         }
         .padding(20)
         .alert(
-            "Helper error",
+            "Helper (still) not installed",
             isPresented: Binding<Bool>(
                 get: { model.helperError != nil },
                 set: { _ in model.helperError = nil }
@@ -61,7 +61,15 @@ struct Onboarding: View {
                 }
             },
             message: {
-                Text("Keep in mind that the app won't work without the helper tool. Please open System Settings and give the app permission.")
+                VStack {
+                    Text(
+"""
+You can always change it in the System Settings.
+Keep in mind that the app won't work without the helper tool.
+"""
+                    )
+
+                }
             }
         )
         .preferredColorScheme(.dark)
@@ -83,9 +91,9 @@ struct Onboarding: View {
 extension Onboarding {
     final class Model: ObservableObject {
         let didInstallHelper: () -> Void
-        @Published var index: Int = 0
-        @Published var helperError: NSError?
-        @Published var isLoading: Bool = false
+        @MainActor @Published var index: Int = 0
+        @MainActor @Published var helperError: NSError?
+        @MainActor @Published var isLoading: Bool = false
         let numberOfPages = 4
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
@@ -94,15 +102,17 @@ extension Onboarding {
             self.didInstallHelper = didInstallHelper
         }
 
+        @MainActor
         func nextAction() {
             switch index {
             case 3:
-                Task { @MainActor in
+                Task {
                     @MainActor
                     func observeHelperStatus(error: Error?) async {
                         var counter = 0
                         for await status in helperManager.observeHelperStatus() {
                             if status == .enabled {
+                                try? await helperManager.installHelper()
                                 self.helperError = nil
                                 didInstallHelper()
                                 break
@@ -129,6 +139,7 @@ extension Onboarding {
             }
         }
 
+        @MainActor
         func previousAction() {
             index -= 1
         }

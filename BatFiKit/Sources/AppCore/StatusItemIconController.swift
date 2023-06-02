@@ -16,11 +16,19 @@ import SnapKit
 import SwiftUI
 
 @MainActor
+public protocol StatusItemIconControllerDelegate: AnyObject {
+    func statusItemIconDidAppear()
+}
+
+@MainActor
 public final class StatusItemIconController {
+    public weak var delegate: StatusItemIconControllerDelegate?
+    
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.settingsDefaultsClient) private var settingsDefaults
     @Dependency(\.suspendingClock) private var clock
+    private var didAppear = false
 
     let statusItem: NSStatusItem
 
@@ -70,6 +78,10 @@ public final class StatusItemIconController {
                         make.centerX.equalToSuperview()
                     }
                     self.batteryIndicatorView = hostingView
+                }
+                if !didAppear {
+                    didAppear = true
+                    delegate?.statusItemIconDidAppear()
                 }
             }
         }
