@@ -10,7 +10,7 @@ import SwiftUI
 
 public class OnboardingWindow: NSWindow {
     public init(_ installHelper: @escaping () -> Void) {
-        let vc = NSHostingController(rootView: Onboarding(didTapInstallHelper: installHelper))
+        let vc = NSHostingController(rootView: Onboarding(didInstallHelper: installHelper))
         vc.sizingOptions = [.preferredContentSize]
         super.init(contentRect: NSRect(origin: .zero, size: vc.view.fittingSize), styleMask: [.miniaturizable, .titled], backing: .buffered, defer: false)
         self.contentViewController = vc

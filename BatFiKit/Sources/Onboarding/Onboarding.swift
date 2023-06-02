@@ -15,8 +15,8 @@ import SwiftUI
 struct Onboarding: View {
     @StateObject var model: Model
 
-    init(didTapInstallHelper: @escaping () -> Void) {
-        _model = StateObject(wrappedValue: Model(didTapInstallHelper: didTapInstallHelper))
+    init(didInstallHelper: @escaping () -> Void) {
+        _model = StateObject(wrappedValue: Model(didInstallHelper: didInstallHelper))
     }
 
     var body: some View {
@@ -31,34 +31,18 @@ struct Onboarding: View {
                 InstallHelperView().id(3)
             }
             HStack {
-                Button(
-                    action: {
-                        model.previousAction()
-                    }
-                ) {
-                    Text("Previous")
-                }
-                .buttonStyle(.onboarding)
-                .opacity(model.index != 0 ? 1 : 0)
-                .animation(.spring(), value: model.index)
+                OnboardingButton(title: "Previous", isLoading: false, action: model.previousAction)
+                    .opacity(model.index != 0 ? 1 : 0)
+                    .animation(.spring(), value: model.index)
+                    .disabled(model.isLoading)
 
                 Spacer()
-
-                Button(
-                    action: {
-                        model.nextAction()
-                    }
-                ) {
-                    switch model.index {
-                    case 0:
-                        Text("Get started")
-                    case 3:
-                        Text("Install Helper")
-                    default:
-                        Text("Next")
-                    }
-                }
-                .buttonStyle(.onboarding)
+                OnboardingButton(
+                    title: nextButtonTitle,
+                    isLoading: model.isLoading,
+                    action: model.nextAction
+                )
+                .disabled(model.isLoading)
                 .animation(.spring(), value: model.index)
             }.overlay(alignment: .center) {
                 PageControl(count: model.numberOfPages, index: $model.index)
@@ -80,34 +64,62 @@ struct Onboarding: View {
                 Text("Keep in mind that the app won't work without the helper tool. Please open System Settings and give the app permission.")
             }
         )
-//        .preferredColorScheme(.dark)
+        .preferredColorScheme(.dark)
         .frame(width: 420, height: 600)
+    }
+
+    var nextButtonTitle: String {
+        switch model.index {
+        case 0:
+            return "Get started"
+        case 3:
+            return "Install Helper"
+        default:
+            return "Next"
+        }
     }
 }
 
 extension Onboarding {
     final class Model: ObservableObject {
-        let didTapInstallHelper: () -> Void
+        let didInstallHelper: () -> Void
         @Published var index: Int = 0
         @Published var helperError: NSError?
+        @Published var isLoading: Bool = false
         let numberOfPages = 4
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
 
-        init(didTapInstallHelper: @escaping () -> Void) {
-            self.didTapInstallHelper = didTapInstallHelper
+        init(didInstallHelper: @escaping () -> Void) {
+            self.didInstallHelper = didInstallHelper
         }
 
         func nextAction() {
             switch index {
             case 3:
                 Task { @MainActor in
+                    @MainActor
+                    func observeHelperStatus(error: Error?) async {
+                        var counter = 0
+                        for await status in helperManager.observeHelperStatus() {
+                            if status == .enabled {
+                                self.helperError = nil
+                                didInstallHelper()
+                                break
+                            } else if let error, counter == 7 {
+                                self.helperError = error as NSError
+                            }
+                            counter += 1
+                        }
+                    }
+                    isLoading = true
                     do {
                         try await helperManager.installHelper()
-                        didTapInstallHelper()
+                        await observeHelperStatus(error: nil)
                     } catch {
-                        helperError = error as NSError
+                        await observeHelperStatus(error: error)
                     }
+                    isLoading = false
                 }
             case 2:
                 launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
@@ -125,7 +137,7 @@ extension Onboarding {
 
 struct Onboarding_Previews: PreviewProvider {
     static var previews: some View {
-        Onboarding(didTapInstallHelper: {})
+        Onboarding(didInstallHelper: {})
             .frame(width: 420, height: 600)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Clients
+import Foundation
 import Dependencies
 import os
 import ServiceManagement
@@ -13,7 +14,8 @@ import Shared
 
 extension HelperManager: DependencyKey {
     public static let liveValue: HelperManager = {
-        let installer = HelperInstaller()
+        let service = SMAppService.daemon(plistName: Constant.helperPlistName)
+        let installer = HelperInstaller(service: service)
         let logger = Logger(category: "👹")
         let manager = HelperManager(
             installHelper: {
@@ -36,14 +38,29 @@ extension HelperManager: DependencyKey {
                     throw error
                 }
             },
-            helperStatus: { await installer.service.status }
+            helperStatus: { await installer.service.status },
+            observeHelperStatus: {
+                return AsyncStream<SMAppService.Status> { continuation in
+                    let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        continuation.yield(service.status)
+                    }
+                    continuation.yield(service.status)
+                    continuation.onTermination = { _ in
+                        timer.invalidate()
+                    }
+                }
+            }
         )
         return manager
     }()
 }
 
 private actor HelperInstaller {
-    lazy var service = SMAppService.daemon(plistName: Constant.helperPlistName)
+    let service: SMAppService
+
+    init(service: SMAppService) {
+        self.service = service
+    }
 
     func registerService() throws {
         try service.register()

@@ -12,15 +12,18 @@ public struct HelperManager: TestDependencyKey {
     public var installHelper: () async throws -> Void
     public var removeHelper: () async throws -> Void
     public var helperStatus: () async -> SMAppService.Status
+    public var observeHelperStatus: () -> AsyncStream<SMAppService.Status>
 
     public init(
         installHelper: @escaping () async throws -> Void,
         removeHelper: @escaping () async throws -> Void,
-        helperStatus: @escaping () async -> SMAppService.Status
+        helperStatus: @escaping () async -> SMAppService.Status,
+        observeHelperStatus: @escaping () -> AsyncStream<SMAppService.Status>
     ) {
         self.installHelper = installHelper
         self.removeHelper = removeHelper
         self.helperStatus = helperStatus
+        self.observeHelperStatus = observeHelperStatus
     }
 
     public static var testValue: HelperManager = unimplemented()
