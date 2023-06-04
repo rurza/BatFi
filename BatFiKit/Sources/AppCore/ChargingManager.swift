@@ -35,7 +35,9 @@ public final class ChargingManager {
     public func setUpObserving() {
         Task {
             await fetchChargingState()
-            for await (powerState, (preventSleeping, forceCharging, temperature), (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
+            for await (powerState,
+                (preventSleeping, forceCharging, temperature),
+                (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
                 powerSourceClient.powerSourceChanges(),
                 combineLatest(
                     observeDefaultsClient.observePreventSleeping(),

@@ -22,11 +22,15 @@ struct OnboardingButton: View {
                         .padding(.vertical, -5)
                         .opacity(isLoading ? 1 : 0)
                 }
-        }.buttonStyle(.onboarding)
+        }
+        .buttonStyle(.onboarding(isLoading: isLoading))
     }
 }
 
 struct OnboardingButtonStyle: ButtonStyle {
+    let isLoading: Bool
+    @Environment(\.isEnabled) private var isEnabled: Bool
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .fontWeight(.bold)
@@ -34,12 +38,21 @@ struct OnboardingButtonStyle: ButtonStyle {
             .frame(minWidth: 80)
             .padding(.horizontal, 18)
             .padding(.vertical, 8)
-            .background(Color.accentColor)
+            .background(derivedBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .shadow(color: .accentColor.opacity(0.15), radius: 8, x: 0, y: 6)
+    }
+
+    var derivedBackgroundColor: Color {
+        guard !isLoading else { return .clear }
+        if isEnabled {
+            return .accentColor
+        } else {
+            return Color(nsColor: .disabledControlTextColor)
+        }
     }
 }
 
 extension ButtonStyle where Self == OnboardingButtonStyle {
-    static var onboarding: OnboardingButtonStyle { OnboardingButtonStyle() }
+    static func onboarding(isLoading: Bool) -> OnboardingButtonStyle { OnboardingButtonStyle(isLoading: isLoading) }
 }

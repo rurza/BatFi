@@ -135,6 +135,7 @@ let package = Package(
             .secureXPC
         ]),
         .target(name: "Settings", dependencies: [
+            "AppShared",
             "Clients",
             "DefaultsKeys",
             .settingsKit,

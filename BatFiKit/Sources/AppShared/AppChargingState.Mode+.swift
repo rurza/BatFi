@@ -35,7 +35,7 @@ public extension AppChargingMode {
         case .forceCharge:
             return "Charging to 100%."
         case .forceDischarge:
-            return "Discharging the battery to \(limit) or the charger is not connected."
+            return "Using the battery."
         case .inhibit:
             return "The charging limit of \(limit) reached — inhibiting charging."
         case .chargerNotConnected:

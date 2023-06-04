@@ -17,7 +17,7 @@ extension SetDefaultsClient: DependencyKey {
         let logger = Logger(category: "🫸🔧")
         let client = SetDefaultsClient(
             setChargeLimit: { limit in
-                Defaults[.chargeLimit] = Double(limit)
+                Defaults[.chargeLimit] = limit
             },
             setManageCharging: { manage in
                 Defaults[.manageCharging] = manage

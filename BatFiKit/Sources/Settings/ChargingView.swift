@@ -36,7 +36,7 @@ struct ChargingView: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
                                 .foregroundColor(manageCharging ? .primary : .secondary)
-                            Slider(value: $chargeLimit, in: 60...90, step: 5) {
+                            Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
                                 EmptyView()
                             } minimumValueLabel: {
                                 Text("60%")

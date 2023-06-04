@@ -25,11 +25,7 @@ extension ObserveDefaultsClient: DependencyKey {
 
         let client = ObserveDefaultsClient(
             observeChargeLimit: {
-                AsyncStream(Defaults.updates(.chargeLimit).map {
-                    let value = Int($0)
-                    logger.debug("ChargeLimit did change: \(value)")
-                    return Int($0)
-                })
+                asyncStreamForKey(.chargeLimit)
             },
             observeManageCharging: {
                 asyncStreamForKey(.manageCharging)
