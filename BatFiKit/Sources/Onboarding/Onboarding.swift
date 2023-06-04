@@ -112,11 +112,14 @@ extension Onboarding {
                         var counter = 0
                         for await status in helperManager.observeHelperStatus() {
                             if status == .enabled {
+                                try? await helperManager.removeHelper()
+                                try? await Task.sleep(for: .seconds(1))
                                 try? await helperManager.installHelper()
                                 self.helperError = nil
+                                index += 1
                                 didInstallHelper()
                                 break
-                            } else if let error, counter == 7 {
+                            } else if let error, counter == 30 {
                                 self.helperError = error as NSError
                             }
                             counter += 1
