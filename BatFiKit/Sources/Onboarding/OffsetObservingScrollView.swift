@@ -35,6 +35,7 @@ struct OffsetObservingScrollView<Content: View>: View {
                 content: content
             )
         }
+        .scrollDisabled(true)
         .coordinateSpace(name: coordinateSpaceName)
     }
 }

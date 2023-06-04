@@ -16,8 +16,8 @@ public struct BatteryInfoView: View {
     public var body: some View {
         Group {
             if let powerState = model.state {
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 7) {
                         BatteryMainInfo(
                             label: "Battery",
                             info: "\(powerState.batteryLevel)%",
@@ -37,9 +37,8 @@ public struct BatteryInfoView: View {
                             .font(.callout)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-//                    SeparatorView()
-                    VStack(alignment: .leading, spacing: 6) {
-
+                    SeparatorView()
+                    VStack(alignment: .leading, spacing: 7) {
                         BatteryAdditionalInfo(
                             label: "Power Source",
                             info: powerState.powerSource

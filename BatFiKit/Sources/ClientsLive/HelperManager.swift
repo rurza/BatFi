@@ -41,7 +41,7 @@ extension HelperManager: DependencyKey {
             helperStatus: { installer.service.status },
             observeHelperStatus: {
                 return AsyncStream<SMAppService.Status> { continuation in
-                    let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                    let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
                         continuation.yield(service.status)
                     }
                     let task = Task {
