@@ -16,29 +16,29 @@ public struct BatteryInfoView: View {
     public var body: some View {
         Group {
             if let powerState = model.state {
-                VStack(alignment: .leading, spacing: 20) {
-                    VStack(alignment: .leading, spacing: 7) {
+                VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 8) {
                         BatteryMainInfo(
                             label: "Battery",
                             info: "\(powerState.batteryLevel)%",
                             primaryForegroundColor: true
                         )
-                        if let description = model.time?.description {
+                        if let timeDescription = model.time?.description {
                             BatteryMainInfo(
-                                label: description.label,
-                                info: description.description,
+                                label: timeDescription.label,
+                                info: timeDescription.description,
                                 primaryForegroundColor: model.time?.hasKnownTime == true
                             )
                         }
                     }
-                    if let description = model.modeDescription {
-                        Text(description)
-                            .foregroundStyle(.secondary)
-                            .font(.callout)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 7) {
+                        if let description = model.modeDescription {
+                            Text(description)
+                                .foregroundStyle(.secondary)
+                                .font(.callout)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                         BatteryAdditionalInfo(
                             label: "Power Source",
                             info: powerState.powerSource
