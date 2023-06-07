@@ -12,6 +12,22 @@ import Dependencies
 import ServiceManagement
 import SwiftUI
 
+enum OnboardingScreen: Int, CaseIterable {
+    case welcome
+    case charging
+    case helper
+    case final
+    
+    func next() -> OnboardingScreen? {
+        OnboardingScreen(rawValue: rawValue + 1)
+    }
+    
+    func previous() -> OnboardingScreen? {
+        OnboardingScreen(rawValue: rawValue - 1)
+    }
+
+}
+
 struct Onboarding: View {
     @StateObject var model: Model
 
@@ -22,30 +38,42 @@ struct Onboarding: View {
     var body: some View {
         VStack {
             PageView(
-                numberOfPages: model.numberOfPages,
-                index: $model.index
+                numberOfPages: OnboardingScreen.allCases.count,
+                index: model.currentScreen.rawValue
             ) {
                 WelcomeView().id(0)
                 ChargingLimitView().id(1)
-                LaunchAtLogin().id(2)
-                InstallHelperView().id(3)
+                InstallHelperView().id(2)
+                FinalView().id(3)
             }
-            HStack {
-                OnboardingButton(title: "Previous", isLoading: false, action: { model.previousAction() })
-                    .opacity(model.index != 0 ? 1 : 0)
-                    .animation(.spring(), value: model.index)
-                    .disabled(model.isLoading)
+            if model.currentScreen != .final {
+                HStack {
+                    OnboardingButton(title: "Previous", isLoading: false, action: { model.previousAction() })
+                        .opacity(model.currentScreen != .welcome ? 1 : 0)
+                        .animation(.spring(), value: model.currentScreen)
+                        .disabled(model.isLoading)
 
-                Spacer()
-                OnboardingButton(
-                    title: nextButtonTitle,
-                    isLoading: model.isLoading,
-                    action: { model.nextAction() }
-                )
-                .disabled(model.isLoading)
-                .animation(.spring(), value: model.index)
-            }.overlay(alignment: .center) {
-                PageControl(count: model.numberOfPages, index: $model.index)
+                    Spacer()
+                    OnboardingButton(
+                        title: nextButtonTitle,
+                        isLoading: model.isLoading,
+                        action: { model.nextAction() }
+                    )
+                    .disabled(model.isLoading)
+                    .animation(.spring(), value: model.currentScreen)
+                }.overlay(alignment: .center) {
+                    PageControl(
+                        count: OnboardingScreen.allCases.count,
+                        index: Binding(
+                            get: { model.currentScreen.rawValue },
+                            set: { index in
+                                if let screen = OnboardingScreen(rawValue: index) {
+                                    model.currentScreen = screen
+                                }
+                            }
+                        )
+                    )
+                }
             }
         }
         .padding(20)
@@ -77,10 +105,10 @@ Keep in mind that the app won't work without the helper tool.
     }
 
     var nextButtonTitle: String {
-        switch model.index {
-        case 0:
+        switch model.currentScreen {
+        case .welcome:
             return "Get started"
-        case 3:
+        case .helper:
             return "Install Helper"
         default:
             return "Next"
@@ -91,10 +119,9 @@ Keep in mind that the app won't work without the helper tool.
 extension Onboarding {
     final class Model: ObservableObject {
         let didInstallHelper: () -> Void
-        @MainActor @Published var index: Int = 0
+        @MainActor @Published var currentScreen: OnboardingScreen = .welcome
         @MainActor @Published var helperError: NSError?
         @MainActor @Published var isLoading: Bool = false
-        let numberOfPages = 4
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
 
@@ -104,8 +131,8 @@ extension Onboarding {
 
         @MainActor
         func nextAction() {
-            switch index {
-            case 3:
+            switch currentScreen {
+            case .helper:
                 Task {
                     @MainActor
                     func observeHelperStatus(error: Error?) async {
@@ -116,7 +143,9 @@ extension Onboarding {
                                 try? await Task.sleep(for: .seconds(1))
                                 try? await helperManager.installHelper()
                                 self.helperError = nil
-                                index += 1
+                                if let next = currentScreen.next() {
+                                    currentScreen = next
+                                }
                                 didInstallHelper()
                                 break
                             } else if let error, counter == 30 {
@@ -134,17 +163,20 @@ extension Onboarding {
                     }
                     isLoading = false
                 }
-            case 2:
+            case .final:
                 launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
-                index += 1
             default:
-                index += 1
+                if let next = currentScreen.next() {
+                    currentScreen = next
+                }
             }
         }
-
+        
         @MainActor
         func previousAction() {
-            index -= 1
+            if let previous = currentScreen.previous() {
+                currentScreen = previous
+            }
         }
     }
 }

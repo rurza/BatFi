@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PageView<Content: View>: View {
     let numberOfPages: Int
-    @Binding var index: Int
+    let index: Int
     @ViewBuilder let content: () -> Content
 
     @State private var offset: CGPoint = .zero
@@ -45,7 +45,7 @@ struct PageView_Previews: PreviewProvider {
     static var previews: some View {
         PageView(
             numberOfPages: 2,
-            index: .constant(0)
+            index: 0
         ) {
             Text("Hello world")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
