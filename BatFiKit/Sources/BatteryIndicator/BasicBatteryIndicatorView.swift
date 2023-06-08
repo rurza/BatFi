@@ -16,21 +16,21 @@ struct BasicBatteryIndicatorView: View {
             RoundedRectangle(
                 cornerRadius: height / 4, style: .continuous
             )
-            .stroke(lineWidth: 1.5)
+            .stroke(lineWidth: 1)
             .padding(1)
             .foregroundStyle(.primary)
-            .opacity(0.35)
+            .opacity(0.5)
             GeometryReader { innerProxy in
                 let width = (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
-                Rectangle()
+                RoundedRectangle(cornerRadius: 1)
                     .frame(width: width)
             }
             .mask {
                 RoundedRectangle(
-                    cornerRadius: height / 7, style: .continuous
+                    cornerRadius: height / 6, style: .continuous
                 )
             }
-            .padding(3)
+            .padding(2.5)
         }
         .reverseMask {
             ZStack {

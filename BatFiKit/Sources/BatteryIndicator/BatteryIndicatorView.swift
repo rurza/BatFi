@@ -23,16 +23,10 @@ public struct BatteryIndicatorView: View {
             HStack(spacing: 1) {
                 if model.showPercentage {
                     PercentageBatteryIndicatorView(model: model, height: size.height)
-                    .transition(.asymmetric(
-                        insertion: .push(from: .top).combined(with: .opacity),
-                        removal: .move(edge: .bottom).combined(with: .opacity)
-                    ))
+                        .transition(.move(edge: .top).combined(with: .opacity))
                 } else {
                     BasicBatteryIndicatorView(model: model, height: size.height)
-                    .transition(.asymmetric(
-                        insertion: .push(from: .top).combined(with: .opacity),
-                        removal: .move(edge: .bottom).combined(with: .opacity)
-                    ))
+                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
                 HalfCircleShape()
                     .foregroundStyle(.primary)
@@ -41,12 +35,13 @@ public struct BatteryIndicatorView: View {
                         width: size.width / 6,
                         height: size.height / 6
                     )
+                    .offset(x: -0.5)
             }
         }
-        .animation(.spring(), value: model.batteryLevel)
-        .animation(.spring(), value: model.chargingMode)
-        .animation(.spring(), value: model.showPercentage)
-        .animation(.spring(), value: model.monochrome)
+        .animation(.default, value: model.batteryLevel)
+        .animation(.default, value: model.chargingMode)
+        .animation(.default, value: model.showPercentage)
+        .animation(.default, value: model.monochrome)
     }
 }
 
