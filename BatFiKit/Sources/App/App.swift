@@ -28,7 +28,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private weak var arrowWindow: ArrowWindow?
     @Dependency(\.updater) private var updater
     @Dependency(\.suspendingClock) private var clock
-    @Dependency(\.settingsDefaultsClient) private var settingsDefaults
+    @Dependency(\.settingsDefaults) private var settingsDefaults
 
     public init() { }
 

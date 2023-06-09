@@ -16,6 +16,7 @@ struct GeneralView: View {
     @Default(.launchAtLogin) private var launchAtLogin
     @Default(.monochromeStatusIcon) private var monochrom
     @Default(.showBatteryPercentageInStatusIcon) private var batteryPercentage
+    @Default(.showDebugMenu) private var showDebugMenu
     @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
     @Dependency(\.updater) private var updater
@@ -48,6 +49,9 @@ struct GeneralView: View {
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
+            }
+            Section(title: "Advanced") {
+                Toggle("Show the debug menu", isOn: $showDebugMenu)
             }
         }.onAppear {
             automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()

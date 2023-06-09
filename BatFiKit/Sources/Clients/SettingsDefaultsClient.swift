@@ -15,6 +15,7 @@ public struct SettingsDefaultsClient: TestDependencyKey {
     public var observeShowMonochromeIcon: () -> AsyncStream<Bool>
     public var launchAtLogin: (Bool?) -> Bool
     public var onboardingIsDone: (Bool?) -> Bool
+    public var showDebugMenu: (Bool?) -> Bool
 
     public init(
         showBatteryPercentage: @escaping (Bool?) -> Bool,
@@ -22,7 +23,8 @@ public struct SettingsDefaultsClient: TestDependencyKey {
         showMonochromeIcon: @escaping (Bool?) -> Bool,
         observeShowMonochromeIcon: @escaping () -> AsyncStream<Bool>,
         launchAtLogin: @escaping (Bool?) -> Bool,
-        onboardingIsDone: @escaping (Bool?) -> Bool
+        onboardingIsDone: @escaping (Bool?) -> Bool,
+        showDebugMenu: @escaping (Bool?) -> Bool
     ) {
         self.showBatteryPercentage = showBatteryPercentage
         self.observeShowBatteryPercentage = observeShowBatteryPercentage
@@ -30,13 +32,14 @@ public struct SettingsDefaultsClient: TestDependencyKey {
         self.observeShowMonochromeIcon = observeShowMonochromeIcon
         self.launchAtLogin = launchAtLogin
         self.onboardingIsDone = onboardingIsDone
+        self.showDebugMenu = showDebugMenu
     }
 
     public static var testValue: SettingsDefaultsClient = unimplemented()
 }
 
 extension DependencyValues {
-    public var settingsDefaultsClient: SettingsDefaultsClient {
+    public var settingsDefaults: SettingsDefaultsClient {
         get { self[SettingsDefaultsClient.self] }
         set { self[SettingsDefaultsClient.self] = newValue }
     }

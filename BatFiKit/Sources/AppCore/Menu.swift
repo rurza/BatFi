@@ -27,6 +27,7 @@ public final class MenuController {
     let statusItem: NSStatusItem
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.helperManager) private var helperManager
+    @Dependency(\.settingsDefaults) private var settingsDefaults
 
     public weak var delegate: MenuControllerDelegate?
 

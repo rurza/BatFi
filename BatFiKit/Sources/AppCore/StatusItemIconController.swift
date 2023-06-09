@@ -26,7 +26,7 @@ public final class StatusItemIconController {
     
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.appChargingState) private var appChargingState
-    @Dependency(\.settingsDefaultsClient) private var settingsDefaults
+    @Dependency(\.settingsDefaults) private var settingsDefaults
     @Dependency(\.suspendingClock) private var clock
     private var didAppear = false
 

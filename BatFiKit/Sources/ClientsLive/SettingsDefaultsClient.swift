@@ -52,6 +52,12 @@ extension SettingsDefaultsClient: DependencyKey {
                     Defaults[.onboardingIsDone] = newValue
                 }
                 return Defaults[.onboardingIsDone]
+            },
+            showDebugMenu: { newValue in
+                if let newValue {
+                    Defaults[.showDebugMenu] = newValue
+                }
+                return Defaults[.showDebugMenu]
             }
         )
         return client
