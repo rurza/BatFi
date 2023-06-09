@@ -5,6 +5,7 @@
 //  Created by Adam on 26/04/2023.
 //
 
+import AsyncAlgorithms
 import AppShared
 import BatteryInfo
 import Clients
@@ -38,13 +39,16 @@ public final class MenuController {
 
     private func setUpObserving() {
         Task {
-            for await state in appChargingState.observeChargingStateMode() {
-                updateMenu(appChargingState: state)
+            
+            for await (state, showDebugMenu) in combineLatest(
+                appChargingState.observeChargingStateMode(), settingsDefaults.observeShowDebugMenu()
+            ) {
+                updateMenu(appChargingState: state, showDebugMenu: showDebugMenu)
             }
         }
     }
 
-    private func updateMenu(appChargingState: AppChargingMode) {
+    private func updateMenu(appChargingState: AppChargingMode, showDebugMenu: Bool) {
         self.statusItem.menu = NSMenu {
             MenuItem("")
                 .view {
@@ -66,16 +70,18 @@ public final class MenuController {
             SeparatorItem()
             MenuItem("More")
                 .submenu {
-                    MenuItem("Debug")
-                        .submenu {
-                            MenuItem("Install Helper").onSelect { [weak self] in
-                                Task { try? await self?.helperManager.installHelper() }
+                    if showDebugMenu {
+                        MenuItem("Debug")
+                            .submenu {
+                                MenuItem("Install Helper").onSelect { [weak self] in
+                                    Task { try? await self?.helperManager.installHelper() }
+                                }
+                                MenuItem("Remove Helper").onSelect { [weak self] in
+                                    Task { try? await self?.helperManager.removeHelper() }
+                                }
                             }
-                            MenuItem("Remove Helper").onSelect { [weak self] in
-                                Task { try? await self?.helperManager.removeHelper() }
-                            }
-                        }
-                    SeparatorItem()
+                        SeparatorItem()
+                    }
                     MenuItem("BatFi…")
                         .onSelect { [weak self] in
                             self?.delegate?.openAbout()

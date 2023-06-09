@@ -11,6 +11,7 @@ import SwiftUI
 
 struct FinalView: View {
     @Default(.launchAtLogin) private var launchAtLogin
+    @ObservedObject var model: Onboarding.Model
 
     var body: some View {
         VStack {
@@ -26,7 +27,9 @@ struct FinalView: View {
                 OnboardingButton(
                     title: "Done",
                     isLoading: false,
-                    action: { NSApp.windows.first?.close() }
+                    action: {
+                        model.nextAction()
+                    }
                 )
                 .frame(maxWidth: .infinity)
             }
@@ -38,7 +41,7 @@ struct FinalView: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        FinalView()
+        FinalView(model: .init(didInstallHelper: {}))
             .frame(width: 420, height: 600)
             .preferredColorScheme(.dark)
     }

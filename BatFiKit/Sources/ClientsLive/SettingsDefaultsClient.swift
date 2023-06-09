@@ -58,7 +58,8 @@ extension SettingsDefaultsClient: DependencyKey {
                     Defaults[.showDebugMenu] = newValue
                 }
                 return Defaults[.showDebugMenu]
-            }
+            },
+            observeShowDebugMenu: { asyncStreamForKey(.showDebugMenu) }
         )
         return client
     }()

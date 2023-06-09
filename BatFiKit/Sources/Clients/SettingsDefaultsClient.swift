@@ -16,6 +16,7 @@ public struct SettingsDefaultsClient: TestDependencyKey {
     public var launchAtLogin: (Bool?) -> Bool
     public var onboardingIsDone: (Bool?) -> Bool
     public var showDebugMenu: (Bool?) -> Bool
+    public var observeShowDebugMenu: () -> AsyncStream<Bool>
 
     public init(
         showBatteryPercentage: @escaping (Bool?) -> Bool,
@@ -24,7 +25,8 @@ public struct SettingsDefaultsClient: TestDependencyKey {
         observeShowMonochromeIcon: @escaping () -> AsyncStream<Bool>,
         launchAtLogin: @escaping (Bool?) -> Bool,
         onboardingIsDone: @escaping (Bool?) -> Bool,
-        showDebugMenu: @escaping (Bool?) -> Bool
+        showDebugMenu: @escaping (Bool?) -> Bool,
+        observeShowDebugMenu: @escaping () -> AsyncStream<Bool>
     ) {
         self.showBatteryPercentage = showBatteryPercentage
         self.observeShowBatteryPercentage = observeShowBatteryPercentage
@@ -33,6 +35,7 @@ public struct SettingsDefaultsClient: TestDependencyKey {
         self.launchAtLogin = launchAtLogin
         self.onboardingIsDone = onboardingIsDone
         self.showDebugMenu = showDebugMenu
+        self.observeShowDebugMenu = observeShowDebugMenu
     }
 
     public static var testValue: SettingsDefaultsClient = unimplemented()

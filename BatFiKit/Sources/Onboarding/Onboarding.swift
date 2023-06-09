@@ -44,7 +44,7 @@ struct Onboarding: View {
                 WelcomeView().id(0)
                 ChargingLimitView().id(1)
                 InstallHelperView().id(2)
-                FinalView().id(3)
+                FinalView(model: model).id(3)
             }
             if model.currentScreen != .final {
                 HStack {
@@ -167,6 +167,7 @@ extension Onboarding {
             case .final:
                 launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
                 _ = settingsDefaults.onboardingIsDone(true)
+                NSApp.windows.first?.close()
             default:
                 if let next = currentScreen.next() {
                     currentScreen = next

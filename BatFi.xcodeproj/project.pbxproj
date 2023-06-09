@@ -175,7 +175,6 @@
 				5B11DE0129EB6641007A993C /* Sources */,
 				5B11DE0229EB6641007A993C /* Frameworks */,
 				5B11DE0329EB6641007A993C /* CopyFiles */,
-				5B69E6E529EB687B0010AD63 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -200,7 +199,6 @@
 				5BB80D4029E9A28900186827 /* Embed Helper Tool */,
 				5BB80D4429E9A3A400186827 /* Copy Helper Property List */,
 				5B3C14AF29EA000800746A53 /* Embed Frameworks */,
-				5B11DE0029EB630F007A993C /* PropertyListModifier cleanup */,
 			);
 			buildRules = (
 			);
@@ -285,25 +283,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements specify-mach-services\n";
 		};
-		5B11DE0029EB630F007A993C /* PropertyListModifier cleanup */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "PropertyListModifier cleanup";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n";
-		};
 		5B11DE0D29EB6700007A993C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -321,24 +300,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift satisfy-job-bless-requirements\n";
-		};
-		5B69E6E529EB687B0010AD63 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#\"${SRCROOT}\"/Supporting\\ Files/PropertyListModifier.swift cleanup-job-bless-requirements\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -527,6 +488,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -557,6 +519,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
