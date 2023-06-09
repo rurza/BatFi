@@ -28,16 +28,17 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private weak var arrowWindow: ArrowWindow?
     @Dependency(\.updater) private var updater
     @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.settingsDefaultsClient) private var settingsDefaults
 
     public init() { }
 
     public func start() {
         _ = updater // initialize updater
-        chargingManager.setUpObserving()
-        statusItemIconController = StatusItemIconController(statusItem: statusItem)
-        menuController = MenuController(statusItem: statusItem)
-        menuController?.delegate = self
-        notificationsManager = NotificationsManager()
+        if settingsDefaults.onboardingIsDone(nil) {
+            setUpTheApp()
+        } else {
+            openOnboarding()
+        }
     }
 
     public func willQuit() {
@@ -88,7 +89,6 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
             let window = OnboardingWindow { [weak self] in
                 guard let self else { return }
                 Task {
-                    self.onboardingWindow?.close()
                     self.setUpTheApp()
                     self.statusItemIconController?.delegate = self
                 }

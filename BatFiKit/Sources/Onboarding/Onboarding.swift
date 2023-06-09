@@ -124,6 +124,7 @@ extension Onboarding {
         @MainActor @Published var isLoading: Bool = false
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
+        @Dependency(\.settingsDefaultsClient) private var settingsDefaults
 
         init(didInstallHelper: @escaping () -> Void) {
             self.didInstallHelper = didInstallHelper
@@ -165,6 +166,7 @@ extension Onboarding {
                 }
             case .final:
                 launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
+                _ = settingsDefaults.onboardingIsDone(true)
             default:
                 if let next = currentScreen.next() {
                     currentScreen = next
