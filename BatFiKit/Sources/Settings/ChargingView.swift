@@ -63,7 +63,7 @@ struct ChargingView: View {
                             .settingDescription()
                     }
                     Toggle(isOn: $disableSleep) {
-                        Text("Disable sleep when charging and the limit's not reached")
+                        Text("Delay automatic sleep when charging and the limit's not reached")
                             .withBetaLabel()
                             .help("The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep")
                     }
