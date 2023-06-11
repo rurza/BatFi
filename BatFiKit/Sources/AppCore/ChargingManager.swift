@@ -153,7 +153,8 @@ public final class ChargingManager {
             logger.debug("Manage charging is turned off or Force charge is turned on")
             await turnOnChargingIfNeeded(
                 preventSleeping: false,
-                chargerConnected: powerState.chargerConnected
+                chargerConnected: powerState.chargerConnected,
+                manageCharging: manageCharging
             )
             return
         }
@@ -179,7 +180,8 @@ public final class ChargingManager {
             } else {
                 await turnOnChargingIfNeeded(
                     preventSleeping: preventSleeping,
-                    chargerConnected: powerState.chargerConnected
+                    chargerConnected: powerState.chargerConnected,
+                    manageCharging: manageCharging
                 )
             }
         }
@@ -209,7 +211,8 @@ public final class ChargingManager {
 
     private func turnOnChargingIfNeeded(
         preventSleeping: Bool,
-        chargerConnected: Bool
+        chargerConnected: Bool,
+        manageCharging: Bool
     ) async {
         let mode = await appChargingState.chargingStateMode()
         logger.debug("Should turn on charging...")
@@ -217,7 +220,9 @@ public final class ChargingManager {
             logger.debug("Turning on charging")
             do {
                 try await chargingClient.turnOnAutoChargingMode()
-                if chargerConnected {
+                if !manageCharging {
+                    await appChargingState.updateChargingStateMode(.disabled)
+                } else if chargerConnected {
                     if getDefaultsClient.forceCharge() {
                         await appChargingState.updateChargingStateMode(.forceCharge)
                     } else {
@@ -234,9 +239,11 @@ public final class ChargingManager {
             logger.debug("Charging already turned on.")
             if !chargerConnected {
                 await appChargingState.updateChargingStateMode(.chargerNotConnected)
+            } else if !manageCharging {
+                await appChargingState.updateChargingStateMode(.disabled)
             }
         }
-        if preventSleeping && chargerConnected {
+        if preventSleeping && chargerConnected && manageCharging {
             delaySleepIfNeeded()
         }
     }
