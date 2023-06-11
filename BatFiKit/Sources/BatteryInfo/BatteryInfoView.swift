@@ -34,10 +34,7 @@ public struct BatteryInfoView: View {
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 7) {
                         if let description = model.modeDescription {
-                            Text(description)
-                                .foregroundStyle(.secondary)
-                                .font(.callout)
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                            BatteryAdditionalInfo(label: "App mode", info: description)
                         }
                         BatteryAdditionalInfo(
                             label: "Power Source",
