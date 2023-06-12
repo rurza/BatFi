@@ -62,7 +62,11 @@ public class NotificationsManager: NSObject {
 
             let content = UNMutableNotificationContent()
             content.title = "The charging mode has changed"
-            content.body = mode.stateDescription(Double(Defaults[.chargeLimit]) / 100)
+            content.subtitle = mode.stateDescription
+            let chargeLimitFraction = Double(Defaults[.chargeLimit]) / 100
+            if let description = mode.stateDescription(chargeLimitFraction: chargeLimitFraction) {
+                content.body = description
+            }
 
             content.interruptionLevel = .active // to show the notification
             let uuidString = UUID().uuidString
