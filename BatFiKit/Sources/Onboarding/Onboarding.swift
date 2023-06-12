@@ -81,7 +81,7 @@ struct Onboarding: View {
             "Helper (still) not installed",
             isPresented: Binding<Bool>(
                 get: { model.helperError != nil },
-                set: { _ in model.helperError = nil }
+                set: { @MainActor _ in model.helperError = nil }
             ),
             actions: {
                 Button("Open System Settings", role: .cancel) {
@@ -100,7 +100,6 @@ Keep in mind that the app won't work without the helper tool.
                 }
             }
         )
-        .preferredColorScheme(.dark)
         .frame(width: 420, height: 600)
     }
 
