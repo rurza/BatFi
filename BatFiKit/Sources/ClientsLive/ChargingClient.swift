@@ -42,7 +42,6 @@ extension ChargingClient: DependencyKey {
                         try await Task.sleep(for: .seconds(1))
                         try await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
-                        try await Task.sleep(for: .seconds(1))
                         xpcClient = createClient()
                         return try await call()
                     } catch { }
