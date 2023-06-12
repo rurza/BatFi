@@ -61,8 +61,7 @@ public class NotificationsManager: NSObject {
             center.removeAllPendingNotificationRequests()
 
             let content = UNMutableNotificationContent()
-            content.title = "The charging mode has changed"
-            content.subtitle = mode.stateDescription
+            content.subtitle = "New mode: \(mode.stateDescription)"
             let chargeLimitFraction = Double(Defaults[.chargeLimit]) / 100
             if let description = mode.stateDescription(chargeLimitFraction: chargeLimitFraction) {
                 content.body = description
