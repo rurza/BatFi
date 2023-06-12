@@ -11,7 +11,10 @@ struct WelcomeView: View {
 
     var body: some View {
         VStack {
-            Spacer()
+            Image("Icon", bundle: Bundle.module)
+                .resizable()
+                .frame(width: 300, height: 300)
+                .frame(maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 10) {
                 Text("Extend the life of your battery.")
                     .font(.system(size: 24, weight: .bold))
