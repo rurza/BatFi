@@ -6,21 +6,39 @@
 //
 
 import Foundation
+import Defaults
+import DefaultsKeys
 import SwiftUI
 
 struct InstallHelperView: View {
+    @Default(.launchAtLogin) private var launchAtLogin
+    @ObservedObject var model: Onboarding.Model
 
     var body: some View {
         VStack {
             Spacer()
             VStack(alignment: .leading, spacing: 10) {
-                Text("Almost done.")
-                    .font(.system(size: 24, weight: .bold))
+                Group {
+                    if model.onboardingIsFinished {
+                        Text("Done.")
+                            .id("title")
+                    } else {
+                        Text("Almost done.")
+                            .id("title")
+                    }
+                }
+                .font(.system(size: 24, weight: .bold))
+                .padding(.bottom, 10)
+                .animation(.default, value: model.onboardingIsFinished)
                 Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging model.")
-                    .padding(.bottom, 30)
                 Text("Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
                     .foregroundStyle(.secondary)
                     .padding(.bottom, 20)
+                Toggle("Launch BatFi at login", isOn: $launchAtLogin)
+                Text("Recommended. You can change it later in app's settings.")
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading) // required, otherwise it will render in center, SwiftUI bug
+                    .padding(.bottom, 30)
             }
         }
     }

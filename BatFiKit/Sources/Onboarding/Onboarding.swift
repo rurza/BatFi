@@ -6,6 +6,7 @@
 //
 
 import Clients
+import ConfettiSwiftUI
 import Defaults
 import DefaultsKeys
 import Dependencies
@@ -16,7 +17,6 @@ enum OnboardingScreen: Int, CaseIterable {
     case welcome
     case charging
     case helper
-    case final
     
     func next() -> OnboardingScreen? {
         OnboardingScreen(rawValue: rawValue + 1)
@@ -30,6 +30,7 @@ enum OnboardingScreen: Int, CaseIterable {
 
 struct Onboarding: View {
     @StateObject var model: Model
+    @State private var confettiCounter = 0
 
     init(didInstallHelper: @escaping () -> Void) {
         _model = StateObject(wrappedValue: Model(didInstallHelper: didInstallHelper))
@@ -41,47 +42,52 @@ struct Onboarding: View {
                 numberOfPages: OnboardingScreen.allCases.count,
                 index: model.currentScreen.rawValue
             ) {
-                WelcomeView().id(0)
-                ChargingLimitView().id(1)
-                InstallHelperView().id(2)
-                FinalView(model: model).id(3)
+                WelcomeView().id(OnboardingScreen.welcome.rawValue)
+                ChargingLimitView().id(OnboardingScreen.charging.rawValue)
+                InstallHelperView(model: model).id(OnboardingScreen.helper.rawValue)
             }
-            if model.currentScreen != .final {
-                HStack {
-                    OnboardingButton(title: "Previous", isLoading: false, action: { model.previousAction() })
-                        .opacity(model.currentScreen != .welcome ? 1 : 0)
-                        .animation(.spring(), value: model.currentScreen)
-                        .disabled(model.isLoading)
-
-                    Spacer()
-                    OnboardingButton(
-                        title: nextButtonTitle,
-                        isLoading: model.isLoading,
-                        action: { model.nextAction() }
-                    )
-                    .disabled(model.isLoading)
+            HStack {
+                OnboardingButton(title: "Previous", isLoading: false, action: { model.previousAction() })
+                    .opacity(model.currentScreen != .welcome && !model.onboardingIsFinished ? 1 : 0)
                     .animation(.spring(), value: model.currentScreen)
-                }.overlay(alignment: .center) {
-                    PageControl(
-                        count: OnboardingScreen.allCases.count,
-                        index: Binding(
-                            get: { model.currentScreen.rawValue },
-                            set: { index in
-                                if let screen = OnboardingScreen(rawValue: index) {
-                                    model.currentScreen = screen
-                                }
+                    .disabled(model.isLoading)
+
+                Spacer()
+                OnboardingButton(
+                    title: nextButtonTitle,
+                    isLoading: model.isLoading,
+                    action: { model.nextAction() }
+                )
+                .disabled(model.isLoading)
+                .animation(.spring(), value: model.currentScreen)
+            }.overlay(alignment: .center) {
+                PageControl(
+                    count: OnboardingScreen.allCases.count,
+                    index: Binding(
+                        get: { model.currentScreen.rawValue },
+                        set: { index in
+                            if let screen = OnboardingScreen(rawValue: index) {
+                                model.currentScreen = screen
                             }
-                        )
+                        }
                     )
-                }
+                )
             }
         }
+        .confettiCannon(
+            counter: Binding(get: { model.onboardingIsFinished ? 1 : 0 }, set: { _ in }),
+            confettiSize: 10,
+            openingAngle: Angle(degrees: 30),
+            closingAngle: Angle(degrees: 150),
+            repetitions: 2,
+            repetitionInterval: 0.7
+        )
         .padding(20)
         .alert(
             "Helper (still) not installed",
             isPresented: Binding<Bool>(
                 get: { model.helperError != nil },
-                set: { @MainActor _ in model.helperError = nil }
+                set: { _ in model.helperError = nil }
             ),
             actions: {
                 Button("Open System Settings", role: .cancel) {
@@ -89,15 +95,12 @@ struct Onboarding: View {
                 }
             },
             message: {
-                VStack {
-                    Text(
+                Text(
 """
 You can always change it in the System Settings.
 Keep in mind that the app won't work without the helper tool.
 """
-                    )
-
-                }
+                )
             }
         )
         .frame(width: 420, height: 600)
@@ -108,7 +111,11 @@ Keep in mind that the app won't work without the helper tool.
         case .welcome:
             return "Get started"
         case .helper:
-            return "Install Helper"
+            if model.onboardingIsFinished {
+                return "Complete"
+            } else {
+                return "Install Helper"
+            }
         default:
             return "Next"
         }
@@ -121,6 +128,7 @@ extension Onboarding {
         @MainActor @Published var currentScreen: OnboardingScreen = .welcome
         @MainActor @Published var helperError: NSError?
         @MainActor @Published var isLoading: Bool = false
+        @MainActor @Published var onboardingIsFinished = false
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
         @Dependency(\.defaults) private var defaults
@@ -133,6 +141,10 @@ extension Onboarding {
         func nextAction() {
             switch currentScreen {
             case .helper:
+                guard !onboardingIsFinished else {
+                    completeOnboarding()
+                    return
+                }
                 Task {
                     @MainActor
                     func observeHelperStatus(error: Error?) async {
@@ -147,6 +159,8 @@ extension Onboarding {
                                     currentScreen = next
                                 }
                                 didInstallHelper()
+                                defaults.setValue(.onboardingIsDone, value: true)
+                                onboardingIsFinished = true
                                 break
                             } else if let error, counter == 30 {
                                 self.helperError = error as NSError
@@ -163,10 +177,7 @@ extension Onboarding {
                     }
                     isLoading = false
                 }
-            case .final:
-                launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
-                defaults.setValue(.onboardingIsDone, value: true)
-                NSApp.windows.first?.close()
+
             default:
                 if let next = currentScreen.next() {
                     currentScreen = next
@@ -179,6 +190,12 @@ extension Onboarding {
             if let previous = currentScreen.previous() {
                 currentScreen = previous
             }
+        }
+        
+        @MainActor
+        func completeOnboarding() {
+            launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
+            NSApp.windows.first?.close()
         }
     }
 }

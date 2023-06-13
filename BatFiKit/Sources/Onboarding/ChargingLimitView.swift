@@ -11,6 +11,7 @@ import SwiftUI
 
 struct ChargingLimitView: View {
     @Default(.chargeLimit) private var chargeLimit
+    @Default(.launchAtLogin) private var launchAtLogin
 
     var body: some View {
         VStack {
@@ -19,7 +20,7 @@ struct ChargingLimitView: View {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
                 Text("Set a maximum charging percentage to prevent overcharging and improve battery longevity.")
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 10)
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
                     Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {

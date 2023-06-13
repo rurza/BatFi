@@ -14,6 +14,7 @@ extension Target.Dependency {
     static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
     static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
     static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
+    static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
 }
 
 let package = Package(
@@ -42,7 +43,8 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1"),
         .package(url: "https://github.com/SnapKit/SnapKit", branch: "main"),
-        .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main")
+        .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main"),
+        .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -128,6 +130,7 @@ let package = Package(
             dependencies: [
                 "Clients",
                 "DefaultsKeys",
+                .confetti,
                 .defaults
             ]
         ),
