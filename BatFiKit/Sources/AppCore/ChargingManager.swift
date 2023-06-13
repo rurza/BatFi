@@ -8,6 +8,7 @@
 import AppShared
 import AsyncAlgorithms
 import Clients
+import DefaultsKeys
 import Dependencies
 import Foundation
 import IOKit.pwr_mgt
@@ -20,12 +21,10 @@ public final class ChargingManager {
     @Dependency(\.powerSourceClient)        private var powerSourceClient
     @Dependency(\.screenParametersClient)   private var screenParametersClient
     @Dependency(\.sleepClient)              private var sleepClient
-    @Dependency(\.observeDefaultsClient)    private var observeDefaultsClient
-    @Dependency(\.getDefaultsClient)        private var getDefaultsClient
-    @Dependency(\.setDefaultsClient)        private var setDefaultsClient
     @Dependency(\.suspendingClock)          private var clock
     @Dependency(\.appChargingState)         private var appChargingState
     @Dependency(\.sleepAssertionClient)     private var sleepAssertionClient
+    @Dependency(\.defaults)                 private var defaults
 
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "🔌👨‍💼")
@@ -40,14 +39,14 @@ public final class ChargingManager {
                 (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
                 powerSourceClient.powerSourceChanges(),
                 combineLatest(
-                    observeDefaultsClient.observePreventSleeping(),
-                    observeDefaultsClient.observeForceCharging(),
-                    observeDefaultsClient.observeTemperature()
+                    defaults.observe(.disableSleep),
+                    defaults.observe(.forceCharge),
+                    defaults.observe(.temperatureSwitch)
                 ),
                 combineLatest(
-                    observeDefaultsClient.observeChargeLimit(),
-                    observeDefaultsClient.observeManageCharging(),
-                    observeDefaultsClient.observeAllowDischargingFullBattery()
+                    defaults.observe(.chargeLimit),
+                    defaults.observe(.manageCharging),
+                    defaults.observe(.allowDischargingFullBattery)
                 )
             ).debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
                 logger.debug("✨✨✨✨✨✨✨✨✨✨✨")
@@ -103,22 +102,22 @@ public final class ChargingManager {
     }
 
     public func chargeToFull() {
-        setDefaultsClient.setForceCharge(true)
+        defaults.setValue(.forceCharge, value: true)
     }
 
     public func turnOffChargeToFull() {
-        setDefaultsClient.setForceCharge(false)
+        defaults.setValue(.forceCharge, value: false)
     }
 
     private func updateStatusWithCurrentState() async {
         let powerState = try? powerSourceClient.currentPowerSourceState()
         if let powerState {
-            let chargeLimit = getDefaultsClient.chargeLimit()
-            let manageCharging = getDefaultsClient.manageCharging()
-            let allowDischargingFullBattery = getDefaultsClient.allowDischarging()
-            let preventSleeping = getDefaultsClient.preventSleep()
-            let forceCharging = getDefaultsClient.forceCharge()
-            let batteryTemperature = getDefaultsClient.turnOffChargingHotBattery()
+            let chargeLimit = defaults.value(.chargeLimit)
+            let manageCharging = defaults.value(.manageCharging)
+            let allowDischargingFullBattery = defaults.value(.allowDischargingFullBattery)
+            let preventSleeping = defaults.value(.disableSleep)
+            let forceCharging = defaults.value(.forceCharge)
+            let batteryTemperature = defaults.value(.temperatureSwitch)
             await updateStatus(
                 powerState: powerState,
                 chargeLimit: Int(chargeLimit),
@@ -154,7 +153,8 @@ public final class ChargingManager {
             await turnOnChargingIfNeeded(
                 preventSleeping: false,
                 chargerConnected: powerState.chargerConnected,
-                manageCharging: manageCharging
+                manageCharging: manageCharging,
+                forceCharge: forceCharging
             )
             return
         }
@@ -181,7 +181,8 @@ public final class ChargingManager {
                 await turnOnChargingIfNeeded(
                     preventSleeping: preventSleeping,
                     chargerConnected: powerState.chargerConnected,
-                    manageCharging: manageCharging
+                    manageCharging: manageCharging,
+                    forceCharge: forceCharging
                 )
             }
         }
@@ -212,7 +213,8 @@ public final class ChargingManager {
     private func turnOnChargingIfNeeded(
         preventSleeping: Bool,
         chargerConnected: Bool,
-        manageCharging: Bool
+        manageCharging: Bool,
+        forceCharge: Bool
     ) async {
         let mode = await appChargingState.chargingStateMode()
         logger.debug("Should turn on charging...")
@@ -223,7 +225,7 @@ public final class ChargingManager {
                 if !manageCharging {
                     await appChargingState.updateChargingStateMode(.disabled)
                 } else if chargerConnected {
-                    if getDefaultsClient.forceCharge() {
+                    if forceCharge {
                         await appChargingState.updateChargingStateMode(.forceCharge)
                     } else {
                         await appChargingState.updateChargingStateMode(.charging)
@@ -291,14 +293,14 @@ public final class ChargingManager {
             logger.debug("Fetching charging status")
             let powerState = try powerSourceClient.currentPowerSourceState()
             let chargingStatus = try await chargingClient.chargingStatus()
-            let forceChargeStatus = getDefaultsClient.forceCharge()
+            let forceChargeSettings = defaults.value(.forceCharge)
             if chargingStatus.forceDischarging {
                 await appChargingState.updateChargingStateMode(.forceDischarge)
             } else {
                 if powerState.chargerConnected {
                     if chargingStatus.inhitbitCharging {
                         await appChargingState.updateChargingStateMode(.inhibit)
-                    } else if forceChargeStatus {
+                    } else if forceChargeSettings {
                         await appChargingState.updateChargingStateMode(.forceCharge)
                     } else {
                         await appChargingState.updateChargingStateMode(.charging)

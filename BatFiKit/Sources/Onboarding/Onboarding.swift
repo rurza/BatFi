@@ -123,7 +123,7 @@ extension Onboarding {
         @MainActor @Published var isLoading: Bool = false
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
-        @Dependency(\.settingsDefaults) private var settingsDefaults
+        @Dependency(\.defaults) private var defaults
 
         init(didInstallHelper: @escaping () -> Void) {
             self.didInstallHelper = didInstallHelper
@@ -165,7 +165,7 @@ extension Onboarding {
                 }
             case .final:
                 launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
-                _ = settingsDefaults.onboardingIsDone(true)
+                defaults.setValue(.onboardingIsDone, value: true)
                 NSApp.windows.first?.close()
             default:
                 if let next = currentScreen.next() {

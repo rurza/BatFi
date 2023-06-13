@@ -11,25 +11,25 @@ public extension AppChargingMode {
     var stateDescription: String {
         switch self {
         case .charging:
-            return "Charging to the limit."
+            return "Charging to the limit"
         case .disabled:
-            return "Automatically manage charging is turned off."
+            return "Disabled"
         case .forceCharge:
-            return "Charging to 100%."
+            return "Charging"
         case .forceDischarge:
-            return "Discharging the battery."
+            return "Discharging"
         case .inhibit:
-            return "The charging limit reached — inhibiting charging."
+            return "Inhibiting charging"
         case .chargerNotConnected:
-            return "Charger not connected."
+            return "Charger not connected"
         }
     }
 
-    func stateDescription(_ limit: Double) -> String {
+    func stateDescription(chargeLimitFraction limit: Double) -> String? {
         let limit = percentageFormatter.string(from: limit as NSNumber)!
         switch self {
         case .charging:
-            return "Charging to the \(limit)."
+            return "The limit is \(limit)."
         case .disabled:
             return "Automatically manage charging is turned off."
         case .forceCharge:
@@ -37,9 +37,9 @@ public extension AppChargingMode {
         case .forceDischarge:
             return "Using the battery."
         case .inhibit:
-            return "The charging limit of \(limit) reached — inhibiting charging."
+            return "The charging limit is set to \(limit)."
         case .chargerNotConnected:
-            return "Charger not connected."
+            return nil
         }
     }
 

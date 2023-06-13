@@ -10,6 +10,7 @@ import AppShared
 import BatteryInfo
 import Clients
 import Cocoa
+import DefaultsKeys
 import Dependencies
 import MenuBuilder
 
@@ -28,7 +29,7 @@ public final class MenuController {
     let statusItem: NSStatusItem
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.helperManager) private var helperManager
-    @Dependency(\.settingsDefaults) private var settingsDefaults
+    @Dependency(\.defaults) private var defaults
 
     public weak var delegate: MenuControllerDelegate?
 
@@ -41,7 +42,7 @@ public final class MenuController {
         Task {
             
             for await (state, showDebugMenu) in combineLatest(
-                appChargingState.observeChargingStateMode(), settingsDefaults.observeShowDebugMenu()
+                appChargingState.observeChargingStateMode(), defaults.observe(.showDebugMenu)
             ) {
                 updateMenu(appChargingState: state, showDebugMenu: showDebugMenu)
             }
@@ -70,7 +71,16 @@ public final class MenuController {
             SeparatorItem()
             MenuItem("More")
                 .submenu {
+                    MenuItem("BatFi…")
+                        .onSelect { [weak self] in
+                            self?.delegate?.openAbout()
+                        }
+                    MenuItem("Check for Updates…")
+                        .onSelect { [weak self] in
+                            self?.delegate?.checkForUpdates()
+                        }
                     if showDebugMenu {
+                        SeparatorItem()
                         MenuItem("Debug")
                             .submenu {
                                 MenuItem("Install Helper").onSelect { [weak self] in
@@ -80,16 +90,7 @@ public final class MenuController {
                                     Task { try? await self?.helperManager.removeHelper() }
                                 }
                             }
-                        SeparatorItem()
                     }
-                    MenuItem("BatFi…")
-                        .onSelect { [weak self] in
-                            self?.delegate?.openAbout()
-                        }
-                    MenuItem("Check for Updates…")
-                        .onSelect { [weak self] in
-                            self?.delegate?.checkForUpdates()
-                        }
                 }
             MenuItem("Settings…")
                 .onSelect { [weak self] in

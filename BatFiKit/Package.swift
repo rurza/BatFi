@@ -66,6 +66,7 @@ let package = Package(
             "Clients",
             "Settings",
             "Shared",
+            "DefaultsKeys",
             .dependencies,
             .asyncAlgorithms,
             .snapKit

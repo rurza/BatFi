@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SeparatorView: View {
     @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         VStack(spacing: 0) {
             Divider()

@@ -28,13 +28,13 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private weak var arrowWindow: ArrowWindow?
     @Dependency(\.updater) private var updater
     @Dependency(\.suspendingClock) private var clock
-    @Dependency(\.settingsDefaults) private var settingsDefaults
+    @Dependency(\.defaults) private var defaults
 
     public init() { }
 
     public func start() {
         _ = updater // initialize updater
-        if settingsDefaults.onboardingIsDone(nil) {
+        if defaults.value(.onboardingIsDone) {
             setUpTheApp()
         } else {
             openOnboarding()

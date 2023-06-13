@@ -24,10 +24,10 @@ public protocol StatusItemIconControllerDelegate: AnyObject {
 public final class StatusItemIconController {
     public weak var delegate: StatusItemIconControllerDelegate?
     
-    @Dependency(\.powerSourceClient) private var powerSourceClient
-    @Dependency(\.appChargingState) private var appChargingState
-    @Dependency(\.settingsDefaults) private var settingsDefaults
-    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.powerSourceClient)    private var powerSourceClient
+    @Dependency(\.appChargingState)     private var appChargingState
+    @Dependency(\.defaults)             private var defaults
+    @Dependency(\.suspendingClock)      private var clock
     private var didAppear = false
 
     let statusItem: NSStatusItem
@@ -53,8 +53,8 @@ public final class StatusItemIconController {
                     appChargingState.observeChargingStateMode()
                 ),
                 combineLatest(
-                    settingsDefaults.observeShowBatteryPercentage(),
-                    settingsDefaults.observeShowMonochromeIcon()
+                    defaults.observe(.showBatteryPercentageInStatusIcon),
+                    defaults.observe(.monochromeStatusIcon)
                 ))
                 .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
                 model.batteryLevel = powerState.batteryLevel
