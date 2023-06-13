@@ -17,8 +17,10 @@ struct GeneralView: View {
     @Default(.monochromeStatusIcon) private var monochrom
     @Default(.showBatteryPercentageInStatusIcon) private var batteryPercentage
     @Default(.showDebugMenu) private var showDebugMenu
+    
     @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
+    
     @Dependency(\.updater) private var updater
 
     var body: some View {

@@ -11,6 +11,7 @@ import SwiftUI
 
 struct NotificationsView: View {
     @Default(.showChargingStausChanged) var showChargingStausChanged
+
     var body: some View {
         Container(contentWidth: settingsContentWidth) {
             Section(title: "Notifications", bottomDivider: true) {
