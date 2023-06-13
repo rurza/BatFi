@@ -53,6 +53,7 @@ let package = Package(
                 "BatteryInfo",
                 "Clients",
                 "ClientsLive",
+                "DefaultsKeys",
                 "Notifications",
                 "Onboarding",
                 "Settings",
