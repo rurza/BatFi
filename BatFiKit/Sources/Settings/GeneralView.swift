@@ -53,7 +53,7 @@ struct GeneralView: View {
                     }
             }
             Section(title: "Advanced") {
-                Toggle("Show the debug menu", isOn: $showDebugMenu)
+                Toggle("Show Debug menu", isOn: $showDebugMenu)
             }
         }.onAppear {
             automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()
