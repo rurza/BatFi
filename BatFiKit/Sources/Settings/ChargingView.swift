@@ -31,7 +31,7 @@ struct ChargingView: View {
                             .toggleStyle(.switch)
                             Text("Automatically manage charging")
                         }
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 30)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
@@ -46,7 +46,7 @@ struct ChargingView: View {
                             .disabled(!manageCharging)
                         }
                     }
-                    .padding(.bottom, 16)
+                    .padding(.bottom, 22)
                     Toggle(isOn: $temperatureSwitch) {
                         Text("Automatically turn off charging when the battery gets hot")
                             .help("Turns off charging when the battery is 35°C or more.")

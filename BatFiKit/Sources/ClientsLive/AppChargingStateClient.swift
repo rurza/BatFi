@@ -56,13 +56,12 @@ extension AppChargingStateClient: DependencyKey {
 private let chargingModeDidChangeNotificationName = Notification.Name("ChargingModeDidChangeNotificationName")
 
 private actor AppChargingState {
-    private(set) var mode: AppChargingMode?
+    private(set) var mode: AppChargingMode = .initial
     private(set) var lidOpened: Bool?
 
-    static let initialState = AppChargingState(mode: nil, lidOpened: nil)
+    static let initialState = AppChargingState(lidOpened: nil)
 
-    init(mode: AppChargingMode?, lidOpened: Bool?) {
-        self.mode = mode
+    init(lidOpened: Bool?) {
         self.lidOpened = lidOpened
     }
 

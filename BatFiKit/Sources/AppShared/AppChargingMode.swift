@@ -8,6 +8,7 @@
 import Foundation
 
 public enum AppChargingMode: String, Equatable {
+    case initial
     case charging
     case inhibit
     case forceDischarge

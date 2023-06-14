@@ -10,6 +10,8 @@ import Foundation
 public extension AppChargingMode {
     var stateDescription: String {
         switch self {
+        case .initial:
+            return "Initializing"
         case .charging:
             return "Charging to the limit"
         case .disabled:
@@ -28,6 +30,8 @@ public extension AppChargingMode {
     func stateDescription(chargeLimitFraction limit: Double) -> String? {
         let limit = percentageFormatter.string(from: limit as NSNumber)!
         switch self {
+        case .initial:
+            return nil
         case .charging:
             return "The limit is \(limit)."
         case .disabled:

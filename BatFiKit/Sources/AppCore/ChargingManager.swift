@@ -33,10 +33,6 @@ public final class ChargingManager {
 
     public func setUpObserving() {
         Task {
-            // set up initial state
-            await appChargingState.updateChargingStateMode(.disabled)
-        }
-        Task {
             await fetchChargingState()
             for await (powerState,
                 (preventSleeping, forceCharging, temperature),
