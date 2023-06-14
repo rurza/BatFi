@@ -15,31 +15,31 @@ struct InstallHelperView: View {
     @ObservedObject var model: Onboarding.Model
 
     var body: some View {
-        VStack {
-            Spacer()
-            VStack(alignment: .leading, spacing: 10) {
-                Group {
-                    if model.onboardingIsFinished {
-                        Text("Done.")
-                            .id("title")
-                    } else {
-                        Text("Almost done.")
-                            .id("title")
-                    }
-                }
+        VStack(spacing: 20) {
+            Color.green.ignoresSafeArea(.container, edges: .all)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(model.onboardingIsFinished ? "Done" : "Almost done.")
                 .font(.system(size: 24, weight: .bold))
                 .padding(.bottom, 10)
                 .animation(.default, value: model.onboardingIsFinished)
-                Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging model.")
-                Text("Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
-                    .foregroundStyle(.secondary)
-                    .padding(.bottom, 20)
+                ZStack(alignment: .topLeading) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging model.")
+                        Text("Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
+                            .foregroundStyle(.secondary)
+                    }
+                    .opacity(model.onboardingIsFinished ? 0 : 1)
+                    Text("The app is ready to use!")
+                        .foregroundStyle(.secondary)
+                        .opacity(model.onboardingIsFinished ? 1 : 0)
+                }
+                .padding(.bottom, 40)
                 Toggle("Launch BatFi at login", isOn: $launchAtLogin)
                 Text("Recommended. You can change it later in app's settings.")
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading) // required, otherwise it will render in center, SwiftUI bug
-                    .padding(.bottom, 30)
             }
+            .padding([.leading, .bottom, .trailing], 20)
         }
     }
 }

@@ -22,6 +22,8 @@ struct WelcomeView: View {
                     .padding(.bottom, 30)
             }
         }
+        .padding(20)
+
     }
 }
 

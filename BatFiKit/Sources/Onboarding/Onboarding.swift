@@ -73,6 +73,7 @@ struct Onboarding: View {
                     )
                 )
             }
+            .padding([.leading, .bottom, .trailing], 20)
         }
         .confettiCannon(
             counter: Binding(get: { model.onboardingIsFinished ? 1 : 0 }, set: { _ in }),
@@ -82,7 +83,6 @@ struct Onboarding: View {
             repetitions: 2,
             repetitionInterval: 0.7
         )
-        .padding(20)
         .alert(
             "Helper (still) not installed",
             isPresented: Binding<Bool>(
@@ -97,12 +97,14 @@ struct Onboarding: View {
             message: {
                 Text(
 """
-You can always change it in the System Settings.
-Keep in mind that the app won't work without the helper tool.
+It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.
+You can always change permissions in the System Settings.
+Please keep in mind that the app won't work without the helper tool.
 """
                 )
             }
         )
+        .edgesIgnoringSafeArea(.top)
         .frame(width: 420, height: 600)
     }
 
@@ -161,6 +163,7 @@ extension Onboarding {
                                 didInstallHelper()
                                 defaults.setValue(.onboardingIsDone, value: true)
                                 onboardingIsFinished = true
+                                NSSound(named: "Funk")?.play()
                                 break
                             } else if let error, counter == 30 {
                                 self.helperError = error as NSError

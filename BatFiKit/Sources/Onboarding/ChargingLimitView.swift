@@ -14,8 +14,9 @@ struct ChargingLimitView: View {
     @Default(.launchAtLogin) private var launchAtLogin
 
     var body: some View {
-        VStack {
-            Spacer()
+        VStack(spacing: 0) {
+            Color.green.frame(maxHeight: .infinity)
+                .edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 10) {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
@@ -35,8 +36,8 @@ struct ChargingLimitView: View {
                 .padding(.bottom, 30)
                 Text("You can modify this setting later in the app's settings.")
                     .foregroundStyle(.secondary)
-                    .padding(.vertical, 20)
             }
+            .padding(20)
         }
     }
 }
