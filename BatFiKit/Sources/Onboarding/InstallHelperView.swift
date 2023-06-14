@@ -16,7 +16,7 @@ struct InstallHelperView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Color.green.ignoresSafeArea(.container, edges: .all)
+            Color.black.ignoresSafeArea(.container, edges: .all)
             VStack(alignment: .leading, spacing: 6) {
                 Text(model.onboardingIsFinished ? "Done" : "Almost done.")
                 .font(.system(size: 24, weight: .bold))

@@ -15,7 +15,7 @@ struct ChargingLimitView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Color.green.frame(maxHeight: .infinity)
+            Color.black.frame(maxHeight: .infinity)
                 .edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 10) {
                 Text("Set Charging Limit.")
