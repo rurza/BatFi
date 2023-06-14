@@ -14,6 +14,7 @@ public protocol DefaultsProtocol {
     func observe<Value: Defaults.Serializable & CustomStringConvertible>(_ key: Defaults.Key<Value>) -> AsyncStream<Value>
     func setValue<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>, value: Value)
     func value<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>) -> Value
+    func resetSettings()
 }
 
 public enum DefaultsKey: TestDependencyKey {

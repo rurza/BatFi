@@ -89,6 +89,10 @@ public final class MenuController {
                                 MenuItem("Remove Helper").onSelect { [weak self] in
                                     Task { try? await self?.helperManager.removeHelper() }
                                 }
+                                SeparatorItem()
+                                MenuItem("Reset settings").onSelect { [weak self] in
+                                    self?.defaults.resetSettings()
+                                }
                             }
                     }
                 }

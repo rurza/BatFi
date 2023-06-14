@@ -36,4 +36,8 @@ public struct DefaultsClient: DefaultsProtocol {
     public func setValue<Value>(_ key: Defaults.Key<Value>, value: Value) where Value : Defaults.Serializable {
         Defaults[key] = value
     }
+    
+    public func resetSettings() {
+        UserDefaults.standard.removeAll()
+    }
 }
