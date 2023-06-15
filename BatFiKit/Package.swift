@@ -66,10 +66,11 @@ let package = Package(
         ),
         .target(name: "AppCore", dependencies: [
             "AppShared",
+            "BatteryInfo",
             "Clients",
+            "DefaultsKeys",
             "Settings",
             "Shared",
-            "DefaultsKeys",
             .dependencies,
             .asyncAlgorithms,
             .snapKit
