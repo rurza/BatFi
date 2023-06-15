@@ -222,9 +222,7 @@ public final class ChargingManager {
             logger.debug("Turning on charging")
             do {
                 try await chargingClient.turnOnAutoChargingMode()
-                if !manageCharging {
-                    await appChargingState.updateChargingStateMode(.disabled)
-                } else if chargerConnected {
+                if chargerConnected {
                     if forceCharge {
                         await appChargingState.updateChargingStateMode(.forceCharge)
                     } else {
@@ -241,8 +239,6 @@ public final class ChargingManager {
             logger.debug("Charging already turned on.")
             if !chargerConnected {
                 await appChargingState.updateChargingStateMode(.chargerNotConnected)
-            } else if !manageCharging {
-                await appChargingState.updateChargingStateMode(.disabled)
             }
         }
         if preventSleeping && chargerConnected && manageCharging {

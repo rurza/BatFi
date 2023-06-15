@@ -14,8 +14,6 @@ public extension AppChargingMode {
             return "Initializing"
         case .charging:
             return "Charging to the limit"
-        case .disabled:
-            return "Disabled"
         case .forceCharge:
             return "Charging"
         case .forceDischarge:
@@ -34,8 +32,6 @@ public extension AppChargingMode {
             return nil
         case .charging:
             return "The limit is \(limit)."
-        case .disabled:
-            return "Automatically manage charging is turned off."
         case .forceCharge:
             return "Charging to 100%."
         case .forceDischarge:

@@ -18,6 +18,7 @@ public class NotificationsManager: NSObject {
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.updater) private var updater
+    @Dependency(\.defaults) private var defaults
     private lazy var center = UNUserNotificationCenter.current()
 
     public override init() {
@@ -37,15 +38,19 @@ public class NotificationsManager: NSObject {
             }
         }
     }
-
+    
     private var task: Task<Void, Never>?
-
+    
     func startObservingChargingStateMode() {
         task = Task {
-            for await chargingMode in appChargingState.observeChargingStateMode()
+            for await (chargingMode, manageCharging) in combineLatest(
+                appChargingState.observeChargingStateMode(),
+                defaults.observe(.manageCharging)
+            )
                 .debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
                 guard chargingMode != .chargerNotConnected
-                        && chargingMode != .initial else { return }
+                        && chargingMode != .initial
+                        && manageCharging else { return }
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
         }
@@ -81,9 +86,8 @@ public class NotificationsManager: NSObject {
 }
 
 extension NotificationsManager: UNUserNotificationCenterDelegate {
-    public func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                       willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        return [.banner]
+    public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner])
     }
 
     public func userNotificationCenter(

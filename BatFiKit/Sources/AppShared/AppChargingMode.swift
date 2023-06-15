@@ -13,6 +13,5 @@ public enum AppChargingMode: String, Equatable {
     case inhibit
     case forceDischarge
     case forceCharge
-    case disabled
     case chargerNotConnected
 }

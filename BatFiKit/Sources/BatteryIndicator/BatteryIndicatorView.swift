@@ -75,7 +75,6 @@ struct DemoView: View {
 
     var body: some View {
         VStack {
-            let _  = Self._printChanges()
             BatteryIndicatorView(model: model)
                 .frame(width: 33, height: 13)
                 .padding()

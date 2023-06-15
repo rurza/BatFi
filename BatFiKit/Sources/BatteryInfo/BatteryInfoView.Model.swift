@@ -6,6 +6,7 @@
 //
 
 import AppShared
+import AsyncAlgorithms
 import Clients
 import Dependencies
 import Foundation
@@ -15,6 +16,7 @@ extension BatteryInfoView {
     final class Model: ObservableObject {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         @Dependency(\.appChargingState) private var appChargingState
+        @Dependency(\.defaults) private var defaults
 
         private(set) var state: PowerState? {
             didSet {
@@ -38,8 +40,15 @@ extension BatteryInfoView {
 
         func setUpObserving() {
             let observeChargingStateMode = Task {
-                for await mode in appChargingState.observeChargingStateMode() {
-                    self.modeDescription = mode.stateDescription
+                for await (mode, manageCharging) in combineLatest(
+                    appChargingState.observeChargingStateMode(),
+                    defaults.observe(.manageCharging)
+                ) {
+                    if manageCharging {
+                        self.modeDescription = mode.stateDescription
+                    } else {
+                        self.modeDescription = "Disabled"
+                    }
                 }
             }
 

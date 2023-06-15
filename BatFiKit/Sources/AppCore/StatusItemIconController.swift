@@ -95,7 +95,7 @@ extension BatteryIndicatorView.Model.ChargingMode {
             self = .charging
         case .inhibit:
             self = .inhibited
-        case .forceDischarge, .disabled, .chargerNotConnected, .initial:
+        case .forceDischarge, .chargerNotConnected, .initial:
             self = .discharging
         }
     }
