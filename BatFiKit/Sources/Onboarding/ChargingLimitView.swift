@@ -12,16 +12,20 @@ import SwiftUI
 struct ChargingLimitView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.launchAtLogin) private var launchAtLogin
+    @StateObject private var model = PlayerViewModel(name: "2_0_0")
 
     var body: some View {
         VStack(spacing: 0) {
-            Color.black.frame(maxHeight: .infinity)
+            AVPlayerViewRepresented(player: model.player)
                 .edgesIgnoringSafeArea(.all)
-            VStack(alignment: .leading, spacing: 10) {
+                .aspectRatio(1.7777, contentMode: .fit)
+                .frame(maxWidth: .infinity)
+            Spacer()
+            VStack(alignment: .leading, spacing: 20) {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
+                    .padding(.bottom, -10) // so the space between header and the text is -10
                 Text("Set a maximum charging percentage to prevent overcharging and improve battery longevity.")
-                    .padding(.bottom, 10)
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
                     Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
@@ -33,11 +37,19 @@ struct ChargingLimitView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .padding(.bottom, 30)
+                Spacer()
                 Text("You can modify this setting later in the app's settings.")
                     .foregroundStyle(.secondary)
             }
             .padding(20)
+        }
+        .onAppear {
+            print("on appear")
+            model.play()
+        }
+        .onDisappear {
+            model.reset()
+            print("on disappear")
         }
     }
 }

@@ -18,7 +18,7 @@ struct WelcomeView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Extend the life of your Mac.")
                     .font(.system(size: 24, weight: .bold))
-                Text("BatFi helps you optimize your macOS battery performance by managing charging levels intelligently – charging to 100% only when it's needed.")
+                Text("BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.")
                     .padding(.bottom, 30)
             }
         }

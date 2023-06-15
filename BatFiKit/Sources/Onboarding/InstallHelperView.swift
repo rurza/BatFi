@@ -17,13 +17,12 @@ struct InstallHelperView: View {
     var body: some View {
         VStack(spacing: 20) {
             Color.black.ignoresSafeArea(.container, edges: .all)
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text(model.onboardingIsFinished ? "Done" : "Almost done.")
                 .font(.system(size: 24, weight: .bold))
-                .padding(.bottom, 10)
                 .animation(.default, value: model.onboardingIsFinished)
                 ZStack(alignment: .topLeading) {
-                    VStack(alignment: .leading, spacing: 6) {
+                    VStack(alignment: .leading, spacing: 10) {
                         Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging model.")
                         Text("Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
                             .foregroundStyle(.secondary)
@@ -33,8 +32,9 @@ struct InstallHelperView: View {
                         .foregroundStyle(.secondary)
                         .opacity(model.onboardingIsFinished ? 1 : 0)
                 }
-                .padding(.bottom, 40)
+                Spacer()
                 Toggle("Launch BatFi at login", isOn: $launchAtLogin)
+                    .padding(.bottom, -5)
                 Text("Recommended. You can change it later in app's settings.")
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading) // required, otherwise it will render in center, SwiftUI bug

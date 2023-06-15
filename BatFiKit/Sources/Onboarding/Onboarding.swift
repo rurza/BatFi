@@ -105,7 +105,7 @@ Please keep in mind that the app won't work without the helper tool.
             }
         )
         .edgesIgnoringSafeArea(.top)
-        .frame(width: 420, height: 600)
+        .frame(width: 400, height: 520)
     }
 
     var nextButtonTitle: String {

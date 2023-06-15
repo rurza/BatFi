@@ -22,11 +22,12 @@ struct PageView<Content: View>: View {
                     showsIndicators: false,
                     offset: $offset) {
                         ScrollViewReader { scrollView in
-                            HStack(spacing: 0) {
+                            LazyHStack(spacing: 0) {
                                 content()
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                                     .frame(width: proxy.size.width)
                             }
+                            .frame(maxHeight: .infinity)
                             .onChange(of: index) { newValue in
                                 withAnimation {
                                     scrollView.scrollTo(newValue)
