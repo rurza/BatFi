@@ -87,7 +87,7 @@ public class NotificationsManager: NSObject {
 
 extension NotificationsManager: UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner])
+        completionHandler([.banner, .list])
     }
 
     public func userNotificationCenter(
