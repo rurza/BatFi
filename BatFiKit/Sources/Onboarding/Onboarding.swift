@@ -5,6 +5,7 @@
 //  Created by Adam on 31/05/2023.
 //
 
+import AVKit
 import Clients
 import ConfettiSwiftUI
 import Defaults
@@ -25,7 +26,6 @@ enum OnboardingScreen: Int, CaseIterable {
     func previous() -> OnboardingScreen? {
         OnboardingScreen(rawValue: rawValue - 1)
     }
-
 }
 
 struct Onboarding: View {
@@ -43,7 +43,7 @@ struct Onboarding: View {
                 index: model.currentScreen.rawValue
             ) {
                 WelcomeView().id(OnboardingScreen.welcome.rawValue)
-                ChargingLimitView().id(OnboardingScreen.charging.rawValue)
+                ChargingLimitView(model: model).id(OnboardingScreen.charging.rawValue)
                 InstallHelperView(model: model).id(OnboardingScreen.helper.rawValue)
             }
             HStack {
@@ -105,7 +105,7 @@ Please keep in mind that the app won't work without the helper tool.
             }
         )
         .edgesIgnoringSafeArea(.top)
-        .frame(width: 400, height: 520)
+        .frame(width: 420, height: 620)
     }
 
     var nextButtonTitle: String {
@@ -134,9 +134,11 @@ extension Onboarding {
         @Dependency(\.helperManager) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
         @Dependency(\.defaults) private var defaults
+        var playerModel: OnboardingPlayerViewModel!
 
         init(didInstallHelper: @escaping () -> Void) {
             self.didInstallHelper = didInstallHelper
+            playerModel = OnboardingPlayerViewModel($currentScreen.eraseToAnyPublisher())
         }
 
         @MainActor
@@ -199,6 +201,10 @@ extension Onboarding {
         func completeOnboarding() {
             launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
             NSApp.windows.first?.close()
+        }
+        
+        var player: AVPlayer {
+            playerModel.player
         }
     }
 }

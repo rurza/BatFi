@@ -9,49 +9,64 @@ import Foundation
 import AVKit
 import Combine
 
-class PlayerViewModel: ObservableObject {
+private extension OnboardingScreen {
+    var fileName: String? {
+        switch self {
+        case .welcome:
+            return nil
+        case .helper:
+            return "helper"
+        case .charging:
+            return "charging"
+        }
+    }
+}
 
-    private var cancellables = Set<AnyCancellable>()
-    let item: AVPlayerItem
+class OnboardingPlayerViewModel: ObservableObject {
+    private var currentPageCancellable: AnyCancellable?
+    private var currentItemCancellable: AnyCancellable?
 
-    lazy var player: AVPlayer = {
-        let player = AVPlayer(playerItem: item)
+    private var currentItem: AVPlayerItem?
+    private(set) lazy var player: AVPlayer = {
+        let player = AVPlayer()
         player.volume = 0
         player.actionAtItemEnd = .none
-
         return player
     }()
-
-    init(name: String) {
-        let urlString = "https://files.micropixels.software/batfi/" + name + ".mp4"
-        let url = URL(string: urlString)!
-        let asset = AVURLAsset(url: url)
-        item = AVPlayerItem(asset: asset)
-        setUpSubscribers()
+    
+    init(_ currentPage: AnyPublisher<OnboardingScreen, Never>) {
+        currentPageCancellable = currentPage
+            .sink { [weak self] currentPage in
+                self?.updatePlayer(currentPage.fileName)
+            }
+    }
+    
+    private func updatePlayer(_ filename: String?) {
+        if let filename {
+            let item = playerItemForVideoName(filename)
+            player.replaceCurrentItem(with: item)
+            setUpSubscribersForItem(item)
+            player.play()
+        } else {
+            player.replaceCurrentItem(with: nil)
+        }
     }
 
-    func setUpSubscribers() {
-        NotificationCenter.default
+    private func setUpSubscribersForItem(_ item: AVPlayerItem) {
+        currentItemCancellable?.cancel()
+        currentItemCancellable = NotificationCenter.default
             .publisher(for: .AVPlayerItemDidPlayToEndTime, object: item)
             .map { $0.object as? AVPlayerItem }
             .sink {
                 $0?.seek(to: CMTime.zero, completionHandler: nil)
             }
-            .store(in: &cancellables)
-    }
-
-    func play() {
-        player.seek(to: CMTime.zero)
-        player.play()
     }
     
-    func reset() {
-        player.pause()
-        player.seek(to: CMTime.zero)
-    }
-
-    var isPlaying: Bool {
-        player.timeControlStatus == .playing
+    private func playerItemForVideoName(_ name: String) -> AVPlayerItem {
+        let urlString = "https://files.micropixels.software/batfi/" + name + ".mp4"
+        let url = URL(string: urlString)!
+        let asset = AVURLAsset(url: url)
+        return AVPlayerItem(asset: asset)
     }
 
 }

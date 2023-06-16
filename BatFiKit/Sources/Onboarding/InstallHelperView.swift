@@ -16,7 +16,10 @@ struct InstallHelperView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Color.black.ignoresSafeArea(.container, edges: .all)
+            AVPlayerViewRepresented(player: model.player)
+                .edgesIgnoringSafeArea(.all)
+                .frame(maxWidth: .infinity)
+                .aspectRatio(1.33333, contentMode: .fill)
             VStack(alignment: .leading, spacing: 10) {
                 Text(model.onboardingIsFinished ? "Done" : "Almost done.")
                 .font(.system(size: 24, weight: .bold))

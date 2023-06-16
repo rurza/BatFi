@@ -12,15 +12,14 @@ import SwiftUI
 struct ChargingLimitView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.launchAtLogin) private var launchAtLogin
-    @StateObject private var model = PlayerViewModel(name: "2_0_0")
+    @ObservedObject var model: Onboarding.Model
 
     var body: some View {
         VStack(spacing: 0) {
             AVPlayerViewRepresented(player: model.player)
                 .edgesIgnoringSafeArea(.all)
-                .aspectRatio(1.7777, contentMode: .fit)
                 .frame(maxWidth: .infinity)
-            Spacer()
+                .aspectRatio(1.3333333, contentMode: .fill)
             VStack(alignment: .leading, spacing: 20) {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
@@ -43,20 +42,12 @@ struct ChargingLimitView: View {
             }
             .padding(20)
         }
-        .onAppear {
-            print("on appear")
-            model.play()
-        }
-        .onDisappear {
-            model.reset()
-            print("on disappear")
-        }
     }
 }
 
 struct ChargingLimitView_Previews: PreviewProvider {
     static var previews: some View {
-        ChargingLimitView()
+        ChargingLimitView(model: Onboarding.Model(didInstallHelper: {}))
             .frame(width: 420, height: 600)
             .preferredColorScheme(.dark)
     }

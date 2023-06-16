@@ -23,7 +23,6 @@ struct AVPlayerViewRepresented: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: AVPlayerView, context: Context) { }
-
 }
 
 private class PlayerView: AVPlayerView {
