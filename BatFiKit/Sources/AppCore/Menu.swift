@@ -50,6 +50,14 @@ public final class MenuController {
     }
 
     private func updateMenu(appChargingState: AppChargingMode, showDebugMenu: Bool) {
+        let chargeTo100Tooltip: String?
+        if appChargingState == .forceDischarge {
+            chargeTo100Tooltip = "Disabled because the \"Discharge battery when charged over limit\" is turned on"
+        } else if appChargingState == .chargerNotConnected {
+            chargeTo100Tooltip = "Disabled because the charger is not connected"
+        } else {
+            chargeTo100Tooltip = nil
+        }
         self.statusItem.menu = NSMenu {
             MenuItem("")
                 .view {
@@ -57,16 +65,8 @@ public final class MenuController {
                 }
             SeparatorItem()
             if appChargingState == .forceDischarge || appChargingState == .chargerNotConnected {
-                let tooltip: String?
-                if appChargingState == .forceDischarge {
-                    tooltip = "Disabled because the \"Discharge battery when charged over limit\" is turned on"
-                } else if appChargingState == .chargerNotConnected {
-                    tooltip = "Disabled because the charger is not connected"
-                } else {
-                    tooltip = nil
-                }
                 MenuItem("Charge to 100%")
-                    .toolTip(tooltip)
+                    .toolTip(chargeTo100Tooltip)
             } else if appChargingState != .forceCharge {
                 MenuItem("Charge to 100%")
                     .onSelect { [weak self] in
