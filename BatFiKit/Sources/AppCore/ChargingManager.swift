@@ -33,7 +33,6 @@ public final class ChargingManager {
 
     public func setUpObserving() {
         Task {
-            await fetchChargingState()
             for await (powerState,
                 (preventSleeping, forceCharging, temperature),
                 (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
@@ -165,6 +164,15 @@ public final class ChargingManager {
         guard let lidOpened = await appChargingState.lidOpened() else {
             logger.warning("We don't know if the lid is opened")
             await fetchChargingState()
+            await updateStatus(
+                powerState: powerState,
+                chargeLimit: chargeLimit,
+                manageCharging: manageCharging,
+                allowDischarging: allowDischarging,
+                preventSleeping: preventSleeping,
+                forceCharging: forceCharging,
+                turnOffChargingWithHotBattery: turnOffChargingWithHotBattery
+            )
             return
         }
         logger.debug("Lid opened: \(lidOpened)")

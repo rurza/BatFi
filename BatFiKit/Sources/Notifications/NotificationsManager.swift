@@ -12,14 +12,16 @@ import Clients
 import Defaults
 import DefaultsKeys
 import Dependencies
+import os
 import UserNotifications
 
 public class NotificationsManager: NSObject {
     @Dependency(\.appChargingState) private var appChargingState
-    @Dependency(\.suspendingClock) private var clock
     @Dependency(\.updater) private var updater
     @Dependency(\.defaults) private var defaults
     private lazy var center = UNUserNotificationCenter.current()
+    private var task: Task<Void, Never>?
+    private lazy var logger = Logger(category: "🔔")
 
     public override init() {
         super.init()
@@ -39,18 +41,16 @@ public class NotificationsManager: NSObject {
         }
     }
     
-    private var task: Task<Void, Never>?
-    
     func startObservingChargingStateMode() {
         task = Task {
             for await (chargingMode, manageCharging) in combineLatest(
                 appChargingState.observeChargingStateMode(),
                 defaults.observe(.manageCharging)
-            )
-                .debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
+            ) {
                 guard chargingMode != .chargerNotConnected
                         && chargingMode != .initial
-                        && manageCharging else { return }
+                        && manageCharging else { continue }
+                logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
         }
@@ -61,8 +61,9 @@ public class NotificationsManager: NSObject {
     }
 
     func showChargingStateModeDidChangeNotification(_ mode: AppChargingMode) async {
-        let granted = try? await center.requestAuthorization(options: [.alert])
+        let granted = try? await center.requestAuthorization(options: [.alert, .provisional])
         if granted == true {
+            logger.info("permission granted, should dispatch the notification")
             center.removeAllPendingNotificationRequests()
 
             let content = UNMutableNotificationContent()
@@ -70,24 +71,31 @@ public class NotificationsManager: NSObject {
             let chargeLimitFraction = Double(Defaults[.chargeLimit]) / 100
             if let description = mode.stateDescription(chargeLimitFraction: chargeLimitFraction) {
                 content.body = description
+            } else {
+                content.body = ""
             }
 
-            content.interruptionLevel = .active // to show the notification
+            content.interruptionLevel = .critical // to show the notification
             let uuidString = UUID().uuidString
             let request = UNNotificationRequest(
                 identifier: uuidString,
                 content: content,
-                trigger: nil
+                trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1.5, repeats: false)
             )
-
-            try? await center.add(request)
+            
+            do {
+                logger.debug("Adding notifications request to the notification center")
+                try await center.add(request)
+            } catch {
+                logger.error("Notifications request error: \(error.localizedDescription, privacy: .public)")
+            }
         }
     }
 }
 
 extension NotificationsManager: UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .list])
+        completionHandler([.banner])
     }
 
     public func userNotificationCenter(
