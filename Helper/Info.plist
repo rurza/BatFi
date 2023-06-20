@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BuildHash</key>
-	<string>f592969546532af4dd3e21d1a760c6d3868376e6c0d77b85c4b32ede34e35830</string>
 	<key>CFBundleIdentifier</key>
 	<string>software.micropixels.BatFi.Helper</string>
 	<key>CFBundleVersion</key>
