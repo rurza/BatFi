@@ -19,12 +19,13 @@ struct ChargingLimitView: View {
             AVPlayerViewRepresented(player: model.player)
                 .edgesIgnoringSafeArea(.all)
                 .frame(maxWidth: .infinity)
-                .aspectRatio(1.3333333, contentMode: .fill)
+                .aspectRatio(1.4, contentMode: .fill)
             VStack(alignment: .leading, spacing: 20) {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
                     .padding(.bottom, -10) // so the space between header and the text is -10
                 Text("Set a maximum charging percentage to prevent overcharging and improve battery longevity.")
+                Spacer()
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
                     Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {

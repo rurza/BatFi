@@ -17,7 +17,7 @@ private extension OnboardingScreen {
         case .helper:
             return "helper"
         case .charging:
-            return "charging"
+            return "usage"
         }
     }
 }
@@ -68,5 +68,4 @@ class OnboardingPlayerViewModel: ObservableObject {
         let asset = AVURLAsset(url: url)
         return AVPlayerItem(asset: asset)
     }
-
 }
