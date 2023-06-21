@@ -27,7 +27,6 @@ extension AppChargingStateClient: DependencyKey {
                     let streamTask = Task {
                         continuation.yield(await state.mode)
                         for await note in NotificationCenter.default.notifications(named: chargingModeDidChangeNotificationName) {
-                            logger.debug("Charging state mode did change")
                             continuation.yield(note.object as? AppChargingMode)
                         }
                     }
