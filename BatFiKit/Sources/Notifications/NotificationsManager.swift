@@ -30,26 +30,7 @@ public class NotificationsManager: NSObject {
     public override init() {
         super.init()
         center.delegate = self
-        setUpActions()
         setUpObserving()
-    }
-    
-    func setUpActions() {
-        let settingsAction = UNNotificationAction(
-            identifier: settingsActionIdentifier,
-            title: "System Settings…",
-            options: []
-        )
-        // Define the notification type
-        let optimizedBatteryChargingCategory = UNNotificationCategory(
-            identifier: optimizedBatteryChargingCategoryIdentifier,
-            actions: [settingsAction],
-            intentIdentifiers: [],
-            hiddenPreviewsBodyPlaceholder: "",
-            options: .customDismissAction
-        )
-        // Register the notification type.
-        center.setNotificationCategories([optimizedBatteryChargingCategory])
     }
     
     func setUpObserving() {
@@ -152,16 +133,12 @@ public class NotificationsManager: NSObject {
         alert.showsSuppressionButton = true
         alert.suppressionButton?.target = self
         alert.suppressionButton?.action = #selector(supressionWasSelected(_:))
-        let button = alert.addButton(withTitle: "System Settings…")
-        button.target = self
-        button.action = #selector(openSystemSettings(_:))
-        alert.runModal()
-    }
-    
-    @objc
-    func openSystemSettings(_ sender: NSButton) {
-        NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.Battery-Settings.extension")!)
-        sender.window?.close()
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "System Settings…")
+        let response = alert.runModal()
+        if response == .alertSecondButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.Battery-Settings.extension")!)
+        }
     }
     
     @objc
