@@ -6,13 +6,25 @@
 //
 
 import Cocoa
+import Defaults
 import SwiftUI
 
 public class OnboardingWindow: NSWindow {
     public init(_ installHelper: @escaping () -> Void) {
         let vc = NSHostingController(rootView: Onboarding(didInstallHelper: installHelper))
         vc.sizingOptions = [.preferredContentSize]
-        super.init(contentRect: NSRect(origin: .zero, size: vc.view.fittingSize), styleMask: [.miniaturizable, .titled, .fullSizeContentView], backing: .buffered, defer: false)
+        let windowMask: NSWindow.StyleMask
+        if Defaults[.onboardingIsDone] {
+            windowMask = [.miniaturizable, .closable, .titled, .fullSizeContentView]
+        } else {
+            windowMask = [.miniaturizable, .titled, .fullSizeContentView]
+        }
+        super.init(
+            contentRect: NSRect(origin: .zero, size: vc.view.fittingSize),
+            styleMask: windowMask,
+            backing: .buffered,
+            defer: false
+        )
         self.contentViewController = vc
         self.isReleasedWhenClosed = false
         self.titlebarAppearsTransparent = true
