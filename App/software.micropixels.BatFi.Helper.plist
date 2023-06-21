@@ -4,8 +4,6 @@
 <dict>
 	<key>BundleProgram</key>
 	<string>Contents/MacOS/BatFiHelper</string>
-	<key>KeepAlive</key>
-	<false/>
 	<key>Label</key>
 	<string>software.micropixels.BatFi.Helper</string>
 	<key>MachServices</key>
