@@ -200,7 +200,7 @@ extension Onboarding {
         @MainActor
         func completeOnboarding() {
             launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
-            NSApp.windows.first?.close()
+            NSApp.windows.first { $0.isKind(of: OnboardingWindow.self) }?.close()
         }
         
         var player: AVPlayer {

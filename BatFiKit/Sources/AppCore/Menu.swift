@@ -22,6 +22,7 @@ public protocol MenuControllerDelegate: AnyObject {
     func quitApp()
     func openAbout()
     func checkForUpdates()
+    func openOnboarding()
 }
 
 @MainActor
@@ -87,6 +88,10 @@ public final class MenuController {
                     MenuItem("Check for Updates…")
                         .onSelect { [weak self] in
                             self?.delegate?.checkForUpdates()
+                        }
+                    MenuItem("Onboarding…")
+                        .onSelect { [weak self] in
+                            self?.delegate?.openOnboarding()
                         }
                     if showDebugMenu {
                         SeparatorItem()

@@ -22,7 +22,7 @@ struct PageView<Content: View>: View {
                     showsIndicators: false,
                     offset: $offset) {
                         ScrollViewReader { scrollView in
-                            LazyHStack(spacing: 0) {
+                            LazyHStack(spacing: 10) {
                                 content()
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                                     .frame(width: proxy.size.width)
