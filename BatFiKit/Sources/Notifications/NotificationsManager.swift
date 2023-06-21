@@ -22,10 +22,13 @@ public class NotificationsManager: NSObject {
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.updater) private var updater
     @Dependency(\.defaults) private var defaults
+    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.date) private var date
     private lazy var center = UNUserNotificationCenter.current()
+    private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
     private var optimizedBatteryChargingTask: Task<Void, Never>?
-    private lazy var logger = Logger(category: "🔔")
+    private var lastAlertDate: Date = Date.distantPast
 
     public override init() {
         super.init()
@@ -109,11 +112,13 @@ public class NotificationsManager: NSObject {
             for await (powerState, manageCharging) in combineLatest(
                 powerSourceClient.powerSourceChanges(),
                 defaults.observe(.manageCharging)
-            ) {
-                guard manageCharging else { continue }
-                if powerState.optimizedBatteryChargingEngaged {
-                    await showOptimizedBatteryChargingIsTurnedOn()
-                }
+            ).debounce(for: .seconds(1), clock: AnyClock(self.clock))
+            {
+                guard manageCharging, lastAlertDate.timeIntervalSinceNow < -60 * 60 * 8 else { continue }
+                //                if powerState.optimizedBatteryChargingEngaged {
+                lastAlertDate = date.now
+                await showOptimizedBatteryChargingIsTurnedOn()
+                //                }
             }
         }
     }
@@ -121,15 +126,13 @@ public class NotificationsManager: NSObject {
     func cancelObservingOptimizedBatteryCharging() {
         optimizedBatteryChargingTask?.cancel()
     }
-    
-    private weak var alert: NSAlert?
-    
+        
     @MainActor
     func showOptimizedBatteryChargingIsTurnedOn() {
         let alert = NSAlert()
         alert.alertStyle = .warning
         alert.messageText = "Optimized battery charging is turned ON."
-        alert.informativeText = "The app won't work properly with it. \nDisable it by clicking on the info icon next to the \"Battery Health\" in System Settings."
+        alert.informativeText = "The app won't work properly with it. \nDisable it by clicking the info icon next to the \"Battery Health\" in System Settings."
         alert.showsSuppressionButton = true
         alert.suppressionButton?.target = self
         alert.suppressionButton?.action = #selector(supressionWasSelected(_:))
