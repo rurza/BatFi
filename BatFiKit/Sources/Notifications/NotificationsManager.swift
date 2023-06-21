@@ -115,10 +115,10 @@ public class NotificationsManager: NSObject {
             ).debounce(for: .seconds(1), clock: AnyClock(self.clock))
             {
                 guard manageCharging, lastAlertDate.timeIntervalSinceNow < -60 * 60 * 8 else { continue }
-                //                if powerState.optimizedBatteryChargingEngaged {
-                lastAlertDate = date.now
-                await showOptimizedBatteryChargingIsTurnedOn()
-                //                }
+                if powerState.optimizedBatteryChargingEngaged {
+                    lastAlertDate = date.now
+                    await showOptimizedBatteryChargingIsTurnedOn()
+                }
             }
         }
     }
