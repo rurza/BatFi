@@ -114,6 +114,7 @@ private func getPowerSourceInfo() throws -> PowerState {
     let timeLeft = info[kIOPSTimeToEmptyKey] as? Int
     let timeToCharge = info[kIOPSTimeToFullChargeKey] as? Int
     let batteryHealth = info[kIOPSBatteryHealthKey] as? String
+    let optimizedBatteryCharging = info["Optimized Battery Charging Engaged"] as? Bool
 
     guard
         let batteryLevel,
@@ -121,7 +122,8 @@ private func getPowerSourceInfo() throws -> PowerState {
         let powerSource,
         let timeLeft,
         let timeToCharge,
-        let batteryHealth else {
+        let batteryHealth,
+        let optimizedBatteryCharging else {
         throw PowerSourceError.infoMissing
     }
 
@@ -175,7 +177,8 @@ private func getPowerSourceInfo() throws -> PowerState {
         batteryCycleCount: cycleClount,
         batteryHealth: batteryHealth,
         batteryTemperature: batteryTemperature,
-        chargerConnected: chargerConnected
+        chargerConnected: chargerConnected,
+        optimizedBatteryChargingEngaged: optimizedBatteryCharging
     )
     return powerState
 }

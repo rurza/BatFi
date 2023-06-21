@@ -122,7 +122,6 @@ let package = Package(
                 "Clients",
                 "DefaultsKeys",
                 .asyncAlgorithms,
-                .defaults,
                 .dependencies
             ]
         ),

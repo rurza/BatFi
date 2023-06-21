@@ -31,5 +31,6 @@ extension Defaults.Keys {
 
     // notifications
     public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
+    public static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
 
 }

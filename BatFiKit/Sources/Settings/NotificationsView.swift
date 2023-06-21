@@ -10,13 +10,19 @@ import SettingsKit
 import SwiftUI
 
 struct NotificationsView: View {
-    @Default(.showChargingStausChanged) var showChargingStausChanged
+    @Default(.showChargingStausChanged) private var showChargingStausChanged
+    @Default(.showOptimizedBatteryCharging) private var showOptimizedBatteryCharging
 
     var body: some View {
         Container(contentWidth: settingsContentWidth) {
             Section(title: "Notifications", bottomDivider: true) {
                 Toggle(isOn: $showChargingStausChanged) {
                     Text("Charging status has changed")
+                }
+            }
+            Section(title: "Alerts") {
+                Toggle(isOn: $showOptimizedBatteryCharging) {
+                    Text("Show alert when the optimized battery charging is engaged")
                 }
             }
         }
