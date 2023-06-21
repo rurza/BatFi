@@ -26,6 +26,7 @@ extension ChargingClient: DependencyKey {
         }
 
         var xpcClient = createClient()
+        var reinstallHelperCounter = 0
 
         func installHelperIfPossibleForError<Result>(
             _ error: Error,
@@ -38,12 +39,15 @@ extension ChargingClient: DependencyKey {
                     do {
                         logger.debug("Trying to fix xpc communication")
                         try await HelperManager.liveValue.removeHelper()
-                        logger.debug("Service removed")
-                        try await Task.sleep(for: .seconds(1))
+                        logger.debug("Service removed. Waiting for \(1 + reinstallHelperCounter)s")
+                        try await Task.sleep(for: .seconds(1 + reinstallHelperCounter))
                         try await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
                         xpcClient = createClient()
-                        return try await call()
+                        reinstallHelperCounter += 1
+                        let result = try await call()
+                        reinstallHelperCounter = 0
+                        return result
                     } catch { }
                 default:
                     break

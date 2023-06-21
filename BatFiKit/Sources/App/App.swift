@@ -5,7 +5,7 @@
 //  Created by Adam on 02/05/2023.
 //
 
-import AboutKit
+import About
 import AppCore
 import Cocoa
 import Dependencies
@@ -73,11 +73,10 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     public func checkForUpdates() {
         updater.checkForUpdates()
     }
-
+    
     public func openAbout() {
         if aboutWindow == nil {
-            let about = AboutWindow(description: "Made with ❤️ and 🔋 by")
-            about.makeKeyAndOrderFront(nil)
+            let about = presentAboutWindow()
             self.aboutWindow = about
         } else {
             aboutWindow?.makeKeyAndOrderFront(nil)
