@@ -24,7 +24,7 @@ struct ChargingLimitView: View {
                 Text("Set Charging Limit.")
                     .font(.system(size: 24, weight: .bold))
                     .padding(.bottom, -10) // so the space between header and the text is -10
-                Text("Set a maximum charging percentage to prevent overcharging and improve battery longevity.")
+                Text("Set a maximum charging percentage to prevent keeping charge level at 100% and improve battery longevity.")
                 Spacer()
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")

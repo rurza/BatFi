@@ -26,7 +26,7 @@ struct InstallHelperView: View {
                 .animation(.default, value: model.onboardingIsFinished)
                 ZStack(alignment: .topLeading) {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging model.")
+                        Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.")
                         Text("Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
                             .foregroundStyle(.secondary)
                     }

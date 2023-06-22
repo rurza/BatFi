@@ -20,9 +20,9 @@ extension HelperManager: DependencyKey {
         let manager = HelperManager(
             installHelper: {
                 do {
-                    logger.log(level: .debug, "Installing daemon...")
+                    logger.notice("Installing daemon...")
                     try await installer.registerService()
-                    logger.log(level: .debug, "Daemon installed succesfully")
+                    logger.notice("Daemon installed succesfully")
                 } catch {
                     logger.error("Daemon registering error: \(error, privacy: .public)")
                     throw error
@@ -30,9 +30,9 @@ extension HelperManager: DependencyKey {
             },
             removeHelper: {
                 do {
-                    logger.log(level: .debug, "Removing daemon...")
+                    logger.notice("Removing daemon...")
                     try await installer.unregisterService()
-                    logger.log(level: .debug, "Daemon removed")
+                    logger.notice("Daemon removed")
                 } catch {
                     logger.error("Daemon removal error: \(error, privacy: .public)")
                     throw error

@@ -33,18 +33,21 @@ extension ChargingClient: DependencyKey {
             call: @escaping () async  throws -> Result
         ) async throws -> Result {
             logger.error("Helper error: \(error)")
-            if let error = error as? XPCError {
+            if let error = error as? XPCError, reinstallHelperCounter < 3 {
                 switch error {
                 case .connectionInvalid, .insecure, .connectionInterrupted:
                     do {
                         logger.debug("Trying to fix xpc communication")
-                        try await HelperManager.liveValue.removeHelper()
-                        logger.debug("Service removed. Waiting for \(1 + reinstallHelperCounter)s")
-                        try await Task.sleep(for: .seconds(1 + reinstallHelperCounter))
-                        try await HelperManager.liveValue.installHelper()
+                        try? await HelperManager.liveValue.removeHelper()
+                        logger.notice("Service removed. Waiting for \(1 + reinstallHelperCounter)s")
+                        try? await Task.sleep(for: .seconds(1 + reinstallHelperCounter))
+                        // if installation throws then ignore the error and move on
+                        try? await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
                         xpcClient = createClient()
-                        reinstallHelperCounter += 1
+                        if reinstallHelperCounter < 3 {
+                            reinstallHelperCounter += 1
+                        }
                         let result = try await call()
                         reinstallHelperCounter = 0
                         return result
