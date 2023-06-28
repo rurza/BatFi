@@ -24,7 +24,7 @@ extension SleepAssertionClient: DependencyKey {
                         logger.debug("...already delayed")
                         return
                     }
-                    logger.debug("Delaying sleep")
+                    logger.notice("Delaying sleep")
                     var assertionID: IOPMAssertionID = IOPMAssertionID(0)
                     let reason: CFString = "BatFi" as NSString
                     let cfAssertion: CFString = kIOPMAssertionTypePreventSystemSleep as NSString
@@ -39,7 +39,7 @@ extension SleepAssertionClient: DependencyKey {
                     }
                 } else {
                     if let assertion = sleepAssertion {
-                        logger.debug("Returning sleep")
+                        logger.notice("Returning sleep")
                         IOPMAssertionRelease(assertion)
                         sleepAssertion = nil
                     }
