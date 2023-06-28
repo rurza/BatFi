@@ -15,22 +15,27 @@ extension Target.Dependency {
     static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
     static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
+    static let l10n: Self = "L10n"
+    static let appShared: Self = "AppShared"
+    static let clients: Self = "Clients"
+    static let defaultsKeys: Self = "DefaultsKeys"
 }
 
 let package = Package(
     name: "BatFiKit",
+    defaultLocalization: "en",
     platforms: [.macOS(.v13)],
     products: [
         .library(name: "App", targets: ["App"]),
         .library(name: "AppCore", targets: ["AppCore"]),
         .library(name: "AppShared", targets: ["AppShared"]),
+        .library(name: "BatteryIndicator", targets: ["BatteryIndicator"]),
         .library(name: "BatteryInfo", targets: ["BatteryInfo"]),
-        .library(name: "Shared", targets: ["Shared"]),
+        .library(name: "ClientsLive", targets: ["ClientsLive"]),
+        .library(name: "Onboarding", targets: ["Onboarding"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "ClientsLive", targets: ["ClientsLive"]),
-        .library(name: "BatteryIndicator", targets: ["BatteryIndicator"]),
-        .library(name: "Onboarding", targets: ["Onboarding"])
+        .library(name: "Shared", targets: ["Shared"])
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
@@ -50,7 +55,8 @@ let package = Package(
         .target(
             name: "About",
             dependencies: [
-                .aboutKit
+                .aboutKit,
+                .l10n
             ]
         ),
         .target(
@@ -60,23 +66,24 @@ let package = Package(
                 "AppCore",
                 "BatteryIndicator",
                 "BatteryInfo",
-                "Clients",
                 "ClientsLive",
-                "DefaultsKeys",
                 "Notifications",
                 "Onboarding",
                 "Settings",
+                .clients,
+                .defaultsKeys,
+                .l10n,
                 .menuBuilder,
                 .statusItemArrowKit
             ]
         ),
         .target(name: "AppCore", dependencies: [
-            "AppShared",
             "BatteryInfo",
-            "Clients",
-            "DefaultsKeys",
             "Settings",
             "Shared",
+            .appShared,
+            .clients,
+            .defaultsKeys,
             .dependencies,
             .asyncAlgorithms,
             .snapKit
@@ -93,29 +100,29 @@ let package = Package(
             ]
         ),
         .target(name: "BatteryInfo", dependencies: [
-            "AppShared",
-            "Clients",
+            .appShared,
             .asyncAlgorithms,
+            .clients,
             .dependencies
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(
             name: "Clients",
             dependencies: [
-                "AppShared",
                 "Shared",
+                .appShared,
                 .dependencies
             ]
         ),
         .target(
             name: "ClientsLive",
             dependencies: [
-                "AppShared",
-                "Clients",
-                "DefaultsKeys",
                 "Shared",
+                .appShared,
                 .asyncAlgorithms,
+                .clients,
                 .defaults,
+                .defaultsKeys,
                 .dependencies,
                 .secureXPC,
                 .sparkle
@@ -125,20 +132,25 @@ let package = Package(
         .target(
             name: "Notifications",
             dependencies: [
-                "AppShared",
-                "Clients",
-                "DefaultsKeys",
+                .appShared,
                 .asyncAlgorithms,
-                .dependencies
+                .clients,
+                .defaultsKeys,
+                .dependencies,
+                .l10n
             ]
+        ),
+        .target(
+            name: "L10n",
+            exclude: ["localize.sh", "swiftgen.yml"]
         ),
         .target(
             name: "Onboarding",
             dependencies: [
-                "Clients",
-                "DefaultsKeys",
+                .clients,
                 .confetti,
-                .defaults
+                .defaults,
+                .defaultsKeys
             ]
         ),
         .target(name: "Server", dependencies: [
@@ -147,11 +159,11 @@ let package = Package(
             .secureXPC
         ]),
         .target(name: "Settings", dependencies: [
-            "AppShared",
-            "Clients",
-            "DefaultsKeys",
-            .settingsKit,
-            .dependencies
+            .appShared,
+            .clients,
+            .defaultsKeys,
+            .dependencies,
+            .settingsKit
         ])
     ]
 )

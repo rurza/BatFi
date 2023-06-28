@@ -1,0 +1,20 @@
+/*******************************************************************************
+ * Exported from POEditor - https://poeditor.com
+ *******************************************************************************/
+
+// CONTEXT: Button title that will open PDF with a license
+"about.button.label.license" = "Licencja";
+// CONTEXT: button title that will open author's twitter profile
+"about.button.label.twitter" = "Twitter";
+// CONTEXT: button title
+"about.button.label.website" = "Strona internetowa";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: About.label.about
+// CONTEXT: About Window, below it there a logotype of my company, so it's important that it makes sense
+"about.label.about_description" = "Z ❤️ i 🔋 zrobione przez";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Notifications.notification.subtitle.new
+// CONTEXT: Notification subtitle when app charging mode changes. 
+"notifications.notification.subtitle.new_mode" = "Nowy tryb: %@";

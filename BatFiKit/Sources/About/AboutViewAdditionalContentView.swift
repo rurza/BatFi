@@ -6,6 +6,7 @@
 //
 
 import AboutKit
+import L10n
 import SwiftUI
 
 struct AboutViewAdditionalContentView: View {
@@ -18,7 +19,7 @@ struct AboutViewAdditionalContentView: View {
                 guard let licenseURL = Bundle.main.url(forResource: "license", withExtension: "pdf") else { return }
                 NSWorkspace.shared.open(licenseURL)
             } label: {
-                Text("License")
+                Text(L10n.About.Button.Label.license)
             }
             .buttonStyle(.link)
             .foregroundColor(.accentColor)
@@ -26,14 +27,14 @@ struct AboutViewAdditionalContentView: View {
                 Button {
                     openURL(URL(string: "https://micropixels.software/batfi")!)
                 } label: {
-                    Text("Website")
+                    Text(L10n.About.Button.Label.website)
                 }
                 .buttonStyle(PrimaryActionButtonStyle(backgroundColor: .accentColor, fillParent: true))
                 .frame(width: 120)
                 Button {
                     openURL(URL(string: "https://twitter.com/rurza")!)
                 } label: {
-                    Text("Twitter")
+                    Text(L10n.About.Button.Label.twitter)
                 }
                 .frame(width: 120)
                 .buttonStyle(PrimaryActionButtonStyle(backgroundColor: .accentColor, fillParent: true))

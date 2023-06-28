@@ -73,7 +73,7 @@ public final class ChargingManager {
                     computerIsAsleep = true
                 case .didWake:
                     computerIsAsleep = false
-                    await fetchChargingState()
+                    try? await fetchChargingState()
                     await updateStatusWithCurrentState()
                 }
 
@@ -82,7 +82,7 @@ public final class ChargingManager {
 
         Task {
             for await _ in screenParametersClient.screenDidChangeParameters() {
-                await fetchChargingState()
+                try? await fetchChargingState()
                 await updateStatusWithCurrentState()
             }
         }
@@ -163,16 +163,20 @@ public final class ChargingManager {
         }
         guard let lidOpened = await appChargingState.lidOpened() else {
             logger.warning("We don't know if the lid is opened")
-            await fetchChargingState()
-            await updateStatus(
-                powerState: powerState,
-                chargeLimit: chargeLimit,
-                manageCharging: manageCharging,
-                allowDischarging: allowDischarging,
-                preventSleeping: preventSleeping,
-                forceCharging: forceCharging,
-                turnOffChargingWithHotBattery: turnOffChargingWithHotBattery
-            )
+            do {
+                try await fetchChargingState()
+                await updateStatus(
+                    powerState: powerState,
+                    chargeLimit: chargeLimit,
+                    manageCharging: manageCharging,
+                    allowDischarging: allowDischarging,
+                    preventSleeping: preventSleeping,
+                    forceCharging: forceCharging,
+                    turnOffChargingWithHotBattery: turnOffChargingWithHotBattery
+                )
+            } catch {
+                // ignore the error
+            }
             return
         }
         logger.debug("Lid opened: \(lidOpened)")
@@ -292,7 +296,7 @@ public final class ChargingManager {
         sleepAssertionClient.preventSleepIfNeeded(false)
     }
 
-    private func fetchChargingState() async {
+    private func fetchChargingState() async throws {
         do {
             logger.debug("Fetching charging status")
             let powerState = try powerSourceClient.currentPowerSourceState()
@@ -316,6 +320,7 @@ public final class ChargingManager {
             await appChargingState.updateLidOpenedStatus(!chargingStatus.lidClosed)
         } catch {
             logger.error("Error fetching charging state: \(error)")
+            throw error
         }
     }
 }

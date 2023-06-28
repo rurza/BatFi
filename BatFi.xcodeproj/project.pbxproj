@@ -14,6 +14,7 @@
 		5B40B1322A01BBB800A79785 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 5B40B1312A01BBB800A79785 /* App */; };
 		5B69E6E629EB69350010AD63 /* BatFiHelper in Embed Helper Tool */ = {isa = PBXBuildFile; fileRef = 5B11DE0529EB6641007A993C /* BatFiHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */; };
+		5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BD6D3D22A4CDB3300575C43 /* Localizable.strings */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,8 @@
 		5B6FC13629FC038500D98863 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		5BD6D3D12A4CDB3300575C43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5BD6D3D32A4CDB3600575C43 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5BEE218729E607FB0012A4DD /* BatFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
 				5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */,
+				5BD6D3D22A4CDB3300575C43 /* Localizable.strings */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -239,7 +243,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
+				pl,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -260,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B22A36D2A4385DC00252930 /* license.pdf in Resources */,
+				5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
 			);
@@ -325,6 +330,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5BD6D3D22A4CDB3300575C43 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5BD6D3D12A4CDB3300575C43 /* en */,
+				5BD6D3D32A4CDB3600575C43 /* pl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5B11DE0A29EB6641007A993C /* Debug */ = {

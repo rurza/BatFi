@@ -6,11 +6,12 @@
 //
 
 import AboutKit
+import L10n
 import Cocoa
 
 public func presentAboutWindow() -> NSWindow {
     let about = AboutWindow(
-        description: "Made with ❤️ and 🔋 by",
+        description: L10n.About.Label.aboutDescription,
         customContent: {
             AboutViewAdditionalContentView()
         }

@@ -33,7 +33,8 @@ extension ChargingClient: DependencyKey {
             call: @escaping () async  throws -> Result
         ) async throws -> Result {
             logger.error("Helper error: \(error)")
-            if let error = error as? XPCError, reinstallHelperCounter < 3 {
+            let maxAdditionalDelayDuration = 3
+            if let error = error as? XPCError {
                 switch error {
                 case .connectionInvalid, .insecure, .connectionInterrupted:
                     do {
@@ -45,7 +46,7 @@ extension ChargingClient: DependencyKey {
                         try? await HelperManager.liveValue.installHelper()
                         logger.debug("Service installed")
                         xpcClient = createClient()
-                        if reinstallHelperCounter < 3 {
+                        if reinstallHelperCounter < maxAdditionalDelayDuration {
                             reinstallHelperCounter += 1
                         }
                         let result = try await call()
@@ -55,7 +56,7 @@ extension ChargingClient: DependencyKey {
                 default:
                     break
                 }
-            }
+            } 
             throw error
         }
 
