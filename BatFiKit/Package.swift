@@ -89,7 +89,7 @@ let package = Package(
             .snapKit
         ]),
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
-        .target(name: "AppShared"),
+        .target(name: "AppShared", dependencies: [.l10n]),
         .target(
             name: "Shared",
             dependencies: [.secureXPC]

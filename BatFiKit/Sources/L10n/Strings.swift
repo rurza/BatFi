@@ -28,6 +28,38 @@ public enum L10n {
       public static let aboutDescription = L10n.tr("Localizable", "about.label.about_description", fallback: "Made with ❤️ and 🔋 by")
     }
   }
+  public enum AppChargingMode {
+    public enum State {
+      public enum Description {
+        /// The limit is %@.
+        public static func charging(_ p1: Any) -> String {
+          return L10n.tr("Localizable", "app_charging_mode.state.description.charging", String(describing: p1), fallback: "The limit is %@.")
+        }
+        /// Charging to 100%.
+        public static let forceCharge = L10n.tr("Localizable", "app_charging_mode.state.description.force_charge", fallback: "Charging to 100%.")
+        /// Using the battery.
+        public static let forceDischarge = L10n.tr("Localizable", "app_charging_mode.state.description.force_discharge", fallback: "Using the battery.")
+        /// The charging limit is set to %@.
+        public static func inhibit(_ p1: Any) -> String {
+          return L10n.tr("Localizable", "app_charging_mode.state.description.inhibit", String(describing: p1), fallback: "The charging limit is set to %@.")
+        }
+      }
+      public enum Title {
+        /// Charger not connected
+        public static let chargerNotConnected = L10n.tr("Localizable", "app_charging_mode.state.title.charger_not_connected", fallback: "Charger not connected")
+        /// Charging to the limit
+        public static let charging = L10n.tr("Localizable", "app_charging_mode.state.title.charging", fallback: "Charging to the limit")
+        /// Charging
+        public static let forceCharge = L10n.tr("Localizable", "app_charging_mode.state.title.force_charge", fallback: "Charging")
+        /// Discharging
+        public static let forceDischarge = L10n.tr("Localizable", "app_charging_mode.state.title.force_discharge", fallback: "Discharging")
+        /// Inhibiting charging
+        public static let inhibit = L10n.tr("Localizable", "app_charging_mode.state.title.inhibit", fallback: "Inhibiting charging")
+        /// Initializing
+        public static let initial = L10n.tr("Localizable", "app_charging_mode.state.title.initial", fallback: "Initializing")
+      }
+    }
+  }
   public enum Notifications {
     public enum Alert {
       public enum Title {

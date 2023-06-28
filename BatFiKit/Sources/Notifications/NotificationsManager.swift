@@ -11,6 +11,7 @@ import Clients
 import Cocoa
 import DefaultsKeys
 import Dependencies
+import L10n
 import os
 import UserNotifications
 
@@ -82,7 +83,7 @@ public class NotificationsManager: NSObject {
             logger.info("permission granted, should dispatch the notification")
             center.removeAllPendingNotificationRequests()
             let content = UNMutableNotificationContent()
-            content.subtitle = "New mode: \(mode.stateDescription)"
+            content.subtitle = L10n.Notifications.Notification.Subtitle.newMode(mode.stateDescription)
             let chargeLimitFraction = Double(defaults.value(.chargeLimit)) / 100
             if let description = mode.stateDescription(chargeLimitFraction: chargeLimitFraction) {
                 content.body = description

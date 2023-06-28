@@ -7,12 +7,28 @@
 // CONTEXT: button title that will open author's twitter profile
 "about.button.label.twitter" = "Twitter";
 // CONTEXT: button title
-"about.button.label.website" = "Strona internetowa";
+"about.button.label.website" = "Strona www";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: About.label.about
 // CONTEXT: About Window, below it there a logotype of my company, so it's important that it makes sense
 "about.label.about_description" = "Z ❤️ i 🔋 zrobione przez";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: App
+// CONTEXT: %@ is the percentage of battery, for example "80%"
+"app_charging_mode.state.description.charging" = "Limit to %@.";
+"app_charging_mode.state.description.force_charge" = "Ładuję do 100%.";
+"app_charging_mode.state.description.force_discharge" = "Używam baterii do zasilania.";
+// CONTEXT: %@ is the percentage of battery, for example "80%"
+"app_charging_mode.state.description.inhibit" = "Limit ładowania to %@.";
+"app_charging_mode.state.title.charger_not_connected" = "Ładowarka nie podłączona";
+"app_charging_mode.state.title.charging" = "Ładuję do limitu";
+"app_charging_mode.state.title.force_charge" = "Ładuję";
+"app_charging_mode.state.title.force_discharge" = "Rozładowuję";
+"app_charging_mode.state.title.inhibit" = "Ładowanie wstrzymane";
+// CONTEXT: App charging mode short description
+"app_charging_mode.state.title.initial" = "Inicjalizacja";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Notifications.notification.subtitle.new

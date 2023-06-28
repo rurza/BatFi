@@ -15,6 +15,22 @@
 "about.label.about_description" = "Made with ❤️ and 🔋 by";
 
 ////////////////////////////////////////////////////////////////////////////////
+// MARK: App
+// CONTEXT: %@ is the percentage of battery, for example "80%"
+"app_charging_mode.state.description.charging" = "The limit is %@.";
+"app_charging_mode.state.description.force_charge" = "Charging to 100%.";
+"app_charging_mode.state.description.force_discharge" = "Using the battery.";
+// CONTEXT: %@ is the percentage of battery, for example "80%"
+"app_charging_mode.state.description.inhibit" = "The charging limit is set to %@.";
+"app_charging_mode.state.title.charger_not_connected" = "Charger not connected";
+"app_charging_mode.state.title.charging" = "Charging to the limit";
+"app_charging_mode.state.title.force_charge" = "Charging";
+"app_charging_mode.state.title.force_discharge" = "Discharging";
+"app_charging_mode.state.title.inhibit" = "Inhibiting charging";
+// CONTEXT: App charging mode short description
+"app_charging_mode.state.title.initial" = "Initializing";
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Notifications.alert.title.optimized
 "notifications.alert.title.optimized_charging_turned_on" = "Optimized battery charging is turned ON";
 
