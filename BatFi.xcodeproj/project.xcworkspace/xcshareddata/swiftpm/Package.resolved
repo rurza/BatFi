@@ -6,7 +6,7 @@
       "location" : "https://github.com/rurza/AboutKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "25824733b716ac0895d1c872adc499d02876e057"
+        "revision" : "9b3dd874b13205a07db36c9ab91bf587aad26a0e"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "7907f058bcef1132c9b4af6c049cac598330a5f9",
-        "version" : "2.4.1"
+        "revision" : "87e4fcbac39912f9cdb9a9acf205cad60e1ca3bc",
+        "version" : "2.4.2"
       }
     },
     {
