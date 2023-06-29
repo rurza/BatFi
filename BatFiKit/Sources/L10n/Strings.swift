@@ -35,8 +35,8 @@ public enum L10n {
         public static func charging(_ p1: Any) -> String {
           return L10n.tr("Localizable", "app_charging_mode.state.description.charging", String(describing: p1), fallback: "The limit is %@.")
         }
-        /// Charging to 100%.
-        public static let forceCharge = L10n.tr("Localizable", "app_charging_mode.state.description.force_charge", fallback: "Charging to 100%.")
+        /// Charging to 100%%
+        public static let forceCharge = L10n.tr("Localizable", "app_charging_mode.state.description.force_charge", fallback: "Charging to 100%%")
         /// Using the battery.
         public static let forceDischarge = L10n.tr("Localizable", "app_charging_mode.state.description.force_discharge", fallback: "Using the battery.")
         /// The charging limit is set to %@.
@@ -57,6 +57,36 @@ public enum L10n {
         public static let inhibit = L10n.tr("Localizable", "app_charging_mode.state.title.inhibit", fallback: "Inhibiting charging")
         /// Initializing
         public static let initial = L10n.tr("Localizable", "app_charging_mode.state.title.initial", fallback: "Initializing")
+      }
+    }
+  }
+  public enum BatteryInfo {
+    public enum Label {
+      /// Info is missing
+      public static let infoMissing = L10n.tr("Localizable", "battery_info.label.info_missing", fallback: "Info is missing")
+      public enum Additional {
+        /// App mode
+        public static let appMode = L10n.tr("Localizable", "battery_info.label.additional.app_mode", fallback: "App mode")
+        /// Battery Health
+        public static let batteryHealth = L10n.tr("Localizable", "battery_info.label.additional.battery_health", fallback: "Battery Health")
+        /// Cycle Count
+        public static let cycleCount = L10n.tr("Localizable", "battery_info.label.additional.cycle_count", fallback: "Cycle Count")
+        /// Power Source
+        public static let powerSource = L10n.tr("Localizable", "battery_info.label.additional.power_source", fallback: "Power Source")
+        /// Temperature
+        public static let temperature = L10n.tr("Localizable", "battery_info.label.additional.temperature", fallback: "Temperature")
+      }
+      public enum Main {
+        /// Battery
+        public static let battery = L10n.tr("Localizable", "battery_info.label.main.battery", fallback: "Battery")
+        public enum Time {
+          /// Calculating…
+          public static let calculating = L10n.tr("Localizable", "battery_info.label.main.time.calculating", fallback: "Calculating…")
+          /// Time Left
+          public static let timeLeft = L10n.tr("Localizable", "battery_info.label.main.time.time_left", fallback: "Time Left")
+          /// Time to Charge
+          public static let timeToCharge = L10n.tr("Localizable", "battery_info.label.main.time.time_to_charge", fallback: "Time to Charge")
+        }
       }
     }
   }

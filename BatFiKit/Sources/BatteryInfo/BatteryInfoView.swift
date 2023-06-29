@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppShared
+import L10n
 
 public struct BatteryInfoView: View {
     @StateObject private var model = Model()
@@ -15,11 +16,12 @@ public struct BatteryInfoView: View {
 
     public var body: some View {
         Group {
+            let l10n = L10n.BatteryInfo.Label.self
             if let powerState = model.state {
                 VStack(alignment: .leading, spacing: 12) {
                     VStack(alignment: .leading, spacing: 8) {
                         BatteryMainInfo(
-                            label: "Battery",
+                            label: l10n.Main.battery,
                             info: "\(powerState.batteryLevel)%",
                             primaryForegroundColor: true
                         )
@@ -34,24 +36,24 @@ public struct BatteryInfoView: View {
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 7) {
                         if let description = model.modeDescription {
-                            BatteryAdditionalInfo(label: "App mode", info: description)
+                            BatteryAdditionalInfo(label: l10n.Additional.appMode, info: description)
                         }
                         BatteryAdditionalInfo(
-                            label: "Power Source",
+                            label: l10n.Additional.powerSource,
                             info: powerState.powerSource
                         )
                         BatteryAdditionalInfo(
-                            label: "Cycle Count",
+                            label: l10n.Additional.cycleCount,
                             info: "\(powerState.batteryCycleCount)"
                         )
                         if let temperature = model.temperatureDescription() {
                             BatteryAdditionalInfo(
-                                label: "Temperature",
+                                label: l10n.Additional.temperature,
                                 info: temperature
                             )
                         }
                         BatteryAdditionalInfo(
-                            label: "Battery Health",
+                            label: l10n.Additional.batteryHealth,
                             info: powerState.batteryHealth
                         )
                     }
@@ -65,7 +67,7 @@ public struct BatteryInfoView: View {
                 }
             } else {
                 Label(
-                    "Info is missing",
+                    l10n.infoMissing,
                     systemImage: "bolt.trianglebadge.exclamationmark.fill"
                 )
                 .frame(height: 200)
@@ -78,7 +80,7 @@ public struct BatteryInfoView: View {
 }
 
 struct BatteryMainInfo: View {
-    private let itemsSpace: CGFloat  = 30
+    private let itemsSpace: CGFloat = 20
 
     let label: String
     let info: String
@@ -97,7 +99,7 @@ struct BatteryMainInfo: View {
 }
 
 struct BatteryAdditionalInfo<Label: View>: View {
-    private let itemsSpace: CGFloat  = 30
+    private let itemsSpace: CGFloat = 20
 
     let label: () -> Label
     let info: String
@@ -118,6 +120,7 @@ struct BatteryAdditionalInfo<Label: View>: View {
                 label()
                 Spacer(minLength: itemsSpace)
                 Text(info)
+                    .multilineTextAlignment(.trailing)
             }
             .foregroundColor(.secondary)
             .font(.callout)

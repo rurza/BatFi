@@ -103,7 +103,8 @@ let package = Package(
             .appShared,
             .asyncAlgorithms,
             .clients,
-            .dependencies
+            .dependencies,
+            .l10n
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(

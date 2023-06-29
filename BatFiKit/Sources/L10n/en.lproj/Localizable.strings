@@ -18,7 +18,8 @@
 // MARK: App
 // CONTEXT: %@ is the percentage of battery, for example "80%"
 "app_charging_mode.state.description.charging" = "The limit is %@.";
-"app_charging_mode.state.description.force_charge" = "Charging to 100%.";
+// CONTEXT: keep in mind that "%" is a special symbol in localized strings, so you must provide it twice to be visible in app
+"app_charging_mode.state.description.force_charge" = "Charging to 100%%";
 "app_charging_mode.state.description.force_discharge" = "Using the battery.";
 // CONTEXT: %@ is the percentage of battery, for example "80%"
 "app_charging_mode.state.description.inhibit" = "The charging limit is set to %@.";
@@ -29,6 +30,22 @@
 "app_charging_mode.state.title.inhibit" = "Inhibiting charging";
 // CONTEXT: App charging mode short description
 "app_charging_mode.state.title.initial" = "Initializing";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Battery
+"battery_info.label.additional.app_mode" = "App mode";
+"battery_info.label.additional.battery_health" = "Battery Health";
+"battery_info.label.additional.cycle_count" = "Cycle Count";
+"battery_info.label.additional.power_source" = "Power Source";
+"battery_info.label.additional.temperature" = "Temperature";
+"battery_info.label.info_missing" = "Info is missing";
+"battery_info.label.main.battery" = "Battery";
+// CONTEXT: Time left/ time to charge label when the exact isn't known and the system is calculating duration
+"battery_info.label.main.time.calculating" = "Calculating…";
+// CONTEXT: Time left/ time to charge label
+"battery_info.label.main.time.time_left" = "Time Left";
+// CONTEXT: Time left/ time to charge label in the main menu
+"battery_info.label.main.time.time_to_charge" = "Time to Charge";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Notifications.alert.title.optimized

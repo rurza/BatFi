@@ -5,8 +5,9 @@
 //  Created by Adam on 05/05/2023.
 //
 
-import Foundation
 import AppShared
+import Foundation
+import L10n
 
 struct Time: Equatable {
     let info: Info
@@ -29,10 +30,11 @@ struct Time: Equatable {
     }
 
     var description: Description? {
+        let l10n = L10n.BatteryInfo.Label.Main.Time.self
         func infoDescription() -> String? {
             switch info {
             case .claculating:
-                return "Calculating…"
+                return l10n.calculating
             case .unknown:
                 return nil
             case .time(let time):
@@ -43,9 +45,9 @@ struct Time: Equatable {
         if let infoDescription = infoDescription() {
             switch direction {
             case .timeLeft:
-                return Description(label: "Time Left", description: infoDescription)
+                return Description(label: l10n.timeLeft, description: infoDescription)
             case .timeToCharge:
-                return Description(label:"Time to Charge", description: infoDescription)
+                return Description(label: l10n.timeToCharge, description: infoDescription)
             }
         } else {
             return nil
