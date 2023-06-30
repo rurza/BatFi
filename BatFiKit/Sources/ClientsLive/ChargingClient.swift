@@ -25,7 +25,7 @@ extension ChargingClient: DependencyKey {
             )
         }
 
-        var xpcClient = createClient()
+        var xpcClient = createClient
         var reinstallHelperCounter = 0
 
         func installHelperIfPossibleForError<Result>(
@@ -39,13 +39,22 @@ extension ChargingClient: DependencyKey {
                 case .connectionInvalid, .insecure, .connectionInterrupted:
                     do {
                         logger.debug("Trying to fix xpc communication")
-                        try? await HelperManager.liveValue.removeHelper()
-                        logger.notice("Service removed. Waiting for \(1 + reinstallHelperCounter)s")
+                        do {
+                            try await HelperManager.liveValue.removeHelper()
+                            logger.notice("Service removed. Waiting for \(1 + reinstallHelperCounter)s")
+                        } catch {
+                            logger.error("Service removal failed")
+                            logger.error("\(error.localizedDescription)")
+                        }
                         try? await Task.sleep(for: .seconds(1 + reinstallHelperCounter))
+                        do {
+                            try await HelperManager.liveValue.installHelper()
+                            logger.notice("Service installed")
+                        } catch {
+                            logger.error("Service installation failed")
+                            logger.error("\(error.localizedDescription)")
+                        }
                         // if installation throws then ignore the error and move on
-                        try? await HelperManager.liveValue.installHelper()
-                        logger.debug("Service installed")
-                        xpcClient = createClient()
                         if reinstallHelperCounter < maxAdditionalDelayDuration {
                             reinstallHelperCounter += 1
                         }
@@ -63,7 +72,7 @@ extension ChargingClient: DependencyKey {
         func turnOnAutoChargingModel() async throws {
             logger.debug("Should send \(#function)")
             do {
-                try await xpcClient.sendMessage(
+                try await xpcClient().sendMessage(
                     SMCChargingCommand.auto,
                     to: XPCRoute.charging
                 )
@@ -78,7 +87,7 @@ extension ChargingClient: DependencyKey {
         func inhibitCharging() async throws {
             logger.debug("Should send \(#function)")
             do {
-                try await xpcClient.sendMessage(
+                try await xpcClient().sendMessage(
                     SMCChargingCommand.inhibitCharging,
                     to: XPCRoute.charging
                 )
@@ -93,7 +102,7 @@ extension ChargingClient: DependencyKey {
         func forceDischarge() async throws {
             logger.debug("Should send \(#function)")
             do {
-                try await xpcClient.sendMessage(
+                try await xpcClient().sendMessage(
                     SMCChargingCommand.forceDischarging,
                     to: XPCRoute.charging
                 )
@@ -105,7 +114,7 @@ extension ChargingClient: DependencyKey {
         func chargingStatus() async throws -> SMCStatus {
             logger.debug("Should send \(#function)")
             do {
-                return try await xpcClient.sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
+                return try await xpcClient().sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
             } catch {
                 return try await installHelperIfPossibleForError(
                     error,
@@ -116,7 +125,7 @@ extension ChargingClient: DependencyKey {
 
         func quit() async throws {
             logger.debug("Should send \(#function)")
-            try await xpcClient.send(to: XPCRoute.quit)
+            try await xpcClient().send(to: XPCRoute.quit)
         }
 
         let client = ChargingClient(
