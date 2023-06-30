@@ -67,8 +67,8 @@ public enum L10n {
       public enum Additional {
         /// App mode
         public static let appMode = L10n.tr("Localizable", "battery_info.label.additional.app_mode", fallback: "App mode")
-        /// Battery Health
-        public static let batteryHealth = L10n.tr("Localizable", "battery_info.label.additional.battery_health", fallback: "Battery Health")
+        /// Battery Capacity
+        public static let batteryCapacity = L10n.tr("Localizable", "battery_info.label.additional.battery_capacity", fallback: "Battery Capacity")
         /// Cycle Count
         public static let cycleCount = L10n.tr("Localizable", "battery_info.label.additional.cycle_count", fallback: "Cycle Count")
         /// Power Source

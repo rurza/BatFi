@@ -15,7 +15,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
     public let timeLeft: Int
     public let timeToCharge: Int
     public let batteryCycleCount: Int
-    public let batteryHealth: String
+    public let batteryCapacity: Double
     public let batteryTemperature: Double
     public let chargerConnected: Bool
     public let optimizedBatteryChargingEngaged: Bool
@@ -27,7 +27,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
         timeLeft: Int,
         timeToCharge: Int,
         batteryCycleCount: Int,
-        batteryHealth: String,
+        batteryCapacity: Double,
         batteryTemperature: Double,
         chargerConnected: Bool,
         optimizedBatteryChargingEngaged: Bool
@@ -38,7 +38,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
         self.timeLeft = timeLeft
         self.timeToCharge = timeToCharge
         self.batteryCycleCount = batteryCycleCount
-        self.batteryHealth = batteryHealth
+        self.batteryCapacity = batteryCapacity
         self.batteryTemperature = batteryTemperature
         self.chargerConnected = chargerConnected
         self.optimizedBatteryChargingEngaged = optimizedBatteryChargingEngaged
@@ -53,7 +53,7 @@ PowerState
 - time left: \(timeLeft)
 - time to charge: \(timeToCharge)
 - cycle count: \(batteryCycleCount)
-- battery health: \(batteryHealth)
+- battery capacity: \(batteryCapacity)
 - battery temperature: \(batteryTemperature)°C
 - charger connected: \(chargerConnected)
 - optimized battery charging engaged: \(optimizedBatteryChargingEngaged)

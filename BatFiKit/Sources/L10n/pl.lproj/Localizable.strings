@@ -34,7 +34,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Battery
 "battery_info.label.additional.app_mode" = "Tryb apki";
-"battery_info.label.additional.battery_health" = "Stan baterii";
+"battery_info.label.additional.battery_capacity" = "Pojemność baterii";
 "battery_info.label.additional.cycle_count" = "Liczba cykli";
 "battery_info.label.additional.power_source" = "Źródło zasilania";
 "battery_info.label.additional.temperature" = "Temperature";

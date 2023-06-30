@@ -80,21 +80,11 @@ extension PowerSourceClient: DependencyKey {
 }
 
 private func getPowerSourceInfo() throws -> PowerState {
-    func getIntValue(_ identifier: CFString, from service: io_service_t) -> Int? {
-        if let value = IORegistryEntryCreateCFProperty(service, identifier, kCFAllocatorDefault, 0) {
-            let int = value.takeUnretainedValue() as? Int
-            value.release()
-            return int
-        }
-
-        return nil
-    }
-
-    func getStringValue(_ identifier: CFString, from service: io_service_t) -> String? {
-        if let value = IORegistryEntryCreateCFProperty(service, identifier, kCFAllocatorDefault, 0) {
-            let string = value.takeUnretainedValue() as? String
-            value.release()
-            return string
+    func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
+        if let valueRef = IORegistryEntryCreateCFProperty(service, identifier as CFString, kCFAllocatorDefault, 0) {
+            let value = valueRef.takeUnretainedValue() as? DataType
+            valueRef.release()
+            return value
         }
 
         return nil
@@ -113,7 +103,6 @@ private func getPowerSourceInfo() throws -> PowerState {
     let powerSource = info[kIOPSPowerSourceStateKey] as? String
     let timeLeft = info[kIOPSTimeToEmptyKey] as? Int
     let timeToCharge = info[kIOPSTimeToFullChargeKey] as? Int
-    let batteryHealth = info[kIOPSBatteryHealthKey] as? String
     let optimizedBatteryCharging = info["Optimized Battery Charging Engaged"] as? Bool
 
     guard
@@ -122,7 +111,6 @@ private func getPowerSourceInfo() throws -> PowerState {
         let powerSource,
         let timeLeft,
         let timeToCharge,
-        let batteryHealth,
         let optimizedBatteryCharging else {
         throw PowerSourceError.infoMissing
     }
@@ -133,40 +121,24 @@ private func getPowerSourceInfo() throws -> PowerState {
         IOObjectRelease(service)
     }
 
-    guard
-        let cyclesRef = IORegistryEntryCreateCFProperty(
-            service,
-            kIOPMPSCycleCountKey as CFString,
-            kCFAllocatorDefault,
-            0
-        ),
-        let cycleClount = cyclesRef.takeUnretainedValue() as? Int else {
+    guard let cycleCount: Int = getValue(kIOPMPSCycleCountKey, from: service) else {
         throw PowerSourceError.infoMissing
     }
 
-    guard
-        let temperatureRef = IORegistryEntryCreateCFProperty(
-            service,
-            kIOPMPSBatteryTemperatureKey as CFString,
-            kCFAllocatorDefault,
-            0
-        ),
-        let temperature = temperatureRef.takeUnretainedValue() as? Double else {
+    guard let temperature: Double = getValue(kIOPMPSBatteryTemperatureKey, from: service) else {
         throw PowerSourceError.infoMissing
     }
     let batteryTemperature = temperature / 100
 
-    guard
-        let chargerConnectedRef = IORegistryEntryCreateCFProperty(
-            service,
-            kIOPMPSExternalConnectedKey as CFString,
-            kCFAllocatorDefault,
-            0
-        ),
-        let chargerConnected = chargerConnectedRef.takeUnretainedValue() as? Bool else {
+    guard let chargerConnected: Bool = getValue(kIOPMPSExternalConnectedKey, from: service) else {
         throw PowerSourceError.infoMissing
     }
 
+    guard let maxCapacity: Int = getValue("AppleRawMaxCapacity", from: service),
+          let designCapacity: Int = getValue(kIOPMPSDesignCapacityKey, from: service) else {
+        throw PowerSourceError.infoMissing
+    }
+    let batteryHealth = Double(maxCapacity) / Double(designCapacity)
 
     let powerState = PowerState(
         batteryLevel: batteryLevel,
@@ -174,8 +146,8 @@ private func getPowerSourceInfo() throws -> PowerState {
         powerSource: powerSource,
         timeLeft: timeLeft,
         timeToCharge: timeToCharge,
-        batteryCycleCount: cycleClount,
-        batteryHealth: batteryHealth,
+        batteryCycleCount: cycleCount,
+        batteryCapacity: batteryHealth,
         batteryTemperature: batteryTemperature,
         chargerConnected: chargerConnected,
         optimizedBatteryChargingEngaged: optimizedBatteryCharging
