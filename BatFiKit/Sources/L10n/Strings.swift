@@ -67,8 +67,8 @@ public enum L10n {
       public enum Additional {
         /// App mode
         public static let appMode = L10n.tr("Localizable", "battery_info.label.additional.app_mode", fallback: "App mode")
-        /// Battery Capacity
-        public static let batteryCapacity = L10n.tr("Localizable", "battery_info.label.additional.battery_capacity", fallback: "Battery Capacity")
+        /// Battery Health
+        public static let batteryCapacity = L10n.tr("Localizable", "battery_info.label.additional.battery_capacity", fallback: "Battery Health")
         /// Cycle Count
         public static let cycleCount = L10n.tr("Localizable", "battery_info.label.additional.cycle_count", fallback: "Cycle Count")
         /// Power Source
@@ -88,6 +88,20 @@ public enum L10n {
           public static let timeToCharge = L10n.tr("Localizable", "battery_info.label.main.time.time_to_charge", fallback: "Time to Charge")
         }
       }
+    }
+  }
+  public enum Menu {
+    public enum Label {
+      /// Charge to 100%%
+      public static let chargeToHundred = L10n.tr("Localizable", "menu.label.charge_to_hundred", fallback: "Charge to 100%%")
+      /// More
+      public static let more = L10n.tr("Localizable", "menu.label.more", fallback: "More")
+      /// Quit BatFi
+      public static let quit = L10n.tr("Localizable", "menu.label.quit", fallback: "Quit BatFi")
+      /// Settings…
+      public static let settings = L10n.tr("Localizable", "menu.label.settings", fallback: "Settings…")
+      /// Stop charging to 100%%
+      public static let stopChargingToHundred = L10n.tr("Localizable", "menu.label.stop_charging_to_hundred", fallback: "Stop charging to 100%%")
     }
   }
   public enum Notifications {

@@ -10,6 +10,7 @@ import AppShared
 import BatteryInfo
 import Clients
 import Cocoa
+import L10n
 import DefaultsKeys
 import Dependencies
 import MenuBuilder
@@ -66,20 +67,20 @@ public final class MenuController {
                 }
             SeparatorItem()
             if appChargingState == .forceDischarge || appChargingState == .chargerNotConnected {
-                MenuItem("Charge to 100%")
+                MenuItem(L10n.Menu.Label.chargeToHundred)
                     .toolTip(chargeTo100Tooltip)
             } else if appChargingState != .forceCharge {
-                MenuItem("Charge to 100%")
+                MenuItem(L10n.Menu.Label.chargeToHundred)
                     .onSelect { [weak self] in
                         self?.delegate?.forceCharge()
                     }
             } else {
-                MenuItem("Stop charging to 100%").onSelect { [weak self] in
+                MenuItem(L10n.Menu.Label.stopChargingToHundred).onSelect { [weak self] in
                     self?.delegate?.stopForceCharge()
                 }
             }
             SeparatorItem()
-            MenuItem("More")
+            MenuItem(L10n.Menu.Label.more)
                 .submenu {
                     MenuItem("BatFi…")
                         .onSelect { [weak self] in
@@ -110,13 +111,13 @@ public final class MenuController {
                             }
                     }
                 }
-            MenuItem("Settings…")
+            MenuItem(L10n.Menu.Label.settings)
                 .onSelect { [weak self] in
                     self?.delegate?.openSettings()
                 }
                 .shortcut(",")
             SeparatorItem()
-            MenuItem("Quit BatFi")
+            MenuItem(L10n.Menu.Label.quit)
                 .onSelect { [weak self] in
                     self?.delegate?.quitApp()
                 }

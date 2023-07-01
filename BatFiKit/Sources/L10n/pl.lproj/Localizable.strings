@@ -34,7 +34,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Battery
 "battery_info.label.additional.app_mode" = "Tryb apki";
-"battery_info.label.additional.battery_capacity" = "Pojemność baterii";
+"battery_info.label.additional.battery_capacity" = "Żywotność baterii";
 "battery_info.label.additional.cycle_count" = "Liczba cykli";
 "battery_info.label.additional.power_source" = "Źródło zasilania";
 "battery_info.label.additional.temperature" = "Temperature";
@@ -46,6 +46,22 @@
 "battery_info.label.main.time.time_left" = "Pozostało";
 // CONTEXT: Time left/ time to charge label in the main menu
 "battery_info.label.main.time.time_to_charge" = "Czas do naładowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.label.charge
+// CONTEXT: menu command, % is a special character in localized strings, so it must be used twice, for example: "100%%" to see "100%"
+"menu.label.charge_to_hundred" = "Naładuj do 100%%";
+// CONTEXT: menu command
+"menu.label.more" = "Więcej";
+// CONTEXT: menu command
+"menu.label.quit" = "Zakończ BatFi";
+// CONTEXT: menu command, remember to use ellipsis (…) instead of 3 periods
+"menu.label.settings" = "Ustawienia…";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.label.stop
+// CONTEXT: menu command, remember to use double "%%"
+"menu.label.stop_charging_to_hundred" = "Zatrzymaj ładowanie do 100%%";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Notifications.alert.title.optimized
