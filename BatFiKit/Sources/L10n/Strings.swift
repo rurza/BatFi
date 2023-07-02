@@ -92,16 +92,38 @@ public enum L10n {
   }
   public enum Menu {
     public enum Label {
+      /// BatFi…
+      public static let batfi = L10n.tr("Localizable", "menu.label.batfi", fallback: "BatFi…")
       /// Charge to 100%%
       public static let chargeToHundred = L10n.tr("Localizable", "menu.label.charge_to_hundred", fallback: "Charge to 100%%")
+      /// Check for Updates…
+      public static let checkForUpdates = L10n.tr("Localizable", "menu.label.check_for_updates", fallback: "Check for Updates…")
+      /// Debug
+      public static let debug = L10n.tr("Localizable", "menu.label.debug", fallback: "Debug")
+      /// Install Helper
+      public static let installHelper = L10n.tr("Localizable", "menu.label.install_helper", fallback: "Install Helper")
       /// More
       public static let more = L10n.tr("Localizable", "menu.label.more", fallback: "More")
+      /// Onboarding…
+      public static let onboarding = L10n.tr("Localizable", "menu.label.onboarding", fallback: "Onboarding…")
       /// Quit BatFi
       public static let quit = L10n.tr("Localizable", "menu.label.quit", fallback: "Quit BatFi")
+      /// Remove Helper
+      public static let removeHelper = L10n.tr("Localizable", "menu.label.remove_helper", fallback: "Remove Helper")
+      /// Reset settings
+      public static let resetSettings = L10n.tr("Localizable", "menu.label.reset_settings", fallback: "Reset settings")
       /// Settings…
       public static let settings = L10n.tr("Localizable", "menu.label.settings", fallback: "Settings…")
       /// Stop charging to 100%%
       public static let stopChargingToHundred = L10n.tr("Localizable", "menu.label.stop_charging_to_hundred", fallback: "Stop charging to 100%%")
+    }
+    public enum Tooltip {
+      public enum ChargeToHundred {
+        /// Disabled because the charger is not connected
+        public static let chargerNotConnected = L10n.tr("Localizable", "menu.tooltip.charge_to_hundred.charger_not_connected", fallback: "Disabled because the charger is not connected")
+        /// Disabled because the "Discharge battery when charged over limit" is turned on
+        public static let dischargeTurnedOn = L10n.tr("Localizable", "menu.tooltip.charge_to_hundred.discharge_turned_on", fallback: "Disabled because the \"Discharge battery when charged over limit\" is turned on")
+      }
     }
   }
   public enum Notifications {

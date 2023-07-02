@@ -46,15 +46,40 @@
 "battery_info.label.main.time.time_left" = "Time Left";
 // CONTEXT: Time left/ time to charge label in the main menu
 "battery_info.label.main.time.time_to_charge" = "Time to Charge";
+// CONTEXT: menu command, notice ellipsis instead of 3 periods
+"menu.label.batfi" = "BatFi…";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Menu.label.charge
 // CONTEXT: menu command, % is a special character in localized strings, so it must be used twice, for example: "100%%" to see "100%"
 "menu.label.charge_to_hundred" = "Charge to 100%%";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.label.check
+// CONTEXT: menu command, notice ellipsis instead of 3 periods
+"menu.label.check_for_updates" = "Check for Updates…";
+"menu.label.debug" = "Debug";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.label.install
+// CONTEXT: menu command
+"menu.label.install_helper" = "Install Helper";
 // CONTEXT: menu command
 "menu.label.more" = "More";
+// CONTEXT: menu command, notice ellipsis instead of 3 periods
+"menu.label.onboarding" = "Onboarding…";
 // CONTEXT: menu command
 "menu.label.quit" = "Quit BatFi";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.label.remove
+// CONTEXT: menu command
+"menu.label.remove_helper" = "Remove Helper";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.label.reset
+// CONTEXT: menu command, reset all settings to the default state
+"menu.label.reset_settings" = "Reset settings";
 // CONTEXT: menu command, remember to use ellipsis (…) instead of 3 periods
 "menu.label.settings" = "Settings…";
 
@@ -62,6 +87,13 @@
 // MARK: Menu.label.stop
 // CONTEXT: menu command, remember to use double "%%"
 "menu.label.stop_charging_to_hundred" = "Stop charging to 100%%";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Menu.tooltip.charge
+// CONTEXT: "Charge to 100%" command tooltip explaining why it's disabled
+"menu.tooltip.charge_to_hundred.charger_not_connected" = "Disabled because the charger is not connected";
+// CONTEXT: "Charge to 100%" command tooltip explaining why it's disabled
+"menu.tooltip.charge_to_hundred.discharge_turned_on" = "Disabled because the \"Discharge battery when charged over limit\" is turned on";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Notifications.alert.title.optimized

@@ -54,9 +54,9 @@ public final class MenuController {
     private func updateMenu(appChargingState: AppChargingMode, showDebugMenu: Bool) {
         let chargeTo100Tooltip: String?
         if appChargingState == .forceDischarge {
-            chargeTo100Tooltip = "Disabled because the \"Discharge battery when charged over limit\" is turned on"
+            chargeTo100Tooltip = L10n.Menu.Tooltip.ChargeToHundred.dischargeTurnedOn
         } else if appChargingState == .chargerNotConnected {
-            chargeTo100Tooltip = "Disabled because the charger is not connected"
+            chargeTo100Tooltip = L10n.Menu.Tooltip.ChargeToHundred.chargerNotConnected
         } else {
             chargeTo100Tooltip = nil
         }
@@ -82,30 +82,30 @@ public final class MenuController {
             SeparatorItem()
             MenuItem(L10n.Menu.Label.more)
                 .submenu {
-                    MenuItem("BatFi…")
+                    MenuItem(L10n.Menu.Label.batfi)
                         .onSelect { [weak self] in
                             self?.delegate?.openAbout()
                         }
-                    MenuItem("Check for Updates…")
+                    MenuItem(L10n.Menu.Label.checkForUpdates)
                         .onSelect { [weak self] in
                             self?.delegate?.checkForUpdates()
                         }
-                    MenuItem("Onboarding…")
+                    MenuItem(L10n.Menu.Label.onboarding)
                         .onSelect { [weak self] in
                             self?.delegate?.openOnboarding()
                         }
                     if showDebugMenu {
                         SeparatorItem()
-                        MenuItem("Debug")
+                        MenuItem(L10n.Menu.Label.debug)
                             .submenu {
-                                MenuItem("Install Helper").onSelect { [weak self] in
+                                MenuItem(L10n.Menu.Label.installHelper).onSelect { [weak self] in
                                     Task { try? await self?.helperManager.installHelper() }
                                 }
-                                MenuItem("Remove Helper").onSelect { [weak self] in
+                                MenuItem(L10n.Menu.Label.removeHelper).onSelect { [weak self] in
                                     Task { try? await self?.helperManager.removeHelper() }
                                 }
                                 SeparatorItem()
-                                MenuItem("Reset settings").onSelect { [weak self] in
+                                MenuItem(L10n.Menu.Label.resetSettings).onSelect { [weak self] in
                                     self?.defaults.resetSettings()
                                 }
                             }
