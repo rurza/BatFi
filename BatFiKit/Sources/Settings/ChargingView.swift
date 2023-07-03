@@ -5,8 +5,10 @@
 //  Created by Adam on 05/05/2023.
 //
 
+import AppShared
 import Defaults
 import DefaultsKeys
+import L10n
 import SettingsKit
 import SwiftUI
 
@@ -23,19 +25,23 @@ struct ChargingView: View {
                 Section(bottomDivider: true) {
                     EmptyView()
                 } content: {
+                    let l10n = L10n.Settings.self
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
                             Toggle(isOn: $manageCharging) {
                                 EmptyView()
                             }
                             .toggleStyle(.switch)
-                            Text("Automatically manage charging")
+                            Text(l10n.Button.Label.automaticallyManageCharging)
                         }
                         .padding(.bottom, 30)
                         .padding(.top, 10)
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Turn off charging when battery will reach \(Int(chargeLimit), format: .percent)")
+                            let label = l10n.Slider.Label.turnOffChargingAt(
+                                percentageFormatter.string(from: NSNumber(integerLiteral: chargeLimit))!
+                            )
+                            Text(label)
                                 .foregroundColor(manageCharging ? .primary : .secondary)
                             Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
                                 EmptyView()
@@ -49,24 +55,24 @@ struct ChargingView: View {
                     }
                     .padding(.bottom, 10)
                     Toggle(isOn: $temperatureSwitch) {
-                        Text("Automatically turn off charging when the battery gets hot")
-                            .help("Turns off charging when the battery is 35°C or more.")
+                        Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
+                            .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)
                     }
                     .disabled(!manageCharging)
                     VStack(alignment: .leading, spacing: 2) {
                         Toggle(isOn: $dischargeBatteryWhenFull) {
-                            Text("Discharge battery when charged over limit")
+                            Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
                                 .withBetaLabel()
-                                .help("When Macbook's lid is opened, the app can discharge battery until it will reach the limit")
+                                .help(l10n.Button.Tooltip.dischargeBatterWhenOvercharged)
                         }
                         .disabled(!manageCharging)
-                        Text("Works only with the lid opened.")
+                        Text(l10n.Button.Description.lidMustBeOpened)
                             .settingDescription()
                     }
                     Toggle(isOn: $disableSleep) {
-                        Text("Delay automatic sleep when charging and the limit's not reached")
+                        Text(l10n.Button.Label.disableSleep)
                             .withBetaLabel()
-                            .help("The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep")
+                            .help(l10n.Button.Tooltip.disableSleep)
                     }
                     .disabled(!manageCharging)
                 }
@@ -74,9 +80,10 @@ struct ChargingView: View {
                     EmptyView()
                 } content: {
                     VStack(alignment: .leading, spacing: 0) {
+                        let l10n = L10n.Settings.Label.self
                         Group {
-                            Text("80% is the recommended value for a day-to-day usage.")
-                            Text("You can manually override this setting by using the \"Charge to 100%\" command from the menu.")
+                            Text(l10n.chargingRecommendationPart1)
+                            Text(l10n.chargingRecommendationPart2)
                         }
                         .settingDescription()
                     }
@@ -88,8 +95,11 @@ struct ChargingView: View {
     static let pane: Pane<Self> = {
         Pane(
             identifier: NSToolbarItem.Identifier("Charging"),
-            title: "Charging",
-            toolbarIcon: NSImage(systemSymbolName: "bolt.batteryblock.fill", accessibilityDescription: "Notifications pane")!
+            title: L10n.Settings.Tab.Title.charging,
+            toolbarIcon: NSImage(
+                systemSymbolName: "bolt.batteryblock.fill",
+                accessibilityDescription: L10n.Settings.Accessibility.Title.charging
+            )!
         ) {
             Self()
         }

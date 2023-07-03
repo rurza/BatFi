@@ -103,3 +103,63 @@
 // MARK: Notifications.notification.subtitle.new
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "Nowy tryb: %@";
+// CONTEXT: tab item accessibility description
+"settings.accessibility.title.charging" = "Panel ładowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.description.lid
+// CONTEXT: label below the toggle button that toggles discharging when battery is charged over limit
+"settings.button.description.lid_must_be_opened" = "Działa tylko, gdy pokrywa z ekranem jest otwarta.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.automatically
+// CONTEXT: toggle switch button; toggles battery management by the app
+"settings.button.label.automatically_manage_charging" = "Automatycznie zarządzaj ładowaniem";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.disable
+// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit
+"settings.button.label.disable_sleep" = "Opóźnij automatycznie usypianie systemu podczas ładowania, gdy limit nie został osiągnięty";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.discharge
+// CONTEXT: toggle switch that toggles discharging battery when charged over limit
+"settings.button.label.discharge_batter_when_overcharged" = "Rozładuj baterię do osiągnięcia limitu ładowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.turn
+// CONTEXT: toggle switch label, toggles charging when batter gets hot
+"settings.button.label.turn_off_charging_when_battery_is_hot" = "Przerwij ładowanie gdy bateria będzie zbyt gorąca";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.tooltip.disable
+// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit; tooltip explaining more details
+"settings.button.tooltip.disable_sleep" = "Apka opóźni automatycznie usypianie systemu, pozwoli naładować baterię do wyznaczonego limitu, wstrzyma ładowanie i uśpi Maca";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.tooltip.discharge
+// CONTEXT: tooltip when hovering toggle button that toggles discharging battery when it's charged over limit
+"settings.button.tooltip.discharge_batter_when_overcharged" = "Gdy klapa Macbooka jest otwarta, apka może rozładowywać baterie do momentu osiągnięcia limitu ładowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.tooltip.turn
+// CONTEXT: toggle button, tooltip that explain more details
+"settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "Wyłącza ładowanie gdy temperatura baterii przekroczy 35°C";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.label.charging
+// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
+"settings.label.charging_recommendation_part1" = "80%% to rekomendowany limit ładowania podczas normalnego użytkowania.";
+// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
+"settings.label.charging_recommendation_part2" = "Zawsze możesz naładować komputer używając polecenia \"Naładuj do 100%%\" z menu.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.slider.label.turn
+// CONTEXT: label next to the slider that sets the limit when battery charging will stop, "%@" will contain the charging limit, ie "80%"
+"settings.slider.label.turn_off_charging_at" = "Wyłącz ładowanie gdy bateria osiągnie %@";
+// CONTEXT: Tab name in the settings
+"settings.tab.title.charging" = "Ładowanie";
+// CONTEXT: Tab name in the settings
+"settings.tab.title.general" = "Ogólne";
+// CONTEXT: tab name in the settings
+"settings.tab.title.notifications" = "Powiadomienia";

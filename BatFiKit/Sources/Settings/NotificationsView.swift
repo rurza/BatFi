@@ -6,6 +6,7 @@
 //
 
 import Defaults
+import L10n
 import SettingsKit
 import SwiftUI
 
@@ -30,7 +31,7 @@ struct NotificationsView: View {
 
     static let pane: Pane<Self> = {
         Pane(
-            identifier: NSToolbarItem.Identifier("Notifications"),
+            identifier: NSToolbarItem.Identifier(L10n.Settings.Tab.Title.notifications),
             title: "Notifications",
             toolbarIcon: NSImage(systemSymbolName: "bell.badge.fill", accessibilityDescription: "Notifications pane")!
         ) {

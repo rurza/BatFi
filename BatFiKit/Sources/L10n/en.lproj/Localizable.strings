@@ -103,3 +103,63 @@
 // MARK: Notifications.notification.subtitle.new
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "New mode: %@";
+// CONTEXT: tab item accessibility description
+"settings.accessibility.title.charging" = "Charging pane";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.description.lid
+// CONTEXT: label below the toggle button that toggles discharging when battery is charged over limit
+"settings.button.description.lid_must_be_opened" = "Works only with the lid opened.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.automatically
+// CONTEXT: toggle switch button; toggles battery management by the app
+"settings.button.label.automatically_manage_charging" = "Automatically manage charging";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.disable
+// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit
+"settings.button.label.disable_sleep" = "Delay automatic sleep when charging and the limit's not reached";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.discharge
+// CONTEXT: toggle switch that toggles discharging battery when charged over limit
+"settings.button.label.discharge_batter_when_overcharged" = "Discharge battery when charged over limit";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.turn
+// CONTEXT: toggle switch label, toggles charging when batter gets hot
+"settings.button.label.turn_off_charging_when_battery_is_hot" = "Automatically turn off charging when the battery gets hot";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.tooltip.disable
+// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit; tooltip explaining more details
+"settings.button.tooltip.disable_sleep" = "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.tooltip.discharge
+// CONTEXT: tooltip when hovering toggle button that toggles discharging battery when it's charged over limit
+"settings.button.tooltip.discharge_batter_when_overcharged" = "When Macbook's lid is opened, the app can discharge battery until it will reach the limit";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.tooltip.turn
+// CONTEXT: toggle button, tooltip that explain more details
+"settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "Turns off charging when the battery is 35°C or more.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.label.charging
+// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
+"settings.label.charging_recommendation_part1" = "80%% is the recommended value for a day-to-day usage.";
+// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
+"settings.label.charging_recommendation_part2" = "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.slider.label.turn
+// CONTEXT: label next to the slider that sets the limit when battery charging will stop, "%@" will contain the charging limit, ie "80%"
+"settings.slider.label.turn_off_charging_at" = "Turn off charging when battery will reach %@";
+// CONTEXT: Tab name in the settings
+"settings.tab.title.charging" = "Charging";
+// CONTEXT: Tab name in the settings
+"settings.tab.title.general" = "General";
+// CONTEXT: tab name in the settings
+"settings.tab.title.notifications" = "Notifications";

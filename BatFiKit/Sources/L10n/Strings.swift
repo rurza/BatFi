@@ -142,6 +142,62 @@ public enum L10n {
       }
     }
   }
+  public enum Settings {
+    public enum Accessibility {
+      public enum Title {
+        /// Charging pane
+        public static let charging = L10n.tr("Localizable", "settings.accessibility.title.charging", fallback: "Charging pane")
+      }
+    }
+    public enum Button {
+      public enum Description {
+        /// Works only with the lid opened.
+        public static let lidMustBeOpened = L10n.tr("Localizable", "settings.button.description.lid_must_be_opened", fallback: "Works only with the lid opened.")
+      }
+      public enum Label {
+        /// Automatically manage charging
+        public static let automaticallyManageCharging = L10n.tr("Localizable", "settings.button.label.automatically_manage_charging", fallback: "Automatically manage charging")
+        /// Delay automatic sleep when charging and the limit's not reached
+        public static let disableSleep = L10n.tr("Localizable", "settings.button.label.disable_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
+        /// Discharge battery when charged over limit
+        public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.label.discharge_batter_when_overcharged", fallback: "Discharge battery when charged over limit")
+        /// Automatically turn off charging when the battery gets hot
+        public static let turnOffChargingWhenBatteryIsHot = L10n.tr("Localizable", "settings.button.label.turn_off_charging_when_battery_is_hot", fallback: "Automatically turn off charging when the battery gets hot")
+      }
+      public enum Tooltip {
+        /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
+        public static let disableSleep = L10n.tr("Localizable", "settings.button.tooltip.disable_sleep", fallback: "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep")
+        /// When Macbook's lid is opened, the app can discharge battery until it will reach the limit
+        public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.tooltip.discharge_batter_when_overcharged", fallback: "When Macbook's lid is opened, the app can discharge battery until it will reach the limit")
+        /// Turns off charging when the battery is 35°C or more.
+        public static let turnOffChargingWhenBatteryIsHot = L10n.tr("Localizable", "settings.button.tooltip.turn_off_charging_when_battery_is_hot", fallback: "Turns off charging when the battery is 35°C or more.")
+      }
+    }
+    public enum Label {
+      /// 80%% is the recommended value for a day-to-day usage.
+      public static let chargingRecommendationPart1 = L10n.tr("Localizable", "settings.label.charging_recommendation_part1", fallback: "80%% is the recommended value for a day-to-day usage.")
+      /// You can manually override this setting by using the "Charge to 100%%" command from the menu.
+      public static let chargingRecommendationPart2 = L10n.tr("Localizable", "settings.label.charging_recommendation_part2", fallback: "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.")
+    }
+    public enum Slider {
+      public enum Label {
+        /// Turn off charging when battery will reach %@
+        public static func turnOffChargingAt(_ p1: Any) -> String {
+          return L10n.tr("Localizable", "settings.slider.label.turn_off_charging_at", String(describing: p1), fallback: "Turn off charging when battery will reach %@")
+        }
+      }
+    }
+    public enum Tab {
+      public enum Title {
+        /// Charging
+        public static let charging = L10n.tr("Localizable", "settings.tab.title.charging", fallback: "Charging")
+        /// General
+        public static let general = L10n.tr("Localizable", "settings.tab.title.general", fallback: "General")
+        /// Notifications
+        public static let notifications = L10n.tr("Localizable", "settings.tab.title.notifications", fallback: "Notifications")
+      }
+    }
+  }
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

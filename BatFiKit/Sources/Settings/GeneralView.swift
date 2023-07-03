@@ -8,6 +8,7 @@
 import Clients
 import Defaults
 import Dependencies
+import L10n
 import SwiftUI
 import SettingsKit
 import ServiceManagement
@@ -64,7 +65,7 @@ struct GeneralView: View {
     static let pane: Pane<Self> = {
         Pane(
             identifier: NSToolbarItem.Identifier("General"),
-            title: "General",
+            title: L10n.Settings.Tab.Title.general,
             toolbarIcon: NSImage(systemSymbolName: "gear.circle.fill", accessibilityDescription: "General pane")!
         ) {
             Self()
