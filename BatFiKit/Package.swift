@@ -165,6 +165,7 @@ let package = Package(
             .clients,
             .defaultsKeys,
             .dependencies,
+            .l10n,
             .settingsKit
         ])
     ]
