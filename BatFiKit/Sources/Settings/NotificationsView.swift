@@ -31,8 +31,8 @@ struct NotificationsView: View {
 
     static let pane: Pane<Self> = {
         Pane(
-            identifier: NSToolbarItem.Identifier(L10n.Settings.Tab.Title.notifications),
-            title: "Notifications",
+            identifier: NSToolbarItem.Identifier("notifications"),
+            title: L10n.Settings.Tab.Title.notifications,
             toolbarIcon: NSImage(systemSymbolName: "bell.badge.fill", accessibilityDescription: "Notifications pane")!
         ) {
             Self()

@@ -39,7 +39,7 @@ struct ChargingView: View {
 
                         VStack(alignment: .leading, spacing: 2) {
                             let label = l10n.Slider.Label.turnOffChargingAt(
-                                percentageFormatter.string(from: NSNumber(integerLiteral: chargeLimit))!
+                                percentageFormatter.string(from: NSNumber(value: Double(chargeLimit) / 100))!
                             )
                             Text(label)
                                 .foregroundColor(manageCharging ? .primary : .secondary)
