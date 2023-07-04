@@ -9,13 +9,6 @@ import SwiftUI
 import AppShared
 import L10n
 
-private let batteryInfoPercentageFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .percent
-    formatter.maximumFractionDigits = 1
-    return formatter
-}()
-
 public struct BatteryInfoView: View {
     @StateObject private var model = Model()
 
@@ -61,7 +54,7 @@ public struct BatteryInfoView: View {
                         }
                         BatteryAdditionalInfo(
                             label: l10n.Additional.batteryCapacity,
-                            info: batteryInfoPercentageFormatter.string(from: NSNumber(floatLiteral: powerState.batteryCapacity))!
+                            info: percentageFormatter.string(from: NSNumber(floatLiteral: powerState.batteryCapacity))!
                         )
                     }
                     .frame(maxWidth: .infinity)
