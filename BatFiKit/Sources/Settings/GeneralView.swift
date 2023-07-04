@@ -66,7 +66,10 @@ struct GeneralView: View {
         Pane(
             identifier: NSToolbarItem.Identifier("General"),
             title: L10n.Settings.Tab.Title.general,
-            toolbarIcon: NSImage(systemSymbolName: "gear.circle.fill", accessibilityDescription: "General pane")!
+            toolbarIcon: NSImage(
+                systemSymbolName: "gear.circle.fill",
+                accessibilityDescription: L10n.Settings.Accessibility.Title.general
+            )!
         ) {
             Self()
         }

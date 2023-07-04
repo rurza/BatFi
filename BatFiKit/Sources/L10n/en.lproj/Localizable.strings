@@ -105,6 +105,10 @@
 "notifications.notification.subtitle.new_mode" = "New mode: %@";
 // CONTEXT: tab item accessibility description
 "settings.accessibility.title.charging" = "Charging pane";
+// CONTEXT: tab item accessibility description
+"settings.accessibility.title.general" = "General pane";
+// CONTEXT: tab item accessibility description
+"settings.accessibility.title.notifications" = "Notifications pane";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.description.lid
@@ -117,6 +121,11 @@
 "settings.button.label.automatically_manage_charging" = "Automatically manage charging";
 
 ////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.charging
+// CONTEXT: toggle switch button that enables notifications when charging status changed
+"settings.button.label.charging_status_did_change" = "Charging status has changed";
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.disable
 // CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit
 "settings.button.label.disable_sleep" = "Delay automatic sleep when charging and the limit's not reached";
@@ -125,6 +134,11 @@
 // MARK: Settings.button.label.discharge
 // CONTEXT: toggle switch that toggles discharging battery when charged over limit
 "settings.button.label.discharge_batter_when_overcharged" = "Discharge battery when charged over limit";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.show
+// CONTEXT: toggle switch button; when on the app will show modal alert telling the user to turn off macOS' built-in "optimized battery charging feature"
+"settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "Show alert when the optimized battery charging is engaged";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.turn
@@ -152,6 +166,10 @@
 "settings.label.charging_recommendation_part1" = "80%% is the recommended value for a day-to-day usage.";
 // CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part2" = "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.";
+// CONTEXT: section title in the notifications tab
+"settings.section.alerts" = "Alerts";
+// CONTEXT: section name in the notifications tab in settings
+"settings.section.notifications" = "Notifications";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.slider.label.turn

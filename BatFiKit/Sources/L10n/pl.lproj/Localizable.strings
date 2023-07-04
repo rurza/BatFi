@@ -104,7 +104,11 @@
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "Nowy tryb: %@";
 // CONTEXT: tab item accessibility description
-"settings.accessibility.title.charging" = "Panel ładowania";
+"settings.accessibility.title.charging" = "Panel ustawień ładowania";
+// CONTEXT: tab item accessibility description
+"settings.accessibility.title.general" = "Panel ustawień ogólnych";
+// CONTEXT: tab item accessibility description
+"settings.accessibility.title.notifications" = "Panel ustawień powiadomień";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.description.lid
@@ -117,6 +121,11 @@
 "settings.button.label.automatically_manage_charging" = "Automatycznie zarządzaj ładowaniem";
 
 ////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.charging
+// CONTEXT: toggle switch button that enables notifications when charging status changed
+"settings.button.label.charging_status_did_change" = "Pokaż powiadomienia gdy tryb ładowania się zmienił";
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.disable
 // CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit
 "settings.button.label.disable_sleep" = "Opóźnij automatycznie usypianie systemu podczas ładowania, gdy limit nie został osiągnięty";
@@ -125,6 +134,11 @@
 // MARK: Settings.button.label.discharge
 // CONTEXT: toggle switch that toggles discharging battery when charged over limit
 "settings.button.label.discharge_batter_when_overcharged" = "Rozładuj baterię do osiągnięcia limitu ładowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.show
+// CONTEXT: toggle switch button; when on the app will show modal alert telling the user to turn off macOS' built-in "optimized battery charging feature"
+"settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "Pokazuj alert gdy systemowe \"zoptymalizowane ładowanie baterii\" zostanie włączone";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.turn
@@ -152,6 +166,10 @@
 "settings.label.charging_recommendation_part1" = "80%% to rekomendowany limit ładowania podczas normalnego użytkowania.";
 // CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part2" = "Zawsze możesz naładować komputer używając polecenia \"Naładuj do 100%%\" z menu.";
+// CONTEXT: section title in the notifications tab
+"settings.section.alerts" = "Alerty";
+// CONTEXT: section name in the notifications tab in settings
+"settings.section.notifications" = "Powiadomienia";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.slider.label.turn

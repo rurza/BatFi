@@ -147,6 +147,10 @@ public enum L10n {
       public enum Title {
         /// Charging pane
         public static let charging = L10n.tr("Localizable", "settings.accessibility.title.charging", fallback: "Charging pane")
+        /// General pane
+        public static let general = L10n.tr("Localizable", "settings.accessibility.title.general", fallback: "General pane")
+        /// Notifications pane
+        public static let notifications = L10n.tr("Localizable", "settings.accessibility.title.notifications", fallback: "Notifications pane")
       }
     }
     public enum Button {
@@ -157,10 +161,14 @@ public enum L10n {
       public enum Label {
         /// Automatically manage charging
         public static let automaticallyManageCharging = L10n.tr("Localizable", "settings.button.label.automatically_manage_charging", fallback: "Automatically manage charging")
+        /// Charging status has changed
+        public static let chargingStatusDidChange = L10n.tr("Localizable", "settings.button.label.charging_status_did_change", fallback: "Charging status has changed")
         /// Delay automatic sleep when charging and the limit's not reached
         public static let disableSleep = L10n.tr("Localizable", "settings.button.label.disable_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
         /// Discharge battery when charged over limit
         public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.label.discharge_batter_when_overcharged", fallback: "Discharge battery when charged over limit")
+        /// Show alert when the optimized battery charging is engaged
+        public static let showAlertsWhenOptimizedChargingIsEngaged = L10n.tr("Localizable", "settings.button.label.show_alerts_when_optimized_charging_is_engaged", fallback: "Show alert when the optimized battery charging is engaged")
         /// Automatically turn off charging when the battery gets hot
         public static let turnOffChargingWhenBatteryIsHot = L10n.tr("Localizable", "settings.button.label.turn_off_charging_when_battery_is_hot", fallback: "Automatically turn off charging when the battery gets hot")
       }
@@ -178,6 +186,12 @@ public enum L10n {
       public static let chargingRecommendationPart1 = L10n.tr("Localizable", "settings.label.charging_recommendation_part1", fallback: "80%% is the recommended value for a day-to-day usage.")
       /// You can manually override this setting by using the "Charge to 100%%" command from the menu.
       public static let chargingRecommendationPart2 = L10n.tr("Localizable", "settings.label.charging_recommendation_part2", fallback: "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.")
+    }
+    public enum Section {
+      /// Alerts
+      public static let alerts = L10n.tr("Localizable", "settings.section.alerts", fallback: "Alerts")
+      /// Notifications
+      public static let notifications = L10n.tr("Localizable", "settings.section.notifications", fallback: "Notifications")
     }
     public enum Slider {
       public enum Label {
