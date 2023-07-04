@@ -79,7 +79,6 @@
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5BD6D3D12A4CDB3300575C43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5BD6D3D32A4CDB3600575C43 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5BEE218729E607FB0012A4DD /* BatFi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatFi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -243,7 +242,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				pl,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -336,7 +334,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				5BD6D3D12A4CDB3300575C43 /* en */,
-				5BD6D3D32A4CDB3600575C43 /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
