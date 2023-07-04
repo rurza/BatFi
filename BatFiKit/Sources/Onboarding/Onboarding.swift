@@ -11,6 +11,7 @@ import ConfettiSwiftUI
 import Defaults
 import DefaultsKeys
 import Dependencies
+import L10n
 import ServiceManagement
 import SwiftUI
 
@@ -37,6 +38,7 @@ struct Onboarding: View {
     }
 
     var body: some View {
+        let l10n = L10n.Onboarding.self
         VStack {
             PageView(
                 numberOfPages: OnboardingScreen.allCases.count,
@@ -47,7 +49,7 @@ struct Onboarding: View {
                 InstallHelperView(model: model).id(OnboardingScreen.helper.rawValue)
             }
             HStack {
-                OnboardingButton(title: "Previous", isLoading: false, action: { model.previousAction() })
+                OnboardingButton(title: l10n.Button.Label.previous, isLoading: false, action: { model.previousAction() })
                     .opacity(model.currentScreen != .welcome && !model.onboardingIsFinished ? 1 : 0)
                     .animation(.spring(), value: model.currentScreen)
                     .disabled(model.isLoading)
@@ -109,17 +111,18 @@ Please keep in mind that the app won't work without the helper tool.
     }
 
     var nextButtonTitle: String {
+        let l10n = L10n.Onboarding.Button.Label.self
         switch model.currentScreen {
         case .welcome:
-            return "Get started"
+            return l10n.getStarted
         case .helper:
             if model.onboardingIsFinished {
-                return "Complete"
+                return l10n.complete
             } else {
-                return "Install Helper"
+                return l10n.installHelper
             }
         default:
-            return "Next"
+            return l10n.next
         }
     }
 }

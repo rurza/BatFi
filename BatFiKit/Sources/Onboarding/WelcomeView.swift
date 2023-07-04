@@ -5,20 +5,22 @@
 //  Created by Adam on 31/05/2023.
 //
 
+import L10n
 import SwiftUI
 
 struct WelcomeView: View {
 
     var body: some View {
         VStack {
+            let l10n = L10n.Onboarding.Label.self
             Image("Icon", bundle: Bundle.module)
                 .resizable()
                 .frame(width: 300, height: 300)
                 .frame(maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 10) {
-                Text("Extend the life of your Mac.")
+                Text(l10n.extendLife)
                     .font(.system(size: 24, weight: .bold))
-                Text("BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.")
+                Text(l10n.appDescription)
                     .padding(.bottom, 30)
             }
         }

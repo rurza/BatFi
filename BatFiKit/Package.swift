@@ -149,10 +149,12 @@ let package = Package(
         .target(
             name: "Onboarding",
             dependencies: [
+                .appShared,
                 .clients,
                 .confetti,
                 .defaults,
-                .defaultsKeys
+                .defaultsKeys,
+                .l10n
             ]
         ),
         .target(name: "Server", dependencies: [

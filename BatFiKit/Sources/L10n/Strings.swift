@@ -142,6 +142,42 @@ public enum L10n {
       }
     }
   }
+  public enum Onboarding {
+    public enum Button {
+      public enum Label {
+        /// Complete
+        public static let complete = L10n.tr("Localizable", "onboarding.button.label.complete", fallback: "Complete")
+        /// Get started
+        public static let getStarted = L10n.tr("Localizable", "onboarding.button.label.get_started", fallback: "Get started")
+        /// Install helper
+        public static let installHelper = L10n.tr("Localizable", "onboarding.button.label.install_helper", fallback: "Install helper")
+        /// Next
+        public static let next = L10n.tr("Localizable", "onboarding.button.label.next", fallback: "Next")
+        /// Previous
+        public static let previous = L10n.tr("Localizable", "onboarding.button.label.previous", fallback: "Previous")
+      }
+    }
+    public enum Label {
+      /// BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100%% only when it's needed.
+      public static let appDescription = L10n.tr("Localizable", "onboarding.label.app_description", fallback: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100%% only when it's needed.")
+      /// Extend the life of your Mac.
+      public static let extendLife = L10n.tr("Localizable", "onboarding.label.extend_life", fallback: "Extend the life of your Mac.")
+      /// Set Charging Limit.
+      public static let setLimit = L10n.tr("Localizable", "onboarding.label.set_limit", fallback: "Set Charging Limit.")
+      /// Set a maximum charging percentage to prevent keeping charge level at 100%% and improve battery longevity.
+      public static let setLimitDescription = L10n.tr("Localizable", "onboarding.label.set_limit_description", fallback: "Set a maximum charging percentage to prevent keeping charge level at 100%% and improve battery longevity.")
+      /// You can modify this setting later in the app's settings.
+      public static let setLimitSetUpLater = L10n.tr("Localizable", "onboarding.label.set_limit_set_up_later", fallback: "You can modify this setting later in the app's settings.")
+    }
+    public enum Slider {
+      public enum Label {
+        /// Turn off charging when battery will reach %@
+        public static func setLimit(_ p1: Any) -> String {
+          return L10n.tr("Localizable", "onboarding.slider.label.set_limit", String(describing: p1), fallback: "Turn off charging when battery will reach %@")
+        }
+      }
+    }
+  }
   public enum Settings {
     public enum Accessibility {
       public enum Title {

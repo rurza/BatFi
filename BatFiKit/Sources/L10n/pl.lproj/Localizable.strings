@@ -103,6 +103,46 @@
 // MARK: Notifications.notification.subtitle.new
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "Nowy tryb: %@";
+// CONTEXT: onboarding button title; showed when the onboarding is done
+"onboarding.button.label.complete" = "Gotowe";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.button.label.get
+// CONTEXT: Get started button title in the onboarding
+"onboarding.button.label.get_started" = "Zaczynamy";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.button.label.install
+// CONTEXT: Onboarding button title; will install helper tool that allows to control battery
+"onboarding.button.label.install_helper" = "Zainstaluj helper";
+// CONTEXT: onboarding button title
+"onboarding.button.label.next" = "Następny";
+// CONTEXT: Onboarding button title
+"onboarding.button.label.previous" = "Poprzedni";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.app
+// CONTEXT: onboarding; basic app description on the first screen. Please remember that "%" is a special character, so you must use it twice to see actual "%" in the app
+"onboarding.label.app_description" = "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę – wciąż możesz ładować baterię do 100%% gdy potrzeba.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.extend
+// CONTEXT: first screen in the onboarding, a header
+"onboarding.label.extend_life" = "Przedłuż życie swojego Maca.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.set
+// CONTEXT: onboarding label, header
+"onboarding.label.set_limit" = "Ustaw poziom naładowania.";
+// CONTEXT: onboarding label, describes the charging limit
+"onboarding.label.set_limit_description" = "Ustaw maksymalny poziom naładowania by uniknąć ciągłego utrzymywania poziomu baterii na 100%% i przedłużyć jej żywotność.";
+// CONTEXT: onboarding; label explaining that this setting can be changed later in app's settings
+"onboarding.label.set_limit_set_up_later" = "Możesz to później zmienić w ustawieniach aplikacji.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.slider.label.set
+// CONTEXT: onboarding; slider setting charging limit; "%@" if for percent value, for example 40%
+"onboarding.slider.label.set_limit" = "Wyłącz ładowanie gdy bateria osiągnie %@";
 // CONTEXT: tab item accessibility description
 "settings.accessibility.title.charging" = "Panel ustawień ładowania";
 // CONTEXT: tab item accessibility description

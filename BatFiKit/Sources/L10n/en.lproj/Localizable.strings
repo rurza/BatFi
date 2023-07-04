@@ -103,6 +103,46 @@
 // MARK: Notifications.notification.subtitle.new
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "New mode: %@";
+// CONTEXT: onboarding button title; showed when the onboarding is done
+"onboarding.button.label.complete" = "Complete";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.button.label.get
+// CONTEXT: Get started button title in the onboarding
+"onboarding.button.label.get_started" = "Get started";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.button.label.install
+// CONTEXT: Onboarding button title; will install helper tool that allows to control battery
+"onboarding.button.label.install_helper" = "Install helper";
+// CONTEXT: onboarding button title
+"onboarding.button.label.next" = "Next";
+// CONTEXT: Onboarding button title
+"onboarding.button.label.previous" = "Previous";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.app
+// CONTEXT: onboarding; basic app description on the first screen. Please remember that "%" is a special character, so you must use it twice to see actual "%" in the app
+"onboarding.label.app_description" = "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100%% only when it's needed.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.extend
+// CONTEXT: first screen in the onboarding, a header
+"onboarding.label.extend_life" = "Extend the life of your Mac.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.set
+// CONTEXT: onboarding label, header
+"onboarding.label.set_limit" = "Set Charging Limit.";
+// CONTEXT: onboarding label, describes the charging limit
+"onboarding.label.set_limit_description" = "Set a maximum charging percentage to prevent keeping charge level at 100%% and improve battery longevity.";
+// CONTEXT: onboarding; label explaining that this setting can be changed later in app's settings
+"onboarding.label.set_limit_set_up_later" = "You can modify this setting later in the app's settings.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.slider.label.set
+// CONTEXT: onboarding; slider setting charging limit; "%@" if for percent value, for example 40%
+"onboarding.slider.label.set_limit" = "Turn off charging when battery will reach %@";
 // CONTEXT: tab item accessibility description
 "settings.accessibility.title.charging" = "Charging pane";
 // CONTEXT: tab item accessibility description
