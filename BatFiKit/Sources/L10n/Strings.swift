@@ -159,14 +159,26 @@ public enum L10n {
         public static let lidMustBeOpened = L10n.tr("Localizable", "settings.button.description.lid_must_be_opened", fallback: "Works only with the lid opened.")
       }
       public enum Label {
+        /// Automatically check for updates
+        public static let automaticallyCheckUpdates = L10n.tr("Localizable", "settings.button.label.automatically_check_updates", fallback: "Automatically check for updates")
+        /// Automatically download updates
+        public static let automaticallyDownloadUpdates = L10n.tr("Localizable", "settings.button.label.automatically_download_updates", fallback: "Automatically download updates")
         /// Automatically manage charging
         public static let automaticallyManageCharging = L10n.tr("Localizable", "settings.button.label.automatically_manage_charging", fallback: "Automatically manage charging")
+        /// Show battery percentage
+        public static let batteryPercentage = L10n.tr("Localizable", "settings.button.label.battery_percentage", fallback: "Show battery percentage")
         /// Charging status has changed
         public static let chargingStatusDidChange = L10n.tr("Localizable", "settings.button.label.charging_status_did_change", fallback: "Charging status has changed")
+        /// Show Debug menu
+        public static let debugMenu = L10n.tr("Localizable", "settings.button.label.debug_menu", fallback: "Show Debug menu")
         /// Delay automatic sleep when charging and the limit's not reached
         public static let disableSleep = L10n.tr("Localizable", "settings.button.label.disable_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
         /// Discharge battery when charged over limit
         public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.label.discharge_batter_when_overcharged", fallback: "Discharge battery when charged over limit")
+        /// Launch at login
+        public static let launchAtLogin = L10n.tr("Localizable", "settings.button.label.launch_at_login", fallback: "Launch at login")
+        /// Show monochrome icon
+        public static let monochromeIcon = L10n.tr("Localizable", "settings.button.label.monochrome_icon", fallback: "Show monochrome icon")
         /// Show alert when the optimized battery charging is engaged
         public static let showAlertsWhenOptimizedChargingIsEngaged = L10n.tr("Localizable", "settings.button.label.show_alerts_when_optimized_charging_is_engaged", fallback: "Show alert when the optimized battery charging is engaged")
         /// Automatically turn off charging when the battery gets hot
@@ -188,10 +200,18 @@ public enum L10n {
       public static let chargingRecommendationPart2 = L10n.tr("Localizable", "settings.label.charging_recommendation_part2", fallback: "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.")
     }
     public enum Section {
+      /// Advanced
+      public static let advanced = L10n.tr("Localizable", "settings.section.advanced", fallback: "Advanced")
       /// Alerts
       public static let alerts = L10n.tr("Localizable", "settings.section.alerts", fallback: "Alerts")
+      /// General
+      public static let general = L10n.tr("Localizable", "settings.section.general", fallback: "General")
       /// Notifications
       public static let notifications = L10n.tr("Localizable", "settings.section.notifications", fallback: "Notifications")
+      /// Status icon
+      public static let statusIcon = L10n.tr("Localizable", "settings.section.status_icon", fallback: "Status icon")
+      /// Updates
+      public static let updates = L10n.tr("Localizable", "settings.section.updates", fallback: "Updates")
     }
     public enum Slider {
       public enum Label {

@@ -25,9 +25,10 @@ struct GeneralView: View {
     @Dependency(\.updater) private var updater
 
     var body: some View {
+        let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
-            Section(title: "General") {
-                Toggle("Launch at login", isOn: $launchAtLogin)
+            Section(title: l10n.Section.general) {
+                Toggle(l10n.Button.Label.launchAtLogin, isOn: $launchAtLogin)
                     .onChange(of: launchAtLogin) { newValue in
                         if newValue {
                             try? SMAppService.mainApp.register()
@@ -36,25 +37,25 @@ struct GeneralView: View {
                         }
                     }
             }
-            Section(title: "Status Icon", bottomDivider: true) {
-                Toggle("Show monochrome icon", isOn: $monochrom)
-                Toggle("Show battery percentage", isOn: $batteryPercentage)
+            Section(title: l10n.Section.statusIcon, bottomDivider: true) {
+                Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
+                Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
 
             }
-            Section(title: "App Updates") {
-                Toggle("Automatically check for updates", isOn: $automaticallyChecksForUpdates)
+            Section(title: l10n.Section.updates) {
+                Toggle(l10n.Button.Label.automaticallyCheckUpdates, isOn: $automaticallyChecksForUpdates)
                     .onChange(of: automaticallyChecksForUpdates) { newValue in
                         updater.setAutomaticallyChecksForUpdates(newValue)
                     }
 
-                Toggle("Automatically download updates", isOn: $automaticallyDownloadsUpdates)
+                Toggle(l10n.Button.Label.automaticallyDownloadUpdates, isOn: $automaticallyDownloadsUpdates)
                     .disabled(!automaticallyChecksForUpdates)
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
             }
-            Section(title: "Advanced") {
-                Toggle("Show Debug menu", isOn: $showDebugMenu)
+            Section(title: l10n.Section.advanced) {
+                Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
             }
         }.onAppear {
             automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()

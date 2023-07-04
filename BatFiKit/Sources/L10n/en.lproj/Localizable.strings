@@ -117,13 +117,27 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.automatically
+// CONTEXT: toggle switch; automatic updates
+"settings.button.label.automatically_check_updates" = "Automatically check for updates";
+// CONTEXT: toggle switch; toggles automatic downloading of updates
+"settings.button.label.automatically_download_updates" = "Automatically download updates";
 // CONTEXT: toggle switch button; toggles battery management by the app
 "settings.button.label.automatically_manage_charging" = "Automatically manage charging";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.battery
+// CONTEXT: toggle switch button; toggles showing battery percentage in status bar
+"settings.button.label.battery_percentage" = "Show battery percentage";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.charging
 // CONTEXT: toggle switch button that enables notifications when charging status changed
 "settings.button.label.charging_status_did_change" = "Charging status has changed";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.debug
+// CONTEXT: toggle switch; toggles showing debug menu
+"settings.button.label.debug_menu" = "Show Debug menu";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.disable
@@ -134,6 +148,16 @@
 // MARK: Settings.button.label.discharge
 // CONTEXT: toggle switch that toggles discharging battery when charged over limit
 "settings.button.label.discharge_batter_when_overcharged" = "Discharge battery when charged over limit";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.launch
+// CONTEXT: toggle switch; launch at login
+"settings.button.label.launch_at_login" = "Launch at login";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.monochrome
+// CONTEXT: toggle switch; toggles monochrome button in the status bar
+"settings.button.label.monochrome_icon" = "Show monochrome icon";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.show
@@ -166,10 +190,21 @@
 "settings.label.charging_recommendation_part1" = "80%% is the recommended value for a day-to-day usage.";
 // CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part2" = "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.";
+// CONTEXT: section title in the general tab
+"settings.section.advanced" = "Advanced";
 // CONTEXT: section title in the notifications tab
 "settings.section.alerts" = "Alerts";
+// CONTEXT: section title in the general tab
+"settings.section.general" = "General";
 // CONTEXT: section name in the notifications tab in settings
 "settings.section.notifications" = "Notifications";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.section.status
+// CONTEXT: section title in the general tab
+"settings.section.status_icon" = "Status icon";
+// CONTEXT: section title in the general tab
+"settings.section.updates" = "Updates";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.slider.label.turn

@@ -117,13 +117,27 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.automatically
+// CONTEXT: toggle switch; automatic updates
+"settings.button.label.automatically_check_updates" = "Automatycznie sprawdzaj uaktualnienia";
+// CONTEXT: toggle switch; toggles automatic downloading of updates
+"settings.button.label.automatically_download_updates" = "Automatycznie pobieraj uaktualnienia";
 // CONTEXT: toggle switch button; toggles battery management by the app
 "settings.button.label.automatically_manage_charging" = "Automatycznie zarządzaj ładowaniem";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.battery
+// CONTEXT: toggle switch button; toggles showing battery percentage in status bar
+"settings.button.label.battery_percentage" = "Pokazuj procent baterii";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.charging
 // CONTEXT: toggle switch button that enables notifications when charging status changed
 "settings.button.label.charging_status_did_change" = "Pokaż powiadomienia gdy tryb ładowania się zmienił";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.debug
+// CONTEXT: toggle switch; toggles showing debug menu
+"settings.button.label.debug_menu" = "Pokazuj menu do debugowania";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.disable
@@ -134,6 +148,16 @@
 // MARK: Settings.button.label.discharge
 // CONTEXT: toggle switch that toggles discharging battery when charged over limit
 "settings.button.label.discharge_batter_when_overcharged" = "Rozładuj baterię do osiągnięcia limitu ładowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.launch
+// CONTEXT: toggle switch; launch at login
+"settings.button.label.launch_at_login" = "Uruchom podczas logowania";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.button.label.monochrome
+// CONTEXT: toggle switch; toggles monochrome button in the status bar
+"settings.button.label.monochrome_icon" = "Używaj monochromatycznej ikony";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.button.label.show
@@ -166,10 +190,21 @@
 "settings.label.charging_recommendation_part1" = "80%% to rekomendowany limit ładowania podczas normalnego użytkowania.";
 // CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part2" = "Zawsze możesz naładować komputer używając polecenia \"Naładuj do 100%%\" z menu.";
+// CONTEXT: section title in the general tab
+"settings.section.advanced" = "Zaawansowane";
 // CONTEXT: section title in the notifications tab
 "settings.section.alerts" = "Alerty";
+// CONTEXT: section title in the general tab
+"settings.section.general" = "Ogólne";
 // CONTEXT: section name in the notifications tab in settings
 "settings.section.notifications" = "Powiadomienia";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Settings.section.status
+// CONTEXT: section title in the general tab
+"settings.section.status_icon" = "Ikona statusu";
+// CONTEXT: section title in the general tab
+"settings.section.updates" = "Uaktualnienia";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Settings.slider.label.turn
