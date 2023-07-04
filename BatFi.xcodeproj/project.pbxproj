@@ -70,6 +70,7 @@
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
 		5B22A36C2A4385DC00252930 /* license.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = license.pdf; sourceTree = "<group>"; };
 		5B2836D82A05A6F000A42566 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		5B31C86A2A549C1F00D0EB3A /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		5B68B9DF29FC0F11008AF5FD /* BatFiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BatFiKit; sourceTree = "<group>"; };
 		5B69E6E429EB67F70010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -242,6 +243,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				pl,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -334,6 +336,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				5BD6D3D12A4CDB3300575C43 /* en */,
+				5B31C86A2A549C1F00D0EB3A /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 			baseConfigurationReference = 5BB80D4829E9EF6600186827 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -435,6 +439,7 @@
 			baseConfigurationReference = 5BB80D4829E9EF6600186827 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

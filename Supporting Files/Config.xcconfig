@@ -13,6 +13,6 @@ HELPER_TOOL_BUNDLE_IDENTIFIER = $(APP_BUNDLE_IDENTIFIER).Helper
 
 // The app's version needs to be defined at the project level so the helper tool can encode this as a code requirement
 // mitigate downgrade attacks. See README for details.
-APP_VERSION = 1.1.0
+APP_VERSION = 1.2.0
 
 HELPER_NAME = BatFiHelper
