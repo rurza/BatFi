@@ -39,6 +39,7 @@ struct Onboarding: View {
 
     var body: some View {
         let l10n = L10n.Onboarding.self
+        let alertL10n = L10n.Onboarding.Alert.self
         VStack {
             PageView(
                 numberOfPages: OnboardingScreen.allCases.count,
@@ -86,24 +87,18 @@ struct Onboarding: View {
             repetitionInterval: 0.7
         )
         .alert(
-            "Helper (still) not installed",
+            alertL10n.Title.helperNotInstalled,
             isPresented: Binding<Bool>(
                 get: { model.helperError != nil },
                 set: { _ in model.helperError = nil }
             ),
             actions: {
-                Button("Open System Settings", role: .cancel) {
+                Button(alertL10n.Button.Label.openSystemSettings, role: .cancel) {
                     NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
                 }
             },
             message: {
-                Text(
-"""
-It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.
-You can always change permissions in the System Settings.
-Please keep in mind that the app won't work without the helper tool.
-"""
-                )
+                Text(alertL10n.Message.helperNotInstalled)
             }
         )
         .edgesIgnoringSafeArea(.top)

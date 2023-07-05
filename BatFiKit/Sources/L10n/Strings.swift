@@ -143,6 +143,24 @@ public enum L10n {
     }
   }
   public enum Onboarding {
+    public enum Alert {
+      public enum Button {
+        public enum Label {
+          /// Open System Settings
+          public static let openSystemSettings = L10n.tr("Localizable", "onboarding.alert.button.label.open_system_settings", fallback: "Open System Settings")
+        }
+      }
+      public enum Message {
+        /// It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.
+        /// You can always change permissions in the System Settings.
+        /// Please keep in mind that the app won't work without the helper tool.
+        public static let helperNotInstalled = L10n.tr("Localizable", "onboarding.alert.message.helper_not_installed", fallback: "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.")
+      }
+      public enum Title {
+        /// Helper (still) not installed
+        public static let helperNotInstalled = L10n.tr("Localizable", "onboarding.alert.title.helper_not_installed", fallback: "Helper (still) not installed")
+      }
+    }
     public enum Button {
       public enum Label {
         /// Complete
@@ -151,6 +169,8 @@ public enum L10n {
         public static let getStarted = L10n.tr("Localizable", "onboarding.button.label.get_started", fallback: "Get started")
         /// Install helper
         public static let installHelper = L10n.tr("Localizable", "onboarding.button.label.install_helper", fallback: "Install helper")
+        /// Launch BatFi at login
+        public static let launchAtLogin = L10n.tr("Localizable", "onboarding.button.label.launch_at_login", fallback: "Launch BatFi at login")
         /// Next
         public static let next = L10n.tr("Localizable", "onboarding.button.label.next", fallback: "Next")
         /// Previous
@@ -158,10 +178,22 @@ public enum L10n {
       }
     }
     public enum Label {
+      /// Almost done.
+      public static let almostDone = L10n.tr("Localizable", "onboarding.label.almost_done", fallback: "Almost done.")
       /// BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100%% only when it's needed.
       public static let appDescription = L10n.tr("Localizable", "onboarding.label.app_description", fallback: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100%% only when it's needed.")
+      /// The app is ready to use!
+      public static let appIsReady = L10n.tr("Localizable", "onboarding.label.app_is_ready", fallback: "The app is ready to use!")
+      /// Done.
+      public static let done = L10n.tr("Localizable", "onboarding.label.done", fallback: "Done.")
       /// Extend the life of your Mac.
       public static let extendLife = L10n.tr("Localizable", "onboarding.label.extend_life", fallback: "Extend the life of your Mac.")
+      /// BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.
+      public static let helperDescription = L10n.tr("Localizable", "onboarding.label.helper_description", fallback: "BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.")
+      /// Installing the helper tool requires admin permissions and is essential for BatFi's functionality.
+      public static let helperRequiresAdmin = L10n.tr("Localizable", "onboarding.label.helper_requires_admin", fallback: "Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
+      /// Recommended. You can change it later in the app's settings.
+      public static let launchAtLoginRecommendation = L10n.tr("Localizable", "onboarding.label.launch_at_login_recommendation", fallback: "Recommended. You can change it later in the app's settings.")
       /// Set Charging Limit.
       public static let setLimit = L10n.tr("Localizable", "onboarding.label.set_limit", fallback: "Set Charging Limit.")
       /// Set a maximum charging percentage to prevent keeping charge level at 100%% and improve battery longevity.

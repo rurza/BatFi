@@ -8,6 +8,7 @@
 import Foundation
 import Defaults
 import DefaultsKeys
+import L10n
 import SwiftUI
 
 struct InstallHelperView: View {
@@ -16,29 +17,30 @@ struct InstallHelperView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            let l10n = L10n.Onboarding.self
             AVPlayerViewRepresented(player: model.player)
                 .edgesIgnoringSafeArea(.all)
                 .frame(maxWidth: .infinity)
                 .aspectRatio(1.33333, contentMode: .fill)
             VStack(alignment: .leading, spacing: 10) {
-                Text(model.onboardingIsFinished ? "Done" : "Almost done.")
+                Text(model.onboardingIsFinished ? l10n.Label.done : l10n.Label.almostDone)
                 .font(.system(size: 24, weight: .bold))
                 .animation(.default, value: model.onboardingIsFinished)
                 ZStack(alignment: .topLeading) {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.")
-                        Text("Installing the helper tool requires admin permissions and is essential for BatFi's functionality.")
+                        Text(l10n.Label.helperDescription)
+                        Text(l10n.Label.helperRequiresAdmin)
                             .foregroundStyle(.secondary)
                     }
                     .opacity(model.onboardingIsFinished ? 0 : 1)
-                    Text("The app is ready to use!")
+                    Text(l10n.Label.appIsReady)
                         .foregroundStyle(.secondary)
                         .opacity(model.onboardingIsFinished ? 1 : 0)
                 }
                 Spacer()
-                Toggle("Launch BatFi at login", isOn: $launchAtLogin)
+                Toggle(l10n.Button.Label.launchAtLogin, isOn: $launchAtLogin)
                     .padding(.bottom, -5)
-                Text("Recommended. You can change it later in app's settings.")
+                Text(l10n.Label.launchAtLoginRecommendation)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading) // required, otherwise it will render in center, SwiftUI bug
             }

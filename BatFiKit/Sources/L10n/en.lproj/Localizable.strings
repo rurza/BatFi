@@ -103,6 +103,21 @@
 // MARK: Notifications.notification.subtitle.new
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "New mode: %@";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.alert.button.label.open
+// CONTEXT: alert button; the app shows the altert when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed; the button will open system settings
+"onboarding.alert.button.label.open_system_settings" = "Open System Settings";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.alert.message.helper
+// CONTEXT: alert message; the app shows it when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
+"onboarding.alert.message.helper_not_installed" = "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.alert.title.helper
+// CONTEXT: alert that app shows when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
+"onboarding.alert.title.helper_not_installed" = "Helper (still) not installed";
 // CONTEXT: onboarding button title; showed when the onboarding is done
 "onboarding.button.label.complete" = "Complete";
 
@@ -115,20 +130,46 @@
 // MARK: Onboarding.button.label.install
 // CONTEXT: Onboarding button title; will install helper tool that allows to control battery
 "onboarding.button.label.install_helper" = "Install helper";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.button.label.launch
+// CONTEXT: Onboarding toggle switch button; Launch BatFi at login
+"onboarding.button.label.launch_at_login" = "Launch BatFi at login";
 // CONTEXT: onboarding button title
 "onboarding.button.label.next" = "Next";
 // CONTEXT: Onboarding button title
 "onboarding.button.label.previous" = "Previous";
 
 ////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.almost
+// CONTEXT: onboarding; header 
+"onboarding.label.almost_done" = "Almost done.";
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.app
 // CONTEXT: onboarding; basic app description on the first screen. Please remember that "%" is a special character, so you must use it twice to see actual "%" in the app
 "onboarding.label.app_description" = "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100%% only when it's needed.";
+// CONTEXT: onboarding label, showed when the app is successfully configured
+"onboarding.label.app_is_ready" = "The app is ready to use!";
+// CONTEXT: onboarding label, header
+"onboarding.label.done" = "Done.";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.extend
 // CONTEXT: first screen in the onboarding, a header
 "onboarding.label.extend_life" = "Extend the life of your Mac.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.helper
+// CONTEXT: onboarding label; describing why helper is needed
+"onboarding.label.helper_description" = "BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.";
+// CONTEXT: onboarding label, describes the installation of helper requires admin
+"onboarding.label.helper_requires_admin" = "Installing the helper tool requires admin permissions and is essential for BatFi's functionality.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.launch
+// CONTEXT: onboarding label; recommending turning on launch at login
+"onboarding.label.launch_at_login_recommendation" = "Recommended. You can change it later in the app's settings.";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.set

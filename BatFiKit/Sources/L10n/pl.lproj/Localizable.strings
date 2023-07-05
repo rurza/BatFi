@@ -103,6 +103,21 @@
 // MARK: Notifications.notification.subtitle.new
 // CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "Nowy tryb: %@";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.alert.button.label.open
+// CONTEXT: alert button; the app shows the altert when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed; the button will open system settings
+"onboarding.alert.button.label.open_system_settings" = "Otwórz Ustawienia systemu";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.alert.message.helper
+// CONTEXT: alert message; the app shows it when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
+"onboarding.alert.message.helper_not_installed" = "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok – czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.alert.title.helper
+// CONTEXT: alert that app shows when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
+"onboarding.alert.title.helper_not_installed" = "Helper (wciąż) nie jest zainstalowany";
 // CONTEXT: onboarding button title; showed when the onboarding is done
 "onboarding.button.label.complete" = "Gotowe";
 
@@ -115,20 +130,46 @@
 // MARK: Onboarding.button.label.install
 // CONTEXT: Onboarding button title; will install helper tool that allows to control battery
 "onboarding.button.label.install_helper" = "Zainstaluj helper";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.button.label.launch
+// CONTEXT: Onboarding toggle switch button; Launch BatFi at login
+"onboarding.button.label.launch_at_login" = "Uruchom podczas logowania";
 // CONTEXT: onboarding button title
 "onboarding.button.label.next" = "Następny";
 // CONTEXT: Onboarding button title
 "onboarding.button.label.previous" = "Poprzedni";
 
 ////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.almost
+// CONTEXT: onboarding; header 
+"onboarding.label.almost_done" = "Prawie gotowe.";
+
+////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.app
 // CONTEXT: onboarding; basic app description on the first screen. Please remember that "%" is a special character, so you must use it twice to see actual "%" in the app
 "onboarding.label.app_description" = "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę – wciąż możesz ładować baterię do 100%% gdy potrzeba.";
+// CONTEXT: onboarding label, showed when the app is successfully configured
+"onboarding.label.app_is_ready" = "Apka jest gotowa do działania!";
+// CONTEXT: onboarding label, header
+"onboarding.label.done" = "Gotowe.";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.extend
 // CONTEXT: first screen in the onboarding, a header
 "onboarding.label.extend_life" = "Przedłuż życie swojego Maca.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.helper
+// CONTEXT: onboarding label; describing why helper is needed
+"onboarding.label.helper_description" = "BatFi zainstaluje helper, który będzie działał w tle i ma możliwość zmiany trybu ładowania Twojego komputera.";
+// CONTEXT: onboarding label, describes the installation of helper requires admin
+"onboarding.label.helper_requires_admin" = "Instalacja helpera wymaga uprawnień administratora i jest niezbędna dla działania BatFi.";
+
+////////////////////////////////////////////////////////////////////////////////
+// MARK: Onboarding.label.launch
+// CONTEXT: onboarding label; recommending turning on launch at login
+"onboarding.label.launch_at_login_recommendation" = "Zalecane. Możesz to zmienić później w ustawieniach aplikacji.";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.set
