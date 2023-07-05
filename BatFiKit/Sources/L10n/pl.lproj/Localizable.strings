@@ -136,9 +136,9 @@
 // CONTEXT: Onboarding toggle switch button; Launch BatFi at login
 "onboarding.button.label.launch_at_login" = "Uruchom podczas logowania";
 // CONTEXT: onboarding button title
-"onboarding.button.label.next" = "Następny";
+"onboarding.button.label.next" = "Dalej";
 // CONTEXT: Onboarding button title
-"onboarding.button.label.previous" = "Poprzedni";
+"onboarding.button.label.previous" = "Wstecz";
 
 ////////////////////////////////////////////////////////////////////////////////
 // MARK: Onboarding.label.almost

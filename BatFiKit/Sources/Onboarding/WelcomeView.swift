@@ -20,8 +20,10 @@ struct WelcomeView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text(l10n.extendLife)
                     .font(.system(size: 24, weight: .bold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Text(l10n.appDescription)
                     .padding(.bottom, 30)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding(20)
