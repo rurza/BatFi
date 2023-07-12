@@ -46,17 +46,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
 
     public var description: String {
         """
-PowerState
-- is charging: \(isCharging),
-- battery level: \(batteryLevel),
-- power source: \(powerSource),
-- time left: \(timeLeft)
-- time to charge: \(timeToCharge)
-- cycle count: \(batteryCycleCount)
-- battery capacity: \(batteryCapacity)
-- battery temperature: \(batteryTemperature)°C
-- charger connected: \(chargerConnected)
-- optimized battery charging engaged: \(optimizedBatteryChargingEngaged)
+PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft), time to charge: \(timeToCharge), cycle count: \(batteryCycleCount), battery capacity: \(batteryCapacity), battery temperature: \(batteryTemperature)°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(optimizedBatteryChargingEngaged)
 """
     }
 }

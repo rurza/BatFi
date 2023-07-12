@@ -19,10 +19,12 @@ import StatusItemArrowKit
 public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelegate {
     private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var settingsController = SettingsController()
+    private lazy var persistenceManager = PersistenceManager()
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
     private var statusItemIconController: StatusItemIconController?
+
     private weak var aboutWindow: NSWindow?
     private weak var onboardingWindow: OnboardingWindow?
     private weak var arrowWindow: ArrowWindow?
@@ -49,6 +51,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         statusItemIconController = StatusItemIconController(statusItem: statusItem)
         menuController = MenuController(statusItem: statusItem)
         chargingManager.setUpObserving()
+        persistenceManager.setUpObserving()
         menuController?.delegate = self
         notificationsManager = NotificationsManager()
     }

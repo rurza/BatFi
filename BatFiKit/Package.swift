@@ -19,6 +19,8 @@ extension Target.Dependency {
     static let appShared: Self = "AppShared"
     static let clients: Self = "Clients"
     static let defaultsKeys: Self = "DefaultsKeys"
+    static let persistence: Self = "Persistence"
+    static let shared: Self = "Shared"
 }
 
 let package = Package(
@@ -80,13 +82,13 @@ let package = Package(
         .target(name: "AppCore", dependencies: [
             "BatteryInfo",
             "Settings",
-            "Shared",
             .appShared,
             .clients,
             .defaultsKeys,
             .dependencies,
             .l10n,
             .asyncAlgorithms,
+            .shared,
             .snapKit
         ]),
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
@@ -111,22 +113,23 @@ let package = Package(
         .target(
             name: "Clients",
             dependencies: [
-                "Shared",
                 .appShared,
-                .dependencies
+                .dependencies,
+                .shared
             ]
         ),
         .target(
             name: "ClientsLive",
             dependencies: [
-                "Shared",
                 .appShared,
                 .asyncAlgorithms,
                 .clients,
                 .defaults,
                 .defaultsKeys,
                 .dependencies,
+                .persistence,
                 .secureXPC,
+                .shared,
                 .sparkle
             ]
         ),
@@ -157,10 +160,18 @@ let package = Package(
                 .l10n
             ]
         ),
+        .target(
+            name: "Persistence",
+            dependencies: [
+                .appShared,
+                .dependencies,
+                .shared
+            ]
+        ),
         .target(name: "Server", dependencies: [
-            "Shared",
             .embeddedPropertyList,
-            .secureXPC
+            .secureXPC,
+            .shared
         ]),
         .target(name: "Settings", dependencies: [
             .appShared,
