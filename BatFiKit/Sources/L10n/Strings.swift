@@ -169,8 +169,8 @@ public enum L10n {
         public static let getStarted = L10n.tr("Localizable", "onboarding.button.label.get_started", fallback: "Get started")
         /// Install helper
         public static let installHelper = L10n.tr("Localizable", "onboarding.button.label.install_helper", fallback: "Install helper")
-        /// Launch BatFi at login
-        public static let launchAtLogin = L10n.tr("Localizable", "onboarding.button.label.launch_at_login", fallback: "Launch BatFi at login")
+        /// Open BatFi at login
+        public static let launchAtLogin = L10n.tr("Localizable", "onboarding.button.label.launch_at_login", fallback: "Open BatFi at login")
         /// Next
         public static let next = L10n.tr("Localizable", "onboarding.button.label.next", fallback: "Next")
         /// Previous
@@ -243,8 +243,8 @@ public enum L10n {
         public static let disableSleep = L10n.tr("Localizable", "settings.button.label.disable_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
         /// Discharge battery when charged over limit
         public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.label.discharge_batter_when_overcharged", fallback: "Discharge battery when charged over limit")
-        /// Launch at login
-        public static let launchAtLogin = L10n.tr("Localizable", "settings.button.label.launch_at_login", fallback: "Launch at login")
+        /// Open at login
+        public static let launchAtLogin = L10n.tr("Localizable", "settings.button.label.launch_at_login", fallback: "Open at login")
         /// Show monochrome icon
         public static let monochromeIcon = L10n.tr("Localizable", "settings.button.label.monochrome_icon", fallback: "Show monochrome icon")
         /// Show alert when the optimized battery charging is engaged

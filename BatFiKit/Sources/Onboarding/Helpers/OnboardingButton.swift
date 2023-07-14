@@ -36,7 +36,7 @@ struct OnboardingButtonStyle: ButtonStyle {
             .fontWeight(.bold)
             .foregroundColor(.white)
             .frame(minWidth: 80)
-            .padding(.horizontal, 18)
+            .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(derivedBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))

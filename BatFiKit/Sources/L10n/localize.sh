@@ -15,8 +15,7 @@ fi
 PROJECT_ID="629883"
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 
-#"ja"
-languages=("en" "pl")
+languages=("en" "pl" "ja")
 for language in "${languages[@]}"
 do
     mkdir $language.lproj
