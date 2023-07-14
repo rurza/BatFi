@@ -71,6 +71,7 @@
 		5B22A36C2A4385DC00252930 /* license.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = license.pdf; sourceTree = "<group>"; };
 		5B2836D82A05A6F000A42566 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		5B31C86A2A549C1F00D0EB3A /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5B36944D2A5F5612001311F0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		5B68B9DF29FC0F11008AF5FD /* BatFiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BatFiKit; sourceTree = "<group>"; };
 		5B69E6E429EB67F70010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 			knownRegions = (
 				en,
 				pl,
+				ja,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -337,6 +339,7 @@
 			children = (
 				5BD6D3D12A4CDB3300575C43 /* en */,
 				5B31C86A2A549C1F00D0EB3A /* pl */,
+				5B36944D2A5F5612001311F0 /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
