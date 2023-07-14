@@ -26,16 +26,18 @@ extension PowerSourceClient: DependencyKey {
                     } else {
                         logger.warning("Can't get the current power source info")
                     }
-                    observer.handlers.append(
-                        {
-                            if let powerState = try? getPowerSourceInfo() {
-                                logger.debug("Power state did change: \(powerState, privacy: .public)")
-                                continuation.yield(powerState)
-                            } else {
-                                logger.error("New power state, but there is an info missing")
-                            }
+                    let id = UUID()
+                    observer.addHandler(id) {
+                        if let powerState = try? getPowerSourceInfo() {
+                            logger.debug("Power state did change: \(powerState, privacy: .public)")
+                            continuation.yield(powerState)
+                        } else {
+                            logger.error("New power state, but there is an info missing")
                         }
-                    )
+                    }
+                    continuation.onTermination = { _ in
+                        observer.removeHandler(id)
+                    }
                 }
             },
             currentPowerSourceState: {
@@ -49,8 +51,9 @@ extension PowerSourceClient: DependencyKey {
     }()
 
     private class Observer {
-        let logger: Logger
-        var handlers = [() -> Void]()
+        private let logger: Logger
+        private var handlers = [UUID : () -> Void]()
+        private lazy var handlersQueue = DispatchQueue(label: "software.micropixels.BatFi.PowerSourceClient.Observer")
 
         init(logger: Logger) {
             self.logger = logger
@@ -74,7 +77,21 @@ extension PowerSourceClient: DependencyKey {
 
         func updateBatteryState() {
             logger.debug("New power state")
-            handlers.forEach { $0() }
+            handlersQueue.async { [weak self] in
+                self?.handlers.values.forEach { $0() }
+            }
+        }
+
+        func removeHandler(_ id: UUID) {
+            handlersQueue.async(group: nil, qos: .utility, flags: .barrier) { [weak self] in
+                self?.handlers.removeValue(forKey: id)
+            }
+        }
+
+        func addHandler(_ id: UUID, _ handler: @escaping () -> Void) {
+            handlersQueue.async(group: nil, qos: .utility, flags: .barrier) { [weak self] in
+                self?.handlers[id] = handler
+            }
         }
     }
 }
