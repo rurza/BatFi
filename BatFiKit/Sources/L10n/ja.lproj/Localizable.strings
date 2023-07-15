@@ -1,38 +1,17 @@
-/*******************************************************************************
- * Exported from POEditor - https://poeditor.com
- *******************************************************************************/
-
-// CONTEXT: Button title that will open PDF with a license
 "about.button.label.license" = "ライセンス";
-// CONTEXT: button title that will open author's twitter profile
 "about.button.label.twitter" = "Twitter";
-// CONTEXT: button title
 "about.button.label.website" = "Webサイト";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: About.label.about
-// CONTEXT: About Window, below it there a logotype of my company, so it's important that it makes sense
 "about.label.about_description" = "Made with ❤️ and 🔋 by";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: App
-// CONTEXT: %@ is the percentage of battery, for example "80%"
 "app_charging_mode.state.description.charging" = "制限は%@です。";
-// CONTEXT: keep in mind that "%" is a special symbol in localized strings, so you must provide it twice to be visible in app
 "app_charging_mode.state.description.force_charge" = "100%まで充電する";
 "app_charging_mode.state.description.force_discharge" = "バッテリーを使う。";
-// CONTEXT: %@ is the percentage of battery, for example "80%"
 "app_charging_mode.state.description.inhibit" = "充電制限は%@に設定されています。";
 "app_charging_mode.state.title.charger_not_connected" = "充電器が未接続です";
 "app_charging_mode.state.title.charging" = "限界まで充電する";
 "app_charging_mode.state.title.force_charge" = "充電中";
 "app_charging_mode.state.title.force_discharge" = "放電中";
 "app_charging_mode.state.title.inhibit" = "充電の抑制";
-// CONTEXT: App charging mode short description
 "app_charging_mode.state.title.initial" = "初期化";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Battery
 "battery_info.label.additional.app_mode" = "充電モード";
 "battery_info.label.additional.battery_capacity" = "バッテリー状態";
 "battery_info.label.additional.cycle_count" = "充電回数";
@@ -40,260 +19,75 @@
 "battery_info.label.additional.temperature" = "温度";
 "battery_info.label.info_missing" = "情報が見つかりません";
 "battery_info.label.main.battery" = "バッテリー";
-// CONTEXT: Time left/ time to charge label when the exact isn't known and the system is calculating duration
 "battery_info.label.main.time.calculating" = "計算中";
-// CONTEXT: Time left/ time to charge label
 "battery_info.label.main.time.time_left" = "残り時間";
-// CONTEXT: Time left/ time to charge label in the main menu
 "battery_info.label.main.time.time_to_charge" = "充電時間";
-// CONTEXT: menu command, notice ellipsis instead of 3 periods
 "menu.label.batfi" = "BatFi…";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.charge
-// CONTEXT: menu command, % is a special character in localized strings, so it must be used twice, for example: "100%%" to see "100%"
 "menu.label.charge_to_hundred" = "100%まで充電";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.check
-// CONTEXT: menu command, notice ellipsis instead of 3 periods
 "menu.label.check_for_updates" = "アップデートを確認";
 "menu.label.debug" = "デバッグ";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.install
-// CONTEXT: menu command
 "menu.label.install_helper" = "ヘルパーをインストール";
-// CONTEXT: menu command
 "menu.label.more" = "詳細";
-// CONTEXT: menu command, notice ellipsis instead of 3 periods
 "menu.label.onboarding" = "オンボーディング";
-// CONTEXT: menu command
 "menu.label.quit" = "BatFiを終了する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.remove
-// CONTEXT: menu command
 "menu.label.remove_helper" = "ヘルパーをアンインストール";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.reset
-// CONTEXT: menu command, reset all settings to the default state
 "menu.label.reset_settings" = "設定をリセット";
-// CONTEXT: menu command, remember to use ellipsis (…) instead of 3 periods
 "menu.label.settings" = "アプリの設定を開く";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.stop
-// CONTEXT: menu command, remember to use double "%%"
 "menu.label.stop_charging_to_hundred" = "100%%に充電を停止する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.tooltip.charge
-// CONTEXT: "Charge to 100%" command tooltip explaining why it's disabled
 "menu.tooltip.charge_to_hundred.charger_not_connected" = "充電器が接続されていないため無効になっています";
-// CONTEXT: "Charge to 100%" command tooltip explaining why it's disabled
 "menu.tooltip.charge_to_hundred.discharge_turned_on" = "「制限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Notifications.alert.title.optimized
 "notifications.alert.title.optimized_charging_turned_on" = "最適化されたバッテリー充電がオンになっています";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Notifications.notification.subtitle.new
-// CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "新しいモード: %@";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.alert.button.label.open
-// CONTEXT: alert button; the app shows the altert when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed; the button will open system settings
 "onboarding.alert.button.label.open_system_settings" = "システム設定を開く";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.alert.message.helper
-// CONTEXT: alert message; the app shows it when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
 "onboarding.alert.message.helper_not_installed" = "ヘルパーにパーミッションを与えていないようです。パスワード/Touch IDのプロンプトが表示されなかったのなら、それは問題ありません。macOSのバグで、時々起こります。\nシステム設定でいつでも権限を変更できます。ヘルパーツールがないとアプリは動作しないことを覚えておいてください。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.alert.title.helper
-// CONTEXT: alert that app shows when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
 "onboarding.alert.title.helper_not_installed" = "ヘルパーがインストールされていません。";
-// CONTEXT: onboarding button title; showed when the onboarding is done
 "onboarding.button.label.complete" = "コンプリート";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.button.label.get
-// CONTEXT: Get started button title in the onboarding
 "onboarding.button.label.get_started" = "始める";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.button.label.install
-// CONTEXT: Onboarding button title; will install helper tool that allows to control battery
 "onboarding.button.label.install_helper" = "ヘルパーをインストール";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.button.label.launch
-// CONTEXT: Onboarding toggle switch button; Launch BatFi at login
 "onboarding.button.label.launch_at_login" = "ログイン時にBatFiを開く";
-// CONTEXT: onboarding button title
 "onboarding.button.label.next" = "次へ";
-// CONTEXT: Onboarding button title
 "onboarding.button.label.previous" = "前へ";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.almost
-// CONTEXT: onboarding; header 
 "onboarding.label.almost_done" = "もう少し";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.app
-// CONTEXT: onboarding; basic app description on the first screen. Please remember that "%" is a special character, so you must use it twice to see actual "%" in the app
 "onboarding.label.app_description" = "BatFiは、必要な時のみ100%%まで充電することでmacOSのバッテリーパフォーマンスを最適化することができます。";
-// CONTEXT: onboarding label, showed when the app is successfully configured
 "onboarding.label.app_is_ready" = "アプリはすぐに使えます！";
-// CONTEXT: onboarding label, header
 "onboarding.label.done" = "完了";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.extend
-// CONTEXT: first screen in the onboarding, a header
 "onboarding.label.extend_life" = "Macのバッテリー寿命を延ばしましょう。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.helper
-// CONTEXT: onboarding label; describing why helper is needed
 "onboarding.label.helper_description" = "BatFiは、バックグラウンドで動作し、コンピュータの充電モードを変更することができるヘルパーツールをインストールします。";
-// CONTEXT: onboarding label, describes the installation of helper requires admin
 "onboarding.label.helper_requires_admin" = "ヘルパーはBatFiを適切に機能させるために不可欠です。インストールには管理者権限が求められます。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.launch
-// CONTEXT: onboarding label; recommending turning on launch at login
 "onboarding.label.launch_at_login_recommendation" = "推奨設定です。後でアプリの設定で変更できます。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.set
-// CONTEXT: onboarding label, header
 "onboarding.label.set_limit" = "充電制限を設定します。";
-// CONTEXT: onboarding label, describes the charging limit
 "onboarding.label.set_limit_description" = "バッテリーの寿命を伸ばすために、充電が100%%のままになるのを防ぎましょう。そのために最大充電率を設定します。";
-// CONTEXT: onboarding; label explaining that this setting can be changed later in app's settings
 "onboarding.label.set_limit_set_up_later" = "この設定は、後でアプリの設定で変更できます。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.slider.label.set
-// CONTEXT: onboarding; slider setting charging limit; "%@" if for percent value, for example 40%
 "onboarding.slider.label.set_limit" = "バッテリーが%@に達したら充電をオフにする";
-// CONTEXT: tab item accessibility description
 "settings.accessibility.title.charging" = "充電パネル";
-// CONTEXT: tab item accessibility description
 "settings.accessibility.title.general" = "一般パネル";
-// CONTEXT: tab item accessibility description
 "settings.accessibility.title.notifications" = "通知パネル";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.description.lid
-// CONTEXT: label below the toggle button that toggles discharging when battery is charged over limit
 "settings.button.description.lid_must_be_opened" = "蓋を開けた状態でのみ動作します。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.automatically
-// CONTEXT: toggle switch; automatic updates
 "settings.button.label.automatically_check_updates" = "更新を自動的にチェックする";
-// CONTEXT: toggle switch; toggles automatic downloading of updates
 "settings.button.label.automatically_download_updates" = "アップデートを自動的にダウンロードする";
-// CONTEXT: toggle switch button; toggles battery management by the app
 "settings.button.label.automatically_manage_charging" = "充電を自動的に管理する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.battery
-// CONTEXT: toggle switch button; toggles showing battery percentage in status bar
 "settings.button.label.battery_percentage" = "バッテリーの残量パーセントを表示";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.charging
-// CONTEXT: toggle switch button that enables notifications when charging status changed
 "settings.button.label.charging_status_did_change" = "充電ステータスが変わった時に通知する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.debug
-// CONTEXT: toggle switch; toggles showing debug menu
 "settings.button.label.debug_menu" = "デバッグメニューを表示";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.disable
-// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit
 "settings.button.label.disable_sleep" = "充電時に自動スリープを遅らせ、過充電を避ける";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.discharge
-// CONTEXT: toggle switch that toggles discharging battery when charged over limit
 "settings.button.label.discharge_batter_when_overcharged" = "制限を超えて充電されたときにバッテリーを放電する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.launch
-// CONTEXT: toggle switch; launch at login
 "settings.button.label.launch_at_login" = "ログイン時に起動する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.monochrome
-// CONTEXT: toggle switch; toggles monochrome button in the status bar
 "settings.button.label.monochrome_icon" = "モノクロのアイコンを表示";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.show
-// CONTEXT: toggle switch button; when on the app will show modal alert telling the user to turn off macOS' built-in "optimized battery charging feature"
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "バッテリー充電の最適化が作動しているときにアラートを表示する";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.turn
-// CONTEXT: toggle switch label, toggles charging when batter gets hot
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "バッテリーが熱くなったら、自動的に充電をオフにする";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.tooltip.disable
-// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit; tooltip explaining more details
 "settings.button.tooltip.disable_sleep" = "このアプリはコンピュータが充電限界まで充電するのを遅らせ、その後、充電を停止し、Macをスリープ状態にします。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.tooltip.discharge
-// CONTEXT: tooltip when hovering toggle button that toggles discharging battery when it's charged over limit
 "settings.button.tooltip.discharge_batter_when_overcharged" = "Macbookの蓋を開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.tooltip.turn
-// CONTEXT: toggle button, tooltip that explain more details
 "settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "バッテリーが35°C以上の場合、充電をオフにします。";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.label.charging
-// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part1" = "推奨される値は 80%% です。";
-// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part2" = "メニューバーから「100%%まで充電する」を使用して、この設定を手動で書き換えることができます。";
-// CONTEXT: section title in the general tab
 "settings.section.advanced" = "開発者向け";
-// CONTEXT: section title in the notifications tab
 "settings.section.alerts" = "アラート";
-// CONTEXT: section title in the general tab
 "settings.section.general" = "一般";
-// CONTEXT: section name in the notifications tab in settings
 "settings.section.notifications" = "通知";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.section.status
-// CONTEXT: section title in the general tab
 "settings.section.status_icon" = "メニューバー";
-// CONTEXT: section title in the general tab
 "settings.section.updates" = "アップデート";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.slider.label.turn
-// CONTEXT: label next to the slider that sets the limit when battery charging will stop, "%@" will contain the charging limit, ie "80%"
 "settings.slider.label.turn_off_charging_at" = "バッテリーが%@に達したら充電をオフにする";
-// CONTEXT: Tab name in the settings
 "settings.tab.title.charging" = "充電";
-// CONTEXT: Tab name in the settings
 "settings.tab.title.general" = "一般";
-// CONTEXT: tab name in the settings
 "settings.tab.title.notifications" = "通知";
+"texterify_timestamp" = "2023-07-15T17:44:32Z";

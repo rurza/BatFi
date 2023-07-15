@@ -10,12 +10,12 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
+  /// 2023-07-15T17:44:31Z
+  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-15T17:44:31Z")
   public enum About {
     public enum Button {
       public enum Label {
-        /// ******************************************************************************
-        ///  * Exported from POEditor - https://poeditor.com
-        ///  ******************************************************************************
+        /// License
         public static let license = L10n.tr("Localizable", "about.button.label.license", fallback: "License")
         /// Twitter
         public static let twitter = L10n.tr("Localizable", "about.button.label.twitter", fallback: "Twitter")

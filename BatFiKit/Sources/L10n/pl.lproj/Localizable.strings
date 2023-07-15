@@ -1,38 +1,17 @@
-/*******************************************************************************
- * Exported from POEditor - https://poeditor.com
- *******************************************************************************/
-
-// CONTEXT: Button title that will open PDF with a license
 "about.button.label.license" = "Licencja";
-// CONTEXT: button title that will open author's twitter profile
 "about.button.label.twitter" = "Twitter";
-// CONTEXT: button title
 "about.button.label.website" = "Strona www";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: About.label.about
-// CONTEXT: About Window, below it there a logotype of my company, so it's important that it makes sense
 "about.label.about_description" = "Z ❤️ i 🔋 zrobione przez";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: App
-// CONTEXT: %@ is the percentage of battery, for example "80%"
 "app_charging_mode.state.description.charging" = "Limit to %@.";
-// CONTEXT: keep in mind that "%" is a special symbol in localized strings, so you must provide it twice to be visible in app
 "app_charging_mode.state.description.force_charge" = "Ładuję do 100%%";
 "app_charging_mode.state.description.force_discharge" = "Używam baterii do zasilania.";
-// CONTEXT: %@ is the percentage of battery, for example "80%"
 "app_charging_mode.state.description.inhibit" = "Limit ładowania to %@.";
 "app_charging_mode.state.title.charger_not_connected" = "Ładowarka nie podłączona";
 "app_charging_mode.state.title.charging" = "Ładuję do limitu";
 "app_charging_mode.state.title.force_charge" = "Ładuję";
 "app_charging_mode.state.title.force_discharge" = "Rozładowuję";
 "app_charging_mode.state.title.inhibit" = "Ładowanie wstrzymane";
-// CONTEXT: App charging mode short description
 "app_charging_mode.state.title.initial" = "Inicjalizacja";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Battery
 "battery_info.label.additional.app_mode" = "Tryb apki";
 "battery_info.label.additional.battery_capacity" = "Żywotność baterii";
 "battery_info.label.additional.cycle_count" = "Liczba cykli";
@@ -40,260 +19,75 @@
 "battery_info.label.additional.temperature" = "Temperatura baterii";
 "battery_info.label.info_missing" = "Czekam na informacje";
 "battery_info.label.main.battery" = "Bateria";
-// CONTEXT: Time left/ time to charge label when the exact isn't known and the system is calculating duration
 "battery_info.label.main.time.calculating" = "Obliczam…";
-// CONTEXT: Time left/ time to charge label
 "battery_info.label.main.time.time_left" = "Pozostało";
-// CONTEXT: Time left/ time to charge label in the main menu
 "battery_info.label.main.time.time_to_charge" = "Czas do naładowania";
-// CONTEXT: menu command, notice ellipsis instead of 3 periods
 "menu.label.batfi" = "BatFi…";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.charge
-// CONTEXT: menu command, % is a special character in localized strings, so it must be used twice, for example: "100%%" to see "100%"
 "menu.label.charge_to_hundred" = "Naładuj do 100%%";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.check
-// CONTEXT: menu command, notice ellipsis instead of 3 periods
 "menu.label.check_for_updates" = "Sprawdź uaktualnienia…";
 "menu.label.debug" = "Debug";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.install
-// CONTEXT: menu command
 "menu.label.install_helper" = "Zainstaluj helper";
-// CONTEXT: menu command
 "menu.label.more" = "Więcej";
-// CONTEXT: menu command, notice ellipsis instead of 3 periods
 "menu.label.onboarding" = "Onboarding…";
-// CONTEXT: menu command
 "menu.label.quit" = "Zakończ BatFi";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.remove
-// CONTEXT: menu command
 "menu.label.remove_helper" = "Odinstaluj helper";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.reset
-// CONTEXT: menu command, reset all settings to the default state
 "menu.label.reset_settings" = "Przywróć domyślne ustawienia";
-// CONTEXT: menu command, remember to use ellipsis (…) instead of 3 periods
 "menu.label.settings" = "Ustawienia…";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.label.stop
-// CONTEXT: menu command, remember to use double "%%"
 "menu.label.stop_charging_to_hundred" = "Zatrzymaj ładowanie do 100%%";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Menu.tooltip.charge
-// CONTEXT: "Charge to 100%" command tooltip explaining why it's disabled
 "menu.tooltip.charge_to_hundred.charger_not_connected" = "Niedostępne ponieważ ładowarka nie jest podłączona";
-// CONTEXT: "Charge to 100%" command tooltip explaining why it's disabled
 "menu.tooltip.charge_to_hundred.discharge_turned_on" = "Niedostępne ponieważ \"Rozładuj baterię gdy naładowana ponad limit\" jest włączone";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Notifications.alert.title.optimized
 "notifications.alert.title.optimized_charging_turned_on" = "Zoptymalizowane ładowanie baterii jest WŁĄCZONE";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Notifications.notification.subtitle.new
-// CONTEXT: Notification subtitle when app charging mode changes. 
 "notifications.notification.subtitle.new_mode" = "Nowy tryb: %@";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.alert.button.label.open
-// CONTEXT: alert button; the app shows the altert when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed; the button will open system settings
 "onboarding.alert.button.label.open_system_settings" = "Otwórz Ustawienia systemu";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.alert.message.helper
-// CONTEXT: alert message; the app shows it when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
 "onboarding.alert.message.helper_not_installed" = "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok – czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.alert.title.helper
-// CONTEXT: alert that app shows when the helper tool is still not installed, user clicked "Install helper" button and some time elapsed
 "onboarding.alert.title.helper_not_installed" = "Helper (wciąż) nie jest zainstalowany";
-// CONTEXT: onboarding button title; showed when the onboarding is done
 "onboarding.button.label.complete" = "Gotowe";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.button.label.get
-// CONTEXT: Get started button title in the onboarding
 "onboarding.button.label.get_started" = "Zaczynamy";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.button.label.install
-// CONTEXT: Onboarding button title; will install helper tool that allows to control battery
 "onboarding.button.label.install_helper" = "Zainstaluj helper";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.button.label.launch
-// CONTEXT: Onboarding toggle switch button; Launch BatFi at login
 "onboarding.button.label.launch_at_login" = "Uruchom podczas logowania";
-// CONTEXT: onboarding button title
 "onboarding.button.label.next" = "Dalej";
-// CONTEXT: Onboarding button title
 "onboarding.button.label.previous" = "Wstecz";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.almost
-// CONTEXT: onboarding; header 
 "onboarding.label.almost_done" = "Prawie gotowe.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.app
-// CONTEXT: onboarding; basic app description on the first screen. Please remember that "%" is a special character, so you must use it twice to see actual "%" in the app
 "onboarding.label.app_description" = "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę – wciąż możesz ładować baterię do 100%% gdy potrzeba.";
-// CONTEXT: onboarding label, showed when the app is successfully configured
 "onboarding.label.app_is_ready" = "Apka jest gotowa do działania!";
-// CONTEXT: onboarding label, header
 "onboarding.label.done" = "Gotowe.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.extend
-// CONTEXT: first screen in the onboarding, a header
 "onboarding.label.extend_life" = "Przedłuż życie swojego Maca.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.helper
-// CONTEXT: onboarding label; describing why helper is needed
 "onboarding.label.helper_description" = "BatFi zainstaluje helper, który będzie działał w tle i ma możliwość zmiany trybu ładowania Twojego komputera.";
-// CONTEXT: onboarding label, describes the installation of helper requires admin
 "onboarding.label.helper_requires_admin" = "Instalacja helpera wymaga uprawnień administratora i jest niezbędna dla działania BatFi.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.launch
-// CONTEXT: onboarding label; recommending turning on launch at login
 "onboarding.label.launch_at_login_recommendation" = "Zalecane. Możesz to zmienić później w ustawieniach aplikacji.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.label.set
-// CONTEXT: onboarding label, header
 "onboarding.label.set_limit" = "Ustaw poziom naładowania.";
-// CONTEXT: onboarding label, describes the charging limit
 "onboarding.label.set_limit_description" = "Ustaw maksymalny poziom naładowania by uniknąć ciągłego utrzymywania poziomu baterii na 100%% i przedłużyć jej żywotność.";
-// CONTEXT: onboarding; label explaining that this setting can be changed later in app's settings
 "onboarding.label.set_limit_set_up_later" = "Możesz to później zmienić w ustawieniach aplikacji.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Onboarding.slider.label.set
-// CONTEXT: onboarding; slider setting charging limit; "%@" if for percent value, for example 40%
 "onboarding.slider.label.set_limit" = "Wyłącz ładowanie gdy bateria osiągnie %@";
-// CONTEXT: tab item accessibility description
 "settings.accessibility.title.charging" = "Panel ustawień ładowania";
-// CONTEXT: tab item accessibility description
 "settings.accessibility.title.general" = "Panel ustawień ogólnych";
-// CONTEXT: tab item accessibility description
 "settings.accessibility.title.notifications" = "Panel ustawień powiadomień";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.description.lid
-// CONTEXT: label below the toggle button that toggles discharging when battery is charged over limit
 "settings.button.description.lid_must_be_opened" = "Działa tylko, gdy pokrywa z ekranem jest otwarta.";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.automatically
-// CONTEXT: toggle switch; automatic updates
 "settings.button.label.automatically_check_updates" = "Automatycznie sprawdzaj uaktualnienia";
-// CONTEXT: toggle switch; toggles automatic downloading of updates
 "settings.button.label.automatically_download_updates" = "Automatycznie pobieraj uaktualnienia";
-// CONTEXT: toggle switch button; toggles battery management by the app
 "settings.button.label.automatically_manage_charging" = "Automatycznie zarządzaj ładowaniem";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.battery
-// CONTEXT: toggle switch button; toggles showing battery percentage in status bar
 "settings.button.label.battery_percentage" = "Pokazuj procent baterii";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.charging
-// CONTEXT: toggle switch button that enables notifications when charging status changed
 "settings.button.label.charging_status_did_change" = "Pokaż powiadomienia gdy tryb ładowania się zmienił";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.debug
-// CONTEXT: toggle switch; toggles showing debug menu
 "settings.button.label.debug_menu" = "Pokazuj menu do debugowania";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.disable
-// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit
 "settings.button.label.disable_sleep" = "Opóźnij automatycznie usypianie systemu podczas ładowania, gdy limit nie został osiągnięty";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.discharge
-// CONTEXT: toggle switch that toggles discharging battery when charged over limit
 "settings.button.label.discharge_batter_when_overcharged" = "Rozładuj baterię do osiągnięcia limitu ładowania";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.launch
-// CONTEXT: toggle switch; launch at login
 "settings.button.label.launch_at_login" = "Uruchom podczas logowania";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.monochrome
-// CONTEXT: toggle switch; toggles monochrome button in the status bar
 "settings.button.label.monochrome_icon" = "Używaj monochromatycznej ikony";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.show
-// CONTEXT: toggle switch button; when on the app will show modal alert telling the user to turn off macOS' built-in "optimized battery charging feature"
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "Pokazuj alert gdy systemowe \"zoptymalizowane ładowanie baterii\" zostanie włączone";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.label.turn
-// CONTEXT: toggle switch label, toggles charging when batter gets hot
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "Przerwij ładowanie gdy bateria będzie zbyt gorąca";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.tooltip.disable
-// CONTEXT: toggle button, delays automatic sleep when battery is charging and did not reach the limit; tooltip explaining more details
 "settings.button.tooltip.disable_sleep" = "Apka opóźni automatycznie usypianie systemu, pozwoli naładować baterię do wyznaczonego limitu, wstrzyma ładowanie i uśpi Maca";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.tooltip.discharge
-// CONTEXT: tooltip when hovering toggle button that toggles discharging battery when it's charged over limit
 "settings.button.tooltip.discharge_batter_when_overcharged" = "Gdy klapa Macbooka jest otwarta, apka może rozładowywać baterie do momentu osiągnięcia limitu ładowania";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.button.tooltip.turn
-// CONTEXT: toggle button, tooltip that explain more details
 "settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "Wyłącza ładowanie gdy temperatura baterii przekroczy 35°C";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.label.charging
-// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part1" = "80%% to rekomendowany limit ładowania podczas normalnego użytkowania.";
-// CONTEXT: label; charging settings recommendation, remember about double "%%" sign
 "settings.label.charging_recommendation_part2" = "Zawsze możesz naładować komputer używając polecenia \"Naładuj do 100%%\" z menu.";
-// CONTEXT: section title in the general tab
 "settings.section.advanced" = "Zaawansowane";
-// CONTEXT: section title in the notifications tab
 "settings.section.alerts" = "Alerty";
-// CONTEXT: section title in the general tab
 "settings.section.general" = "Ogólne";
-// CONTEXT: section name in the notifications tab in settings
 "settings.section.notifications" = "Powiadomienia";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.section.status
-// CONTEXT: section title in the general tab
 "settings.section.status_icon" = "Ikona statusu";
-// CONTEXT: section title in the general tab
 "settings.section.updates" = "Uaktualnienia";
-
-////////////////////////////////////////////////////////////////////////////////
-// MARK: Settings.slider.label.turn
-// CONTEXT: label next to the slider that sets the limit when battery charging will stop, "%@" will contain the charging limit, ie "80%"
 "settings.slider.label.turn_off_charging_at" = "Wyłącz ładowanie gdy bateria osiągnie %@";
-// CONTEXT: Tab name in the settings
 "settings.tab.title.charging" = "Ładowanie";
-// CONTEXT: Tab name in the settings
 "settings.tab.title.general" = "Ogólne";
-// CONTEXT: tab name in the settings
 "settings.tab.title.notifications" = "Powiadomienia";
+"texterify_timestamp" = "2023-07-15T17:44:32Z";
