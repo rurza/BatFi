@@ -67,6 +67,7 @@
 "settings.button.label.automatically_download_updates" = "Automatically download updates";
 "settings.button.label.automatically_manage_charging" = "Automatically manage charging";
 "settings.button.label.battery_percentage" = "Show battery percentage";
+"settings.button.label.blink_magSafe_when_discharging" = "Blink the MagSafe a few times when the battery is being discharged";
 "settings.button.label.charging_status_did_change" = "Charging status has changed";
 "settings.button.label.check_for_beta_updates" = "Allow the beta version of the app";
 "settings.button.label.debug_menu" = "Show Debug menu";
@@ -86,6 +87,7 @@
 "settings.section.advanced" = "Advanced";
 "settings.section.alerts" = "Alerts";
 "settings.section.general" = "General";
+"settings.section.magSafe" = "MagSafe";
 "settings.section.notifications" = "Notifications";
 "settings.section.status_icon" = "Status icon";
 "settings.section.updates" = "Updates";
@@ -93,4 +95,4 @@
 "settings.tab.title.charging" = "Charging";
 "settings.tab.title.general" = "General";
 "settings.tab.title.notifications" = "Notifications";
-"texterify_timestamp" = "2023-07-16T14:34:51Z";
+"texterify_timestamp" = "2023-07-16T20:32:18Z";

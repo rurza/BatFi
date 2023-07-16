@@ -18,3 +18,10 @@ public struct MagSafeLEDColorClient: TestDependencyKey {
         self.changeMagSafeLEDColor = changeMagSafeLEDColor
     }
 }
+
+extension DependencyValues {
+    public var magSafeLEDColor: MagSafeLEDColorClient {
+        get { self[MagSafeLEDColorClient.self] }
+        set { self[MagSafeLEDColorClient.self] = newValue }
+    }
+}

@@ -88,16 +88,8 @@ public final class ChargingManager {
         }
     }
 
-    public func appWillQuit() {
-        logger.debug("App will quit")
-        let semaphore = DispatchSemaphore(value: 0)
-        Task {
-            try? await chargingClient.turnOnAutoChargingMode()
-            try? await chargingClient.quitChargingHelper()
-            semaphore.signal()
-        }
-        semaphore.wait()
-        logger.debug("I tried to turn on charging and quit the helper.")
+    public func appWillQuit() async {
+        try? await chargingClient.resetChargingMode()
     }
 
     public func chargeToFull() {

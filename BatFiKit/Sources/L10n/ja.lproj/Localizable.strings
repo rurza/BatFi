@@ -67,6 +67,7 @@
 "settings.button.label.automatically_download_updates" = "アップデートを自動的にダウンロードする";
 "settings.button.label.automatically_manage_charging" = "充電を自動的に管理する";
 "settings.button.label.battery_percentage" = "バッテリーの残量パーセントを表示";
+"settings.button.label.blink_magSafe_when_discharging" = "Blink the MagSafe a few times when the battery is being discharged";
 "settings.button.label.charging_status_did_change" = "充電ステータスが変わった時に通知する";
 "settings.button.label.check_for_beta_updates" = "Allow the beta version of the app";
 "settings.button.label.debug_menu" = "デバッグメニューを表示";
@@ -86,6 +87,7 @@
 "settings.section.advanced" = "開発者向け";
 "settings.section.alerts" = "アラート";
 "settings.section.general" = "一般";
+"settings.section.magSafe" = "MagSafe";
 "settings.section.notifications" = "通知";
 "settings.section.status_icon" = "メニューバー";
 "settings.section.updates" = "アップデート";
@@ -93,4 +95,4 @@
 "settings.tab.title.charging" = "充電";
 "settings.tab.title.general" = "一般";
 "settings.tab.title.notifications" = "通知";
-"texterify_timestamp" = "2023-07-16T14:34:51Z";
+"texterify_timestamp" = "2023-07-16T20:32:18Z";

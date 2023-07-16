@@ -45,7 +45,7 @@ struct ChargingView: View {
                             )
                             Text(label)
                                 .foregroundColor(manageCharging ? .primary : .secondary)
-                            Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
+                            Slider(value: .convert(from: $chargeLimit), in: 20...90, step: 5) {
                                 EmptyView()
                             } minimumValueLabel: {
                                 Text("60%")

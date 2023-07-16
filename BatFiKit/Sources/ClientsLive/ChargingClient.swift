@@ -123,8 +123,11 @@ extension ChargingClient: DependencyKey {
         }
 
         func quit() async throws {
-            logger.debug("Should send \(#function)")
-            try await createClient().send(to: XPCRoute.quit)
+            logger.debug("Should quit the helper")
+            do {
+                try await createClient().send(to: XPCRoute.quit)
+                logger.notice("Helper did quit")
+            } catch { }
         }
 
         let client = ChargingClient(
@@ -132,7 +135,16 @@ extension ChargingClient: DependencyKey {
             inhibitCharging: inhibitCharging,
             forceDischarge: forceDischarge,
             chargingStatus: chargingStatus,
-            quitChargingHelper: quit
+            quitChargingHelper: quit,
+            resetChargingMode: {
+                logger.debug("Should reset the charging mode")
+                do {
+                    try await createClient().sendMessage(SMCChargingCommand.auto, to: XPCRoute.charging)
+                    logger.notice("Did reset the charging")
+                } catch {
+                    logger.error("Failed to reset the charging mode")
+                }
+            }
         )
         return client
     }()

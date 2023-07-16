@@ -11,8 +11,9 @@ import SettingsKit
 import SwiftUI
 
 struct NotificationsView: View {
-    @Default(.showChargingStausChanged) private var showChargingStausChanged
+    @Default(.showChargingStausChanged)     private var showChargingStausChanged
     @Default(.showOptimizedBatteryCharging) private var showOptimizedBatteryCharging
+    @Default(.blinkMagSafeWhenDischarging)  private var blinkMagSafeWhenDischarging
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -22,9 +23,15 @@ struct NotificationsView: View {
                     Text(l10n.Button.Label.chargingStatusDidChange)
                 }
             }
-            Section(title: l10n.Section.alerts) {
+            Section(title: l10n.Section.alerts, bottomDivider: true) {
                 Toggle(isOn: $showOptimizedBatteryCharging) {
                     Text(l10n.Button.Label.showAlertsWhenOptimizedChargingIsEngaged)
+                }
+            }
+            
+            Section(title: l10n.Section.magSafe, bottomDivider: true) {
+                Toggle(isOn: $blinkMagSafeWhenDischarging) {
+                    Text(l10n.Button.Label.blinkMagSafeWhenDischarging)
                 }
             }
         }

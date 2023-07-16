@@ -20,6 +20,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
+    private lazy var magSafeColorManager = MagSafeColorManager()
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
@@ -28,9 +29,10 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private weak var aboutWindow: NSWindow?
     private weak var onboardingWindow: OnboardingWindow?
     private weak var arrowWindow: ArrowWindow?
-    @Dependency(\.updater) private var updater
-    @Dependency(\.suspendingClock) private var clock
-    @Dependency(\.defaults) private var defaults
+    @Dependency(\.updater)              private var updater
+    @Dependency(\.suspendingClock)      private var clock
+    @Dependency(\.defaults)             private var defaults
+    @Dependency(\.chargingClient)       private var chargingClient
 
     public init() { }
 
@@ -44,7 +46,12 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     public func willQuit() {
-        chargingManager.appWillQuit()
+        Task(priority: .userInitiated) {
+            await self.chargingManager.appWillQuit()
+            await self.magSafeColorManager.appWillQuit()
+            try? await self.chargingClient.quitChargingHelper()
+            NSApp.reply(toApplicationShouldTerminate: true)
+        }
     }
 
     private func setUpTheApp() {
@@ -52,6 +59,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         menuController = MenuController(statusItem: statusItem)
         chargingManager.setUpObserving()
         persistenceManager.setUpObserving()
+        magSafeColorManager.setUpObserving()
         menuController?.delegate = self
         notificationsManager = NotificationsManager()
     }

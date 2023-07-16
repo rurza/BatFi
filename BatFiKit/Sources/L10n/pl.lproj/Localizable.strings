@@ -67,6 +67,7 @@
 "settings.button.label.automatically_download_updates" = "Automatycznie pobieraj uaktualnienia";
 "settings.button.label.automatically_manage_charging" = "Automatycznie zarządzaj ładowaniem";
 "settings.button.label.battery_percentage" = "Pokazuj procent baterii";
+"settings.button.label.blink_magSafe_when_discharging" = "Blink the MagSafe a few times when the battery is being discharged";
 "settings.button.label.charging_status_did_change" = "Pokaż powiadomienia gdy tryb ładowania się zmienił";
 "settings.button.label.check_for_beta_updates" = "Pozwalaj na użycie wersji beta";
 "settings.button.label.debug_menu" = "Pokazuj menu do debugowania";
@@ -86,6 +87,7 @@
 "settings.section.advanced" = "Zaawansowane";
 "settings.section.alerts" = "Alerty";
 "settings.section.general" = "Ogólne";
+"settings.section.magSafe" = "MagSafe";
 "settings.section.notifications" = "Powiadomienia";
 "settings.section.status_icon" = "Ikona statusu";
 "settings.section.updates" = "Uaktualnienia";
@@ -93,4 +95,4 @@
 "settings.tab.title.charging" = "Ładowanie";
 "settings.tab.title.general" = "Ogólne";
 "settings.tab.title.notifications" = "Powiadomienia";
-"texterify_timestamp" = "2023-07-16T14:34:52Z";
+"texterify_timestamp" = "2023-07-16T20:32:19Z";

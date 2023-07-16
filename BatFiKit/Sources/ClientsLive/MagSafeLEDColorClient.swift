@@ -14,7 +14,7 @@ import Shared
 
 extension MagSafeLEDColorClient: DependencyKey {
     public static var liveValue: MagSafeLEDColorClient = {
-        let logger = Logger(category: "🔌🚨")
+        let logger = Logger(category: "🔌🚦")
 
         func createClient() -> XPCClient {
             XPCClient.forMachService(
@@ -25,7 +25,12 @@ extension MagSafeLEDColorClient: DependencyKey {
 
         let client = Self(
             changeMagSafeLEDColor: { (option: MagSafeLEDOption) in
-                return try await createClient().sendMessage(option, to: XPCRoute.magSafeLEDColor)
+                do {
+                    return try await createClient().sendMessage(option, to: XPCRoute.magSafeLEDColor)
+                } catch {
+                    logger.error("Error when chaging the color of MagSafe: \(error.localizedDescription, privacy: .public)")
+                    throw error
+                }
             }
         )
         return client
