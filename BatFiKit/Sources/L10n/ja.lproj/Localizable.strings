@@ -69,13 +69,15 @@
 "settings.button.label.battery_percentage" = "バッテリーの残量パーセントを表示";
 "settings.button.label.charging_status_did_change" = "充電ステータスが変わった時に通知する";
 "settings.button.label.debug_menu" = "デバッグメニューを表示";
-"settings.button.label.disable_sleep" = "充電時に自動スリープを遅らせ、過充電を避ける";
+"settings.button.label.disable_automatic_sleep" = "充電時に自動スリープを遅らせ、過充電を避ける";
 "settings.button.label.discharge_batter_when_overcharged" = "制限を超えて充電されたときにバッテリーを放電する";
 "settings.button.label.launch_at_login" = "ログイン時に起動する";
+"settings.button.label.magsafe_use_green_light" = "Use the green light on the MagSafe when charging is paused";
 "settings.button.label.monochrome_icon" = "モノクロのアイコンを表示";
+"settings.button.label.pause_charging_on_sleep" = "Automatically pause charging when the Mac goes to sleep";
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "バッテリー充電の最適化が作動しているときにアラートを表示する";
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "バッテリーが熱くなったら、自動的に充電をオフにする";
-"settings.button.tooltip.disable_sleep" = "このアプリはコンピュータが充電限界まで充電するのを遅らせ、その後、充電を停止し、Macをスリープ状態にします。";
+"settings.button.tooltip.disable_automatic_sleep" = "このアプリはコンピュータが充電限界まで充電するのを遅らせ、その後、充電を停止し、Macをスリープ状態にします。";
 "settings.button.tooltip.discharge_batter_when_overcharged" = "Macbookの蓋を開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。";
 "settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "バッテリーが35°C以上の場合、充電をオフにします。";
 "settings.label.charging_recommendation_part1" = "推奨される値は 80%% です。";
@@ -90,4 +92,4 @@
 "settings.tab.title.charging" = "充電";
 "settings.tab.title.general" = "一般";
 "settings.tab.title.notifications" = "通知";
-"texterify_timestamp" = "2023-07-15T17:44:32Z";
+"texterify_timestamp" = "2023-07-16T14:12:29Z";

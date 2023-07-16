@@ -27,6 +27,11 @@ extension SMCKey {
         code: .init(fromStaticString: "MSLD"),
         info: DataTypes.UInt8
     )
+
+    static let magSafeLED = Self(
+        code: .init(fromStaticString: "ACLC"),
+        info: DataTypes.UInt8
+    )
 }
 
 extension SMCKit {

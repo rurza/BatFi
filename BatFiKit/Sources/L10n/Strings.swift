@@ -10,8 +10,8 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
-  /// 2023-07-15T17:44:31Z
-  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-15T17:44:31Z")
+  /// 2023-07-16T14:12:28Z
+  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-16T14:12:28Z")
   public enum About {
     public enum Button {
       public enum Label {
@@ -240,13 +240,17 @@ public enum L10n {
         /// Show Debug menu
         public static let debugMenu = L10n.tr("Localizable", "settings.button.label.debug_menu", fallback: "Show Debug menu")
         /// Delay automatic sleep when charging and the limit's not reached
-        public static let disableSleep = L10n.tr("Localizable", "settings.button.label.disable_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
+        public static let disableAutomaticSleep = L10n.tr("Localizable", "settings.button.label.disable_automatic_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
         /// Discharge battery when charged over limit
         public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.label.discharge_batter_when_overcharged", fallback: "Discharge battery when charged over limit")
         /// Open at login
         public static let launchAtLogin = L10n.tr("Localizable", "settings.button.label.launch_at_login", fallback: "Open at login")
+        /// Use the green light on the MagSafe when charging is paused
+        public static let magsafeUseGreenLight = L10n.tr("Localizable", "settings.button.label.magsafe_use_green_light", fallback: "Use the green light on the MagSafe when charging is paused")
         /// Show monochrome icon
         public static let monochromeIcon = L10n.tr("Localizable", "settings.button.label.monochrome_icon", fallback: "Show monochrome icon")
+        /// Automatically pause charging when the Mac goes to sleep
+        public static let pauseChargingOnSleep = L10n.tr("Localizable", "settings.button.label.pause_charging_on_sleep", fallback: "Automatically pause charging when the Mac goes to sleep")
         /// Show alert when the optimized battery charging is engaged
         public static let showAlertsWhenOptimizedChargingIsEngaged = L10n.tr("Localizable", "settings.button.label.show_alerts_when_optimized_charging_is_engaged", fallback: "Show alert when the optimized battery charging is engaged")
         /// Automatically turn off charging when the battery gets hot
@@ -254,7 +258,7 @@ public enum L10n {
       }
       public enum Tooltip {
         /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
-        public static let disableSleep = L10n.tr("Localizable", "settings.button.tooltip.disable_sleep", fallback: "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep")
+        public static let disableAutomaticSleep = L10n.tr("Localizable", "settings.button.tooltip.disable_automatic_sleep", fallback: "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep")
         /// When Macbook's lid is opened, the app can discharge battery until it will reach the limit
         public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.tooltip.discharge_batter_when_overcharged", fallback: "When Macbook's lid is opened, the app can discharge battery until it will reach the limit")
         /// Turns off charging when the battery is 35°C or more.

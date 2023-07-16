@@ -83,4 +83,13 @@ final class RouteHandler {
             )
         }
     }
+
+    func magsafeLEDColor(_ option: MagSafeLEDOption) async throws -> MagSafeLEDOption {
+        defer { SMCKit.close() }
+        try SMCKit.open()
+        try SMCKit.writeData(SMCKey.magSafeLED, uint8: option.rawValue)
+        let data = try SMCKit.readData(.magSafeLED)
+        guard let option = MagSafeLEDOption(rawValue: data.0) else { throw SMCError.canNotCreateMagSafeLEDOption }
+        return option
+    }
 }

@@ -29,4 +29,6 @@ public enum SMCError: Error, Codable {
     /// - parameter kIOReturn: I/O Kit error code
     /// - parameter SMCResult: SMC specific return code
     case unknown(kIOReturn: kern_return_t, SMCResult: UInt8)
+
+    case canNotCreateMagSafeLEDOption
 }

@@ -27,6 +27,8 @@ extension Defaults.Keys {
     public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
     public static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
     public static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)
+    public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
+    public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
 
 
     // notifications

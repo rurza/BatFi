@@ -13,11 +13,13 @@ import SettingsKit
 import SwiftUI
 
 struct ChargingView: View {
-    @Default(.chargeLimit)                  private var chargeLimit
-    @Default(.manageCharging)               private var manageCharging
-    @Default(.temperatureSwitch)            private var temperatureSwitch
-    @Default(.allowDischargingFullBattery)  private var dischargeBatteryWhenFull
-    @Default(.disableSleep)                 private var disableSleep
+    @Default(.chargeLimit)                              private var chargeLimit
+    @Default(.manageCharging)                           private var manageCharging
+    @Default(.temperatureSwitch)                        private var temperatureSwitch
+    @Default(.allowDischargingFullBattery)              private var dischargeBatteryWhenFull
+    @Default(.disableSleep)                             private var disableAutomaticSleep
+    @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
+    @Default(.showGreenLightMagSafeWhenInhibiting)      private var greenLight
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -54,11 +56,6 @@ struct ChargingView: View {
                         }
                     }
                     .padding(.bottom, 10)
-                    Toggle(isOn: $temperatureSwitch) {
-                        Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
-                            .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)
-                    }
-                    .disabled(!manageCharging)
                     VStack(alignment: .leading, spacing: 2) {
                         Toggle(isOn: $dischargeBatteryWhenFull) {
                             Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
@@ -69,10 +66,26 @@ struct ChargingView: View {
                         Text(l10n.Button.Description.lidMustBeOpened)
                             .settingDescription()
                     }
-                    Toggle(isOn: $disableSleep) {
-                        Text(l10n.Button.Label.disableSleep)
-                            .withBetaLabel()
-                            .help(l10n.Button.Tooltip.disableSleep)
+
+                    Toggle(isOn: $temperatureSwitch) {
+                        Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
+                            .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)
+                    }
+                    .disabled(!manageCharging)
+                    
+                    Toggle(isOn: $disableAutomaticSleep) {
+                        Text(l10n.Button.Label.disableAutomaticSleep)
+                            .help(l10n.Button.Tooltip.disableAutomaticSleep)
+                    }
+                    .disabled(!manageCharging)
+
+                    Toggle(isOn: $inhibitChargingOnSleep) {
+                        Text(l10n.Button.Label.pauseChargingOnSleep)
+                    }
+                    .disabled(!manageCharging)
+
+                    Toggle(isOn: $greenLight) {
+                        Text(l10n.Button.Label.magsafeUseGreenLight)
                     }
                     .disabled(!manageCharging)
                 }

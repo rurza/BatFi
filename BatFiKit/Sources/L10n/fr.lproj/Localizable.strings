@@ -69,13 +69,15 @@
 "settings.button.label.battery_percentage" = "Show battery percentage";
 "settings.button.label.charging_status_did_change" = "Charging status has changed";
 "settings.button.label.debug_menu" = "Show Debug menu";
-"settings.button.label.disable_sleep" = "Delay automatic sleep when charging and the limit's not reached";
+"settings.button.label.disable_automatic_sleep" = "Delay automatic sleep when charging and the limit's not reached";
 "settings.button.label.discharge_batter_when_overcharged" = "Discharge battery when charged over limit";
 "settings.button.label.launch_at_login" = "Open at login";
+"settings.button.label.magsafe_use_green_light" = "Use the green light on the MagSafe when charging is paused";
 "settings.button.label.monochrome_icon" = "Show monochrome icon";
+"settings.button.label.pause_charging_on_sleep" = "Automatically pause charging when the Mac goes to sleep";
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "Show alert when the optimized battery charging is engaged";
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "Automatically turn off charging when the battery gets hot";
-"settings.button.tooltip.disable_sleep" = "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep";
+"settings.button.tooltip.disable_automatic_sleep" = "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep";
 "settings.button.tooltip.discharge_batter_when_overcharged" = "When Macbook's lid is opened, the app can discharge battery until it will reach the limit";
 "settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "Turns off charging when the battery is 35°C or more.";
 "settings.label.charging_recommendation_part1" = "80%% is the recommended value for a day-to-day usage.";
@@ -90,4 +92,4 @@
 "settings.tab.title.charging" = "Charging";
 "settings.tab.title.general" = "General";
 "settings.tab.title.notifications" = "Notifications";
-"texterify_timestamp" = "2023-07-15T17:44:31Z";
+"texterify_timestamp" = "2023-07-16T14:12:28Z";

@@ -41,6 +41,7 @@ public final class Server {
                     exit(0)
                 }
             )
+            server.registerRoute(XPCRoute.magSafeLEDColor, handler: routeHandler.magsafeLEDColor)
             server.setErrorHandler(errorHandler)
 
             server.start()

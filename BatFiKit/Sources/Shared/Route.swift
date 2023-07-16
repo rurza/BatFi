@@ -18,4 +18,9 @@ public extension XPCRoute {
         .throwsType(SMCError.self)
 
     static let quit = Self.named("quit")
+
+    static let magSafeLEDColor = Self.named("magSafeLEDColor")
+        .withMessageType(MagSafeLEDOption.self)
+        .withReplyType(MagSafeLEDOption.self)
+        .throwsType(SMCError.self)
 }

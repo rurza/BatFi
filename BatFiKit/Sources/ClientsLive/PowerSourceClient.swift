@@ -53,7 +53,7 @@ extension PowerSourceClient: DependencyKey {
     private class Observer {
         private let logger: Logger
         private var handlers = [UUID : () -> Void]()
-        private lazy var handlersQueue = DispatchQueue(label: "software.micropixels.BatFi.PowerSourceClient.Observer")
+        private let handlersQueue = DispatchQueue(label: "software.micropixels.BatFi.PowerSourceClient.Observer")
 
         init(logger: Logger) {
             self.logger = logger
@@ -77,19 +77,19 @@ extension PowerSourceClient: DependencyKey {
 
         func updateBatteryState() {
             logger.debug("New power state")
-            handlersQueue.async { [weak self] in
+            handlersQueue.sync { [weak self] in
                 self?.handlers.values.forEach { $0() }
             }
         }
 
         func removeHandler(_ id: UUID) {
-            handlersQueue.async(group: nil, qos: .utility, flags: .barrier) { [weak self] in
+            handlersQueue.sync { [weak self] in
                 self?.handlers.removeValue(forKey: id)
             }
         }
 
         func addHandler(_ id: UUID, _ handler: @escaping () -> Void) {
-            handlersQueue.async(group: nil, qos: .utility, flags: .barrier) { [weak self] in
+            handlersQueue.sync { [weak self] in
                 self?.handlers[id] = handler
             }
         }
