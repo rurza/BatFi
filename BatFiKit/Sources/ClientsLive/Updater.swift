@@ -7,6 +7,7 @@
 
 import AppShared
 import Clients
+import Defaults
 import Dependencies
 import Foundation
 import UserNotifications
@@ -80,5 +81,10 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
     func standardUserDriverDidReceiveUserAttention(forUpdate update: SUAppcastItem) {
         // Dismiss active update notifications if the user has given attention to the new update
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [updateNotificationIdentifier])
+    }
+
+    func allowedChannels(for updater: SPUUpdater) -> Set<String> {
+        guard Defaults[.downloadBetaVersion] else { return [] }
+        return ["beta"]
     }
 }

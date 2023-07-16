@@ -10,8 +10,8 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
-  /// 2023-07-16T14:12:28Z
-  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-16T14:12:28Z")
+  /// 2023-07-16T14:34:51Z
+  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-16T14:34:51Z")
   public enum About {
     public enum Button {
       public enum Label {
@@ -237,6 +237,8 @@ public enum L10n {
         public static let batteryPercentage = L10n.tr("Localizable", "settings.button.label.battery_percentage", fallback: "Show battery percentage")
         /// Charging status has changed
         public static let chargingStatusDidChange = L10n.tr("Localizable", "settings.button.label.charging_status_did_change", fallback: "Charging status has changed")
+        /// Allow the beta version of the app
+        public static let checkForBetaUpdates = L10n.tr("Localizable", "settings.button.label.check_for_beta_updates", fallback: "Allow the beta version of the app")
         /// Show Debug menu
         public static let debugMenu = L10n.tr("Localizable", "settings.button.label.debug_menu", fallback: "Show Debug menu")
         /// Delay automatic sleep when charging and the limit's not reached

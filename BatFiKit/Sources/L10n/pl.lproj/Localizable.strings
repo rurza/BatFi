@@ -68,13 +68,14 @@
 "settings.button.label.automatically_manage_charging" = "Automatycznie zarządzaj ładowaniem";
 "settings.button.label.battery_percentage" = "Pokazuj procent baterii";
 "settings.button.label.charging_status_did_change" = "Pokaż powiadomienia gdy tryb ładowania się zmienił";
+"settings.button.label.check_for_beta_updates" = "Pozwalaj na użycie wersji beta";
 "settings.button.label.debug_menu" = "Pokazuj menu do debugowania";
 "settings.button.label.disable_automatic_sleep" = "Opóźnij automatycznie usypianie systemu podczas ładowania, gdy limit nie został osiągnięty";
 "settings.button.label.discharge_batter_when_overcharged" = "Rozładuj baterię do osiągnięcia limitu ładowania";
 "settings.button.label.launch_at_login" = "Uruchom podczas logowania";
-"settings.button.label.magsafe_use_green_light" = "Use the green light on the MagSafe when charging is paused";
+"settings.button.label.magsafe_use_green_light" = "Użyj zielonego światła na ładowarce MagSafe gdy ładowanie jest wstrzymane";
 "settings.button.label.monochrome_icon" = "Używaj monochromatycznej ikony";
-"settings.button.label.pause_charging_on_sleep" = "Automatically pause charging when the Mac goes to sleep";
+"settings.button.label.pause_charging_on_sleep" = "Automatycznie wstrzymywaj ładowanie gdy Mac się usypia";
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "Pokazuj alert gdy systemowe \"zoptymalizowane ładowanie baterii\" zostanie włączone";
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "Przerwij ładowanie gdy bateria będzie zbyt gorąca";
 "settings.button.tooltip.disable_automatic_sleep" = "Apka opóźni automatycznie usypianie systemu, pozwoli naładować baterię do wyznaczonego limitu, wstrzyma ładowanie i uśpi Maca";
@@ -92,4 +93,4 @@
 "settings.tab.title.charging" = "Ładowanie";
 "settings.tab.title.general" = "Ogólne";
 "settings.tab.title.notifications" = "Powiadomienia";
-"texterify_timestamp" = "2023-07-16T14:12:29Z";
+"texterify_timestamp" = "2023-07-16T14:34:52Z";

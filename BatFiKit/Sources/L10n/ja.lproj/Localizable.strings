@@ -68,6 +68,7 @@
 "settings.button.label.automatically_manage_charging" = "充電を自動的に管理する";
 "settings.button.label.battery_percentage" = "バッテリーの残量パーセントを表示";
 "settings.button.label.charging_status_did_change" = "充電ステータスが変わった時に通知する";
+"settings.button.label.check_for_beta_updates" = "Allow the beta version of the app";
 "settings.button.label.debug_menu" = "デバッグメニューを表示";
 "settings.button.label.disable_automatic_sleep" = "充電時に自動スリープを遅らせ、過充電を避ける";
 "settings.button.label.discharge_batter_when_overcharged" = "制限を超えて充電されたときにバッテリーを放電する";
@@ -92,4 +93,4 @@
 "settings.tab.title.charging" = "充電";
 "settings.tab.title.general" = "一般";
 "settings.tab.title.notifications" = "通知";
-"texterify_timestamp" = "2023-07-16T14:12:29Z";
+"texterify_timestamp" = "2023-07-16T14:34:51Z";

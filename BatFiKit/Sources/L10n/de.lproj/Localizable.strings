@@ -68,6 +68,7 @@
 "settings.button.label.automatically_manage_charging" = "Automatically manage charging";
 "settings.button.label.battery_percentage" = "Show battery percentage";
 "settings.button.label.charging_status_did_change" = "Charging status has changed";
+"settings.button.label.check_for_beta_updates" = "Allow the beta version of the app";
 "settings.button.label.debug_menu" = "Show Debug menu";
 "settings.button.label.disable_automatic_sleep" = "Delay automatic sleep when charging and the limit's not reached";
 "settings.button.label.discharge_batter_when_overcharged" = "Discharge battery when charged over limit";
@@ -92,4 +93,4 @@
 "settings.tab.title.charging" = "Charging";
 "settings.tab.title.general" = "General";
 "settings.tab.title.notifications" = "Notifications";
-"texterify_timestamp" = "2023-07-16T14:12:29Z";
+"texterify_timestamp" = "2023-07-16T14:34:51Z";
