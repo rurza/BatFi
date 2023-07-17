@@ -13,7 +13,6 @@ public struct ChargingClient: TestDependencyKey {
     public var inhibitCharging: () async throws -> Void
     public var forceDischarge: () async throws -> Void
     public var chargingStatus: () async throws -> SMCStatus
-    public var quitChargingHelper: () async throws -> Void
     public var resetChargingMode: () async throws -> Void
 
     public init(
@@ -21,14 +20,12 @@ public struct ChargingClient: TestDependencyKey {
         inhibitCharging: @escaping () async throws -> Void,
         forceDischarge: @escaping () async throws -> Void,
         chargingStatus: @escaping () async throws -> SMCStatus,
-        quitChargingHelper: @escaping () async throws -> Void,
         resetChargingMode: @escaping () async throws -> Void
     ) {
         self.turnOnAutoChargingMode = turnOnAutoChargingMode
         self.inhibitCharging = inhibitCharging
         self.forceDischarge = forceDischarge
         self.chargingStatus = chargingStatus
-        self.quitChargingHelper = quitChargingHelper
         self.resetChargingMode = resetChargingMode
     }
 

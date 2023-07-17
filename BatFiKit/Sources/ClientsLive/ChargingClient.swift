@@ -122,20 +122,11 @@ extension ChargingClient: DependencyKey {
             }
         }
 
-        func quit() async throws {
-            logger.debug("Should quit the helper")
-            do {
-                try await createClient().send(to: XPCRoute.quit)
-                logger.notice("Helper did quit")
-            } catch { }
-        }
-
         let client = ChargingClient(
             turnOnAutoChargingMode: turnOnAutoChargingModel,
             inhibitCharging: inhibitCharging,
             forceDischarge: forceDischarge,
             chargingStatus: chargingStatus,
-            quitChargingHelper: quit,
             resetChargingMode: {
                 logger.debug("Should reset the charging mode")
                 do {

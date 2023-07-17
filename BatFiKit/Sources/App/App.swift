@@ -32,7 +32,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     @Dependency(\.updater)              private var updater
     @Dependency(\.suspendingClock)      private var clock
     @Dependency(\.defaults)             private var defaults
-    @Dependency(\.chargingClient)       private var chargingClient
+    @Dependency(\.helperManager)        private var helperManager
 
     public init() { }
 
@@ -47,9 +47,9 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
 
     public func willQuit() {
         Task(priority: .userInitiated) {
-            await self.chargingManager.appWillQuit()
-            await self.magSafeColorManager.appWillQuit()
-            try? await self.chargingClient.quitChargingHelper()
+            await chargingManager.appWillQuit()
+            await magSafeColorManager.appWillQuit()
+            try? await helperManager.quitHelper()
             NSApp.reply(toApplicationShouldTerminate: true)
         }
     }

@@ -9,6 +9,7 @@ import Clients
 import Foundation
 import Dependencies
 import os
+import SecureXPC
 import ServiceManagement
 import Shared
 
@@ -50,6 +51,19 @@ extension HelperManager: DependencyKey {
                     continuation.onTermination = { _ in
                         task.cancel()
                     }
+                }
+            },
+            quitHelper: {
+                logger.debug("Should quit the helper")
+                do {
+                    let client = XPCClient.forMachService(
+                        named: Constant.helperBundleIdentifier,
+                        withServerRequirement: try! .sameTeamIdentifier
+                    )
+                    try await client.send(to: XPCRoute.quit)
+                    logger.notice("Helper did quit")
+                } catch {
+                    logger.warning("Helper could failed to quit: \(error.localizedDescription, privacy: .public)")
                 }
             }
         )

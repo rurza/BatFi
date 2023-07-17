@@ -38,7 +38,10 @@ public final class Server {
                 XPCRoute.quit,
                 handler: { [weak self] in
                     self?.logger.notice("Received quit command.")
-                    exit(0)
+                    Task {
+                        try await Task.sleep(for: .seconds(1))
+                        exit(0)
+                    }
                 }
             )
             server.registerRoute(XPCRoute.magSafeLEDColor, handler: routeHandler.magsafeLEDColor)
