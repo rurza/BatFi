@@ -78,7 +78,8 @@ public final class ChargingManager {
                     if currentMode == .forceDischarge {
                         logger.debug("I will inhibit charging, current mode is force discharge")
                         await inhibitChargingIfNeeded(chargerConnected: false)
-                    } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) {
+                    } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
+                                !defaults.value(.forceCharge) {
                         logger.debug("I will inhibit charging, because user chose the option")
                         await inhibitChargingIfNeeded(chargerConnected: true)
                     }
@@ -196,7 +197,7 @@ public final class ChargingManager {
                     await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
                 }
                 restoreSleepifNeeded()
-            } else if inhibitChargingOnSleep && computerIsAsleep {
+            } else if inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
                 await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
             } else {
                 await turnOnChargingIfNeeded(
