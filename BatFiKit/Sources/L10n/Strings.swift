@@ -10,8 +10,8 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 public enum L10n {
-  /// 2023-07-16T20:32:17Z
-  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-16T20:32:17Z")
+  /// 2023-07-17T22:40:34Z
+  public static let texterifyTimestamp = L10n.tr("Localizable", "texterify_timestamp", fallback: "2023-07-17T22:40:34Z")
   public enum About {
     public enum Button {
       public enum Label {
@@ -235,8 +235,8 @@ public enum L10n {
         public static let automaticallyManageCharging = L10n.tr("Localizable", "settings.button.label.automatically_manage_charging", fallback: "Automatically manage charging")
         /// Show battery percentage
         public static let batteryPercentage = L10n.tr("Localizable", "settings.button.label.battery_percentage", fallback: "Show battery percentage")
-        /// Blink the MagSafe a few times when the battery is being discharged
-        public static let blinkMagSafeWhenDischarging = L10n.tr("Localizable", "settings.button.label.blink_magSafe_when_discharging", fallback: "Blink the MagSafe a few times when the battery is being discharged")
+        /// Blink the LED on MagSafe a few times when the app begins to discharge the battery
+        public static let blinkMagSafeWhenDischarging = L10n.tr("Localizable", "settings.button.label.blink_magSafe_when_discharging", fallback: "Blink the LED on MagSafe a few times when the app begins to discharge the battery")
         /// Charging status has changed
         public static let chargingStatusDidChange = L10n.tr("Localizable", "settings.button.label.charging_status_did_change", fallback: "Charging status has changed")
         /// Allow the beta version of the app
