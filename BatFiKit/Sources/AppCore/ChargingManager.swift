@@ -33,10 +33,15 @@ public final class ChargingManager {
 
     public func setUpObserving() {
         Task {
-            for await (powerState,
+            for await (
+                (powerState, inhibitOnSleep),
                 (preventSleeping, forceCharging, temperature),
-                (chargeLimit, manageCharging, allowDischarging)) in combineLatest(
-                powerSourceClient.powerSourceChanges(),
+                (chargeLimit, manageCharging, allowDischarging)
+            ) in combineLatest(
+                combineLatest(
+                    powerSourceClient.powerSourceChanges(),
+                    defaults.observe(.turnOnInhibitingChargingWhenGoingToSleep)
+                ),
                 combineLatest(
                     defaults.observe(.disableSleep),
                     defaults.observe(.forceCharge),
@@ -56,7 +61,8 @@ public final class ChargingManager {
                     allowDischarging: allowDischarging,
                     preventSleeping: preventSleeping,
                     forceCharging: forceCharging,
-                    turnOffChargingWithHotBattery: temperature
+                    turnOffChargingWithHotBattery: temperature,
+                    inhibitChargingOnSleep: inhibitOnSleep
                 )
             }
             logger.warning("The main loop did quit")
@@ -66,14 +72,19 @@ public final class ChargingManager {
             for await sleepNote in sleepClient.observeMacSleepStatus() {
                 switch sleepNote {
                 case .willSleep:
+                    computerIsAsleep = true
+                    logger.debug("Mac is going to sleep")
                     let currentMode = await appChargingState.chargingStateMode()
                     if currentMode == .forceDischarge {
+                        logger.debug("I will inhibit charging, current mode is force discharge")
                         await inhibitChargingIfNeeded(chargerConnected: false)
+                    } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) {
+                        logger.debug("I will inhibit charging, because user chose the option")
+                        await inhibitChargingIfNeeded(chargerConnected: true)
                     }
-                    computerIsAsleep = true
                 case .didWake:
                     computerIsAsleep = false
-                    try? await fetchChargingState()
+                    try? await fetchAndUpdateAppChargingState()
                     await updateStatusWithCurrentState()
                 }
 
@@ -82,7 +93,7 @@ public final class ChargingManager {
 
         Task {
             for await _ in screenParametersClient.screenDidChangeParameters() {
-                try? await fetchChargingState()
+                try? await fetchAndUpdateAppChargingState()
                 await updateStatusWithCurrentState()
             }
         }
@@ -109,6 +120,7 @@ public final class ChargingManager {
             let preventSleeping = defaults.value(.disableSleep)
             let forceCharging = defaults.value(.forceCharge)
             let batteryTemperature = defaults.value(.temperatureSwitch)
+            let inhibitChargingOnSleep = defaults.value(.turnOnInhibitingChargingWhenGoingToSleep)
             await updateStatus(
                 powerState: powerState,
                 chargeLimit: Int(chargeLimit),
@@ -116,7 +128,8 @@ public final class ChargingManager {
                 allowDischarging: allowDischargingFullBattery,
                 preventSleeping: preventSleeping,
                 forceCharging: forceCharging,
-                turnOffChargingWithHotBattery: batteryTemperature
+                turnOffChargingWithHotBattery: batteryTemperature,
+                inhibitChargingOnSleep: inhibitChargingOnSleep
             )
         }
     }
@@ -129,7 +142,8 @@ public final class ChargingManager {
         allowDischarging: Bool,
         preventSleeping: Bool,
         forceCharging: Bool,
-        turnOffChargingWithHotBattery: Bool
+        turnOffChargingWithHotBattery: Bool,
+        inhibitChargingOnSleep: Bool
     ) async {
         logger.debug("⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇")
         defer {
@@ -156,7 +170,7 @@ public final class ChargingManager {
         guard let lidOpened = await appChargingState.lidOpened() else {
             logger.warning("We don't know if the lid is opened")
             do {
-                try await fetchChargingState()
+                try await fetchAndUpdateAppChargingState()
                 await updateStatus(
                     powerState: powerState,
                     chargeLimit: chargeLimit,
@@ -164,7 +178,8 @@ public final class ChargingManager {
                     allowDischarging: allowDischarging,
                     preventSleeping: preventSleeping,
                     forceCharging: forceCharging,
-                    turnOffChargingWithHotBattery: turnOffChargingWithHotBattery
+                    turnOffChargingWithHotBattery: turnOffChargingWithHotBattery,
+                    inhibitChargingOnSleep: inhibitChargingOnSleep
                 )
             } catch {
                 // ignore the error
@@ -181,6 +196,8 @@ public final class ChargingManager {
                     await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
                 }
                 restoreSleepifNeeded()
+            } else if inhibitChargingOnSleep && computerIsAsleep {
+                await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
             } else {
                 await turnOnChargingIfNeeded(
                     preventSleeping: preventSleeping,
@@ -252,11 +269,10 @@ public final class ChargingManager {
 
     private func inhibitChargingIfNeeded(chargerConnected: Bool) async {
         let mode = await appChargingState.chargingStateMode()
-        logger.debug("Should inhibit charging...")
+        logger.debug("I should inhibit charging...")
         if mode != .inhibit {
             do {
                 if chargerConnected || mode == .forceDischarge {
-                    logger.debug("Inhibiting charging")
                     try await chargingClient.inhibitCharging()
                     // fetch the power state to check if the charger is connected
                     let powerState = try? powerSourceClient.currentPowerSourceState()
@@ -288,16 +304,18 @@ public final class ChargingManager {
         sleepAssertionClient.preventSleepIfNeeded(false)
     }
 
-    private func fetchChargingState() async throws {
+    private func fetchAndUpdateAppChargingState() async throws {
         do {
             logger.debug("Fetching charging status")
             let powerState = try powerSourceClient.currentPowerSourceState()
             let chargingStatus = try await chargingClient.chargingStatus()
             let forceChargeSettings = defaults.value(.forceCharge)
+            logger.debug("Current status: \(chargingStatus.description, privacy: .public)")
             if chargingStatus.forceDischarging {
                 await appChargingState.updateChargingStateMode(.forceDischarge)
             } else {
                 if powerState.chargerConnected {
+                    logger.debug("Charger is connected")
                     if chargingStatus.inhitbitCharging {
                         await appChargingState.updateChargingStateMode(.inhibit)
                     } else if forceChargeSettings {
@@ -306,6 +324,7 @@ public final class ChargingManager {
                         await appChargingState.updateChargingStateMode(.charging)
                     }
                 } else {
+                    logger.debug("Charger is NOT connected")
                     await appChargingState.updateChargingStateMode(.chargerNotConnected)
                 }
             }
