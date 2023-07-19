@@ -56,8 +56,10 @@ struct GeneralView: View {
                     }
                 
                 Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
-                    .onChange(of: checkForBetaUpdates) { newValue in
-                        updater.checkForUpdates()
+                    .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
+                        if checkForBetaUpdates {
+                            updater.checkForUpdates()
+                        }
                     }
                     .disabled(!automaticallyChecksForUpdates)
             }
