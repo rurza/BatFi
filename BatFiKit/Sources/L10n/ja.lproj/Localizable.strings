@@ -67,16 +67,16 @@
 "settings.button.label.automatically_download_updates" = "アップデートを自動的にダウンロードする";
 "settings.button.label.automatically_manage_charging" = "充電を自動的に管理する";
 "settings.button.label.battery_percentage" = "バッテリーの残量パーセントを表示";
-"settings.button.label.blink_magSafe_when_discharging" = "Blink the LED on MagSafe a few times when the app begins to discharge the battery";
+"settings.button.label.blink_magSafe_when_discharging" = "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅します。";
 "settings.button.label.charging_status_did_change" = "充電ステータスが変わった時に通知する";
-"settings.button.label.check_for_beta_updates" = "Allow the beta version of the app";
+"settings.button.label.check_for_beta_updates" = "アプリのベータ版を許可する";
 "settings.button.label.debug_menu" = "デバッグメニューを表示";
 "settings.button.label.disable_automatic_sleep" = "充電時に自動スリープを遅らせ、過充電を避ける";
 "settings.button.label.discharge_batter_when_overcharged" = "制限を超えて充電されたときにバッテリーを放電する";
 "settings.button.label.launch_at_login" = "ログイン時に起動する";
-"settings.button.label.magsafe_use_green_light" = "Use the green light on the MagSafe when charging is paused";
+"settings.button.label.magsafe_use_green_light" = "充電が一時停止している場合は、MagSafeの緑色のランプを使用してください。";
 "settings.button.label.monochrome_icon" = "モノクロのアイコンを表示";
-"settings.button.label.pause_charging_on_sleep" = "Automatically pause charging when the Mac goes to sleep";
+"settings.button.label.pause_charging_on_sleep" = "Macがスリープ状態になると、自動的に充電を一時停止します。";
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "バッテリー充電の最適化が作動しているときにアラートを表示する";
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "バッテリーが熱くなったら、自動的に充電をオフにする";
 "settings.button.tooltip.disable_automatic_sleep" = "このアプリはコンピュータが充電限界まで充電するのを遅らせ、その後、充電を停止し、Macをスリープ状態にします。";
@@ -95,4 +95,4 @@
 "settings.tab.title.charging" = "充電";
 "settings.tab.title.general" = "一般";
 "settings.tab.title.notifications" = "通知";
-"texterify_timestamp" = "2023-07-17T22:40:35Z";
+"texterify_timestamp" = "2023-07-19T20:26:04Z";
