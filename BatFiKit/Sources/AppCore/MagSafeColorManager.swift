@@ -20,20 +20,30 @@ public final class MagSafeColorManager {
     @Dependency(\.defaults)             private var defaults
     @Dependency(\.appChargingState)     private var appChargingState
     @Dependency(\.suspendingClock)      private var suspendingClock
+    @Dependency(\.powerSourceClient)    private var powerSourceClient
 
     public init() { }
 
     public func setUpObserving() {
         Task {
-            for await (greenLight, blinkWhenDischarging, mode) in combineLatest(
-                defaults.observe(.showGreenLightMagSafeWhenInhibiting),
-                defaults.observe(.blinkMagSafeWhenDischarging),
-                appChargingState.observeChargingStateMode()
-            ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock)) {
+            for await ((greenLight, blinkWhenDischarging, limit), (mode, powerState)) in
+                    combineLatest(
+                        combineLatest(
+                            defaults.observe(.showGreenLightMagSafeWhenInhibiting),
+                            defaults.observe(.blinkMagSafeWhenDischarging),
+                            defaults.observe(.chargeLimit)
+                        ),
+                        combineLatest(
+                            appChargingState.observeChargingStateMode(),
+                            powerSourceClient.powerSourceChanges()
+                        )
+                    ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock)) {
                 await updateMagsafeLEDIndicator(
                     showGreenLightWhenInhibiting: greenLight,
                     blinkWhenDischarging: blinkWhenDischarging,
-                    appMode: mode
+                    powerState: powerState,
+                    appMode: mode,
+                    limit: limit
                 )
             }
         }
@@ -46,10 +56,12 @@ public final class MagSafeColorManager {
     private func updateMagsafeLEDIndicator(
         showGreenLightWhenInhibiting: Bool,
         blinkWhenDischarging: Bool,
-        appMode: AppChargingMode
+        powerState: PowerState,
+        appMode: AppChargingMode,
+        limit: Int
     ) async {
 
-        if appMode == .inhibit && showGreenLightWhenInhibiting {
+        if appMode == .inhibit && showGreenLightWhenInhibiting && powerState.batteryLevel >= limit {
             logger.debug("Should change the color of MagSafe to green")
             do {
                 _ = try await magSafeLEDColor.changeMagSafeLEDColor(.green)
