@@ -62,6 +62,7 @@
 "settings.accessibility.title.charging" = "Charging pane";
 "settings.accessibility.title.general" = "General pane";
 "settings.accessibility.title.notifications" = "Notifications pane";
+"settings.accessibility.title.menu" = "Menu pane";
 "settings.button.description.lid_must_be_opened" = "Works only with the lid opened.";
 "settings.button.label.automatically_check_updates" = "Automatically check for updates";
 "settings.button.label.automatically_download_updates" = "Automatically download updates";
@@ -79,6 +80,7 @@
 "settings.button.label.pause_charging_on_sleep" = "Automatically pause charging when the Mac goes to sleep";
 "settings.button.label.show_alerts_when_optimized_charging_is_engaged" = "Show alert when the optimized battery charging is engaged";
 "settings.button.label.turn_off_charging_when_battery_is_hot" = "Automatically turn off charging when the battery gets hot";
+"settings.button.label.power_diagram_show" = "Show";
 "settings.button.tooltip.disable_automatic_sleep" = "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep";
 "settings.button.tooltip.discharge_batter_when_overcharged" = "When Macbook's lid is opened, the app can discharge battery until it will reach the limit";
 "settings.button.tooltip.turn_off_charging_when_battery_is_hot" = "Turns off charging when the battery is 35°C or more.";
@@ -91,8 +93,10 @@
 "settings.section.notifications" = "Notifications";
 "settings.section.status_icon" = "Status icon";
 "settings.section.updates" = "Updates";
+"settings.section.power_diagram" = "Power diagram";
 "settings.slider.label.turn_off_charging_at" = "Turn off charging when battery will reach %@";
 "settings.tab.title.charging" = "Charging";
 "settings.tab.title.general" = "General";
 "settings.tab.title.notifications" = "Notifications";
+"settings.tab.title.menu" = "Menu";
 "texterify_timestamp" = "2023-07-17T22:40:34Z";

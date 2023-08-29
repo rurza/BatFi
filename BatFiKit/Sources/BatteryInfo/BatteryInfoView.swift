@@ -5,11 +5,15 @@
 //  Created by Adam on 20/04/2023.
 //
 
+import Defaults
 import SwiftUI
 import AppShared
 import L10n
+import Shared
 
 public struct BatteryInfoView: View {
+    @Default(.showPowerDiagram) private var showPowerDiagram
+    
     @StateObject private var model = Model()
 
     public init() { }
@@ -58,6 +62,10 @@ public struct BatteryInfoView: View {
                         )
                     }
                     .frame(maxWidth: .infinity)
+                    if let powerInfo = model.powerInfo, showPowerDiagram {
+                        SeparatorView()
+                        BatteryPowerInfo(powerInfo: powerInfo)
+                    }
                 }
                 .onDisappear {
                     model.cancelObserving()
@@ -126,4 +134,80 @@ struct BatteryAdditionalInfo<Label: View>: View {
             .font(.callout)
         }
     }
+}
+
+struct BatteryPowerInfo: View {
+    let powerInfo: PowerInfo
+    
+    init(powerInfo: PowerInfo) {
+        self.powerInfo = powerInfo
+    }
+    
+    private func sourceItems() -> [BatteryPowerInfoItem] {
+        var items = [BatteryPowerInfoItem]()
+        if powerInfo.batteryPower > 0 {
+            items.append(BatteryPowerInfoItem(type: .battery, power: powerInfo.batteryPower))
+        }
+        if powerInfo.externalPower > 0 {
+            items.append(BatteryPowerInfoItem(type: .external, power: powerInfo.externalPower))
+        }
+        items.sort { $0.power > $1.power }
+        return items
+    }
+    
+    private func targetItems() -> [BatteryPowerInfoItem] {
+        var items = [BatteryPowerInfoItem]()
+        if powerInfo.batteryPower < 0 {
+            items.append(BatteryPowerInfoItem(type: .battery, power: abs(powerInfo.batteryPower)))
+        }
+        items.append(BatteryPowerInfoItem(type: .system, power: powerInfo.systemPower))
+        items.sort { $0.power > $1.power }
+        return items
+    }
+    
+    var body: some View {
+        HStack {
+            VStack {
+                ForEach(sourceItems(), id: \.type) {
+                    $0
+                }
+            }
+            Spacer()
+            Image(systemName: "arrow.forward")
+            Spacer()
+            VStack {
+                ForEach(targetItems(), id: \.type) {
+                    $0
+                }
+            }
+        }
+        .foregroundColor(.secondary)
+        .font(.callout)
+    }
+}
+
+struct BatteryPowerInfoItem: View {
+    let type: BatteryPowerInfoItemType
+    let power: Float
+    
+    init(type: BatteryPowerInfoItemType, power: Float) {
+        self.type = type
+        self.power = power
+    }
+    
+    var body: some View {
+        GroupBox {
+            VStack(spacing: 5) {
+                Image(systemName: type.rawValue)
+                Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
+            }
+            .frame(width: 55, height: 40)
+        }
+    }
+}
+
+enum BatteryPowerInfoItemType: String {
+    case battery = "battery.100"
+    case external = "bolt.fill"
+    case system = "laptopcomputer"
 }

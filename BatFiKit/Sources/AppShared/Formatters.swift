@@ -31,3 +31,14 @@ public let percentageFormatter: NumberFormatter = {
     formatter.maximumFractionDigits = 0
     return formatter
 }()
+
+public let powerFormatter: MeasurementFormatter = {
+    let formatter = MeasurementFormatter()
+    formatter.unitStyle = .short
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    numberFormatter.minimumFractionDigits = 3
+    numberFormatter.maximumFractionDigits = 3
+    formatter.numberFormatter = numberFormatter
+    return formatter
+}()

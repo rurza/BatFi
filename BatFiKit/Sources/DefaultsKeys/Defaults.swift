@@ -30,6 +30,7 @@ extension Defaults.Keys {
     public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
     public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
     public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
+    public static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
 
 
     // notifications

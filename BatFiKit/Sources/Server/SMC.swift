@@ -127,6 +127,15 @@ extension FourCharCode {
     }
 }
 
+extension Float {
+    init(fromBytes bytes: (UInt8, UInt8, UInt8, UInt8)) {
+        var bytes = bytes
+        self = withUnsafeBytes(of: &bytes) {
+            return $0.load(as: Self.self)
+        }
+    }
+}
+
 //------------------------------------------------------------------------------
 // MARK: Defined by AppleSMC.kext
 //------------------------------------------------------------------------------
@@ -244,6 +253,8 @@ struct DataTypes {
     DataType(type: FourCharCode(fromStaticString: "ui8 "), size: 1)
     static let UInt32 =
     DataType(type: FourCharCode(fromStaticString: "ui32"), size: 4)
+    static let Float =
+    DataType(type: FourCharCode(fromStaticString: "flt "), size: 4)
 }
 
 struct SMCKey {

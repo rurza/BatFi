@@ -217,6 +217,8 @@ public enum L10n {
         public static let charging = L10n.tr("Localizable", "settings.accessibility.title.charging", fallback: "Charging pane")
         /// General pane
         public static let general = L10n.tr("Localizable", "settings.accessibility.title.general", fallback: "General pane")
+        /// Menu pane
+        public static let menu = L10n.tr("Localizable", "settings.accessibility.title.menu", fallback: "Menu pane")
         /// Notifications pane
         public static let notifications = L10n.tr("Localizable", "settings.accessibility.title.notifications", fallback: "Notifications pane")
       }
@@ -255,6 +257,8 @@ public enum L10n {
         public static let monochromeIcon = L10n.tr("Localizable", "settings.button.label.monochrome_icon", fallback: "Show monochrome icon")
         /// Automatically pause charging when the Mac goes to sleep
         public static let pauseChargingOnSleep = L10n.tr("Localizable", "settings.button.label.pause_charging_on_sleep", fallback: "Automatically pause charging when the Mac goes to sleep")
+        /// Show
+        public static let powerDiagramShow = L10n.tr("Localizable", "settings.button.label.power_diagram_show", fallback: "Show")
         /// Show alert when the optimized battery charging is engaged
         public static let showAlertsWhenOptimizedChargingIsEngaged = L10n.tr("Localizable", "settings.button.label.show_alerts_when_optimized_charging_is_engaged", fallback: "Show alert when the optimized battery charging is engaged")
         /// Automatically turn off charging when the battery gets hot
@@ -286,6 +290,8 @@ public enum L10n {
       public static let magSafe = L10n.tr("Localizable", "settings.section.magSafe", fallback: "MagSafe")
       /// Notifications
       public static let notifications = L10n.tr("Localizable", "settings.section.notifications", fallback: "Notifications")
+      /// Power diagram
+      public static let powerDiagram = L10n.tr("Localizable", "settings.section.power_diagram", fallback: "Power diagram")
       /// Status icon
       public static let statusIcon = L10n.tr("Localizable", "settings.section.status_icon", fallback: "Status icon")
       /// Updates
@@ -305,6 +311,8 @@ public enum L10n {
         public static let charging = L10n.tr("Localizable", "settings.tab.title.charging", fallback: "Charging")
         /// General
         public static let general = L10n.tr("Localizable", "settings.tab.title.general", fallback: "General")
+        /// Menu
+        public static let menu = L10n.tr("Localizable", "settings.tab.title.menu", fallback: "Menu")
         /// Notifications
         public static let notifications = L10n.tr("Localizable", "settings.tab.title.notifications", fallback: "Notifications")
       }
