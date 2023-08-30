@@ -11,9 +11,17 @@ import Foundation
 
 public struct Persistence: TestDependencyKey {
     public var savePowerState: (_ powerState: PowerState, _ mode: AppChargingMode) async throws -> Void
+    public var fetchPowerStatePoint: (_ fromDate: Date, _ toDate: Date) async throws -> [PowerStatePoint]
+    public var powerStateDidChange: () async -> AsyncStream<Void>
 
-    public init(savePowerState: @escaping (PowerState, AppChargingMode) async throws -> Void) {
+    public init(
+        savePowerState: @escaping (PowerState, AppChargingMode) async throws -> Void,
+        fetchPowerStatePoint: @escaping (Date, Date) async throws -> [PowerStatePoint],
+        observePowerStatePoints: @escaping () async -> AsyncStream<Void>
+    ) {
         self.savePowerState = savePowerState
+        self.fetchPowerStatePoint = fetchPowerStatePoint
+        self.powerStateDidChange = observePowerStatePoints
     }
 
     public static var testValue: Persistence = unimplemented()

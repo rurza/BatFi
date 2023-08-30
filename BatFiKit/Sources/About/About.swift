@@ -6,8 +6,8 @@
 //
 
 import AboutKit
+import AppKit
 import L10n
-import Cocoa
 
 public func presentAboutWindow() -> NSWindow {
     let about = AboutWindow(

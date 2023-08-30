@@ -8,7 +8,6 @@
 import Foundation
 
 public struct PowerState: CustomStringConvertible, Equatable {
-
     public let batteryLevel: Int
     public let isCharging: Bool
     public let powerSource: String

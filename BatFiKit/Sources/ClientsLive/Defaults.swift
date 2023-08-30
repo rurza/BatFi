@@ -24,7 +24,7 @@ public struct DefaultsClient: DefaultsProtocol {
     public func observe<Value>(_ key: Defaults.Key<Value>) -> AsyncStream<Value> where Value : Defaults.Serializable & CustomStringConvertible {
         Defaults.updates(key)
             .map {
-                logger.debug("\(key.name) did change: \($0.description)")
+                logger.debug("\(key.name, privacy: .public) did change: \($0.description, privacy: .public)")
                 return $0
             }.eraseToStream()
     }

@@ -21,10 +21,11 @@ extension PowerSourceClient: DependencyKey {
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
-                    if let initialState = try? getPowerSourceInfo() {
+                    do {
+                        let initialState = try getPowerSourceInfo()
                         continuation.yield(initialState)
-                    } else {
-                        logger.warning("Can't get the current power source info")
+                    } catch {
+                        logger.error("Can't get the current power source info")
                     }
                     let id = UUID()
                     observer.addHandler(id) {
@@ -84,7 +85,7 @@ extension PowerSourceClient: DependencyKey {
 
         func removeHandler(_ id: UUID) {
             handlersQueue.sync { [weak self] in
-                self?.handlers.removeValue(forKey: id)
+                _ = self?.handlers.removeValue(forKey: id)
             }
         }
 

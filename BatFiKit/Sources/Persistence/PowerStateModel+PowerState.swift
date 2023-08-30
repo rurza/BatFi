@@ -23,4 +23,15 @@ extension PowerStateModel {
         self.timestamp = Date.now
         self.appMode = appMode.rawValue
     }
+
+    public var point: PowerStatePoint {
+        PowerStatePoint(
+            batteryLevel: batteryLevel,
+            appMode: AppChargingMode(rawValue: appMode)!,
+            isCharging: isCharging,
+            timestamp: timestamp,
+            batteryTemperature: batteryTemperature,
+            chargerConnected: chargerConnected
+        )
+    }
 }

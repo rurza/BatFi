@@ -26,5 +26,6 @@ public let persistenceContainer: NSPersistentContainer = {
             logger.fault("Can not load persistent store! \(error, privacy: .public)")
         }
     }
+    container.viewContext.automaticallyMergesChangesFromParent = true
     return container
 }()

@@ -48,6 +48,7 @@ public final class Server {
             server.setErrorHandler(errorHandler)
 
             server.start()
+            logger.notice("Server launched!")
             RunLoop.main.run()
             logger.error("RunLoop exited.")
         } catch {

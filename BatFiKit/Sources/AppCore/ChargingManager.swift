@@ -208,7 +208,6 @@ public final class ChargingManager {
                 )
             }
         }
-
     }
 
     private func turnOnForceDischargeIfNeeded(chargerConnected: Bool) async {

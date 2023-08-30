@@ -7,11 +7,13 @@
 
 import Foundation
 
-public enum AppChargingMode: String, Equatable {
+public enum AppChargingMode: String, Equatable, Identifiable {
     case initial
     case charging
     case inhibit
     case forceDischarge
     case forceCharge
     case chargerNotConnected
+
+    public var id: String { rawValue }
 }

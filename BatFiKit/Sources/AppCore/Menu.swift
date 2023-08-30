@@ -7,9 +7,9 @@
 
 import AsyncAlgorithms
 import AppShared
+import AppKit
 import BatteryInfo
 import Clients
-import Cocoa
 import L10n
 import DefaultsKeys
 import Dependencies
