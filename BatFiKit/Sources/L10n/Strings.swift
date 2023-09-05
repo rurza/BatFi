@@ -88,6 +88,12 @@ public enum L10n {
           public static let timeToCharge = L10n.tr("Localizable", "battery_info.label.main.time.time_to_charge", fallback: "Time to Charge")
         }
       }
+      public enum TopCoalition {
+        /// No processes with high energy impact
+        public static let `none` = L10n.tr("Localizable", "battery_info.label.top_coalition.none", fallback: "No processes with high energy impact")
+        /// Processes with high energy impact
+        public static let some = L10n.tr("Localizable", "battery_info.label.top_coalition.some", fallback: "Processes with high energy impact")
+      }
     }
   }
   public enum Menu {
@@ -217,6 +223,8 @@ public enum L10n {
         public static let charging = L10n.tr("Localizable", "settings.accessibility.title.charging", fallback: "Charging pane")
         /// General pane
         public static let general = L10n.tr("Localizable", "settings.accessibility.title.general", fallback: "General pane")
+        /// Menu pane
+        public static let menu = L10n.tr("Localizable", "settings.accessibility.title.menu", fallback: "Menu pane")
         /// Notifications pane
         public static let notifications = L10n.tr("Localizable", "settings.accessibility.title.notifications", fallback: "Notifications pane")
       }
@@ -247,6 +255,8 @@ public enum L10n {
         public static let disableAutomaticSleep = L10n.tr("Localizable", "settings.button.label.disable_automatic_sleep", fallback: "Delay automatic sleep when charging and the limit's not reached")
         /// Discharge battery when charged over limit
         public static let dischargeBatterWhenOvercharged = L10n.tr("Localizable", "settings.button.label.discharge_batter_when_overcharged", fallback: "Discharge battery when charged over limit")
+        /// Show
+        public static let highEnergyImpactProcessesShow = L10n.tr("Localizable", "settings.button.label.high_energy_impact_processes_show", fallback: "Show")
         /// Open at login
         public static let launchAtLogin = L10n.tr("Localizable", "settings.button.label.launch_at_login", fallback: "Open at login")
         /// Use the green light on the MagSafe when charging is paused
@@ -274,6 +284,18 @@ public enum L10n {
       public static let chargingRecommendationPart1 = L10n.tr("Localizable", "settings.label.charging_recommendation_part1", fallback: "80%% is the recommended value for a day-to-day usage.")
       /// You can manually override this setting by using the "Charge to 100%%" command from the menu.
       public static let chargingRecommendationPart2 = L10n.tr("Localizable", "settings.label.charging_recommendation_part2", fallback: "You can manually override this setting by using the \"Charge to 100%%\" command from the menu.")
+      /// Capacity:
+      public static let highEnergyImpactProcessesCapacity = L10n.tr("Localizable", "settings.label.high_energy_impact_processes_capacity", fallback: "Capacity:")
+      /// processes
+      public static let highEnergyImpactProcessesCapacityUnit = L10n.tr("Localizable", "settings.label.high_energy_impact_processes_capacity_unit", fallback: "processes")
+      /// Duration:
+      public static let highEnergyImpactProcessesDuration = L10n.tr("Localizable", "settings.label.high_energy_impact_processes_duration", fallback: "Duration:")
+      /// minutes
+      public static let highEnergyImpactProcessesDurationUnit = L10n.tr("Localizable", "settings.label.high_energy_impact_processes_duration_unit", fallback: "minutes")
+      /// Threshold:
+      public static let highEnergyImpactProcessesThreshold = L10n.tr("Localizable", "settings.label.high_energy_impact_processes_threshold", fallback: "Threshold:")
+      /// energy impact of
+      public static let highEnergyImpactProcessesThresholdUnit = L10n.tr("Localizable", "settings.label.high_energy_impact_processes_threshold_unit", fallback: "energy impact of")
     }
     public enum Section {
       /// Advanced
@@ -282,6 +304,8 @@ public enum L10n {
       public static let alerts = L10n.tr("Localizable", "settings.section.alerts", fallback: "Alerts")
       /// General
       public static let general = L10n.tr("Localizable", "settings.section.general", fallback: "General")
+      /// High energy impact processes
+      public static let highEnergyImpactProcesses = L10n.tr("Localizable", "settings.section.high_energy_impact_processes", fallback: "High energy impact processes")
       /// MagSafe
       public static let magSafe = L10n.tr("Localizable", "settings.section.magSafe", fallback: "MagSafe")
       /// Notifications
@@ -305,6 +329,8 @@ public enum L10n {
         public static let charging = L10n.tr("Localizable", "settings.tab.title.charging", fallback: "Charging")
         /// General
         public static let general = L10n.tr("Localizable", "settings.tab.title.general", fallback: "General")
+        /// Menu
+        public static let menu = L10n.tr("Localizable", "settings.tab.title.menu", fallback: "Menu")
         /// Notifications
         public static let notifications = L10n.tr("Localizable", "settings.tab.title.notifications", fallback: "Notifications")
       }

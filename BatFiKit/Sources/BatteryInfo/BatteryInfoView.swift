@@ -5,11 +5,14 @@
 //  Created by Adam on 20/04/2023.
 //
 
+import Defaults
 import SwiftUI
 import AppShared
 import L10n
 
 public struct BatteryInfoView: View {
+    @Default(.showHighEnergyImpactProcesses) private var showHighEnergyImpactProcesses
+    
     @StateObject private var model = Model()
 
     public init() { }
@@ -58,6 +61,10 @@ public struct BatteryInfoView: View {
                         )
                     }
                     .frame(maxWidth: .infinity)
+                    if let topCoalitionInfo = model.topCoalitionInfo, showHighEnergyImpactProcesses {
+                        SeparatorView()
+                        BatteryTopCoalitionInfo(topCoalitionInfo: topCoalitionInfo)
+                    }
                 }
                 .onDisappear {
                     model.cancelObserving()
@@ -124,6 +131,49 @@ struct BatteryAdditionalInfo<Label: View>: View {
             }
             .foregroundColor(.secondary)
             .font(.callout)
+        }
+    }
+}
+
+struct BatteryTopCoalitionInfo: View {
+    let topCoalitionInfo: TopCoalitionInfo
+    
+    init(topCoalitionInfo: TopCoalitionInfo) {
+        self.topCoalitionInfo = topCoalitionInfo
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            if topCoalitionInfo.topCoalitions.count > 0 {
+                Text(L10n.BatteryInfo.Label.TopCoalition.some)
+                    .bold()
+                ForEach(topCoalitionInfo.topCoalitions, id: \.bundleIdentifier) { coalition in
+                    BatteryTopCoalitionInfoItem(coalition: coalition)
+                }
+            } else {
+                Text(L10n.BatteryInfo.Label.TopCoalition.none)
+            }
+        }
+        .foregroundColor(.secondary)
+        .font(.callout)
+    }
+}
+
+struct BatteryTopCoalitionInfoItem: View {
+    let coalition: Coalition
+    
+    init(coalition: Coalition) {
+        self.coalition = coalition
+    }
+    
+    var body: some View {
+        HStack {
+            Image(nsImage: coalition.icon ?? NSWorkspace.shared.icon(for: .applicationBundle))
+                .resizable()
+                .frame(width: 24, height: 24)
+            Text(coalition.displayName ?? coalition.bundleIdentifier)
+            Spacer()
+            Text(energyImpactFormatter.string(from: NSNumber(floatLiteral: coalition.energyImpact))!)
         }
     }
 }
