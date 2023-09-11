@@ -35,7 +35,8 @@ extension Persistence: DependencyKey {
                     let fetchRequest = PowerStateModel.fetchRequest()
                     let fromPredicate = NSPredicate(format: "%K >= %@", #keyPath(PowerStateModel.timestamp), fromDate as NSDate)
                     let toPredicate = NSPredicate(format: "%K =< %@", #keyPath(PowerStateModel.timestamp), toDate as NSDate)
-                    fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fromPredicate, toPredicate])
+                    let modePredicate = NSPredicate(format: "%K != %@", #keyPath(PowerStateModel.appMode), AppChargingMode.initial.rawValue)
+                    fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fromPredicate, toPredicate, modePredicate])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: true)]
 
                     let results = try context.fetch(fetchRequest)

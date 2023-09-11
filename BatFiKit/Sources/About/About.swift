@@ -16,6 +16,7 @@ public func presentAboutWindow() -> NSWindow {
             AboutViewAdditionalContentView()
         }
     )
-    about.makeKeyAndOrderFront(nil)
+    about.orderFrontRegardless()
+    NSApp.activate(ignoringOtherApps: true)
     return about
 }

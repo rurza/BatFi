@@ -21,6 +21,7 @@ extension Target.Dependency {
     static let defaultsKeys: Self = "DefaultsKeys"
     static let persistence: Self = "Persistence"
     static let shared: Self = "Shared"
+    static let powerCharts: Self = "PowerCharts"
 }
 
 let package = Package(
@@ -37,7 +38,8 @@ let package = Package(
         .library(name: "Onboarding", targets: ["Onboarding"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "Shared", targets: ["Shared"])
+        .library(name: "Shared", targets: ["Shared"]),
+        .library(name: "PowerCharts", targets: ["PowerCharts"])
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
@@ -87,6 +89,7 @@ let package = Package(
             .defaultsKeys,
             .dependencies,
             .l10n,
+            .powerCharts,
             .asyncAlgorithms,
             .shared,
             .snapKit
@@ -134,6 +137,14 @@ let package = Package(
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
+        .target(
+            name: "PowerCharts",
+            dependencies: [
+                .clients,
+                .dependencies,
+                .persistence
+            ]
+        ),
         .target(
             name: "Notifications",
             dependencies: [

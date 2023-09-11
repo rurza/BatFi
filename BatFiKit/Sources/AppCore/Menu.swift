@@ -14,6 +14,7 @@ import L10n
 import DefaultsKeys
 import Dependencies
 import MenuBuilder
+import PowerCharts
 
 @MainActor
 public protocol MenuControllerDelegate: AnyObject {
@@ -64,6 +65,15 @@ public final class MenuController {
             MenuItem("")
                 .view {
                     BatteryInfoView()
+                }
+            MenuItem("")
+                .view {
+                    ChartsView()
+                        .padding(.horizontal)
+                        .padding(.top, 10)
+                        .padding(.bottom, 6)
+                        .frame(height: 170)
+                        .frame(maxWidth: .infinity)
                 }
             SeparatorItem()
             if appChargingState == .forceDischarge || appChargingState == .chargerNotConnected {

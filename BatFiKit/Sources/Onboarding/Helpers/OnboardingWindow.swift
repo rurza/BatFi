@@ -32,14 +32,4 @@ public class OnboardingWindow: NSWindow {
         self.title = "Onboarding"
         self.animationBehavior = .documentWindow
     }
-
-    public override func makeKeyAndOrderFront(_ sender: Any?) {
-        NSApp.activate(ignoringOtherApps: true)
-        super.makeKeyAndOrderFront(sender)
-    }
-
-    public override func orderFront(_ sender: Any?) {
-        NSApp.activate(ignoringOtherApps: true)
-        super.orderFront(sender)
-    }
 }

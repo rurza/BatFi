@@ -90,7 +90,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
             let about = presentAboutWindow()
             self.aboutWindow = about
         } else {
-            aboutWindow?.makeKeyAndOrderFront(nil)
+            aboutWindow?.orderFrontRegardless()
         }
     }
 
@@ -103,12 +103,13 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
                     self.statusItemIconController?.delegate = self
                 }
             }
-            window.makeKeyAndOrderFront(nil)
+            window.orderFrontRegardless()
             window.center()
             self.onboardingWindow = window
         } else {
-            onboardingWindow?.makeKeyAndOrderFront(nil)
+            onboardingWindow?.orderFrontRegardless()
         }
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     @MainActor
