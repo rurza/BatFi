@@ -66,13 +66,14 @@ public final class MenuController {
                 .view {
                     BatteryInfoView()
                 }
+            SeparatorItem()
             MenuItem("")
                 .view {
                     ChartsView()
+                        .frame(height: 160)
                         .padding(.horizontal)
-                        .padding(.top, 10)
+                        .padding(.top, 6)
                         .padding(.bottom, 6)
-                        .frame(height: 170)
                         .frame(maxWidth: .infinity)
                 }
             SeparatorItem()

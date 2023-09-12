@@ -15,6 +15,7 @@ extension Target.Dependency {
     static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
     static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
+    static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
     static let l10n: Self = "L10n"
     static let appShared: Self = "AppShared"
     static let clients: Self = "Clients"
@@ -53,7 +54,8 @@ let package = Package(
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1"),
         .package(url: "https://github.com/SnapKit/SnapKit", branch: "main"),
         .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main"),
-        .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0")
+        .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0"),
+        .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -142,7 +144,8 @@ let package = Package(
             dependencies: [
                 .clients,
                 .dependencies,
-                .persistence
+                .persistence,
+                .identifiedCollections
             ]
         ),
         .target(

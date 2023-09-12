@@ -19,67 +19,87 @@ public struct ChartsView: View {
     public init() { }
 
     public var body: some View {
-        Chart(model.powerStatePoints) {
-            BarMark(
-                x: .value("Time", $0.timestamp ..< $0.timestamp.advanced(by: 60 * 15)),
-                y: .value("Battery Level", $0.batteryLevel),
-                width: 0.6
-            )
-            .foregroundStyle(by: .value("App mode", $0.appMode.representation))
-        }
-        .chartForegroundStyleScale(colorsForAllModes())
-        .chartYAxis {
-            AxisMarks(
-                values: [0, 50, 100]
-            ) {
-                AxisValueLabel(format: Decimal.FormatStyle.Percent.percent.scale(1))
-            }
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Last 12 hours")
+                .foregroundStyle(.secondary)
+                .font(.callout)
+            Chart(model.powerStatePoints) {
+                let offsetDate = model.offsetDateFor($0)
+                BarMark(
+                    x: .value("Time", $0.timestamp ..< offsetDate),
+                    y: .value("Battery Level", $0.batteryLevel),
+                    width: .inset(0),
+                    height: .inset(0)
+                )
+                .foregroundStyle(by: .value("App mode", $0.appMode.representation))
 
-            AxisMarks(
-                values: [0, 25, 50, 75, 100]
-            ) {
-                AxisGridLine()
+                LineMark(
+                    x: .value("Time", $0.timestamp ..< offsetDate),
+                    y: .value("Battery Level", $0.batteryLevel)
+                )
+
+                BarMark(
+                    x: .value("Time", $0.timestamp ..< offsetDate),
+                    y: .value("Charger connected", $0.chargerConnected ? 100 - $0.batteryLevel : 0),
+                    width: .inset(0),
+                    height: .inset(0)
+                )
+                .foregroundStyle(chargerConnectedForegrondColorFor($0))
             }
-        }
-        .chartXAxis {
-            AxisMarks(values: .stride(by: .hour, count: 3)) { value in
-                if let date = value.as(Date.self) {
-                    let hour = calendar.component(.hour, from: date)
-                    AxisValueLabel {
-                        Text(date, format: .dateTime.hour(.conversationalDefaultDigits(amPM: .abbreviated)))
-                    }
-                    if hour == 0 {
-                        AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                        AxisTick(stroke: StrokeStyle(lineWidth: 0.5))
-                    } else {
-                        AxisGridLine()
-                        AxisTick()
+            .chartForegroundStyleScale(colorsForAllModes())
+            .chartYAxis {
+                AxisMarks(
+                    values: [0, 50, 100]
+                ) {
+                    AxisValueLabel(format: Decimal.FormatStyle.Percent.percent.scale(1))
+                }
+
+                AxisMarks(
+                    values: [0, 25, 50, 75, 100]
+                ) {
+                    AxisGridLine()
+                }
+            }
+            .chartXAxis {
+                AxisMarks(values: .stride(by: .hour, count: 3, roundLowerBound: true)) { value in
+                    if let date = value.as(Date.self) {
+                        let hour = calendar.component(.hour, from: date)
+                        AxisValueLabel {
+                            Text(date, format: .dateTime.hour(.defaultDigits(amPM: .abbreviated)))
+                        }
+                        if hour == 0 {
+                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
+                            AxisTick(stroke: StrokeStyle(lineWidth: 0.5))
+                        } else {
+                            AxisGridLine()
+                            AxisTick()
+                        }
                     }
                 }
             }
-        }
-        .chartLegend(position: .bottom, alignment: .leading, spacing: nil) {
-            VStack(alignment: .leading, spacing: 0) {
+            .chartLegend(.hidden)
+            VStack(alignment: .leading, spacing: 7) {
                 ForEach(colorsForAllModes(), id: \.key) { pair in
-                    HStack {
-                        Circle().frame(width: 8, height: 8)
-                            .foregroundStyle(pair.value)
-                        Text(pair.key.description)
-                            .foregroundColor(Color.secondary)
-                            .font(.callout)
-                    }
+                    LegendView(label: pair.key.description, color: pair.value)
                 }
+                LegendView(label: "Charger connected", color: .orange.opacity(0.4))
             }
-            .foregroundStyle(.primary)
         }
     }
 
     func colorsForAllModes() -> KeyValuePairs<AppChargingMode.Representation, Color> {
         [
-            .discharging: Color.red,
             .charging: Color.green,
-            .inhibiting: Color.blue,
+            .inhibiting: Color.green.opacity(0.4),
         ]
+    }
+
+    func chargerConnectedForegrondColorFor(_ powerStatePoint: PowerStatePoint) -> Color {
+        if powerStatePoint.chargerConnected && powerStatePoint.appMode.representation == .charging {
+            return .green.opacity(0.4)
+        } else {
+            return .orange.opacity(0.5)
+        }
     }
 }
 
