@@ -40,8 +40,7 @@ extension ChartsView {
             let components = calendar.dateComponents([.minute, .second], from: toDate)
             guard let fromDate = calendar.date(
                 byAdding: DateComponents(hour: -12, minute: -components.minute!, second: -components.second!),
-                to: toDate,
-                wrappingComponents: true
+                to: toDate
             ) else {
                 logger.error("Can't create a from date from the toDate: \(toDate, privacy: .public)")
                 return

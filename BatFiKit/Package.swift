@@ -1,4 +1,4 @@
-// swift-tools-version: 5.8
+// swift-tools-version: 5.9
 
 import PackageDescription
 
@@ -39,8 +39,7 @@ let package = Package(
         .library(name: "Onboarding", targets: ["Onboarding"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "Shared", targets: ["Shared"]),
-        .library(name: "PowerCharts", targets: ["PowerCharts"])
+        .library(name: "Shared", targets: ["Shared"])
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
@@ -142,8 +141,10 @@ let package = Package(
         .target(
             name: "PowerCharts",
             dependencies: [
+                .appShared,
                 .clients,
                 .dependencies,
+                .l10n,
                 .persistence,
                 .identifiedCollections
             ]

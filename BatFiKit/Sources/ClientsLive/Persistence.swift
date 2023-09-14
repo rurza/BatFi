@@ -25,7 +25,7 @@ extension Persistence: DependencyKey {
                     do {
                         try context.save()
                     } catch {
-                        logger.error("Error when saving a new power state. \(error.localizedDescription, privacy: .public)")
+                        logger.error("Error when saving the new power state. \(error.localizedDescription, privacy: .public)")
                         throw error
                     }
                 }
