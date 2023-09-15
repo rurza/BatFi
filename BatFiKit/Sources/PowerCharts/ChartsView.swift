@@ -26,30 +26,39 @@ public struct ChartsView: View {
                 .font(.callout)
                 .padding(.bottom, 6)
             if !model.powerStatePoints.isEmpty {
-                Chart(model.powerStatePoints) {
-                    let offsetDate = model.offsetDateFor($0)
-                    BarMark(
-                        x: .value("Time", $0.timestamp ..< offsetDate),
-                        y: .value("Battery Level", $0.batteryLevel),
-                        width: .inset(0),
-                        height: .inset(0)
+                Chart {
+                    RectangleMark(
+                        xStart: .value("From date", model.fromDate),
+                        xEnd: .value("To date", model.toDate)
                     )
-                    .foregroundStyle(barForegroundColorFor($0))
+                    .foregroundStyle(Color.clear)
                     
-                    BarMark(
-                        x: .value("Time", $0.timestamp ..< offsetDate),
-                        y: .value("Battery Level", $0.chargerConnected ? 100 - $0.batteryLevel : 0),
-                        width: .inset(0),
-                        height: .inset(0)
-                    )
-                    .foregroundStyle(chargerConnectedForegrondColorFor($0))
-                    
-                    LineMark(
-                        x: .value("Time", $0.timestamp ..< offsetDate),
-                        y: .value("Battery Level", $0.batteryLevel)
-                    )
-                    .foregroundStyle(by: .value("visual battery", $0.visualBatteryState))
+                    ForEach(model.powerStatePoints) {
+                        let offsetDate = model.offsetDateFor($0)
+                        RectangleMark(
+                            xStart: .value("Time", $0.timestamp),
+                            xEnd: .value("Time", offsetDate),
+                            yStart: .value("zero", 0),
+                            yEnd: .value("level", $0.batteryLevel)
+                        )
+                        .foregroundStyle(barForegroundColorFor($0))
+
+                        RectangleMark(
+                            xStart: .value("Time", $0.timestamp),
+                            xEnd: .value("Time", offsetDate),
+                            yStart: .value("zero", $0.chargerConnected ? $0.batteryLevel : 100),
+                            yEnd: .value("level", 100)
+                        )
+                        .foregroundStyle(chargerConnectedForegrondColorFor($0))
+
+                        LineMark(
+                            x: .value("Time", $0.timestamp ..< offsetDate),
+                            y: .value("Battery Level", $0.batteryLevel)
+                        )
+                        .foregroundStyle(by: .value("visual battery", $0.visualBatteryState))
+                    }
                 }
+                .chartYScale(domain: 0...100)
                 .chartForegroundStyleScale(domain: VisualBatteryState.allCases, mapping: {
                     switch $0 {
                     case .normal:
@@ -76,7 +85,7 @@ public struct ChartsView: View {
                         if let date = value.as(Date.self) {
                             let hour = calendar.component(.hour, from: date)
                             AxisValueLabel {
-                                Text(date, format: .dateTime.hour(.defaultDigits(amPM: .abbreviated)))
+                                Text(date, format: .dateTime.hour(.defaultDigits(amPM: .abbreviated)).minute())
                             }
                             if hour == 0 {
                                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
@@ -94,7 +103,7 @@ public struct ChartsView: View {
                     LegendView(label: Representation.inhibiting.description, color: Color(.chartLightOrange))
                 }
             } else {
-                Text(L10n.Menu.Label.waitingForData)
+                Text(L10n.Menu.Charts.waitingForData)
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
@@ -109,7 +118,7 @@ public struct ChartsView: View {
             return Color(.chartLightOrange)
         }
     }
-    
+
     private func barForegroundColorFor(_ powerStatePoint: PowerStatePoint) -> Color {
         switch powerStatePoint.appMode.representation {
         case .charging:
