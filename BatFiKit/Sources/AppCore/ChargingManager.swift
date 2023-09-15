@@ -77,11 +77,11 @@ public final class ChargingManager {
                     let currentMode = await appChargingState.chargingStateMode()
                     if currentMode == .forceDischarge {
                         logger.debug("I will inhibit charging, current mode is force discharge")
-                        await inhibitChargingIfNeeded(chargerConnected: false)
+                        await inhibitCharging(chargerConnected: false)
                     } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
                                 !defaults.value(.forceCharge) {
                         logger.debug("I will inhibit charging, because user chose the option")
-                        await inhibitChargingIfNeeded(chargerConnected: true)
+                        await inhibitCharging(chargerConnected: true)
                     }
                 case .didWake:
                     computerIsAsleep = false
@@ -156,7 +156,7 @@ public final class ChargingManager {
         }
         guard manageCharging && !forceCharging else {
             logger.debug("Manage charging is turned off or Force charge is turned on")
-            await turnOnChargingIfNeeded(
+            await turnOnCharging(
                 preventSleeping: false,
                 chargerConnected: powerState.chargerConnected,
                 manageCharging: manageCharging,
@@ -165,7 +165,7 @@ public final class ChargingManager {
             return
         }
         if turnOffChargingWithHotBattery && powerState.batteryTemperature > 35 {
-            await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
+            await inhibitCharging(chargerConnected: powerState.chargerConnected)
             return
         }
         guard let lidOpened = await appChargingState.lidOpened() else {
@@ -194,13 +194,13 @@ public final class ChargingManager {
                 if currentBatteryLevel > chargeLimit && allowDischarging && lidOpened && !computerIsAsleep {
                     await turnOnForceDischargeIfNeeded(chargerConnected: powerState.chargerConnected)
                 } else {
-                    await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
+                    await inhibitCharging(chargerConnected: powerState.chargerConnected)
                 }
                 restoreSleepifNeeded()
             } else if inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
-                await inhibitChargingIfNeeded(chargerConnected: powerState.chargerConnected)
+                await inhibitCharging(chargerConnected: powerState.chargerConnected)
             } else {
-                await turnOnChargingIfNeeded(
+                await turnOnCharging(
                     preventSleeping: preventSleeping,
                     chargerConnected: powerState.chargerConnected,
                     manageCharging: manageCharging,
@@ -231,68 +231,50 @@ public final class ChargingManager {
         }
     }
 
-    private func turnOnChargingIfNeeded(
+    private func turnOnCharging(
         preventSleeping: Bool,
         chargerConnected: Bool,
         manageCharging: Bool,
         forceCharge: Bool
     ) async {
-        let mode = await appChargingState.chargingStateMode()
-        logger.debug("Should turn on charging...")
-        if mode != .charging && mode != .forceCharge {
-            logger.debug("Turning on charging")
-            do {
-                try await chargingClient.turnOnAutoChargingMode()
-                if chargerConnected {
-                    if forceCharge {
-                        await appChargingState.updateChargingStateMode(.forceCharge)
-                    } else {
-                        await appChargingState.updateChargingStateMode(.charging)
-                    }
+        logger.debug("Turning on charging")
+        do {
+            try await chargingClient.turnOnAutoChargingMode()
+            if chargerConnected {
+                if forceCharge {
+                    await appChargingState.updateChargingStateMode(.forceCharge)
                 } else {
-                    await appChargingState.updateChargingStateMode(.chargerNotConnected)
+                    await appChargingState.updateChargingStateMode(.charging)
                 }
-                logger.debug("Charging TURNED ON")
-            } catch {
-                logger.critical("Failed to turn on charging. Error: \(error)")
-            }
-        } else {
-            logger.debug("Charging already turned on.")
-            if !chargerConnected {
+            } else {
                 await appChargingState.updateChargingStateMode(.chargerNotConnected)
             }
+            logger.debug("Charging TURNED ON")
+        } catch {
+            logger.critical("Failed to turn on charging. Error: \(error)")
         }
         if preventSleeping && chargerConnected && manageCharging {
             delaySleepIfNeeded()
         }
     }
 
-    private func inhibitChargingIfNeeded(chargerConnected: Bool) async {
+    private func inhibitCharging(chargerConnected: Bool) async {
         let mode = await appChargingState.chargingStateMode()
-        logger.debug("I should inhibit charging...")
-        if mode != .inhibit {
-            do {
-                if chargerConnected || mode == .forceDischarge {
-                    try await chargingClient.inhibitCharging()
-                    // fetch the power state to check if the charger is connected
-                    let powerState = try? powerSourceClient.currentPowerSourceState()
-                    if let powerState, powerState.chargerConnected {
-                        await appChargingState.updateChargingStateMode(.inhibit)
-                        logger.debug("Inhibit Charging TURNED ON")
-                        return
-                    }
+        logger.debug("I will inhibit charging...")
+        do {
+            if chargerConnected || mode == .forceDischarge {
+                try await chargingClient.inhibitCharging()
+                // fetch the power state to check if the charger is connected
+                let powerState = try? powerSourceClient.currentPowerSourceState()
+                if let powerState, powerState.chargerConnected {
+                    await appChargingState.updateChargingStateMode(.inhibit)
+                    logger.debug("Inhibit Charging TURNED ON")
+                    return
                 }
+            }
 
-            } catch {
-                logger.critical("Failed to turn on inhibit charging. Error: \(error)")
-            }
-        } else {
-            if chargerConnected {
-                logger.debug("Inhibit charging already turned on.")
-            } else {
-                logger.debug("Charger not connected")
-                await appChargingState.updateChargingStateMode(.chargerNotConnected)
-            }
+        } catch {
+            logger.critical("Failed to turn on inhibit charging. Error: \(error)")
         }
     }
 
