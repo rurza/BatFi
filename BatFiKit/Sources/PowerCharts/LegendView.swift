@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LegendView: View {
-    let label: LocalizedStringKey
+    let label: String
     let color: Color
 
     var body: some View {
@@ -19,7 +19,6 @@ struct LegendView: View {
                 .overlay {
                     Circle().stroke(lineWidth: 1)
                 }
-//                .shadow(color: .black.opacity(0.15), radius: 1, x: 0, y: 1)
             Text(label)
         }
         .foregroundColor(Color.secondary)

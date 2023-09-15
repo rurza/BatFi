@@ -128,6 +128,13 @@ public enum L10n {
         public enum Charts {
             /// Waiting for data…
             public static let waitingForData = String(localized: "menu.charts.waitingForData", defaultValue: "Waiting for data…", bundle: Bundle.module)
+
+            public static let chartsHeader = String(localized: "menu.charts.header", defaultValue: "Last 12 hours", bundle: .module)
+
+            public enum Legend {
+                public static let charging = String(localized: "menu.charts.legend.charging", defaultValue: "Charging", bundle: .module)
+                public static let inhibiting = String(localized: "menu.charts.legend.inhibiting", defaultValue: "Inhibiting Charging", bundle: .module)
+            }
         }
 
         public enum Tooltip {

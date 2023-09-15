@@ -21,7 +21,7 @@ public struct ChartsView: View {
 
     public var body: some View {
         VStack(alignment: .leading) {
-            Text("Last 12 hours")
+            Text(L10n.Menu.Charts.chartsHeader)
                 .foregroundStyle(.secondary)
                 .font(.callout)
                 .padding(.bottom, 6)
@@ -149,14 +149,14 @@ private enum Representation: String, Plottable, CaseIterable {
     case inhibiting
     case discharging
 
-    var description: LocalizedStringKey {
+    var description: String {
         switch self {
         case .charging:
-            return "Charging"
+            return L10n.AppChargingMode.State.Title.charging
         case .inhibiting:
-            return "Inhibiting charging"
+            return L10n.AppChargingMode.State.Title.inhibit
         case .discharging:
-            return "Discharging"
+            return L10n.AppChargingMode.State.Title.forceDischarge
         }
     }
 }
