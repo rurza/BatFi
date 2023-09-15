@@ -68,6 +68,7 @@
 		5B11DE0529EB6641007A993C /* BatFiHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BatFiHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
+		5B1E2DC32AB4A84B00A6517D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B22A36C2A4385DC00252930 /* license.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = license.pdf; sourceTree = "<group>"; };
 		5B2836D82A05A6F000A42566 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		5B31C86A2A549C1F00D0EB3A /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -246,6 +247,7 @@
 				en,
 				pl,
 				ja,
+				de,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -340,6 +342,7 @@
 				5BD6D3D12A4CDB3300575C43 /* en */,
 				5B31C86A2A549C1F00D0EB3A /* pl */,
 				5B36944D2A5F5612001311F0 /* ja */,
+				5B1E2DC32AB4A84B00A6517D /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
