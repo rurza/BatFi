@@ -26,47 +26,60 @@ public struct ChartsView: View {
                 .font(.callout)
                 .padding(.bottom, 6)
             if !model.powerStatePoints.isEmpty {
-                Chart {
-                    RectangleMark(
-                        xStart: .value("From date", model.fromDate),
-                        xEnd: .value("To date", model.toDate)
+                Chart(model.powerStatePoints) {
+                    let offsetDate = model.offsetDateFor($0)
+                    AreaMark(
+                        x: .value("Time", $0.timestamp ..< offsetDate),
+                        y: .value("Level", $0.batteryLevel),
+                        series: .value("Charging Representation", PlottablePowerState.charging($0.representation))
                     )
-                    .foregroundStyle(Color.clear)
-                    
-                    ForEach(model.powerStatePoints) {
-                        let offsetDate = model.offsetDateFor($0)
-                        RectangleMark(
-                            xStart: .value("Time", $0.timestamp),
-                            xEnd: .value("Time", offsetDate),
-                            yStart: .value("zero", 0),
-                            yEnd: .value("level", $0.batteryLevel)
-                        )
-                        .foregroundStyle(barForegroundColorFor($0))
+                    .foregroundStyle(by: .value("", PlottablePowerState.charging($0.representation)))
 
-                        RectangleMark(
-                            xStart: .value("Time", $0.timestamp),
-                            xEnd: .value("Time", offsetDate),
-                            yStart: .value("zero", $0.chargerConnected ? $0.batteryLevel : 100),
-                            yEnd: .value("level", 100)
-                        )
-                        .foregroundStyle(chargerConnectedForegrondColorFor($0))
+                    AreaMark(
+                        x: .value("Time", $0.timestamp ..< offsetDate),
+                        yStart: .value("level", $0.batteryLevel),
+                        yEnd: .value("level", 100),
+                        series: .value("", PlottablePowerState.chargerConnected($0.chargerConntectedAndIsCharging))
+                    )
+                    .foregroundStyle(by: .value("", PlottablePowerState.chargerConnected($0.chargerConntectedAndIsCharging)))
 
-                        LineMark(
-                            x: .value("Time", $0.timestamp ..< offsetDate),
-                            y: .value("Battery Level", $0.batteryLevel)
-                        )
-                        .foregroundStyle(by: .value("visual battery", $0.visualBatteryState))
-                    }
+                    LineMark(
+                        x: .value("Time", $0.timestamp ..< offsetDate),
+                        y: .value("Battery Level", $0.batteryLevel)
+                    )
+                    .foregroundStyle(by: .value("Visual battery state", PlottablePowerState.visualBatteryState($0.visualBatteryState)))
                 }
-                .chartYScale(domain: 0...100)
-                .chartForegroundStyleScale(domain: VisualBatteryState.allCases, mapping: {
-                    switch $0 {
-                    case .normal:
-                        Color(.chartBlue)
-                    case .low:
-                        Color(.chartRed)
+                .chartForegroundStyleScale(mapping: { (powerState: PlottablePowerState) in
+                    switch powerState {
+                    case .charging(let chargingRepresentation):
+                        switch chargingRepresentation {
+                        case .charging:
+                            Color(.chartGreen)
+                        case .inhibiting:
+                            Color(.chartLightGreen)
+                        case .discharging:
+                            Color.clear
+                        }
+                    case .chargerConnected(let chargerConnected):
+                        switch chargerConnected {
+                        case .chargerConnectedAndIsCharging:
+                            Color(.chartLightGreen)
+                        case .chargerConnected:
+                            Color(.chartLightOrange)
+                        case .noCharger:
+                            Color.clear
+                        }
+                    case .visualBatteryState(let visualBatteryState):
+                        switch visualBatteryState {
+                        case .low:
+                            Color(.chartRed)
+                        case .normal:
+                            Color(.chartBlue)
+                        }
                     }
                 })
+                .chartYScale(domain: 0...100)
+                .chartXScale(domain: model.fromDate ... model.toDate)
                 .chartYAxis {
                     AxisMarks(
                         values: [0, 50, 100]
@@ -99,8 +112,8 @@ public struct ChartsView: View {
                 }
                 .chartLegend(.hidden)
                 VStack(alignment: .leading, spacing: 3) {
-                    LegendView(label: Representation.charging.description, color: Color(.chartLightGreen))
-                    LegendView(label: Representation.inhibiting.description, color: Color(.chartLightOrange))
+                    LegendView(label: L10n.AppChargingMode.State.Title.charging, color: Color(.chartLightGreen))
+                    LegendView(label: L10n.AppChargingMode.State.Title.inhibit, color: Color(.chartLightOrange))
                 }
             } else {
                 Text(L10n.Menu.Charts.waitingForData)
@@ -110,30 +123,74 @@ public struct ChartsView: View {
         }
         .frame(maxWidth: .infinity)
     }
+}
 
-    private func chargerConnectedForegrondColorFor(_ powerStatePoint: PowerStatePoint) -> Color {
-        if powerStatePoint.chargerConnected && powerStatePoint.appMode.representation == .charging {
-            return Color(.chartLightGreen)
-        } else {
-            return Color(.chartLightOrange)
+private enum PlottablePowerState: Plottable {
+    init?(primitivePlottable: Int) {
+        switch primitivePlottable {
+        case 2...4:
+            if let representation = ChargingRepresentation(rawValue: primitivePlottable) {
+                self = .charging(representation)
+            } else {
+                return nil
+            }
+        case 5...6:
+            if let visualBatteryState = VisualBatteryState(rawValue: primitivePlottable) {
+                self = .visualBatteryState(visualBatteryState)
+            } else {
+                return nil
+            }
+        case 7...9:
+            if let chargerConnected = ChargerConnected(rawValue: primitivePlottable) {
+                self = .chargerConnected(chargerConnected)
+            } else {
+                return nil
+            }
+        default:
+            return nil
         }
     }
 
-    private func barForegroundColorFor(_ powerStatePoint: PowerStatePoint) -> Color {
-        switch powerStatePoint.appMode.representation {
-        case .charging:
-            return Color(.chartGreen)
-        case .inhibiting:
-            return Color(.chartLightGreen)
-        case .discharging:
-            return .clear
+    case charging(ChargingRepresentation)
+    case chargerConnected(ChargerConnected)
+    case visualBatteryState(VisualBatteryState)
+
+    var primitivePlottable: Int {
+        switch self {
+        case .charging(let representation):
+            return representation.rawValue
+        case .chargerConnected(let chargerConnected):
+            return chargerConnected.rawValue
+        case .visualBatteryState(let state):
+            return state.rawValue
         }
+    }
+
+    enum ChargingRepresentation: Int {
+        case charging = 2
+        case inhibiting = 3
+        case discharging = 4
+    }
+
+    enum VisualBatteryState: Int {
+        case low = 5
+        case normal = 6
+    }
+
+    enum ChargerConnected: Int {
+        case chargerConnectedAndIsCharging = 7
+        case chargerConnected = 8
+        case noCharger = 9
     }
 }
 
-extension AppChargingMode {
-    fileprivate var representation: Representation {
-        switch self {
+extension PowerStatePoint {
+    fileprivate func plottablePowerStateFor(representation: PlottablePowerState.ChargingRepresentation) -> PlottablePowerState {
+        return PlottablePowerState.charging(representation)
+    }
+
+    fileprivate var representation: PlottablePowerState.ChargingRepresentation {
+        switch self.appMode {
         case .initial, .inhibit:
             return .inhibiting
         case .charging, .forceCharge:
@@ -142,36 +199,23 @@ extension AppChargingMode {
             return .discharging
         }
     }
-}
 
-private enum Representation: String, Plottable, CaseIterable {
-    case charging
-    case inhibiting
-    case discharging
-
-    var description: String {
-        switch self {
-        case .charging:
-            return L10n.AppChargingMode.State.Title.charging
-        case .inhibiting:
-            return L10n.AppChargingMode.State.Title.inhibit
-        case .discharging:
-            return L10n.AppChargingMode.State.Title.forceDischarge
-        }
-    }
-}
-
-enum VisualBatteryState: String, Plottable, CaseIterable {
-    case low
-    case normal
-}
-
-extension PowerStatePoint {
-    fileprivate var visualBatteryState: VisualBatteryState {
+    fileprivate var visualBatteryState: PlottablePowerState.VisualBatteryState {
         if self.batteryLevel <= 20 {
             return .low
         } else {
             return .normal
         }
     }
+
+    fileprivate var chargerConntectedAndIsCharging: PlottablePowerState.ChargerConnected {
+        if chargerConnected && representation == .charging {
+            return .chargerConnectedAndIsCharging
+        } else if chargerConnected {
+            return .chargerConnected
+        } else {
+            return .noCharger
+        }
+    }
 }
+
