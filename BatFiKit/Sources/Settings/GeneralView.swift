@@ -77,7 +77,7 @@ struct GeneralView: View {
             identifier: NSToolbarItem.Identifier("General"),
             title: L10n.Settings.Tab.Title.general,
             toolbarIcon: NSImage(
-                systemSymbolName: "gear.circle.fill",
+                systemSymbolName: "gear",
                 accessibilityDescription: L10n.Settings.Accessibility.Title.general
             )!
         ) {
