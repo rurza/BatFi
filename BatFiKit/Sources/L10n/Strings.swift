@@ -253,7 +253,7 @@ public enum L10n {
                 public static let general = String(localized: "settings.accessibility.title.general", defaultValue: "General pane", bundle: Bundle.module)
                 /// Notifications pane
                 public static let notifications = String(localized: "settings.accessibility.title.notifications", defaultValue: "Notifications pane", bundle: Bundle.module)
-                public static let statusBar = String(localized: "settings.accessibility.title.statusBar", defaultValue: "Status bar and Menu pane", bundle: Bundle.module)
+                public static let statusBar = String(localized: "settings.accessibility.title.statusBar", defaultValue: "Menu bar pane", bundle: Bundle.module)
             }
         }
         public enum Button {
@@ -294,7 +294,6 @@ public enum L10n {
                 public static let showAlertsWhenOptimizedChargingIsEngaged = String(localized: "settings.button.label.show_alerts_when_optimized_charging_is_engaged", defaultValue: "Show alert when the optimized battery charging is engaged", bundle: Bundle.module)
                 /// Automatically turn off charging when the battery gets hot
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.label.turn_off_charging_when_battery_is_hot", defaultValue: "Automatically turn off charging when the battery gets hot", bundle: Bundle.module)
-
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
             }
@@ -354,7 +353,7 @@ public enum L10n {
                 /// Notifications
                 public static let notifications = String(localized: "settings.tab.title.notifications", defaultValue: "Notifications", bundle: Bundle.module)
                 /// Status bar
-                public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu and Status bar", bundle: Bundle.module)
+                public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu Bar", bundle: Bundle.module)
             }
         }
     }

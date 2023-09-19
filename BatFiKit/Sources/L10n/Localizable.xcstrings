@@ -1925,12 +1925,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Status bar and Menu pane"
+            "value" : "Menu bar pane"
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Panel paska status i menu"
           }
         }
@@ -2915,13 +2915,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Menu and Status bar"
+            "value" : "Menu Bar"
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menu i pasek statusu"
+            "state" : "needs_review",
+            "value" : "Pasek Menu"
           }
         }
       }
