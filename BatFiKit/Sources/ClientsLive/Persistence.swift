@@ -39,8 +39,20 @@ extension Persistence: DependencyKey {
                     fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fromPredicate, toPredicate, modePredicate])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: true)]
 
+                    let fetchFirstItemRequest = PowerStateModel.fetchRequest()
+                    fetchFirstItemRequest.predicate = NSPredicate(format: "%K <= %@", #keyPath(PowerStateModel.timestamp), fromDate as NSDate)
+                    fetchFirstItemRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
+                    fetchFirstItemRequest.fetchLimit = 1
+
                     let results = try context.fetch(fetchRequest)
-                    return results.map { $0.point }
+                    let firstItem: PowerStatePoint? = try context.fetch(fetchFirstItemRequest)
+                        .first
+                        .flatMap { $0.point }
+                    if let firstItem {
+                        return [firstItem] + results.map { $0.point }
+                    } else {
+                        return results.map { $0.point }
+                    }
                 }
             },
             observePowerStatePoints: {

@@ -70,7 +70,7 @@ public final class MenuController {
             MenuItem("")
                 .view {
                     ChartsView()
-                        .frame(height: 160)
+                        .frame(height: 120)
                         .padding(.horizontal)
                         .padding(.top, 6)
                         .padding(.bottom, 6)
