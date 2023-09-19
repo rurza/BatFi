@@ -13,6 +13,7 @@ public final class SettingsController {
         panes: [
             GeneralView.pane,
             ChargingView.pane,
+            MenubarView.pane,
             NotificationsView.pane
         ]
     )

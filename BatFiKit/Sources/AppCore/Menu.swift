@@ -44,15 +44,17 @@ public final class MenuController {
     private func setUpObserving() {
         Task {
             
-            for await (state, showDebugMenu) in combineLatest(
-                appChargingState.observeChargingStateMode(), defaults.observe(.showDebugMenu)
+            for await (state, showDebugMenu, showChart) in combineLatest(
+                appChargingState.observeChargingStateMode(),
+                defaults.observe(.showDebugMenu),
+                defaults.observe(.showChart)
             ) {
-                updateMenu(appChargingState: state, showDebugMenu: showDebugMenu)
+                updateMenu(appChargingState: state, showDebugMenu: showDebugMenu, showChart: showChart)
             }
         }
     }
 
-    private func updateMenu(appChargingState: AppChargingMode, showDebugMenu: Bool) {
+    private func updateMenu(appChargingState: AppChargingMode, showDebugMenu: Bool, showChart: Bool) {
         let chargeTo100Tooltip: String?
         if appChargingState == .forceDischarge {
             chargeTo100Tooltip = L10n.Menu.Tooltip.ChargeToHundred.dischargeTurnedOn
@@ -67,16 +69,18 @@ public final class MenuController {
                     BatteryInfoView()
                 }
             SeparatorItem()
-            MenuItem("")
-                .view {
-                    ChartsView()
-                        .frame(height: 120)
-                        .padding(.horizontal)
-                        .padding(.top, 6)
-                        .padding(.bottom, 6)
-                        .frame(maxWidth: .infinity)
-                }
-            SeparatorItem()
+            if showChart {
+                MenuItem("")
+                    .view {
+                        ChartsView()
+                            .frame(height: 120)
+                            .padding(.horizontal)
+                            .padding(.top, 6)
+                            .padding(.bottom, 6)
+                            .frame(maxWidth: .infinity)
+                    }
+                SeparatorItem()
+            }
             if appChargingState == .forceDischarge || appChargingState == .chargerNotConnected {
                 MenuItem(L10n.Menu.Label.chargeToHundred)
                     .toolTip(chargeTo100Tooltip)

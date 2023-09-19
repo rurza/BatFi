@@ -15,8 +15,6 @@ import ServiceManagement
 
 struct GeneralView: View {
     @Default(.launchAtLogin)                        private var launchAtLogin
-    @Default(.monochromeStatusIcon)                 private var monochrom
-    @Default(.showBatteryPercentageInStatusIcon)    private var batteryPercentage
     @Default(.showDebugMenu)                        private var showDebugMenu
     @Default(.downloadBetaVersion)                  private var checkForBetaUpdates
 
@@ -37,11 +35,6 @@ struct GeneralView: View {
                             try? SMAppService.mainApp.unregister()
                         }
                     }
-            }
-            Section(title: l10n.Section.statusIcon, bottomDivider: true) {
-                Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
-                Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
-
             }
             Section(title: l10n.Section.updates, bottomDivider: true) {
                 Toggle(l10n.Button.Label.automaticallyCheckUpdates, isOn: $automaticallyChecksForUpdates)

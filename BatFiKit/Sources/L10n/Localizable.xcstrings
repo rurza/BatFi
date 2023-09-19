@@ -1919,6 +1919,23 @@
         }
       }
     },
+    "settings.accessibility.title.statusBar" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Status bar and Menu pane"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel paska status i menu"
+          }
+        }
+      }
+    },
     "settings.button.description.lid_must_be_opened" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2383,6 +2400,23 @@
         }
       }
     },
+    "settings.button.label.show_battery_chart_in_menu" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show the battery percentage chart in the menu"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj wykres ze stanem baterii w menu"
+          }
+        }
+      }
+    },
     "settings.button.label.turn_off_charging_when_battery_is_hot" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2655,6 +2689,23 @@
         }
       }
     },
+    "settings.section.menu" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Menu"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        }
+      }
+    },
     "settings.section.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2854,6 +2905,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Powiadomienia"
+          }
+        }
+      }
+    },
+    "settings.tab.title.statusbar" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Menu and Status bar"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu i pasek statusu"
           }
         }
       }
