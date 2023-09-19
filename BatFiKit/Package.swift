@@ -161,8 +161,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "L10n",
-            exclude: ["localize.sh", "swiftgen.yml"]
+            name: "L10n"
         ),
         .target(
             name: "Onboarding",

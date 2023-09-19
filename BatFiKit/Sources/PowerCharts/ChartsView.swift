@@ -27,11 +27,29 @@ public struct ChartsView: View {
                 .padding(.bottom, 6)
             if !model.powerStatePoints.isEmpty {
                 Chart(model.powerStatePoints) {
-                    let offsetDate = model.offsetDateFor($0)
                     LineMark(
-                        x: .value("Time", $0.timestamp ..< offsetDate),
+                        x: .value("Time", $0.timestamp),
                         y: .value("Battery Level", $0.batteryLevel)
                     )
+
+                    if $0.appMode == .charging || $0.appMode == .forceCharge {
+                        AreaMark(x: .value("Time", $0.timestamp),
+                                 yStart: .value("Battery Level", 0),
+                                 yEnd: .value("Battery Level", 100),
+                                 series: .value("Mode", $0.appMode.rawValue)
+                        )
+                        .opacity(0.2)
+                    }
+
+                    if $0.appMode == .inhibit {
+                        AreaMark(x: .value("Time", $0.timestamp),
+                                 yStart: .value("Battery Level", 0),
+                                 yEnd: .value("Battery Level", 100),
+                                 series: .value("Mode", $0.appMode.rawValue)
+                        )
+                        .foregroundStyle(Color.yellow)
+                        .opacity(0.2)
+                    }
                 }
                 .chartYScale(domain: 0...100)
                 .chartXScale(domain: model.fromDate ... model.toDate)

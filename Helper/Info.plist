@@ -8,7 +8,7 @@
 	<string>1.0.0</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "1.2.0" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
+		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "1.3.0" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
 	</array>
 </dict>
 </plist>
