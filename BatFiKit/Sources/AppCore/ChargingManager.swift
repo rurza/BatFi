@@ -271,6 +271,8 @@ public final class ChargingManager {
                     logger.debug("Inhibit Charging TURNED ON")
                     return
                 }
+            } else {
+                await appChargingState.updateChargingStateMode(.chargerNotConnected)
             }
 
         } catch {
