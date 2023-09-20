@@ -754,13 +754,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Waiting for data…"
+            "value" : "Waiting for (more) data…"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Czekam na dane…"
+            "value" : "Czekam na więcej danych…"
           }
         }
       }
@@ -1930,8 +1930,8 @@
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Panel paska status i menu"
+            "state" : "translated",
+            "value" : "Panel paska menu"
           }
         }
       }
@@ -2920,7 +2920,7 @@
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Pasek Menu"
           }
         }

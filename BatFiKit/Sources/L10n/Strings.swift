@@ -127,7 +127,7 @@ public enum L10n {
 
         public enum Charts {
             /// Waiting for data…
-            public static let waitingForData = String(localized: "menu.charts.waitingForData", defaultValue: "Waiting for data…", bundle: Bundle.module)
+            public static let waitingForData = String(localized: "menu.charts.waitingForData", defaultValue: "Waiting for (more) data…", bundle: Bundle.module)
 
             public static let chartsHeader = String(localized: "menu.charts.header", defaultValue: "Last 12 hours", bundle: .module)
 

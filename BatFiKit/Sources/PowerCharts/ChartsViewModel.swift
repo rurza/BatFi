@@ -52,6 +52,10 @@ extension ChartsView {
         func fetchPowerStatePoints() async {
             do {
                 let results = try await persistence.fetchPowerStatePoint(fromDate, toDate)
+                if let first = results.first, date.now.timeIntervalSince(first.timestamp) <= 60 * 60 {
+                    self.powerStatePoints = []
+                    return
+                }
                 self.powerStatePoints = IdentifiedArray(uniqueElements: results)
             } catch {
                 logger.error("error when fetching power state: \(error.localizedDescription, privacy: .public)")
