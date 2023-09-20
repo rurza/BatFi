@@ -40,7 +40,7 @@ struct NotificationsView: View {
             identifier: NSToolbarItem.Identifier("notifications"),
             title: L10n.Settings.Tab.Title.notifications,
             toolbarIcon: NSImage(
-                systemSymbolName: "bell.badge.fill",
+                systemSymbolName: "bell.badge",
                 accessibilityDescription: L10n.Settings.Accessibility.Title.notifications
             )!
         ) {

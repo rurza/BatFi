@@ -110,7 +110,7 @@ struct ChargingView: View {
             identifier: NSToolbarItem.Identifier("Charging"),
             title: L10n.Settings.Tab.Title.charging,
             toolbarIcon: NSImage(
-                systemSymbolName: "battery.100percent.bolt",
+                systemSymbolName: "bolt.badge.automatic",
                 accessibilityDescription: L10n.Settings.Accessibility.Title.charging
             )!
         ) {
