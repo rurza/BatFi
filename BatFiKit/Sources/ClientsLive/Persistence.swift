@@ -33,7 +33,7 @@ extension Persistence: DependencyKey {
             fetchPowerStatePoint: { fromDate, toDate in
                 try await persistenceContainer.performBackgroundTask { context in
                     let fetchRequest = PowerStateModel.fetchRequest()
-                    let fromPredicate = NSPredicate(format: "%K >= %@", #keyPath(PowerStateModel.timestamp), fromDate as NSDate)
+                    let fromPredicate = NSPredicate(format: "%K > %@", #keyPath(PowerStateModel.timestamp), fromDate as NSDate)
                     let toPredicate = NSPredicate(format: "%K =< %@", #keyPath(PowerStateModel.timestamp), toDate as NSDate)
                     let modePredicate = NSPredicate(format: "%K != %@", #keyPath(PowerStateModel.appMode), AppChargingMode.initial.rawValue)
                     fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fromPredicate, toPredicate, modePredicate])
@@ -48,6 +48,16 @@ extension Persistence: DependencyKey {
                     let firstItem: PowerStatePoint? = try context.fetch(fetchFirstItemRequest)
                         .first
                         .flatMap { $0.point }
+                        .map {
+                            PowerStatePoint(
+                                batteryLevel: $0.batteryLevel,
+                                appMode: $0.appMode,
+                                isCharging: $0.isCharging,
+                                timestamp: fromDate,
+                                batteryTemperature: $0.batteryTemperature,
+                                chargerConnected: $0.chargerConnected
+                            )
+                        }
                     if let firstItem {
                         return [firstItem] + results.map { $0.point }
                     } else {

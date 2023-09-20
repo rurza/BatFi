@@ -60,9 +60,8 @@ extension ChartsView {
 
         @MainActor
         func offsetDateFor(_ point: PowerStatePoint) -> Date {
-            let maxDifference: TimeInterval = 600
             guard let index = powerStatePoints.index(id: point.id) else {
-                return point.timestamp.advanced(by: maxDifference)
+                return point.timestamp
             }
             
             if index < powerStatePoints.count - 1 {
@@ -72,7 +71,7 @@ extension ChartsView {
                     return nextPoint.timestamp
                 }
             }
-            return point.timestamp.advanced(by: maxDifference)
+            return point.timestamp
         }
     }
 }
