@@ -18,7 +18,7 @@ struct NotificationsView: View {
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
-            Section(title: l10n.Section.notifications, bottomDivider: true) {
+            Section(title: l10n.Section.notifications, bottomDivider: false) {
                 Toggle(isOn: $showChargingStausChanged) {
                     Text(l10n.Button.Label.chargingStatusDidChange)
                 }

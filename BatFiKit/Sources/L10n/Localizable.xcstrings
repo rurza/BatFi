@@ -1832,6 +1832,23 @@
         }
       }
     },
+    "settings.accessibility.title.advanced" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Advanced pane"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel zaawansowanych"
+          }
+        }
+      }
+    },
     "settings.accessibility.title.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2631,6 +2648,28 @@
         }
       }
     },
+    "settings.section.charging" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charging"
+          }
+        }
+      }
+    },
+    "settings.section.debug" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Debug"
+          }
+        }
+      }
+    },
     "settings.section.general" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2818,6 +2857,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz ładowanie gdy bateria osiągnie %@"
+          }
+        }
+      }
+    },
+    "settings.tab.title.advanced" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Advanced"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaawansowane"
           }
         }
       }

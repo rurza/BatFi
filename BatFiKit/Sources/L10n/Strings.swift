@@ -253,7 +253,10 @@ public enum L10n {
                 public static let general = String(localized: "settings.accessibility.title.general", defaultValue: "General pane", bundle: Bundle.module)
                 /// Notifications pane
                 public static let notifications = String(localized: "settings.accessibility.title.notifications", defaultValue: "Notifications pane", bundle: Bundle.module)
+                /// Menu bar pane
                 public static let statusBar = String(localized: "settings.accessibility.title.statusBar", defaultValue: "Menu bar pane", bundle: Bundle.module)
+                /// Advanced pane
+                public static let advanced = String(localized: "settings.accessibility.title.advanced", defaultValue: "Advanced pane", bundle: Bundle.module)
             }
         }
         public enum Button {
@@ -329,6 +332,10 @@ public enum L10n {
             public static let updates = String(localized: "settings.section.updates", defaultValue: "Updates", bundle: Bundle.module)
             /// Menu
             public static let menu = String(localized: "settings.section.menu", defaultValue: "Menu", bundle: Bundle.module)
+            /// Charging
+            public static let charging = String(localized: "settings.section.charging", defaultValue: "Charging", bundle: Bundle.module)
+            /// Debug
+            public static let debug = String(localized: "settings.section.debug", defaultValue: "Debug", bundle: Bundle.module)
         }
         public enum Slider {
             public enum Label {
@@ -354,6 +361,8 @@ public enum L10n {
                 public static let notifications = String(localized: "settings.tab.title.notifications", defaultValue: "Notifications", bundle: Bundle.module)
                 /// Status bar
                 public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu Bar", bundle: Bundle.module)
+                /// Advanced
+                public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
             }
         }
     }

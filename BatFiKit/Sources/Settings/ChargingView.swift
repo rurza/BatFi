@@ -1,6 +1,6 @@
 //
 //  ChargingView.swift
-//  
+//
 //
 //  Created by Adam on 05/05/2023.
 //
@@ -15,12 +15,8 @@ import SwiftUI
 struct ChargingView: View {
     @Default(.chargeLimit)                              private var chargeLimit
     @Default(.manageCharging)                           private var manageCharging
-    @Default(.temperatureSwitch)                        private var temperatureSwitch
     @Default(.allowDischargingFullBattery)              private var dischargeBatteryWhenFull
-    @Default(.disableSleep)                             private var disableAutomaticSleep
-    @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
-    @Default(.showGreenLightMagSafeWhenInhibiting)      private var greenLight
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Container(contentWidth: settingsContentWidth) {
@@ -43,58 +39,43 @@ struct ChargingView: View {
                             Text(l10n.Button.Label.automaticallyManageCharging)
                         }
                         .toggleStyle(.switch)
-                        .padding(.bottom, 30)
+                        .padding(.bottom, 20)
                         .padding(.top, 10)
 
-                        VStack(alignment: .leading, spacing: 2) {
-                            let label = l10n.Slider.Label.turnOffChargingAt(
-                                percentageFormatter.string(from: NSNumber(value: Double(chargeLimit) / 100))!
-                            )
-                            Text(label)
-                                .foregroundColor(manageCharging ? .primary : .secondary)
-                            Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
-                                EmptyView()
-                            } minimumValueLabel: {
-                                Text("60%")
-                            } maximumValueLabel: {
-                                Text("90%")
+                        GroupBox {
+                            VStack(alignment: .leading, spacing: 6) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    let label = l10n.Slider.Label.turnOffChargingAt(
+                                        percentageFormatter.string(from: NSNumber(value: Double(chargeLimit) / 100))!
+                                    )
+                                    Text(label)
+                                        .foregroundColor(manageCharging ? .primary : .secondary)
+                                    Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
+                                        EmptyView()
+                                    } minimumValueLabel: {
+                                        Text("60%")
+                                    } maximumValueLabel: {
+                                        Text("90%")
+                                    }
+                                    .disabled(!manageCharging)
+                                }
+                                .padding(.bottom, 10)
+
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Toggle(isOn: $dischargeBatteryWhenFull) {
+                                        Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
+                                            .withBetaLabel(disabled: !manageCharging)
+                                            .help(l10n.Button.Tooltip.dischargeBatterWhenOvercharged)
+                                    }
+                                    .disabled(!manageCharging)
+                                    Text(l10n.Button.Description.lidMustBeOpened)
+                                        .settingDescription()
+                                        .opacity(manageCharging ? 1 : 0.4)
+                                }
                             }
-                            .disabled(!manageCharging)
+                            .padding(4)
                         }
                     }
-                    .padding(.bottom, 10)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Toggle(isOn: $dischargeBatteryWhenFull) {
-                            Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
-                                .withBetaLabel()
-                                .help(l10n.Button.Tooltip.dischargeBatterWhenOvercharged)
-                        }
-                        .disabled(!manageCharging)
-                        Text(l10n.Button.Description.lidMustBeOpened)
-                            .settingDescription()
-                    }
-
-                    Toggle(isOn: $temperatureSwitch) {
-                        Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
-                            .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)
-                    }
-                    .disabled(!manageCharging)
-                    
-                    Toggle(isOn: $disableAutomaticSleep) {
-                        Text(l10n.Button.Label.disableAutomaticSleep)
-                            .help(l10n.Button.Tooltip.disableAutomaticSleep)
-                    }
-                    .disabled(!manageCharging)
-
-                    Toggle(isOn: $inhibitChargingOnSleep) {
-                        Text(l10n.Button.Label.pauseChargingOnSleep)
-                    }
-                    .disabled(!manageCharging)
-
-                    Toggle(isOn: $greenLight) {
-                        Text(l10n.Button.Label.magsafeUseGreenLight)
-                    }
-                    .disabled(!manageCharging)
                 }
                 Section {
                     EmptyView()
@@ -114,7 +95,7 @@ struct ChargingView: View {
 
     static let pane: Pane<Self> = {
         Pane(
-            identifier: NSToolbarItem.Identifier("Charging"),
+            identifier: identifier,
             title: L10n.Settings.Tab.Title.charging,
             toolbarIcon: NSImage(
                 systemSymbolName: "bolt.badge.automatic",
@@ -124,6 +105,8 @@ struct ChargingView: View {
             Self()
         }
     }()
+
+    static var identifier: NSToolbarItem.Identifier { .init("Charging") }
 }
 
 struct ChargingView_Previews: PreviewProvider {

@@ -14,9 +14,7 @@ import SettingsKit
 import ServiceManagement
 
 struct GeneralView: View {
-    @Default(.launchAtLogin)                        private var launchAtLogin
-    @Default(.showDebugMenu)                        private var showDebugMenu
-    @Default(.downloadBetaVersion)                  private var checkForBetaUpdates
+    @Default(.launchAtLogin) private var launchAtLogin
 
     @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
@@ -47,18 +45,9 @@ struct GeneralView: View {
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
-                
-                Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
-                    .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
-                        if checkForBetaUpdates {
-                            updater.checkForUpdates()
-                        }
-                    }
-                    .disabled(!automaticallyChecksForUpdates)
+
             }
-            Section(title: l10n.Section.advanced) {
-                Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
-            }
+
         }.onAppear {
             automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()
             automaticallyDownloadsUpdates = updater.automaticallyDownloadsUpdates()

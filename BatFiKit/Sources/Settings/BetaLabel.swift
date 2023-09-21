@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BetaLabel: View {
+    let disabled: Bool
+
     var body: some View {
         Text("BETA")
             .font(.footnote)
@@ -18,13 +20,14 @@ struct BetaLabel: View {
                     .stroke(lineWidth: 1)
             }
             .foregroundColor(.secondary)
+            .opacity(disabled ? 0.4 : 1)
     }
 }
 
 extension View {
-    func withBetaLabel() -> some View {
+    func withBetaLabel(disabled: Bool = false) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
-            BetaLabel()
+            BetaLabel(disabled: disabled)
             self
         }
     }

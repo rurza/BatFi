@@ -14,13 +14,14 @@ public final class SettingsController {
             GeneralView.pane,
             ChargingView.pane,
             MenubarView.pane,
-            NotificationsView.pane
+            NotificationsView.pane,
+            AdvancedView.pane
         ]
     )
 
     public init() { }
 
     public func openSettings() {
-        settingsWindowController.show()
+        settingsWindowController.show(pane: ChargingView.identifier)
     }
 }
