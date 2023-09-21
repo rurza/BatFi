@@ -93,7 +93,7 @@ public class NotificationsManager: NSObject {
             content.interruptionLevel = .critical // to show the notification
             content.threadIdentifier = "Charging mode"
             let request = UNNotificationRequest(
-                identifier: UUID().uuidString,
+                identifier: "software.micropixels.BatFi.notifications.mode",
                 content: content,
                 trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1.5, repeats: false)
             )
