@@ -98,7 +98,7 @@ struct ChargingView: View {
             identifier: identifier,
             title: L10n.Settings.Tab.Title.charging,
             toolbarIcon: NSImage(
-                systemSymbolName: "bolt.badge.automatic",
+                systemSymbolName: "bolt.badge.a",
                 accessibilityDescription: L10n.Settings.Accessibility.Title.charging
             )!
         ) {
