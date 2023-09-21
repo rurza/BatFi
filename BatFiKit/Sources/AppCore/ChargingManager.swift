@@ -272,6 +272,8 @@ public final class ChargingManager {
                     return
                 }
             } else {
+                logger.debug("Charger not connected, I will turn on auto charging mode")
+                try await chargingClient.turnOnAutoChargingMode()
                 await appChargingState.updateChargingStateMode(.chargerNotConnected)
             }
 
