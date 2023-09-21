@@ -5,9 +5,9 @@
 //  Created by Adam on 02/05/2023.
 //
 
+import AppKit
 import AppShared
 import Clients
-import Cocoa
 import Dependencies
 import IOKit.pwr_mgt
 import os
@@ -37,6 +37,14 @@ extension ChargingClient: DependencyKey {
                 switch error {
                 case .connectionInvalid, .insecure:
                     do {
+                        logger.debug("Quitting helper...")
+                        if let helper = NSWorkspace.shared
+                            .runningApplications
+                            .first(where: { $0.bundleIdentifier == Constant.helperBundleIdentifier }) {
+                            logger.debug("Found helper")
+                            let didQuit = helper.forceTerminate()
+                            logger.debug("Helper did quit: \(didQuit, privacy: .public)")
+                        }
                         logger.debug("Trying to fix xpc communication")
                         do {
                             try await HelperManager.liveValue.removeHelper()
