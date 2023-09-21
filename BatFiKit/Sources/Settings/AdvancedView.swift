@@ -29,7 +29,7 @@ struct AdvancedView: View {
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
-            Section(title: l10n.Section.charging) {
+            Section(title: l10n.Section.charging, bottomDivider: true) {
                 Toggle(isOn: $temperatureSwitch) {
                     Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
                         .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)

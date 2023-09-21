@@ -2656,6 +2656,12 @@
             "state" : "new",
             "value" : "Charging"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ładowanie"
+          }
         }
       }
     },
@@ -2666,6 +2672,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Debug"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debugowanie"
           }
         }
       }
