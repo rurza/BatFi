@@ -18,18 +18,24 @@ extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
         let observer = Observer(logger: logger)
+        let getPowerSourceQueue = DispatchQueue(label: "software.micropixels.BatFi.PowerSourceClient")
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
                     do {
-                        let initialState = try getPowerSourceInfo()
+                        let initialState = try getPowerSourceQueue.sync {
+                            try getPowerSourceInfo()
+                        }
                         continuation.yield(initialState)
                     } catch {
                         logger.error("Can't get the current power source info")
                     }
                     let id = UUID()
                     observer.addHandler(id) {
-                        if let powerState = try? getPowerSourceInfo() {
+                        let powerState = try? getPowerSourceQueue.sync {
+                            try getPowerSourceInfo()
+                        }
+                        if let powerState {
                             logger.debug("Power state did change: \(powerState, privacy: .public)")
                             continuation.yield(powerState)
                         } else {
@@ -42,7 +48,9 @@ extension PowerSourceClient: DependencyKey {
                 }
             },
             currentPowerSourceState: {
-                let state = try getPowerSourceInfo()
+                let state = try getPowerSourceQueue.sync {
+                    try getPowerSourceInfo()
+                }
                 logger.debug("\(state, privacy: .public)")
                 return state
             }
