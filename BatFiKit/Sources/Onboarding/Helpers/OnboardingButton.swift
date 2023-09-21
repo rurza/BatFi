@@ -33,7 +33,7 @@ struct OnboardingButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .fontWeight(.bold)
+            .fontWeight(.medium)
             .foregroundColor(.white)
             .frame(minWidth: 80)
             .padding(.horizontal, 14)

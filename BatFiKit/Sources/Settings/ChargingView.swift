@@ -33,9 +33,16 @@ struct ChargingView: View {
                             Toggle(isOn: $manageCharging) {
                                 EmptyView()
                             }
-                            .toggleStyle(.switch)
+                            .modify { view in
+                                if #available(macOS 14.0, *) {
+                                    view.controlSize(.extraLarge)
+                                } else {
+                                    view.controlSize(.large)
+                                }
+                            }
                             Text(l10n.Button.Label.automaticallyManageCharging)
                         }
+                        .toggleStyle(.switch)
                         .padding(.bottom, 30)
                         .padding(.top, 10)
 
