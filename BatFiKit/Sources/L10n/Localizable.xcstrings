@@ -1200,6 +1200,17 @@
         }
       }
     },
+    "notifications.notification.body.low_battery" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I need more juice!"
+          }
+        }
+      }
+    },
     "notifications.notification.subtitle.new_mode" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1225,6 +1236,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nowy tryb: %@"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.low_battery" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Battery is low"
           }
         }
       }
@@ -2430,6 +2452,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj wykres ze stanem baterii w menu"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_battery_low_notification" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Battery is low at 20%"
           }
         }
       }

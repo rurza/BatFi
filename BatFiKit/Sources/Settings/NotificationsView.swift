@@ -14,6 +14,7 @@ struct NotificationsView: View {
     @Default(.showChargingStausChanged)     private var showChargingStausChanged
     @Default(.showOptimizedBatteryCharging) private var showOptimizedBatteryCharging
     @Default(.blinkMagSafeWhenDischarging)  private var blinkMagSafeWhenDischarging
+    @Default(.showBatteryLowNotification)   private var showBatteryLowNotification
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -24,6 +25,9 @@ struct NotificationsView: View {
                 }
                 Toggle(isOn: $showOptimizedBatteryCharging) {
                     Text(l10n.Button.Label.showAlertsWhenOptimizedChargingIsEngaged)
+                }
+                Toggle(isOn: $showBatteryLowNotification) {
+                    Text(l10n.Button.Label.showBatteryLowNotification)
                 }
             }
             

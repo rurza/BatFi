@@ -16,26 +16,32 @@ private let showDebugMenuByDefault = false
 
 extension Defaults.Keys {
     public static let launchAtLogin = Key<Bool>("launchAtLogin", default: true)
-    public static let chargeLimit = Key<Int>("chargeLimit", default: 80)
-    public static let manageCharging = Key<Bool>("manageCharging", default: true)
-    public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
-    public static let disableCharging = Key<Bool>("disableCharging", default: false)
     public static let forceCharge = Key<Bool>("forceCharge", default: false)
-    public static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
-    public static let disableSleep = Key<Bool>("disableSleep", default: false)
     public static let onboardingIsDone = Key<Bool>("onboardingIsDone", default: false)
-    public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
+
+    // Charging
+    public static let manageCharging = Key<Bool>("manageCharging", default: true)
+    public static let chargeLimit = Key<Int>("chargeLimit", default: 80)
+    public static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
+
+    // Menu bar
     public static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
+    public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
+    public static let showChart = Key<Bool>("showChart", default: true)
+
+    // Advanced
+    public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
     public static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)
+    public static let disableSleep = Key<Bool>("disableSleep", default: false)
     public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
     public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
-    public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
-    public static let showChart = Key<Bool>("showChart", default: true)
+    public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
 
     // notifications
     public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
     public static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
     public static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
+    public static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
 
 
 }

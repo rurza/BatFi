@@ -30,6 +30,7 @@ public class NotificationsManager: NSObject {
     private var chargingModeTask: Task<Void, Never>?
     private var optimizedBatteryChargingTask: Task<Void, Never>?
     private var lastAlertDate: Date = Date.distantPast
+    private var didShowLowBatteryNotification = false
 
     public override init() {
         super.init()
@@ -53,6 +54,24 @@ public class NotificationsManager: NSObject {
                     startObservingOptimizedBatteryCharging()
                 } else {
                     cancelObservingOptimizedBatteryCharging()
+                }
+            }
+        }
+
+        Task {
+            for await (showBatteryLowNotification, powerSourceState) in combineLatest(
+                defaults.observe(.showBatteryLowNotification),
+                powerSourceClient.powerSourceChanges()) {
+                let batteryLimit = 20
+                guard showBatteryLowNotification, !powerSourceState.isCharging else {
+                    if powerSourceState.batteryLevel > batteryLimit {
+                        didShowLowBatteryNotification = false
+                    }
+                    continue
+                }
+                if powerSourceState.batteryLevel <= batteryLimit && !didShowLowBatteryNotification {
+                    didShowLowBatteryNotification = true
+                    await showBatteryIsLowNotification()
                 }
             }
         }
@@ -106,7 +125,30 @@ public class NotificationsManager: NSObject {
             }
         }
     }
-    
+
+    func showBatteryIsLowNotification() async {
+        if await requestAuthorization() == true {
+            logger.info("permission granted, should dispatch the notification")
+            let content = UNMutableNotificationContent()
+            content.title = L10n.Notifications.Notification.Title.lowBattery
+            content.body = L10n.Notifications.Notification.Body.lowBattery
+            content.threadIdentifier = "Battery low"
+
+            content.interruptionLevel = .critical // to show the notification
+            let request = UNNotificationRequest(
+                identifier: "software.micropixels.BatFi.notifications.lowBattery",
+                content: content,
+                trigger: nil
+            )
+            do {
+                logger.debug("Adding notification request to the notification center")
+                try await center.add(request)
+            } catch {
+                logger.error("Notification request error: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+    }
+
     // MARK: - Optimized battery charging
     func startObservingOptimizedBatteryCharging() {
         optimizedBatteryChargingTask = Task {

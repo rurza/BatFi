@@ -167,6 +167,14 @@ public enum L10n {
                     )
                 }
             }
+
+            public enum Title {
+                public static let lowBattery = String(localized: "notifications.notification.title.low_battery", defaultValue: "Battery is low", bundle: Bundle.module)
+            }
+
+            public enum Body {
+                public static let lowBattery = String(localized: "notifications.notification.body.low_battery", defaultValue: "I need more juice!", bundle: Bundle.module)
+            }
         }
     }
     public enum Onboarding {
@@ -299,6 +307,7 @@ public enum L10n {
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.label.turn_off_charging_when_battery_is_hot", defaultValue: "Automatically turn off charging when the battery gets hot", bundle: Bundle.module)
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
+                public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
             }
             public enum Tooltip {
                 /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
