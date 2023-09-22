@@ -12,8 +12,9 @@ import L10n
 import Shared
 
 public struct BatteryInfoView: View {
-    @Default(.showPowerDiagram) private var showPowerDiagram
-    
+    @Default(.showPowerDiagram)                 private var showPowerDiagram
+    @Default(.showHighEnergyImpactProcesses)    private var showHighEnergyImpactProcesses
+
     @StateObject private var model = Model()
 
     public init() { }
@@ -65,6 +66,11 @@ public struct BatteryInfoView: View {
                     if let powerInfo = model.powerInfo, showPowerDiagram {
                         SeparatorView()
                         BatteryPowerInfo(powerInfo: powerInfo)
+                    }
+
+                    if let topCoalitionInfo = model.topCoalitionInfo, showHighEnergyImpactProcesses {
+                        SeparatorView()
+                        BatteryTopCoalitionInfo(topCoalitionInfo: topCoalitionInfo)
                     }
                 }
                 .onDisappear {
@@ -138,11 +144,11 @@ struct BatteryAdditionalInfo<Label: View>: View {
 
 struct BatteryPowerInfo: View {
     let powerInfo: PowerInfo
-    
+
     init(powerInfo: PowerInfo) {
         self.powerInfo = powerInfo
     }
-    
+
     private func sourceItems() -> [BatteryPowerInfoItem] {
         var items = [BatteryPowerInfoItem]()
         if powerInfo.batteryPower > 0 {
@@ -154,7 +160,7 @@ struct BatteryPowerInfo: View {
         items.sort { $0.power > $1.power }
         return items
     }
-    
+
     private func targetItems() -> [BatteryPowerInfoItem] {
         var items = [BatteryPowerInfoItem]()
         if powerInfo.batteryPower < 0 {
@@ -164,7 +170,7 @@ struct BatteryPowerInfo: View {
         items.sort { $0.power > $1.power }
         return items
     }
-    
+
     var body: some View {
         HStack {
             VStack {
@@ -181,27 +187,48 @@ struct BatteryPowerInfo: View {
                 }
             }
         }
+    }
+}
+
+struct BatteryTopCoalitionInfo: View {
+    let topCoalitionInfo: TopCoalitionInfo
+
+    init(topCoalitionInfo: TopCoalitionInfo) {
+        self.topCoalitionInfo = topCoalitionInfo
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            if topCoalitionInfo.topCoalitions.count > 0 {
+                Text(L10n.BatteryInfo.Label.TopCoalition.some)
+                    .bold()
+                ForEach(topCoalitionInfo.topCoalitions, id: \.bundleIdentifier) { coalition in
+                    BatteryTopCoalitionInfoItem(coalition: coalition)
+                }
+            } else {
+                Text(L10n.BatteryInfo.Label.TopCoalition.none)
+            }
+        }
         .foregroundColor(.secondary)
         .font(.callout)
     }
 }
 
-struct BatteryPowerInfoItem: View {
-    let type: BatteryPowerInfoItemType
-    let power: Float
-    
-    init(type: BatteryPowerInfoItemType, power: Float) {
-        self.type = type
-        self.power = power
+struct BatteryTopCoalitionInfoItem: View {
+    let coalition: Coalition
+
+    init(coalition: Coalition) {
+        self.coalition = coalition
     }
-    
+
     var body: some View {
-        GroupBox {
-            VStack(spacing: 5) {
-                Image(systemName: type.rawValue)
-                Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
-            }
-            .frame(width: 55, height: 40)
+        HStack {
+            Image(nsImage: coalition.icon ?? NSWorkspace.shared.icon(for: .applicationBundle))
+                .resizable()
+                .frame(width: 24, height: 24)
+            Text(coalition.displayName ?? coalition.bundleIdentifier)
+            Spacer()
+            Text(energyImpactFormatter.string(from: NSNumber(floatLiteral: coalition.energyImpact))!)
         }
     }
 }
@@ -211,3 +238,23 @@ enum BatteryPowerInfoItemType: String {
     case external = "bolt.fill"
     case system = "laptopcomputer"
 }
+
+struct BatteryTopCoalitionInfoItem: View {
+    let coalition: Coalition
+    
+    init(coalition: Coalition) {
+        self.coalition = coalition
+    }
+    
+    var body: some View {
+        HStack {
+            Image(nsImage: coalition.icon ?? NSWorkspace.shared.icon(for: .applicationBundle))
+                .resizable()
+                .frame(width: 24, height: 24)
+            Text(coalition.displayName ?? coalition.bundleIdentifier)
+            Spacer()
+            Text(energyImpactFormatter.string(from: NSNumber(floatLiteral: coalition.energyImpact))!)
+        }
+    }
+}
+

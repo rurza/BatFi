@@ -15,10 +15,11 @@ import Shared
 extension BatteryInfoView {
     @MainActor
     final class Model: ObservableObject {
-        @Dependency(\.powerSourceClient) private var powerSourceClient
-        @Dependency(\.appChargingState) private var appChargingState
-        @Dependency(\.defaults) private var defaults
-        @Dependency(\.powerInfoClient) private var powerInfoClient
+        @Dependency(\.powerSourceClient)    private var powerSourceClient
+        @Dependency(\.appChargingState)     private var appChargingState
+        @Dependency(\.powerInfoClient)      private var powerInfoClient
+        @Dependency(\.systemStatsClient)    private var systemStatsClient
+        @Dependency(\.defaults)             private var defaults
 
         private(set) var state: PowerState? {
             didSet {
@@ -33,8 +34,14 @@ extension BatteryInfoView {
                 objectWillChange.send()
             }
         }
-        
+
         private(set) var powerInfo: PowerInfo? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+
+        private(set) var topCoalitionInfo: TopCoalitionInfo? {
             willSet {
                 objectWillChange.send()
             }
@@ -65,14 +72,20 @@ extension BatteryInfoView {
                     self.state = state
                 }
             }
-            
+
             let powerInfoChanges = Task {
                 for await info in powerInfoClient.powerInfoChanges() {
                     self.powerInfo = info
                 }
             }
 
-            tasks = [powerSourceChanges, observeChargingStateMode, powerInfoChanges]
+            let topCoalitionInfoChanges = Task {
+                for await info in systemStatsClient.topCoalitionInfoChanges() {
+                    self.topCoalitionInfo = info
+                }
+            }
+
+            tasks = [powerSourceChanges, observeChargingStateMode, powerInfoChanges, topCoalitionInfoChanges]
         }
 
         func cancelObserving() {

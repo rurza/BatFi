@@ -29,6 +29,10 @@ extension Defaults.Keys {
     public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
     public static let showChart = Key<Bool>("showChart", default: true)
     public static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
+    public static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
+    public static let highEnergyImpactProcessesThreshold = Key<Int>("highEnergyImpactProcessesThreshold", default: 500)
+    public static let highEnergyImpactProcessesDuration = Key<Int>("highEnergyImpactProcessesDuration", default: 2)
+    public static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)
 
     // Advanced
     public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
