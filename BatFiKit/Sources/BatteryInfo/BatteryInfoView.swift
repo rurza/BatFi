@@ -8,6 +8,7 @@
 import SwiftUI
 import AppShared
 import L10n
+import Shared
 
 public struct BatteryInfoView: View {
     @StateObject private var model = Model()
@@ -56,6 +57,22 @@ public struct BatteryInfoView: View {
                             label: l10n.Additional.batteryCapacity,
                             info: percentageFormatter.string(from: NSNumber(floatLiteral: powerState.batteryCapacity))!
                         )
+                        if let powerSettingInfo = model.powerSettingInfo {
+                            BatteryAdditionalInfo(
+                                label: { Text(l10n.Additional.powerMode) },
+                                info: {
+                                    Picker(l10n.Additional.powerMode, selection: $model.powerModeSelection) {
+                                        Text(l10n.Additional.lowPowerMode).tag(PowerMode.low as PowerMode?)
+                                        Text(l10n.Additional.autoPowerMode).tag(PowerMode.auto as PowerMode?)
+                                        if powerSettingInfo.supportsHighPowerMode {
+                                            Text(l10n.Additional.highPowerMode).tag(PowerMode.high as PowerMode?)
+                                        }
+                                    }
+                                    .pickerStyle(.segmented)
+                                    .labelsHidden()
+                                }
+                            )
+                        }
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -98,20 +115,20 @@ struct BatteryMainInfo: View {
     }
 }
 
-struct BatteryAdditionalInfo<Label: View>: View {
+struct BatteryAdditionalInfo<Label: View, Info: View>: View {
     private let itemsSpace: CGFloat = 20
 
     let label: () -> Label
-    let info: String
+    let info: () -> Info
 
-    init(label: @escaping () -> Label, info: String) {
+    init(label: @escaping () -> Label, info: @escaping () -> Info) {
         self.label = label
         self.info = info
     }
 
-    init(label: String, info: String) where Label == Text {
+    init(label: String, info: String) where Label == Text, Info == Text {
         self.label = { Text(label) }
-        self.info = info
+        self.info = { Text(info) }
     }
 
     var body: some View {
@@ -119,7 +136,7 @@ struct BatteryAdditionalInfo<Label: View>: View {
             Group {
                 label()
                 Spacer(minLength: itemsSpace)
-                Text(info)
+                info()
                     .multilineTextAlignment(.trailing)
             }
             .foregroundColor(.secondary)

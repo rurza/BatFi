@@ -23,4 +23,7 @@ public extension XPCRoute {
         .withMessageType(MagSafeLEDOption.self)
         .withReplyType(MagSafeLEDOption.self)
         .throwsType(SMCError.self)
+    
+    static let powerSettingOption = Self.named("powerSettingOption")
+        .withMessageType(PowerSettingOption.self)
 }

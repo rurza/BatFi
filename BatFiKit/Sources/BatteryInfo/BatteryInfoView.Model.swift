@@ -10,6 +10,7 @@ import AsyncAlgorithms
 import Clients
 import Dependencies
 import Foundation
+import Shared
 
 extension BatteryInfoView {
     @MainActor
@@ -17,6 +18,7 @@ extension BatteryInfoView {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         @Dependency(\.appChargingState) private var appChargingState
         @Dependency(\.defaults) private var defaults
+        @Dependency(\.powerSettingClient) private var powerSettingClient
 
         private(set) var state: PowerState? {
             didSet {
@@ -29,6 +31,24 @@ extension BatteryInfoView {
         private(set) var modeDescription: String? {
             willSet {
                 objectWillChange.send()
+            }
+        }
+        
+        private(set) var powerSettingInfo: PowerSettingInfo? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+        
+        var powerModeSelection: PowerMode? {
+            get { powerSettingInfo?.powerMode }
+            set {
+                // Resync picker selection
+                objectWillChange.send()
+                guard let mode = newValue else {
+                    return
+                }
+                setPowerMode(mode)
             }
         }
 
@@ -57,8 +77,14 @@ extension BatteryInfoView {
                     self.state = state
                 }
             }
+            
+            let powerSettingInfoChanges = Task {
+                for await info in powerSettingClient.powerSettingInfoChanges() {
+                    self.powerSettingInfo = info
+                }
+            }
 
-            tasks = [powerSourceChanges, observeChargingStateMode]
+            tasks = [powerSourceChanges, observeChargingStateMode, powerSettingInfoChanges]
         }
 
         func cancelObserving() {
@@ -83,6 +109,18 @@ extension BatteryInfoView {
             guard let temperature = state?.batteryTemperature else { return nil }
             let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
             return temperatureFormatter.string(from: measurement)
+        }
+        
+        private func setPowerMode(_ mode: PowerMode) {
+            guard
+                let sourceKey = state?.powerSource,
+                let source = PowerSource(key: sourceKey)
+            else {
+                return
+            }
+            Task {
+                try? await powerSettingClient.setPowerMode(mode, source)
+            }
         }
     }
 }
