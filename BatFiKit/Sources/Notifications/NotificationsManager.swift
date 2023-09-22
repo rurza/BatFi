@@ -109,7 +109,7 @@ public class NotificationsManager: NSObject {
             } else {
                 content.body = ""
             }
-            content.interruptionLevel = .critical // to show the notification
+            content.interruptionLevel = .active // to show the notification
             content.threadIdentifier = "Charging mode"
             let request = UNNotificationRequest(
                 identifier: "software.micropixels.BatFi.notifications.mode",
@@ -134,7 +134,7 @@ public class NotificationsManager: NSObject {
             content.body = L10n.Notifications.Notification.Body.lowBattery
             content.threadIdentifier = "Battery low"
 
-            content.interruptionLevel = .critical // to show the notification
+            content.interruptionLevel = .active // to show the notification
             let request = UNNotificationRequest(
                 identifier: "software.micropixels.BatFi.notifications.lowBattery",
                 content: content,
@@ -194,7 +194,7 @@ public class NotificationsManager: NSObject {
     
     // MARK: - Helpers
     func requestAuthorization() async -> Bool? {
-         try? await center.requestAuthorization(options: [.alert, .sound])
+        try? await center.requestAuthorization(options: [.alert, .sound])
     }
 }
 
