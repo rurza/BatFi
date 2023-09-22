@@ -82,6 +82,8 @@ public enum L10n {
                 public static let powerSource = String(localized: "battery_info.label.additional.power_source", defaultValue: "Power Source", bundle: Bundle.module)
                 /// Temperature
                 public static let temperature = String(localized: "battery_info.label.additional.temperature", defaultValue: "Temperature", bundle: Bundle.module)
+                /// Full Charge Energy
+                public static let fullChargeEnergy = String(localized: "battery_info.label.additional.full_charge_energy", defaultValue: "Full Charge Energy", bundle: Bundle.module)
             }
             public enum Main {
                 /// Battery
@@ -373,6 +375,12 @@ public enum L10n {
                 /// Advanced
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
             }
+        }
+    }
+    public enum UnitEnergy {
+        public enum Symbol {
+            /// Wh
+            public static let wattHours = String(localized: "unit_energy.symbol.watt_hours", defaultValue: "Wh", bundle: Bundle.module)
         }
     }
 }

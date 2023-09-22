@@ -494,6 +494,17 @@
         }
       }
     },
+    "battery_info.label.additional.full_charge_energy" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Full Charge Energy"
+          }
+        }
+      }
+    },
     "battery_info.label.additional.power_source" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -3023,6 +3034,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pasek Menu"
+          }
+        }
+      }
+    },
+    "unit_energy.symbol.watt_hours" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Wh"
           }
         }
       }

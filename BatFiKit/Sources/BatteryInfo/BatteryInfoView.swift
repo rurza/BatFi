@@ -56,6 +56,10 @@ public struct BatteryInfoView: View {
                             label: l10n.Additional.batteryCapacity,
                             info: percentageFormatter.string(from: NSNumber(floatLiteral: powerState.batteryCapacity))!
                         )
+                        BatteryAdditionalInfo(
+                            label: l10n.Additional.fullChargeEnergy,
+                            info: energyFormatter.string(from: Measurement(value: powerState.batteryMaxEnergy, unit: UnitEnergy.wattHours))
+                        )
                     }
                     .frame(maxWidth: .infinity)
                 }

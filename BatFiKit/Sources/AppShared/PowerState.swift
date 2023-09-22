@@ -18,6 +18,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
     public let batteryTemperature: Double
     public let chargerConnected: Bool
     public let optimizedBatteryChargingEngaged: Bool
+    public let batteryMaxEnergy: Double
 
     public init(
         batteryLevel: Int,
@@ -29,7 +30,8 @@ public struct PowerState: CustomStringConvertible, Equatable {
         batteryCapacity: Double,
         batteryTemperature: Double,
         chargerConnected: Bool,
-        optimizedBatteryChargingEngaged: Bool
+        optimizedBatteryChargingEngaged: Bool,
+        batteryMaxEnergy: Double
     ) {
         self.batteryLevel = batteryLevel
         self.isCharging = isCharging
@@ -41,11 +43,12 @@ public struct PowerState: CustomStringConvertible, Equatable {
         self.batteryTemperature = batteryTemperature
         self.chargerConnected = chargerConnected
         self.optimizedBatteryChargingEngaged = optimizedBatteryChargingEngaged
+        self.batteryMaxEnergy = batteryMaxEnergy
     }
 
     public var description: String {
         """
-PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft), time to charge: \(timeToCharge), cycle count: \(batteryCycleCount), battery capacity: \(batteryCapacity), battery temperature: \(batteryTemperature)°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(optimizedBatteryChargingEngaged)
+PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft), time to charge: \(timeToCharge), cycle count: \(batteryCycleCount), battery capacity: \(batteryCapacity), battery temperature: \(batteryTemperature)°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(optimizedBatteryChargingEngaged), battery max energy: \(batteryMaxEnergy)Wh
 """
     }
 }
