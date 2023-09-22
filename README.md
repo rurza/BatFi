@@ -1,12 +1,10 @@
 # BatFi
 BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.
 
-<br>
 <a href="https://micropixels.gumroad.com/l/batfi">
     <img width="200" alt="buy_on_gumroad" src="https://github-production-user-asset-6210df.s3.amazonaws.com/2467137/269984099-a4628c9d-10a8-4c83-a3cc-dfe04fef71d8.png">
 </a>
 <p><sub><sup>Requires macOS Ventura or later and Apple Silicon Mac</sup></sub></p>
-<br>
 <br>
 
 ## Why?
