@@ -1,10 +1,13 @@
+import AppShared
 import Clients
 import Dependencies
+import os
 import SecureXPC
 import Shared
 
 extension PowerInfoClient: DependencyKey {
     public static var liveValue: PowerInfoClient = {
+        let logger = Logger(category: "🔋ℹ️")
         @Sendable func createClient() -> XPCClient {
             XPCClient.forMachService(
                 named: Constant.helperBundleIdentifier,
@@ -23,6 +26,7 @@ extension PowerInfoClient: DependencyKey {
                         var prevInfo: PowerInfo?
                         while !Task.isCancelled {
                             if let info = try? await powerInfo(), info != prevInfo {
+                                logger.debug("New power info: \(info, privacy: .public)")
                                 continuation.yield(info)
                                 prevInfo = info
                             }
@@ -30,6 +34,7 @@ extension PowerInfoClient: DependencyKey {
                         }
                     }
                     continuation.onTermination = { _ in
+                        logger.debug("terminating stream")
                         task.cancel()
                     }
                 }

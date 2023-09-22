@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PowerInfo: Codable, Equatable {
+public struct PowerInfo: Codable, Equatable, CustomStringConvertible {
     public let batteryPower: Float
     public let externalPower: Float
     public let systemPower: Float
@@ -9,5 +9,9 @@ public struct PowerInfo: Codable, Equatable {
         self.batteryPower = batteryPower
         self.externalPower = externalPower
         self.systemPower = systemPower
+    }
+
+    public var description: String {
+        "Battery power: \(batteryPower), external power: \(externalPower), system power: \(systemPower)"
     }
 }
