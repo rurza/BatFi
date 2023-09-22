@@ -10,6 +10,9 @@ Maintaining a lithium-ion battery at a high state of charge can significantly re
 
 On the other hand, BatFi works differently. The app allows you to set a user-chosen limit for charging the battery and maintain it indefinitely. With BatFi, you have the flexibility to decide when to charge the battery to 100% based on your usage needs.
 
-<img src="https://github.com/rurza/BatFi/assets/2467137/db8870bb-0a61-4088-a361-b44d0db2cff7" width=50%>
-<img src="https://github.com/rurza/BatFi/assets/2467137/8cf4f6e3-fbe9-48ee-b034-b6fa8f0dc50c" width=50%>
-<img src="https://github.com/rurza/BatFi/assets/2467137/ad75de07-157b-48ba-8584-27ce930d078e" width=50%>
+<p float="left">
+  <img src="https://github.com/rurza/BatFi/assets/2467137/db8870bb-0a61-4088-a361-b44d0db2cff7" width=300>
+  <img src="https://github.com/rurza/BatFi/assets/2467137/8cf4f6e3-fbe9-48ee-b034-b6fa8f0dc50c" width=300>
+  <img src="https://github.com/rurza/BatFi/assets/2467137/ad75de07-157b-48ba-8584-27ce930d078e" width=300>
+</p>
+
