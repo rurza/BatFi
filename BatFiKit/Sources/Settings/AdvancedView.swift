@@ -21,6 +21,9 @@ struct AdvancedView: View {
     @Default(.showGreenLightMagSafeWhenInhibiting)      private var greenLight
     @Default(.downloadBetaVersion)                      private var checkForBetaUpdates
     @Default(.showDebugMenu)                            private var showDebugMenu
+    @Default(.highEnergyImpactProcessesThreshold)       private var highEnergyImpactProcessesThreshold
+    @Default(.highEnergyImpactProcessesDuration)        private var highEnergyImpactProcessesDuration
+    @Default(.highEnergyImpactProcessesCapacity)        private var highEnergyImpactProcessesCapacity
 
 
     @Dependency(\.updater) private var updater
@@ -29,7 +32,7 @@ struct AdvancedView: View {
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
-            Section(title: l10n.Section.charging, bottomDivider: true) {
+            Section(title: l10n.Section.charging) {
                 Toggle(isOn: $temperatureSwitch) {
                     Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
                         .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)
@@ -46,6 +49,32 @@ struct AdvancedView: View {
                 
                 Toggle(isOn: $greenLight) {
                     Text(l10n.Button.Label.magsafeUseGreenLight)
+                }
+            }
+            Section(title: l10n.Section.processes, bottomDivider: true) {
+                HStack {
+                    Text(l10n.Field.Label.highEnergyImpactProcessesThreshold)
+                    Text(l10n.Field.Label.highEnergyImpactProcessesThresholdUnit)
+                    TextField("", value: $highEnergyImpactProcessesThreshold, format: .number)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 60)
+                }
+                HStack {
+                    Text(l10n.Field.Label.highEnergyImpactProcessesDuration)
+                    TextField("", value: $highEnergyImpactProcessesDuration, format: .number)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 50)
+                    Text(l10n.Field.Label.highEnergyImpactProcessesDurationUnit)
+                }
+                HStack {
+                    Text(l10n.Field.Label.highEnergyImpactProcessesCapacity)
+                    TextField("", value: $highEnergyImpactProcessesCapacity, format: .number)
+                        .multilineTextAlignment(.center)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(maxWidth: 45)
+                    Text(l10n.Field.Label.highEnergyImpactProcessesCapacityUnit)
                 }
             }
             Section(title: l10n.Section.updates) {

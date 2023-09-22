@@ -17,6 +17,7 @@ extension BatteryInfoView {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         @Dependency(\.appChargingState) private var appChargingState
         @Dependency(\.defaults) private var defaults
+        @Dependency(\.systemStatsClient) private var systemStatsClient
 
         private(set) var state: PowerState? {
             didSet {
@@ -27,6 +28,12 @@ extension BatteryInfoView {
         private(set) var time: Time?
 
         private(set) var modeDescription: String? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+        
+        private(set) var topCoalitionInfo: TopCoalitionInfo? {
             willSet {
                 objectWillChange.send()
             }
@@ -57,8 +64,14 @@ extension BatteryInfoView {
                     self.state = state
                 }
             }
+            
+            let topCoalitionInfoChanges = Task {
+                for await info in systemStatsClient.topCoalitionInfoChanges() {
+                    self.topCoalitionInfo = info
+                }
+            }
 
-            tasks = [powerSourceChanges, observeChargingStateMode]
+            tasks = [powerSourceChanges, observeChargingStateMode, topCoalitionInfoChanges]
         }
 
         func cancelObserving() {

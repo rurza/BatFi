@@ -14,12 +14,14 @@ struct MenubarView: View {
     @Default(.monochromeStatusIcon)                 private var monochrom
     @Default(.showBatteryPercentageInStatusIcon)    private var batteryPercentage
     @Default(.showChart)                            private var showChart
+    @Default(.showHighEnergyImpactProcesses)        private var showHighEnergyImpactProcesses
 
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
             Section(title: l10n.Section.menu) {
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
+                Toggle(l10n.Button.Label.showHighEnergyImpactProcessesInMenu, isOn: $showHighEnergyImpactProcesses)
             }
             Section(title: l10n.Section.statusIcon, bottomDivider: true) {
                 Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)

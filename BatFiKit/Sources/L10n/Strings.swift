@@ -95,6 +95,12 @@ public enum L10n {
                     public static let timeToCharge = String(localized: "battery_info.label.main.time.time_to_charge", defaultValue: "Time to Charge", bundle: Bundle.module)
                 }
             }
+            public enum TopCoalition {
+                /// No high energy impact processes
+                public static let noHighEnergyImpactProcesses = String(localized: "battery_info.label.top_coalition.no_high_energy_impact_processes", defaultValue: "No high energy impact processes", bundle: Bundle.module)
+                /// High energy impact processes
+                public static let highEnergyImpactProcesses = String(localized: "battery_info.label.top_coalition.high_energy_impact_processes", defaultValue: "High energy impact processes", bundle: Bundle.module)
+            }
         }
     }
     public enum Menu {
@@ -308,6 +314,8 @@ public enum L10n {
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
                 public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
+                /// Show high energy impact processes in the menu
+                public static let showHighEnergyImpactProcessesInMenu = String(localized: "settings.button.label.show_high_energy_impact_processes_in_menu", defaultValue: "Show high energy impact processes in the menu", bundle: Bundle.module)
             }
             public enum Tooltip {
                 /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
@@ -345,6 +353,8 @@ public enum L10n {
             public static let charging = String(localized: "settings.section.charging", defaultValue: "Charging", bundle: Bundle.module)
             /// Debug
             public static let debug = String(localized: "settings.section.debug", defaultValue: "Debug", bundle: Bundle.module)
+            /// Processes
+            public static let processes = String(localized: "settings.section.processes", defaultValue: "Processes", bundle: Bundle.module)
         }
         public enum Slider {
             public enum Label {
@@ -372,6 +382,22 @@ public enum L10n {
                 public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu Bar", bundle: Bundle.module)
                 /// Advanced
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
+            }
+        }
+        public enum Field {
+            public enum Label {
+                /// Capacity:
+                public static let highEnergyImpactProcessesCapacity = String(localized: "settings.field.label.high_energy_impact_processes_capacity", defaultValue: "Capacity:", bundle: Bundle.module)
+                /// processes
+                public static let highEnergyImpactProcessesCapacityUnit = String(localized: "settings.field.label.high_energy_impact_processes_capacity_unit", defaultValue: "processes", bundle: Bundle.module)
+                /// Duration:
+                public static let highEnergyImpactProcessesDuration = String(localized: "settings.field.label.high_energy_impact_processes_duration", defaultValue: "Duration:", bundle: Bundle.module)
+                /// minutes
+                public static let highEnergyImpactProcessesDurationUnit = String(localized: "settings.field.label.high_energy_impact_processes_duration_unit", defaultValue: "minutes", bundle: Bundle.module)
+                /// Threshold:
+                public static let highEnergyImpactProcessesThreshold = String(localized: "settings.field.label.high_energy_impact_processes_threshold", defaultValue: "Threshold:", bundle: Bundle.module)
+                /// energy impact of
+                public static let highEnergyImpactProcessesThresholdUnit = String(localized: "settings.field.label.high_energy_impact_processes_threshold_unit", defaultValue: "energy impact of", bundle: Bundle.module)
             }
         }
     }

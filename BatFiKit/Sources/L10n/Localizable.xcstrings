@@ -697,6 +697,28 @@
         }
       }
     },
+    "battery_info.label.top_coalition.high_energy_impact_processes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High energy impact processes"
+          }
+        }
+      }
+    },
+    "battery_info.label.top_coalition.no_high_energy_impact_processes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No high energy impact processes"
+          }
+        }
+      }
+    },
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2467,6 +2489,17 @@
         }
       }
     },
+    "settings.button.label.show_high_energy_impact_processes_in_menu" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show high energy impact processes in the menu"
+          }
+        }
+      }
+    },
     "settings.button.label.turn_off_charging_when_battery_is_hot" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2573,6 +2606,72 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącza ładowanie gdy temperatura baterii przekroczy 35°C"
+          }
+        }
+      }
+    },
+    "settings.field.label.high_energy_impact_processes_capacity" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Capacity:"
+          }
+        }
+      }
+    },
+    "settings.field.label.high_energy_impact_processes_capacity_unit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "processes"
+          }
+        }
+      }
+    },
+    "settings.field.label.high_energy_impact_processes_duration" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Duration:"
+          }
+        }
+      }
+    },
+    "settings.field.label.high_energy_impact_processes_duration_unit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "minutes"
+          }
+        }
+      }
+    },
+    "settings.field.label.high_energy_impact_processes_threshold" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Threshold:"
+          }
+        }
+      }
+    },
+    "settings.field.label.high_energy_impact_processes_threshold_unit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "energy impact of"
           }
         }
       }
@@ -2815,6 +2914,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Powiadomienia"
+          }
+        }
+      }
+    },
+    "settings.section.processes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Processes"
           }
         }
       }
