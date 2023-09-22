@@ -436,6 +436,17 @@
         }
       }
     },
+    "battery_info.label.additional.auto_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Auto"
+          }
+        }
+      }
+    },
     "battery_info.label.additional.battery_capacity" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -490,6 +501,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Liczba cykli"
+          }
+        }
+      }
+    },
+    "battery_info.label.additional.high_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High"
+          }
+        }
+      }
+    },
+    "battery_info.label.additional.low_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Low"
+          }
+        }
+      }
+    },
+    "battery_info.label.additional.power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Power Mode"
           }
         }
       }
