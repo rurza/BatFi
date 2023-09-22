@@ -697,6 +697,28 @@
         }
       }
     },
+    "battery_info.label.top_coalition.none" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No processes with high energy impact"
+          }
+        }
+      }
+    },
+    "battery_info.label.top_coalition.some" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Processes with high energy impact"
+          }
+        }
+      }
+    },
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2294,6 +2316,17 @@
         }
       }
     },
+    "settings.button.label.high_energy_impact_processes_show" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show"
+          }
+        }
+      }
+    },
     "settings.button.label.launch_at_login" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2634,6 +2667,72 @@
         }
       }
     },
+    "settings.label.high_energy_impact_processes_capacity" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Capacity:"
+          }
+        }
+      }
+    },
+    "settings.label.high_energy_impact_processes_capacity_unit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "processes"
+          }
+        }
+      }
+    },
+    "settings.label.high_energy_impact_processes_duration" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Duration:"
+          }
+        }
+      }
+    },
+    "settings.label.high_energy_impact_processes_duration_unit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "minutes"
+          }
+        }
+      }
+    },
+    "settings.label.high_energy_impact_processes_threshold" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Threshold:"
+          }
+        }
+      }
+    },
+    "settings.label.high_energy_impact_processes_threshold_unit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "energy impact of"
+          }
+        }
+      }
+    },
     "settings.section.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2751,6 +2850,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ogólne"
+          }
+        }
+      }
+    },
+    "settings.section.high_energy_impact_processes" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High energy impact processes"
           }
         }
       }

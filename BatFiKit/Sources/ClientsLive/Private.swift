@@ -1,7 +1,7 @@
 import Foundation
 
-public class Private {
-    public static let systemstats_get_top_coalitions = {
+class Private {
+    static let systemstats_get_top_coalitions = {
         var systemstats_get_top_coalitionsPointer: UnsafeMutableRawPointer?
         if let handle = dlopen("/usr/lib/libsystemstats.dylib", RTLD_LAZY) {
             systemstats_get_top_coalitionsPointer = dlsym(handle, "systemstats_get_top_coalitions")

@@ -142,6 +142,33 @@ struct BatteryAdditionalInfo<Label: View>: View {
     }
 }
 
+enum BatteryPowerInfoItemType: String {
+    case battery = "battery.100"
+    case external = "bolt.fill"
+    case system = "laptopcomputer"
+}
+
+struct BatteryPowerInfoItem: View {
+    let type: BatteryPowerInfoItemType
+    let power: Float
+
+    init(type: BatteryPowerInfoItemType, power: Float) {
+        self.type = type
+        self.power = power
+    }
+
+    var body: some View {
+        GroupBox {
+            VStack(spacing: 5) {
+                Image(systemName: type.rawValue)
+                Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
+            }
+            .frame(width: 55, height: 40)
+        }
+    }
+}
+
+
 struct BatteryPowerInfo: View {
     let powerInfo: PowerInfo
 
@@ -187,6 +214,8 @@ struct BatteryPowerInfo: View {
                 }
             }
         }
+        .foregroundColor(.secondary)
+        .font(.callout)
     }
 }
 
@@ -232,29 +261,3 @@ struct BatteryTopCoalitionInfoItem: View {
         }
     }
 }
-
-enum BatteryPowerInfoItemType: String {
-    case battery = "battery.100"
-    case external = "bolt.fill"
-    case system = "laptopcomputer"
-}
-
-struct BatteryTopCoalitionInfoItem: View {
-    let coalition: Coalition
-    
-    init(coalition: Coalition) {
-        self.coalition = coalition
-    }
-    
-    var body: some View {
-        HStack {
-            Image(nsImage: coalition.icon ?? NSWorkspace.shared.icon(for: .applicationBundle))
-                .resizable()
-                .frame(width: 24, height: 24)
-            Text(coalition.displayName ?? coalition.bundleIdentifier)
-            Spacer()
-            Text(energyImpactFormatter.string(from: NSNumber(floatLiteral: coalition.energyImpact))!)
-        }
-    }
-}
-

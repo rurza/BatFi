@@ -40,7 +40,8 @@ public let powerFormatter: MeasurementFormatter = {
     numberFormatter.minimumFractionDigits = 3
     numberFormatter.maximumFractionDigits = 3
     formatter.numberFormatter = numberFormatter
-
+    return formatter
+}()
 
 public let energyImpactFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
