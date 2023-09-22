@@ -2467,6 +2467,17 @@
         }
       }
     },
+    "settings.button.label.show_power_diagram" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show power diagram"
+          }
+        }
+      }
+    },
     "settings.button.label.turn_off_charging_when_battery_is_hot" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

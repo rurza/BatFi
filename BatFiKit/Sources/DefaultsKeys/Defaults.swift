@@ -37,7 +37,6 @@ extension Defaults.Keys {
     public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
     public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
     public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
-    public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
 
 
     // notifications
@@ -45,6 +44,4 @@ extension Defaults.Keys {
     public static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
     public static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
     public static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
-
-
 }
