@@ -23,26 +23,36 @@ final class RouteHandler {
         logger.notice("SMC Opened")
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
+        let enableSystemChargeLimitByte: UInt8
 
         switch message {
         case .forceDischarging:
             disableChargingByte = 1
             inhibitChargingByte = 0
+            enableSystemChargeLimitByte = 0
             logger.notice("Handling force discharge")
         case .auto:
             disableChargingByte = 0
             inhibitChargingByte = 0
+            enableSystemChargeLimitByte = 0
             logger.notice("Handling enable charge")
         case .inhibitCharging:
             disableChargingByte = 0
             inhibitChargingByte = 02
+            enableSystemChargeLimitByte = 0
             logger.notice("Handling inhibit charging")
+        case .enableSystemChargeLimit:
+            disableChargingByte = 0
+            inhibitChargingByte = 0
+            enableSystemChargeLimitByte = 1
+            logger.notice("Handling enable system charge limit")
         }
 
         do {
             try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
             try SMCKit.writeData(.inhibitChargingC, uint8: inhibitChargingByte)
             try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
+            try SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
         } catch {
             logger.error("SMC writing error: \(error)")
             reset()
@@ -55,6 +65,7 @@ final class RouteHandler {
             try SMCKit.writeData(.disableCharging, uint8: 0)
             try SMCKit.writeData(.inhibitChargingC, uint8: 0)
             try SMCKit.writeData(.inhibitChargingB, uint8: 0)
+            try SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
         } catch {
             logger.critical("Resetting charging state failed. \(error)")
         }

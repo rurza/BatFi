@@ -2294,6 +2294,17 @@
         }
       }
     },
+    "settings.button.label.enable_system_charge_limit_on_sleep" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Automatically enable system charge limit (80%) when the Mac goes to sleep"
+          }
+        }
+      }
+    },
     "settings.button.label.launch_at_login" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

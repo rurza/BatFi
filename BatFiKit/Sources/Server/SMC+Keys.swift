@@ -22,6 +22,11 @@ extension SMCKey {
         code: .init(fromStaticString: "CH0B"),
         info: DataTypes.UInt8
     )
+    
+    static let enableSystemChargeLimit = Self(
+        code: .init(fromStaticString: "CHWA"),
+        info: DataTypes.Flag
+    )
 
     static let lidClosed = Self(
         code: .init(fromStaticString: "MSLD"),
