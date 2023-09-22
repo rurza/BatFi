@@ -92,4 +92,28 @@ final class RouteHandler {
         guard let option = MagSafeLEDOption(rawValue: data.0) else { throw SMCError.canNotCreateMagSafeLEDOption }
         return option
     }
+    
+    func powerInfo() throws -> PowerInfo {
+        defer {
+            SMCKit.close()
+        }
+        try SMCKit.open()
+        
+        let rawBatteryPower = try SMCKit.readData(SMCKey.batteryPower)
+        let rawExternalPower = try SMCKit.readData(SMCKey.externalPower)
+        
+        var batteryPower = Float(fromBytes: (rawBatteryPower.0, rawBatteryPower.1, rawBatteryPower.2, rawBatteryPower.3))
+        var externalPower = Float(fromBytes: (rawExternalPower.0, rawExternalPower.1, rawExternalPower.2, rawExternalPower.3))
+        
+        if abs(batteryPower) < 0.01 {
+            batteryPower = 0
+        }
+        if externalPower < 0.01 {
+            externalPower = 0
+        }
+        
+        let systemPower = batteryPower + externalPower
+        
+        return PowerInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
+    }
 }

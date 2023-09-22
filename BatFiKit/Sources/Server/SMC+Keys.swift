@@ -32,6 +32,21 @@ extension SMCKey {
         code: .init(fromStaticString: "ACLC"),
         info: DataTypes.UInt8
     )
+    
+    static let batteryPower = Self(
+        code: .init(fromStaticString: "SBAP"),
+        info: DataTypes.Float
+    )
+    
+    static let externalPower = Self(
+        code: .init(fromStaticString: "PDTR"),
+        info: DataTypes.Float
+    )
+    
+    static let systemPower = Self(
+        code: .init(fromStaticString: "PSTR"),
+        info: DataTypes.Float
+    )
 }
 
 extension SMCKit {

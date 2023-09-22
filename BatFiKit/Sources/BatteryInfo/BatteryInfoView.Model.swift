@@ -10,6 +10,7 @@ import AsyncAlgorithms
 import Clients
 import Dependencies
 import Foundation
+import Shared
 
 extension BatteryInfoView {
     @MainActor
@@ -17,6 +18,7 @@ extension BatteryInfoView {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         @Dependency(\.appChargingState) private var appChargingState
         @Dependency(\.defaults) private var defaults
+        @Dependency(\.powerInfoClient) private var powerInfoClient
 
         private(set) var state: PowerState? {
             didSet {
@@ -27,6 +29,12 @@ extension BatteryInfoView {
         private(set) var time: Time?
 
         private(set) var modeDescription: String? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+        
+        private(set) var powerInfo: PowerInfo? {
             willSet {
                 objectWillChange.send()
             }
@@ -57,8 +65,14 @@ extension BatteryInfoView {
                     self.state = state
                 }
             }
+            
+            let powerInfoChanges = Task {
+                for await info in powerInfoClient.powerInfoChanges() {
+                    self.powerInfo = info
+                }
+            }
 
-            tasks = [powerSourceChanges, observeChargingStateMode]
+            tasks = [powerSourceChanges, observeChargingStateMode, powerInfoChanges]
         }
 
         func cancelObserving() {

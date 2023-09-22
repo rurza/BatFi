@@ -28,6 +28,7 @@ extension Defaults.Keys {
     public static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
     public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
     public static let showChart = Key<Bool>("showChart", default: true)
+    public static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
 
     // Advanced
     public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
@@ -37,11 +38,10 @@ extension Defaults.Keys {
     public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
     public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
 
+
     // notifications
     public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
     public static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
     public static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
     public static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
-
-
 }
