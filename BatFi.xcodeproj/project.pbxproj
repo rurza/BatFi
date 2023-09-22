@@ -78,7 +78,6 @@
 		5B69E6E429EB67F70010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B69E6E729EB6AB00010AD63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = software.micropixels.BatFi.Helper.plist; sourceTree = "<group>"; };
-		5B6FC13629FC038500D98863 /* README */ = {isa = PBXFileReference; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		5BB80D4829E9EF6600186827 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5BC234F929F09C0000EE2F09 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5BD6D3D12A4CDB3300575C43 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -130,7 +129,6 @@
 		5BEE217E29E607FB0012A4DD = {
 			isa = PBXGroup;
 			children = (
-				5B6FC13629FC038500D98863 /* README */,
 				5B68B9DF29FC0F11008AF5FD /* BatFiKit */,
 				5BEE218929E607FB0012A4DD /* App */,
 				5B11DE0629EB6641007A993C /* Helper */,
