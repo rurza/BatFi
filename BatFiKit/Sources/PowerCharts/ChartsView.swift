@@ -31,6 +31,8 @@ public struct ChartsView: View {
                         x: .value("Time", $0.timestamp),
                         y: .value("Battery Level", $0.batteryLevel)
                     )
+                    .foregroundStyle(Color(.appGreen))
+
                     let offsetDate = model.offsetDateFor($0)
                     if $0.appMode == .charging || $0.appMode == .forceCharge {
                         RectangleMark(
@@ -39,6 +41,7 @@ public struct ChartsView: View {
                             yStart: .value("Battery Level", 0),
                             yEnd: .value("Battery Level", 100)
                         )
+                        .foregroundStyle(Color(.appGreen))
                         .opacity(0.2)
                     }
 
