@@ -3,6 +3,7 @@ import AppShared
 import Clients
 import Defaults
 import Dependencies
+import os
 import Shared
 
 extension SystemStatsClient: DependencyKey {
@@ -50,7 +51,7 @@ extension SystemStatsClient: DependencyKey {
             }
             return TopCoalitionInfo(topCoalitions: topCoalitions)
         }
-        
+        let logger = Logger(category: "🅰️⚡️📊")
         let client = Self(
             topCoalitionInfoChanges: {
                 AsyncStream { continuation in
@@ -58,6 +59,7 @@ extension SystemStatsClient: DependencyKey {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
                             if let info = topCoalitionInfo(), info != prevInfo {
+                                logger.debug("New top coalition info: \(info)")
                                 continuation.yield(info)
                                 prevInfo = info
                             }
@@ -65,6 +67,7 @@ extension SystemStatsClient: DependencyKey {
                         }
                     }
                     continuation.onTermination = { _ in
+                        logger.debug("Task terminated")
                         task.cancel()
                     }
                 }
@@ -72,4 +75,17 @@ extension SystemStatsClient: DependencyKey {
         )
         return client
     }
+}
+
+class Private {
+    static let systemstats_get_top_coalitions = {
+        var systemstats_get_top_coalitionsPointer: UnsafeMutableRawPointer?
+        if let handle = dlopen("/usr/lib/libsystemstats.dylib", RTLD_LAZY) {
+            systemstats_get_top_coalitionsPointer = dlsym(handle, "systemstats_get_top_coalitions")
+            dlclose(handle)
+        }
+        let systemstats_get_top_coalitions =
+        unsafeBitCast(systemstats_get_top_coalitionsPointer, to: (@convention(c) (_ duration: Int, _ count: Int) -> Unmanaged<NSDictionary>)?.self)
+        return systemstats_get_top_coalitions
+    }()
 }

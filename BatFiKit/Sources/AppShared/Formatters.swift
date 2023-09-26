@@ -37,8 +37,8 @@ public let powerFormatter: MeasurementFormatter = {
     formatter.unitStyle = .short
     let numberFormatter = NumberFormatter()
     numberFormatter.numberStyle = .decimal
-    numberFormatter.minimumFractionDigits = 3
-    numberFormatter.maximumFractionDigits = 3
+    numberFormatter.minimumFractionDigits = 1
+    numberFormatter.maximumFractionDigits = 1
     formatter.numberFormatter = numberFormatter
     return formatter
 }()

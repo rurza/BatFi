@@ -30,11 +30,11 @@ public struct BatteryInfoView: View {
                             info: "\(powerState.batteryLevel)%",
                             primaryForegroundColor: true
                         )
+                        .fontWeight(.bold)
                         if let timeDescription = model.time?.description {
-                            BatteryMainInfo(
+                            BatteryAdditionalInfo(
                                 label: timeDescription.label,
-                                info: timeDescription.description,
-                                primaryForegroundColor: model.time?.hasKnownTime == true
+                                info: timeDescription.description
                             )
                         }
                     }
@@ -231,6 +231,7 @@ struct BatteryTopCoalitionInfo: View {
             if topCoalitionInfo.topCoalitions.count > 0 {
                 Text(L10n.BatteryInfo.Label.TopCoalition.some)
                     .bold()
+                    .padding(.bottom, 6)
                 ForEach(topCoalitionInfo.topCoalitions, id: \.bundleIdentifier) { coalition in
                     BatteryTopCoalitionInfoItem(coalition: coalition)
                 }

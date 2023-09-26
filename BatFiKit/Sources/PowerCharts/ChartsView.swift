@@ -22,7 +22,8 @@ public struct ChartsView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(L10n.Menu.Charts.chartsHeader)
-                .foregroundStyle(.secondary)
+                .bold()
+                .foregroundColor(.secondary)
                 .font(.callout)
                 .padding(.bottom, 6)
             if !model.powerStatePoints.isEmpty {

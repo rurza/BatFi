@@ -97,9 +97,9 @@ public enum L10n {
             }
             public enum TopCoalition {
                 /// No processes with high energy impact
-                public static let `none` = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No processes with high energy impact", bundle: Bundle.module)
+                public static let `none` = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
                 /// Processes with high energy impact
-                public static let some = String(localized: "battery_info.label.top_coalition.some", defaultValue: "Processes with high energy impact", bundle: Bundle.module)
+                public static let some = String(localized: "battery_info.label.top_coalition.some", defaultValue: "Using significant energy", bundle: Bundle.module)
             }
         }
     }
