@@ -82,6 +82,14 @@ public enum L10n {
                 public static let powerSource = String(localized: "battery_info.label.additional.power_source", defaultValue: "Power Source", bundle: Bundle.module)
                 /// Temperature
                 public static let temperature = String(localized: "battery_info.label.additional.temperature", defaultValue: "Temperature", bundle: Bundle.module)
+                /// Power Mode
+                public static let powerMode = String(localized: "battery_info.label.additional.power_mode", defaultValue: "Power Mode", bundle: Bundle.module)
+                /// Low
+                public static let lowPowerMode = String(localized: "battery_info.label.additional.low_power_mode", defaultValue: "Low", bundle: Bundle.module)
+                /// Auto
+                public static let autoPowerMode = String(localized: "battery_info.label.additional.auto_power_mode", defaultValue: "Auto", bundle: Bundle.module)
+                /// High
+                public static let highPowerMode = String(localized: "battery_info.label.additional.high_power_mode", defaultValue: "High", bundle: Bundle.module)
             }
             public enum Main {
                 /// Battery

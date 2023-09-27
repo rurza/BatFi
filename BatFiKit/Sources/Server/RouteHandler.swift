@@ -92,4 +92,46 @@ final class RouteHandler {
         guard let option = MagSafeLEDOption(rawValue: data.0) else { throw SMCError.canNotCreateMagSafeLEDOption }
         return option
     }
+    
+    func powerSettingOption(_ option: PowerSettingOption) {
+        guard
+            let IOPMCopyPMPreferences = Private.IOPMCopyPMPreferences,
+            let IOPMFeatureIsAvailable = Private.IOPMFeatureIsAvailable,
+            let IOPMSetPMPreferences = Private.IOPMSetPMPreferences
+        else {
+            return
+        }
+        guard var preferences = IOPMCopyPMPreferences().takeUnretainedValue() as? [String: [String: Any]] else {
+            return
+        }
+        for (source, settings) in option.settings {
+            for sourceValue in source.allValues {
+                guard 
+                    let sourceKey = sourceValue.key,
+                    preferences[sourceKey] != nil
+                else {
+                    continue
+                }
+                for setting in settings {
+                    let settingKey: String
+                    let settingValue: Any
+                    switch setting {
+                    case .powerMode(let powerMode):
+                        if powerMode == .high {
+                            guard IOPMFeatureIsAvailable(Private.kIOPMHighPowerModeKey as CFString, sourceKey as CFString) else {
+                                continue
+                            }
+                        }
+                        settingKey = Private.kIOPMLowPowerModeKey
+                        settingValue = powerMode.rawValue
+                    }
+                    guard IOPMFeatureIsAvailable(settingKey as CFString, sourceKey as CFString) else {
+                        continue
+                    }
+                    preferences[sourceKey]![settingKey] = settingValue
+                }
+            }
+        }
+        _ = IOPMSetPMPreferences(preferences as CFDictionary)
+    }
 }
