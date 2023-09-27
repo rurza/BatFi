@@ -314,6 +314,8 @@ public enum L10n {
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
                 public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
+                /// Automatically enable system charge limit (80%) when the Mac goes to sleep
+                public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
                 public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power diagram", bundle: Bundle.module)
                 /// Show
                 public static let highEnergyImpactProcessesShow = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show", bundle: .module)

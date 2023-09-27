@@ -41,6 +41,7 @@ extension Defaults.Keys {
     public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
     public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
     public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
+    public static let turnOnSystemChargeLimitingWhenGoingToSleep = Key<Bool>("turnOnSystemChargeLimitingWhenGoingToSleep", default: false)
 
 
     // notifications
