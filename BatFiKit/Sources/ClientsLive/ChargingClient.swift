@@ -129,6 +129,21 @@ extension ChargingClient: DependencyKey {
                 )
             }
         }
+        
+        func enableSystemChargeLimit() async throws {
+            logger.debug("Should send \(#function)")
+            do {
+                try await createClient().sendMessage(
+                    SMCChargingCommand.enableSystemChargeLimit,
+                    to: XPCRoute.charging
+                )
+            } catch {
+                try await installHelperIfPossibleForError(
+                    error,
+                    call: enableSystemChargeLimit
+                )
+            }
+        }
 
         let client = ChargingClient(
             turnOnAutoChargingMode: turnOnAutoChargingModel,
@@ -143,7 +158,8 @@ extension ChargingClient: DependencyKey {
                 } catch {
                     logger.error("Failed to reset the charging mode")
                 }
-            }
+            },
+            enableSystemChargeLimit: enableSystemChargeLimit
         )
         return client
     }()
