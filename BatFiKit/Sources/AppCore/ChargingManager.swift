@@ -205,6 +205,8 @@ public final class ChargingManager {
             if currentBatteryLevel >= chargeLimit {
                 if currentBatteryLevel > chargeLimit && allowDischarging && lidOpened && !computerIsAsleep {
                     await turnOnForceDischargeIfNeeded(chargerConnected: powerState.chargerConnected)
+                } else if enableSystemChargeLimitOnSleep && !inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
+                    try? await chargingClient.enableSystemChargeLimit()
                 } else {
                     await inhibitCharging(chargerConnected: powerState.chargerConnected)
                 }
