@@ -21,7 +21,7 @@ extension DefaultsKey: DependencyKey {
 public struct DefaultsClient: DefaultsProtocol {
     private let logger = Logger(category: "👀🔧")
     
-    public func observe<Value>(_ key: Defaults.Key<Value>) -> AsyncStream<Value> where Value : Defaults.Serializable & CustomStringConvertible & Equatable {
+    public func observe<Value>(_ key: Defaults.Key<Value>) -> AsyncStream<Value> where Value: DefaultsValue {
         Defaults.updates(key)
             .map {
                 logger.debug("\(key.name, privacy: .public) did change: \($0.description, privacy: .public)")

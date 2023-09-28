@@ -10,8 +10,10 @@ import DefaultsKeys
 import Dependencies
 import Foundation
 
+public typealias DefaultsValue = Defaults.Serializable & CustomStringConvertible & Equatable
+
 public protocol DefaultsProtocol {
-    func observe<Value: Defaults.Serializable & CustomStringConvertible & Equatable>(_ key: Defaults.Key<Value>) -> AsyncStream<Value>
+    func observe<Value: DefaultsValue>(_ key: Defaults.Key<Value>) -> AsyncStream<Value>
     func setValue<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>, value: Value)
     func value<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>) -> Value
     func resetSettings()
