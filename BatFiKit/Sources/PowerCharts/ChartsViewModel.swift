@@ -56,7 +56,20 @@ extension ChartsView {
                     self.powerStatePoints = []
                     return
                 }
-                self.powerStatePoints = IdentifiedArray(uniqueElements: results)
+                let reduceDuplicatedDates = results.reduce(
+                    into: [PowerStatePoint](),
+                    { array, powerStatePoint in
+                        guard let lastElement = array.last else {
+                            array.append(powerStatePoint)
+                            return
+                        }
+                        guard lastElement.timestamp != powerStatePoint.timestamp else {
+                            return
+                        }
+                        array.append(powerStatePoint)
+                    }
+                )
+                self.powerStatePoints = IdentifiedArray(uniqueElements: reduceDuplicatedDates)
             } catch {
                 logger.error("error when fetching power state: \(error.localizedDescription, privacy: .public)")
             }
@@ -74,6 +87,8 @@ extension ChartsView {
                 if nextPoint.appMode == point.appMode {
                     return nextPoint.timestamp
                 }
+            } else {
+                return date.now
             }
             return point.timestamp
         }
