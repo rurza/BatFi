@@ -35,7 +35,7 @@ public struct ChartsView: View {
                     .foregroundStyle(Color(.appGreen))
 
                     let offsetDate = model.offsetDateFor($0)
-                    if $0.appMode == .charging || $0.appMode == .forceCharge {
+                    if $0.chargerConnected && $0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
@@ -44,9 +44,7 @@ public struct ChartsView: View {
                         )
                         .foregroundStyle(Color(.appGreen))
                         .opacity(0.2)
-                    }
-
-                    if $0.appMode == .inhibit {
+                    } else if $0.chargerConnected && !$0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
