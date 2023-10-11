@@ -51,6 +51,34 @@ extension SystemStatsClient: DependencyKey {
             return TopCoalitionInfo(topCoalitions: topCoalitions)
         }
         
+        @Sendable func batteryChargeGraphInfo() -> BatteryChargeGraphInfo? {
+            guard
+                let systemstats_get_battery_charge_graph = Private.systemstats_get_battery_charge_graph,
+                let batteryChargeGraph = systemstats_get_battery_charge_graph().takeUnretainedValue() as? [String: Any],
+                let rawBatteryStates = batteryChargeGraph["battery_states"] as? [Bool],
+                let batteryTimes = batteryChargeGraph["battery_times"] as? [UInt],
+                rawBatteryStates.count == batteryTimes.count,
+                let rawChargeLevels = batteryChargeGraph["charge_levels"] as? [UInt8],
+                let chargeTimes = batteryChargeGraph["charge_times"] as? [UInt],
+                rawChargeLevels.count == chargeTimes.count
+            else {
+                return nil
+            }
+            var batteryStates = [BatteryState]()
+            for (index, rawBatteryState) in rawBatteryStates.enumerated() {
+                let batteryTime = batteryTimes[index]
+                let batteryState = BatteryState(state: rawBatteryState, time: batteryTime)
+                batteryStates.append(batteryState)
+            }
+            var chargeLevels = [ChargeLevel]()
+            for (index, rawChargeLevel) in rawChargeLevels.enumerated() {
+                let chargeTime = chargeTimes[index]
+                let chargeLevel = ChargeLevel(level: rawChargeLevel, time: chargeTime)
+                chargeLevels.append(chargeLevel)
+            }
+            return BatteryChargeGraphInfo(batteryStates: batteryStates, chargeLevels: chargeLevels)
+        }
+        
         let client = Self(
             topCoalitionInfoChanges: {
                 AsyncStream { continuation in
@@ -58,6 +86,23 @@ extension SystemStatsClient: DependencyKey {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
                             if let info = topCoalitionInfo(), info != prevInfo {
+                                continuation.yield(info)
+                                prevInfo = info
+                            }
+                            try await Task.sleep(for: .seconds(1))
+                        }
+                    }
+                    continuation.onTermination = { _ in
+                        task.cancel()
+                    }
+                }
+            },
+            batteryChargeGraphInfoChanges: {
+                AsyncStream { continuation in
+                    let task = Task {
+                        var prevInfo: BatteryChargeGraphInfo?
+                        while !Task.isCancelled {
+                            if let info = batteryChargeGraphInfo(), info != prevInfo {
                                 continuation.yield(info)
                                 prevInfo = info
                             }

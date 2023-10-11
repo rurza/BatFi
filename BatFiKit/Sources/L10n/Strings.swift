@@ -94,6 +94,8 @@ public enum L10n {
                     /// Time to Charge
                     public static let timeToCharge = String(localized: "battery_info.label.main.time.time_to_charge", defaultValue: "Time to Charge", bundle: Bundle.module)
                 }
+                /// Elapsed Time
+                public static let elapsedTime = String(localized: "battery_info.label.main.elapsed_time", defaultValue: "Elapsed Time", bundle: Bundle.module)
             }
             public enum TopCoalition {
                 /// No high energy impact processes

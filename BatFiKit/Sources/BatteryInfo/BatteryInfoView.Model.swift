@@ -38,6 +38,12 @@ extension BatteryInfoView {
                 objectWillChange.send()
             }
         }
+        
+        private(set) var batteryChargeGraphInfo: BatteryChargeGraphInfo? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
 
         private var tasks: [Task<Void, Never>]?
 
@@ -70,8 +76,14 @@ extension BatteryInfoView {
                     self.topCoalitionInfo = info
                 }
             }
+            
+            let batteryChargeGraphInfoChanges = Task {
+                for await info in systemStatsClient.batteryChargeGraphInfoChanges() {
+                    self.batteryChargeGraphInfo = info
+                }
+            }
 
-            tasks = [powerSourceChanges, observeChargingStateMode, topCoalitionInfoChanges]
+            tasks = [powerSourceChanges, observeChargingStateMode, topCoalitionInfoChanges, batteryChargeGraphInfoChanges]
         }
 
         func cancelObserving() {
@@ -96,6 +108,13 @@ extension BatteryInfoView {
             guard let temperature = state?.batteryTemperature else { return nil }
             let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
             return temperatureFormatter.string(from: measurement)
+        }
+        
+        func elapsedTimeDescription() -> String? {
+            guard let time = batteryChargeGraphInfo?.batteryStates.last?.time else {
+                return nil
+            }
+            return timeFormatter.string(from: Double(time))
         }
     }
 }

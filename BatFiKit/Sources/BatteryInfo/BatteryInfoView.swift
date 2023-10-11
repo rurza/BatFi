@@ -33,6 +33,13 @@ public struct BatteryInfoView: View {
                                 primaryForegroundColor: model.time?.hasKnownTime == true
                             )
                         }
+                        if let elapsedTimeDescription = model.elapsedTimeDescription() {
+                            BatteryMainInfo(
+                                label: l10n.Main.elapsedTime,
+                                info: elapsedTimeDescription,
+                                primaryForegroundColor: false
+                            )
+                        }
                     }
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 7) {

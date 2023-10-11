@@ -610,6 +610,17 @@
         }
       }
     },
+    "battery_info.label.main.elapsed_time" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Elapsed Time"
+          }
+        }
+      }
+    },
     "battery_info.label.main.time.calculating" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
