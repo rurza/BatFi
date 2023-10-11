@@ -11,8 +11,6 @@ import AppShared
 import L10n
 
 public struct BatteryInfoView: View {
-    @Default(.showHighEnergyImpactProcesses) private var showHighEnergyImpactProcesses
-    
     @StateObject private var model = Model()
 
     public init() { }
@@ -61,7 +59,7 @@ public struct BatteryInfoView: View {
                         )
                     }
                     .frame(maxWidth: .infinity)
-                    if let topCoalitionInfo = model.topCoalitionInfo, showHighEnergyImpactProcesses {
+                    if let topCoalitionInfo = model.topCoalitionInfo, Defaults[.showHighEnergyImpactProcesses] {
                         SeparatorView()
                         BatteryTopCoalitionInfo(topCoalitionInfo: topCoalitionInfo)
                     }
