@@ -17,6 +17,7 @@ extension BatteryInfoView {
         @Dependency(\.powerSourceClient) private var powerSourceClient
         @Dependency(\.appChargingState) private var appChargingState
         @Dependency(\.defaults) private var defaults
+        @Dependency(\.systemStatsClient) private var systemStatsClient
 
         private(set) var state: PowerState? {
             didSet {
@@ -27,6 +28,18 @@ extension BatteryInfoView {
         private(set) var time: Time?
 
         private(set) var modeDescription: String? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+        
+        private(set) var topCoalitionInfo: TopCoalitionInfo? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+        
+        private(set) var batteryChargeGraphInfo: BatteryChargeGraphInfo? {
             willSet {
                 objectWillChange.send()
             }
@@ -57,8 +70,20 @@ extension BatteryInfoView {
                     self.state = state
                 }
             }
+            
+            let topCoalitionInfoChanges = Task {
+                for await info in systemStatsClient.topCoalitionInfoChanges() {
+                    self.topCoalitionInfo = info
+                }
+            }
+            
+            let batteryChargeGraphInfoChanges = Task {
+                for await info in systemStatsClient.batteryChargeGraphInfoChanges() {
+                    self.batteryChargeGraphInfo = info
+                }
+            }
 
-            tasks = [powerSourceChanges, observeChargingStateMode]
+            tasks = [powerSourceChanges, observeChargingStateMode, topCoalitionInfoChanges, batteryChargeGraphInfoChanges]
         }
 
         func cancelObserving() {
@@ -83,6 +108,13 @@ extension BatteryInfoView {
             guard let temperature = state?.batteryTemperature else { return nil }
             let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
             return temperatureFormatter.string(from: measurement)
+        }
+        
+        func elapsedTimeDescription() -> String? {
+            guard let time = batteryChargeGraphInfo?.batteryStates.last?.time else {
+                return nil
+            }
+            return timeFormatter.string(from: Double(time))
         }
     }
 }

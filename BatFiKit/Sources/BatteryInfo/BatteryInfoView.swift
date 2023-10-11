@@ -5,6 +5,7 @@
 //  Created by Adam on 20/04/2023.
 //
 
+import Defaults
 import SwiftUI
 import AppShared
 import L10n
@@ -30,6 +31,13 @@ public struct BatteryInfoView: View {
                                 label: timeDescription.label,
                                 info: timeDescription.description,
                                 primaryForegroundColor: model.time?.hasKnownTime == true
+                            )
+                        }
+                        if let elapsedTimeDescription = model.elapsedTimeDescription() {
+                            BatteryMainInfo(
+                                label: l10n.Main.elapsedTime,
+                                info: elapsedTimeDescription,
+                                primaryForegroundColor: false
                             )
                         }
                     }
@@ -58,6 +66,10 @@ public struct BatteryInfoView: View {
                         )
                     }
                     .frame(maxWidth: .infinity)
+                    if let topCoalitionInfo = model.topCoalitionInfo, Defaults[.showHighEnergyImpactProcesses] {
+                        SeparatorView()
+                        BatteryTopCoalitionInfo(topCoalitionInfo: topCoalitionInfo)
+                    }
                 }
                 .onDisappear {
                     model.cancelObserving()
@@ -124,6 +136,49 @@ struct BatteryAdditionalInfo<Label: View>: View {
             }
             .foregroundColor(.secondary)
             .font(.callout)
+        }
+    }
+}
+
+struct BatteryTopCoalitionInfo: View {
+    let topCoalitionInfo: TopCoalitionInfo
+    
+    init(topCoalitionInfo: TopCoalitionInfo) {
+        self.topCoalitionInfo = topCoalitionInfo
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            if topCoalitionInfo.topCoalitions.count > 0 {
+                Text(L10n.BatteryInfo.Label.TopCoalition.highEnergyImpactProcesses)
+                    .bold()
+                ForEach(topCoalitionInfo.topCoalitions, id: \.bundleIdentifier) { coalition in
+                    BatteryTopCoalitionInfoItem(coalition: coalition)
+                }
+            } else {
+                Text(L10n.BatteryInfo.Label.TopCoalition.noHighEnergyImpactProcesses)
+            }
+        }
+        .foregroundColor(.secondary)
+        .font(.callout)
+    }
+}
+
+struct BatteryTopCoalitionInfoItem: View {
+    let coalition: Coalition
+    
+    init(coalition: Coalition) {
+        self.coalition = coalition
+    }
+    
+    var body: some View {
+        HStack {
+            Image(nsImage: coalition.icon ?? NSWorkspace.shared.icon(for: .applicationBundle))
+                .resizable()
+                .frame(width: 24, height: 24)
+            Text(coalition.displayName ?? coalition.bundleIdentifier)
+            Spacer()
+            Text(energyImpactFormatter.string(from: NSNumber(floatLiteral: coalition.energyImpact))!)
         }
     }
 }
