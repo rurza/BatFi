@@ -76,8 +76,6 @@ public struct BatteryInfoView: View {
             }
         }
         .frame(width: 220)
-        .padding(.horizontal)
-        .padding(.vertical, 10)
     }
 }
 

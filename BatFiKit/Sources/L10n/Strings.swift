@@ -143,6 +143,15 @@ public enum L10n {
             }
         }
 
+        public enum PowerInfo {
+            /// Waiting for data…
+            public static let loading = String(localized: "menu.power_info.loading", defaultValue: "Waiting for data…", bundle: Bundle.module)
+
+            /// Power distribution
+            public static let header = String(localized: "menu.power_info.header", defaultValue: "Power distribution", bundle: Bundle.module)
+
+        }
+
         public enum Tooltip {
             public enum ChargeToHundred {
                 /// Disabled because the charger is not connected
@@ -316,7 +325,7 @@ public enum L10n {
                 public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
                 /// Automatically enable system charge limit (80%) when the Mac goes to sleep
                 public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
-                public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power diagram", bundle: Bundle.module)
+                public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power distribution", bundle: Bundle.module)
                 /// Show
                 public static let highEnergyImpactProcessesShow = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show", bundle: .module)
             }

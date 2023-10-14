@@ -92,6 +92,7 @@ public final class MenuController {
             MenuItem("")
                 .view {
                     BatteryInfoView()
+                        .modifier(MenuViewModifier())
                 }
             SeparatorItem()
             if dependencies.showChart {
@@ -100,7 +101,6 @@ public final class MenuController {
                         ChartsView()
                             .modifier(MenuViewModifier())
                             .frame(height: 120)
-
                     }
                 SeparatorItem()
             }
@@ -109,6 +109,8 @@ public final class MenuController {
                     .view {
                         PowerInfoView()
                             .modifier(MenuViewModifier())
+                            .padding(.top, -10)
+
                     }
                 SeparatorItem()
             }

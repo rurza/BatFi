@@ -1135,6 +1135,40 @@
         }
       }
     },
+    "menu.power_info.header" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Power distribution"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozkład mocy"
+          }
+        }
+      }
+    },
+    "menu.power_info.loading" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Waiting for data…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Czekam na dane…"
+          }
+        }
+      }
+    },
     "menu.tooltip.charge_to_hundred.charger_not_connected" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2517,7 +2551,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Show power diagram"
+            "value" : "Show power distribution"
           }
         }
       }

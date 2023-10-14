@@ -5,6 +5,7 @@
 //  Created by Adam on 14/10/2023.
 //
 
+import L10n
 import Shared
 import SwiftUI
 
@@ -91,11 +92,16 @@ public struct PowerInfoView: View {
 
     public var body: some View {
         VStack(alignment: .leading) {
+            Text(L10n.Menu.PowerInfo.header)
+                .bold()
+                .foregroundColor(.secondary)
+                .font(.callout)
+                .padding(.bottom, 10)
             if let powerInfo = model.powerInfo {
                 PowerGraph(powerInfo: powerInfo)
             } else {
                 VStack {
-                    Text("Loading power info")
+                    Text(L10n.Menu.PowerInfo.loading)
                     ProgressView()
                 }
             }
