@@ -28,13 +28,13 @@ public struct ChartsView: View {
                 .padding(.bottom, 6)
             if !model.powerStatePoints.isEmpty {
                 Chart(model.powerStatePoints) {
+                    let offsetDate = model.offsetDateFor($0)
                     LineMark(
-                        x: .value("Time", $0.timestamp),
+                        x: .value("Time", $0.timestamp..<offsetDate),
                         y: .value("Battery Level", $0.batteryLevel)
                     )
                     .foregroundStyle(Color(.appGreen))
 
-                    let offsetDate = model.offsetDateFor($0)
                     if $0.chargerConnected && $0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),

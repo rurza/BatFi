@@ -32,17 +32,6 @@ public let percentageFormatter: NumberFormatter = {
     return formatter
 }()
 
-public let powerFormatter: MeasurementFormatter = {
-    let formatter = MeasurementFormatter()
-    formatter.unitStyle = .short
-    let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = .decimal
-    numberFormatter.minimumFractionDigits = 1
-    numberFormatter.maximumFractionDigits = 1
-    formatter.numberFormatter = numberFormatter
-    return formatter
-}()
-
 public let energyImpactFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.numberStyle = .decimal

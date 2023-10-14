@@ -23,6 +23,8 @@ extension Target.Dependency {
     static let persistence: Self = "Persistence"
     static let shared: Self = "Shared"
     static let powerCharts: Self = "PowerCharts"
+    static let powerInfo: Self = "PowerInfo"
+    static let settings: Self = "Settings"
 }
 
 let package = Package(
@@ -74,24 +76,25 @@ let package = Package(
                 "ClientsLive",
                 "Notifications",
                 "Onboarding",
-                "Settings",
                 .clients,
                 .defaultsKeys,
                 .l10n,
                 .menuBuilder,
+                .settings,
                 .statusItemArrowKit
             ]
         ),
         .target(name: "AppCore", dependencies: [
             "BatteryInfo",
-            "Settings",
             .appShared,
+            .asyncAlgorithms,
             .clients,
             .defaultsKeys,
             .dependencies,
             .l10n,
             .powerCharts,
-            .asyncAlgorithms,
+            .powerInfo,
+            .settings,
             .shared,
             .snapKit
         ]),
@@ -139,17 +142,6 @@ let package = Package(
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
         .target(
-            name: "PowerCharts",
-            dependencies: [
-                .appShared,
-                .clients,
-                .dependencies,
-                .l10n,
-                .persistence,
-                .identifiedCollections
-            ]
-        ),
-        .target(
             name: "Notifications",
             dependencies: [
                 .appShared,
@@ -182,6 +174,24 @@ let package = Package(
                 .shared
             ]
         ),
+        .target(
+            name: "PowerCharts",
+            dependencies: [
+                .appShared,
+                .clients,
+                .dependencies,
+                .l10n,
+                .persistence,
+                .identifiedCollections
+            ]
+        ),
+        .target(name: "PowerInfo", dependencies: [
+            .appShared,
+            .clients,
+            .dependencies,
+            .l10n,
+            .shared
+        ]),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
             .secureXPC,
