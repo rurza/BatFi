@@ -67,13 +67,19 @@ struct AdvancedView: View {
             }, content: {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.Label.highEnergyImpactProcessesThreshold) + Text(" \(highEnergyImpactProcessesThreshold)")
-                    Slider(value: .convert(from: $highEnergyImpactProcessesThreshold), in: 200...700, step: 100) {
-                        EmptyView()
-                    } minimumValueLabel: {
-                        Text("200")
-                    } maximumValueLabel: {
-                        Text("700")
+                    VStack(spacing: 0) {
+                        Slider(value: .convert(from: $highEnergyImpactProcessesThreshold), in: 200...700, step: 100)
+                        HStack {
+                            Text("200")
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                            Text("700")
+                                .multilineTextAlignment(.trailing)
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     }
+                    .frame(width: 340)
                 }
                 .padding(.bottom, 10)
 
@@ -81,25 +87,37 @@ struct AdvancedView: View {
                     let duration = Duration.seconds(highEnergyImpactProcessesDuration)
                     let style = Duration.UnitsFormatStyle(allowedUnits: [.minutes, .seconds], width: .abbreviated)
                     Text(l10n.Label.highEnergyImpactProcessesDuration) + Text(" \(duration.formatted(style))")
-                    Slider(value: $highEnergyImpactProcessesDuration, in: 30...300, step: 30) {
-                        EmptyView()
-                    } minimumValueLabel: {
-                        Text(l10n.Label.highEnergyImpactProcessesMinDuration)
-                    } maximumValueLabel: {
-                        Text(l10n.Label.highEnergyImpactProcessesMaxDuration)
+                    VStack(spacing: 0) {
+                        Slider(value: $highEnergyImpactProcessesDuration, in: 30...300, step: 30)
+                        HStack {
+                            Text(l10n.Label.highEnergyImpactProcessesMinDuration)
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                            Text(l10n.Label.highEnergyImpactProcessesMaxDuration)
+                                .multilineTextAlignment(.trailing)
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     }
+                    .frame(width: 340)
                 }
                 .padding(.bottom, 10)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.Label.highEnergyImpactProcessesCapacity) + Text(" \(highEnergyImpactProcessesCapacity)")
-                    Slider(value: .convert(from: $highEnergyImpactProcessesCapacity), in: 2...8, step: 1) {
-                        EmptyView()
-                    } minimumValueLabel: {
-                        Text("2")
-                    } maximumValueLabel: {
-                        Text("8")
+                    VStack(spacing: 0) {
+                        Slider(value: .convert(from: $highEnergyImpactProcessesCapacity), in: 2...8, step: 1)
+                        HStack {
+                            Text("2")
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                            Text("8")
+                                .multilineTextAlignment(.trailing)
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                     }
+                    .frame(width: 340)
                 }
             })
             Section(title: l10n.Section.updates) {
