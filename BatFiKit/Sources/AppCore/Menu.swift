@@ -13,6 +13,7 @@ import Clients
 import L10n
 import DefaultsKeys
 import Dependencies
+import HighEnergyUsage
 import MenuBuilder
 import PowerCharts
 import PowerInfo
@@ -111,6 +112,15 @@ public final class MenuController {
                             .modifier(MenuViewModifier())
                             .padding(.top, -10)
 
+                    }
+                SeparatorItem()
+            }
+            if dependencies.showHighImpactProcesses {
+                MenuItem("")
+                    .view {
+                        HighEnergyUsageView()
+                            .modifier(MenuViewModifier())
+                            .padding(.top, -10)
                     }
                 SeparatorItem()
             }

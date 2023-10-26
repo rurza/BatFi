@@ -31,11 +31,3 @@ public let percentageFormatter: NumberFormatter = {
     formatter.maximumFractionDigits = 0
     return formatter
 }()
-
-public let energyImpactFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    formatter.minimumFractionDigits = 2
-    formatter.maximumFractionDigits = 2
-    return formatter
-}()

@@ -6,17 +6,17 @@ import Dependencies
 import os
 import Shared
 
-extension SystemStatsClient: DependencyKey {
-    public static var liveValue: SystemStatsClient {
+extension HighEnergyImpactClient: DependencyKey {
+    public static var liveValue: HighEnergyImpactClient {
         @Sendable func topCoalitionInfo() -> TopCoalitionInfo? {
             guard let systemstats_get_top_coalitions = Private.systemstats_get_top_coalitions else {
                 return nil
             }
             let threshold = Defaults[.highEnergyImpactProcessesThreshold]
-            let duration = Defaults[.highEnergyImpactProcessesDuration] * 60
+            let duration = Defaults[.highEnergyImpactProcessesDuration]
             let capacity = Defaults[.highEnergyImpactProcessesCapacity]
             guard
-                let topCoalitionDictionary = systemstats_get_top_coalitions(duration, 10000).takeUnretainedValue() as? [String: Any],
+                let topCoalitionDictionary = systemstats_get_top_coalitions(Int(duration), 10000).takeUnretainedValue() as? [String: Any],
                 let bundleIdentifiers = topCoalitionDictionary["bundle_identifiers"] as? [String],
                 let energyImpacts = topCoalitionDictionary["energy_impacts"] as? [Double],
                 bundleIdentifiers.count == energyImpacts.count
@@ -63,7 +63,7 @@ extension SystemStatsClient: DependencyKey {
                                 continuation.yield(info)
                                 prevInfo = info
                             }
-                            try await Task.sleep(for: .seconds(1))
+                            try await Task.sleep(for: .seconds(3))
                         }
                     }
                     continuation.onTermination = { _ in

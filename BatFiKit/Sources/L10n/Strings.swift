@@ -95,12 +95,6 @@ public enum L10n {
                     public static let timeToCharge = String(localized: "battery_info.label.main.time.time_to_charge", defaultValue: "Time to Charge", bundle: Bundle.module)
                 }
             }
-            public enum TopCoalition {
-                /// No processes with high energy impact
-                public static let `none` = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
-                /// Processes with high energy impact
-                public static let some = String(localized: "battery_info.label.top_coalition.some", defaultValue: "Using significant energy", bundle: Bundle.module)
-            }
         }
     }
     public enum Menu {
@@ -149,7 +143,17 @@ public enum L10n {
 
             /// Power distribution
             public static let header = String(localized: "menu.power_info.header", defaultValue: "Power distribution", bundle: Bundle.module)
+        }
 
+        public enum HighEnergyUsage {
+            /// Waiting for data…
+            public static let loading = String(localized: "menu.high_energy_usage.loading", defaultValue: "Waiting for data…", bundle: Bundle.module)
+
+            /// Apps with high energy usage
+            public static let header = String(localized: "menu.high_energy_usage.header", defaultValue: "Apps with high energy usage", bundle: Bundle.module)
+
+            /// No apps with high energy impact
+            public static let `none` = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
         }
 
         public enum Tooltip {
@@ -325,9 +329,10 @@ public enum L10n {
                 public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
                 /// Automatically enable system charge limit (80%) when the Mac goes to sleep
                 public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
+                /// Show power distribution
                 public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power distribution", bundle: Bundle.module)
-                /// Show
-                public static let highEnergyImpactProcessesShow = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show", bundle: .module)
+                /// Show apps with high energy usage
+                public static let showHighEnergyImpactProcesses = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show apps with high energy usage", bundle: .module)
             }
             public enum Tooltip {
                 /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
@@ -343,18 +348,22 @@ public enum L10n {
             public static let chargingRecommendationPart1 = String(localized: "settings.label.charging_recommendation_part1", defaultValue: "80% is the recommended value for a day-to-day usage.", bundle: Bundle.module)
             /// You can manually override this setting by using the "Charge to 100%" command from the menu.
             public static let chargingRecommendationPart2 = String(localized: "settings.label.charging_recommendation_part2", defaultValue: "You can manually override this setting by using the \"Charge to 100%\" command from the menu.", bundle: Bundle.module)
-            /// Capacity:
-            public static let highEnergyImpactProcessesCapacity = String(localized: "settings.label.high_energy_impact_processes_capacity", defaultValue: "Capacity:", bundle: .module)
+            /// The max number of apps to show:
+            public static let highEnergyImpactProcessesCapacity = String(localized: "settings.label.high_energy_impact_processes_capacity", defaultValue: "The max number of apps to show:", bundle: .module)
             /// processes
             public static let highEnergyImpactProcessesCapacityUnit = String(localized: "settings.label.high_energy_impact_processes_capacity_unit", defaultValue: "processes", bundle: .module)
-            /// Duration:
-            public static let highEnergyImpactProcessesDuration = String(localized: "settings.label.high_energy_impact_processes_duration", defaultValue: "Duration:", bundle: .module)
-            /// minutes
-            public static let highEnergyImpactProcessesDurationUnit = String(localized: "settings.label.high_energy_impact_processes_duration_unit", defaultValue: "minutes", bundle: .module)
-            /// Threshold:
-            public static let highEnergyImpactProcessesThreshold = String(localized: "settings.label.high_energy_impact_processes_threshold", defaultValue: "Threshold:", bundle: .module)
-            /// energy impact of
-            public static let highEnergyImpactProcessesThresholdUnit = String(localized: "settings.label.high_energy_impact_processes_threshold_unit", defaultValue: "energy impact of", bundle: .module)
+
+            /// Sample duration:
+            public static let highEnergyImpactProcessesDuration = String(localized: "settings.label.high_energy_impact_processes_duration", defaultValue: "Sample duration:", bundle: .module)
+
+            /// Threshold of the energy impact
+            public static let highEnergyImpactProcessesThreshold = String(localized: "settings.label.high_energy_impact_processes_threshold", defaultValue: "Threshold of the energy impact:", bundle: .module)
+
+            /// 30s
+            public static let highEnergyImpactProcessesMinDuration = String(localized: "settings.label.high_energy_impact_processes_min_duration", defaultValue: "30s", bundle: .module)
+
+            /// 5 minutes
+            public static let highEnergyImpactProcessesMaxDuration = String(localized: "settings.label.high_energy_impact_processes_max_duration", defaultValue: "5 minutes", bundle: .module)
         }
         public enum Section {
             /// Advanced
@@ -377,8 +386,8 @@ public enum L10n {
             public static let charging = String(localized: "settings.section.charging", defaultValue: "Charging", bundle: Bundle.module)
             /// Debug
             public static let debug = String(localized: "settings.section.debug", defaultValue: "Debug", bundle: Bundle.module)
-            /// High energy impact processes
-            public static let highEnergyImpactProcesses = String(localized: "settings.section.high_energy_impact_processes", defaultValue: "High energy impact processes", bundle: .module)
+            /// Apps with high energy usage
+            public static let highEnergyImpactProcesses = String(localized: "settings.section.high_energy_impact_processes", defaultValue: "Apps with high energy usage", bundle: .module)
         }
         public enum Slider {
             public enum Label {

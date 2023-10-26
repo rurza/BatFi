@@ -101,8 +101,9 @@ public struct PowerInfoView: View {
                 PowerGraph(powerInfo: powerInfo)
             } else {
                 VStack {
-                    Text(L10n.Menu.PowerInfo.loading)
                     ProgressView()
+                        .scaleEffect(x: 0.6, y: 0.6)
+                    Text(L10n.Menu.PowerInfo.loading)
                 }
             }
         }

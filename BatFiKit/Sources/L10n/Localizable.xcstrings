@@ -708,17 +708,6 @@
         }
       }
     },
-    "battery_info.label.top_coalition.some" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Using significant energy"
-          }
-        }
-      }
-    },
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -783,6 +772,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na więcej danych…"
+          }
+        }
+      }
+    },
+    "menu.high_energy_usage.header" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Apps with high energy usage"
+          }
+        }
+      }
+    },
+    "menu.high_energy_usage.loading" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Waiting for data…"
           }
         }
       }
@@ -2367,7 +2378,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Show"
+            "value" : "Show apps with high energy usage"
           }
         }
       }
@@ -2718,7 +2729,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Capacity:"
+            "value" : "The max number of apps to show:"
           }
         }
       }
@@ -2740,18 +2751,29 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Duration:"
+            "value" : "Sample duration:"
           }
         }
       }
     },
-    "settings.label.high_energy_impact_processes_duration_unit" : {
+    "settings.label.high_energy_impact_processes_max_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "minutes"
+            "value" : "5 minutes"
+          }
+        }
+      }
+    },
+    "settings.label.high_energy_impact_processes_min_duration" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "30s"
           }
         }
       }
@@ -2762,18 +2784,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Threshold:"
-          }
-        }
-      }
-    },
-    "settings.label.high_energy_impact_processes_threshold_unit" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "energy impact of"
+            "value" : "Threshold of the energy impact:"
           }
         }
       }
@@ -2905,7 +2916,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "High energy impact processes"
+            "value" : "Apps with high energy usage"
           }
         }
       }

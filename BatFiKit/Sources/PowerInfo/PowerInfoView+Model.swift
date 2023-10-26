@@ -1,5 +1,5 @@
 //
-//  PowerInfo+Model.swift
+//  PowerInfoView+Model.swift
 //
 //
 //  Created by Adam on 14/10/2023.
@@ -32,6 +32,7 @@ extension PowerInfoView {
 
         func cancelObserving() {
             powerInfoChanges?.cancel()
+            powerInfo = nil
         }
     }
 }

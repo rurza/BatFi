@@ -1,6 +1,6 @@
 //
-//  BatteryInfoView.Model.swift
-//  
+//  BatteryInfoView+Model.swift
+//
 //
 //  Created by Adam on 02/05/2023.
 //
@@ -17,7 +17,6 @@ extension BatteryInfoView {
     final class Model: ObservableObject {
         @Dependency(\.powerSourceClient)    private var powerSourceClient
         @Dependency(\.appChargingState)     private var appChargingState
-        @Dependency(\.systemStatsClient)    private var systemStatsClient
         @Dependency(\.defaults)             private var defaults
 
         private(set) var state: PowerState? {
@@ -34,11 +33,6 @@ extension BatteryInfoView {
             }
         }
 
-        private(set) var topCoalitionInfo: TopCoalitionInfo? {
-            willSet {
-                objectWillChange.send()
-            }
-        }
 
         private var tasks: [Task<Void, Never>]?
 
@@ -66,13 +60,8 @@ extension BatteryInfoView {
                 }
             }
 
-            let topCoalitionInfoChanges = Task {
-                for await info in systemStatsClient.topCoalitionInfoChanges() {
-                    self.topCoalitionInfo = info
-                }
-            }
 
-            tasks = [powerSourceChanges, observeChargingStateMode, topCoalitionInfoChanges]
+            tasks = [powerSourceChanges, observeChargingStateMode]
         }
 
         func cancelObserving() {

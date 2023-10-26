@@ -25,6 +25,7 @@ extension Target.Dependency {
     static let powerCharts: Self = "PowerCharts"
     static let powerInfo: Self = "PowerInfo"
     static let settings: Self = "Settings"
+    static let highEnergyUsage: Self = "HighEnergyUsage"
 }
 
 let package = Package(
@@ -91,6 +92,7 @@ let package = Package(
             .clients,
             .defaultsKeys,
             .dependencies,
+            .highEnergyUsage,
             .l10n,
             .powerCharts,
             .powerInfo,
@@ -192,6 +194,16 @@ let package = Package(
             .l10n,
             .shared
         ]),
+        .target(
+            name: "HighEnergyUsage",
+            dependencies: [
+                .appShared,
+                .clients,
+                .dependencies,
+                .l10n,
+                .shared
+            ]
+        ),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
             .secureXPC,

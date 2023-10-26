@@ -11,7 +11,7 @@ import SwiftUI
 public extension Binding {
     static func convert<TInt, TFloat>(from intBinding: Binding<TInt>) -> Binding<TFloat>
     where TInt:   BinaryInteger,
-          TFloat: BinaryFloatingPoint{
+          TFloat: BinaryFloatingPoint {
               Binding<TFloat> (
                 get: { TFloat(intBinding.wrappedValue) },
                 set: { intBinding.wrappedValue = TInt($0) }

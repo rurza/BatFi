@@ -16,9 +16,6 @@ struct MenubarView: View {
     @Default(.showChart)                            private var showChart
     @Default(.showPowerDiagram)                     private var showPowerDiagram
     @Default(.showHighEnergyImpactProcesses)        private var showHighEnergyImpactProcesses
-    @Default(.highEnergyImpactProcessesThreshold)   private var highEnergyImpactProcessesThreshold
-    @Default(.highEnergyImpactProcessesDuration)    private var highEnergyImpactProcessesDuration
-    @Default(.highEnergyImpactProcessesCapacity)    private var highEnergyImpactProcessesCapacity
 
 
     var body: some View {
@@ -27,34 +24,9 @@ struct MenubarView: View {
             Section(title: l10n.Section.menu) {
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)
+                Toggle(l10n.Button.Label.showHighEnergyImpactProcesses, isOn: $showHighEnergyImpactProcesses)
             }
-            Section(title: l10n.Section.highEnergyImpactProcesses) {
-                Toggle(l10n.Button.Label.highEnergyImpactProcessesShow, isOn: $showHighEnergyImpactProcesses)
-                HStack {
-                    Text(l10n.Label.highEnergyImpactProcessesThreshold)
-                    Text(l10n.Label.highEnergyImpactProcessesThresholdUnit)
-                    TextField("", value: $highEnergyImpactProcessesThreshold, format: .number)
-                        .multilineTextAlignment(.center)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 60)
-                }
-                HStack {
-                    Text(l10n.Label.highEnergyImpactProcessesDuration)
-                    TextField("", value: $highEnergyImpactProcessesDuration, format: .number)
-                        .multilineTextAlignment(.center)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 50)
-                    Text(l10n.Label.highEnergyImpactProcessesDurationUnit)
-                }
-                HStack {
-                    Text(l10n.Label.highEnergyImpactProcessesCapacity)
-                    TextField("", value: $highEnergyImpactProcessesCapacity, format: .number)
-                        .multilineTextAlignment(.center)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(maxWidth: 45)
-                    Text(l10n.Label.highEnergyImpactProcessesCapacityUnit)
-                }
-            }
+            
             Section(title: l10n.Section.statusIcon, bottomDivider: true) {
                 Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
                 Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
