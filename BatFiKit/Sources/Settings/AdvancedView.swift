@@ -68,12 +68,12 @@ struct AdvancedView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.Label.highEnergyImpactProcessesThreshold) + Text(" \(highEnergyImpactProcessesThreshold)")
                     VStack(spacing: 0) {
-                        Slider(value: .convert(from: $highEnergyImpactProcessesThreshold), in: 200...700, step: 100)
+                        Slider(value: .convert(from: $highEnergyImpactProcessesThreshold), in: 200...800, step: 100)
                         HStack {
                             Text("200")
                                 .multilineTextAlignment(.leading)
                             Spacer()
-                            Text("700")
+                            Text("800")
                                 .multilineTextAlignment(.trailing)
                         }
                         .font(.caption)
