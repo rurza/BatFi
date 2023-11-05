@@ -48,10 +48,10 @@
     {
       "identity" : "menubuilder",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/j-f1/MenuBuilder",
+      "location" : "https://github.com/rurza/MenuBuilder",
       "state" : {
-        "revision" : "ba0202c5ff6d63f0fd7ec6b1da11a769eff15000",
-        "version" : "3.0.0"
+        "branch" : "main",
+        "revision" : "bb7639df2369690228ee4650c0cc9f9e29cc4f1c"
       }
     },
     {
