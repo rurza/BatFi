@@ -348,16 +348,45 @@ public enum L10n {
             public static let chargingRecommendationPart1 = String(localized: "settings.label.charging_recommendation_part1", defaultValue: "80% is the recommended value for a day-to-day usage.", bundle: Bundle.module)
             /// You can manually override this setting by using the "Charge to 100%" command from the menu.
             public static let chargingRecommendationPart2 = String(localized: "settings.label.charging_recommendation_part2", defaultValue: "You can manually override this setting by using the \"Charge to 100%\" command from the menu.", bundle: Bundle.module)
-            /// The max number of apps to show:
-            public static let highEnergyImpactProcessesCapacity = String(localized: "settings.label.high_energy_impact_processes_capacity", defaultValue: "The max number of apps to show:", bundle: .module)
-            /// processes
-            public static let highEnergyImpactProcessesCapacityUnit = String(localized: "settings.label.high_energy_impact_processes_capacity_unit", defaultValue: "processes", bundle: .module)
+
+            /// Show up to %@ processes
+            public static func highEnergyImpactProcessesCapacity(_ p1: Int) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.high_energy_impact_processes_capacity",
+                        bundle: .module,
+                        value: "Show up to %lld processes",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
 
             /// Sample duration:
-            public static let highEnergyImpactProcessesDuration = String(localized: "settings.label.high_energy_impact_processes_duration", defaultValue: "Sample duration:", bundle: .module)
+            public static func highEnergyImpactProcessesDuration(_ p1: String) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.high_energy_impact_processes_duration",
+                        bundle: .module,
+                        value: "Sample duration: %@",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
 
-            /// Threshold of the energy impact
-            public static let highEnergyImpactProcessesThreshold = String(localized: "settings.label.high_energy_impact_processes_threshold", defaultValue: "Threshold of the energy impact:", bundle: .module)
+            /// Threshold of the energy impact: %lld
+            public static func highEnergyImpactProcessesThreshold(_ p1: Int) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.high_energy_impact_processes_threshold",
+                        bundle: .module,
+                        value: "Threshold of the energy impact: %lld",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
 
             /// 30s
             public static let highEnergyImpactProcessesMinDuration = String(localized: "settings.label.high_energy_impact_processes_min_duration", defaultValue: "30s", bundle: .module)

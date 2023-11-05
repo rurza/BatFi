@@ -26,7 +26,7 @@ struct HighEnergyImpactSettingsView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     let min = 200.0
                     let max = 800.0
-                    Text(l10n.Label.highEnergyImpactProcessesThreshold) + Text(" \(highEnergyImpactProcessesThreshold)")
+                    Text(l10n.Label.highEnergyImpactProcessesThreshold(highEnergyImpactProcessesThreshold))
                     HighEnergyUsageSlider(
                         minLabel: "\(Int(min))",
                         maxLabel: "\(Int(max))",
@@ -41,7 +41,7 @@ struct HighEnergyImpactSettingsView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     let duration = Duration.seconds(highEnergyImpactProcessesDuration)
                     let style = Duration.UnitsFormatStyle(allowedUnits: [.minutes], width: .wide)
-                    Text(l10n.Label.highEnergyImpactProcessesDuration) + Text(" \(duration.formatted(style))")
+                    Text(l10n.Label.highEnergyImpactProcessesDuration(duration.formatted(style))) 
                     let min = 60.0
                     let max = 300.0
                     let minDuration = Duration.seconds(min)
@@ -58,7 +58,7 @@ struct HighEnergyImpactSettingsView: View {
                 .padding(.bottom, 10)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(l10n.Label.highEnergyImpactProcessesCapacity) + Text(" \(highEnergyImpactProcessesCapacity)")
+                    Text(l10n.Label.highEnergyImpactProcessesCapacity(highEnergyImpactProcessesCapacity))
                     HighEnergyUsageSlider(
                         minLabel: "2",
                         maxLabel: "8",

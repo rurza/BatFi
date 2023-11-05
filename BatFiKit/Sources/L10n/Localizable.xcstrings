@@ -705,6 +705,12 @@
             "state" : "new",
             "value" : "No apps using significant energy"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Żadna z apek nie powoduje dużego zużycia energii"
+          }
         }
       }
     },
@@ -784,6 +790,12 @@
             "state" : "new",
             "value" : "Apps with high energy usage"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apki z dużym zużyciem energii"
+          }
         }
       }
     },
@@ -794,6 +806,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Waiting for data…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Czekam na dane…"
           }
         }
       }
@@ -1275,6 +1293,12 @@
             "state" : "new",
             "value" : "I need more juice!"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naładuj mnie!"
+          }
         }
       }
     },
@@ -1314,6 +1338,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Battery is low"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niski stan baterii"
           }
         }
       }
@@ -2369,6 +2399,12 @@
             "state" : "new",
             "value" : "Automatically enable system charge limit (80%) when the Mac goes to sleep"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatycznie włącz systemowy limit ładowania (80%) gdy Mac się usypia"
+          }
         }
       }
     },
@@ -2379,6 +2415,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show apps with high energy usage"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj apki z dużym zużyciem energii"
           }
         }
       }
@@ -2553,6 +2595,12 @@
             "state" : "new",
             "value" : "Battery is low at 20%"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bateria ma 20%"
+          }
         }
       }
     },
@@ -2563,6 +2611,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show power distribution"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj dystrybucję mocy"
           }
         }
       }
@@ -2724,23 +2778,53 @@
       }
     },
     "settings.label.high_energy_impact_processes_capacity" : {
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "The max number of apps to show:"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Show up to %d process"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Show up to %d processes"
+                }
+              }
+            }
           }
-        }
-      }
-    },
-    "settings.label.high_energy_impact_processes_capacity_unit" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "processes"
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pokazuj maksymalnie %d procesy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pokazuj do %d procesów"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pokazuj tylko %d proces"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Pokazuj do %d procesów"
+                }
+              }
+            }
           }
         }
       }
@@ -2751,7 +2835,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Sample duration:"
+            "value" : "Sample duration: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Długość samplingu: %@"
           }
         }
       }
@@ -2764,6 +2854,12 @@
             "state" : "new",
             "value" : "5 minutes"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 minut"
+          }
         }
       }
     },
@@ -2775,6 +2871,12 @@
             "state" : "new",
             "value" : "30s"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30s"
+          }
         }
       }
     },
@@ -2784,7 +2886,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Threshold of the energy impact:"
+            "value" : "Threshold of the energy impact: %lld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próg obciążenia energetycznego: %lld"
           }
         }
       }
@@ -2917,6 +3025,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Apps with high energy usage"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apki z dużym zużyciem energii"
           }
         }
       }
