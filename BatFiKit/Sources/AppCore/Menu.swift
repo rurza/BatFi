@@ -40,7 +40,6 @@ public final class MenuController {
         let showDebugMenu: Bool
     }
 
-
     let statusItem: NSStatusItem
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.helperManager) private var helperManager
@@ -89,41 +88,13 @@ public final class MenuController {
         } else {
             chargeTo100Tooltip = nil
         }
-        self.statusItem.menu = NSMenu {
+        let menu = NSMenu {
             MenuItem("")
                 .view {
-                    BatteryInfoView()
+                    MenuContainerView()
                         .modifier(MenuViewModifier())
                 }
             SeparatorItem()
-            if dependencies.showChart {
-                MenuItem("")
-                    .view {
-                        ChartsView()
-                            .modifier(MenuViewModifier())
-                            .frame(height: 120)
-                    }
-                SeparatorItem()
-            }
-            if dependencies.showPowerDiagram {
-                MenuItem("")
-                    .view {
-                        PowerInfoView()
-                            .modifier(MenuViewModifier())
-                            .padding(.top, -10)
-
-                    }
-                SeparatorItem()
-            }
-            if dependencies.showHighImpactProcesses {
-                MenuItem("")
-                    .view {
-                        HighEnergyUsageView()
-                            .modifier(MenuViewModifier())
-                            .padding(.top, -10)
-                    }
-                SeparatorItem()
-            }
             if dependencies.appChargingState == .forceDischarge || dependencies.appChargingState == .chargerNotConnected {
                 MenuItem(L10n.Menu.Label.chargeToHundred)
                     .toolTip(chargeTo100Tooltip)
@@ -181,7 +152,7 @@ public final class MenuController {
                 }
                 .shortcut("q")
         }
-
+        self.statusItem.menu = menu
     }
 }
 

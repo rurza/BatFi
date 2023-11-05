@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct SeparatorView: View {
+public struct SeparatorView: View {
     @Environment(\.colorScheme) private var colorScheme
 
-    var body: some View {
+    public init() { }
+
+    public var body: some View {
         VStack(spacing: 0) {
             Divider()
             Rectangle().frame(height: 1)

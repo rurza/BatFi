@@ -16,7 +16,7 @@ struct MenubarView: View {
     @Default(.showChart)                            private var showChart
     @Default(.showPowerDiagram)                     private var showPowerDiagram
     @Default(.showHighEnergyImpactProcesses)        private var showHighEnergyImpactProcesses
-
+    @State                                          private var showingPopover = false
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -24,7 +24,13 @@ struct MenubarView: View {
             Section(title: l10n.Section.menu) {
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)
-                Toggle(l10n.Button.Label.showHighEnergyImpactProcesses, isOn: $showHighEnergyImpactProcesses)
+                HStack {
+                    Toggle(l10n.Button.Label.showHighEnergyImpactProcesses, isOn: $showHighEnergyImpactProcesses)
+                    Button(action: { showingPopover.toggle() }, label: { Text(L10n.Menu.Label.settings) })
+                        .popover(isPresented: $showingPopover, content: {
+                            HighEnergyImpactSettingsView()
+                        })
+                }
             }
             
             Section(title: l10n.Section.statusIcon, bottomDivider: true) {

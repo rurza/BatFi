@@ -16,12 +16,11 @@ public struct HighEnergyUsageView: View {
 
     public var body: some View {
         let l10n = L10n.Menu.HighEnergyUsage.self
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 12) {
             Text(l10n.header)
                 .bold()
                 .foregroundColor(.secondary)
                 .font(.callout)
-                .padding(.bottom, 10)
             Group {
                 if let info = model.topCoalitionInfo {
                     if info.topCoalitions.count > 0 {
@@ -46,12 +45,8 @@ public struct HighEnergyUsageView: View {
         }
         .foregroundColor(.secondary)
         .font(.callout)
-        .onAppear {
-            model.startObserving()
-        }
-        .onDisappear {
-            model.cancelObserving()
-        }
+        .onAppear(perform: model.startObserving)
+        .onDisappear(perform: model.cancelObserving)
     }
 }
 

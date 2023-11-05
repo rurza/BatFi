@@ -23,12 +23,6 @@ struct AdvancedView: View {
     @Default(.showDebugMenu)                              private var showDebugMenu
     @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
 
-    // high energy
-    @Default(.highEnergyImpactProcessesThreshold)         private var highEnergyImpactProcessesThreshold
-    @Default(.highEnergyImpactProcessesDuration)          private var highEnergyImpactProcessesDuration
-    @Default(.highEnergyImpactProcessesCapacity)          private var highEnergyImpactProcessesCapacity
-
-
     @Dependency(\.updater) private var updater
 
 
@@ -60,66 +54,6 @@ struct AdvancedView: View {
                     Text(l10n.Button.Label.magsafeUseGreenLight)
                 }
             }
-            Section(bottomDivider: true, label: {
-                Text(l10n.Section.highEnergyImpactProcesses)
-                    .frame(maxWidth: 100)
-                    .multilineTextAlignment(.trailing)
-            }, content: {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(l10n.Label.highEnergyImpactProcessesThreshold) + Text(" \(highEnergyImpactProcessesThreshold)")
-                    VStack(spacing: 0) {
-                        Slider(value: .convert(from: $highEnergyImpactProcessesThreshold), in: 200...800, step: 100)
-                        HStack {
-                            Text("200")
-                                .multilineTextAlignment(.leading)
-                            Spacer()
-                            Text("800")
-                                .multilineTextAlignment(.trailing)
-                        }
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    }
-                    .frame(width: 340)
-                }
-                .padding(.bottom, 10)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    let duration = Duration.seconds(highEnergyImpactProcessesDuration)
-                    let style = Duration.UnitsFormatStyle(allowedUnits: [.minutes, .seconds], width: .abbreviated)
-                    Text(l10n.Label.highEnergyImpactProcessesDuration) + Text(" \(duration.formatted(style))")
-                    VStack(spacing: 0) {
-                        Slider(value: $highEnergyImpactProcessesDuration, in: 30...300, step: 30)
-                        HStack {
-                            Text(l10n.Label.highEnergyImpactProcessesMinDuration)
-                                .multilineTextAlignment(.leading)
-                            Spacer()
-                            Text(l10n.Label.highEnergyImpactProcessesMaxDuration)
-                                .multilineTextAlignment(.trailing)
-                        }
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    }
-                    .frame(width: 340)
-                }
-                .padding(.bottom, 10)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(l10n.Label.highEnergyImpactProcessesCapacity) + Text(" \(highEnergyImpactProcessesCapacity)")
-                    VStack(spacing: 0) {
-                        Slider(value: .convert(from: $highEnergyImpactProcessesCapacity), in: 2...8, step: 1)
-                        HStack {
-                            Text("2")
-                                .multilineTextAlignment(.leading)
-                            Spacer()
-                            Text("8")
-                                .multilineTextAlignment(.trailing)
-                        }
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    }
-                    .frame(width: 340)
-                }
-            })
             Section(title: l10n.Section.updates) {
                 Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
                     .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in

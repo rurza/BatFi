@@ -44,22 +44,26 @@ struct ChargingView: View {
 
                         GroupBox {
                             VStack(alignment: .leading, spacing: 6) {
-                                VStack(alignment: .leading, spacing: 2) {
+                                VStack(alignment: .leading, spacing: 14) {
                                     let label = l10n.Slider.Label.turnOffChargingAt(
                                         percentageFormatter.string(from: NSNumber(value: Double(chargeLimit) / 100))!
                                     )
                                     Text(label)
                                         .foregroundColor(manageCharging ? .primary : .secondary)
-                                    Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
-                                        EmptyView()
-                                    } minimumValueLabel: {
-                                        Text("60%")
-                                    } maximumValueLabel: {
-                                        Text("90%")
-                                    }
-                                    .disabled(!manageCharging)
+                                    HStack {
+                                        Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
+                                            EmptyView()
+                                        } minimumValueLabel: {
+                                            Text("60%")
+                                        } maximumValueLabel: {
+                                            Text("90%")
+                                        }
+                                        .disabled(!manageCharging)
+                                        .frame(width: 340)
+                                        Spacer()
+                                    }.frame(maxWidth: .infinity)
                                 }
-                                .padding(.bottom, 10)
+                                .padding(.bottom, 14)
 
                                 VStack(alignment: .leading, spacing: 2) {
                                     Toggle(isOn: $dischargeBatteryWhenFull) {

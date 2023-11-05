@@ -1,10 +1,12 @@
 import AppShared
 import Dependencies
+import Foundation
 
 public struct HighEnergyImpactClient: TestDependencyKey {
-    public var topCoalitionInfoChanges: () -> AsyncStream<TopCoalitionInfo>
-    
-    public init(topCoalitionInfoChanges: @escaping () -> AsyncStream<TopCoalitionInfo>) {
+
+    public var topCoalitionInfoChanges: (_ threshold: Int, _ duration: TimeInterval, _ capacity: Int) -> AsyncStream<TopCoalitionInfo>
+
+    public init(topCoalitionInfoChanges: @escaping (Int, TimeInterval, Int) -> AsyncStream<TopCoalitionInfo>) {
         self.topCoalitionInfoChanges = topCoalitionInfoChanges
     }
     

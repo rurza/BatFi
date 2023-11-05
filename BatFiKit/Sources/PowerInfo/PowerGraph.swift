@@ -9,6 +9,35 @@ import L10n
 import Shared
 import SwiftUI
 
+public struct PowerInfoView: View {
+    @StateObject private var model = Model()
+
+    public init() { }
+
+    public var body: some View {
+        VStack(alignment: .leading) {
+            Text(L10n.Menu.PowerInfo.header)
+                .bold()
+                .multilineTextAlignment(.leading)
+                .foregroundColor(.secondary)
+                .font(.callout)
+                .padding(.bottom, 10)
+            if let powerInfo = model.powerInfo {
+                PowerGraph(powerInfo: powerInfo)
+            } else {
+                VStack {
+                    ProgressView()
+                        .scaleEffect(x: 0.6, y: 0.6)
+                    Text(L10n.Menu.PowerInfo.loading)
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+        .onAppear(perform: model.startObserving)
+        .onDisappear(perform: model.cancelObserving)
+    }
+}
+
 private enum PowerGraphItemType: String {
     case battery = "battery.100"
     case external = "bolt.fill"
@@ -26,11 +55,12 @@ private struct PowerGraphItem: View {
 
     var body: some View {
         GroupBox {
-            VStack(spacing: 5) {
+            HStack(spacing: 5) {
                 Image(systemName: type.rawValue)
                 Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
+                    .monospacedDigit()
             }
-            .frame(width: 55, height: 40)
+            .frame(width: 70, height: 20)
         }
     }
 }
@@ -82,36 +112,5 @@ struct PowerGraph: View {
         }
         .foregroundColor(.secondary)
         .font(.callout)
-    }
-}
-
-public struct PowerInfoView: View {
-    @StateObject private var model = Model()
-
-    public init() { }
-
-    public var body: some View {
-        VStack(alignment: .leading) {
-            Text(L10n.Menu.PowerInfo.header)
-                .bold()
-                .foregroundColor(.secondary)
-                .font(.callout)
-                .padding(.bottom, 10)
-            if let powerInfo = model.powerInfo {
-                PowerGraph(powerInfo: powerInfo)
-            } else {
-                VStack {
-                    ProgressView()
-                        .scaleEffect(x: 0.6, y: 0.6)
-                    Text(L10n.Menu.PowerInfo.loading)
-                }
-            }
-        }
-        .onAppear {
-            model.startObserving()
-        }
-        .onDisappear {
-            model.cancelObserving()
-        }
     }
 }

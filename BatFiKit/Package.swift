@@ -116,7 +116,7 @@ let package = Package(
             .asyncAlgorithms,
             .clients,
             .dependencies,
-            .l10n
+            .l10n,
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(
@@ -143,6 +143,19 @@ let package = Package(
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
+        .target(
+            name: "HighEnergyUsage",
+            dependencies: [
+                .asyncAlgorithms,
+                .appShared,
+                .clients,
+                .dependencies,
+                .defaults,
+                .defaultsKeys,
+                .l10n,
+                .shared
+            ]
+        ),
         .target(
             name: "Notifications",
             dependencies: [
@@ -194,16 +207,6 @@ let package = Package(
             .l10n,
             .shared
         ]),
-        .target(
-            name: "HighEnergyUsage",
-            dependencies: [
-                .appShared,
-                .clients,
-                .dependencies,
-                .l10n,
-                .shared
-            ]
-        ),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
             .secureXPC,

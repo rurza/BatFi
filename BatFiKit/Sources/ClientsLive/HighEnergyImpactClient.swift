@@ -1,20 +1,16 @@
 import AppKit
 import AppShared
 import Clients
-import Defaults
 import Dependencies
 import os
 import Shared
 
 extension HighEnergyImpactClient: DependencyKey {
     public static var liveValue: HighEnergyImpactClient {
-        @Sendable func topCoalitionInfo() -> TopCoalitionInfo? {
+        @Sendable func topCoalitionInfo(threshold: Int, duration: TimeInterval, capacity: Int) -> TopCoalitionInfo? {
             guard let systemstats_get_top_coalitions = Private.systemstats_get_top_coalitions else {
                 return nil
             }
-            let threshold = Defaults[.highEnergyImpactProcessesThreshold]
-            let duration = Defaults[.highEnergyImpactProcessesDuration]
-            let capacity = Defaults[.highEnergyImpactProcessesCapacity]
             guard
                 let topCoalitionDictionary = systemstats_get_top_coalitions(Int(duration), 10000).takeUnretainedValue() as? [String: Any],
                 let bundleIdentifiers = topCoalitionDictionary["bundle_identifiers"] as? [String],
@@ -53,12 +49,13 @@ extension HighEnergyImpactClient: DependencyKey {
         }
         let logger = Logger(category: "🅰️⚡️📊")
         let client = Self(
-            topCoalitionInfoChanges: {
+            topCoalitionInfoChanges: { threshold, duration, capacity in
                 AsyncStream { continuation in
                     let task = Task {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
-                            if let info = topCoalitionInfo(), info != prevInfo {
+                            if let info = topCoalitionInfo(threshold: threshold, duration: duration, capacity: capacity),
+                                info != prevInfo {
                                 logger.debug("New top coalition info: \(info)")
                                 continuation.yield(info)
                                 prevInfo = info
