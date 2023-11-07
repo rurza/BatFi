@@ -61,12 +61,6 @@ public struct BatteryInfoView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .onDisappear {
-                    model.cancelObserving()
-                }
-                .onAppear {
-                    model.setUpObserving()
-                }
             } else {
                 Label(
                     l10n.infoMissing,

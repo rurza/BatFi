@@ -51,7 +51,7 @@ let package = Package(
         .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
         .package(url: "https://github.com/rurza/AboutKit.git", branch: "main"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
-        .package(url: "https://github.com/rurza/MenuBuilder", branch: "main"),
+        .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
         .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
         .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.4.1"),
         .package(url: "https://github.com/SnapKit/SnapKit", branch: "main"),

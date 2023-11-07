@@ -46,6 +46,7 @@ public final class MenuController {
     @Dependency(\.defaults) private var defaults
 
     public weak var delegate: MenuControllerDelegate?
+    private let menuDelegate = MenuObserver.shared
 
     public init(statusItem: NSStatusItem) {
         self.statusItem = statusItem
@@ -88,7 +89,13 @@ public final class MenuController {
         } else {
             chargeTo100Tooltip = nil
         }
-        let menu = NSMenu {
+        if statusItem.menu == nil {
+            let menu = NSMenu()
+            menu.delegate = menuDelegate
+            self.statusItem.menu = menu
+        }
+        statusItem.menu?.replaceItems
+        {
             MenuItem("")
                 .view {
                     MenuContainerView()
@@ -152,7 +159,6 @@ public final class MenuController {
                 }
                 .shortcut("q")
         }
-        self.statusItem.menu = menu
     }
 }
 

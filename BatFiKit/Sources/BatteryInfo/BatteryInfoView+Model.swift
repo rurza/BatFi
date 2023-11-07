@@ -18,6 +18,7 @@ extension BatteryInfoView {
         @Dependency(\.powerSourceClient)    private var powerSourceClient
         @Dependency(\.appChargingState)     private var appChargingState
         @Dependency(\.defaults)             private var defaults
+        @Dependency(\.menuDelegate)         private var menuDelegate
 
         private(set) var state: PowerState? {
             didSet {
@@ -33,18 +34,31 @@ extension BatteryInfoView {
             }
         }
 
+        private var menuTask: Task<Void, Never>?
+        private var chargingStateModeChanges: Task<Void, Never>?
+        private var powerSourceChanges: Task<Void, Never>?
 
-        private var tasks: [Task<Void, Never>]?
 
         init() {
             self.state = try? powerSourceClient.currentPowerSourceState()
+            menuTask = Task { [weak self] in
+                if let menuChanged = await self?.menuDelegate.observeMenu() {
+                    for await menuIsOpened in menuChanged {
+                        if menuIsOpened {
+                            self?.observeChargingStateAndPowerSourceChanges()
+                        }
+                    }
+                }
+            }
         }
 
-        func setUpObserving() {
-            let observeChargingStateMode = Task {
+        private func observeChargingStateAndPowerSourceChanges() {
+            cancelObserving()
+            chargingStateModeChanges = Task { [weak self] in
+                guard let self else { return }
                 for await (mode, manageCharging) in combineLatest(
-                    appChargingState.observeChargingStateMode(),
-                    defaults.observe(.manageCharging)
+                    self.appChargingState.observeChargingStateMode(),
+                    self.defaults.observe(.manageCharging)
                 ) {
                     if manageCharging {
                         self.modeDescription = mode.stateDescription
@@ -54,18 +68,18 @@ extension BatteryInfoView {
                 }
             }
 
-            let powerSourceChanges = Task {
-                for await state in powerSourceClient.powerSourceChanges() {
+            powerSourceChanges = Task { [weak self] in
+                guard let self else { return }
+                for await state in self.powerSourceClient.powerSourceChanges() {
                     self.state = state
                 }
             }
 
-
-            tasks = [powerSourceChanges, observeChargingStateMode]
         }
 
-        func cancelObserving() {
-            tasks?.forEach { $0.cancel() }
+        private func cancelObserving() {
+            chargingStateModeChanges?.cancel()
+            powerSourceChanges?.cancel()
         }
 
         private func updateTime() {
@@ -86,6 +100,12 @@ extension BatteryInfoView {
             guard let temperature = state?.batteryTemperature else { return nil }
             let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
             return temperatureFormatter.string(from: measurement)
+        }
+
+        deinit {
+            chargingStateModeChanges?.cancel()
+            chargingStateModeChanges?.cancel()
+            powerSourceChanges?.cancel()
         }
     }
 }

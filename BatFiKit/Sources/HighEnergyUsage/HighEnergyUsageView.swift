@@ -16,6 +16,7 @@ public struct HighEnergyUsageView: View {
 
     public var body: some View {
         let l10n = L10n.Menu.HighEnergyUsage.self
+        let _ = print(model.topCoalitionInfo)
         VStack(alignment: .leading, spacing: 12) {
             Text(l10n.header)
                 .bold()
@@ -30,6 +31,7 @@ public struct HighEnergyUsageView: View {
                     } else {
                         GroupBox {
                             Text(l10n.none)
+                                .multilineTextAlignment(.center)
                                 .padding(6)
                         }
                     }
@@ -45,8 +47,6 @@ public struct HighEnergyUsageView: View {
         }
         .foregroundColor(.secondary)
         .font(.callout)
-        .onAppear(perform: model.startObserving)
-        .onDisappear(perform: model.cancelObserving)
     }
 }
 
