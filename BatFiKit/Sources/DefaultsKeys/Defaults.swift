@@ -27,7 +27,7 @@ extension Defaults.Keys {
     // Menu bar
     public static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
     public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
-    public static let showChart = Key<Bool>("showChart", default: true)
+    public static let showChart = Key<Bool>("showChart", default: false)
     public static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
     public static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
 
