@@ -16,12 +16,12 @@ public struct HighEnergyUsageView: View {
 
     public var body: some View {
         let l10n = L10n.Menu.HighEnergyUsage.self
-        let _ = print(model.topCoalitionInfo)
         VStack(alignment: .leading, spacing: 12) {
             Text(l10n.header)
                 .bold()
                 .foregroundColor(.secondary)
                 .font(.callout)
+                .multilineTextAlignment(.leading)
             Group {
                 if let info = model.topCoalitionInfo {
                     if info.topCoalitions.count > 0 {
