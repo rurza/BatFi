@@ -2057,7 +2057,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous pouvez désormais utiliser l'application"
+            "value" : "Vous pouvez maintenant utiliser l'application!"
           }
         },
         "ja" : {
@@ -3416,6 +3416,24 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Show up to %d processes"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Afficher %d processus"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Afficher %d processus"
                 }
               }
             }
