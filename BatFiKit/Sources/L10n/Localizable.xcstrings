@@ -16,6 +16,12 @@
             "value" : "License"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "License"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -42,6 +48,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Twitter"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Twitter"
           }
         },
@@ -74,6 +86,12 @@
             "value" : "Website"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Site web"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -101,6 +119,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Made with ❤️ and 🔋 by"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait avec ❤️ et 🔋 par"
           }
         },
         "ja" : {
@@ -132,6 +156,12 @@
             "value" : "The limit is %@."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limite est %@."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -159,6 +189,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Charging to 100%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger jusqu'à 100%"
           }
         },
         "ja" : {
@@ -190,6 +226,12 @@
             "value" : "Using the battery."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilisation de la batterie."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -217,6 +259,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "The charging limit is set to %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limite de charge est fixée à %@."
           }
         },
         "ja" : {
@@ -248,6 +296,12 @@
             "value" : "Charger not connected"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le chargeur n'est pas connecté"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -275,6 +329,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Charging to the limit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger jusqu'à la limite"
           }
         },
         "ja" : {
@@ -306,6 +366,12 @@
             "value" : "Charging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -333,6 +399,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Discharging"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déchargement"
           }
         },
         "ja" : {
@@ -364,6 +436,12 @@
             "value" : "Inhibiting charging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher la charge"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -391,6 +469,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Initializing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Initialisation"
           }
         },
         "ja" : {
@@ -422,6 +506,12 @@
             "value" : "App mode"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statut"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -449,6 +539,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Battery Health"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "État de santé de la batterie"
           }
         },
         "ja" : {
@@ -480,6 +576,12 @@
             "value" : "Cycle Count"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre de cycles"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -507,6 +609,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Power Source"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source"
           }
         },
         "ja" : {
@@ -538,6 +646,12 @@
             "value" : "Temperature"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Température"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -565,6 +679,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Info is missing"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information manquante"
           }
         },
         "ja" : {
@@ -596,6 +716,12 @@
             "value" : "Battery"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -623,6 +749,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Calculating…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calcul..."
           }
         },
         "ja" : {
@@ -654,6 +786,12 @@
             "value" : "Time Left"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps restant"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -683,6 +821,12 @@
             "value" : "Time to Charge"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temps de charge"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -706,6 +850,12 @@
             "value" : "No apps using significant energy"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune application n'utilise suffisamment d'énergie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -721,6 +871,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Last 12 hours"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernières 12 heures"
           }
         },
         "pl" : {
@@ -740,6 +896,12 @@
             "value" : "Charging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -755,6 +917,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Inhibiting Charging"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher le chargement"
           }
         },
         "pl" : {
@@ -774,6 +942,12 @@
             "value" : "Waiting for (more) data…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente (de plus) de données..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -791,6 +965,12 @@
             "value" : "Apps with high energy usage"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applications utilisant beaucoup d'énergie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -806,6 +986,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Waiting for data…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente de données..."
           }
         },
         "pl" : {
@@ -829,6 +1015,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "BatFi…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi..."
           }
         },
         "ja" : {
@@ -860,6 +1052,12 @@
             "value" : "Charge to 100%"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger à 100%"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -887,6 +1085,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Check for Updates…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recherche de mises à jour..."
           }
         },
         "ja" : {
@@ -918,6 +1122,12 @@
             "value" : "Debug"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déboguer"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -945,6 +1155,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Install Helper"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer l'assistant"
           }
         },
         "ja" : {
@@ -976,6 +1192,12 @@
             "value" : "More"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1003,6 +1225,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Onboarding…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accueil"
           }
         },
         "ja" : {
@@ -1034,6 +1262,12 @@
             "value" : "Quit BatFi"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitter BatFi"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1061,6 +1295,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Remove Helper"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désinstaller l'assistant"
           }
         },
         "ja" : {
@@ -1092,6 +1332,12 @@
             "value" : "Reset settings"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rétablir les réglages par défaut"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1119,6 +1365,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Settings…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réglages"
           }
         },
         "ja" : {
@@ -1150,6 +1402,12 @@
             "value" : "Stop charging to 100%"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter la charge à 100%"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1173,6 +1431,12 @@
             "value" : "Power distribution"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source d'énergie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1188,6 +1452,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Waiting for data…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente de données..."
           }
         },
         "pl" : {
@@ -1211,6 +1481,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Disabled because the charger is not connected"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé car le chargeur n'est pas connecté"
           }
         },
         "ja" : {
@@ -1242,6 +1518,12 @@
             "value" : "Disabled because the \"Discharge battery when charged over limit\" is turned on"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivé car \"Décharger la batterie lorsqu'elle est chargée au-delà de la limite\" est activée"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1271,6 +1553,12 @@
             "value" : "Optimized battery charging is turned ON"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recharge optimisée de la batterie activée"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1292,6 +1580,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "I need more juice!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "J'ai besoin d'énergie!"
           }
         },
         "pl" : {
@@ -1317,6 +1611,12 @@
             "value" : "New mode: %@"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau mode: %@"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1340,6 +1640,12 @@
             "value" : "Battery is low"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie faible"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1361,6 +1667,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Open System Settings"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrez Réglages système"
           }
         },
         "ja" : {
@@ -1392,6 +1704,12 @@
             "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il semble que vous n'ayez pas accordé les autorisations nécessaires à l'assistant. S'il n'y avait pas de demande de mot de passe/Touch ID, c'est normal - c'est un bug de macOS et cela arrive parfois. Vous pouvez toujours modifier les autorisations dans les paramètres système. Veuillez noter que l'application ne fonctionnera pas sans l'outil d'assistance."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1419,6 +1737,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Helper (still) not installed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant n'est (toujours) pas installé"
           }
         },
         "ja" : {
@@ -1450,6 +1774,12 @@
             "value" : "Complete"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1477,6 +1807,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Get started"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer"
           }
         },
         "ja" : {
@@ -1508,6 +1844,12 @@
             "value" : "Install helper"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer l'assistant"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1535,6 +1877,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Open BatFi at login"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancer BatFi à l'ouverture de session"
           }
         },
         "ja" : {
@@ -1566,6 +1914,12 @@
             "value" : "Next"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivant"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1593,6 +1947,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Previous"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Précédent"
           }
         },
         "ja" : {
@@ -1624,6 +1984,12 @@
             "value" : "Almost done."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bientôt terminé."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1651,6 +2017,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi vous aide à optimiser les performances de la batterie de votre macOS en gérant intelligemment les niveaux de charge, tout en vous donnant un contrôle total - ne chargeant à 100% que lorsque cela est nécessaire."
           }
         },
         "ja" : {
@@ -1682,6 +2054,12 @@
             "value" : "The app is ready to use!"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez désormais utiliser l'application"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1709,6 +2087,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Done."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé."
           }
         },
         "ja" : {
@@ -1740,6 +2124,12 @@
             "value" : "Extend the life of your Mac."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prolongez la durée de vie de votre Mac."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1767,6 +2157,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "BatFi will install helper tool, that will work in background and is able to change your computer's charging mode."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi installera un outil d'assistance qui fonctionnera en arrière-plan et sera capable de modifier le mode de charge de votre ordinateur."
           }
         },
         "ja" : {
@@ -1798,6 +2194,12 @@
             "value" : "Installing the helper tool requires admin permissions and is essential for BatFi's functionality."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'installation de l'outil d'assistance nécessite des autorisations d'administrateur et est essentielle au bon fonctionnement de BatFi."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1825,6 +2227,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Recommended. You can change it later in the app's settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recommandé. Vous pouvez le modifier ultérieurement dans les paramètres de l'application."
           }
         },
         "ja" : {
@@ -1856,6 +2264,12 @@
             "value" : "Set Charging Limit."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Définir la limite de charge."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1877,6 +2291,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Set a maximum charging percentage to prevent keeping charge level at 100% and improve battery longevity."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Définissez un pourcentage de charge maximum pour éviter de maintenir le niveau de charge à 100% et améliorer la longévité de la batterie."
           }
         },
         "ja" : {
@@ -1908,6 +2328,12 @@
             "value" : "You can modify this setting later in the app's settings."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez modifier le paramètre ultérieurement dans les paramètres de l'application."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1937,6 +2363,12 @@
             "value" : "Turn off charging when battery will reach %@"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter la charge quand la batterie atteindra %@"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1960,6 +2392,12 @@
             "value" : "Advanced pane"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avancé"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1981,6 +2419,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Charging pane"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement"
           }
         },
         "ja" : {
@@ -2012,6 +2456,12 @@
             "value" : "General pane"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2041,6 +2491,12 @@
             "value" : "Notifications pane"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2064,6 +2520,12 @@
             "value" : "Menu bar pane"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barre de menu"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2085,6 +2547,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Works only with the lid opened."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonctionne uniquement avec l'écran ouvert."
           }
         },
         "ja" : {
@@ -2116,6 +2584,12 @@
             "value" : "Automatically check for updates"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher automatiquement les mises à jour"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2143,6 +2617,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Automatically download updates"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Télécharger automatiquement les mises à jour"
           }
         },
         "ja" : {
@@ -2174,6 +2654,12 @@
             "value" : "Automatically manage charging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestion automatique de la charge"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2201,6 +2687,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show battery percentage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le niveau de la batterie"
           }
         },
         "ja" : {
@@ -2232,6 +2724,12 @@
             "value" : "Blink the LED on MagSafe a few times when the app begins to discharge the battery"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faire clignoter la LED du MagSafe quelques fois lorsque l'application commence à décharger la batterie"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2259,6 +2757,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Charging status has changed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le statut de charge a changé"
           }
         },
         "ja" : {
@@ -2290,6 +2794,12 @@
             "value" : "Allow the beta version of the app"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autoriser la version bêta de l'application"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2317,6 +2827,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show Debug menu"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le menu de débug"
           }
         },
         "ja" : {
@@ -2348,6 +2864,12 @@
             "value" : "Delay automatic sleep when charging and the limit's not reached"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retarder la mise en veille automatique lors de la charge tant que la limite n'est pas atteinte"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2377,6 +2899,12 @@
             "value" : "Discharge battery when charged over limit"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décharger la batterie lorsqu'elle est chargée au-delà de la limite"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2400,6 +2928,12 @@
             "value" : "Automatically enable system charge limit (80%) when the Mac goes to sleep"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer automatiquement la limite de charge système (80 %) lorsque le Mac passe veille"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2415,6 +2949,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show apps with high energy usage"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les applications avec une utilisation élevée de l'énergie"
           }
         },
         "pl" : {
@@ -2438,6 +2978,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Open at login"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancement à l'ouverture de session"
           }
         },
         "ja" : {
@@ -2469,6 +3015,12 @@
             "value" : "Use the green light on the MagSafe when charging is paused"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser la lumière verte du MagSafe lorsque la charge est en pause"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2496,6 +3048,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show monochrome icon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Affichage monochrome des icônes"
           }
         },
         "ja" : {
@@ -2527,6 +3085,12 @@
             "value" : "Automatically pause charging when the Mac goes to sleep"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mettre automatiquement en pause la charge lorsque le Mac passe en veille"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2556,6 +3120,12 @@
             "value" : "Show alert when the optimized battery charging is engaged"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher une alerte lorsque la charge optimisée de la batterie est activée"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2579,6 +3149,12 @@
             "value" : "Show the battery percentage chart in the menu"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le pourcentage de la batterie dans le menu"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2596,6 +3172,12 @@
             "value" : "Battery is low at 20%"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La batterie est à 20%"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2611,6 +3193,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show power distribution"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la distribution de la puissance"
           }
         },
         "pl" : {
@@ -2634,6 +3222,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Automatically turn off charging when the battery gets hot"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver automatiquement la charge lorsque la batterie devient chaude"
           }
         },
         "ja" : {
@@ -2665,6 +3259,12 @@
             "value" : "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'application retardera la mise en veille pour permettre à l'ordinateur de se charger jusqu'à la limite, puis elle arrêtera la charge et mettra le Mac en veille"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2686,6 +3286,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "When Macbook's lid is opened, the app can discharge battery until it will reach the limit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lorsque l'écran du MacBook est ouvert, l'application peut décharger la batterie jusqu'à ce qu'elle atteigne la limite"
           }
         },
         "ja" : {
@@ -2717,6 +3323,12 @@
             "value" : "Turns off charging when the battery is 35°C or more."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver la charge lorsque la batterie atteint 35 °C ou plus."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2740,6 +3352,12 @@
             "value" : "80% is the recommended value for a day-to-day usage."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80 % est la valeur recommandée pour une utilisation quotidienne."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2761,6 +3379,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "You can manually override this setting by using the \"Charge to 100%\" command from the menu."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez contourner manuellement ce paramètre en utilisant la commande \"Charger à 100%\" dans le menu."
           }
         },
         "ja" : {
@@ -2838,6 +3462,12 @@
             "value" : "Sample duration: %@"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exemple de temps: %@"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2852,6 +3482,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "5 minutes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "5 minutes"
           }
         },
@@ -2872,6 +3508,12 @@
             "value" : "30s"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30s"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2887,6 +3529,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Threshold of the energy impact: %lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seuil de l'impact énergétique: %lld"
           }
         },
         "pl" : {
@@ -2910,6 +3558,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Advanced"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avancé"
           }
         },
         "ja" : {
@@ -2941,6 +3595,12 @@
             "value" : "Alerts"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2964,6 +3624,12 @@
             "value" : "Charging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2979,6 +3645,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Debug"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débugger"
           }
         },
         "pl" : {
@@ -3004,6 +3676,12 @@
             "value" : "General"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3027,6 +3705,12 @@
             "value" : "Apps with high energy usage"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applications énergivores"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3047,6 +3731,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "MagSafe"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "MagSafe"
           }
         },
@@ -3073,6 +3763,12 @@
             "value" : "Menu"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3093,6 +3789,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "Notifications"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Notifications"
           }
         },
@@ -3125,6 +3827,12 @@
             "value" : "Status icon"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icône d'état"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3152,6 +3860,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Updates"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mises à jour"
           }
         },
         "ja" : {
@@ -3183,6 +3897,12 @@
             "value" : "Turn off charging when battery will reach %@"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter la charge quand la batterie atteindra %@"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3206,6 +3926,12 @@
             "value" : "Advanced"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avancé"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3227,6 +3953,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Charging"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chargement"
           }
         },
         "ja" : {
@@ -3258,6 +3990,12 @@
             "value" : "General"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Général"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3287,6 +4025,12 @@
             "value" : "Notifications"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3308,6 +4052,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Menu Bar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barre de menu"
           }
         },
         "pl" : {
