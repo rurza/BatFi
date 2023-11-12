@@ -168,6 +168,5 @@ private struct MenuViewModifier: ViewModifier {
             .padding(.horizontal)
             .padding(.top, 6)
             .padding(.bottom, 6)
-            .frame(maxWidth: .infinity)
     }
 }
