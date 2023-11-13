@@ -37,9 +37,10 @@ public struct BatteryInfoView: View {
                     }
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 7) {
-                        if let description = model.modeDescription {
-                            BatteryAdditionalInfo(label: l10n.Additional.appMode, info: description)
-                        }
+                        BatteryAdditionalInfo(
+                            label: l10n.Additional.appMode,
+                            info: model.modeDescription ?? "–––"
+                        )
                         BatteryAdditionalInfo(
                             label: l10n.Additional.powerSource,
                             info: powerState.powerSource
@@ -69,7 +70,6 @@ public struct BatteryInfoView: View {
                 .frame(height: 200)
             }
         }
-        .frame(width: 220)
     }
 }
 

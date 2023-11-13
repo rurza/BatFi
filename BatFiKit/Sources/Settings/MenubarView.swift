@@ -24,7 +24,7 @@ struct MenubarView: View {
             Section(title: l10n.Section.menu) {
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)
-                HStack {
+                HStack(alignment: .top) {
                     Toggle(l10n.Button.Label.showHighEnergyImpactProcesses, isOn: $showHighEnergyImpactProcesses)
                     Button(action: { showingPopover.toggle() }, label: { Text(L10n.Menu.Label.settings) })
                         .popover(isPresented: $showingPopover, content: {

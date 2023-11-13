@@ -95,8 +95,8 @@ public struct ChartsView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .onAppear {
-            Task { await model.fetchPowerStatePoints() }
+        .task {
+            await model.fetchPowerStatePoints()
         }
     }
 }

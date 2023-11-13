@@ -25,8 +25,10 @@ public struct HighEnergyUsageView: View {
             Group {
                 if let info = model.topCoalitionInfo {
                     if info.topCoalitions.count > 0 {
-                        ForEach(info.topCoalitions, id: \.bundleIdentifier) { coalition in
-                            BatteryTopCoalitionInfoItem(coalition: coalition)
+                        VStack {
+                            ForEach(info.topCoalitions, id: \.bundleIdentifier) { coalition in
+                                BatteryTopCoalitionInfoItem(coalition: coalition)
+                            }
                         }
                     } else {
                         GroupBox {

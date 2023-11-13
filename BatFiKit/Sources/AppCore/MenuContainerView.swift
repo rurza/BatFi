@@ -42,8 +42,8 @@ struct MenuContainerView: View {
             }
             if showHighEnergyImpactProcesses {
                 HighEnergyUsageView()
-                    .padding(.bottom, 8)
             }
         }
+        .frame(width: 220)
     }
 }
