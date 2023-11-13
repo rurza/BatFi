@@ -544,7 +544,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "État de santé de la batterie"
+            "value" : "Santé de la batterie"
           }
         },
         "ja" : {
@@ -968,7 +968,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Applications utilisant beaucoup d'énergie"
+            "value" : "Applications énergivores"
           }
         },
         "pl" : {
@@ -1090,7 +1090,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recherche de mises à jour..."
+            "value" : "Rechercher les mises à jour..."
           }
         },
         "ja" : {
@@ -1230,7 +1230,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accueil…"
+            "value" : "Commencer…"
           }
         },
         "ja" : {
@@ -1434,7 +1434,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Source d'énergie"
+            "value" : "Distribution de l'énergie"
           }
         },
         "pl" : {
@@ -2983,7 +2983,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lancement à l'ouverture de session"
+            "value" : "Lancer à l'ouverture de session"
           }
         },
         "ja" : {
@@ -3198,7 +3198,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher la distribution de la puissance"
+            "value" : "Afficher la distribution de l'énergie"
           }
         },
         "pl" : {
@@ -3483,7 +3483,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Exemple de temps: %@"
+            "value" : "Rafraichissement: %@"
           }
         },
         "pl" : {
