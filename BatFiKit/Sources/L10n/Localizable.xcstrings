@@ -112,7 +112,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erstellt mit ❤️ und 🔋 von"
+            "value" : "Mit ❤️ und 🔋 gefertigt von"
           }
         },
         "en" : {
@@ -217,7 +217,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwendung des Akkus."
+            "value" : "Akku wird verwendet."
           }
         },
         "en" : {
@@ -322,7 +322,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aufladung bis zum Limit"
+            "value" : "Aufladen bis zum Limit"
           }
         },
         "en" : {
@@ -357,7 +357,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aufladen"
+            "value" : "Wird aufgeladen"
           }
         },
         "en" : {
@@ -392,7 +392,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entladen"
+            "value" : "Wird entladen"
           }
         },
         "en" : {
@@ -427,7 +427,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hemmen der Aufladung"
+            "value" : "Aufladen wird ausgesetzt"
           }
         },
         "en" : {
@@ -532,7 +532,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battery Health"
+            "value" : "Akkuzustand"
           }
         },
         "en" : {
@@ -567,7 +567,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cycle Count"
+            "value" : "Ladezyklen"
           }
         },
         "en" : {
@@ -602,7 +602,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Power Source"
+            "value" : "Ladequelle"
           }
         },
         "en" : {
@@ -637,7 +637,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Temperature"
+            "value" : "Temperatur"
           }
         },
         "en" : {
@@ -672,7 +672,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Info is missing"
+            "value" : "Information fehlt"
           }
         },
         "en" : {
@@ -707,7 +707,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Battery"
+            "value" : "Akku"
           }
         },
         "en" : {
@@ -742,7 +742,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Calculating…"
+            "value" : "Wird berechnet…"
           }
         },
         "en" : {
@@ -777,7 +777,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Time Left"
+            "value" : "Benötigte Zeit"
           }
         },
         "en" : {
@@ -812,7 +812,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Time to Charge"
+            "value" : "Zeit bis zur Aufladung"
           }
         },
         "en" : {
@@ -844,6 +844,12 @@
     "battery_info.label.top_coalition.none" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine App verbraucht überwiegend viel Strom"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -867,6 +873,12 @@
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergangene 12 Stunden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -890,6 +902,12 @@
     "menu.charts.legend.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird aufgeladen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -913,6 +931,12 @@
     "menu.charts.legend.inhibiting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aufladen wird ausgesetzt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -936,6 +960,12 @@
     "menu.charts.waitingForData" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warten auf (mehr) Daten…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -959,6 +989,12 @@
     "menu.high_energy_usage.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps mit hohem Stromverbrauch"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -982,6 +1018,12 @@
     "menu.high_energy_usage.loading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warten auf Daten…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1043,7 +1085,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aufladung auf 100%"
+            "value" : "Aufladen auf 100 %"
           }
         },
         "en" : {
@@ -1078,7 +1120,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktualisierungen suchen..."
+            "value" : "Nach Updates suchen…"
           }
         },
         "en" : {
@@ -1148,7 +1190,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installieren Hilfswerkzeug"
+            "value" : "Helper installieren"
           }
         },
         "en" : {
@@ -1218,7 +1260,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Onboarding..."
+            "value" : "Einführung…"
           }
         },
         "en" : {
@@ -1288,7 +1330,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hilfswerkzeug entfernen"
+            "value" : "Helper entfernen"
           }
         },
         "en" : {
@@ -1393,7 +1435,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop charging to 100%"
+            "value" : "Stoppen der Aufladung auf 100%"
           }
         },
         "en" : {
@@ -1425,6 +1467,12 @@
     "menu.power_info.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stromverteilung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1448,6 +1496,12 @@
     "menu.power_info.loading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warten auf Daten…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1474,7 +1528,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disabled because the charger is not connected"
+            "value" : "Verhindert weil Ladegerät nicht angeschlossen ist"
           }
         },
         "en" : {
@@ -1509,7 +1563,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Disabled because the \"Discharge battery when charged over limit\" is turned on"
+            "value" : "Verhindert weil \"Entlade Akku wenn über Akku-Limit geladen\" eingeschaltet ist"
           }
         },
         "en" : {
@@ -1544,7 +1598,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optimized battery charging is turned ON"
+            "value" : "Optimierte Akkuaufladung ist AN"
           }
         },
         "en" : {
@@ -1576,6 +1630,12 @@
     "notifications.notification.body.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ich brauche mehr Saft!"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1602,7 +1662,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New mode: %@"
+            "value" : "Neuer Modus: %@"
           }
         },
         "en" : {
@@ -1634,6 +1694,12 @@
     "notifications.notification.title.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akkustand niedrig"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1660,7 +1726,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open System Settings"
+            "value" : "Öffne Systemeinstellungen"
           }
         },
         "en" : {
@@ -1695,7 +1761,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
+            "value" : "Es scheint als ob keine Berechtigung für den Helper erteilt wurde. Sollte keine Passwort/Touch ID Abfrage gekommen sein ist das OK – das ist ein macOS Bug und passiert manchmal. Du kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen. Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktionieren wird."
           }
         },
         "en" : {
@@ -1730,7 +1796,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Helper (still) not installed"
+            "value" : "Helper (nach wie vor) nicht installiert"
           }
         },
         "en" : {
@@ -1765,7 +1831,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Complete"
+            "value" : "Fertig"
           }
         },
         "en" : {
@@ -1800,7 +1866,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Get started"
+            "value" : "Los geht's"
           }
         },
         "en" : {
@@ -1835,7 +1901,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installieren Hilfswerkzeug"
+            "value" : "Installiere Helper"
           }
         },
         "en" : {
@@ -1870,7 +1936,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bei der Anmeldung öffnen"
+            "value" : "Starte BatFi beim Login"
           }
         },
         "en" : {
@@ -1940,7 +2006,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vorherige"
+            "value" : "Zurück"
           }
         },
         "en" : {
@@ -2010,7 +2076,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi hilft Ihnen dabei, die Leistung Ihres macOS-Akkus zu optimieren, indem es die Ladestufen intelligent verwaltet und Ihnen dennoch die volle Kontrolle gibt - Sie laden nur dann auf 100 %, wenn es nötig ist."
+            "value" : "BatFi hilft dir die Akkuleistung deines macOS Geräts zu optimieren, indem es die Ladestände intelligent verwaltet und dir volle Kontrolle gibt – lade erst auf 100 % sobald du's brauchst."
           }
         },
         "en" : {
@@ -2045,7 +2111,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die App ist sofort einsatzbereit!"
+            "value" : "Die App ist einsatzbereit!"
           }
         },
         "en" : {
@@ -2115,7 +2181,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verlängern Sie die Lebensdauer Ihres Macs."
+            "value" : "Verlängere die Lebensdauer deines Macs."
           }
         },
         "en" : {
@@ -2150,7 +2216,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi will install helper tool, that will work in background and is able to change your computer's charging mode."
+            "value" : "BatFi wird ein Helper installieren, welches im Hintergrund läuft und es ermöglich die Ladezustände des Gerätes zu steuern."
           }
         },
         "en" : {
@@ -2185,7 +2251,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installing the helper tool requires admin permissions and is essential for BatFi's functionality."
+            "value" : "Admin-Rechte werden benötigt um den Helper zu installieren, welcher essentiell ist damit BatFi funktioniert."
           }
         },
         "en" : {
@@ -2220,7 +2286,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recommended. You can change it later in the app's settings."
+            "value" : "Wird empfohlen. Du kannst es jederzeit in den App Einstellungen ändern."
           }
         },
         "en" : {
@@ -2255,7 +2321,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Set Charging Limit."
+            "value" : "Setze Ladelimit."
           }
         },
         "en" : {
@@ -2287,6 +2353,12 @@
     "onboarding.label.set_limit_description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setze ein Ladelimit in Prozent um eine Aufladung auf 100 % zu verhindern und so die Lebensdauer deines Akkus verlängerst."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2319,7 +2391,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can modify this setting later in the app's settings."
+            "value" : "Dies kannst auch auch später in den Einstellungen ändern."
           }
         },
         "en" : {
@@ -2354,7 +2426,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Turn off charging when battery will reach %@"
+            "value" : "Unterbrich die Aufladung sobald  %@ erreicht wurden"
           }
         },
         "en" : {
@@ -2386,6 +2458,12 @@
     "settings.accessibility.title.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortgeschrittene Ansicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2412,7 +2490,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Charging pane"
+            "value" : "Lade Ansicht"
           }
         },
         "en" : {
@@ -2447,7 +2525,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "General pane"
+            "value" : "Allgemeine Ansicht"
           }
         },
         "en" : {
@@ -2482,7 +2560,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications pane"
+            "value" : "Mitteilungen Ansicht"
           }
         },
         "en" : {
@@ -2514,6 +2592,12 @@
     "settings.accessibility.title.statusBar" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menüleiste Ansicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2540,7 +2624,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Works only with the lid opened."
+            "value" : "Funktioniert nur mit aufgeklapptem Display."
           }
         },
         "en" : {
@@ -2575,7 +2659,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically check for updates"
+            "value" : "Suche automatisch nach Updates"
           }
         },
         "en" : {
@@ -2610,7 +2694,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically download updates"
+            "value" : "Lade Updates automatisch herunter"
           }
         },
         "en" : {
@@ -2645,7 +2729,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically manage charging"
+            "value" : "Verwalte die Akkuladung automatisch"
           }
         },
         "en" : {
@@ -2680,7 +2764,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show battery percentage"
+            "value" : "Zeige Akkuladung in Prozent"
           }
         },
         "en" : {
@@ -2715,7 +2799,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blink the LED on MagSafe a few times when the app begins to discharge the battery"
+            "value" : "Blinke die MagSafe LED ein paar mal sobald die App begint den Akku zu entladen"
           }
         },
         "en" : {
@@ -2750,7 +2834,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Charging status has changed"
+            "value" : "Ladestatus hat sich geändert"
           }
         },
         "en" : {
@@ -2785,7 +2869,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allow the beta version of the app"
+            "value" : "Erlaube die Beta Version der App"
           }
         },
         "en" : {
@@ -2820,7 +2904,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show Debug menu"
+            "value" : "Zeige das Debug Menü"
           }
         },
         "en" : {
@@ -2855,7 +2939,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delay automatic sleep when charging and the limit's not reached"
+            "value" : "Verhindere den automatischen Ruhezustand beim Laden wenn die Aufladung das Limit noch nicht erreich hat"
           }
         },
         "en" : {
@@ -2890,7 +2974,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Discharge battery when charged over limit"
+            "value" : "Entladung vom Akku wenn über das Limit geladen wurde"
           }
         },
         "en" : {
@@ -2922,6 +3006,12 @@
     "settings.button.label.enable_system_charge_limit_on_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiviere automatische das System Lade-Limit (80 %) sobald der Mac in den Ruhezustand wechselt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2945,6 +3035,12 @@
     "settings.button.label.high_energy_impact_processes_show" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeige Apps mit hohem Stromverbrauch"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2971,7 +3067,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open at login"
+            "value" : "Öffne beim Login"
           }
         },
         "en" : {
@@ -3006,7 +3102,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Use the green light on the MagSafe when charging is paused"
+            "value" : "Verwende die grüne LED des MagSafe Anschlusses sobald die Aufladung pausiert wird"
           }
         },
         "en" : {
@@ -3041,7 +3137,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show monochrome icon"
+            "value" : "Zeige monochrome Icons"
           }
         },
         "en" : {
@@ -3076,7 +3172,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically pause charging when the Mac goes to sleep"
+            "value" : "Pausiere die Aufladung automatisch wenn der Mac in den Ruhezustand wechselt"
           }
         },
         "en" : {
@@ -3111,7 +3207,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show alert when the optimized battery charging is engaged"
+            "value" : "Zeige eine Mitteilung wenn die optimierte Akkuaufladung eingreift"
           }
         },
         "en" : {
@@ -3143,6 +3239,12 @@
     "settings.button.label.show_battery_chart_in_menu" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeige die Akkuladungsprozent im Menü"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3166,6 +3268,12 @@
     "settings.button.label.show_battery_low_notification" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akkuladung nierdig bei 20 %"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3189,6 +3297,12 @@
     "settings.button.label.show_power_diagram" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeige Energieverteilung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3215,7 +3329,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Automatically turn off charging when the battery gets hot"
+            "value" : "Verhindere die Akkuaufladung wenn der Akku heiß wird"
           }
         },
         "en" : {
@@ -3250,7 +3364,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep"
+            "value" : "Die App verzögert den Ruhezustand solange bis das Ladelimit erreicht wurde, pausiert die Aufladung und gibt den Mac anschließend  in den Ruhezustand"
           }
         },
         "en" : {
@@ -3282,6 +3396,12 @@
     "settings.button.tooltip.discharge_battery_when_overcharged" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn das Macbook aufgeklappt ist kann die App den Akku entladen bis das Ladelimit erreicht wurde"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3314,7 +3434,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Turns off charging when the battery is 35°C or more."
+            "value" : "Schalte die Aufladung ab wenn der Akku über 35°C oder mehr hat"
           }
         },
         "en" : {
@@ -3346,6 +3466,12 @@
     "settings.label.charging_recommendation_part1" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80 % ist die empfohlene Einstellung für den Alltäglichen gebrauch"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3375,6 +3501,12 @@
     "settings.label.charging_recommendation_part2" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kannst diese Einstellung manuell überbrücken indem du im Menü \"Aufladen auf 100 %\" wählst"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3403,6 +3535,24 @@
     },
     "settings.label.high_energy_impact_processes_capacity" : {
       "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zeige bis zu  %d Prozess"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zeige bis zu  %d Prozesse"
+                }
+              }
+            }
+          }
+        },
         "en" : {
           "variations" : {
             "plural" : {
@@ -3474,6 +3624,12 @@
     "settings.label.high_energy_impact_processes_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probe Dauer: %@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3497,6 +3653,12 @@
     "settings.label.high_energy_impact_processes_max_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 Minuten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3520,6 +3682,12 @@
     "settings.label.high_energy_impact_processes_min_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30s"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3543,6 +3711,12 @@
     "settings.label.high_energy_impact_processes_threshold" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grenzwert für die Stromauswirkung: %lld"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3569,7 +3743,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Advanced"
+            "value" : "Fortgeschritten"
           }
         },
         "en" : {
@@ -3604,7 +3778,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alerts"
+            "value" : "Alarm"
           }
         },
         "en" : {
@@ -3636,6 +3810,12 @@
     "settings.section.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3659,6 +3839,12 @@
     "settings.section.debug" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3685,7 +3871,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "General"
+            "value" : "Allgemein"
           }
         },
         "en" : {
@@ -3717,6 +3903,12 @@
     "settings.section.high_energy_impact_processes" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps mit hohem Stromverbrauch"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3775,6 +3967,12 @@
     "settings.section.menu" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3801,7 +3999,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "Mitteilungen"
           }
         },
         "en" : {
@@ -3906,7 +4104,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Turn off charging when battery will reach %@"
+            "value" : "Schalte die Aufladung ab bei %@"
           }
         },
         "en" : {
@@ -3938,6 +4136,12 @@
     "settings.tab.title.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erweitert"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3964,7 +4168,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Charging"
+            "value" : "Laden"
           }
         },
         "en" : {
@@ -3999,7 +4203,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "General"
+            "value" : "Allgemein"
           }
         },
         "en" : {
@@ -4034,7 +4238,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications"
+            "value" : "Mitteilungen"
           }
         },
         "en" : {
@@ -4066,6 +4270,12 @@
     "settings.tab.title.statusbar" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menüleiste"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
