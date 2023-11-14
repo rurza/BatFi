@@ -30,14 +30,18 @@ struct MenuContainerView: View {
                 VStack {
                     ChartsView()
                         .frame(height: 120)
-                    SeparatorView()
+                    if showPowerDiagram || showHighEnergyImpactProcesses {
+                        SeparatorView()
+                    }
                 }
             }
             if showPowerDiagram {
                 VStack {
                     PowerInfoView()
                         .padding(.bottom, 8)
-                    SeparatorView()
+                    if showHighEnergyImpactProcesses {
+                        SeparatorView()
+                    }
                 }
             }
             if showHighEnergyImpactProcesses {

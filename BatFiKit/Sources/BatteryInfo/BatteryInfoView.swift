@@ -109,16 +109,17 @@ struct BatteryAdditionalInfo<Label: View>: View {
     }
 
     var body: some View {
-        HStack {
-            Group {
-                label()
-                Spacer(minLength: itemsSpace)
-                Text(info)
-                    .multilineTextAlignment(.trailing)
-            }
-            .foregroundColor(.secondary)
-            .font(.callout)
+        HStack(alignment: .top) {
+            label()
+            Spacer(minLength: itemsSpace)
+            Text(info)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .foregroundColor(.secondary)
+        .font(.callout)
     }
 }
+
 
