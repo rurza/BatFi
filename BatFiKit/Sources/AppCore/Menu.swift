@@ -13,8 +13,11 @@ import Clients
 import L10n
 import DefaultsKeys
 import Dependencies
+import HighEnergyUsage
 import MenuBuilder
 import PowerCharts
+import PowerInfo
+import SwiftUI
 
 @MainActor
 public protocol MenuControllerDelegate: AnyObject {
@@ -29,12 +32,21 @@ public protocol MenuControllerDelegate: AnyObject {
 
 @MainActor
 public final class MenuController {
+    struct MenuDependencies {
+        let appChargingState: AppChargingMode
+        let showChart: Bool
+        let showPowerDiagram: Bool
+        let showHighImpactProcesses: Bool
+        let showDebugMenu: Bool
+    }
+
     let statusItem: NSStatusItem
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.helperManager) private var helperManager
     @Dependency(\.defaults) private var defaults
 
     public weak var delegate: MenuControllerDelegate?
+    private let menuDelegate = MenuObserver.shared
 
     public init(statusItem: NSStatusItem) {
         self.statusItem = statusItem
@@ -44,47 +56,56 @@ public final class MenuController {
     private func setUpObserving() {
         Task {
             
-            for await (state, showDebugMenu, showChart) in combineLatest(
-                appChargingState.observeChargingStateMode(),
-                defaults.observe(.showDebugMenu),
-                defaults.observe(.showChart)
+            for await ((state, showDebugMenu, showChart), (showPowerDiagram, showHighEnergyImpactProcesses)) in combineLatest(
+                combineLatest(
+                    appChargingState.observeChargingStateMode(),
+                    defaults.observe(.showDebugMenu),
+                    defaults.observe(.showChart)
+                ),
+                combineLatest(
+                    defaults.observe(.showPowerDiagram),
+                    defaults.observe(.showHighEnergyImpactProcesses)
+                )
             ) {
-                updateMenu(appChargingState: state, showDebugMenu: showDebugMenu, showChart: showChart)
+                updateMenu(dependencies:
+                    MenuDependencies(
+                        appChargingState: state,
+                        showChart: showChart,
+                        showPowerDiagram: showPowerDiagram,
+                        showHighImpactProcesses: showHighEnergyImpactProcesses,
+                        showDebugMenu: showDebugMenu
+                    )
+                )
             }
         }
     }
 
-    private func updateMenu(appChargingState: AppChargingMode, showDebugMenu: Bool, showChart: Bool) {
+    private func updateMenu(dependencies: MenuDependencies) {
         let chargeTo100Tooltip: String?
-        if appChargingState == .forceDischarge {
+        if dependencies.appChargingState == .forceDischarge {
             chargeTo100Tooltip = L10n.Menu.Tooltip.ChargeToHundred.dischargeTurnedOn
-        } else if appChargingState == .chargerNotConnected {
+        } else if dependencies.appChargingState == .chargerNotConnected {
             chargeTo100Tooltip = L10n.Menu.Tooltip.ChargeToHundred.chargerNotConnected
         } else {
             chargeTo100Tooltip = nil
         }
-        self.statusItem.menu = NSMenu {
+        if statusItem.menu == nil {
+            let menu = NSMenu()
+            menu.delegate = menuDelegate
+            self.statusItem.menu = menu
+        }
+        statusItem.menu?.replaceItems
+        {
             MenuItem("")
                 .view {
-                    BatteryInfoView()
+                    MenuContainerView()
+                        .modifier(MenuViewModifier())
                 }
             SeparatorItem()
-            if showChart {
-                MenuItem("")
-                    .view {
-                        ChartsView()
-                            .frame(height: 120)
-                            .padding(.horizontal)
-                            .padding(.top, 6)
-                            .padding(.bottom, 6)
-                            .frame(maxWidth: .infinity)
-                    }
-                SeparatorItem()
-            }
-            if appChargingState == .forceDischarge || appChargingState == .chargerNotConnected {
+            if dependencies.appChargingState == .forceDischarge || dependencies.appChargingState == .chargerNotConnected {
                 MenuItem(L10n.Menu.Label.chargeToHundred)
                     .toolTip(chargeTo100Tooltip)
-            } else if appChargingState != .forceCharge {
+            } else if dependencies.appChargingState != .forceCharge {
                 MenuItem(L10n.Menu.Label.chargeToHundred)
                     .onSelect { [weak self] in
                         self?.delegate?.forceCharge()
@@ -109,7 +130,7 @@ public final class MenuController {
                         .onSelect { [weak self] in
                             self?.delegate?.openOnboarding()
                         }
-                    if showDebugMenu {
+                    if dependencies.showDebugMenu {
                         SeparatorItem()
                         MenuItem(L10n.Menu.Label.debug)
                             .submenu {
@@ -138,6 +159,14 @@ public final class MenuController {
                 }
                 .shortcut("q")
         }
+    }
+}
 
+private struct MenuViewModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(.horizontal)
+            .padding(.top, 6)
+            .padding(.bottom, 6)
     }
 }

@@ -27,7 +27,9 @@ extension Defaults.Keys {
     // Menu bar
     public static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
     public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
-    public static let showChart = Key<Bool>("showChart", default: true)
+    public static let showChart = Key<Bool>("showChart", default: false)
+    public static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
+    public static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
 
     // Advanced
     public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
@@ -36,6 +38,12 @@ extension Defaults.Keys {
     public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
     public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
     public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
+    public static let turnOnSystemChargeLimitingWhenGoingToSleep = Key<Bool>("turnOnSystemChargeLimitingWhenGoingToSleep", default: false)
+
+    public static let highEnergyImpactProcessesThreshold = Key<Int>("highEnergyImpactProcessesThreshold", default: 500)
+    public static let highEnergyImpactProcessesDuration = Key<TimeInterval>("highEnergyImpactProcessesDuration", default: 180)
+    public static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)
+
 
     // notifications
     public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
@@ -43,5 +51,7 @@ extension Defaults.Keys {
     public static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
     public static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
 
-
+    // feature flags
+    public static let enableHighEnergyImpactProcesses = Key<Bool>("enableHighEnergyImpactProcesses", default: false)
+    public static let enablePowerDiagram = Key<Bool>("enablePowerDiagram", default: false)
 }

@@ -34,13 +34,14 @@ public final class ChargingManager {
     public func setUpObserving() {
         Task {
             for await (
-                (powerState, inhibitOnSleep),
+                (powerState, inhibitOnSleep, enableSystemChargeLimitOnSleep),
                 (preventSleeping, forceCharging, temperature),
                 (chargeLimit, manageCharging, allowDischarging)
             ) in combineLatest(
                 combineLatest(
                     powerSourceClient.powerSourceChanges(),
-                    defaults.observe(.turnOnInhibitingChargingWhenGoingToSleep)
+                    defaults.observe(.turnOnInhibitingChargingWhenGoingToSleep),
+                    defaults.observe(.turnOnSystemChargeLimitingWhenGoingToSleep)
                 ),
                 combineLatest(
                     defaults.observe(.disableSleep),
@@ -62,7 +63,8 @@ public final class ChargingManager {
                     preventSleeping: preventSleeping,
                     forceCharging: forceCharging,
                     turnOffChargingWithHotBattery: temperature,
-                    inhibitChargingOnSleep: inhibitOnSleep
+                    inhibitChargingOnSleep: inhibitOnSleep,
+                    enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep
                 )
             }
             logger.warning("The main loop did quit")
@@ -79,9 +81,15 @@ public final class ChargingManager {
                         logger.debug("I will inhibit charging, current mode is force discharge")
                         await inhibitCharging(chargerConnected: false)
                     } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
+                                !defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
                                 !defaults.value(.forceCharge) {
                         logger.debug("I will inhibit charging, because user chose the option")
                         await inhibitCharging(chargerConnected: true)
+                    } else if defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
+                                !defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
+                                !defaults.value(.forceCharge) {
+                        logger.debug("I will enable system charge limit, because user chose the option")
+                        try? await chargingClient.enableSystemChargeLimit()
                     }
                 case .didWake:
                     computerIsAsleep = false
@@ -122,6 +130,7 @@ public final class ChargingManager {
             let forceCharging = defaults.value(.forceCharge)
             let batteryTemperature = defaults.value(.temperatureSwitch)
             let inhibitChargingOnSleep = defaults.value(.turnOnInhibitingChargingWhenGoingToSleep)
+            let enableSystemChargeLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
             await updateStatus(
                 powerState: powerState,
                 chargeLimit: Int(chargeLimit),
@@ -130,7 +139,8 @@ public final class ChargingManager {
                 preventSleeping: preventSleeping,
                 forceCharging: forceCharging,
                 turnOffChargingWithHotBattery: batteryTemperature,
-                inhibitChargingOnSleep: inhibitChargingOnSleep
+                inhibitChargingOnSleep: inhibitChargingOnSleep,
+                enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep
             )
         }
     }
@@ -144,7 +154,8 @@ public final class ChargingManager {
         preventSleeping: Bool,
         forceCharging: Bool,
         turnOffChargingWithHotBattery: Bool,
-        inhibitChargingOnSleep: Bool
+        inhibitChargingOnSleep: Bool,
+        enableSystemChargeLimitOnSleep: Bool
     ) async {
         logger.debug("⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇")
         defer {
@@ -180,7 +191,8 @@ public final class ChargingManager {
                     preventSleeping: preventSleeping,
                     forceCharging: forceCharging,
                     turnOffChargingWithHotBattery: turnOffChargingWithHotBattery,
-                    inhibitChargingOnSleep: inhibitChargingOnSleep
+                    inhibitChargingOnSleep: inhibitChargingOnSleep,
+                    enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep
                 )
             } catch {
                 // ignore the error
@@ -193,12 +205,16 @@ public final class ChargingManager {
             if currentBatteryLevel >= chargeLimit {
                 if currentBatteryLevel > chargeLimit && allowDischarging && lidOpened && !computerIsAsleep {
                     await turnOnForceDischargeIfNeeded(chargerConnected: powerState.chargerConnected)
+                } else if enableSystemChargeLimitOnSleep && !inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
+                    try? await chargingClient.enableSystemChargeLimit()
                 } else {
                     await inhibitCharging(chargerConnected: powerState.chargerConnected)
                 }
                 restoreSleepifNeeded()
-            } else if inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
+            } else if inhibitChargingOnSleep && !enableSystemChargeLimitOnSleep && computerIsAsleep && !forceCharging {
                 await inhibitCharging(chargerConnected: powerState.chargerConnected)
+            } else if enableSystemChargeLimitOnSleep && !inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
+                try? await chargingClient.enableSystemChargeLimit()
             } else {
                 await turnOnCharging(
                     preventSleeping: preventSleeping,

@@ -28,6 +28,7 @@ struct ChargingLimitView: View {
                     .font(.system(size: 24, weight: .bold))
                     .padding(.bottom, -10) // so the space between header and the text is -10
                 Text(l10n.setLimitDescription)
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 VStack(alignment: .leading, spacing: 10) {
                     let percent = percentageFormatter.string(from: NSNumber(floatLiteral: Double(chargeLimit) / 100))!
@@ -43,6 +44,7 @@ struct ChargingLimitView: View {
                 }
                 Spacer()
                 Text(l10n.setLimitSetUpLater)
+                    .fixedSize(horizontal: false, vertical: true)
                     .foregroundStyle(.secondary)
             }
             .padding(20)

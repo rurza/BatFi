@@ -22,19 +22,20 @@ public struct ChartsView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(L10n.Menu.Charts.chartsHeader)
-                .foregroundStyle(.secondary)
+                .bold()
+                .foregroundColor(.secondary)
                 .font(.callout)
                 .padding(.bottom, 6)
             if !model.powerStatePoints.isEmpty {
                 Chart(model.powerStatePoints) {
+                    let offsetDate = model.offsetDateFor($0)
                     LineMark(
-                        x: .value("Time", $0.timestamp),
+                        x: .value("Time", $0.timestamp..<offsetDate),
                         y: .value("Battery Level", $0.batteryLevel)
                     )
                     .foregroundStyle(Color(.appGreen))
 
-                    let offsetDate = model.offsetDateFor($0)
-                    if $0.appMode == .charging || $0.appMode == .forceCharge {
+                    if $0.chargerConnected && $0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
@@ -43,9 +44,7 @@ public struct ChartsView: View {
                         )
                         .foregroundStyle(Color(.appGreen))
                         .opacity(0.2)
-                    }
-
-                    if $0.appMode == .inhibit {
+                    } else if $0.chargerConnected && !$0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
@@ -96,8 +95,8 @@ public struct ChartsView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .onAppear {
-            Task { await model.fetchPowerStatePoints() }
+        .task {
+            await model.fetchPowerStatePoints()
         }
     }
 }

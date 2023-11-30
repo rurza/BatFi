@@ -23,26 +23,36 @@ final class RouteHandler {
         logger.notice("SMC Opened")
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
+        let enableSystemChargeLimitByte: UInt8
 
         switch message {
         case .forceDischarging:
             disableChargingByte = 1
             inhibitChargingByte = 0
+            enableSystemChargeLimitByte = 0
             logger.notice("Handling force discharge")
         case .auto:
             disableChargingByte = 0
             inhibitChargingByte = 0
+            enableSystemChargeLimitByte = 0
             logger.notice("Handling enable charge")
         case .inhibitCharging:
             disableChargingByte = 0
             inhibitChargingByte = 02
+            enableSystemChargeLimitByte = 0
             logger.notice("Handling inhibit charging")
+        case .enableSystemChargeLimit:
+            disableChargingByte = 0
+            inhibitChargingByte = 0
+            enableSystemChargeLimitByte = 1
+            logger.notice("Handling enable system charge limit")
         }
 
         do {
             try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
             try SMCKit.writeData(.inhibitChargingC, uint8: inhibitChargingByte)
             try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
+            try SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
         } catch {
             logger.error("SMC writing error: \(error)")
             reset()
@@ -55,6 +65,7 @@ final class RouteHandler {
             try SMCKit.writeData(.disableCharging, uint8: 0)
             try SMCKit.writeData(.inhibitChargingC, uint8: 0)
             try SMCKit.writeData(.inhibitChargingB, uint8: 0)
+            try SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
         } catch {
             logger.critical("Resetting charging state failed. \(error)")
         }
@@ -91,5 +102,29 @@ final class RouteHandler {
         let data = try SMCKit.readData(.magSafeLED)
         guard let option = MagSafeLEDOption(rawValue: data.0) else { throw SMCError.canNotCreateMagSafeLEDOption }
         return option
+    }
+    
+    func powerInfo() throws -> PowerInfo {
+        defer {
+            SMCKit.close()
+        }
+        try SMCKit.open()
+        
+        let rawBatteryPower = try SMCKit.readData(SMCKey.batteryPower)
+        let rawExternalPower = try SMCKit.readData(SMCKey.externalPower)
+        
+        var batteryPower = Float(fromBytes: (rawBatteryPower.0, rawBatteryPower.1, rawBatteryPower.2, rawBatteryPower.3))
+        var externalPower = Float(fromBytes: (rawExternalPower.0, rawExternalPower.1, rawExternalPower.2, rawExternalPower.3))
+        
+        if abs(batteryPower) < 0.01 {
+            batteryPower = 0
+        }
+        if externalPower < 0.01 {
+            externalPower = 0
+        }
+        
+        let systemPower = batteryPower + externalPower
+        
+        return PowerInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
     }
 }

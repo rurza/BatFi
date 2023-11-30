@@ -23,6 +23,9 @@ extension Target.Dependency {
     static let persistence: Self = "Persistence"
     static let shared: Self = "Shared"
     static let powerCharts: Self = "PowerCharts"
+    static let powerInfo: Self = "PowerInfo"
+    static let settings: Self = "Settings"
+    static let highEnergyUsage: Self = "HighEnergyUsage"
 }
 
 let package = Package(
@@ -74,24 +77,26 @@ let package = Package(
                 "ClientsLive",
                 "Notifications",
                 "Onboarding",
-                "Settings",
                 .clients,
                 .defaultsKeys,
                 .l10n,
                 .menuBuilder,
+                .settings,
                 .statusItemArrowKit
             ]
         ),
         .target(name: "AppCore", dependencies: [
             "BatteryInfo",
-            "Settings",
             .appShared,
+            .asyncAlgorithms,
             .clients,
             .defaultsKeys,
             .dependencies,
+            .highEnergyUsage,
             .l10n,
             .powerCharts,
-            .asyncAlgorithms,
+            .powerInfo,
+            .settings,
             .shared,
             .snapKit
         ]),
@@ -111,7 +116,7 @@ let package = Package(
             .asyncAlgorithms,
             .clients,
             .dependencies,
-            .l10n
+            .l10n,
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(
@@ -139,14 +144,16 @@ let package = Package(
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
         .target(
-            name: "PowerCharts",
+            name: "HighEnergyUsage",
             dependencies: [
+                .asyncAlgorithms,
                 .appShared,
                 .clients,
                 .dependencies,
+                .defaults,
+                .defaultsKeys,
                 .l10n,
-                .persistence,
-                .identifiedCollections
+                .shared
             ]
         ),
         .target(
@@ -182,6 +189,24 @@ let package = Package(
                 .shared
             ]
         ),
+        .target(
+            name: "PowerCharts",
+            dependencies: [
+                .appShared,
+                .clients,
+                .dependencies,
+                .l10n,
+                .persistence,
+                .identifiedCollections
+            ]
+        ),
+        .target(name: "PowerInfo", dependencies: [
+            .appShared,
+            .clients,
+            .dependencies,
+            .l10n,
+            .shared
+        ]),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
             .secureXPC,

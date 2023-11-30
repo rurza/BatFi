@@ -18,3 +18,27 @@ On the other hand, BatFi works differently. The app allows you to set a user-cho
   <img src="https://github.com/rurza/BatFi/assets/2467137/ad75de07-157b-48ba-8584-27ce930d078e" width=300>
 </p>
 
+## Localization
+
+The app uses [String Catalog](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog) which makes localization super straightforward.
+
+<details>
+<summary>If you know how to use Git</summary>
+    
+1) Install Xcode 15 ([Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12))
+2) Fork this repo, the develop branch
+3) Open and edit `./BatFiKit/Sources/L10n/Localizable.xcstrings` with Xcode 15. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
+4) Commit changes and make pull request
+
+</details>
+
+<details>
+<summary>If you have no idea what Git is</summary>
+    
+1) Install Xcode 15 ([Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12))
+2) Download [Localizable.xcstrings](https://github.com/rurza/BatFi/blob/develop/BatFiKit/Sources/L10n/Localizable.xcstrings) using the "Download raw file" button in the top right corner
+3) Open and edit downloaded file. It'll open in Xcode. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
+4) Send it to me: adam@micropixels.pl
+
+</details>
+

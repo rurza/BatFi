@@ -5,9 +5,11 @@
 //  Created by Adam on 20/04/2023.
 //
 
+import Defaults
 import SwiftUI
 import AppShared
 import L10n
+import Shared
 
 public struct BatteryInfoView: View {
     @StateObject private var model = Model()
@@ -25,19 +27,20 @@ public struct BatteryInfoView: View {
                             info: "\(powerState.batteryLevel)%",
                             primaryForegroundColor: true
                         )
+                        .fontWeight(.bold)
                         if let timeDescription = model.time?.description {
-                            BatteryMainInfo(
+                            BatteryAdditionalInfo(
                                 label: timeDescription.label,
-                                info: timeDescription.description,
-                                primaryForegroundColor: model.time?.hasKnownTime == true
+                                info: timeDescription.description
                             )
                         }
                     }
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 7) {
-                        if let description = model.modeDescription {
-                            BatteryAdditionalInfo(label: l10n.Additional.appMode, info: description)
-                        }
+                        BatteryAdditionalInfo(
+                            label: l10n.Additional.appMode,
+                            info: model.modeDescription ?? "–––"
+                        )
                         BatteryAdditionalInfo(
                             label: l10n.Additional.powerSource,
                             info: powerState.powerSource
@@ -59,12 +62,6 @@ public struct BatteryInfoView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                .onDisappear {
-                    model.cancelObserving()
-                }
-                .onAppear {
-                    model.setUpObserving()
-                }
             } else {
                 Label(
                     l10n.infoMissing,
@@ -73,9 +70,6 @@ public struct BatteryInfoView: View {
                 .frame(height: 200)
             }
         }
-        .frame(width: 220)
-        .padding(.horizontal)
-        .padding(.vertical, 10)
     }
 }
 
@@ -115,15 +109,17 @@ struct BatteryAdditionalInfo<Label: View>: View {
     }
 
     var body: some View {
-        HStack {
-            Group {
-                label()
-                Spacer(minLength: itemsSpace)
-                Text(info)
-                    .multilineTextAlignment(.trailing)
-            }
-            .foregroundColor(.secondary)
-            .font(.callout)
+        HStack(alignment: .top) {
+            label()
+            Spacer(minLength: itemsSpace)
+            Text(info)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .foregroundColor(.secondary)
+        .font(.callout)
     }
 }
+
+

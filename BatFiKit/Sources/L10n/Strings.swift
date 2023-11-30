@@ -137,6 +137,25 @@ public enum L10n {
             }
         }
 
+        public enum PowerInfo {
+            /// Waiting for data…
+            public static let loading = String(localized: "menu.power_info.loading", defaultValue: "Waiting for data…", bundle: Bundle.module)
+
+            /// Power distribution
+            public static let header = String(localized: "menu.power_info.header", defaultValue: "Power distribution", bundle: Bundle.module)
+        }
+
+        public enum HighEnergyUsage {
+            /// Waiting for data…
+            public static let loading = String(localized: "menu.high_energy_usage.loading", defaultValue: "Waiting for data…", bundle: Bundle.module)
+
+            /// Apps with high energy usage
+            public static let header = String(localized: "menu.high_energy_usage.header", defaultValue: "Apps with high energy usage", bundle: Bundle.module)
+
+            /// No apps with high energy impact
+            public static let `none` = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
+        }
+
         public enum Tooltip {
             public enum ChargeToHundred {
                 /// Disabled because the charger is not connected
@@ -308,6 +327,12 @@ public enum L10n {
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
                 public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
+                /// Automatically enable system charge limit (80%) when the Mac goes to sleep
+                public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
+                /// Show power distribution
+                public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power distribution", bundle: Bundle.module)
+                /// Show apps with high energy usage
+                public static let showHighEnergyImpactProcesses = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show apps with high energy usage", bundle: .module)
             }
             public enum Tooltip {
                 /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
@@ -323,6 +348,51 @@ public enum L10n {
             public static let chargingRecommendationPart1 = String(localized: "settings.label.charging_recommendation_part1", defaultValue: "80% is the recommended value for a day-to-day usage.", bundle: Bundle.module)
             /// You can manually override this setting by using the "Charge to 100%" command from the menu.
             public static let chargingRecommendationPart2 = String(localized: "settings.label.charging_recommendation_part2", defaultValue: "You can manually override this setting by using the \"Charge to 100%\" command from the menu.", bundle: Bundle.module)
+
+            /// Show up to %@ processes
+            public static func highEnergyImpactProcessesCapacity(_ p1: Int) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.high_energy_impact_processes_capacity",
+                        bundle: .module,
+                        value: "Show up to %lld processes",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
+
+            /// Sample duration:
+            public static func highEnergyImpactProcessesDuration(_ p1: String) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.high_energy_impact_processes_duration",
+                        bundle: .module,
+                        value: "Sample duration: %@",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
+
+            /// Threshold of the energy impact: %lld
+            public static func highEnergyImpactProcessesThreshold(_ p1: Int) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.high_energy_impact_processes_threshold",
+                        bundle: .module,
+                        value: "Threshold of the energy impact: %lld",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
+
+            /// 30s
+            public static let highEnergyImpactProcessesMinDuration = String(localized: "settings.label.high_energy_impact_processes_min_duration", defaultValue: "30s", bundle: .module)
+
+            /// 5 minutes
+            public static let highEnergyImpactProcessesMaxDuration = String(localized: "settings.label.high_energy_impact_processes_max_duration", defaultValue: "5 minutes", bundle: .module)
         }
         public enum Section {
             /// Advanced
@@ -345,6 +415,8 @@ public enum L10n {
             public static let charging = String(localized: "settings.section.charging", defaultValue: "Charging", bundle: Bundle.module)
             /// Debug
             public static let debug = String(localized: "settings.section.debug", defaultValue: "Debug", bundle: Bundle.module)
+            /// Apps with high energy usage
+            public static let highEnergyImpactProcesses = String(localized: "settings.section.high_energy_impact_processes", defaultValue: "Apps with high energy usage", bundle: .module)
         }
         public enum Slider {
             public enum Label {
