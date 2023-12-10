@@ -28,6 +28,12 @@
             "value" : "ライセンス"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라이센스"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -58,6 +64,12 @@
           }
         },
         "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -98,6 +110,12 @@
             "value" : "Webサイト"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웹사이트"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -128,6 +146,12 @@
           }
         },
         "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Made with ❤️ and 🔋 by"
+          }
+        },
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Made with ❤️ and 🔋 by"
@@ -168,6 +192,12 @@
             "value" : "制限は%@です。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 까지 충전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -201,6 +231,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "100%まで充電する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 완전 충전"
           }
         },
         "pl" : {
@@ -238,6 +274,12 @@
             "value" : "バッテリーを使う。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리를 사용 중."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -271,6 +313,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充電制限は%@に設定されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@까지 충전을 완료하도록 예약됨."
           }
         },
         "pl" : {
@@ -308,6 +356,12 @@
             "value" : "充電器が未接続です"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어댑터가 연결되지 않음"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -341,6 +395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "限界まで充電する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한까지 충전 중"
           }
         },
         "pl" : {
@@ -378,6 +438,12 @@
             "value" : "充電中"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -411,6 +477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "放電中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방전중"
           }
         },
         "pl" : {
@@ -448,6 +520,12 @@
             "value" : "充電の抑制"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -481,6 +559,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "初期化"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작중"
           }
         },
         "pl" : {
@@ -518,6 +602,12 @@
             "value" : "充電モード"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 모드"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -551,6 +641,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "バッテリー状態"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 성능"
           }
         },
         "pl" : {
@@ -588,6 +684,12 @@
             "value" : "充電回数"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사이클 수"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -621,6 +723,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "電源"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 공급원"
           }
         },
         "pl" : {
@@ -658,6 +766,12 @@
             "value" : "温度"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "온도"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -691,6 +805,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "情報が見つかりません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정보 없음"
           }
         },
         "pl" : {
@@ -728,6 +848,12 @@
             "value" : "バッテリー"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -761,6 +887,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "計算中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계산중..."
           }
         },
         "pl" : {
@@ -798,6 +930,12 @@
             "value" : "残り時間"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "남은 시간"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -833,6 +971,12 @@
             "value" : "充電時間"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전까지 남은 시간"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -860,6 +1004,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune application n'utilise suffisamment d'énergie"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "없음"
           }
         },
         "pl" : {
@@ -891,6 +1041,12 @@
             "value" : "Dernières 12 heures"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 12 시간"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -918,6 +1074,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chargement"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 중"
           }
         },
         "pl" : {
@@ -949,6 +1111,12 @@
             "value" : "Empêcher le chargement"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -976,6 +1144,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En attente (de plus) de données..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 많은 데이터를 기다리는 중..."
           }
         },
         "pl" : {
@@ -1007,6 +1181,12 @@
             "value" : "Applications énergivores"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "많은 에너지를 사용 중인 앱"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1034,6 +1214,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En attente de données..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터를 기다리는 중..."
           }
         },
         "pl" : {
@@ -1071,6 +1257,12 @@
             "value" : "BatFi…"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1104,6 +1296,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "100%まで充電"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 완전 충전"
           }
         },
         "pl" : {
@@ -1141,6 +1339,12 @@
             "value" : "アップデートを確認"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1174,6 +1378,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "デバッグ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디버그"
           }
         },
         "pl" : {
@@ -1211,6 +1421,12 @@
             "value" : "ヘルパーをインストール"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 설치"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1244,6 +1460,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "詳細"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더보기"
           }
         },
         "pl" : {
@@ -1281,6 +1503,12 @@
             "value" : "オンボーディング"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "초기 설정 창..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1314,6 +1542,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFiを終了する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 종료"
           }
         },
         "pl" : {
@@ -1351,6 +1585,12 @@
             "value" : "ヘルパーをアンインストール"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 제거"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1384,6 +1624,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定をリセット"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 초기화"
           }
         },
         "pl" : {
@@ -1421,6 +1667,12 @@
             "value" : "アプリの設定を開く"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1456,6 +1708,12 @@
             "value" : "100%に充電を停止する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 완전 충전 취소"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1485,6 +1743,12 @@
             "value" : "Distribution de l'énergie"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 분배"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1512,6 +1776,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En attente de données..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터를 기다리는 중..."
           }
         },
         "pl" : {
@@ -1549,6 +1819,12 @@
             "value" : "充電器が接続されていないため無効になっています"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 어댑터가 연결되지 않아 비활성화됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1582,6 +1858,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "「制限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"충전 제한을 넘어서 충전된 경우 배터리 방전\"이 켜져 비활성화됨"
           }
         },
         "pl" : {
@@ -1619,6 +1901,12 @@
             "value" : "最適化されたバッテリー充電がオンになっています"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최적화된 배터리 충전이 활성화됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1646,6 +1934,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "J'ai besoin d'énergie!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac의 배터리가 다 됐나봐요!"
           }
         },
         "pl" : {
@@ -1683,6 +1977,12 @@
             "value" : "新しいモード: %@"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 모드: %@"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1710,6 +2010,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batterie faible"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 전원 부족"
           }
         },
         "pl" : {
@@ -1747,6 +2053,12 @@
             "value" : "システム設定を開く"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 열기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1780,6 +2092,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ヘルパーにパーミッションを与えていないようです。パスワード/Touch IDのプロンプトが表示されなかったのなら、それは問題ありません。macOSのバグで、時々起こります。\nシステム設定でいつでも権限を変更できます。ヘルパーツールがないとアプリは動作しないことを覚えておいてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램에 권한이 할당되지 않았습니다. 권한 부여를 위한 비밀번호 / Touch ID 창이 뜨지 않았을 경우, 이는 macOS의 버그이므로 시스템 설정에서 설정해주십시오. 언제든지 시스템 설정에서 권한을 변경할 수 있습니다. 보조 프로그램이 설치되지 않았을 경우 BatFi가 작동되지 않음을 유념해 주십시오."
           }
         },
         "pl" : {
@@ -1817,6 +2135,12 @@
             "value" : "ヘルパーがインストールされていません。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램의 설치가 완료되지 않았습니다"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1850,6 +2174,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "コンプリート"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료"
           }
         },
         "pl" : {
@@ -1887,6 +2217,12 @@
             "value" : "始める"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작하기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1920,6 +2256,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ヘルパーをインストール"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 설치"
           }
         },
         "pl" : {
@@ -1957,6 +2299,12 @@
             "value" : "ログイン時にBatFiを開く"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작 시 BatFi 실행"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1990,6 +2338,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "次へ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음"
           }
         },
         "pl" : {
@@ -2027,6 +2381,12 @@
             "value" : "前へ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2060,6 +2420,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "もう少し"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "끝이 보입니다."
           }
         },
         "pl" : {
@@ -2097,6 +2463,12 @@
             "value" : "BatFiは、必要な時のみ100%まで充電することでmacOSのバッテリーパフォーマンスを最適化することができます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 충전 상태를 효과적으로 관리하여 macOS의 배터리 성능을 유지할 수 있도록 도와줍니다. 반면, 경우에 따라 Mac을 완전 충전하도록 설정할 수도 있습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2130,6 +2502,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アプリはすぐに使えます！"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi를 사용할 준비가 완료되었습니다!"
           }
         },
         "pl" : {
@@ -2167,6 +2545,12 @@
             "value" : "完了"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료됨."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2200,6 +2584,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Macのバッテリー寿命を延ばしましょう。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac의 배터리 성능을 극한으로 끌어올리세요."
           }
         },
         "pl" : {
@@ -2237,6 +2627,12 @@
             "value" : "BatFiは、バックグラウンドで動作し、コンピュータの充電モードを変更することができるヘルパーツールをインストールします。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 백그라운드에서 Mac의 충전 모드를 제어할 수 있도록 하는 보조 프로그램을 설치합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2270,6 +2666,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ヘルパーはBatFiを適切に機能させるために不可欠です。インストールには管理者権限が求められます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 보조 프로그램은 BatFi가 작동하기 위해 반드시 필요하며, 설치 시 관리자 권한이 필요합니다."
           }
         },
         "pl" : {
@@ -2307,6 +2709,12 @@
             "value" : "推奨設定です。後でアプリの設定で変更できます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "권장됨. 이 설정은 나중에 앱 설정에서 수정할 수 있습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2340,6 +2748,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充電制限を設定します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한을 설정하세요."
           }
         },
         "pl" : {
@@ -2377,6 +2791,12 @@
             "value" : "バッテリーの寿命を伸ばすために、充電が100%のままになるのを防ぎましょう。そのために最大充電率を設定します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최대 충전 상태를 설정하여 완전 충전을 제한하고 배터리 성능을 향상하세요."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2410,6 +2830,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "この設定は、後でアプリの設定で変更できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정은 나중에 앱 설정에서 수정할 수 있습니다."
           }
         },
         "pl" : {
@@ -2447,6 +2873,12 @@
             "value" : "バッテリーが%@に達したら充電をオフにする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리가 %@에 도달할 때 까지 충전 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2474,6 +2906,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avancé"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고급 창"
           }
         },
         "pl" : {
@@ -2511,6 +2949,12 @@
             "value" : "充電パネル"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2544,6 +2988,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一般パネル"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반 창"
           }
         },
         "pl" : {
@@ -2581,6 +3031,12 @@
             "value" : "通知パネル"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2608,6 +3064,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Barre de menu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴 창"
           }
         },
         "pl" : {
@@ -2645,6 +3107,12 @@
             "value" : "蓋を開けた状態でのみ動作します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBook을 열었을 경우에만 작동합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2678,6 +3146,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更新を自動的にチェックする"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동으로 업데이트 확인"
           }
         },
         "pl" : {
@@ -2715,6 +3189,12 @@
             "value" : "アップデートを自動的にダウンロードする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동으로 업데이트 다운로드"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2748,6 +3228,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充電を自動的に管理する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동으로 충전 제어"
           }
         },
         "pl" : {
@@ -2785,6 +3271,12 @@
             "value" : "バッテリーの残量パーセントを表示"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 잔량 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2818,6 +3310,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리를 방전하기 시작할 경우 MagSafe의 불빛을 깜빡임"
           }
         },
         "pl" : {
@@ -2855,6 +3353,12 @@
             "value" : "充電ステータスが変わった時に通知する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 상태가 변할 경우"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2888,6 +3392,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アプリのベータ版を許可する"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "베타 버전 업데이트 받기"
           }
         },
         "pl" : {
@@ -2925,6 +3435,12 @@
             "value" : "デバッグメニューを表示"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개발자를 위한 기능 보기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2958,6 +3474,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充電時に自動スリープを遅らせ、過充電を避ける"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한까지 충전되지 않았을 경우 잠자기 지연"
           }
         },
         "pl" : {
@@ -2995,6 +3517,12 @@
             "value" : "制限を超えて充電されたときにバッテリーを放電する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한을 넘어서 충전된 경우 배터리 방전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3024,6 +3552,12 @@
             "value" : "Activer automatiquement la limite de charge système (80 %) lorsque le Mac passe veille"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 잠자기로 전환될 경우 시스템 충전 제한(80%)을 따라 자동으로 충전 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3051,6 +3585,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les applications avec une utilisation élevée de l'énergie"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "많은 에너지를 사용 중인 앱 표시"
           }
         },
         "pl" : {
@@ -3088,6 +3628,12 @@
             "value" : "ログイン時に起動する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작 시 BatFi 실행"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3121,6 +3667,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充電が一時停止している場合は、MagSafeの緑色のランプを使用してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전이 대기 중일 경우 MagSafe의 불빛이 녹색으로 빛납니다"
           }
         },
         "pl" : {
@@ -3158,6 +3710,12 @@
             "value" : "モノクロのアイコンを表示"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모노크롬 아이콘 사용"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3191,6 +3749,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Macがスリープ状態になると、自動的に充電を一時停止します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 잠자기로 전환될 경우 자동으로 충전 일시 제한"
           }
         },
         "pl" : {
@@ -3228,6 +3792,12 @@
             "value" : "バッテリー充電の最適化が作動しているときにアラートを表示する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최적화된 배터리 충전이 활성화될 경우 알림 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3255,6 +3825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher le pourcentage de la batterie dans le menu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 잔량 그래프 표시"
           }
         },
         "pl" : {
@@ -3286,6 +3862,12 @@
             "value" : "La batterie est à 20%"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리가 20% 미만일 경우"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3313,6 +3895,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher la distribution de l'énergie"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 분배 표시"
           }
         },
         "pl" : {
@@ -3350,6 +3938,12 @@
             "value" : "バッテリーが熱くなったら、自動的に充電をオフにする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 온도가 뜨거울 경우 자동으로 충전 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3383,6 +3977,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "このアプリはコンピュータが充電限界まで充電するのを遅らせ、その後、充電を停止し、Macをスリープ状態にします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi에서 Mac을 충전 제한까지 충전하기 위해 잠자기를 제한합니다. 이후에 충전을 제한한 후 Mac을 잠자기로 전환합니다."
           }
         },
         "pl" : {
@@ -3420,6 +4020,12 @@
             "value" : "Macbookの蓋を開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBook이 열려 있을 경우 BatFi에서 충전 제한까지 배터리를 방전합니다"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3453,6 +4059,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "バッテリーが35°C以上の場合、充電をオフにします。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "35°C 이상 배터리 온도가 올라갈 경우 충전을 제한합니다."
           }
         },
         "pl" : {
@@ -3490,6 +4102,12 @@
             "value" : "推奨される値は 80% です。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일상적인 사용 시 80%가 권장됩니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3523,6 +4141,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "メニューバーから「100%まで充電する」を使用して、この設定を手動で書き換えることができます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴의 \"배터리 완전 충전\"을 통해 이 설정을 덮어씌울 수 있습니다."
           }
         },
         "pl" : {
@@ -3589,6 +4213,18 @@
             }
           }
         },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "최대 %d개의 프로세스"
+                }
+              }
+            }
+          }
+        },
         "pl" : {
           "variations" : {
             "plural" : {
@@ -3642,6 +4278,12 @@
             "value" : "Rafraichissement: %@"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "샘플 시간: %@"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3669,6 +4311,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "5 minutes"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5분"
           }
         },
         "pl" : {
@@ -3700,6 +4348,12 @@
             "value" : "30s"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30초"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3727,6 +4381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seuil de l'impact énergétique: %lld"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영향을 주는 에너지 범위: %lld"
           }
         },
         "pl" : {
@@ -3764,6 +4424,12 @@
             "value" : "開発者向け"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고급"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3799,6 +4465,12 @@
             "value" : "アラート"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3828,6 +4500,12 @@
             "value" : "Chargement"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3855,6 +4533,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Débugger"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디버그"
           }
         },
         "pl" : {
@@ -3892,6 +4576,12 @@
             "value" : "一般"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3919,6 +4609,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Applications énergivores"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "많은 에너지를 사용 중인 앱"
           }
         },
         "pl" : {
@@ -3956,6 +4652,12 @@
             "value" : "MagSafe"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3983,6 +4685,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴"
           }
         },
         "pl" : {
@@ -4020,6 +4728,12 @@
             "value" : "通知"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4053,6 +4767,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "メニューバー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태 아이콘"
           }
         },
         "pl" : {
@@ -4090,6 +4810,12 @@
             "value" : "アップデート"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4125,6 +4851,12 @@
             "value" : "バッテリーが%@に達したら充電をオフにする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 까지 충전을 완료하도록 예약됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4152,6 +4884,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avancé"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고급"
           }
         },
         "pl" : {
@@ -4189,6 +4927,12 @@
             "value" : "充電"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4222,6 +4966,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一般"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반"
           }
         },
         "pl" : {
@@ -4259,6 +5009,12 @@
             "value" : "通知"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4286,6 +5042,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Barre de menu"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴"
           }
         },
         "pl" : {
