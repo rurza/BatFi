@@ -72,6 +72,7 @@ public final class ChargingManager {
 
         Task {
             for await sleepNote in sleepClient.observeMacSleepStatus() {
+                guard defaults.value(.manageCharging) else { continue }
                 switch sleepNote {
                 case .willSleep:
                     computerIsAsleep = true
@@ -102,6 +103,7 @@ public final class ChargingManager {
 
         Task {
             for await _ in screenParametersClient.screenDidChangeParameters() {
+                guard defaults.value(.manageCharging) else { continue }
                 try? await fetchAndUpdateAppChargingState()
                 await updateStatusWithCurrentState()
             }
