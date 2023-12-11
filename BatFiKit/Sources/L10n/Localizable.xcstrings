@@ -195,7 +195,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 까지 충전"
+            "value" : "%@까지 충전합니다."
           }
         },
         "pl" : {
@@ -236,7 +236,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "배터리 완전 충전"
+            "value" : "100%까지 충전합니다."
           }
         },
         "pl" : {
@@ -277,7 +277,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "배터리를 사용 중."
+            "value" : "배터리를 방전합니다."
           }
         },
         "pl" : {
@@ -318,7 +318,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@까지 충전을 완료하도록 예약됨."
+            "value" : "%@까지 충전되었습니다."
           }
         },
         "pl" : {
@@ -482,7 +482,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "방전중"
+            "value" : "방전 중"
           }
         },
         "pl" : {
@@ -564,7 +564,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "시작중"
+            "value" : "준비 중"
           }
         },
         "pl" : {
@@ -892,7 +892,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "계산중..."
+            "value" : "계산 중..."
           }
         },
         "pl" : {
@@ -974,7 +974,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "충전까지 남은 시간"
+            "value" : "충전 완료까지"
           }
         },
         "pl" : {
@@ -3110,7 +3110,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MacBook을 열었을 경우에만 작동합니다."
+            "value" : "MacBook이 열렸을 경우에만 작동합니다."
           }
         },
         "pl" : {
@@ -3555,7 +3555,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mac이 잠자기로 전환될 경우 시스템 충전 제한(80%)을 따라 자동으로 충전 제한"
+            "value" : "Mac이 잠자기로 전환될 경우 시스템 설정(80%)에 따라 자동으로 충전 제한"
           }
         },
         "pl" : {
@@ -3672,7 +3672,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "충전이 대기 중일 경우 MagSafe의 불빛이 녹색으로 빛납니다"
+            "value" : "충전이 일시 제한된 경우 MagSafe의 불빛이 녹색으로 점등"
           }
         },
         "pl" : {
@@ -4854,7 +4854,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 까지 충전을 완료하도록 예약됨"
+            "value" : "%@까지 충전을 완료하도록 예약됨"
           }
         },
         "pl" : {
@@ -4930,7 +4930,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "충전 중"
+            "value" : "충전"
           }
         },
         "pl" : {
