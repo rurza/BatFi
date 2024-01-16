@@ -39,6 +39,12 @@
             "state" : "translated",
             "value" : "Licencja"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лицензия"
+          }
         }
       }
     },
@@ -76,6 +82,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -121,6 +133,12 @@
             "state" : "translated",
             "value" : "Strona www"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Веб-сайт"
+          }
         }
       }
     },
@@ -161,6 +179,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Z ❤️ i 🔋 zrobione przez"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сделано с ❤️ и 🔋 "
           }
         }
       }
@@ -203,6 +227,12 @@
             "state" : "translated",
             "value" : "Limit to %@."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит составляет %@."
+          }
         }
       }
     },
@@ -243,6 +273,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładuję do 100%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка до 100%"
           }
         }
       }
@@ -285,6 +321,12 @@
             "state" : "translated",
             "value" : "Używam baterii do zasilania."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использование аккумулятора."
+          }
         }
       }
     },
@@ -325,6 +367,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limit ładowania to %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит зарядки установлен на %@."
           }
         }
       }
@@ -367,6 +415,12 @@
             "state" : "translated",
             "value" : "Ładowarka nie podłączona"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядное устройство не подключено"
+          }
         }
       }
     },
@@ -407,6 +461,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładuję do limitu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка до лимита"
           }
         }
       }
@@ -449,6 +509,12 @@
             "state" : "translated",
             "value" : "Ładuję"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
         }
       }
     },
@@ -489,6 +555,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rozładowuję"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрядка"
           }
         }
       }
@@ -531,6 +603,12 @@
             "state" : "translated",
             "value" : "Ładowanie wstrzymane"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ограничение зарядки"
+          }
         }
       }
     },
@@ -571,6 +649,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inicjalizacja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инициализация"
           }
         }
       }
@@ -613,6 +697,12 @@
             "state" : "translated",
             "value" : "Tryb apki"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим приложения"
+          }
         }
       }
     },
@@ -653,6 +743,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Żywotność baterii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Состояние аккумулятора"
           }
         }
       }
@@ -695,6 +791,12 @@
             "state" : "translated",
             "value" : "Liczba cykli"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество циклов перезарядки"
+          }
         }
       }
     },
@@ -735,6 +837,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Źródło zasilania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Источник питания"
           }
         }
       }
@@ -777,6 +885,12 @@
             "state" : "translated",
             "value" : "Temperatura baterii"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура"
+          }
         }
       }
     },
@@ -817,6 +931,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na informacje"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Информация отсутствует"
           }
         }
       }
@@ -859,6 +979,12 @@
             "state" : "translated",
             "value" : "Bateria"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккумулятор"
+          }
         }
       }
     },
@@ -899,6 +1025,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Obliczam…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вычисление…"
           }
         }
       }
@@ -941,6 +1073,12 @@
             "state" : "translated",
             "value" : "Pozostało"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осталось времени"
+          }
         }
       }
     },
@@ -982,6 +1120,12 @@
             "state" : "translated",
             "value" : "Czas do naładowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время зарядки"
+          }
         }
       }
     },
@@ -1016,6 +1160,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Żadna z apek nie powoduje dużego zużycia energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет приложений, потребляющих значительное количество энергии"
           }
         }
       }
@@ -1052,6 +1202,12 @@
             "state" : "translated",
             "value" : "Ostatnie 12h"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последние 12 часов"
+          }
         }
       }
     },
@@ -1086,6 +1242,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowanie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
           }
         }
       }
@@ -1122,6 +1284,12 @@
             "state" : "translated",
             "value" : "Ładowanie wstrzymane"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ограничение зарядки"
+          }
         }
       }
     },
@@ -1156,6 +1324,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na więcej danych…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание (дополнительных) данных…"
           }
         }
       }
@@ -1192,6 +1366,12 @@
             "state" : "translated",
             "value" : "Apki z dużym zużyciem energii"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения с высоким энергопотреблением"
+          }
         }
       }
     },
@@ -1226,6 +1406,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na dane…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание данных…"
           }
         }
       }
@@ -1264,6 +1450,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi…"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi…"
@@ -1309,6 +1501,12 @@
             "state" : "translated",
             "value" : "Naładuj do 100%"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядить до 100%"
+          }
         }
       }
     },
@@ -1349,6 +1547,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sprawdź uaktualnienia…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить наличие обновлений…"
           }
         }
       }
@@ -1391,6 +1595,12 @@
             "state" : "translated",
             "value" : "Debug"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отладка"
+          }
         }
       }
     },
@@ -1431,6 +1641,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zainstaluj helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить Помощник"
           }
         }
       }
@@ -1473,6 +1689,12 @@
             "state" : "translated",
             "value" : "Więcej"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ещё"
+          }
         }
       }
     },
@@ -1513,6 +1735,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Onboarding…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Первичная настройка"
           }
         }
       }
@@ -1555,6 +1783,12 @@
             "state" : "translated",
             "value" : "Zakończ BatFi"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить BatFi"
+          }
         }
       }
     },
@@ -1595,6 +1829,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Odinstaluj helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить Помощник"
           }
         }
       }
@@ -1637,6 +1877,12 @@
             "state" : "translated",
             "value" : "Przywróć domyślne ustawienia"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить настройки"
+          }
         }
       }
     },
@@ -1677,6 +1923,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ustawienia…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки…"
           }
         }
       }
@@ -1719,6 +1971,12 @@
             "state" : "translated",
             "value" : "Zatrzymaj ładowanie do 100%"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить зарядку до 100%"
+          }
         }
       }
     },
@@ -1754,6 +2012,12 @@
             "state" : "translated",
             "value" : "Rozkład mocy"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Распределение питания"
+          }
         }
       }
     },
@@ -1788,6 +2052,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na dane…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание данных…"
           }
         }
       }
@@ -1830,6 +2100,12 @@
             "state" : "translated",
             "value" : "Niedostępne ponieważ ładowarka nie jest podłączona"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключено, поскольку зарядное устройство не подключено"
+          }
         }
       }
     },
@@ -1870,6 +2146,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niedostępne ponieważ \"Rozładuj baterię gdy naładowana ponad limit\" jest włączone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключено, поскольку включена функция «Разряжать аккумулятор при превышении лимита заряда»."
           }
         }
       }
@@ -1912,6 +2194,12 @@
             "state" : "translated",
             "value" : "Zoptymalizowane ładowanie baterii jest WŁĄCZONE"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оптимизированная зарядка аккумулятора включена."
+          }
         }
       }
     },
@@ -1946,6 +2234,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Naładuj mnie!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мне нужно больше сока!"
           }
         }
       }
@@ -1988,6 +2282,12 @@
             "state" : "translated",
             "value" : "Nowy tryb: %@"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новый режим: %@"
+          }
         }
       }
     },
@@ -2022,6 +2322,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niski stan baterii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Низкий уровень заряда"
           }
         }
       }
@@ -2064,6 +2370,12 @@
             "state" : "translated",
             "value" : "Otwórz Ustawienia systemu"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системные настройки"
+          }
         }
       }
     },
@@ -2104,6 +2416,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok – czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже, что вы не предоставили разрешения помощнику. Если не было запроса пароля/Touch ID, это нормально - это ошибка macOS, и иногда такое случается.\nВы всегда можете изменить разрешения в Системных настройках.\nИмейте в виду, что приложение не будет работать без помощника."
           }
         }
       }
@@ -2146,6 +2464,12 @@
             "state" : "translated",
             "value" : "Helper (wciąż) nie jest zainstalowany"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник (все еще) не установлен"
+          }
         }
       }
     },
@@ -2186,6 +2510,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gotowe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить"
           }
         }
       }
@@ -2228,6 +2558,12 @@
             "state" : "translated",
             "value" : "Zaczynamy"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приступить"
+          }
         }
       }
     },
@@ -2268,6 +2604,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zainstaluj helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить помощник"
           }
         }
       }
@@ -2310,6 +2652,12 @@
             "state" : "translated",
             "value" : "Uruchom podczas logowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать BatFi при входе"
+          }
         }
       }
     },
@@ -2350,6 +2698,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dalej"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
           }
         }
       }
@@ -2392,6 +2746,12 @@
             "state" : "translated",
             "value" : "Wstecz"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
+          }
         }
       }
     },
@@ -2432,6 +2792,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prawie gotowe."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почти готово."
           }
         }
       }
@@ -2474,6 +2840,12 @@
             "state" : "translated",
             "value" : "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę – wciąż możesz ładować baterię do 100% gdy potrzeba."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi помогает вам оптимизировать производительность аккумулятора macOS за счет умного управления уровнями заряда, при этом предоставляя полный контроль - зарядка до 100% только тогда, когда это необходимо."
+          }
         }
       }
     },
@@ -2514,6 +2886,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apka jest gotowa do działania!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение готово к использованию!"
           }
         }
       }
@@ -2556,6 +2934,12 @@
             "state" : "translated",
             "value" : "Gotowe."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово."
+          }
         }
       }
     },
@@ -2596,6 +2980,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przedłuż życie swojego Maca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продлите жизнь вашему Mac."
           }
         }
       }
@@ -2638,6 +3028,12 @@
             "state" : "translated",
             "value" : "BatFi zainstaluje helper, który będzie działał w tle i ma możliwość zmiany trybu ładowania Twojego komputera."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi установит вспомогательный инструмент, который будет работать в фоновом режиме и сможет изменять режим зарядки вашего компьютера."
+          }
         }
       }
     },
@@ -2678,6 +3074,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instalacja helpera wymaga uprawnień administratora i jest niezbędna dla działania BatFi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для установки вспомогательного инструмента требуются права администратора, и он необходим для функциональности BatFi."
           }
         }
       }
@@ -2720,6 +3122,12 @@
             "state" : "translated",
             "value" : "Zalecane. Możesz to zmienić później w ustawieniach aplikacji."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рекомендуется. Вы можете изменить это позже в настройках приложения."
+          }
         }
       }
     },
@@ -2760,6 +3168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ustaw poziom naładowania."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить лимит заряда."
           }
         }
       }
@@ -2802,6 +3216,12 @@
             "state" : "translated",
             "value" : "Ustaw maksymalny poziom naładowania by uniknąć ciągłego utrzymywania poziomu baterii na 100% i przedłużyć jej żywotność."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установите максимальный процент зарядки, чтобы предотвратить поддержание уровня заряда на уровне 100% и увеличить срок службы аккумулятора."
+          }
         }
       }
     },
@@ -2842,6 +3262,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Możesz to później zmienić w ustawieniach aplikacji."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете изменить этот параметр позже в настройках приложения."
           }
         }
       }
@@ -2884,6 +3310,12 @@
             "state" : "translated",
             "value" : "Wyłącz ładowanie gdy bateria osiągnie %@"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключите зарядку, когда аккумулятор достигнет %@."
+          }
         }
       }
     },
@@ -2918,6 +3350,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel zaawansowanych"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расширенная панель"
           }
         }
       }
@@ -2960,6 +3398,12 @@
             "state" : "translated",
             "value" : "Panel ustawień ładowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель зарядки"
+          }
         }
       }
     },
@@ -3000,6 +3444,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel ustawień ogólnych"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Общая панель"
           }
         }
       }
@@ -3042,6 +3492,12 @@
             "state" : "translated",
             "value" : "Panel ustawień powiadomień"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель уведомлений"
+          }
         }
       }
     },
@@ -3076,6 +3532,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel paska menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель строки меню"
           }
         }
       }
@@ -3118,6 +3580,12 @@
             "state" : "translated",
             "value" : "Działa tylko, gdy pokrywa z ekranem jest otwarta."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Работает только при открытой крышке."
+          }
         }
       }
     },
@@ -3158,6 +3626,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie sprawdzaj uaktualnienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически проверять наличие обновлений"
           }
         }
       }
@@ -3200,6 +3674,12 @@
             "state" : "translated",
             "value" : "Automatycznie pobieraj uaktualnienia"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически загружать обновления"
+          }
         }
       }
     },
@@ -3240,6 +3720,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie zarządzaj ładowaniem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически управлять зарядкой"
           }
         }
       }
@@ -3282,6 +3768,12 @@
             "state" : "translated",
             "value" : "Pokazuj procent baterii"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать процент заряда аккумулятора"
+          }
         }
       }
     },
@@ -3322,6 +3814,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mrugnij pare razy diodą LED na MagSafe, gdy apka zacznie rozładowywać baterię"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мигнуть светодиодом на MagSafe несколько раз, когда приложение начнет разряжать аккумулятор."
           }
         }
       }
@@ -3364,6 +3862,12 @@
             "state" : "translated",
             "value" : "Pokaż powiadomienia gdy tryb ładowania się zmienił"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статус зарядки изменился"
+          }
         }
       }
     },
@@ -3404,6 +3908,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pozwalaj na użycie wersji beta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить бета-версию приложения"
           }
         }
       }
@@ -3446,6 +3956,12 @@
             "state" : "translated",
             "value" : "Pokazuj menu do debugowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать меню отладки"
+          }
         }
       }
     },
@@ -3486,6 +4002,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opóźnij automatycznie usypianie systemu podczas ładowania, gdy limit nie został osiągnięty"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отложить автоматический сон при зарядке и недостигнутом лимите"
           }
         }
       }
@@ -3528,6 +4050,12 @@
             "state" : "translated",
             "value" : "Rozładuj baterię do osiągnięcia limitu ładowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разряжать аккумулятор при превышении лимита заряда"
+          }
         }
       }
     },
@@ -3563,6 +4091,12 @@
             "state" : "translated",
             "value" : "Automatycznie włącz systemowy limit ładowania (80%) gdy Mac się usypia"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически включать системное ограничение заряда (80 %), когда Mac переходит в спящий режим"
+          }
         }
       }
     },
@@ -3597,6 +4131,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj apki z dużym zużyciem energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать приложения с высоким энергопотреблением"
           }
         }
       }
@@ -3639,6 +4179,12 @@
             "state" : "translated",
             "value" : "Uruchom podczas logowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать при входе"
+          }
         }
       }
     },
@@ -3679,6 +4225,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Użyj zielonego światła na ładowarce MagSafe gdy ładowanie jest wstrzymane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать зеленый индикатор на MagSafe, когда зарядка приостановлена"
           }
         }
       }
@@ -3721,6 +4273,12 @@
             "state" : "translated",
             "value" : "Używaj monochromatycznej ikony"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать монохромный значок"
+          }
         }
       }
     },
@@ -3761,6 +4319,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie wstrzymywaj ładowanie gdy Mac się usypia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически приостанавливать зарядку, когда Mac переходит в спящий режим"
           }
         }
       }
@@ -3803,6 +4367,12 @@
             "state" : "translated",
             "value" : "Pokazuj alert gdy systemowe \"zoptymalizowane ładowanie baterii\" zostanie włączone"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать предупреждение, когда включена оптимизированная зарядка аккумулятора"
+          }
         }
       }
     },
@@ -3837,6 +4407,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj wykres ze stanem baterii w menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать диаграмму процента заряда аккумулятора в меню"
           }
         }
       }
@@ -3873,6 +4449,12 @@
             "state" : "translated",
             "value" : "Bateria ma 20%"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Низкий уровень заряда 20%"
+          }
         }
       }
     },
@@ -3907,6 +4489,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj dystrybucję mocy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать распределение питания"
           }
         }
       }
@@ -3949,6 +4537,12 @@
             "state" : "translated",
             "value" : "Przerwij ładowanie gdy bateria będzie zbyt gorąca"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически отключать зарядку при нагревании аккумулятора"
+          }
         }
       }
     },
@@ -3989,6 +4583,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apka opóźni automatycznie usypianie systemu, pozwoli naładować baterię do wyznaczonego limitu, wstrzyma ładowanie i uśpi Maca"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение отложит переход в спящий режим, чтобы компьютер зарядился до лимита, а затем ограничит зарядку и переведет Mac в спящий режим."
           }
         }
       }
@@ -4031,6 +4631,12 @@
             "state" : "translated",
             "value" : "Gdy pokrywa Macbooka jest otwarta, apka może rozładowywać baterie do momentu osiągnięcia limitu ładowania"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда крышка MacBook открыта, приложение может разряжать аккумулятор до лимита."
+          }
         }
       }
     },
@@ -4071,6 +4677,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącza ładowanie gdy temperatura baterii przekroczy 35°C"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключает зарядку при температуре аккумулятора 35°C и выше."
           }
         }
       }
@@ -4113,6 +4725,12 @@
             "state" : "translated",
             "value" : "80% to rekomendowany limit ładowania podczas normalnego użytkowania."
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80% - это рекомендуемое значение для ежедневного использования."
+          }
         }
       }
     },
@@ -4153,6 +4771,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zawsze możesz naładować komputer używając polecenia \"Naładuj do 100%\" z menu."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете вручную отменить эту настройку, воспользовавшись командой \"Зарядить до 100%\" в меню."
           }
         }
       }
@@ -4254,6 +4878,36 @@
               }
             }
           }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать максимум %d процесса"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать до %d процессов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать только %d процесс"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать до %d процессов"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -4288,6 +4942,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Długość samplingu: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продолжительность выборки: %@"
           }
         }
       }
@@ -4324,6 +4984,12 @@
             "state" : "translated",
             "value" : "5 minut"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 минут"
+          }
         }
       }
     },
@@ -4359,6 +5025,12 @@
             "state" : "translated",
             "value" : "30s"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 с."
+          }
         }
       }
     },
@@ -4393,6 +5065,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Próg obciążenia energetycznego: %lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порог энергетического воздействия: %lld"
           }
         }
       }
@@ -4435,6 +5113,12 @@
             "state" : "translated",
             "value" : "Zaawansowane"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительно"
+          }
         }
       }
     },
@@ -4476,6 +5160,12 @@
             "state" : "translated",
             "value" : "Alerty"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предупреждения"
+          }
         }
       }
     },
@@ -4511,6 +5201,12 @@
             "state" : "translated",
             "value" : "Ładowanie"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
         }
       }
     },
@@ -4545,6 +5241,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Debugowanie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отладка"
           }
         }
       }
@@ -4587,6 +5289,12 @@
             "state" : "translated",
             "value" : "Ogólne"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные"
+          }
         }
       }
     },
@@ -4621,6 +5329,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apki z dużym zużyciem energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения с высоким энергопотреблением"
           }
         }
       }
@@ -4663,6 +5377,12 @@
             "state" : "translated",
             "value" : "MagSafe"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
         }
       }
     },
@@ -4697,6 +5417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Меню"
           }
         }
       }
@@ -4739,6 +5465,12 @@
             "state" : "translated",
             "value" : "Powiadomienia"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления"
+          }
         }
       }
     },
@@ -4779,6 +5511,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ikona statusu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Иконка состояния"
           }
         }
       }
@@ -4821,6 +5559,12 @@
             "state" : "translated",
             "value" : "Uaktualnienia"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновления"
+          }
         }
       }
     },
@@ -4862,6 +5606,12 @@
             "state" : "translated",
             "value" : "Wyłącz ładowanie gdy bateria osiągnie %@"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключить зарядку, когда заряд аккумулятора достигнет %@."
+          }
         }
       }
     },
@@ -4896,6 +5646,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zaawansowane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительно"
           }
         }
       }
@@ -4938,6 +5694,12 @@
             "state" : "translated",
             "value" : "Ładowanie"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
         }
       }
     },
@@ -4978,6 +5740,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ogólne"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные"
           }
         }
       }
@@ -5020,6 +5788,12 @@
             "state" : "translated",
             "value" : "Powiadomienia"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления"
+          }
         }
       }
     },
@@ -5054,6 +5828,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pasek Menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Строка меню"
           }
         }
       }
