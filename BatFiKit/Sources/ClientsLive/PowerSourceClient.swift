@@ -165,6 +165,17 @@ private func getPowerSourceInfo() throws -> PowerState {
         throw PowerSourceError.infoMissing
     }
     let batteryHealth = Double(maxCapacity) / Double(designCapacity)
+    
+    guard
+        let batteryData: [String: Any] = getValue("BatteryData", from: service),
+        let lifetimeData = batteryData["LifetimeData"] as? [String: Any],
+        let minimumPackVoltage = lifetimeData["MinimumPackVoltage"] as? Int,
+        let maximumPackVoltage = lifetimeData["MaximumPackVoltage"] as? Int
+    else {
+        throw PowerSourceError.infoMissing
+    }
+    let midVoltage = ((Double(minimumPackVoltage) / 1000) + (Double(maximumPackVoltage) / 1000)) / 2
+    let maxEnergy = (Double(maxCapacity) / 1000) * midVoltage
 
     let powerState = PowerState(
         batteryLevel: batteryLevel,
@@ -176,7 +187,8 @@ private func getPowerSourceInfo() throws -> PowerState {
         batteryCapacity: batteryHealth,
         batteryTemperature: batteryTemperature,
         chargerConnected: chargerConnected,
-        optimizedBatteryChargingEngaged: optimizedBatteryCharging
+        optimizedBatteryChargingEngaged: optimizedBatteryCharging,
+        batteryMaxEnergy: maxEnergy
     )
     return powerState
 }
