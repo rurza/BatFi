@@ -12,7 +12,7 @@ import SwiftUI
 public struct PowerInfoView: View {
     @StateObject private var model = Model()
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         VStack(alignment: .leading) {

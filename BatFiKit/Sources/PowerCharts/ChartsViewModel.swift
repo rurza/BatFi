@@ -1,14 +1,14 @@
 //
 //  ChartsViewModel.swift
-//  
+//
 //
 //  Created by Adam on 03/09/2023.
 //
 
 import AppShared
 import Clients
-import Foundation
 import Dependencies
+import Foundation
 import IdentifiedCollections
 import os
 
@@ -20,7 +20,7 @@ extension ChartsView {
         @MainActor
         @Published var powerStatePoints: IdentifiedArrayOf<PowerStatePoint> = []
         private lazy var logger = Logger(category: "📈🌁")
-        
+
         var fromDate: Date {
             let components = calendar.dateComponents([.minute, .second], from: toDate)
             return calendar.date(
@@ -32,7 +32,7 @@ extension ChartsView {
                 to: toDate
             )!
         }
-        
+
         var toDate: Date { date.now }
 
         init() {
@@ -53,7 +53,7 @@ extension ChartsView {
             do {
                 let results = try await persistence.fetchPowerStatePoint(fromDate, toDate)
                 if let first = results.first, date.now.timeIntervalSince(first.timestamp) <= 60 * 60 {
-                    self.powerStatePoints = []
+                    powerStatePoints = []
                     return
                 }
                 let reduceDuplicatedDates = results.reduce(
@@ -69,7 +69,7 @@ extension ChartsView {
                         array.append(powerStatePoint)
                     }
                 )
-                self.powerStatePoints = IdentifiedArray(uniqueElements: reduceDuplicatedDates)
+                powerStatePoints = IdentifiedArray(uniqueElements: reduceDuplicatedDates)
             } catch {
                 logger.error("error when fetching power state: \(error.localizedDescription, privacy: .public)")
             }
@@ -80,7 +80,7 @@ extension ChartsView {
             guard let index = powerStatePoints.index(id: point.id) else {
                 return point.timestamp
             }
-            
+
             if index < powerStatePoints.count - 1 {
                 let nextPointIndex = powerStatePoints.index(after: index)
                 let nextPoint = powerStatePoints[nextPointIndex]

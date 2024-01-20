@@ -1,6 +1,6 @@
 //
-//  ScreenParametersClient+Live.swift
-//  
+//  ScreenParametersClient.swift
+//
 //
 //  Created by Adam on 04/05/2023.
 //
@@ -23,7 +23,7 @@ extension ScreenParametersClient: DependencyKey {
                     .filter { _ in
                         numberOfScreens != NSScreen.screens.count
                     }
-                    .map { note -> Void in
+                    .map { _ in
                         numberOfScreens = NSScreen.screens.count
                         logger.debug("\(NSApplication.didChangeScreenParametersNotification.rawValue)")
                     }

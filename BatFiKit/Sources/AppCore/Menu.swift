@@ -5,15 +5,15 @@
 //  Created by Adam on 26/04/2023.
 //
 
-import AsyncAlgorithms
-import AppShared
 import AppKit
+import AppShared
+import AsyncAlgorithms
 import BatteryInfo
 import Clients
-import L10n
 import DefaultsKeys
 import Dependencies
 import HighEnergyUsage
+import L10n
 import MenuBuilder
 import PowerCharts
 import PowerInfo
@@ -55,7 +55,6 @@ public final class MenuController {
 
     private func setUpObserving() {
         Task {
-            
             for await ((state, showDebugMenu, showChart), (showPowerDiagram, showHighEnergyImpactProcesses)) in combineLatest(
                 combineLatest(
                     appChargingState.observeChargingStateMode(),
@@ -92,10 +91,9 @@ public final class MenuController {
         if statusItem.menu == nil {
             let menu = NSMenu()
             menu.delegate = menuDelegate
-            self.statusItem.menu = menu
+            statusItem.menu = menu
         }
-        statusItem.menu?.replaceItems
-        {
+        statusItem.menu?.replaceItems {
             MenuItem("")
                 .view {
                     MenuContainerView()

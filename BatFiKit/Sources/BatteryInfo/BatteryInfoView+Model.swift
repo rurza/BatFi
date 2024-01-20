@@ -15,10 +15,10 @@ import Shared
 extension BatteryInfoView {
     @MainActor
     final class Model: ObservableObject {
-        @Dependency(\.powerSourceClient)    private var powerSourceClient
-        @Dependency(\.appChargingState)     private var appChargingState
-        @Dependency(\.defaults)             private var defaults
-        @Dependency(\.menuDelegate)         private var menuDelegate
+        @Dependency(\.powerSourceClient) private var powerSourceClient
+        @Dependency(\.appChargingState) private var appChargingState
+        @Dependency(\.defaults) private var defaults
+        @Dependency(\.menuDelegate) private var menuDelegate
 
         private(set) var state: PowerState? {
             didSet {
@@ -38,9 +38,8 @@ extension BatteryInfoView {
         private var chargingStateModeChanges: Task<Void, Never>?
         private var powerSourceChanges: Task<Void, Never>?
 
-
         init() {
-            self.state = try? powerSourceClient.currentPowerSourceState()
+            state = try? powerSourceClient.currentPowerSourceState()
             menuTask = Task { [weak self] in
                 if let menuChanged = await self?.menuDelegate.observeMenu() {
                     for await menuIsOpened in menuChanged {
@@ -74,7 +73,6 @@ extension BatteryInfoView {
                     self.state = state
                 }
             }
-
         }
 
         private func cancelObserving() {
@@ -85,14 +83,14 @@ extension BatteryInfoView {
         private func updateTime() {
             objectWillChange.send()
             if let state {
-                self.time = Time(
+                time = Time(
                     isCharging: state.isCharging,
                     timeLeft: state.timeLeft,
                     timeToCharge: state.timeToCharge,
                     batteryLevel: state.batteryLevel
                 )
             } else {
-                self.time = nil
+                time = nil
             }
         }
 

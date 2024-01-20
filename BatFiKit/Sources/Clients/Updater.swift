@@ -1,6 +1,6 @@
 //
 //  Updater.swift
-//  
+//
 //
 //  Created by Adam on 17/05/2023.
 //
@@ -31,8 +31,8 @@ public struct Updater: TestDependencyKey {
     public static var testValue: Updater = unimplemented()
 }
 
-extension DependencyValues {
-    public var updater: Updater {
+public extension DependencyValues {
+    var updater: Updater {
         get { self[Updater.self] }
         set { self[Updater.self] = newValue }
     }

@@ -13,9 +13,9 @@ import SettingsKit
 import SwiftUI
 
 struct ChargingView: View {
-    @Default(.chargeLimit)                              private var chargeLimit
-    @Default(.manageCharging)                           private var manageCharging
-    @Default(.allowDischargingFullBattery)              private var dischargeBatteryWhenFull
+    @Default(.chargeLimit) private var chargeLimit
+    @Default(.manageCharging) private var manageCharging
+    @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -51,7 +51,7 @@ struct ChargingView: View {
                                     Text(label)
                                         .foregroundColor(manageCharging ? .primary : .secondary)
                                     HStack {
-                                        Slider(value: .convert(from: $chargeLimit), in: 60...90, step: 5) {
+                                        Slider(value: .convert(from: $chargeLimit), in: 60 ... 90, step: 5) {
                                             EmptyView()
                                         } minimumValueLabel: {
                                             Text("60%")
@@ -97,18 +97,16 @@ struct ChargingView: View {
         }
     }
 
-    static let pane: Pane<Self> = {
-        Pane(
-            identifier: identifier,
-            title: L10n.Settings.Tab.Title.charging,
-            toolbarIcon: NSImage(
-                systemSymbolName: "bolt.badge.a",
-                accessibilityDescription: L10n.Settings.Accessibility.Title.charging
-            )!
-        ) {
+    static let pane: Pane<Self> = Pane(
+        identifier: identifier,
+        title: L10n.Settings.Tab.Title.charging,
+        toolbarIcon: NSImage(
+            systemSymbolName: "bolt.badge.a",
+            accessibilityDescription: L10n.Settings.Accessibility.Title.charging
+        )!
+    ) {
             Self()
         }
-    }()
 
     static var identifier: NSToolbarItem.Identifier { .init("Charging") }
 }

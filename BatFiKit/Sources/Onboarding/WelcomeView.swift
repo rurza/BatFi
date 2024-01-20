@@ -1,6 +1,6 @@
 //
 //  WelcomeView.swift
-//  
+//
 //
 //  Created by Adam on 31/05/2023.
 //
@@ -9,7 +9,6 @@ import L10n
 import SwiftUI
 
 struct WelcomeView: View {
-
     var body: some View {
         VStack {
             let l10n = L10n.Onboarding.Label.self
@@ -27,7 +26,6 @@ struct WelcomeView: View {
             }
         }
         .padding(20)
-
     }
 }
 

@@ -22,7 +22,7 @@ extension SMCKey {
         code: .init(fromStaticString: "CH0B"),
         info: DataTypes.UInt8
     )
-    
+
     static let enableSystemChargeLimit = Self(
         code: .init(fromStaticString: "CHWA"),
         info: DataTypes.Flag
@@ -37,17 +37,17 @@ extension SMCKey {
         code: .init(fromStaticString: "ACLC"),
         info: DataTypes.UInt8
     )
-    
+
     static let batteryPower = Self(
         code: .init(fromStaticString: "SBAP"),
         info: DataTypes.Float
     )
-    
+
     static let externalPower = Self(
         code: .init(fromStaticString: "PDTR"),
         info: DataTypes.Float
     )
-    
+
     static let systemPower = Self(
         code: .init(fromStaticString: "PSTR"),
         info: DataTypes.Float

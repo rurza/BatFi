@@ -1,6 +1,6 @@
 //
 //  AppChargingStateClient.swift
-//  
+//
 //
 //  Created by Adam on 16/05/2023.
 //

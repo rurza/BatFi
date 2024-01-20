@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal let secondaryOpacity = 0.5
+let secondaryOpacity = 0.5
 
 public struct BatteryIndicatorView: View {
     @ObservedObject private var model: Model
@@ -49,13 +49,13 @@ struct HalfCircleShape: Shape {
         var path = Path()
 
         path.move(to: CGPoint(x: rect.minX, y: rect.midY))
-        path.addArc(center: CGPoint(x: rect.minX, y: rect.midY), radius: rect.height , startAngle: .degrees(90), endAngle: .degrees(270), clockwise: true)
+        path.addArc(center: CGPoint(x: rect.minX, y: rect.midY), radius: rect.height, startAngle: .degrees(90), endAngle: .degrees(270), clockwise: true)
         return path
     }
 }
 
 extension Double {
-    var isEven: Bool { self.remainder(dividingBy: 2) == 0 }
+    var isEven: Bool { remainder(dividingBy: 2) == 0 }
 }
 
 func fontSize(height: Double, fraction: Double) -> Double {
@@ -91,7 +91,7 @@ struct DemoView: View {
                     } label: {
                         Text("-")
                     }
-                    Slider(value: $percentage, in: 0...100) {
+                    Slider(value: $percentage, in: 0 ... 100) {
                         Text("Percentage")
                     }
                     Button {

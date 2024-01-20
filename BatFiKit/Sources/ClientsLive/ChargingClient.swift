@@ -1,6 +1,6 @@
 //
-//  ChargingClient+Live.swift
-//  
+//  ChargingClient.swift
+//
 //
 //  Created by Adam on 02/05/2023.
 //
@@ -29,7 +29,7 @@ extension ChargingClient: DependencyKey {
 
         func installHelperIfPossibleForError<Result>(
             _ error: Error,
-            call: @escaping () async  throws -> Result
+            call: @escaping () async throws -> Result
         ) async throws -> Result {
             logger.error("Helper error: \(error)")
             let maxAdditionalDelayDuration = 3
@@ -40,7 +40,8 @@ extension ChargingClient: DependencyKey {
                         logger.debug("Quitting helper...")
                         if let helper = NSWorkspace.shared
                             .runningApplications
-                            .first(where: { $0.bundleIdentifier == Constant.helperBundleIdentifier }) {
+                            .first(where: { $0.bundleIdentifier == Constant.helperBundleIdentifier })
+                        {
                             logger.debug("Found helper")
                             let didQuit = helper.forceTerminate()
                             logger.debug("Helper did quit: \(didQuit, privacy: .public)")
@@ -68,11 +69,11 @@ extension ChargingClient: DependencyKey {
                         let result = try await call()
                         reinstallHelperCounter = 0
                         return result
-                    } catch { }
+                    } catch {}
                 default:
                     break
                 }
-            } 
+            }
             throw error
         }
 
@@ -129,7 +130,7 @@ extension ChargingClient: DependencyKey {
                 )
             }
         }
-        
+
         func enableSystemChargeLimit() async throws {
             logger.debug("Should send \(#function)")
             do {

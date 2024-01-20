@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  AdvancedView.swift
+//
 //
 //  Created by Adam on 21/09/2023.
 //
@@ -15,16 +15,15 @@ import SettingsKit
 import SwiftUI
 
 struct AdvancedView: View {
-    @Default(.temperatureSwitch)                          private var temperatureSwitch
-    @Default(.disableSleep)                               private var disableAutomaticSleep
-    @Default(.turnOnInhibitingChargingWhenGoingToSleep)   private var inhibitChargingOnSleep
-    @Default(.showGreenLightMagSafeWhenInhibiting)        private var greenLight
-    @Default(.downloadBetaVersion)                        private var checkForBetaUpdates
-    @Default(.showDebugMenu)                              private var showDebugMenu
+    @Default(.temperatureSwitch) private var temperatureSwitch
+    @Default(.disableSleep) private var disableAutomaticSleep
+    @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
+    @Default(.showGreenLightMagSafeWhenInhibiting) private var greenLight
+    @Default(.downloadBetaVersion) private var checkForBetaUpdates
+    @Default(.showDebugMenu) private var showDebugMenu
     @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
 
     @Dependency(\.updater) private var updater
-
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -34,22 +33,22 @@ struct AdvancedView: View {
                     Text(l10n.Button.Label.turnOffChargingWhenBatteryIsHot)
                         .help(l10n.Button.Tooltip.turnOffChargingWhenBatteryIsHot)
                 }
-                
+
                 Toggle(isOn: $disableAutomaticSleep) {
                     Text(l10n.Button.Label.disableAutomaticSleep)
                         .help(l10n.Button.Tooltip.disableAutomaticSleep)
                 }
-                
+
                 Toggle(isOn: $inhibitChargingOnSleep) {
                     Text(l10n.Button.Label.pauseChargingOnSleep)
                 }
                 .disabled(enableSystemChargeLimitOnSleep)
-                
+
                 Toggle(isOn: $enableSystemChargeLimitOnSleep) {
                     Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
                 }
                 .disabled(inhibitChargingOnSleep)
-                
+
                 Toggle(isOn: $greenLight) {
                     Text(l10n.Button.Label.magsafeUseGreenLight)
                 }
@@ -68,16 +67,14 @@ struct AdvancedView: View {
         }
     }
 
-    static let pane: Pane<Self> = {
-        Pane(
-            identifier: NSToolbarItem.Identifier("Advanved"),
-            title: L10n.Settings.Tab.Title.advanced,
-            toolbarIcon: NSImage(
-                systemSymbolName: "gearshape.2",
-                accessibilityDescription: L10n.Settings.Accessibility.Title.advanced
-            )!
-        ) {
+    static let pane: Pane<Self> = Pane(
+        identifier: NSToolbarItem.Identifier("Advanved"),
+        title: L10n.Settings.Tab.Title.advanced,
+        toolbarIcon: NSImage(
+            systemSymbolName: "gearshape.2",
+            accessibilityDescription: L10n.Settings.Accessibility.Title.advanced
+        )!
+    ) {
             Self()
         }
-    }()
 }

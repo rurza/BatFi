@@ -1,14 +1,14 @@
 //
 //  ChargingManagerTests.swift
-//  
+//
 //
 //  Created by Adam on 10/05/2023.
 //
 
-import XCTest
-import Dependencies
 @testable import AppCore
+import Dependencies
 @testable import PowerSource
+import XCTest
 
 @MainActor
 final class ChargingManagerTests: XCTestCase {
@@ -35,7 +35,5 @@ final class ChargingManagerTests: XCTestCase {
         } operation: {
             ChargingManager()
         }
-
     }
-
 }

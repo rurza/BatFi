@@ -12,7 +12,7 @@ import SwiftUI
 public struct HighEnergyUsageView: View {
     @StateObject private var model = Model()
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         let l10n = L10n.Menu.HighEnergyUsage.self

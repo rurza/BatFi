@@ -1,6 +1,6 @@
 //
 //  MagSafeLEDColorClient.swift
-//  
+//
 //
 //  Created by Adam on 16/07/2023.
 //
@@ -19,8 +19,8 @@ public struct MagSafeLEDColorClient: TestDependencyKey {
     }
 }
 
-extension DependencyValues {
-    public var magSafeLEDColor: MagSafeLEDColorClient {
+public extension DependencyValues {
+    var magSafeLEDColor: MagSafeLEDColorClient {
         get { self[MagSafeLEDColorClient.self] }
         set { self[MagSafeLEDColorClient.self] = newValue }
     }

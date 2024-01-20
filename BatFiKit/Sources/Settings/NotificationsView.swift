@@ -1,6 +1,6 @@
 //
 //  NotificationsView.swift
-//  
+//
 //
 //  Created by Adam on 05/05/2023.
 //
@@ -11,10 +11,10 @@ import SettingsKit
 import SwiftUI
 
 struct NotificationsView: View {
-    @Default(.showChargingStausChanged)     private var showChargingStausChanged
+    @Default(.showChargingStausChanged) private var showChargingStausChanged
     @Default(.showOptimizedBatteryCharging) private var showOptimizedBatteryCharging
-    @Default(.blinkMagSafeWhenDischarging)  private var blinkMagSafeWhenDischarging
-    @Default(.showBatteryLowNotification)   private var showBatteryLowNotification
+    @Default(.blinkMagSafeWhenDischarging) private var blinkMagSafeWhenDischarging
+    @Default(.showBatteryLowNotification) private var showBatteryLowNotification
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -30,7 +30,7 @@ struct NotificationsView: View {
                     Text(l10n.Button.Label.showBatteryLowNotification)
                 }
             }
-            
+
             Section(title: l10n.Section.magSafe, bottomDivider: false) {
                 Toggle(isOn: $blinkMagSafeWhenDischarging) {
                     Text(l10n.Button.Label.blinkMagSafeWhenDischarging)
@@ -39,16 +39,14 @@ struct NotificationsView: View {
         }
     }
 
-    static let pane: Pane<Self> = {
-        Pane(
-            identifier: NSToolbarItem.Identifier("notifications"),
-            title: L10n.Settings.Tab.Title.notifications,
-            toolbarIcon: NSImage(
-                systemSymbolName: "bell.badge",
-                accessibilityDescription: L10n.Settings.Accessibility.Title.notifications
-            )!
-        ) {
+    static let pane: Pane<Self> = Pane(
+        identifier: NSToolbarItem.Identifier("notifications"),
+        title: L10n.Settings.Tab.Title.notifications,
+        toolbarIcon: NSImage(
+            systemSymbolName: "bell.badge",
+            accessibilityDescription: L10n.Settings.Accessibility.Title.notifications
+        )!
+    ) {
             Self()
         }
-    }()
 }

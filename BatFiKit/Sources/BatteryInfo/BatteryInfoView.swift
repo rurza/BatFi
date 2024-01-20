@@ -5,16 +5,16 @@
 //  Created by Adam on 20/04/2023.
 //
 
-import Defaults
-import SwiftUI
 import AppShared
+import Defaults
 import L10n
 import Shared
+import SwiftUI
 
 public struct BatteryInfoView: View {
     @StateObject private var model = Model()
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         Group {
@@ -121,5 +121,3 @@ struct BatteryAdditionalInfo<Label: View>: View {
         .font(.callout)
     }
 }
-
-

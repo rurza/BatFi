@@ -1,13 +1,13 @@
 //
-//  FinalView.swift
-//  
+//  InstallHelperView.swift
+//
 //
 //  Created by Adam on 01/06/2023.
 //
 
-import Foundation
 import Defaults
 import DefaultsKeys
+import Foundation
 import L10n
 import SwiftUI
 

@@ -42,7 +42,7 @@ let package = Package(
         .library(name: "Onboarding", targets: ["Onboarding"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
-        .library(name: "Shared", targets: ["Shared"])
+        .library(name: "Shared", targets: ["Shared"]),
     ],
     dependencies: [
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
@@ -57,14 +57,14 @@ let package = Package(
         .package(url: "https://github.com/SnapKit/SnapKit", branch: "main"),
         .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main"),
         .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0"),
-        .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0")
+        .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
     ],
     targets: [
         .target(
             name: "About",
             dependencies: [
                 .aboutKit,
-                .l10n
+                .l10n,
             ]
         ),
         .target(
@@ -82,7 +82,7 @@ let package = Package(
                 .l10n,
                 .menuBuilder,
                 .settings,
-                .statusItemArrowKit
+                .statusItemArrowKit,
             ]
         ),
         .target(name: "AppCore", dependencies: [
@@ -98,7 +98,7 @@ let package = Package(
             .powerInfo,
             .settings,
             .shared,
-            .snapKit
+            .snapKit,
         ]),
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
         .target(name: "AppShared", dependencies: [.l10n]),
@@ -124,7 +124,7 @@ let package = Package(
             dependencies: [
                 .appShared,
                 .dependencies,
-                .shared
+                .shared,
             ]
         ),
         .target(
@@ -139,7 +139,7 @@ let package = Package(
                 .persistence,
                 .secureXPC,
                 .shared,
-                .sparkle
+                .sparkle,
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
@@ -153,7 +153,7 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .l10n,
-                .shared
+                .shared,
             ]
         ),
         .target(
@@ -164,7 +164,7 @@ let package = Package(
                 .clients,
                 .defaultsKeys,
                 .dependencies,
-                .l10n
+                .l10n,
             ]
         ),
         .target(
@@ -178,7 +178,7 @@ let package = Package(
                 .confetti,
                 .defaults,
                 .defaultsKeys,
-                .l10n
+                .l10n,
             ]
         ),
         .target(
@@ -186,7 +186,7 @@ let package = Package(
             dependencies: [
                 .appShared,
                 .dependencies,
-                .shared
+                .shared,
             ]
         ),
         .target(
@@ -197,7 +197,7 @@ let package = Package(
                 .dependencies,
                 .l10n,
                 .persistence,
-                .identifiedCollections
+                .identifiedCollections,
             ]
         ),
         .target(name: "PowerInfo", dependencies: [
@@ -205,12 +205,12 @@ let package = Package(
             .clients,
             .dependencies,
             .l10n,
-            .shared
+            .shared,
         ]),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
             .secureXPC,
-            .shared
+            .shared,
         ]),
         .target(name: "Settings", dependencies: [
             .appShared,
@@ -218,7 +218,7 @@ let package = Package(
             .defaultsKeys,
             .dependencies,
             .l10n,
-            .settingsKit
-        ])
+            .settingsKit,
+        ]),
     ]
 )

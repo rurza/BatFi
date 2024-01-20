@@ -1,6 +1,6 @@
 //
 //  OnboardingWindow.swift
-//  
+//
 //
 //  Created by Adam on 01/06/2023.
 //
@@ -25,11 +25,11 @@ public class OnboardingWindow: NSWindow {
             backing: .buffered,
             defer: false
         )
-        self.contentViewController = vc
-        self.isReleasedWhenClosed = false
-        self.titlebarAppearsTransparent = true
-        self.titleVisibility = .hidden
-        self.title = "Onboarding"
-        self.animationBehavior = .documentWindow
+        contentViewController = vc
+        isReleasedWhenClosed = false
+        titlebarAppearsTransparent = true
+        titleVisibility = .hidden
+        title = "Onboarding"
+        animationBehavior = .documentWindow
     }
 }

@@ -1,6 +1,6 @@
 //
 //  Updater.swift
-//  
+//
 //
 //  Created by Adam on 17/05/2023.
 //
@@ -10,8 +10,8 @@ import Clients
 import Defaults
 import Dependencies
 import Foundation
-import UserNotifications
 import Sparkle
+import UserNotifications
 
 extension Updater: DependencyKey {
     public static let liveValue: Updater = {
@@ -44,7 +44,6 @@ extension Updater: DependencyKey {
     }()
 }
 
-
 private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     static let instance = UpdaterDelegate()
 
@@ -52,19 +51,19 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
         true
     }
 
-    func updater(_ updater: SPUUpdater, willScheduleUpdateCheckAfterDelay delay: TimeInterval) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { _,_ in }
+    func updater(_: SPUUpdater, willScheduleUpdateCheckAfterDelay _: TimeInterval) {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { _, _ in }
     }
 
     func standardUserDriverShouldHandleShowingScheduledUpdate(
-        _ update: SUAppcastItem,
-        andInImmediateFocus immediateFocus: Bool
+        _: SUAppcastItem,
+        andInImmediateFocus _: Bool
     ) -> Bool {
         true
     }
 
     func standardUserDriverWillHandleShowingUpdate(
-        _ handleShowingUpdate: Bool,
+        _: Bool,
         forUpdate update: SUAppcastItem,
         state: SPUUserUpdateState
     ) {
@@ -78,12 +77,12 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
         }
     }
 
-    func standardUserDriverDidReceiveUserAttention(forUpdate update: SUAppcastItem) {
+    func standardUserDriverDidReceiveUserAttention(forUpdate _: SUAppcastItem) {
         // Dismiss active update notifications if the user has given attention to the new update
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [updateNotificationIdentifier])
     }
 
-    func allowedChannels(for updater: SPUUpdater) -> Set<String> {
+    func allowedChannels(for _: SPUUpdater) -> Set<String> {
         guard Defaults[.downloadBetaVersion] else { return [] }
         return ["beta"]
     }

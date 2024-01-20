@@ -1,6 +1,6 @@
 //
 //  BetaLabel.swift
-//  
+//
 //
 //  Created by Adam on 11/05/2023.
 //

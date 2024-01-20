@@ -1,5 +1,5 @@
 //
-//  PowerSourceClient+Live.swift
+//  PowerSourceClient.swift
 //
 //
 //  Created by Adam on 02/05/2023.
@@ -18,7 +18,7 @@ extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
         let observer = Observer(logger: logger)
-        let getPowerSourceQueue = DispatchQueue.global(qos: .userInitiated)//(label: "software.micropixels.BatFi.PowerSourceClient")
+        let getPowerSourceQueue = DispatchQueue.global(qos: .userInitiated) // (label: "software.micropixels.BatFi.PowerSourceClient")
         let getBatteryHealthQueue = DispatchQueue(label: "software.micropixels.BatFi.GetBatteryHealth")
 
         func getBatteryHealth() -> String? {
@@ -30,7 +30,6 @@ extension PowerSourceClient: DependencyKey {
             }
 
             getBatteryHealthQueue.async {
-
                 if Thread.isMainThread {
                     logger.warning("Launching NSTask and waiting on the main thread!")
                 }
@@ -69,7 +68,6 @@ extension PowerSourceClient: DependencyKey {
         }
 
         func getPowerSourceInfo() throws -> PowerState {
-
             if Thread.isMainThread {
                 logger.warning("getPowerSourceInfo() called on the main thread!")
             }
@@ -105,7 +103,8 @@ extension PowerSourceClient: DependencyKey {
                 let powerSource,
                 let timeLeft,
                 let timeToCharge,
-                let optimizedBatteryCharging else {
+                let optimizedBatteryCharging
+            else {
                 throw PowerSourceError.infoMissing
             }
 
@@ -172,9 +171,8 @@ extension PowerSourceClient: DependencyKey {
                 }
             },
             currentPowerSourceState: {
-
                 let state = try getPowerSourceQueue.sync {
-                    return try getPowerSourceInfo()
+                    try getPowerSourceInfo()
                 }
                 return state
             }
@@ -185,7 +183,7 @@ extension PowerSourceClient: DependencyKey {
 
     private class Observer {
         private let logger: Logger
-        private var handlers = [UUID : () -> Void]()
+        private var handlers = [UUID: () -> Void]()
         private let handlersQueue = DispatchQueue(label: "software.micropixels.BatFi.PowerSourceClient.Observer")
 
         init(logger: Logger) {

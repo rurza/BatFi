@@ -1,13 +1,13 @@
 //
 //  HelperManager.swift
-//  
+//
 //
 //  Created by Adam on 16/05/2023.
 //
 
 import Clients
-import Foundation
 import Dependencies
+import Foundation
 import os
 import SecureXPC
 import ServiceManagement
@@ -41,7 +41,7 @@ extension HelperManager: DependencyKey {
             },
             helperStatus: { installer.service.status },
             observeHelperStatus: {
-                return AsyncStream<SMAppService.Status> { continuation in
+                AsyncStream<SMAppService.Status> { continuation in
                     let task = Task {
                         for await _ in SuspendingClock().timer(interval: .milliseconds(500)) {
                             continuation.yield(service.status)

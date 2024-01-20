@@ -1,6 +1,6 @@
 //
 //  AppChargingState.Mode+.swift
-//  
+//
 //
 //  Created by Adam on 15/05/2023.
 //
@@ -46,6 +46,4 @@ public extension AppChargingMode {
             return nil
         }
     }
-
-
 }

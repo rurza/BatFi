@@ -32,8 +32,8 @@ public struct HelperManager: TestDependencyKey {
     public static var testValue: HelperManager = unimplemented()
 }
 
-extension DependencyValues {
-    public var helperManager: HelperManager {
+public extension DependencyValues {
+    var helperManager: HelperManager {
         get { self[HelperManager.self] }
         set { self[HelperManager.self] = newValue }
     }

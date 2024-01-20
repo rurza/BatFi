@@ -1,6 +1,6 @@
 //
 //  SleepClient.swift
-//  
+//
 //
 //  Created by Adam on 11/05/2023.
 //
@@ -47,7 +47,6 @@ extension SleepClient: DependencyKey {
                         asyncStreamForNotificationName(NSWorkspace.didWakeNotification).map { _ in SleepNotification.didWake }
                     )
                 )
-
             }
         )
         return client

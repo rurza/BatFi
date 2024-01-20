@@ -6,8 +6,8 @@
 //
 
 import AppShared
-import CoreData
 import Clients
+import CoreData
 import Dependencies
 import Foundation
 import os
@@ -66,7 +66,7 @@ extension Persistence: DependencyKey {
                 }
             },
             observePowerStatePoints: {
-                return AsyncStream { continuation in
+                AsyncStream { continuation in
                     let delegate = FetchedResultsControllerDelegate {
                         continuation.yield()
                     }
@@ -92,7 +92,6 @@ extension Persistence: DependencyKey {
                         _ = controller
                     }
                 }
-
             }
         )
     }()
@@ -106,8 +105,7 @@ private class FetchedResultsControllerDelegate: NSObject, NSFetchedResultsContro
         super.init()
     }
 
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    func controllerDidChangeContent(_: NSFetchedResultsController<NSFetchRequestResult>) {
         handler()
     }
 }
-

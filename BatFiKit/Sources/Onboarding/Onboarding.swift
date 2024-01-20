@@ -1,6 +1,6 @@
 //
 //  Onboarding.swift
-//  
+//
 //
 //  Created by Adam on 31/05/2023.
 //
@@ -19,11 +19,11 @@ enum OnboardingScreen: Int, CaseIterable {
     case welcome
     case charging
     case helper
-    
+
     func next() -> OnboardingScreen? {
         OnboardingScreen(rawValue: rawValue + 1)
     }
-    
+
     func previous() -> OnboardingScreen? {
         OnboardingScreen(rawValue: rawValue - 1)
     }
@@ -187,20 +187,20 @@ extension Onboarding {
                 }
             }
         }
-        
+
         @MainActor
         func previousAction() {
             if let previous = currentScreen.previous() {
                 currentScreen = previous
             }
         }
-        
+
         @MainActor
         func completeOnboarding() {
             launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
             NSApp.windows.first { $0.isKind(of: OnboardingWindow.self) }?.close()
         }
-        
+
         var player: AVPlayer {
             playerModel.player
         }

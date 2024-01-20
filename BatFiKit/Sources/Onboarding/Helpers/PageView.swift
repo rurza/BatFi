@@ -1,6 +1,6 @@
 //
 //  PageView.swift
-//  
+//
 //
 //  Created by Adam on 31/05/2023.
 //
@@ -20,7 +20,8 @@ struct PageView<Content: View>: View {
                 OffsetObservingScrollView(
                     axes: .horizontal,
                     showsIndicators: false,
-                    offset: $offset) {
+                    offset: $offset
+                ) {
                         ScrollViewReader { scrollView in
                             LazyHStack(spacing: 10) {
                                 content()
@@ -36,7 +37,6 @@ struct PageView<Content: View>: View {
                         }
                     }
                 .frame(width: proxy.size.width, height: proxy.size.height)
-               
             }
         }
     }

@@ -14,11 +14,11 @@ extension PowerInfoClient: DependencyKey {
                 withServerRequirement: try! .sameTeamIdentifier
             )
         }
-        
+
         @Sendable func powerInfo() async throws -> PowerInfo {
             return try await createClient().send(to: XPCRoute.powerInfo)
         }
-        
+
         let client = Self(
             powerInfoChanges: {
                 AsyncStream { continuation in

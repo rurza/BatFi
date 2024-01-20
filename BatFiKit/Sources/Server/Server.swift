@@ -1,6 +1,6 @@
 //
 //  Server.swift
-//  
+//
 //
 //  Created by Adam on 02/05/2023.
 //
@@ -15,7 +15,7 @@ public final class Server {
     private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🛟")
     private lazy var routeHandler = RouteHandler()
 
-    public init() { }
+    public init() {}
 
     public func start() throws {
         do {

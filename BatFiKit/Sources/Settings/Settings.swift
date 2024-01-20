@@ -1,6 +1,6 @@
 //
 //  Settings.swift
-//  
+//
 //
 //  Created by Adam on 05/05/2023.
 //
@@ -15,11 +15,11 @@ public final class SettingsController {
             ChargingView.pane,
             MenubarView.pane,
             NotificationsView.pane,
-            AdvancedView.pane
+            AdvancedView.pane,
         ]
     )
 
-    public init() { }
+    public init() {}
 
     public func openSettings() {
         settingsWindowController.show(pane: ChargingView.identifier)

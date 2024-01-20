@@ -1,6 +1,6 @@
 //
 //  LegendView.swift
-//  
+//
 //
 //  Created by Adam on 12/09/2023.
 //

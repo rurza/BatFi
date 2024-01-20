@@ -1,6 +1,6 @@
 //
 //  PowerSourceClient.swift
-//  
+//
 //
 //  Created by Adam on 28/04/2023.
 //
@@ -28,10 +28,9 @@ public struct PowerSourceClient: TestDependencyKey {
     public static var testValue: PowerSourceClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var powerSourceClient: PowerSourceClient {
+public extension DependencyValues {
+    var powerSourceClient: PowerSourceClient {
         get { self[PowerSourceClient.self] }
         set { self[PowerSourceClient.self] = newValue }
     }
 }
-

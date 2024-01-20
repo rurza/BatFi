@@ -10,14 +10,14 @@ import BatteryInfo
 import Defaults
 import DefaultsKeys
 import HighEnergyUsage
-import PowerInfo
 import PowerCharts
+import PowerInfo
 import SwiftUI
 
 struct MenuContainerView: View {
-    @Default(.showPowerDiagram)                 private var showPowerDiagram
-    @Default(.showHighEnergyImpactProcesses)    private var showHighEnergyImpactProcesses
-    @Default(.showChart)                        private var showChart
+    @Default(.showPowerDiagram) private var showPowerDiagram
+    @Default(.showHighEnergyImpactProcesses) private var showHighEnergyImpactProcesses
+    @Default(.showChart) private var showChart
 
     var body: some View {
         VStack(spacing: 12) {

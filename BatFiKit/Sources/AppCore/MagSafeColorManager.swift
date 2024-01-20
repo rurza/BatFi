@@ -1,6 +1,6 @@
 //
 //  MagSafeColorManager.swift
-//  
+//
 //
 //  Created by Adam on 16/07/2023.
 //
@@ -16,13 +16,13 @@ import Shared
 
 public final class MagSafeColorManager {
     private lazy var logger = Logger(category: "🚦👨‍💼")
-    @Dependency(\.magSafeLEDColor)      private var magSafeLEDColor
-    @Dependency(\.defaults)             private var defaults
-    @Dependency(\.appChargingState)     private var appChargingState
-    @Dependency(\.suspendingClock)      private var suspendingClock
-    @Dependency(\.powerSourceClient)    private var powerSourceClient
+    @Dependency(\.magSafeLEDColor) private var magSafeLEDColor
+    @Dependency(\.defaults) private var defaults
+    @Dependency(\.appChargingState) private var appChargingState
+    @Dependency(\.suspendingClock) private var suspendingClock
+    @Dependency(\.powerSourceClient) private var powerSourceClient
 
-    public init() { }
+    public init() {}
 
     public func setUpObserving() {
         Task {
@@ -37,7 +37,8 @@ public final class MagSafeColorManager {
                             appChargingState.observeChargingStateMode(),
                             powerSourceClient.powerSourceChanges()
                         )
-                    ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock)) {
+                    ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock))
+            {
                 await updateMagsafeLEDIndicator(
                     showGreenLightWhenInhibiting: greenLight,
                     blinkWhenDischarging: blinkWhenDischarging,
@@ -60,14 +61,13 @@ public final class MagSafeColorManager {
         appMode: AppChargingMode,
         limit: Int
     ) async {
-
-        if appMode == .inhibit && showGreenLightWhenInhibiting && powerState.batteryLevel >= limit {
+        if appMode == .inhibit, showGreenLightWhenInhibiting, powerState.batteryLevel >= limit {
             logger.debug("Should change the color of MagSafe to green")
             do {
                 _ = try await magSafeLEDColor.changeMagSafeLEDColor(.green)
                 logger.debug("Color changed! 🎉")
-            } catch { }
-        } else if appMode == .forceDischarge && blinkWhenDischarging {
+            } catch {}
+        } else if appMode == .forceDischarge, blinkWhenDischarging {
             _ = try? await magSafeLEDColor.changeMagSafeLEDColor(.errorOnce)
         } else {
             await resetMagSafeColor()

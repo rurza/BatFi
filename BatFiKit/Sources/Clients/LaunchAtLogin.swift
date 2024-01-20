@@ -1,6 +1,6 @@
 //
 //  LaunchAtLogin.swift
-//  
+//
 //
 //  Created by Adam on 01/06/2023.
 //
@@ -18,8 +18,8 @@ public struct LaunchAtLogin: TestDependencyKey {
     public static var testValue: LaunchAtLogin = unimplemented()
 }
 
-extension DependencyValues {
-    public var launchAtLogin: LaunchAtLogin {
+public extension DependencyValues {
+    var launchAtLogin: LaunchAtLogin {
         get { self[LaunchAtLogin.self] }
         set { self[LaunchAtLogin.self] = newValue }
     }

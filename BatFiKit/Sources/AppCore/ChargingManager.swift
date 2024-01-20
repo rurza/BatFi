@@ -1,6 +1,6 @@
 //
 //  ChargingManager.swift
-//  
+//
 //
 //  Created by Adam on 04/05/2023.
 //
@@ -17,19 +17,19 @@ import Settings
 import Shared
 
 public final class ChargingManager {
-    @Dependency(\.chargingClient)           private var chargingClient
-    @Dependency(\.powerSourceClient)        private var powerSourceClient
-    @Dependency(\.screenParametersClient)   private var screenParametersClient
-    @Dependency(\.sleepClient)              private var sleepClient
-    @Dependency(\.suspendingClock)          private var clock
-    @Dependency(\.appChargingState)         private var appChargingState
-    @Dependency(\.sleepAssertionClient)     private var sleepAssertionClient
-    @Dependency(\.defaults)                 private var defaults
+    @Dependency(\.chargingClient) private var chargingClient
+    @Dependency(\.powerSourceClient) private var powerSourceClient
+    @Dependency(\.screenParametersClient) private var screenParametersClient
+    @Dependency(\.sleepClient) private var sleepClient
+    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.appChargingState) private var appChargingState
+    @Dependency(\.sleepAssertionClient) private var sleepAssertionClient
+    @Dependency(\.defaults) private var defaults
 
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "🔌👨‍💼")
 
-    public init() { }
+    public init() {}
 
     public func setUpObserving() {
         Task {
@@ -83,12 +83,14 @@ public final class ChargingManager {
                         await inhibitCharging(chargerConnected: false)
                     } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
                                 !defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
-                                !defaults.value(.forceCharge) {
+                                !defaults.value(.forceCharge)
+                    {
                         logger.debug("I will inhibit charging, because user chose the option")
                         await inhibitCharging(chargerConnected: true)
                     } else if defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
                                 !defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
-                                !defaults.value(.forceCharge) {
+                                !defaults.value(.forceCharge)
+                    {
                         logger.debug("I will enable system charge limit, because user chose the option")
                         try? await chargingClient.enableSystemChargeLimit()
                     }
@@ -97,7 +99,6 @@ public final class ChargingManager {
                     try? await fetchAndUpdateAppChargingState()
                     await updateStatusWithCurrentState()
                 }
-
             }
         }
 
@@ -167,7 +168,7 @@ public final class ChargingManager {
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
-        guard manageCharging && !forceCharging else {
+        guard manageCharging, !forceCharging else {
             logger.debug("Manage charging is turned off or Force charge is turned on")
             await turnOnCharging(
                 preventSleeping: false,
@@ -177,7 +178,7 @@ public final class ChargingManager {
             )
             return
         }
-        if turnOffChargingWithHotBattery && powerState.batteryTemperature > 35 {
+        if turnOffChargingWithHotBattery, powerState.batteryTemperature > 35 {
             await inhibitCharging(chargerConnected: powerState.chargerConnected)
             return
         }
@@ -205,17 +206,17 @@ public final class ChargingManager {
         do {
             let currentBatteryLevel = powerState.batteryLevel
             if currentBatteryLevel >= chargeLimit {
-                if currentBatteryLevel > chargeLimit && allowDischarging && lidOpened && !computerIsAsleep {
+                if currentBatteryLevel > chargeLimit, allowDischarging, lidOpened, !computerIsAsleep {
                     await turnOnForceDischargeIfNeeded(chargerConnected: powerState.chargerConnected)
-                } else if enableSystemChargeLimitOnSleep && !inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
+                } else if enableSystemChargeLimitOnSleep, !inhibitChargingOnSleep, computerIsAsleep, !forceCharging {
                     try? await chargingClient.enableSystemChargeLimit()
                 } else {
                     await inhibitCharging(chargerConnected: powerState.chargerConnected)
                 }
                 restoreSleepifNeeded()
-            } else if inhibitChargingOnSleep && !enableSystemChargeLimitOnSleep && computerIsAsleep && !forceCharging {
+            } else if inhibitChargingOnSleep, !enableSystemChargeLimitOnSleep, computerIsAsleep, !forceCharging {
                 await inhibitCharging(chargerConnected: powerState.chargerConnected)
-            } else if enableSystemChargeLimitOnSleep && !inhibitChargingOnSleep && computerIsAsleep && !forceCharging {
+            } else if enableSystemChargeLimitOnSleep, !inhibitChargingOnSleep, computerIsAsleep, !forceCharging {
                 try? await chargingClient.enableSystemChargeLimit()
             } else {
                 await turnOnCharging(
@@ -271,7 +272,7 @@ public final class ChargingManager {
         } catch {
             logger.critical("Failed to turn on charging. Error: \(error)")
         }
-        if preventSleeping && chargerConnected && manageCharging {
+        if preventSleeping, chargerConnected, manageCharging {
             delaySleepIfNeeded()
         }
     }

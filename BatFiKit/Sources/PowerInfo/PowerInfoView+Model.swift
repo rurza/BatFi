@@ -11,7 +11,6 @@ import Dependencies
 import Shared
 
 extension PowerInfoView {
-
     @MainActor
     final class Model: ObservableObject {
         @Dependency(\.powerInfoClient) private var powerInfoClient
@@ -19,10 +18,10 @@ extension PowerInfoView {
 
         @Published
         private(set) var powerInfo: PowerInfo?
-        private var powerInfoChanges: Task<(), Never>?
-        private var menuChanges: Task<(), Never>?
+        private var powerInfoChanges: Task<Void, Never>?
+        private var menuChanges: Task<Void, Never>?
 
-        init() { 
+        init() {
             menuChanges = Task { [weak self] in
                 if let observeMenu = await self?.menuDelegate.observeMenu() {
                     for await menuIsVisible in observeMenu {

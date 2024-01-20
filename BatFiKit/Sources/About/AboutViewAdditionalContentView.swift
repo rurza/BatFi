@@ -1,6 +1,6 @@
 //
 //  AboutViewAdditionalContentView.swift
-//  
+//
 //
 //  Created by Adam on 21/06/2023.
 //
@@ -11,7 +11,7 @@ import SwiftUI
 
 struct AboutViewAdditionalContentView: View {
     @Environment(\.openURL) private var openURL
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Button {

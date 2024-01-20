@@ -1,6 +1,6 @@
 //
 //  GeneralView.swift
-//  
+//
 //
 //  Created by Adam on 05/05/2023.
 //
@@ -9,16 +9,16 @@ import Clients
 import Defaults
 import Dependencies
 import L10n
-import SwiftUI
-import SettingsKit
 import ServiceManagement
+import SettingsKit
+import SwiftUI
 
 struct GeneralView: View {
     @Default(.launchAtLogin) private var launchAtLogin
 
     @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
-    
+
     @Dependency(\.updater) private var updater
 
     var body: some View {
@@ -45,7 +45,6 @@ struct GeneralView: View {
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
-
             }
 
         }.onAppear {
@@ -54,19 +53,16 @@ struct GeneralView: View {
         }
     }
 
-    static let pane: Pane<Self> = {
-        Pane(
-            identifier: NSToolbarItem.Identifier("General"),
-            title: L10n.Settings.Tab.Title.general,
-            toolbarIcon: NSImage(
-                systemSymbolName: "gear",
-                accessibilityDescription: L10n.Settings.Accessibility.Title.general
-            )!
-        ) {
+    static let pane: Pane<Self> = Pane(
+        identifier: NSToolbarItem.Identifier("General"),
+        title: L10n.Settings.Tab.Title.general,
+        toolbarIcon: NSImage(
+            systemSymbolName: "gear",
+            accessibilityDescription: L10n.Settings.Accessibility.Title.general
+        )!
+    ) {
             Self()
         }
-
-    }()
 }
 
 struct GeneralView_Previews: PreviewProvider {

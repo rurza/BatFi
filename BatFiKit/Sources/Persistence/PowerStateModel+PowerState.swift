@@ -1,6 +1,6 @@
 //
 //  PowerStateModel+PowerState.swift
-//  
+//
 //
 //  Created by Adam on 12/07/2023.
 //
@@ -9,22 +9,22 @@ import AppShared
 import CoreData
 import Foundation
 
-extension PowerStateModel {
-    public convenience init(
+public extension PowerStateModel {
+    convenience init(
         powerState: PowerState,
         appMode: AppChargingMode,
         context: NSManagedObjectContext
     ) {
         self.init(context: context)
-        self.batteryLevel = Int16(powerState.batteryLevel)
-        self.batteryTemperature = powerState.batteryTemperature
-        self.chargerConnected = powerState.chargerConnected
-        self.isCharging = powerState.isCharging
-        self.timestamp = Date.now
+        batteryLevel = Int16(powerState.batteryLevel)
+        batteryTemperature = powerState.batteryTemperature
+        chargerConnected = powerState.chargerConnected
+        isCharging = powerState.isCharging
+        timestamp = Date.now
         self.appMode = appMode.rawValue
     }
 
-    public var point: PowerStatePoint {
+    var point: PowerStatePoint {
         PowerStatePoint(
             batteryLevel: batteryLevel,
             appMode: AppChargingMode(rawValue: appMode)!,

@@ -5,7 +5,6 @@ import Dependencies
 import os
 import Shared
 
-
 extension HighEnergyImpactClient: DependencyKey {
     public static var liveValue: HighEnergyImpactClient {
         let highEnergyLogger = Logger(category: "🅰️⚡️📊")
@@ -60,7 +59,8 @@ extension HighEnergyImpactClient: DependencyKey {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
                             if let info = topCoalitionInfo(threshold: threshold, duration: duration, capacity: capacity),
-                                info != prevInfo {
+                                info != prevInfo
+                            {
                                 highEnergyLogger.notice("New top coalition info: \(info, privacy: .public)")
                                 continuation.yield(info)
                                 prevInfo = info
@@ -79,7 +79,7 @@ extension HighEnergyImpactClient: DependencyKey {
     }
 }
 
-class Private {
+enum Private {
     static let systemstats_get_top_coalitions = {
         var systemstats_get_top_coalitionsPointer: UnsafeMutableRawPointer?
         if let handle = dlopen("/usr/lib/libsystemstats.dylib", RTLD_LAZY) {

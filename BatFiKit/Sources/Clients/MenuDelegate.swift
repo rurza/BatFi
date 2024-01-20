@@ -18,8 +18,8 @@ public struct MenuDelegate: TestDependencyKey {
     public static var testValue: MenuDelegate = unimplemented()
 }
 
-extension DependencyValues {
-    public var menuDelegate: MenuDelegate {
+public extension DependencyValues {
+    var menuDelegate: MenuDelegate {
         get { self[MenuDelegate.self] }
         set { self[MenuDelegate.self] = newValue }
     }
@@ -31,11 +31,11 @@ public final class MenuObserver: NSObject, NSMenuDelegate {
 
     public static let shared = MenuObserver()
 
-    public func menuWillOpen(_ menu: NSMenu) {
+    public func menuWillOpen(_: NSMenu) {
         menuIsOpened = true
     }
 
-    public func menuDidClose(_ menu: NSMenu) {
+    public func menuDidClose(_: NSMenu) {
         menuIsOpened = false
     }
 }
