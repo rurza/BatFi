@@ -24,8 +24,8 @@ struct InstallHelperView: View {
                 .aspectRatio(1.33333, contentMode: .fill)
             VStack(alignment: .leading, spacing: 10) {
                 Text(model.onboardingIsFinished ? l10n.Label.done : l10n.Label.almostDone)
-                .font(.system(size: 24, weight: .bold))
-                .animation(.default, value: model.onboardingIsFinished)
+                    .font(.system(size: 24, weight: .bold))
+                    .animation(.default, value: model.onboardingIsFinished)
                 ZStack(alignment: .topLeading) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text(l10n.Label.helperDescription)

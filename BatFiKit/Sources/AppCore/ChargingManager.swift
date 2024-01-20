@@ -82,14 +82,14 @@ public final class ChargingManager {
                         logger.debug("I will inhibit charging, current mode is force discharge")
                         await inhibitCharging(chargerConnected: false)
                     } else if defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
-                                !defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
-                                !defaults.value(.forceCharge)
+                        !defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
+                        !defaults.value(.forceCharge)
                     {
                         logger.debug("I will inhibit charging, because user chose the option")
                         await inhibitCharging(chargerConnected: true)
                     } else if defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) &&
-                                !defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
-                                !defaults.value(.forceCharge)
+                        !defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
+                        !defaults.value(.forceCharge)
                     {
                         logger.debug("I will enable system charge limit, because user chose the option")
                         try? await chargingClient.enableSystemChargeLimit()

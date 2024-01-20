@@ -75,6 +75,6 @@ struct AdvancedView: View {
             accessibilityDescription: L10n.Settings.Accessibility.Title.advanced
         )!
     ) {
-            Self()
-        }
+        Self()
+    }
 }

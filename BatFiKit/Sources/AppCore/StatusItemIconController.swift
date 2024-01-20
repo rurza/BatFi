@@ -57,8 +57,7 @@ public final class StatusItemIconController {
                     defaults.observe(.monochromeStatusIcon)
                 )
             )
-                .debounce(for: .milliseconds(200), clock: AnyClock(self.clock))
-            {
+            .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
                 model.batteryLevel = powerState.batteryLevel
                 model.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
                 model.monochrome = showMonochrome

@@ -61,8 +61,8 @@ struct GeneralView: View {
             accessibilityDescription: L10n.Settings.Accessibility.Title.general
         )!
     ) {
-            Self()
-        }
+        Self()
+    }
 }
 
 struct GeneralView_Previews: PreviewProvider {

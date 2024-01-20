@@ -42,7 +42,7 @@ struct RollingNumberLabel: View {
                             .monospacedDigit()
                             .offset(y: -CGFloat(animationRange[index]) * size.height)
                         }
-                            .clipped()
+                        .clipped()
                     )
             }
         }

@@ -27,12 +27,12 @@ public struct SMCStatus: Codable, CustomStringConvertible {
     }
 
     public var description: String {
-    """
-    Status:
-    forceDischarging: \(forceDischarging)
-    inhitbitCharging: \(inhitbitCharging)
-    lidClosed: \(lidClosed)
-    computed isCharging: \(isCharging)
-    """
+        """
+        Status:
+        forceDischarging: \(forceDischarging)
+        inhitbitCharging: \(inhitbitCharging)
+        lidClosed: \(lidClosed)
+        computed isCharging: \(isCharging)
+        """
     }
 }

@@ -41,9 +41,9 @@ extension HighEnergyImpactClient: DependencyKey {
                     if let bundle = Bundle(url: url) {
                         displayName = (
                             bundle.localizedInfoDictionary?["CFBundleDisplayName"] as? String ??
-                            bundle.infoDictionary?["CFBundleDisplayName"] as? String ??
-                            bundle.localizedInfoDictionary?[kCFBundleNameKey as String] as? String ??
-                            bundle.infoDictionary?[kCFBundleNameKey as String] as? String
+                                bundle.infoDictionary?["CFBundleDisplayName"] as? String ??
+                                bundle.localizedInfoDictionary?[kCFBundleNameKey as String] as? String ??
+                                bundle.infoDictionary?[kCFBundleNameKey as String] as? String
                         )
                     }
                 }
@@ -59,7 +59,7 @@ extension HighEnergyImpactClient: DependencyKey {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
                             if let info = topCoalitionInfo(threshold: threshold, duration: duration, capacity: capacity),
-                                info != prevInfo
+                               info != prevInfo
                             {
                                 highEnergyLogger.notice("New top coalition info: \(info, privacy: .public)")
                                 continuation.yield(info)
@@ -87,7 +87,7 @@ enum Private {
             dlclose(handle)
         }
         let systemstats_get_top_coalitions =
-        unsafeBitCast(systemstats_get_top_coalitionsPointer, to: (@convention(c) (_ duration: Int, _ count: Int) -> Unmanaged<NSDictionary>)?.self)
+            unsafeBitCast(systemstats_get_top_coalitionsPointer, to: (@convention(c) (_ duration: Int, _ count: Int) -> Unmanaged<NSDictionary>)?.self)
         return systemstats_get_top_coalitions
     }()
 }

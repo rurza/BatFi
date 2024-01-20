@@ -56,8 +56,8 @@ private struct PowerGraphItem: View {
     var body: some View {
         GroupBox {
             HStack(spacing: 5) {
-                    Image(systemName: type.rawValue)
-                        .frame(width: 20, height: 20)
+                Image(systemName: type.rawValue)
+                    .frame(width: 20, height: 20)
                 Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
                     .monospacedDigit()
             }

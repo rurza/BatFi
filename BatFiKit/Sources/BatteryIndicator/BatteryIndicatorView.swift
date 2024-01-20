@@ -64,67 +64,67 @@ func fontSize(height: Double, fraction: Double) -> Double {
 }
 
 #if DEBUG
-struct DemoView: View {
-    @StateObject var model = BatteryIndicatorView.Model(
-        chargingMode: .inhibited,
-        batteryLevel: 95,
-        monochrome: true,
-        showPercentage: false
-    )
-    @State private var percentage: Double = 55
+    struct DemoView: View {
+        @StateObject var model = BatteryIndicatorView.Model(
+            chargingMode: .inhibited,
+            batteryLevel: 95,
+            monochrome: true,
+            showPercentage: false
+        )
+        @State private var percentage: Double = 55
 
-    var body: some View {
-        VStack {
-            BatteryIndicatorView(model: model)
-                .frame(width: 33, height: 13)
-                .padding()
+        var body: some View {
+            VStack {
+                BatteryIndicatorView(model: model)
+                    .frame(width: 33, height: 13)
+                    .padding()
 
-            Divider()
-            VStack(alignment: .leading) {
-                Toggle("Mono", isOn: $model.monochrome)
-                Toggle("%", isOn: $model.showPercentage)
-                HStack {
-                    Button {
-                        if percentage > 0 {
-                            percentage -= 1
+                Divider()
+                VStack(alignment: .leading) {
+                    Toggle("Mono", isOn: $model.monochrome)
+                    Toggle("%", isOn: $model.showPercentage)
+                    HStack {
+                        Button {
+                            if percentage > 0 {
+                                percentage -= 1
+                            }
+                        } label: {
+                            Text("-")
                         }
-                    } label: {
-                        Text("-")
-                    }
-                    Slider(value: $percentage, in: 0 ... 100) {
-                        Text("Percentage")
-                    }
-                    Button {
-                        if percentage < 100 {
-                            percentage += 1
+                        Slider(value: $percentage, in: 0 ... 100) {
+                            Text("Percentage")
                         }
-                    } label: {
-                        Text("+")
+                        Button {
+                            if percentage < 100 {
+                                percentage += 1
+                            }
+                        } label: {
+                            Text("+")
+                        }
                     }
+                    Picker(selection: $model.chargingMode) {
+                        Text("Charging").tag(BatteryIndicatorView.Model.ChargingMode.charging)
+                        Text("Discharging").tag(BatteryIndicatorView.Model.ChargingMode.discharging)
+                        Text("Inhibited").tag(BatteryIndicatorView.Model.ChargingMode.inhibited)
+                    } label: {
+                        Text("Choose mode:")
+                    }
+                    .pickerStyle(.radioGroup)
                 }
-                Picker(selection: $model.chargingMode) {
-                    Text("Charging").tag(BatteryIndicatorView.Model.ChargingMode.charging)
-                    Text("Discharging").tag(BatteryIndicatorView.Model.ChargingMode.discharging)
-                    Text("Inhibited").tag(BatteryIndicatorView.Model.ChargingMode.inhibited)
-                } label: {
-                    Text("Choose mode:")
-                }
-                .pickerStyle(.radioGroup)
             }
+            .onChange(of: percentage, perform: { newValue in
+                model.batteryLevel = Int(newValue)
+            })
+            .padding()
+            .frame(width: 300)
+            .background(.thinMaterial)
+            .presentedWindowStyle(.hiddenTitleBar)
         }
-        .onChange(of: percentage, perform: { newValue in
-            model.batteryLevel = Int(newValue)
-        })
-        .padding()
-        .frame(width: 300)
-        .background(.thinMaterial)
-        .presentedWindowStyle(.hiddenTitleBar)
     }
-}
 
-struct DemoView_Previews: PreviewProvider {
-    static var previews: some View {
-        DemoView()
+    struct DemoView_Previews: PreviewProvider {
+        static var previews: some View {
+            DemoView()
+        }
     }
-}
 #endif

@@ -13,7 +13,7 @@ struct LegendView: View {
 
     var body: some View {
         HStack(spacing: 4) {
-           Circle()
+            Circle()
                 .frame(width: 8, height: 8)
                 .foregroundColor(color)
                 .overlay {

@@ -87,8 +87,8 @@ public class NotificationsManager: NSObject {
                 defaults.observe(.manageCharging)
             ) {
                 guard chargingMode != .chargerNotConnected
-                        && chargingMode != .initial
-                        && manageCharging else { continue }
+                    && chargingMode != .initial
+                    && manageCharging else { continue }
                 logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }

@@ -27,17 +27,17 @@ public final class MagSafeColorManager {
     public func setUpObserving() {
         Task {
             for await ((greenLight, blinkWhenDischarging, limit), (mode, powerState)) in
+                combineLatest(
                     combineLatest(
-                        combineLatest(
-                            defaults.observe(.showGreenLightMagSafeWhenInhibiting),
-                            defaults.observe(.blinkMagSafeWhenDischarging),
-                            defaults.observe(.chargeLimit)
-                        ),
-                        combineLatest(
-                            appChargingState.observeChargingStateMode(),
-                            powerSourceClient.powerSourceChanges()
-                        )
-                    ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock))
+                        defaults.observe(.showGreenLightMagSafeWhenInhibiting),
+                        defaults.observe(.blinkMagSafeWhenDischarging),
+                        defaults.observe(.chargeLimit)
+                    ),
+                    combineLatest(
+                        appChargingState.observeChargingStateMode(),
+                        powerSourceClient.powerSourceChanges()
+                    )
+                ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock))
             {
                 await updateMagsafeLEDIndicator(
                     showGreenLightWhenInhibiting: greenLight,

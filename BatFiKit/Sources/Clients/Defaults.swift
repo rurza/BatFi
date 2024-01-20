@@ -20,7 +20,7 @@ public protocol DefaultsProtocol {
 }
 
 public enum DefaultsKey: TestDependencyKey {
-  public static let testValue: any DefaultsProtocol = unimplemented()
+    public static let testValue: any DefaultsProtocol = unimplemented()
 }
 
 public extension DependencyValues {

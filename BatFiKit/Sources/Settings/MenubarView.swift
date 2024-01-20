@@ -48,6 +48,6 @@ struct MenubarView: View {
             accessibilityDescription: L10n.Settings.Accessibility.Title.statusBar
         )!
     ) {
-            Self()
-        }
+        Self()
+    }
 }

@@ -9,9 +9,9 @@ import Defaults
 import Foundation
 
 #if DEBUG
-private let showDebugMenuByDefault = true
+    private let showDebugMenuByDefault = true
 #else
-private let showDebugMenuByDefault = false
+    private let showDebugMenuByDefault = false
 #endif
 
 public extension Defaults.Keys {

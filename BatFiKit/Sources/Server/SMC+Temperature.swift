@@ -55,27 +55,27 @@ enum TemperatureSensors {
     static let CPU_0_HEATSINK = TemperatureSensor(name: "CPU_0_HEATSINK",
                                                   code: FourCharCode(fromStaticString: "TC0H"))
     static let CPU_0_PROXIMITY =
-    TemperatureSensor(name: "CPU_0_PROXIMITY",
-                      code: FourCharCode(fromStaticString: "TC0P"))
+        TemperatureSensor(name: "CPU_0_PROXIMITY",
+                          code: FourCharCode(fromStaticString: "TC0P"))
     static let ENCLOSURE_BASE_0 =
-    TemperatureSensor(name: "ENCLOSURE_BASE_0",
-                      code: FourCharCode(fromStaticString: "TB0T"))
+        TemperatureSensor(name: "ENCLOSURE_BASE_0",
+                          code: FourCharCode(fromStaticString: "TB0T"))
     static let ENCLOSURE_BASE_1 =
-    TemperatureSensor(name: "ENCLOSURE_BASE_1",
-                      code: FourCharCode(fromStaticString: "TB1T"))
+        TemperatureSensor(name: "ENCLOSURE_BASE_1",
+                          code: FourCharCode(fromStaticString: "TB1T"))
     static let ENCLOSURE_BASE_2 =
-    TemperatureSensor(name: "ENCLOSURE_BASE_2",
-                      code: FourCharCode(fromStaticString: "TB2T"))
+        TemperatureSensor(name: "ENCLOSURE_BASE_2",
+                          code: FourCharCode(fromStaticString: "TB2T"))
     static let ENCLOSURE_BASE_3 =
-    TemperatureSensor(name: "ENCLOSURE_BASE_3",
-                      code: FourCharCode(fromStaticString: "TB3T"))
+        TemperatureSensor(name: "ENCLOSURE_BASE_3",
+                          code: FourCharCode(fromStaticString: "TB3T"))
     static let GPU_0_DIODE = TemperatureSensor(name: "GPU_0_DIODE",
                                                code: FourCharCode(fromStaticString: "TG0D"))
     static let GPU_0_HEATSINK = TemperatureSensor(name: "GPU_0_HEATSINK",
                                                   code: FourCharCode(fromStaticString: "TG0H"))
     static let GPU_0_PROXIMITY =
-    TemperatureSensor(name: "GPU_0_PROXIMITY",
-                      code: FourCharCode(fromStaticString: "TG0P"))
+        TemperatureSensor(name: "GPU_0_PROXIMITY",
+                          code: FourCharCode(fromStaticString: "TG0P"))
     static let HDD_PROXIMITY = TemperatureSensor(name: "HDD_PROXIMITY",
                                                  code: FourCharCode(fromStaticString: "TH0P"))
     static let HEATSINK_0 = TemperatureSensor(name: "HEATSINK_0",
@@ -89,25 +89,25 @@ enum TemperatureSensors {
     static let MEM_SLOT_0 = TemperatureSensor(name: "MEM_SLOT_0",
                                               code: FourCharCode(fromStaticString: "TM0S"))
     static let MEM_SLOTS_PROXIMITY =
-    TemperatureSensor(name: "MEM_SLOTS_PROXIMITY",
-                      code: FourCharCode(fromStaticString: "TM0P"))
+        TemperatureSensor(name: "MEM_SLOTS_PROXIMITY",
+                          code: FourCharCode(fromStaticString: "TM0P"))
     static let MISC_PROXIMITY = TemperatureSensor(name: "MISC_PROXIMITY",
                                                   code: FourCharCode(fromStaticString: "Tm0P"))
     static let NORTHBRIDGE = TemperatureSensor(name: "NORTHBRIDGE",
                                                code: FourCharCode(fromStaticString: "TN0H"))
     static let NORTHBRIDGE_DIODE =
-    TemperatureSensor(name: "NORTHBRIDGE_DIODE",
-                      code: FourCharCode(fromStaticString: "TN0D"))
+        TemperatureSensor(name: "NORTHBRIDGE_DIODE",
+                          code: FourCharCode(fromStaticString: "TN0D"))
     static let NORTHBRIDGE_PROXIMITY =
-    TemperatureSensor(name: "NORTHBRIDGE_PROXIMITY",
-                      code: FourCharCode(fromStaticString: "TN0P"))
+        TemperatureSensor(name: "NORTHBRIDGE_PROXIMITY",
+                          code: FourCharCode(fromStaticString: "TN0P"))
     static let ODD_PROXIMITY = TemperatureSensor(name: "ODD_PROXIMITY",
                                                  code: FourCharCode(fromStaticString: "TO0P"))
     static let PALM_REST = TemperatureSensor(name: "PALM_REST",
                                              code: FourCharCode(fromStaticString: "Ts0P"))
     static let PWR_SUPPLY_PROXIMITY =
-    TemperatureSensor(name: "PWR_SUPPLY_PROXIMITY",
-                      code: FourCharCode(fromStaticString: "Tp0P"))
+        TemperatureSensor(name: "PWR_SUPPLY_PROXIMITY",
+                          code: FourCharCode(fromStaticString: "Tp0P"))
     static let THUNDERBOLT_0 = TemperatureSensor(name: "THUNDERBOLT_0",
                                                  code: FourCharCode(fromStaticString: "TI0P"))
     static let THUNDERBOLT_1 = TemperatureSensor(name: "THUNDERBOLT_1",

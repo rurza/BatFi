@@ -47,6 +47,6 @@ struct NotificationsView: View {
             accessibilityDescription: L10n.Settings.Accessibility.Title.notifications
         )!
     ) {
-            Self()
-        }
+        Self()
+    }
 }

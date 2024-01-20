@@ -120,9 +120,9 @@ extension FourCharCode {
 
     func toString() -> String {
         return String(describing: UnicodeScalar(self >> 24 & 0xFF)!) +
-        String(describing: UnicodeScalar(self >> 16 & 0xFF)!) +
-        String(describing: UnicodeScalar(self >> 8 & 0xFF)!) +
-        String(describing: UnicodeScalar(self & 0xFF)!)
+            String(describing: UnicodeScalar(self >> 16 & 0xFF)!) +
+            String(describing: UnicodeScalar(self >> 8 & 0xFF)!) +
+            String(describing: UnicodeScalar(self & 0xFF)!)
     }
 }
 
@@ -242,21 +242,21 @@ struct SMCParamStruct {
 enum DataTypes {
     /// Fan information struct
     static let FDS =
-    DataType(type: FourCharCode(fromStaticString: "{fds"), size: 16)
+        DataType(type: FourCharCode(fromStaticString: "{fds"), size: 16)
     static let Flag =
-    DataType(type: FourCharCode(fromStaticString: "flag"), size: 1)
+        DataType(type: FourCharCode(fromStaticString: "flag"), size: 1)
     /// See type aliases
     static let FPE2 =
-    DataType(type: FourCharCode(fromStaticString: "fpe2"), size: 2)
+        DataType(type: FourCharCode(fromStaticString: "fpe2"), size: 2)
     /// See type aliases
     static let SP78 =
-    DataType(type: FourCharCode(fromStaticString: "sp78"), size: 2)
+        DataType(type: FourCharCode(fromStaticString: "sp78"), size: 2)
     static let UInt8 =
-    DataType(type: FourCharCode(fromStaticString: "ui8 "), size: 1)
+        DataType(type: FourCharCode(fromStaticString: "ui8 "), size: 1)
     static let UInt32 =
-    DataType(type: FourCharCode(fromStaticString: "ui32"), size: 4)
+        DataType(type: FourCharCode(fromStaticString: "ui32"), size: 4)
     static let Float =
-    DataType(type: FourCharCode(fromStaticString: "flt "), size: 4)
+        DataType(type: FourCharCode(fromStaticString: "flt "), size: 4)
 }
 
 struct SMCKey {

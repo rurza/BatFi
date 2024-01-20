@@ -89,7 +89,7 @@ final class RouteHandler {
             return SMCStatus(
                 forceDischarging: forceDischarging.0 == 01,
                 inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
-                || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
+                    || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
                 lidClosed: lidClosed.0 == 01
             )
         }

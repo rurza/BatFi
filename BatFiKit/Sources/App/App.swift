@@ -118,9 +118,9 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
         arrowWindow = window
         window.show()
-         Task {
-             try await clock.sleep(for: .seconds(7))
-             arrowWindow?.close()
+        Task {
+            try await clock.sleep(for: .seconds(7))
+            arrowWindow?.close()
         }
     }
 

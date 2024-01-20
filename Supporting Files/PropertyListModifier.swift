@@ -47,7 +47,7 @@ func readEnvironmentVariable(name: String, description: String, isUserDefined: B
         var message = "Unable to determine \(description), missing \(name) environment variable."
         if isUserDefined {
             message += " This is a user-defined variable. Please check that the xcconfig files are present and " +
-            "configured in the project settings."
+                "configured in the project settings."
         }
         throw ScriptError.general(message)
     }
@@ -115,17 +115,17 @@ func organizationalUnitRequirement() throws -> String {
         throw ScriptError.general("Signing Certificate must be Development. Sign to Run Locally is not supported.")
     }
 
-    let developmentTeamId = try readEnvironmentVariable(name: "DEVELOPMENT_TEAM",
+    let developmentTeamID = try readEnvironmentVariable(name: "DEVELOPMENT_TEAM",
                                                         description: "development team for code signing",
                                                         isUserDefined: false)
-    guard developmentTeamId.range(of: #"^[A-Z0-9]{10}$"#, options: .regularExpression) != nil else {
-        if developmentTeamId == "-" {
+    guard developmentTeamID.range(of: #"^[A-Z0-9]{10}$"#, options: .regularExpression) != nil else {
+        if developmentTeamID == "-" {
             throw ScriptError.general("Development Team for code signing is not set")
         } else {
-            throw ScriptError.general("Development Team for code signing is invalid: \(developmentTeamId)")
+            throw ScriptError.general("Development Team for code signing is invalid: \(developmentTeamID)")
         }
     }
-    let certificateString = "certificate leaf[subject.OU] = \"\(developmentTeamId)\""
+    let certificateString = "certificate leaf[subject.OU] = \"\(developmentTeamID)\""
 
     return certificateString
 }
@@ -318,14 +318,14 @@ enum BundleVersion {
         {
             self = .major(major)
         } else if versionParts.count == 2,
-                let major = UInt(versionParts[0]),
-                let minor = UInt(versionParts[1])
+                  let major = UInt(versionParts[0]),
+                  let minor = UInt(versionParts[1])
         {
             self = .majorMinor(major, minor)
         } else if versionParts.count == 3,
-                let major = UInt(versionParts[0]),
-                let minor = UInt(versionParts[1]),
-                let patch = UInt(versionParts[2])
+                  let major = UInt(versionParts[0]),
+                  let minor = UInt(versionParts[1]),
+                  let patch = UInt(versionParts[2])
         {
             self = .majorMinorPatch(major, minor, patch)
         } else {
@@ -408,20 +408,20 @@ enum TargetType: String {
 
 /// Determines whether this script is running for the app or the helper tool.
 func determineTargetType() throws -> TargetType {
-    let bundleId = try readEnvironmentVariable(name: "PRODUCT_BUNDLE_IDENTIFIER",
+    let bundleID = try readEnvironmentVariable(name: "PRODUCT_BUNDLE_IDENTIFIER",
                                                description: "bundle id",
                                                isUserDefined: false)
 
     let appBundleIdentifier = try TargetType.app.bundleIdentifier()
     let helperToolBundleIdentifier = try TargetType.helperTool.bundleIdentifier()
-    if bundleId == appBundleIdentifier {
+    if bundleID == appBundleIdentifier {
         return TargetType.app
-    } else if bundleId == helperToolBundleIdentifier {
+    } else if bundleID == helperToolBundleIdentifier {
         return TargetType.helperTool
     } else {
-        throw ScriptError.general("Unexpected bundle id \(bundleId) encountered. This means you need to update the " +
-                                  "user defined variables APP_BUNDLE_IDENTIFIER and/or " +
-                                  "HELPER_TOOL_BUNDLE_IDENTIFIER in Config.xcconfig.")
+        throw ScriptError.general("Unexpected bundle id \(bundleID) encountered. This means you need to update the " +
+            "user defined variables APP_BUNDLE_IDENTIFIER and/or " +
+            "HELPER_TOOL_BUNDLE_IDENTIFIER in Config.xcconfig.")
     }
 }
 

@@ -105,8 +105,8 @@ struct ChargingView: View {
             accessibilityDescription: L10n.Settings.Accessibility.Title.charging
         )!
     ) {
-            Self()
-        }
+        Self()
+    }
 
     static var identifier: NSToolbarItem.Identifier { .init("Charging") }
 }

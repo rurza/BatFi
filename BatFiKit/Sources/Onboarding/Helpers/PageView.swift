@@ -22,20 +22,20 @@ struct PageView<Content: View>: View {
                     showsIndicators: false,
                     offset: $offset
                 ) {
-                        ScrollViewReader { scrollView in
-                            LazyHStack(spacing: 10) {
-                                content()
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                                    .frame(width: proxy.size.width)
-                            }
-                            .frame(maxHeight: .infinity)
-                            .onChange(of: index) { newValue in
-                                withAnimation {
-                                    scrollView.scrollTo(newValue)
-                                }
+                    ScrollViewReader { scrollView in
+                        LazyHStack(spacing: 10) {
+                            content()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                                .frame(width: proxy.size.width)
+                        }
+                        .frame(maxHeight: .infinity)
+                        .onChange(of: index) { newValue in
+                            withAnimation {
+                                scrollView.scrollTo(newValue)
                             }
                         }
                     }
+                }
                 .frame(width: proxy.size.width, height: proxy.size.height)
             }
         }
