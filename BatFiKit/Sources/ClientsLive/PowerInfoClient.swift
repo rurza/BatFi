@@ -26,7 +26,7 @@ extension PowerInfoClient: DependencyKey {
                         var prevInfo: PowerInfo?
                         while !Task.isCancelled {
                             if let info = try? await powerInfo(), info != prevInfo {
-                                logger.debug("New power info: \(info, privacy: .public)")
+                                logger.notice("New power info: \(info, privacy: .public)")
                                 continuation.yield(info)
                                 prevInfo = info
                             }
@@ -34,7 +34,7 @@ extension PowerInfoClient: DependencyKey {
                         }
                     }
                     continuation.onTermination = { _ in
-                        logger.debug("terminating stream")
+                        logger.notice("terminating power info stream")
                         task.cancel()
                     }
                 }

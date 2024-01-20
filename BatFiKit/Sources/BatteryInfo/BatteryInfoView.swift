@@ -57,7 +57,7 @@ public struct BatteryInfoView: View {
                         }
                         BatteryAdditionalInfo(
                             label: l10n.Additional.batteryCapacity,
-                            info: percentageFormatter.string(from: NSNumber(floatLiteral: powerState.batteryCapacity))!
+                            info: powerState.batteryHealth ?? l10n.Additional.unknownHealth
                         )
                     }
                     .frame(maxWidth: .infinity)

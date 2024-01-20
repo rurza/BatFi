@@ -69,7 +69,7 @@ extension HighEnergyUsageView {
             changesTask = Task { @MainActor [weak self] in
                 guard let self else { return }
                 for await info in self.highEnergyImpactClient.topCoalitionInfoChanges(threshold, duration, capacity) {
-                    print("new coalition")
+                    print("new coalition: \(info)")
                     self.topCoalitionInfo = info
                 }
             }
