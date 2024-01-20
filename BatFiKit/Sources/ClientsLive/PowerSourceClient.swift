@@ -18,39 +18,21 @@ extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "⚡️")
         let observer = Observer(logger: logger)
-        let getPowerSourceQueue = DispatchQueue.global(qos: .userInitiated) // (label: "software.micropixels.BatFi.PowerSourceClient")
-        let getBatteryHealthQueue = DispatchQueue(label: "software.micropixels.BatFi.GetBatteryHealth")
 
+        @Sendable
         func getBatteryHealth() -> String? {
-            let semaphore = DispatchSemaphore(value: 0)
-            var outputData: Data?
+            let task = Process()
+            task.launchPath = "/usr/sbin/system_profiler"
+            task.arguments = ["SPPowerDataType"]
 
-            if Thread.isMainThread {
-                logger.warning("getBatteryHealth() called on the main thread!")
-            }
+            let pipe = Pipe()
+            task.standardOutput = pipe
+            task.launch()
 
-            getBatteryHealthQueue.async {
-                if Thread.isMainThread {
-                    logger.warning("Launching NSTask and waiting on the main thread!")
-                }
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            task.waitUntilExit()
 
-                let task = Process()
-                task.launchPath = "/usr/sbin/system_profiler"
-                task.arguments = ["SPPowerDataType"]
-
-                let pipe = Pipe()
-                task.standardOutput = pipe
-                task.launch()
-
-                outputData = pipe.fileHandleForReading.readDataToEndOfFile()
-                task.waitUntilExit()
-
-                semaphore.signal()
-            }
-
-            semaphore.wait()
-
-            if let data = outputData, let output = String(data: data, encoding: .utf8) {
+            if let output = String(data: data, encoding: .utf8) {
                 let lines = output.split(separator: "\n")
                 for line in lines {
                     if line.contains("Maximum Capacity") {
@@ -67,11 +49,8 @@ extension PowerSourceClient: DependencyKey {
             return nil
         }
 
-        func getPowerSourceInfo() throws -> PowerState {
-            if Thread.isMainThread {
-                logger.warning("getPowerSourceInfo() called on the main thread!")
-            }
-
+        @Sendable
+        func getPowerSourceInfo() async throws -> PowerState {
             func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
                 if let valueRef = IORegistryEntryCreateCFProperty(service, identifier as CFString, kCFAllocatorDefault, 0) {
                     let value = valueRef.takeUnretainedValue() as? DataType
@@ -145,24 +124,24 @@ extension PowerSourceClient: DependencyKey {
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
-                    do {
-                        let initialState = try getPowerSourceQueue.sync {
-                            try getPowerSourceInfo()
+                    Task {
+                        do {
+                            let initialState = try await getPowerSourceInfo()
+                            continuation.yield(initialState)
+                        } catch {
+                            logger.error("Can't get the current power source info")
                         }
-                        continuation.yield(initialState)
-                    } catch {
-                        logger.error("Can't get the current power source info")
                     }
-                    let id = UUID()
-                    observer.addHandler(id) {
-                        let powerState = try? getPowerSourceQueue.sync {
-                            try getPowerSourceInfo()
-                        }
-                        if let powerState {
-                            logger.notice("Power state did change: \(powerState, privacy: .public)")
-                            continuation.yield(powerState)
-                        } else {
-                            logger.error("New power state, but there is an info missing")
+
+                    let id = observer.addHandler {
+                        Task {
+                            do {
+                                let powerState = try await getPowerSourceInfo()
+                                logger.notice("Power state did change: \(powerState, privacy: .public)")
+                                continuation.yield(powerState)
+                            } catch {
+                                logger.error("New power state, but there is an info missing")
+                            }
                         }
                     }
                     continuation.onTermination = { _ in
@@ -171,10 +150,7 @@ extension PowerSourceClient: DependencyKey {
                 }
             },
             currentPowerSourceState: {
-                let state = try getPowerSourceQueue.sync {
-                    try getPowerSourceInfo()
-                }
-                return state
+                try await getPowerSourceInfo()
             }
         )
 
@@ -219,10 +195,12 @@ extension PowerSourceClient: DependencyKey {
             }
         }
 
-        func addHandler(_ id: UUID, _ handler: @escaping () -> Void) {
+        func addHandler(_ handler: @escaping () -> Void) -> UUID {
+            let id = UUID()
             handlersQueue.sync { [weak self] in
                 self?.handlers[id] = handler
             }
+            return id
         }
     }
 }

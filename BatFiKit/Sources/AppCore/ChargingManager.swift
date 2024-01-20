@@ -124,7 +124,7 @@ public final class ChargingManager {
     }
 
     private func updateStatusWithCurrentState() async {
-        let powerState = try? powerSourceClient.currentPowerSourceState()
+        let powerState = try? await powerSourceClient.currentPowerSourceState()
         if let powerState {
             let chargeLimit = defaults.value(.chargeLimit)
             let manageCharging = defaults.value(.manageCharging)
@@ -284,7 +284,7 @@ public final class ChargingManager {
             if chargerConnected || mode == .forceDischarge {
                 try await chargingClient.inhibitCharging()
                 // fetch the power state to check if the charger is connected
-                let powerState = try? powerSourceClient.currentPowerSourceState()
+                let powerState = try? await powerSourceClient.currentPowerSourceState()
                 if let powerState, powerState.chargerConnected {
                     await appChargingState.updateChargingStateMode(.inhibit)
                     logger.debug("Inhibit Charging TURNED ON")
@@ -312,7 +312,7 @@ public final class ChargingManager {
     private func fetchAndUpdateAppChargingState() async throws {
         do {
             logger.debug("Fetching charging status")
-            let powerState = try powerSourceClient.currentPowerSourceState()
+            let powerState = try await powerSourceClient.currentPowerSourceState()
             let chargingStatus = try await chargingClient.chargingStatus()
             let forceChargeSettings = defaults.value(.forceCharge)
             logger.debug("Current status: \(chargingStatus.description, privacy: .public)")

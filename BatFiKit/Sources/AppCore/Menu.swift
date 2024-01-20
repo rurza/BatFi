@@ -47,6 +47,7 @@ public final class MenuController {
 
     public weak var delegate: MenuControllerDelegate?
     private let menuDelegate = MenuObserver.shared
+    private let batteryInfoModel = BatteryInfoView.Model()
 
     public init(statusItem: NSStatusItem) {
         self.statusItem = statusItem
@@ -98,6 +99,7 @@ public final class MenuController {
                 .view {
                     MenuContainerView()
                         .modifier(MenuViewModifier())
+                        .environmentObject(batteryInfoModel)
                 }
             SeparatorItem()
             if dependencies.appChargingState == .forceDischarge || dependencies.appChargingState == .chargerNotConnected {

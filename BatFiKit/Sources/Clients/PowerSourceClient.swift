@@ -15,11 +15,11 @@ public enum PowerSourceError: Error {
 
 public struct PowerSourceClient: TestDependencyKey {
     public var powerSourceChanges: () -> AsyncStream<PowerState>
-    public var currentPowerSourceState: () throws -> PowerState
+    public var currentPowerSourceState: () async throws -> PowerState
 
     public init(
         powerSourceChanges: @escaping () -> AsyncStream<PowerState>,
-        currentPowerSourceState: @escaping () throws -> PowerState
+        currentPowerSourceState: @escaping () async throws -> PowerState
     ) {
         self.powerSourceChanges = powerSourceChanges
         self.currentPowerSourceState = currentPowerSourceState

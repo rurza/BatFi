@@ -12,7 +12,7 @@ import Dependencies
 import Foundation
 import Shared
 
-extension BatteryInfoView {
+public extension BatteryInfoView {
     @MainActor
     final class Model: ObservableObject {
         @Dependency(\.powerSourceClient) private var powerSourceClient
@@ -38,13 +38,17 @@ extension BatteryInfoView {
         private var chargingStateModeChanges: Task<Void, Never>?
         private var powerSourceChanges: Task<Void, Never>?
 
-        init() {
-            state = try? powerSourceClient.currentPowerSourceState()
+        public init() {
+            Task {
+                state = try? await powerSourceClient.currentPowerSourceState()
+            }
             menuTask = Task { [weak self] in
                 if let menuChanged = await self?.menuDelegate.observeMenu() {
                     for await menuIsOpened in menuChanged {
                         if menuIsOpened {
                             self?.observeChargingStateAndPowerSourceChanges()
+                        } else {
+                            self?.cancelObserving()
                         }
                     }
                 }
@@ -52,7 +56,6 @@ extension BatteryInfoView {
         }
 
         private func observeChargingStateAndPowerSourceChanges() {
-            cancelObserving()
             chargingStateModeChanges = Task { [weak self] in
                 guard let self else { return }
                 for await (mode, manageCharging) in combineLatest(
@@ -104,6 +107,7 @@ extension BatteryInfoView {
             chargingStateModeChanges?.cancel()
             chargingStateModeChanges?.cancel()
             powerSourceChanges?.cancel()
+            menuTask?.cancel()
         }
     }
 }

@@ -38,7 +38,7 @@ public final class PersistenceManager {
         Task {
             for await _ in sleepClient.macDidWake() {
                 do {
-                    let state = try powerSourceClient.currentPowerSourceState()
+                    let state = try await powerSourceClient.currentPowerSourceState()
                     if let mode = await appChargingState.chargingStateMode() {
                         try await persistence.savePowerState(state, mode)
                     }
