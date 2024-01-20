@@ -894,6 +894,17 @@
         }
       }
     },
+    "battery_info.label.additional.unknown_health" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unknown"
+          }
+        }
+      }
+    },
     "battery_info.label.info_missing" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

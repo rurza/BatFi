@@ -82,6 +82,8 @@ public enum L10n {
                 public static let powerSource = String(localized: "battery_info.label.additional.power_source", defaultValue: "Power Source", bundle: Bundle.module)
                 /// Temperature
                 public static let temperature = String(localized: "battery_info.label.additional.temperature", defaultValue: "Temperature", bundle: Bundle.module)
+                /// Unknown Health
+                public static let unknownHealth = String(localized: "battery_info.label.additional.unknown_health", defaultValue: "Unknown", bundle: Bundle.module)
             }
             public enum Main {
                 /// Battery
