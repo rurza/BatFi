@@ -38,9 +38,9 @@ public struct HighEnergyUsageView: View {
                         }
                     }
                 } else {
-                    VStack {
+                    HStack {
                         ProgressView()
-                            .scaleEffect(x: 0.6, y: 0.6)
+                            .scaleEffect(x: 0.5, y: 0.5)
                         Text(l10n.loading)
                     }
                 }

@@ -25,11 +25,13 @@ public struct PowerInfoView: View {
             if let powerInfo = model.powerInfo {
                 PowerGraph(powerInfo: powerInfo)
             } else {
-                VStack {
+                HStack {
                     ProgressView()
-                        .scaleEffect(x: 0.6, y: 0.6)
+                        .scaleEffect(x: 0.5, y: 0.5)
                     Text(L10n.Menu.PowerInfo.loading)
                 }
+                .foregroundColor(.secondary)
+                .font(.callout)
                 .frame(maxWidth: .infinity)
             }
         }
