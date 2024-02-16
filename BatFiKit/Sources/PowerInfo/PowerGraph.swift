@@ -61,7 +61,7 @@ private struct PowerGraphItem: View {
                 Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
                     .monospacedDigit()
             }
-            .frame(width: 70, height: 20)
+            .frame(width: 80, height: 20)
         }
     }
 }
