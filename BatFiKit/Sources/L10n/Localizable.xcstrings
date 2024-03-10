@@ -3509,7 +3509,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Empfohlen. Sie können es später in den Einstellungen der App ändern."
+            "value" : "Empfohlen. Du kannst es später in den Einstellungen ändern."
           }
         },
         "en" : {
@@ -4292,7 +4292,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blinke die MagSafe LED ein paar mal sobald die App beginnt den Akku zu entladen"
+            "value" : "Blinke die MagSafe LED ein paar mal sobald die App beginnt, den Akku zu entladen"
           }
         },
         "en" : {
