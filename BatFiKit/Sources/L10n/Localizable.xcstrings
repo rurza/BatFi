@@ -113,7 +113,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Website"
+            "value" : "Webseite"
           }
         },
         "en" : {
@@ -1243,7 +1243,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeit bis zur Aufladung"
+            "value" : "Ladezeit"
           }
         },
         "en" : {
@@ -2208,7 +2208,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stoppen der Aufladung auf 100%"
+            "value" : "Laden bis 100% stoppen"
           }
         },
         "en" : {
@@ -2355,7 +2355,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindert weil Ladegerät nicht angeschlossen ist"
+            "value" : "Verhindert, weil Ladegerät nicht angeschlossen ist"
           }
         },
         "en" : {
@@ -2408,7 +2408,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindert weil \"Entlade Akku wenn über Akku-Limit geladen\" eingeschaltet ist"
+            "value" : "Verhindert, weil \"Entlade Akku wenn über Akku-Limit geladen\" eingeschaltet ist"
           }
         },
         "en" : {
@@ -2714,7 +2714,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es scheint als ob keine Berechtigung für den Helper erteilt wurde. Sollte keine Passwort/Touch ID Abfrage gekommen sein ist das OK – das ist ein macOS Bug und passiert manchmal. Du kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen. Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktionieren wird."
+            "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort / Touch ID Abfrage bekommen haben, ist das OK – das ist ein macOS Bug und passiert manchmal. Du kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen. Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
           }
         },
         "en" : {
@@ -3509,7 +3509,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wird empfohlen. Du kannst es jederzeit in den App Einstellungen ändern."
+            "value" : "Empfohlen. Sie können es später in den Einstellungen der App ändern."
           }
         },
         "en" : {
@@ -4292,7 +4292,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blinke die MagSafe LED ein paar mal sobald die App begint den Akku zu entladen"
+            "value" : "Blinke die MagSafe LED ein paar mal sobald die App beginnt den Akku zu entladen"
           }
         },
         "en" : {
