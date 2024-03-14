@@ -53,16 +53,15 @@ struct AdvancedView: View {
                     Text(l10n.Button.Label.magsafeUseGreenLight)
                 }
             }
-            Section(title: l10n.Section.updates) {
+            Section(title: l10n.Section.other) {
                 Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
                     .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
                         if checkForBetaUpdates {
                             updater.checkForUpdates()
                         }
                     }
-            }
-            Section(title: l10n.Section.debug) {
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
+
             }
         }
     }
