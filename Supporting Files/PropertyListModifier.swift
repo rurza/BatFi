@@ -110,11 +110,6 @@ func organizationalUnitRequirement() throws -> String {
     // Note: The reason to use the organizational unit for the code requirement instead of the common name is because
     // the organizational unit will be consistent between the Apple Development and Developer ID builds, while the
     // common name will not be — simplifying the development workflow.
-    let commonName = ProcessInfo.processInfo.environment["CODE_SIGN_IDENTITY"]
-    if commonName == nil || commonName == "-" {
-        throw ScriptError.general("Signing Certificate must be Development. Sign to Run Locally is not supported.")
-    }
-
     let developmentTeamID = try readEnvironmentVariable(name: "DEVELOPMENT_TEAM",
                                                         description: "development team for code signing",
                                                         isUserDefined: false)
@@ -164,7 +159,7 @@ func SMPrivilegedExecutablesEntry() throws -> (key: String, value: [String: Stri
 
 /// Creates a `Label` entry which must go inside the helper tool's launchd property list.
 func LabelEntry() throws -> (key: String, value: String) {
-    return try (key: LabelKey, value: TargetType.helperTool.bundleIdentifier())
+    try (key: LabelKey, value: TargetType.helperTool.bundleIdentifier())
 }
 
 // MARK: property list manipulation
@@ -257,9 +252,9 @@ func removePropertyListEntries(forKeys keys: [String], atPath path: URL) throws 
 
 /// The path of the info property list for this target.
 func infoPropertyListPath() throws -> URL {
-    return try readEnvironmentVariableAsURL(name: "INFOPLIST_FILE",
-                                            description: "info property list path",
-                                            isUserDefined: true)
+    try readEnvironmentVariableAsURL(name: "INFOPLIST_FILE",
+                                     description: "info property list path",
+                                     isUserDefined: true)
 }
 
 /// The path of the launchd property list for the helper tool.
@@ -371,7 +366,7 @@ func readBundleVersion(propertyList: NSMutableDictionary) throws -> BundleVersio
 
 /// Reads the `BuildHash` value from the passed in dictionary.
 func readBuildHash(propertyList: NSMutableDictionary) throws -> String? {
-    return propertyList[BuildHashKey] as? String
+    propertyList[BuildHashKey] as? String
 }
 
 /// Reads the info property list, determines if the build has changed based on stored hash values, and increments the build version if it has.
@@ -400,9 +395,9 @@ enum TargetType: String {
     case helperTool = "HELPER_TOOL_BUNDLE_IDENTIFIER"
 
     func bundleIdentifier() throws -> String {
-        return try readEnvironmentVariable(name: rawValue,
-                                           description: "bundle identifier for \(self)",
-                                           isUserDefined: true)
+        try readEnvironmentVariable(name: rawValue,
+                                    description: "bundle identifier for \(self)",
+                                    isUserDefined: true)
     }
 }
 
@@ -535,10 +530,10 @@ do {
         try task()
     }
 } catch let ScriptError.general(message) {
-    print("error: \(message)")
+    print("PropertyListModifier error: \(message)")
     exit(1)
 } catch let ScriptError.wrapped(message, wrappedError) {
-    print("error: \(message)")
+    print("PropertyListModifier error: \(message)")
     print("internal error: \(wrappedError)")
     exit(2)
 }
