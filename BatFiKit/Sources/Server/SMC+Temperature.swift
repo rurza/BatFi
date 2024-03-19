@@ -156,12 +156,12 @@ enum TemperatureUnit {
 
     static func toFahrenheit(_ celsius: Double) -> Double {
         // https://en.wikipedia.org/wiki/Fahrenheit#Definition_and_conversions
-        return (celsius * 1.8) + 32
+        (celsius * 1.8) + 32
     }
 
     static func toKelvin(_ celsius: Double) -> Double {
         // https://en.wikipedia.org/wiki/Kelvin
-        return celsius + 273.15
+        celsius + 273.15
     }
 }
 

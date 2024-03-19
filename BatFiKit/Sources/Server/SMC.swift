@@ -79,7 +79,7 @@ extension Int {
     }
 
     func toFPE2() -> FPE2 {
-        return (UInt8(self >> 6), UInt8((self << 2) ^ ((self >> 6) << 8)))
+        (UInt8(self >> 6), UInt8((self << 2) ^ ((self >> 6) << 8)))
     }
 }
 
@@ -119,7 +119,7 @@ extension FourCharCode {
     }
 
     func toString() -> String {
-        return String(describing: UnicodeScalar(self >> 24 & 0xFF)!) +
+        String(describing: UnicodeScalar(self >> 24 & 0xFF)!) +
             String(describing: UnicodeScalar(self >> 16 & 0xFF)!) +
             String(describing: UnicodeScalar(self >> 8 & 0xFF)!) +
             String(describing: UnicodeScalar(self & 0xFF)!)
@@ -270,7 +270,7 @@ struct DataType: Equatable {
 }
 
 func == (lhs: DataType, rhs: DataType) -> Bool {
-    return lhs.type == rhs.type && lhs.size == rhs.size
+    lhs.type == rhs.type && lhs.size == rhs.size
 }
 
 /// Apple System Management Controller (SMC) user-space client for Intel-based

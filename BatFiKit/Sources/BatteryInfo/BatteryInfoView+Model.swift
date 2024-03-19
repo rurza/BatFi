@@ -59,20 +59,20 @@ public extension BatteryInfoView {
             chargingStateModeChanges = Task { [weak self] in
                 guard let self else { return }
                 for await (mode, manageCharging) in combineLatest(
-                    self.appChargingState.observeChargingStateMode(),
-                    self.defaults.observe(.manageCharging)
+                    appChargingState.observeChargingStateMode(),
+                    defaults.observe(.manageCharging)
                 ) {
                     if manageCharging {
-                        self.modeDescription = mode.stateDescription
+                        modeDescription = mode.stateDescription
                     } else {
-                        self.modeDescription = "Disabled"
+                        modeDescription = "Disabled"
                     }
                 }
             }
 
             powerSourceChanges = Task { [weak self] in
                 guard let self else { return }
-                for await state in self.powerSourceClient.powerSourceChanges() {
+                for await state in powerSourceClient.powerSourceChanges() {
                     self.state = state
                 }
             }

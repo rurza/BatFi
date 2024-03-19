@@ -64,6 +64,7 @@ let package = Package(
             name: "About",
             dependencies: [
                 .aboutKit,
+                .appShared,
                 .l10n,
             ]
         ),

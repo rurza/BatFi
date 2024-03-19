@@ -49,7 +49,7 @@ private class PlayerView: AVPlayerView {
     }
 
     override open func hitTest(_: NSPoint) -> NSView? {
-        return nil
+        nil
     }
 
     override var acceptsFirstResponder: Bool {

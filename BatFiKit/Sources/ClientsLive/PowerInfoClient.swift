@@ -16,7 +16,7 @@ extension PowerInfoClient: DependencyKey {
         }
 
         @Sendable func powerInfo() async throws -> PowerInfo {
-            return try await createClient().send(to: XPCRoute.powerInfo)
+            try await createClient().send(to: XPCRoute.powerInfo)
         }
 
         let client = Self(

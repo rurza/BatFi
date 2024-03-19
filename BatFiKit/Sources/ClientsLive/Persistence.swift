@@ -59,9 +59,9 @@ extension Persistence: DependencyKey {
                             )
                         }
                     if let firstItem {
-                        return [firstItem] + results.map { $0.point }
+                        return [firstItem] + results.map(\.point)
                     } else {
-                        return results.map { $0.point }
+                        return results.map(\.point)
                     }
                 }
             },

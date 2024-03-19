@@ -6,6 +6,7 @@
 //
 
 import AboutKit
+import AppShared
 import L10n
 import SwiftUI
 
@@ -29,7 +30,7 @@ struct AboutViewAdditionalContentView: View {
                 } label: {
                     Text(L10n.About.Button.Label.website)
                 }
-                .buttonStyle(PrimaryActionButtonStyle(backgroundColor: .accentColor, fillParent: true))
+                .buttonStyle(PrimaryButtonStyle(isLoading: false))
                 .frame(width: 120)
                 Button {
                     openURL(URL(string: "https://twitter.com/rurza")!)
@@ -37,7 +38,7 @@ struct AboutViewAdditionalContentView: View {
                     Text(L10n.About.Button.Label.twitter)
                 }
                 .frame(width: 120)
-                .buttonStyle(PrimaryActionButtonStyle(backgroundColor: .accentColor, fillParent: true))
+                .buttonStyle(PrimaryButtonStyle(isLoading: false))
             }
         }
     }

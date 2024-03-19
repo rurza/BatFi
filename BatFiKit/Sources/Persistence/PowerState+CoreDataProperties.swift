@@ -11,7 +11,7 @@ import Foundation
 
 public extension PowerStateModel {
     @nonobjc class func fetchRequest() -> NSFetchRequest<PowerStateModel> {
-        return NSFetchRequest<PowerStateModel>(entityName: "PowerState")
+        NSFetchRequest<PowerStateModel>(entityName: "PowerState")
     }
 
     @NSManaged var batteryLevel: Int16

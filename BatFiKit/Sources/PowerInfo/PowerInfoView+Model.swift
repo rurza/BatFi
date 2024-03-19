@@ -38,8 +38,8 @@ extension PowerInfoView {
         private func startObserving() {
             powerInfoChanges = Task { [weak self] in
                 guard let self else { return }
-                for await info in self.powerInfoClient.powerInfoChanges() {
-                    self.powerInfo = info
+                for await info in powerInfoClient.powerInfoChanges() {
+                    powerInfo = info
                 }
             }
         }

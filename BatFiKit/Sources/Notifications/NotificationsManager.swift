@@ -70,7 +70,7 @@ public class NotificationsManager: NSObject {
                     }
                     continue
                 }
-                if powerSourceState.batteryLevel <= batteryLimit && !didShowLowBatteryNotification {
+                if powerSourceState.batteryLevel <= batteryLimit, !didShowLowBatteryNotification {
                     didShowLowBatteryNotification = true
                     await showBatteryIsLowNotification()
                 }
@@ -86,9 +86,9 @@ public class NotificationsManager: NSObject {
                 appChargingState.observeChargingStateMode(),
                 defaults.observe(.manageCharging)
             ) {
-                guard chargingMode != .chargerNotConnected
-                    && chargingMode != .initial
-                    && manageCharging else { continue }
+                guard chargingMode != .chargerNotConnected,
+                      chargingMode != .initial,
+                      manageCharging else { continue }
                 logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
@@ -214,8 +214,8 @@ extension NotificationsManager: UNUserNotificationCenterDelegate {
         defer {
             completionHandler()
         }
-        if response.notification.request.identifier == updateNotificationIdentifier
-            && response.actionIdentifier == UNNotificationDefaultActionIdentifier
+        if response.notification.request.identifier == updateNotificationIdentifier,
+           response.actionIdentifier == UNNotificationDefaultActionIdentifier
         {
             // If the notificaton is clicked on, make sure we bring the update in focus
             // If the app is terminated while the notification is clicked on,

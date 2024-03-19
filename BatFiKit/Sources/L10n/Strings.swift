@@ -24,7 +24,7 @@ public enum L10n {
             public enum Description {
                 /// The limit is %@.
                 public static func charging(_ p1: Any) -> String {
-                    return String(
+                    String(
                         format: String(
                             localized: "app_charging_mode.state.description.charging",
                             defaultValue: "The limit is %@.",
@@ -41,7 +41,7 @@ public enum L10n {
                 public static let forceDischarge = String(localized: "app_charging_mode.state.description.force_discharge", defaultValue: "Using the battery.", bundle: Bundle.module)
                 /// The charging limit is set to %@.
                 public static func inhibit(_ p1: Any) -> String {
-                    return String(
+                    String(
                         format: String(
                             localized: "app_charging_mode.state.description.inhibit",
                             defaultValue: "The charging limit is set to %@.",

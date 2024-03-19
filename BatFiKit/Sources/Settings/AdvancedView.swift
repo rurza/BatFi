@@ -61,7 +61,6 @@ struct AdvancedView: View {
                         }
                     }
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
-
             }
         }
     }
