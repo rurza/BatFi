@@ -6,6 +6,7 @@
 //
 
 import App
+import LetsMove
 import SwiftUI
 
 @main
@@ -14,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var app = BatFi()
 
     func applicationDidFinishLaunching(_: Notification) {
+        PFMoveToApplicationsFolderIfNecessary()
         app.start()
     }
 
