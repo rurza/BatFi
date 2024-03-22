@@ -9,49 +9,48 @@ import Defaults
 import Foundation
 
 #if DEBUG
-private let showDebugMenuByDefault = true
+    private let showDebugMenuByDefault = true
 #else
-private let showDebugMenuByDefault = false
+    private let showDebugMenuByDefault = false
 #endif
 
-extension Defaults.Keys {
-    public static let launchAtLogin = Key<Bool>("launchAtLogin", default: true)
-    public static let forceCharge = Key<Bool>("forceCharge", default: false)
-    public static let onboardingIsDone = Key<Bool>("onboardingIsDone", default: false)
+public extension Defaults.Keys {
+    static let launchAtLogin = Key<Bool>("launchAtLogin", default: true)
+    static let forceCharge = Key<Bool>("forceCharge", default: false)
+    static let onboardingIsDone = Key<Bool>("onboardingIsDone", default: false)
 
     // Charging
-    public static let manageCharging = Key<Bool>("manageCharging", default: true)
-    public static let chargeLimit = Key<Int>("chargeLimit", default: 80)
-    public static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
+    static let manageCharging = Key<Bool>("manageCharging", default: true)
+    static let chargeLimit = Key<Int>("chargeLimit", default: 80)
+    static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
 
     // Menu bar
-    public static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
-    public static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
-    public static let showChart = Key<Bool>("showChart", default: false)
-    public static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
-    public static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
+    static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
+    static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
+    static let showChart = Key<Bool>("showChart", default: false)
+    static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
+    static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
 
     // Advanced
-    public static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
-    public static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)
-    public static let disableSleep = Key<Bool>("disableSleep", default: false)
-    public static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
-    public static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
-    public static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
-    public static let turnOnSystemChargeLimitingWhenGoingToSleep = Key<Bool>("turnOnSystemChargeLimitingWhenGoingToSleep", default: false)
+    static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
+    static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)
+    static let disableSleep = Key<Bool>("disableSleep", default: false)
+    static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
+    static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
+    static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
+    static let turnOnSystemChargeLimitingWhenGoingToSleep = Key<Bool>("turnOnSystemChargeLimitingWhenGoingToSleep", default: false)
 
-    public static let highEnergyImpactProcessesThreshold = Key<Int>("highEnergyImpactProcessesThreshold", default: 500)
-    public static let highEnergyImpactProcessesDuration = Key<TimeInterval>("highEnergyImpactProcessesDuration", default: 180)
-    public static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)
-
+    static let highEnergyImpactProcessesThreshold = Key<Int>("highEnergyImpactProcessesThreshold", default: 500)
+    static let highEnergyImpactProcessesDuration = Key<TimeInterval>("highEnergyImpactProcessesDuration", default: 180)
+    static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)
 
     // notifications
-    public static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
-    public static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
-    public static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
-    public static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
+    static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
+    static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
+    static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
+    static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
 
     // feature flags
-    public static let enableHighEnergyImpactProcesses = Key<Bool>("enableHighEnergyImpactProcesses", default: false)
-    public static let enablePowerDiagram = Key<Bool>("enablePowerDiagram", default: false)
+    static let enableHighEnergyImpactProcesses = Key<Bool>("enableHighEnergyImpactProcesses", default: false)
+    static let enablePowerDiagram = Key<Bool>("enablePowerDiagram", default: false)
 }

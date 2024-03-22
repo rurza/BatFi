@@ -1,13 +1,13 @@
 //
 //  SleepAssertionClient.swift
-//  
+//
 //
 //  Created by Adam on 30/05/2023.
 //
 
-import Foundation
 import Clients
 import Dependencies
+import Foundation
 import IOKit.pwr_mgt
 import os
 import Shared
@@ -25,7 +25,7 @@ extension SleepAssertionClient: DependencyKey {
                         return
                     }
                     logger.notice("Delaying sleep")
-                    var assertionID: IOPMAssertionID = IOPMAssertionID(0)
+                    var assertionID: IOPMAssertionID = .init(0)
                     let reason: CFString = "BatFi" as NSString
                     let cfAssertion: CFString = kIOPMAssertionTypePreventSystemSleep as NSString
                     let success = IOPMAssertionCreateWithName(

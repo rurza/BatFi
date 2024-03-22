@@ -1,6 +1,6 @@
 //
 //  LaunchAtLogin.swift
-//  
+//
 //
 //  Created by Adam on 01/06/2023.
 //

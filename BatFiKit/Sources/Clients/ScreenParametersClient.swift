@@ -1,6 +1,6 @@
 //
 //  ScreenParametersClient.swift
-//  
+//
 //
 //  Created by Adam on 04/05/2023.
 //
@@ -18,8 +18,8 @@ public struct ScreenParametersClient: TestDependencyKey {
     public static var testValue: ScreenParametersClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var screenParametersClient: ScreenParametersClient {
+public extension DependencyValues {
+    var screenParametersClient: ScreenParametersClient {
         get { self[ScreenParametersClient.self] }
         set { self[ScreenParametersClient.self] = newValue }
     }

@@ -1,6 +1,6 @@
 //
 //  MagSafeLEDColorClient.swift
-//  
+//
 //
 //  Created by Adam on 16/07/2023.
 //

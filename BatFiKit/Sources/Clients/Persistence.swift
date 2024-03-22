@@ -1,6 +1,6 @@
 //
 //  Persistence.swift
-//  
+//
 //
 //  Created by Adam on 12/07/2023.
 //
@@ -21,14 +21,14 @@ public struct Persistence: TestDependencyKey {
     ) {
         self.savePowerState = savePowerState
         self.fetchPowerStatePoint = fetchPowerStatePoint
-        self.powerStateDidChange = observePowerStatePoints
+        powerStateDidChange = observePowerStatePoints
     }
 
     public static var testValue: Persistence = unimplemented()
 }
 
-extension DependencyValues {
-    public var persistence: Persistence {
+public extension DependencyValues {
+    var persistence: Persistence {
         get { self[Persistence.self] }
         set { self[Persistence.self] = newValue }
     }

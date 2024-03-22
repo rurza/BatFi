@@ -23,8 +23,8 @@
 //
 // All of these options are configured by passing in command line arguments to this script. See ScriptTask for details.
 
-import Foundation
 import CryptoKit
+import Foundation
 
 /// Errors raised throughout this script.
 enum ScriptError: Error {
@@ -47,7 +47,7 @@ func readEnvironmentVariable(name: String, description: String, isUserDefined: B
         var message = "Unable to determine \(description), missing \(name) environment variable."
         if isUserDefined {
             message += " This is a user-defined variable. Please check that the xcconfig files are present and " +
-            "configured in the project settings."
+                "configured in the project settings."
         }
         throw ScriptError.general(message)
     }
@@ -56,7 +56,7 @@ func readEnvironmentVariable(name: String, description: String, isUserDefined: B
 /// Attempts to read an environment variable as a URL.
 func readEnvironmentVariableAsURL(name: String, description: String, isUserDefined: Bool) throws -> URL {
     let value = try readEnvironmentVariable(name: name, description: description, isUserDefined: isUserDefined)
-    
+
     return URL(fileURLWithPath: value)
 }
 
@@ -110,23 +110,18 @@ func organizationalUnitRequirement() throws -> String {
     // Note: The reason to use the organizational unit for the code requirement instead of the common name is because
     // the organizational unit will be consistent between the Apple Development and Developer ID builds, while the
     // common name will not be — simplifying the development workflow.
-    let commonName = ProcessInfo.processInfo.environment["CODE_SIGN_IDENTITY"]
-    if commonName == nil || commonName == "-" {
-        throw ScriptError.general("Signing Certificate must be Development. Sign to Run Locally is not supported.")
-    }
-    
-    let developmentTeamId = try readEnvironmentVariable(name: "DEVELOPMENT_TEAM",
+    let developmentTeamID = try readEnvironmentVariable(name: "DEVELOPMENT_TEAM",
                                                         description: "development team for code signing",
                                                         isUserDefined: false)
-    guard developmentTeamId.range(of: #"^[A-Z0-9]{10}$"#, options: .regularExpression) != nil else {
-        if developmentTeamId == "-" {
+    guard developmentTeamID.range(of: #"^[A-Z0-9]{10}$"#, options: .regularExpression) != nil else {
+        if developmentTeamID == "-" {
             throw ScriptError.general("Development Team for code signing is not set")
         } else {
-            throw ScriptError.general("Development Team for code signing is invalid: \(developmentTeamId)")
+            throw ScriptError.general("Development Team for code signing is invalid: \(developmentTeamID)")
         }
     }
-    let certificateString = "certificate leaf[subject.OU] = \"\(developmentTeamId)\""
-    
+    let certificateString = "certificate leaf[subject.OU] = \"\(developmentTeamID)\""
+
     return certificateString
 }
 
@@ -135,7 +130,7 @@ let appleGenericRequirement = "anchor apple generic"
 
 /// Creates a `SMAuthorizedClients` entry representing the app which must go inside the helper tool's info property list.
 func SMAuthorizedClientsEntry() throws -> (key: String, value: [String]) {
-    let appIdentifierRequirement = "identifier \"\(try TargetType.app.bundleIdentifier())\""
+    let appIdentifierRequirement = try "identifier \"\(TargetType.app.bundleIdentifier())\""
     // Create requirement that the app must be its current version or later. This mitigates downgrade attacks where an
     // older version of the app had a security vulnerability fixed in later versions. The attacker could then
     // intentionally install and run an older version of the app and exploit its vulnerability in order to talk to
@@ -144,27 +139,27 @@ func SMAuthorizedClientsEntry() throws -> (key: String, value: [String]) {
                                                  description: "app version",
                                                  isUserDefined: true)
     let appVersionRequirement = "info[\(CFBundleVersionKey)] >= \"\(appVersion)\""
-    let requirements = [appleGenericRequirement,
-                        appIdentifierRequirement,
-                        appVersionRequirement,
-                        try organizationalUnitRequirement()]
+    let requirements = try [appleGenericRequirement,
+                            appIdentifierRequirement,
+                            appVersionRequirement,
+                            organizationalUnitRequirement()]
     let value = [requirements.joined(separator: " and ")]
-    
+
     return (SMAuthorizedClientsKey, value)
 }
 
 /// Creates a `SMPrivilegedExecutables` entry representing the helper tool which must go inside the app's info property list.
-func SMPrivilegedExecutablesEntry() throws -> (key: String, value: [String : String]) {
-    let helperToolIdentifierRequirement = "identifier \"\(try TargetType.helperTool.bundleIdentifier())\""
-    let requirements = [appleGenericRequirement, helperToolIdentifierRequirement, try organizationalUnitRequirement()]
-    let value = [try TargetType.helperTool.bundleIdentifier() : requirements.joined(separator: " and ")]
-    
+func SMPrivilegedExecutablesEntry() throws -> (key: String, value: [String: String]) {
+    let helperToolIdentifierRequirement = try "identifier \"\(TargetType.helperTool.bundleIdentifier())\""
+    let requirements = try [appleGenericRequirement, helperToolIdentifierRequirement, organizationalUnitRequirement()]
+    let value = try [TargetType.helperTool.bundleIdentifier(): requirements.joined(separator: " and ")]
+
     return (SMPrivilegedExecutablesKey, value)
 }
 
 /// Creates a `Label` entry which must go inside the helper tool's launchd property list.
 func LabelEntry() throws -> (key: String, value: String) {
-    return (key: LabelKey, value: try TargetType.helperTool.bundleIdentifier())
+    try (key: LabelKey, value: TargetType.helperTool.bundleIdentifier())
 }
 
 // MARK: property list manipulation
@@ -175,14 +170,15 @@ func LabelEntry() throws -> (key: String, value: String) {
 ///   - atPath: Where the property list is located.
 /// - Returns: Tuple containing entries and the format of the on disk property list.
 func readPropertyList(atPath path: URL) throws -> (entries: NSMutableDictionary,
-                                                   format: PropertyListSerialization.PropertyListFormat) {
+                                                   format: PropertyListSerialization.PropertyListFormat)
+{
     let onDiskPlistData: Data
     do {
         onDiskPlistData = try Data(contentsOf: path)
     } catch {
         throw ScriptError.wrapped("Unable to read property list at: \(path)", error)
     }
-    
+
     do {
         var format = PropertyListSerialization.PropertyListFormat.xml
         let plist = try PropertyListSerialization.propertyList(from: onDiskPlistData,
@@ -190,12 +186,10 @@ func readPropertyList(atPath path: URL) throws -> (entries: NSMutableDictionary,
                                                                format: &format)
         if let entries = plist as? NSMutableDictionary {
             return (entries: entries, format: format)
-        }
-        else {
+        } else {
             throw ScriptError.general("Unable to cast parsed property list")
         }
-    }
-    catch {
+    } catch {
         throw ScriptError.wrapped("Unable to parse property list", error)
     }
 }
@@ -208,7 +202,8 @@ func readPropertyList(atPath path: URL) throws -> (entries: NSMutableDictionary,
 ///   - format:The format to use when writing entries to `atPath`.
 func writePropertyList(atPath path: URL,
                        entries: NSDictionary,
-                       format: PropertyListSerialization.PropertyListFormat) throws {
+                       format: PropertyListSerialization.PropertyListFormat) throws
+{
     let plistData: Data
     do {
         plistData = try PropertyListSerialization.data(fromPropertyList: entries,
@@ -217,11 +212,10 @@ func writePropertyList(atPath path: URL,
     } catch {
         throw ScriptError.wrapped("Unable to serialize property list in order to write to path: \(path)", error)
     }
-    
+
     do {
         try plistData.write(to: path)
-    }
-    catch {
+    } catch {
         throw ScriptError.wrapped("Unable to write property list to path: \(path)", error)
     }
 }
@@ -229,8 +223,8 @@ func writePropertyList(atPath path: URL,
 /// Updates the property list with the provided entries.
 ///
 /// If an existing entry exists for the given key it will be overwritten. If the property file does not exist, it will be created.
-func updatePropertyListWithEntries(_ newEntries: [String : AnyHashable], atPath path: URL) throws {
-    let (entries, format) : (NSMutableDictionary, PropertyListSerialization.PropertyListFormat)
+func updatePropertyListWithEntries(_ newEntries: [String: AnyHashable], atPath path: URL) throws {
+    let (entries, format): (NSMutableDictionary, PropertyListSerialization.PropertyListFormat)
     if FileManager.default.fileExists(atPath: path.path) {
         (entries, format) = try readPropertyList(atPath: path)
     } else {
@@ -248,7 +242,7 @@ func removePropertyListEntries(forKeys keys: [String], atPath path: URL) throws 
     for key in keys {
         entries.removeObject(forKey: key)
     }
-    
+
     if entries.count > 0 {
         try writePropertyList(atPath: path, entries: entries, format: format)
     } else {
@@ -258,9 +252,9 @@ func removePropertyListEntries(forKeys keys: [String], atPath path: URL) throws 
 
 /// The path of the info property list for this target.
 func infoPropertyListPath() throws -> URL {
-    return try readEnvironmentVariableAsURL(name: "INFOPLIST_FILE",
-                                            description: "info property list path",
-                                            isUserDefined: true)
+    try readEnvironmentVariableAsURL(name: "INFOPLIST_FILE",
+                                     description: "info property list path",
+                                     isUserDefined: true)
 }
 
 /// The path of the launchd property list for the helper tool.
@@ -277,13 +271,13 @@ func launchdPropertyListPath() throws -> URL {
 /// - Returns: hash value, hex encoded
 func hashSources() throws -> String {
     // Directories to hash source files in
-    let sourcePaths: [URL] = [
-        try infoPropertyListPath().deletingLastPathComponent(),
-        try readEnvironmentVariableAsURL(name: "SHARED_DIRECTORY",
-                                         description: "shared source directory path",
-                                         isUserDefined: true)
+    let sourcePaths: [URL] = try [
+        infoPropertyListPath().deletingLastPathComponent(),
+        readEnvironmentVariableAsURL(name: "SHARED_DIRECTORY",
+                                     description: "shared source directory path",
+                                     isUserDefined: true),
     ]
-    
+
     // Enumerate over and hash Swift source files
     var sha256 = SHA256()
     for sourcePath in sourcePaths {
@@ -291,7 +285,7 @@ func hashSources() throws -> String {
             for case let fileURL as URL in enumerator {
                 if fileURL.pathExtension == "swift" {
                     do {
-                        sha256.update(data: try Data(contentsOf: fileURL))
+                        try sha256.update(data: Data(contentsOf: fileURL))
                     } catch {
                         throw ScriptError.wrapped("Unable to hash \(fileURL)", error)
                     }
@@ -301,8 +295,8 @@ func hashSources() throws -> String {
             throw ScriptError.general("Could not create enumerator for: \(sourcePath)")
         }
     }
-    let digestHex = sha256.finalize().compactMap{ String(format: "%02x", $0) }.joined()
-    
+    let digestHex = sha256.finalize().compactMap { String(format: "%02x", $0) }.joined()
+
     return digestHex
 }
 
@@ -311,47 +305,47 @@ enum BundleVersion {
     case major(UInt)
     case majorMinor(UInt, UInt)
     case majorMinorPatch(UInt, UInt, UInt)
-    
+
     init?(version: String) {
         let versionParts = version.split(separator: ".")
         if versionParts.count == 1,
-           let major = UInt(versionParts[0]) {
+           let major = UInt(versionParts[0])
+        {
             self = .major(major)
-        }
-        else if versionParts.count == 2,
-                let major = UInt(versionParts[0]),
-                let minor = UInt(versionParts[1]) {
+        } else if versionParts.count == 2,
+                  let major = UInt(versionParts[0]),
+                  let minor = UInt(versionParts[1])
+        {
             self = .majorMinor(major, minor)
-        }
-        else if versionParts.count == 3,
-                let major = UInt(versionParts[0]),
-                let minor = UInt(versionParts[1]),
-                let patch = UInt(versionParts[2]) {
+        } else if versionParts.count == 3,
+                  let major = UInt(versionParts[0]),
+                  let minor = UInt(versionParts[1]),
+                  let patch = UInt(versionParts[2])
+        {
             self = .majorMinorPatch(major, minor, patch)
-        }
-        else {
+        } else {
             return nil
         }
     }
-    
+
     var version: String {
         switch self {
-        case .major(let major):
+        case let .major(major):
             return "\(major)"
-        case .majorMinor(let major, let minor):
+        case let .majorMinor(major, minor):
             return "\(major).\(minor)"
-        case .majorMinorPatch(let major, let minor, let patch):
+        case let .majorMinorPatch(major, minor, patch):
             return "\(major).\(minor).\(patch)"
         }
     }
-    
+
     func increment() -> BundleVersion {
         switch self {
-        case .major(let major):
+        case let .major(major):
             return .major(major + 1)
-        case .majorMinor(let major, let minor):
+        case let .majorMinor(major, minor):
             return .majorMinor(major, minor + 1)
-        case .majorMinorPatch(let major, let minor, let patch):
+        case let .majorMinorPatch(major, minor, patch):
             return .majorMinorPatch(major, minor, patch + 1)
         }
     }
@@ -372,7 +366,7 @@ func readBundleVersion(propertyList: NSMutableDictionary) throws -> BundleVersio
 
 /// Reads the `BuildHash` value from the passed in dictionary.
 func readBuildHash(propertyList: NSMutableDictionary) throws -> String? {
-    return propertyList[BuildHashKey] as? String
+    propertyList[BuildHashKey] as? String
 }
 
 /// Reads the info property list, determines if the build has changed based on stored hash values, and increments the build version if it has.
@@ -383,10 +377,10 @@ func incrementBundleVersionIfNeeded(infoPropertyListPath: URL) throws {
     if currentBuildHash != previousBuildHash {
         let version = try readBundleVersion(propertyList: propertyList.entries)
         let newVersion = version.increment()
-        
+
         propertyList.entries[BuildHashKey] = currentBuildHash
         propertyList.entries[CFBundleVersionKey] = newVersion.version
-        
+
         try writePropertyList(atPath: infoPropertyListPath,
                               entries: propertyList.entries,
                               format: propertyList.format)
@@ -399,30 +393,30 @@ func incrementBundleVersionIfNeeded(infoPropertyListPath: URL) throws {
 enum TargetType: String {
     case app = "APP_BUNDLE_IDENTIFIER"
     case helperTool = "HELPER_TOOL_BUNDLE_IDENTIFIER"
-    
+
     func bundleIdentifier() throws -> String {
-        return try readEnvironmentVariable(name: self.rawValue,
-                                           description: "bundle identifier for \(self)",
-                                           isUserDefined: true)
+        try readEnvironmentVariable(name: rawValue,
+                                    description: "bundle identifier for \(self)",
+                                    isUserDefined: true)
     }
 }
 
 /// Determines whether this script is running for the app or the helper tool.
 func determineTargetType() throws -> TargetType {
-    let bundleId = try readEnvironmentVariable(name: "PRODUCT_BUNDLE_IDENTIFIER",
+    let bundleID = try readEnvironmentVariable(name: "PRODUCT_BUNDLE_IDENTIFIER",
                                                description: "bundle id",
                                                isUserDefined: false)
-    
+
     let appBundleIdentifier = try TargetType.app.bundleIdentifier()
     let helperToolBundleIdentifier = try TargetType.helperTool.bundleIdentifier()
-    if bundleId == appBundleIdentifier {
+    if bundleID == appBundleIdentifier {
         return TargetType.app
-    } else if bundleId ==  helperToolBundleIdentifier {
+    } else if bundleID == helperToolBundleIdentifier {
         return TargetType.helperTool
     } else {
-        throw ScriptError.general("Unexpected bundle id \(bundleId) encountered. This means you need to update the " +
-                                  "user defined variables APP_BUNDLE_IDENTIFIER and/or " +
-                                  "HELPER_TOOL_BUNDLE_IDENTIFIER in Config.xcconfig.")
+        throw ScriptError.general("Unexpected bundle id \(bundleID) encountered. This means you need to update the " +
+            "user defined variables APP_BUNDLE_IDENTIFIER and/or " +
+            "HELPER_TOOL_BUNDLE_IDENTIFIER in Config.xcconfig.")
     }
 }
 
@@ -430,22 +424,22 @@ func determineTargetType() throws -> TargetType {
 
 /// The tasks this script can perform. They're provided as command line arguments to this script.
 typealias ScriptTask = () throws -> Void
-let scriptTasks: [String : ScriptTask] = [
+let scriptTasks: [String: ScriptTask] = [
     /// Update the property lists as needed to satisfy the requirements of SMJobBless
-    "satisfy-job-bless-requirements" : satisfyJobBlessRequirements,
+    "satisfy-job-bless-requirements": satisfyJobBlessRequirements,
     /// Clean up changes made to property lists to satisfy the requirements of SMJobBless
-    "cleanup-job-bless-requirements" : cleanupJobBlessRequirements,
+    "cleanup-job-bless-requirements": cleanupJobBlessRequirements,
     /// Specifies MachServices entry in the helper tool's launchd property list to enable XPC
-    "specify-mach-services" : specifyMachServices,
+    "specify-mach-services": specifyMachServices,
     /// Cleans up changes made to Mach Services in the helper tool's launchd property list
-    "cleanup-mach-services" : cleanupMachServices
+    "cleanup-mach-services": cleanupMachServices,
 ]
 
 /// Determines what tasks this script should undertake in based on passed in arguments.
 func determineScriptTasks() throws -> [ScriptTask] {
     if CommandLine.arguments.count > 1 {
         var matchingTasks = [ScriptTask]()
-        for index in 1..<CommandLine.arguments.count {
+        for index in 1 ..< CommandLine.arguments.count {
             let arg = CommandLine.arguments[index]
             if let task = scriptTasks[arg] {
                 matchingTasks.append(task)
@@ -466,16 +460,16 @@ func satisfyJobBlessRequirements() throws {
     switch target {
     case .helperTool:
         let clients = try SMAuthorizedClientsEntry()
-        let infoEntries: [String : AnyHashable] = [CFBundleIdentifierKey : try target.bundleIdentifier(),
-                                                   clients.key : clients.value]
+        let infoEntries: [String: AnyHashable] = try [CFBundleIdentifierKey: target.bundleIdentifier(),
+                                                      clients.key: clients.value]
         try updatePropertyListWithEntries(infoEntries, atPath: infoPropertyList)
     case .app:
         let executables = try SMPrivilegedExecutablesEntry()
-        try updatePropertyListWithEntries([executables.key : executables.value], atPath: infoPropertyList)
+        try updatePropertyListWithEntries([executables.key: executables.value], atPath: infoPropertyList)
 
         let launchdPropertyList = try launchdPropertyListPath()
         let label = try LabelEntry()
-        try updatePropertyListWithEntries([label.key : label.value], atPath: launchdPropertyList)
+        try updatePropertyListWithEntries([label.key: label.value], atPath: launchdPropertyList)
         let helperName = try readEnvironmentVariable(
             name: "HELPER_NAME",
             description: "helper name",
@@ -483,7 +477,7 @@ func satisfyJobBlessRequirements() throws {
         )
         try updatePropertyListWithEntries(
             [
-                BundleProgramKey : "Contents/MacOS/" + helperName
+                BundleProgramKey: "Contents/MacOS/" + helperName,
             ],
             atPath: launchdPropertyList
         )
@@ -513,8 +507,8 @@ func specifyMachServices() throws {
     case .helperTool:
         throw ScriptError.general("specify-mach-services only available for the app")
     case .app:
-        let services = [MachServicesKey: [try TargetType.helperTool.bundleIdentifier() : true]]
-        try updatePropertyListWithEntries(services, atPath: try launchdPropertyListPath())
+        let services = try [MachServicesKey: [TargetType.helperTool.bundleIdentifier(): true]]
+        try updatePropertyListWithEntries(services, atPath: launchdPropertyListPath())
     }
 }
 
@@ -525,7 +519,7 @@ func cleanupMachServices() throws {
     case .helperTool:
         throw ScriptError.general("cleanup-mach-services only available for the app")
     case .app:
-        try removePropertyListEntries(forKeys: [MachServicesKey], atPath: try launchdPropertyListPath())
+        try removePropertyListEntries(forKeys: [MachServicesKey], atPath: launchdPropertyListPath())
     }
 }
 
@@ -535,13 +529,11 @@ do {
     for task in try determineScriptTasks() {
         try task()
     }
-}
-catch ScriptError.general(let message) {
-    print("error: \(message)")
+} catch let ScriptError.general(message) {
+    print("PropertyListModifier error: \(message)")
     exit(1)
-}
-catch ScriptError.wrapped(let message, let wrappedError) {
-    print("error: \(message)")
+} catch let ScriptError.wrapped(message, wrappedError) {
+    print("PropertyListModifier error: \(message)")
     print("internal error: \(wrappedError)")
     exit(2)
 }

@@ -8,7 +8,6 @@
 import Foundation
 
 public enum SMCError: Error, Codable {
-
     /// AppleSMC driver not found
     case driverNotFound
 

@@ -5,21 +5,21 @@
 //  Created by Adam on 24/10/2023.
 //
 
-import AsyncAlgorithms
 import AppShared
-import Defaults
-import DefaultsKeys
-import Foundation
+import AsyncAlgorithms
 import Clients
 import Combine
+import Defaults
+import DefaultsKeys
 import Dependencies
+import Foundation
 
 extension HighEnergyUsageView {
     @MainActor
     final class Model: ObservableObject {
-        @Dependency(\.highEnergyImpactClient)   private var highEnergyImpactClient
-        @Dependency(\.defaults)                 private var defaults
-        @Dependency(\.menuDelegate)             private var menuDelegate
+        @Dependency(\.highEnergyImpactClient) private var highEnergyImpactClient
+        @Dependency(\.defaults) private var defaults
+        @Dependency(\.menuDelegate) private var menuDelegate
 
         @Published private(set) var topCoalitionInfo: TopCoalitionInfo?
         private var changesTask: Task<Void, Never>?
@@ -46,11 +46,11 @@ extension HighEnergyUsageView {
             defaultsTask = Task { [weak self] in
                 guard let self else { return }
                 for await (capacity, threshold, duration) in combineLatest(
-                    self.defaults.observe(.highEnergyImpactProcessesCapacity),
-                    self.defaults.observe(.highEnergyImpactProcessesThreshold),
-                    self.defaults.observe(.highEnergyImpactProcessesDuration)
+                    defaults.observe(.highEnergyImpactProcessesCapacity),
+                    defaults.observe(.highEnergyImpactProcessesThreshold),
+                    defaults.observe(.highEnergyImpactProcessesDuration)
                 ) {
-                    self.startObservingHighEnergyUsage(capacity: capacity, threshold: threshold, duration: duration)
+                    startObservingHighEnergyUsage(capacity: capacity, threshold: threshold, duration: duration)
                 }
             }
         }
@@ -68,9 +68,9 @@ extension HighEnergyUsageView {
             changesTask?.cancel()
             changesTask = Task { @MainActor [weak self] in
                 guard let self else { return }
-                for await info in self.highEnergyImpactClient.topCoalitionInfoChanges(threshold, duration, capacity) {
-                    print("new coalition")
-                    self.topCoalitionInfo = info
+                for await info in highEnergyImpactClient.topCoalitionInfoChanges(threshold, duration, capacity) {
+                    print("new coalition: \(info)")
+                    topCoalitionInfo = info
                 }
             }
         }
@@ -81,5 +81,4 @@ extension HighEnergyUsageView {
             defaultsTask?.cancel()
         }
     }
-
 }

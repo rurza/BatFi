@@ -5,69 +5,64 @@
 //  Created by Adam on 20/04/2023.
 //
 
-import Defaults
-import SwiftUI
 import AppShared
+import Defaults
 import L10n
 import Shared
+import SwiftUI
 
+@MainActor
 public struct BatteryInfoView: View {
-    @StateObject private var model = Model()
+    @EnvironmentObject private var model: Model
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         Group {
             let l10n = L10n.BatteryInfo.Label.self
-            if let powerState = model.state {
-                VStack(alignment: .leading, spacing: 12) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        BatteryMainInfo(
-                            label: l10n.Main.battery,
-                            info: "\(powerState.batteryLevel)%",
-                            primaryForegroundColor: true
-                        )
-                        .fontWeight(.bold)
-                        if let timeDescription = model.time?.description {
-                            BatteryAdditionalInfo(
-                                label: timeDescription.label,
-                                info: timeDescription.description
-                            )
-                        }
-                    }
-                    SeparatorView()
-                    VStack(alignment: .leading, spacing: 7) {
+            let unknown = "–––"
+            let powerState = model.state
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 8) {
+                    BatteryMainInfo(
+                        label: l10n.Main.battery,
+                        info: powerState?.batteryLevel != nil ? "\(powerState!.batteryLevel)%" : unknown,
+                        primaryForegroundColor: true
+                    )
+                    .fontWeight(.bold)
+                    if let timeDescription = model.time?.description {
                         BatteryAdditionalInfo(
-                            label: l10n.Additional.appMode,
-                            info: model.modeDescription ?? "–––"
-                        )
-                        BatteryAdditionalInfo(
-                            label: l10n.Additional.powerSource,
-                            info: powerState.powerSource
-                        )
-                        BatteryAdditionalInfo(
-                            label: l10n.Additional.cycleCount,
-                            info: "\(powerState.batteryCycleCount)"
-                        )
-                        if let temperature = model.temperatureDescription() {
-                            BatteryAdditionalInfo(
-                                label: l10n.Additional.temperature,
-                                info: temperature
-                            )
-                        }
-                        BatteryAdditionalInfo(
-                            label: l10n.Additional.batteryCapacity,
-                            info: percentageFormatter.string(from: NSNumber(floatLiteral: powerState.batteryCapacity))!
+                            label: timeDescription.label,
+                            info: timeDescription.description
                         )
                     }
-                    .frame(maxWidth: .infinity)
                 }
-            } else {
-                Label(
-                    l10n.infoMissing,
-                    systemImage: "bolt.trianglebadge.exclamationmark.fill"
-                )
-                .frame(height: 200)
+                SeparatorView()
+                VStack(alignment: .leading, spacing: 7) {
+                    BatteryAdditionalInfo(
+                        label: l10n.Additional.appMode,
+                        info: model.modeDescription ?? unknown
+                    )
+                    BatteryAdditionalInfo(
+                        label: l10n.Additional.powerSource,
+                        info: powerState?.powerSource ?? unknown
+                    )
+                    BatteryAdditionalInfo(
+                        label: l10n.Additional.cycleCount,
+                        info: powerState?.batteryCycleCount.description ?? unknown
+                    )
+                    if let temperature = model.temperatureDescription() {
+                        BatteryAdditionalInfo(
+                            label: l10n.Additional.temperature,
+                            info: temperature
+                        )
+                    }
+                    BatteryAdditionalInfo(
+                        label: l10n.Additional.batteryCapacity,
+                        info: powerState?.batteryHealth ?? l10n.Additional.unknownHealth
+                    )
+                }
+                .frame(maxWidth: .infinity)
             }
         }
     }
@@ -121,5 +116,3 @@ struct BatteryAdditionalInfo<Label: View>: View {
         .font(.callout)
     }
 }
-
-

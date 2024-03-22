@@ -1,13 +1,13 @@
 //
-//  FinalView.swift
-//  
+//  InstallHelperView.swift
+//
 //
 //  Created by Adam on 01/06/2023.
 //
 
-import Foundation
 import Defaults
 import DefaultsKeys
+import Foundation
 import L10n
 import SwiftUI
 
@@ -24,8 +24,8 @@ struct InstallHelperView: View {
                 .aspectRatio(1.33333, contentMode: .fill)
             VStack(alignment: .leading, spacing: 10) {
                 Text(model.onboardingIsFinished ? l10n.Label.done : l10n.Label.almostDone)
-                .font(.system(size: 24, weight: .bold))
-                .animation(.default, value: model.onboardingIsFinished)
+                    .font(.system(size: 24, weight: .bold))
+                    .animation(.default, value: model.onboardingIsFinished)
                 ZStack(alignment: .topLeading) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text(l10n.Label.helperDescription)

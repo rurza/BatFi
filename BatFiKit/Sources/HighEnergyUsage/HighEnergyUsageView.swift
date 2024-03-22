@@ -12,7 +12,7 @@ import SwiftUI
 public struct HighEnergyUsageView: View {
     @StateObject private var model = Model()
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         let l10n = L10n.Menu.HighEnergyUsage.self
@@ -35,12 +35,13 @@ public struct HighEnergyUsageView: View {
                             Text(l10n.none)
                                 .multilineTextAlignment(.center)
                                 .padding(6)
+                                .frame(maxWidth: .infinity)
                         }
                     }
                 } else {
-                    VStack {
+                    HStack {
                         ProgressView()
-                            .scaleEffect(x: 0.6, y: 0.6)
+                            .scaleEffect(x: 0.5, y: 0.5)
                         Text(l10n.loading)
                     }
                 }

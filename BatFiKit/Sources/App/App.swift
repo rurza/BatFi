@@ -1,6 +1,6 @@
 //
 //  App.swift
-//  
+//
 //
 //  Created by Adam on 02/05/2023.
 //
@@ -29,12 +29,12 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private weak var aboutWindow: NSWindow?
     private weak var onboardingWindow: OnboardingWindow?
     private weak var arrowWindow: ArrowWindow?
-    @Dependency(\.updater)              private var updater
-    @Dependency(\.suspendingClock)      private var clock
-    @Dependency(\.defaults)             private var defaults
-    @Dependency(\.helperManager)        private var helperManager
+    @Dependency(\.updater) private var updater
+    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.defaults) private var defaults
+    @Dependency(\.helperManager) private var helperManager
 
-    public init() { }
+    public init() {}
 
     public func start() {
         _ = updater // initialize updater
@@ -65,6 +65,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     // MARK: - MenuControllerDelegate
+
     public func forceCharge() {
         chargingManager.chargeToFull()
     }
@@ -84,11 +85,11 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     public func checkForUpdates() {
         updater.checkForUpdates()
     }
-    
+
     public func openAbout() {
         if aboutWindow == nil {
             let about = presentAboutWindow()
-            self.aboutWindow = about
+            aboutWindow = about
         } else {
             aboutWindow?.orderFrontRegardless()
         }
@@ -105,7 +106,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
             }
             window.orderFrontRegardless()
             window.center()
-            self.onboardingWindow = window
+            onboardingWindow = window
         } else {
             onboardingWindow?.orderFrontRegardless()
         }
@@ -117,14 +118,14 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
         arrowWindow = window
         window.show()
-         Task {
-             try await clock.sleep(for: .seconds(7))
-             arrowWindow?.close()
+        Task {
+            try await clock.sleep(for: .seconds(7))
+            arrowWindow?.close()
         }
     }
 
     public func statusItemIconDidAppear() {
-        self.showStatusItemArrow()
+        showStatusItemArrow()
         statusItemIconController?.delegate = nil
     }
 }

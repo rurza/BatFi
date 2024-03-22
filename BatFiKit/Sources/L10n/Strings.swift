@@ -1,7 +1,6 @@
 import Foundation
 
 public enum L10n {
-
     public enum About {
         public enum Button {
             public enum Label {
@@ -13,17 +12,19 @@ public enum L10n {
                 public static let website = String(localized: "about.button.label.website", defaultValue: "Website", bundle: Bundle.module)
             }
         }
+
         public enum Label {
             /// Made with ❤️ and 🔋 by
             public static let aboutDescription = String(localized: "about.label.about_description", defaultValue: "Made with ❤️ and 🔋 by", bundle: Bundle.module)
         }
     }
+
     public enum AppChargingMode {
         public enum State {
             public enum Description {
                 /// The limit is %@.
                 public static func charging(_ p1: Any) -> String {
-                    return String(
+                    String(
                         format: String(
                             localized: "app_charging_mode.state.description.charging",
                             defaultValue: "The limit is %@.",
@@ -32,15 +33,15 @@ public enum L10n {
                         locale: Locale.current,
                         String(describing: p1)
                     )
-
                 }
+
                 /// Charging to 100%
                 public static let forceCharge = String(localized: "app_charging_mode.state.description.force_charge", defaultValue: "Charging to 100%", bundle: Bundle.module)
                 /// Using the battery.
                 public static let forceDischarge = String(localized: "app_charging_mode.state.description.force_discharge", defaultValue: "Using the battery.", bundle: Bundle.module)
                 /// The charging limit is set to %@.
                 public static func inhibit(_ p1: Any) -> String {
-                    return String(
+                    String(
                         format: String(
                             localized: "app_charging_mode.state.description.inhibit",
                             defaultValue: "The charging limit is set to %@.",
@@ -51,6 +52,7 @@ public enum L10n {
                     )
                 }
             }
+
             public enum Title {
                 /// Charger not connected
                 public static let chargerNotConnected = String(localized: "app_charging_mode.state.title.charger_not_connected", defaultValue: "Charger not connected", bundle: Bundle.module)
@@ -67,6 +69,7 @@ public enum L10n {
             }
         }
     }
+
     public enum BatteryInfo {
         public enum Label {
             /// Info is missing
@@ -82,7 +85,10 @@ public enum L10n {
                 public static let powerSource = String(localized: "battery_info.label.additional.power_source", defaultValue: "Power Source", bundle: Bundle.module)
                 /// Temperature
                 public static let temperature = String(localized: "battery_info.label.additional.temperature", defaultValue: "Temperature", bundle: Bundle.module)
+                /// Unknown Health
+                public static let unknownHealth = String(localized: "battery_info.label.additional.unknown_health", defaultValue: "Unknown", bundle: Bundle.module)
             }
+
             public enum Main {
                 /// Battery
                 public static let battery = String(localized: "battery_info.label.main.battery", defaultValue: "Battery", bundle: Bundle.module)
@@ -97,6 +103,7 @@ public enum L10n {
             }
         }
     }
+
     public enum Menu {
         public enum Label {
             /// BatFi…
@@ -153,7 +160,7 @@ public enum L10n {
             public static let header = String(localized: "menu.high_energy_usage.header", defaultValue: "Apps with high energy usage", bundle: Bundle.module)
 
             /// No apps with high energy impact
-            public static let `none` = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
+            public static let none = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
         }
 
         public enum Tooltip {
@@ -165,6 +172,7 @@ public enum L10n {
             }
         }
     }
+
     public enum Notifications {
         public enum Alert {
             public enum Title {
@@ -172,6 +180,7 @@ public enum L10n {
                 public static let optimizedChargingTurnedOn = String(localized: "notifications.alert.title.optimized_charging_turned_on", defaultValue: "Optimized battery charging is turned ON", bundle: Bundle.module)
             }
         }
+
         public enum Notification {
             public enum Subtitle {
                 /// New mode: %@
@@ -196,6 +205,7 @@ public enum L10n {
             }
         }
     }
+
     public enum Onboarding {
         public enum Alert {
             public enum Button {
@@ -204,17 +214,20 @@ public enum L10n {
                     public static let openSystemSettings = String(localized: "onboarding.alert.button.label.open_system_settings", defaultValue: "Open System Settings", bundle: Bundle.module)
                 }
             }
+
             public enum Message {
                 /// It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.
                 /// You can always change permissions in the System Settings.
                 /// Please keep in mind that the app won't work without the helper tool.
                 public static let helperNotInstalled = String(localized: "onboarding.alert.message.helper_not_installed", defaultValue: "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.", bundle: Bundle.module)
             }
+
             public enum Title {
                 /// Helper (still) not installed
                 public static let helperNotInstalled = String(localized: "onboarding.alert.title.helper_not_installed", defaultValue: "Helper (still) not installed", bundle: Bundle.module)
             }
         }
+
         public enum Button {
             public enum Label {
                 /// Complete
@@ -231,6 +244,7 @@ public enum L10n {
                 public static let previous = String(localized: "onboarding.button.label.previous", defaultValue: "Previous", bundle: Bundle.module)
             }
         }
+
         public enum Label {
             /// Almost done.
             public static let almostDone = String(localized: "onboarding.label.almost_done", defaultValue: "Almost done.", bundle: Bundle.module)
@@ -255,6 +269,7 @@ public enum L10n {
             /// You can modify this setting later in the app's settings.
             public static let setLimitSetUpLater = String(localized: "onboarding.label.set_limit_set_up_later", defaultValue: "You can modify this setting later in the app's settings.", bundle: Bundle.module)
         }
+
         public enum Slider {
             public enum Label {
                 /// Turn off charging when battery will reach %@
@@ -271,6 +286,7 @@ public enum L10n {
             }
         }
     }
+
     public enum Settings {
         public enum Accessibility {
             public enum Title {
@@ -286,11 +302,13 @@ public enum L10n {
                 public static let advanced = String(localized: "settings.accessibility.title.advanced", defaultValue: "Advanced pane", bundle: Bundle.module)
             }
         }
+
         public enum Button {
             public enum Description {
                 /// Works only with the lid opened.
                 public static let lidMustBeOpened = String(localized: "settings.button.description.lid_must_be_opened", defaultValue: "Works only with the lid opened.", bundle: Bundle.module)
             }
+
             public enum Label {
                 /// Automatically check for updates
                 public static let automaticallyCheckUpdates = String(localized: "settings.button.label.automatically_check_updates", defaultValue: "Automatically check for updates", bundle: Bundle.module)
@@ -334,6 +352,7 @@ public enum L10n {
                 /// Show apps with high energy usage
                 public static let showHighEnergyImpactProcesses = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show apps with high energy usage", bundle: .module)
             }
+
             public enum Tooltip {
                 /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
                 public static let disableAutomaticSleep = String(localized: "settings.button.tooltip.disable_automatic_sleep", defaultValue: "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep", bundle: Bundle.module)
@@ -343,6 +362,7 @@ public enum L10n {
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.tooltip.turn_off_charging_when_battery_is_hot", defaultValue: "Turns off charging when the battery is 35°C or more.", bundle: Bundle.module)
             }
         }
+
         public enum Label {
             /// 80% is the recommended value for a day-to-day usage.
             public static let chargingRecommendationPart1 = String(localized: "settings.label.charging_recommendation_part1", defaultValue: "80% is the recommended value for a day-to-day usage.", bundle: Bundle.module)
@@ -394,6 +414,7 @@ public enum L10n {
             /// 5 minutes
             public static let highEnergyImpactProcessesMaxDuration = String(localized: "settings.label.high_energy_impact_processes_max_duration", defaultValue: "5 minutes", bundle: .module)
         }
+
         public enum Section {
             /// Advanced
             public static let advanced = String(localized: "settings.section.advanced", defaultValue: "Advanced", bundle: Bundle.module)
@@ -417,7 +438,10 @@ public enum L10n {
             public static let debug = String(localized: "settings.section.debug", defaultValue: "Debug", bundle: Bundle.module)
             /// Apps with high energy usage
             public static let highEnergyImpactProcesses = String(localized: "settings.section.high_energy_impact_processes", defaultValue: "Apps with high energy usage", bundle: .module)
+            /// Other
+            public static let other = String(localized: "settings.section.other", defaultValue: "Other", bundle: .module)
         }
+
         public enum Slider {
             public enum Label {
                 /// Turn off charging when battery will reach %@
@@ -426,12 +450,14 @@ public enum L10n {
                         format: String(
                             localized: "settings.slider.label.turn_off_charging_at",
                             defaultValue: "Turn off charging when battery will reach %@",
-                            bundle: .module),
+                            bundle: .module
+                        ),
                         String(describing: p1)
                     )
                 }
             }
         }
+
         public enum Tab {
             public enum Title {
                 /// Charging

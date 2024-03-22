@@ -10,7 +10,7 @@ import SwiftUI
 public struct SeparatorView: View {
     @Environment(\.colorScheme) private var colorScheme
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         VStack(spacing: 0) {

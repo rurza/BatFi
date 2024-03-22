@@ -1,6 +1,6 @@
 //
 //  PersistenceManager.swift
-//  
+//
 //
 //  Created by Adam on 12/07/2023.
 //
@@ -20,7 +20,7 @@ public final class PersistenceManager {
     @Dependency(\.persistence) private var persistence
     private lazy var logger = Logger(category: "💾👨‍💼")
 
-    public init() { }
+    public init() {}
 
     public func setUpObserving() {
         Task {
@@ -38,7 +38,7 @@ public final class PersistenceManager {
         Task {
             for await _ in sleepClient.macDidWake() {
                 do {
-                    let state = try powerSourceClient.currentPowerSourceState()
+                    let state = try await powerSourceClient.currentPowerSourceState()
                     if let mode = await appChargingState.chargingStateMode() {
                         try await persistence.savePowerState(state, mode)
                     }

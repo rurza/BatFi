@@ -1,6 +1,6 @@
 //
 //  PowerSourceClient.swift
-//  
+//
 //
 //  Created by Adam on 28/04/2023.
 //
@@ -15,11 +15,11 @@ public enum PowerSourceError: Error {
 
 public struct PowerSourceClient: TestDependencyKey {
     public var powerSourceChanges: () -> AsyncStream<PowerState>
-    public var currentPowerSourceState: () throws -> PowerState
+    public var currentPowerSourceState: () async throws -> PowerState
 
     public init(
         powerSourceChanges: @escaping () -> AsyncStream<PowerState>,
-        currentPowerSourceState: @escaping () throws -> PowerState
+        currentPowerSourceState: @escaping () async throws -> PowerState
     ) {
         self.powerSourceChanges = powerSourceChanges
         self.currentPowerSourceState = currentPowerSourceState
@@ -28,10 +28,9 @@ public struct PowerSourceClient: TestDependencyKey {
     public static var testValue: PowerSourceClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var powerSourceClient: PowerSourceClient {
+public extension DependencyValues {
+    var powerSourceClient: PowerSourceClient {
         get { self[PowerSourceClient.self] }
         set { self[PowerSourceClient.self] = newValue }
     }
 }
-

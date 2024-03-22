@@ -1,13 +1,12 @@
 //
 //  SleepAssertionClient.swift
-//  
+//
 //
 //  Created by Adam on 23/05/2023.
 //
 
-import Foundation
 import Dependencies
-
+import Foundation
 
 public struct SleepAssertionClient: TestDependencyKey {
     public var preventSleepIfNeeded: (_ preventSleep: Bool) -> Void
@@ -19,8 +18,8 @@ public struct SleepAssertionClient: TestDependencyKey {
     public static var testValue: SleepAssertionClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var sleepAssertionClient: SleepAssertionClient {
+public extension DependencyValues {
+    var sleepAssertionClient: SleepAssertionClient {
         get { self[SleepAssertionClient.self] }
         set { self[SleepAssertionClient.self] = newValue }
     }

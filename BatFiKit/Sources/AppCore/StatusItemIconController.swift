@@ -1,6 +1,6 @@
 //
 //  StatusItemIconController.swift
-//  
+//
 //
 //  Created by Adam on 18/05/2023.
 //
@@ -10,8 +10,8 @@ import AsyncAlgorithms
 import BatteryIndicator
 import Clients
 import Cocoa
-import Dependencies
 import DefaultsKeys
+import Dependencies
 import SnapKit
 import SwiftUI
 
@@ -23,11 +23,11 @@ public protocol StatusItemIconControllerDelegate: AnyObject {
 @MainActor
 public final class StatusItemIconController {
     public weak var delegate: StatusItemIconControllerDelegate?
-    
-    @Dependency(\.powerSourceClient)    private var powerSourceClient
-    @Dependency(\.appChargingState)     private var appChargingState
-    @Dependency(\.defaults)             private var defaults
-    @Dependency(\.suspendingClock)      private var clock
+
+    @Dependency(\.powerSourceClient) private var powerSourceClient
+    @Dependency(\.appChargingState) private var appChargingState
+    @Dependency(\.defaults) private var defaults
+    @Dependency(\.suspendingClock) private var clock
     private var didAppear = false
 
     let statusItem: NSStatusItem
@@ -47,7 +47,7 @@ public final class StatusItemIconController {
 
     func setUpObserving() {
         Task {
-            for await ((powerState, mode), (showPercentage, showMonochrome))  in combineLatest(
+            for await ((powerState, mode), (showPercentage, showMonochrome)) in combineLatest(
                 combineLatest(
                     powerSourceClient.powerSourceChanges(),
                     appChargingState.observeChargingStateMode()
@@ -55,8 +55,9 @@ public final class StatusItemIconController {
                 combineLatest(
                     defaults.observe(.showBatteryPercentageInStatusIcon),
                     defaults.observe(.monochromeStatusIcon)
-                ))
-                .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
+                )
+            )
+            .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
                 model.batteryLevel = powerState.batteryLevel
                 model.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
                 model.monochrome = showMonochrome
@@ -95,7 +96,7 @@ extension BatteryIndicatorView.Model.ChargingMode {
             self = .charging
         case .inhibit:
             self = .inhibited
-        case .forceDischarge, .chargerNotConnected, .initial:
+        case .chargerNotConnected, .forceDischarge, .initial:
             self = .discharging
         }
     }

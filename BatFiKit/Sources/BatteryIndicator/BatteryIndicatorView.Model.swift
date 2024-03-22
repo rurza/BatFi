@@ -1,6 +1,6 @@
 //
 //  BatteryIndicatorView.Model.swift
-//  
+//
 //
 //  Created by Adam on 18/05/2023.
 //

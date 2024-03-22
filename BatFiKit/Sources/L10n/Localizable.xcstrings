@@ -28,10 +28,28 @@
             "value" : "ライセンス"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라이센스"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Licencja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лицензия"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "许可证"
           }
         }
       }
@@ -63,10 +81,28 @@
             "value" : "Twitter"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推特"
           }
         }
       }
@@ -77,7 +113,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Website"
+            "value" : "Webseite"
           }
         },
         "en" : {
@@ -98,10 +134,28 @@
             "value" : "Webサイト"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웹사이트"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Strona www"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Веб-сайт"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "网址"
           }
         }
       }
@@ -133,10 +187,28 @@
             "value" : "Made with ❤️ and 🔋 by"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Made with ❤️ and 🔋 by"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Z ❤️ i 🔋 zrobione przez"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сделано с ❤️ и 🔋 "
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以❤️和🔋的诚意之作，来自"
           }
         }
       }
@@ -168,10 +240,28 @@
             "value" : "制限は%@です。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@까지 충전합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limit to %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит составляет %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电限制为%@。"
           }
         }
       }
@@ -203,10 +293,28 @@
             "value" : "100%まで充電する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%까지 충전합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładuję do 100%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка до 100%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电至100%"
           }
         }
       }
@@ -238,10 +346,28 @@
             "value" : "バッテリーを使う。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리를 방전합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Używam baterii do zasilania."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использование аккумулятора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用电池。"
           }
         }
       }
@@ -273,10 +399,28 @@
             "value" : "充電制限は%@に設定されています。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@까지 충전되었습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limit ładowania to %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит зарядки установлен на %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前的充电限制被设置为%@。"
           }
         }
       }
@@ -308,10 +452,28 @@
             "value" : "充電器が未接続です"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어댑터가 연결되지 않음"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowarka nie podłączona"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядное устройство не подключено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电器未连接"
           }
         }
       }
@@ -343,10 +505,28 @@
             "value" : "限界まで充電する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한까지 충전 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładuję do limitu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка до лимита"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电至限制值"
           }
         }
       }
@@ -378,10 +558,28 @@
             "value" : "充電中"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładuję"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电中"
           }
         }
       }
@@ -413,10 +611,28 @@
             "value" : "放電中"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방전 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rozładowuję"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрядка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放电中"
           }
         }
       }
@@ -448,10 +664,28 @@
             "value" : "充電の抑制"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowanie wstrzymane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ограничение зарядки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电停止中"
           }
         }
       }
@@ -483,10 +717,28 @@
             "value" : "初期化"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "준비 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inicjalizacja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инициализация"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初始化中"
           }
         }
       }
@@ -518,10 +770,28 @@
             "value" : "充電モード"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 모드"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tryb apki"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим приложения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电模式"
           }
         }
       }
@@ -553,10 +823,28 @@
             "value" : "バッテリー状態"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 성능"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Żywotność baterii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Состояние аккумулятора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池健康度"
           }
         }
       }
@@ -588,10 +876,28 @@
             "value" : "充電回数"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사이클 수"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Liczba cykli"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество циклов перезарядки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电循环数"
           }
         }
       }
@@ -623,10 +929,28 @@
             "value" : "電源"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 공급원"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Źródło zasilania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Источник питания"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电源"
           }
         }
       }
@@ -658,10 +982,51 @@
             "value" : "温度"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "온도"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temperatura baterii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Температура"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "温度"
+          }
+        }
+      }
+    },
+    "battery_info.label.additional.unknown_health" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unknown"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieznany"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
           }
         }
       }
@@ -693,10 +1058,28 @@
             "value" : "情報が見つかりません"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정보 없음"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na informacje"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Информация отсутствует"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "信息缺失"
           }
         }
       }
@@ -728,10 +1111,28 @@
             "value" : "バッテリー"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bateria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккумулятор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池"
           }
         }
       }
@@ -763,10 +1164,28 @@
             "value" : "計算中"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계산 중..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Obliczam…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вычисление…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计算中..."
           }
         }
       }
@@ -798,10 +1217,28 @@
             "value" : "残り時間"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "남은 시간"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pozostało"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осталось времени"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余时间"
           }
         }
       }
@@ -812,7 +1249,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeit bis zur Aufladung"
+            "value" : "Ladezeit"
           }
         },
         "en" : {
@@ -833,10 +1270,28 @@
             "value" : "充電時間"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 완료까지"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czas do naładowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время зарядки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电时间"
           }
         }
       }
@@ -862,10 +1317,28 @@
             "value" : "Aucune application n'utilise suffisamment d'énergie"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "없음"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Żadna z apek nie powoduje dużego zużycia energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет приложений, потребляющих значительное количество энергии"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前没有高能耗应用"
           }
         }
       }
@@ -891,10 +1364,28 @@
             "value" : "Dernières 12 heures"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 12 시간"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ostatnie 12h"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последние 12 часов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "过去12小时"
           }
         }
       }
@@ -920,10 +1411,28 @@
             "value" : "Chargement"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 중"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowanie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电中"
           }
         }
       }
@@ -949,10 +1458,28 @@
             "value" : "Empêcher le chargement"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowanie wstrzymane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ограничение зарядки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电停止中"
           }
         }
       }
@@ -978,10 +1505,28 @@
             "value" : "En attente (de plus) de données..."
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 많은 데이터를 기다리는 중..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na więcej danych…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание (дополнительных) данных…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待（更多）数据..."
           }
         }
       }
@@ -1007,10 +1552,28 @@
             "value" : "Applications énergivores"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "많은 에너지를 사용 중인 앱"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apki z dużym zużyciem energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения с высоким энергопотреблением"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高能耗应用"
           }
         }
       }
@@ -1036,10 +1599,28 @@
             "value" : "En attente de données..."
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터를 기다리는 중..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na dane…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание данных…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待数据..."
           }
         }
       }
@@ -1071,10 +1652,28 @@
             "value" : "BatFi…"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi..."
           }
         }
       }
@@ -1106,10 +1705,28 @@
             "value" : "100%まで充電"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 완전 충전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Naładuj do 100%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядить до 100%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电至100%"
           }
         }
       }
@@ -1141,10 +1758,28 @@
             "value" : "アップデートを確認"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sprawdź uaktualnienia…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверить наличие обновлений…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新..."
           }
         }
       }
@@ -1176,10 +1811,28 @@
             "value" : "デバッグ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디버그"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Debug"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отладка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调试"
           }
         }
       }
@@ -1211,10 +1864,28 @@
             "value" : "ヘルパーをインストール"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 설치"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zainstaluj helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить Помощник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装Helper"
           }
         }
       }
@@ -1246,10 +1917,28 @@
             "value" : "詳細"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더보기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Więcej"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ещё"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多"
           }
         }
       }
@@ -1281,10 +1970,28 @@
             "value" : "オンボーディング"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "초기 설정 창..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Onboarding…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Первичная настройка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上手引导"
           }
         }
       }
@@ -1316,10 +2023,28 @@
             "value" : "BatFiを終了する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 종료"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zakończ BatFi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить BatFi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出BatFi"
           }
         }
       }
@@ -1351,10 +2076,28 @@
             "value" : "ヘルパーをアンインストール"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 제거"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Odinstaluj helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить Помощник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卸载Helper"
           }
         }
       }
@@ -1386,10 +2129,28 @@
             "value" : "設定をリセット"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 초기화"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przywróć domyślne ustawienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить настройки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重制设置"
           }
         }
       }
@@ -1421,10 +2182,28 @@
             "value" : "アプリの設定を開く"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ustawienia…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用设置..."
           }
         }
       }
@@ -1435,7 +2214,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stoppen der Aufladung auf 100%"
+            "value" : "Laden bis 100% stoppen"
           }
         },
         "en" : {
@@ -1456,10 +2235,28 @@
             "value" : "100%に充電を停止する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 완전 충전 취소"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zatrzymaj ładowanie do 100%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить зарядку до 100%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止充电至100%"
           }
         }
       }
@@ -1485,10 +2282,28 @@
             "value" : "Distribution de l'énergie"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 분배"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rozkład mocy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Распределение питания"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "功率分配"
           }
         }
       }
@@ -1514,10 +2329,28 @@
             "value" : "En attente de données..."
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터를 기다리는 중..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czekam na dane…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание данных…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等待数据中..."
           }
         }
       }
@@ -1528,7 +2361,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindert weil Ladegerät nicht angeschlossen ist"
+            "value" : "Verhindert, weil Ladegerät nicht angeschlossen ist"
           }
         },
         "en" : {
@@ -1549,10 +2382,28 @@
             "value" : "充電器が接続されていないため無効になっています"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 어댑터가 연결되지 않아 비활성화됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niedostępne ponieważ ładowarka nie jest podłączona"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключено, поскольку зарядное устройство не подключено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无效，由于充电器未连接"
           }
         }
       }
@@ -1563,7 +2414,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindert weil \"Entlade Akku wenn über Akku-Limit geladen\" eingeschaltet ist"
+            "value" : "Verhindert, weil \"Entlade Akku wenn über Akku-Limit geladen\" eingeschaltet ist"
           }
         },
         "en" : {
@@ -1584,10 +2435,28 @@
             "value" : "「制限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"충전 제한을 넘어서 충전된 경우 배터리 방전\"이 켜져 비활성화됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niedostępne ponieważ \"Rozładuj baterię gdy naładowana ponad limit\" jest włączone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключено, поскольку включена функция «Разряжать аккумулятор при превышении лимита заряда»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无效，“超过设置电量时对电池放电”已开启"
           }
         }
       }
@@ -1619,10 +2488,28 @@
             "value" : "最適化されたバッテリー充電がオンになっています"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최적화된 배터리 충전이 활성화됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoptymalizowane ładowanie baterii jest WŁĄCZONE"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оптимизированная зарядка аккумулятора включена."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池设置中“优化电池充电”选项已开启"
           }
         }
       }
@@ -1648,10 +2535,28 @@
             "value" : "J'ai besoin d'énergie!"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac의 배터리가 다 됐나봐요!"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Naładuj mnie!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мне нужно больше сока!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快来填满我吧！"
           }
         }
       }
@@ -1683,10 +2588,28 @@
             "value" : "新しいモード: %@"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 모드: %@"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nowy tryb: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новый режим: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新模式：%@"
           }
         }
       }
@@ -1712,10 +2635,28 @@
             "value" : "Batterie faible"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 전원 부족"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niski stan baterii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Низкий уровень заряда"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电量低"
           }
         }
       }
@@ -1747,10 +2688,28 @@
             "value" : "システム設定を開く"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 열기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Otwórz Ustawienia systemu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системные настройки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开系统设置"
           }
         }
       }
@@ -1761,7 +2720,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es scheint als ob keine Berechtigung für den Helper erteilt wurde. Sollte keine Passwort/Touch ID Abfrage gekommen sein ist das OK – das ist ein macOS Bug und passiert manchmal. Du kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen. Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktionieren wird."
+            "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort / Touch ID Abfrage bekommen haben, ist das OK – das ist ein macOS Bug und passiert manchmal. Du kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen. Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
           }
         },
         "en" : {
@@ -1782,10 +2741,28 @@
             "value" : "ヘルパーにパーミッションを与えていないようです。パスワード/Touch IDのプロンプトが表示されなかったのなら、それは問題ありません。macOSのバグで、時々起こります。\nシステム設定でいつでも権限を変更できます。ヘルパーツールがないとアプリは動作しないことを覚えておいてください。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램에 권한이 할당되지 않았습니다. 권한 부여를 위한 비밀번호 / Touch ID 창이 뜨지 않았을 경우, 이는 macOS의 버그이므로 시스템 설정에서 설정해주십시오. 언제든지 시스템 설정에서 권한을 변경할 수 있습니다. 보조 프로그램이 설치되지 않았을 경우 BatFi가 작동되지 않음을 유념해 주십시오."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok – czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже, что вы не предоставили разрешения помощнику. Если не было запроса пароля/Touch ID, это нормально - это ошибка macOS, и иногда такое случается.\nВы всегда можете изменить разрешения в Системных настройках.\nИмейте в виду, что приложение не будет работать без помощника."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看起来Helper工具没有获得合适的系统信息访问和控制权限。如果没有密码/Touch ID提示出来，不用担心，这是一个macOS的系统bug，时有发生。\n你永远都可以在系统设置中自行更改本软件的权限。\n请记住这个应用需要在Helper工具已安装且获得相关权限的前提下才能正常工作。"
           }
         }
       }
@@ -1817,10 +2794,28 @@
             "value" : "ヘルパーがインストールされていません。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램의 설치가 완료되지 않았습니다"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Helper (wciąż) nie jest zainstalowany"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник (все еще) не установлен"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper （仍） 未安装"
           }
         }
       }
@@ -1852,10 +2847,28 @@
             "value" : "コンプリート"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gotowe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Завершить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
           }
         }
       }
@@ -1887,10 +2900,28 @@
             "value" : "始める"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작하기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zaczynamy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приступить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初始化"
           }
         }
       }
@@ -1922,10 +2953,28 @@
             "value" : "ヘルパーをインストール"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 설치"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zainstaluj helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить помощник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装 Helper工具"
           }
         }
       }
@@ -1957,10 +3006,28 @@
             "value" : "ログイン時にBatFiを開く"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작 시 BatFi 실행"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uruchom podczas logowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать BatFi при входе"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "登陆系统时启动BatFI"
           }
         }
       }
@@ -1992,10 +3059,28 @@
             "value" : "次へ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dalej"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一项"
           }
         }
       }
@@ -2027,10 +3112,28 @@
             "value" : "前へ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wstecz"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一项"
           }
         }
       }
@@ -2062,10 +3165,28 @@
             "value" : "もう少し"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "끝이 보입니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prawie gotowe."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почти готово."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几乎完成了。"
           }
         }
       }
@@ -2097,10 +3218,28 @@
             "value" : "BatFiは、必要な時のみ100%まで充電することでmacOSのバッテリーパフォーマンスを最適化することができます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 충전 상태를 효과적으로 관리하여 macOS의 배터리 성능을 유지할 수 있도록 도와줍니다. 반면, 경우에 따라 Mac을 완전 충전하도록 설정할 수도 있습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę – wciąż możesz ładować baterię do 100% gdy potrzeba."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi помогает вам оптимизировать производительность аккумулятора macOS за счет умного управления уровнями заряда, при этом предоставляя полный контроль - зарядка до 100% только тогда, когда это необходимо."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 通过智能化的充电限制来优化电池性能以及寿命，然而你依然可以解除限制并充电至100%来满足额外的续航需求。"
           }
         }
       }
@@ -2132,10 +3271,28 @@
             "value" : "アプリはすぐに使えます！"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi를 사용할 준비가 완료되었습니다!"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apka jest gotowa do działania!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение готово к использованию!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "准备好了，尽情使用吧！"
           }
         }
       }
@@ -2167,10 +3324,28 @@
             "value" : "完了"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료됨."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gotowe."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成。"
           }
         }
       }
@@ -2202,10 +3377,28 @@
             "value" : "Macのバッテリー寿命を延ばしましょう。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac의 배터리 성능을 극한으로 끌어올리세요."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przedłuż życie swojego Maca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продлите жизнь вашему Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "延长你Mac的寿命"
           }
         }
       }
@@ -2237,10 +3430,28 @@
             "value" : "BatFiは、バックグラウンドで動作し、コンピュータの充電モードを変更することができるヘルパーツールをインストールします。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 백그라운드에서 Mac의 충전 모드를 제어할 수 있도록 하는 보조 프로그램을 설치합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi zainstaluje helper, który będzie działał w tle i ma możliwość zmiany trybu ładowania Twojego komputera."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi установит вспомогательный инструмент, который будет работать в фоновом режиме и сможет изменять режим зарядки вашего компьютера."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi即将安装helper工具包，它会在后台运行并更改此Mac的充电模式"
           }
         }
       }
@@ -2272,10 +3483,28 @@
             "value" : "ヘルパーはBatFiを適切に機能させるために不可欠です。インストールには管理者権限が求められます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 보조 프로그램은 BatFi가 작동하기 위해 반드시 필요하며, 설치 시 관리자 권한이 필요합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instalacja helpera wymaga uprawnień administratora i jest niezbędna dla działania BatFi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для установки вспомогательного инструмента требуются права администратора, и он необходим для функциональности BatFi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装helper 工具包需要管理员权限，且该工具包是BatFi正常运行的必要组件。"
           }
         }
       }
@@ -2286,7 +3515,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wird empfohlen. Du kannst es jederzeit in den App Einstellungen ändern."
+            "value" : "Empfohlen. Du kannst es später in den Einstellungen ändern."
           }
         },
         "en" : {
@@ -2307,10 +3536,28 @@
             "value" : "推奨設定です。後でアプリの設定で変更できます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "권장됨. 이 설정은 나중에 앱 설정에서 수정할 수 있습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zalecane. Możesz to zmienić później w ustawieniach aplikacji."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рекомендуется. Вы можете изменить это позже в настройках приложения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推荐设置。你可以在应用设置中自由更改。"
           }
         }
       }
@@ -2342,10 +3589,28 @@
             "value" : "充電制限を設定します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한을 설정하세요."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ustaw poziom naładowania."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить лимит заряда."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置充电限制。"
           }
         }
       }
@@ -2377,10 +3642,28 @@
             "value" : "バッテリーの寿命を伸ばすために、充電が100%のままになるのを防ぎましょう。そのために最大充電率を設定します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최대 충전 상태를 설정하여 완전 충전을 제한하고 배터리 성능을 향상하세요."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ustaw maksymalny poziom naładowania by uniknąć ciągłego utrzymywania poziomu baterii na 100% i przedłużyć jej żywotność."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установите максимальный процент зарядки, чтобы предотвратить поддержание уровня заряда на уровне 100% и увеличить срок службы аккумулятора."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置一个最大的充电百分比以防长期处于100%状态，从而提升电池的寿命。"
           }
         }
       }
@@ -2412,10 +3695,28 @@
             "value" : "この設定は、後でアプリの設定で変更できます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 설정은 나중에 앱 설정에서 수정할 수 있습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Możesz to później zmienić w ustawieniach aplikacji."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете изменить этот параметр позже в настройках приложения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你后面可以在应用设置中调整该选项。"
           }
         }
       }
@@ -2447,10 +3748,28 @@
             "value" : "バッテリーが%@に達したら充電をオフにする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리가 %@에 도달할 때 까지 충전 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz ładowanie gdy bateria osiągnie %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключите зарядку, когда аккумулятор достигнет %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在电池达到%@后停止充电"
           }
         }
       }
@@ -2476,10 +3795,28 @@
             "value" : "Avancé"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고급 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel zaawansowanych"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расширенная панель"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高级面板"
           }
         }
       }
@@ -2511,10 +3848,28 @@
             "value" : "充電パネル"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel ustawień ładowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель зарядки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电面板"
           }
         }
       }
@@ -2546,10 +3901,28 @@
             "value" : "一般パネル"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel ustawień ogólnych"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Общая панель"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用面板"
           }
         }
       }
@@ -2581,10 +3954,28 @@
             "value" : "通知パネル"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel ustawień powiadomień"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель уведомлений"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知面板"
           }
         }
       }
@@ -2610,10 +4001,28 @@
             "value" : "Barre de menu"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴 창"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel paska menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель строки меню"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菜单栏面板"
           }
         }
       }
@@ -2645,10 +4054,28 @@
             "value" : "蓋を開けた状態でのみ動作します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBook이 열렸을 경우에만 작동합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Działa tylko, gdy pokrywa z ekranem jest otwarta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Работает только при открытой крышке."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在打开上盖时启用。"
           }
         }
       }
@@ -2680,10 +4107,28 @@
             "value" : "更新を自動的にチェックする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동으로 업데이트 확인"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie sprawdzaj uaktualnienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически проверять наличие обновлений"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动检查更新"
           }
         }
       }
@@ -2715,10 +4160,28 @@
             "value" : "アップデートを自動的にダウンロードする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동으로 업데이트 다운로드"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie pobieraj uaktualnienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически загружать обновления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动下载更新"
           }
         }
       }
@@ -2750,10 +4213,28 @@
             "value" : "充電を自動的に管理する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동으로 충전 제어"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie zarządzaj ładowaniem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически управлять зарядкой"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动充电管理"
           }
         }
       }
@@ -2785,10 +4266,28 @@
             "value" : "バッテリーの残量パーセントを表示"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 잔량 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj procent baterii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать процент заряда аккумулятора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "限制电池百分比"
           }
         }
       }
@@ -2799,7 +4298,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blinke die MagSafe LED ein paar mal sobald die App begint den Akku zu entladen"
+            "value" : "Blinke die MagSafe LED ein paar mal sobald die App beginnt, den Akku zu entladen"
           }
         },
         "en" : {
@@ -2820,10 +4319,28 @@
             "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리를 방전하기 시작할 경우 MagSafe의 불빛을 깜빡임"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mrugnij pare razy diodą LED na MagSafe, gdy apka zacznie rozładowywać baterię"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мигнуть светодиодом на MagSafe несколько раз, когда приложение начнет разряжать аккумулятор."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池开始放电时，MagSafe上的LED将闪烁数次"
           }
         }
       }
@@ -2855,10 +4372,28 @@
             "value" : "充電ステータスが変わった時に通知する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 상태가 변할 경우"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokaż powiadomienia gdy tryb ładowania się zmienił"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статус зарядки изменился"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电状态已更改"
           }
         }
       }
@@ -2890,10 +4425,28 @@
             "value" : "アプリのベータ版を許可する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "베타 버전 업데이트 받기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pozwalaj na użycie wersji beta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешить бета-версию приложения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "允许检查测试版更新"
           }
         }
       }
@@ -2925,10 +4478,28 @@
             "value" : "デバッグメニューを表示"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개발자를 위한 기능 보기"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj menu do debugowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать меню отладки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示调试菜单"
           }
         }
       }
@@ -2960,10 +4531,28 @@
             "value" : "充電時に自動スリープを遅らせ、過充電を避ける"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한까지 충전되지 않았을 경우 잠자기 지연"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Opóźnij automatycznie usypianie systemu podczas ładowania, gdy limit nie został osiągnięty"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отложить автоматический сон при зарядке и недостигнутом лимите"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当充电中且未达到限制时，推迟系统自动睡眠"
           }
         }
       }
@@ -2995,10 +4584,28 @@
             "value" : "制限を超えて充電されたときにバッテリーを放電する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한을 넘어서 충전된 경우 배터리 방전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rozładuj baterię do osiągnięcia limitu ładowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разряжать аккумулятор при превышении лимита заряда"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超过设置电量时对电池放电"
           }
         }
       }
@@ -3024,10 +4631,28 @@
             "value" : "Activer automatiquement la limite de charge système (80 %) lorsque le Mac passe veille"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 잠자기로 전환될 경우 시스템 설정(80%)에 따라 자동으로 충전 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie włącz systemowy limit ładowania (80%) gdy Mac się usypia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически включать системное ограничение заряда (80 %), когда Mac переходит в спящий режим"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Mac睡眠时自动启动系统充电限制（80%）"
           }
         }
       }
@@ -3053,10 +4678,28 @@
             "value" : "Afficher les applications avec une utilisation élevée de l'énergie"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "많은 에너지를 사용 중인 앱 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj apki z dużym zużyciem energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать приложения с высоким энергопотреблением"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示高能耗应用"
           }
         }
       }
@@ -3088,10 +4731,28 @@
             "value" : "ログイン時に起動する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작 시 BatFi 실행"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uruchom podczas logowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать при входе"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统登录时自动启动"
           }
         }
       }
@@ -3123,10 +4784,28 @@
             "value" : "充電が一時停止している場合は、MagSafeの緑色のランプを使用してください。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전이 일시 제한된 경우 MagSafe의 불빛이 녹색으로 점등"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Użyj zielonego światła na ładowarce MagSafe gdy ładowanie jest wstrzymane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать зеленый индикатор на MagSafe, когда зарядка приостановлена"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电停止时在MagSafe上显示绿色LED"
           }
         }
       }
@@ -3158,10 +4837,28 @@
             "value" : "モノクロのアイコンを表示"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모노크롬 아이콘 사용"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Używaj monochromatycznej ikony"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать монохромный значок"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示单色图标"
           }
         }
       }
@@ -3193,10 +4890,28 @@
             "value" : "Macがスリープ状態になると、自動的に充電を一時停止します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 잠자기로 전환될 경우 자동으로 충전 일시 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Automatycznie wstrzymywaj ładowanie gdy Mac się usypia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически приостанавливать зарядку, когда Mac переходит в спящий режим"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在Mac睡眠时自动停止充电"
           }
         }
       }
@@ -3228,10 +4943,28 @@
             "value" : "バッテリー充電の最適化が作動しているときにアラートを表示する"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최적화된 배터리 충전이 활성화될 경우 알림 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj alert gdy systemowe \"zoptymalizowane ładowanie baterii\" zostanie włączone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать предупреждение, когда включена оптимизированная зарядка аккумулятора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当电池充电优化启用时显示提醒"
           }
         }
       }
@@ -3257,10 +4990,28 @@
             "value" : "Afficher le pourcentage de la batterie dans le menu"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 잔량 그래프 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj wykres ze stanem baterii w menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать диаграмму процента заряда аккумулятора в меню"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在菜单栏中显示电池百分比图标"
           }
         }
       }
@@ -3286,10 +5037,28 @@
             "value" : "La batterie est à 20%"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리가 20% 미만일 경우"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bateria ma 20%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Низкий уровень заряда 20%"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电量低于20%"
           }
         }
       }
@@ -3315,10 +5084,28 @@
             "value" : "Afficher la distribution de l'énergie"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 분배 표시"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj dystrybucję mocy"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать распределение питания"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示功率分配"
           }
         }
       }
@@ -3350,10 +5137,28 @@
             "value" : "バッテリーが熱くなったら、自動的に充電をオフにする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 온도가 뜨거울 경우 자동으로 충전 제한"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przerwij ładowanie gdy bateria będzie zbyt gorąca"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически отключать зарядку при нагревании аккумулятора"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池过热时自动停止充电"
           }
         }
       }
@@ -3385,10 +5190,28 @@
             "value" : "このアプリはコンピュータが充電限界まで充電するのを遅らせ、その後、充電を停止し、Macをスリープ状態にします。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi에서 Mac을 충전 제한까지 충전하기 위해 잠자기를 제한합니다. 이후에 충전을 제한한 후 Mac을 잠자기로 전환합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apka opóźni automatycznie usypianie systemu, pozwoli naładować baterię do wyznaczonego limitu, wstrzyma ładowanie i uśpi Maca"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение отложит переход в спящий режим, чтобы компьютер зарядился до лимита, а затем ограничит зарядку и переведет Mac в спящий режим."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此应用会推迟睡眠以达到设置的充电限制，而后停止充电且进入正常的睡眠流程。"
           }
         }
       }
@@ -3420,10 +5243,28 @@
             "value" : "Macbookの蓋を開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBook이 열려 있을 경우 BatFi에서 충전 제한까지 배터리를 방전합니다"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gdy pokrywa Macbooka jest otwarta, apka może rozładowywać baterie do momentu osiągnięcia limitu ładowania"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда крышка MacBook открыта, приложение может разряжать аккумулятор до лимита."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当Mac上盖打开时，此Mac可以对电池放电直到达到设定限制值"
           }
         }
       }
@@ -3455,10 +5296,28 @@
             "value" : "バッテリーが35°C以上の場合、充電をオフにします。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "35°C 이상 배터리 온도가 올라갈 경우 충전을 제한합니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącza ładowanie gdy temperatura baterii przekroczy 35°C"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключает зарядку при температуре аккумулятора 35°C и выше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当电池温度达到35˚C或者以上时停止充电"
           }
         }
       }
@@ -3490,10 +5349,28 @@
             "value" : "推奨される値は 80% です。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일상적인 사용 시 80%가 권장됩니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "80% to rekomendowany limit ładowania podczas normalnego użytkowania."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80% - это рекомендуемое значение для ежедневного использования."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80%是日常使用的推荐值"
           }
         }
       }
@@ -3525,10 +5402,28 @@
             "value" : "メニューバーから「100%まで充電する」を使用して、この設定を手動で書き換えることができます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴의 \"배터리 완전 충전\"을 통해 이 설정을 덮어씌울 수 있습니다."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zawsze możesz naładować komputer używając polecenia \"Naładuj do 100%\" z menu."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете вручную отменить эту настройку, воспользовавшись командой \"Зарядить до 100%\" в меню."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可以使用菜单栏中的“充电至100%”命令来手动覆盖这里的设置。"
           }
         }
       }
@@ -3589,6 +5484,18 @@
             }
           }
         },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "최대 %d개의 프로세스"
+                }
+              }
+            }
+          }
+        },
         "pl" : {
           "variations" : {
             "plural" : {
@@ -3618,6 +5525,48 @@
               }
             }
           }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать максимум %d процесса"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать до %d процессов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать только %d процесс"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Показать до %d процессов"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "最多显示%d个进程"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -3642,10 +5591,28 @@
             "value" : "Rafraichissement: %@"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "샘플 시간: %@"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Długość samplingu: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продолжительность выборки: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "采样间隔：%@"
           }
         }
       }
@@ -3671,10 +5638,28 @@
             "value" : "5 minutes"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5분"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "5 minut"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5分钟"
           }
         }
       }
@@ -3700,10 +5685,28 @@
             "value" : "30s"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30초"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "30s"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 с."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30秒"
           }
         }
       }
@@ -3729,10 +5732,28 @@
             "value" : "Seuil de l'impact énergétique: %lld"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영향을 주는 에너지 범위: %lld"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Próg obciążenia energetycznego: %lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порог энергетического воздействия: %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高能耗应用的显示阈值：%lld"
           }
         }
       }
@@ -3764,10 +5785,28 @@
             "value" : "開発者向け"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고급"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zaawansowane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительно"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高级"
           }
         }
       }
@@ -3799,10 +5838,28 @@
             "value" : "アラート"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alerty"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предупреждения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提示"
           }
         }
       }
@@ -3828,10 +5885,28 @@
             "value" : "Chargement"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowanie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电"
           }
         }
       }
@@ -3857,10 +5932,28 @@
             "value" : "Débugger"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "디버그"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Debugowanie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отладка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "调试"
           }
         }
       }
@@ -3892,10 +5985,28 @@
             "value" : "一般"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ogólne"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用"
           }
         }
       }
@@ -3921,10 +6032,28 @@
             "value" : "Applications énergivores"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "많은 에너지를 사용 중인 앱"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apki z dużym zużyciem energii"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложения с высоким энергопотреблением"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高能耗应用列表"
           }
         }
       }
@@ -3956,10 +6085,28 @@
             "value" : "MagSafe"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "MagSafe"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe充电口"
           }
         }
       }
@@ -3985,10 +6132,28 @@
             "value" : "Menu"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Меню"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菜单"
           }
         }
       }
@@ -4020,10 +6185,45 @@
             "value" : "通知"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Powiadomienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
+          }
+        }
+      }
+    },
+    "settings.section.other" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Other"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inne"
           }
         }
       }
@@ -4055,10 +6255,28 @@
             "value" : "メニューバー"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태 아이콘"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ikona statusu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Иконка состояния"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态图标"
           }
         }
       }
@@ -4090,10 +6308,28 @@
             "value" : "アップデート"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uaktualnienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新"
           }
         }
       }
@@ -4125,10 +6361,28 @@
             "value" : "バッテリーが%@に達したら充電をオフにする"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@까지 충전을 완료하도록 예약됨"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz ładowanie gdy bateria osiągnie %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключить зарядку, когда заряд аккумулятора достигнет %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当电量达到%@时停止充电"
           }
         }
       }
@@ -4154,10 +6408,28 @@
             "value" : "Avancé"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고급"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zaawansowane"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительно"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高级"
           }
         }
       }
@@ -4189,10 +6461,28 @@
             "value" : "充電"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ładowanie"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电"
           }
         }
       }
@@ -4224,10 +6514,28 @@
             "value" : "一般"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일반"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ogólne"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通用"
           }
         }
       }
@@ -4259,10 +6567,28 @@
             "value" : "通知"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Powiadomienia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知"
           }
         }
       }
@@ -4288,10 +6614,28 @@
             "value" : "Barre de menu"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pasek Menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Строка меню"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "菜单栏"
           }
         }
       }

@@ -1,6 +1,6 @@
 //
 //  Formatter.swift
-//  
+//
 //
 //  Created by Adam on 25/10/2023.
 //

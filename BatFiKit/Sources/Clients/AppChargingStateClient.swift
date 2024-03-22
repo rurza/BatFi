@@ -1,6 +1,6 @@
 //
 //  AppChargingStateClient.swift
-//  
+//
 //
 //  Created by Adam on 16/05/2023.
 //
@@ -10,7 +10,6 @@ import Dependencies
 import Foundation
 
 public struct AppChargingStateClient: TestDependencyKey {
-
     public var updateChargingStateMode: (_ mode: AppChargingMode) async -> Void
     public var observeChargingStateMode: () -> AsyncStream<AppChargingMode>
     public var updateLidOpenedStatus: (_ opened: Bool) async -> Void
@@ -34,8 +33,8 @@ public struct AppChargingStateClient: TestDependencyKey {
     public static var testValue: AppChargingStateClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var appChargingState: AppChargingStateClient {
+public extension DependencyValues {
+    var appChargingState: AppChargingStateClient {
         get { self[AppChargingStateClient.self] }
         set { self[AppChargingStateClient.self] = newValue }
     }

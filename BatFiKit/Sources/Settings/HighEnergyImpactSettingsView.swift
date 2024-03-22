@@ -1,6 +1,6 @@
 //
 //  HighEnergyImpactSettingsView.swift
-//  
+//
 //
 //  Created by Adam on 04/11/2023.
 //
@@ -13,9 +13,9 @@ import SwiftUI
 
 struct HighEnergyImpactSettingsView: View {
     // high energy
-    @Default(.highEnergyImpactProcessesThreshold)         private var highEnergyImpactProcessesThreshold
-    @Default(.highEnergyImpactProcessesDuration)          private var highEnergyImpactProcessesDuration
-    @Default(.highEnergyImpactProcessesCapacity)          private var highEnergyImpactProcessesCapacity
+    @Default(.highEnergyImpactProcessesThreshold) private var highEnergyImpactProcessesThreshold
+    @Default(.highEnergyImpactProcessesDuration) private var highEnergyImpactProcessesDuration
+    @Default(.highEnergyImpactProcessesCapacity) private var highEnergyImpactProcessesCapacity
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -41,7 +41,7 @@ struct HighEnergyImpactSettingsView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     let duration = Duration.seconds(highEnergyImpactProcessesDuration)
                     let style = Duration.UnitsFormatStyle(allowedUnits: [.minutes], width: .wide)
-                    Text(l10n.Label.highEnergyImpactProcessesDuration(duration.formatted(style))) 
+                    Text(l10n.Label.highEnergyImpactProcessesDuration(duration.formatted(style)))
                     let min = 60.0
                     let max = 300.0
                     let minDuration = Duration.seconds(min)
@@ -83,7 +83,7 @@ private struct HighEnergyUsageSlider<Value: BinaryFloatingPoint>: View where Val
 
     var body: some View {
         VStack(spacing: 0) {
-            Slider(value: $value, in: min...max, step: step)
+            Slider(value: $value, in: min ... max, step: step)
             HStack {
                 Text(minLabel)
                     .multilineTextAlignment(.leading)

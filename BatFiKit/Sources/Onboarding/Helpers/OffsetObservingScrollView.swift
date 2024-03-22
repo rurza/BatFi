@@ -1,6 +1,6 @@
 //
 //  OffsetObservingScrollView.swift
-//  
+//
 //
 //  Created by Adam on 31/05/2023.
 //

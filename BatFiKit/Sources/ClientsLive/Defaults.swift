@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  Defaults.swift
+//
 //
 //  Created by Adam on 13/06/2023.
 //
@@ -17,10 +17,9 @@ extension DefaultsKey: DependencyKey {
     public static let liveValue: DefaultsProtocol = DefaultsClient()
 }
 
-
 public struct DefaultsClient: DefaultsProtocol {
     private let logger = Logger(category: "👀🔧")
-    
+
     public func observe<Value>(_ key: Defaults.Key<Value>) -> AsyncStream<Value> where Value: DefaultsValue {
         Defaults.updates(key)
             .map {
@@ -30,15 +29,15 @@ public struct DefaultsClient: DefaultsProtocol {
             .removeDuplicates()
             .eraseToStream()
     }
-    
-    public func value<Value>(_ key: Defaults.Key<Value>) -> Value where Value : Defaults.Serializable {
+
+    public func value<Value>(_ key: Defaults.Key<Value>) -> Value where Value: Defaults.Serializable {
         Defaults[key]
     }
-    
-    public func setValue<Value>(_ key: Defaults.Key<Value>, value: Value) where Value : Defaults.Serializable {
+
+    public func setValue<Value>(_ key: Defaults.Key<Value>, value: Value) where Value: Defaults.Serializable {
         Defaults[key] = value
     }
-    
+
     public func resetSettings() {
         UserDefaults.standard.removeAll()
     }

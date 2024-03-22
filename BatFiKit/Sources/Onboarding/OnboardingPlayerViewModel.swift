@@ -1,13 +1,13 @@
 //
-//  PlayerViewModel.swift
+//  OnboardingPlayerViewModel.swift
 //  NepTunes
 //
 //  Created by Adam Różyński on 16/07/2021.
 //
 
-import Foundation
 import AVKit
 import Combine
+import Foundation
 
 private extension OnboardingScreen {
     var fileName: String? {
@@ -33,14 +33,14 @@ class OnboardingPlayerViewModel: ObservableObject {
         player.actionAtItemEnd = .none
         return player
     }()
-    
+
     init(_ currentPage: AnyPublisher<OnboardingScreen, Never>) {
         currentPageCancellable = currentPage
             .sink { [weak self] currentPage in
                 self?.updatePlayer(currentPage.fileName)
             }
     }
-    
+
     private func updatePlayer(_ filename: String?) {
         if let filename {
             let item = playerItemForVideoName(filename)
@@ -61,7 +61,7 @@ class OnboardingPlayerViewModel: ObservableObject {
                 $0?.seek(to: CMTime.zero, completionHandler: nil)
             }
     }
-    
+
     private func playerItemForVideoName(_ name: String) -> AVPlayerItem {
         let urlString = "https://files.micropixels.software/batfi/" + name + ".mp4"
         let url = URL(string: urlString)!

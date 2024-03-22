@@ -1,6 +1,6 @@
 //
 //  Time.swift
-//  
+//
 //
 //  Created by Adam on 05/05/2023.
 //
@@ -37,7 +37,7 @@ struct Time: Equatable {
                 return l10n.calculating
             case .unknown:
                 return nil
-            case .time(let time):
+            case let .time(time):
                 let interval = Double(time) * 60
                 return timeFormatter.string(from: interval)!
             }
@@ -66,25 +66,25 @@ struct Time: Equatable {
     init?(isCharging: Bool, timeLeft: Int, timeToCharge: Int, batteryLevel: Int) {
         if isCharging {
             if batteryLevel < 100 {
-                self.direction = .timeToCharge
+                direction = .timeToCharge
                 if timeToCharge > 0 {
-                    self.info = .time(timeToCharge)
+                    info = .time(timeToCharge)
                 } else if timeToCharge == 0 {
-                    self.info = .unknown
+                    info = .unknown
                 } else {
-                    self.info = .claculating
+                    info = .claculating
                 }
             } else {
                 return nil
             }
         } else {
-            self.direction = .timeLeft
+            direction = .timeLeft
             if timeLeft > 0 {
-                self.info = .time(timeLeft)
+                info = .time(timeLeft)
             } else if timeLeft == 0 {
-                self.info = .unknown
+                info = .unknown
             } else {
-                self.info = .claculating
+                info = .claculating
             }
         }
     }

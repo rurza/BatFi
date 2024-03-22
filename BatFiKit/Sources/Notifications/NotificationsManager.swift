@@ -1,6 +1,6 @@
 //
 //  NotificationsManager.swift
-//  
+//
 //
 //  Created by Adam on 17/05/2023.
 //
@@ -29,15 +29,15 @@ public class NotificationsManager: NSObject {
     private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
     private var optimizedBatteryChargingTask: Task<Void, Never>?
-    private var lastAlertDate: Date = Date.distantPast
+    private var lastAlertDate: Date = .distantPast
     private var didShowLowBatteryNotification = false
 
-    public override init() {
+    override public init() {
         super.init()
         center.delegate = self
         setUpObserving()
     }
-    
+
     func setUpObserving() {
         Task {
             for await showChargingStausChanged in defaults.observe(.showChargingStausChanged) {
@@ -61,7 +61,8 @@ public class NotificationsManager: NSObject {
         Task {
             for await (showBatteryLowNotification, powerSourceState) in combineLatest(
                 defaults.observe(.showBatteryLowNotification),
-                powerSourceClient.powerSourceChanges()) {
+                powerSourceClient.powerSourceChanges()
+            ) {
                 let batteryLimit = 20
                 guard showBatteryLowNotification, !powerSourceState.isCharging else {
                     if powerSourceState.batteryLevel > batteryLimit {
@@ -69,24 +70,25 @@ public class NotificationsManager: NSObject {
                     }
                     continue
                 }
-                if powerSourceState.batteryLevel <= batteryLimit && !didShowLowBatteryNotification {
+                if powerSourceState.batteryLevel <= batteryLimit, !didShowLowBatteryNotification {
                     didShowLowBatteryNotification = true
                     await showBatteryIsLowNotification()
                 }
             }
         }
     }
-    
+
     // MARK: - Charging mode
+
     func startObservingChargingStateMode() {
         chargingModeTask = Task {
             for await (chargingMode, manageCharging) in combineLatest(
                 appChargingState.observeChargingStateMode(),
                 defaults.observe(.manageCharging)
             ) {
-                guard chargingMode != .chargerNotConnected
-                        && chargingMode != .initial
-                        && manageCharging else { continue }
+                guard chargingMode != .chargerNotConnected,
+                      chargingMode != .initial,
+                      manageCharging else { continue }
                 logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
@@ -116,7 +118,7 @@ public class NotificationsManager: NSObject {
                 content: content,
                 trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1.5, repeats: false)
             )
-            
+
             do {
                 logger.debug("Adding notification request to the notification center")
                 try await center.add(request)
@@ -150,13 +152,13 @@ public class NotificationsManager: NSObject {
     }
 
     // MARK: - Optimized battery charging
+
     func startObservingOptimizedBatteryCharging() {
         optimizedBatteryChargingTask = Task {
             for await (powerState, manageCharging) in combineLatest(
                 powerSourceClient.powerSourceChanges(),
                 defaults.observe(.manageCharging)
-            ).debounce(for: .seconds(1), clock: AnyClock(self.clock))
-            {
+            ).debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
                 guard manageCharging, lastAlertDate.timeIntervalSinceNow < -60 * 60 * 8 else { continue }
                 if powerState.optimizedBatteryChargingEngaged {
                     lastAlertDate = date.now
@@ -165,11 +167,11 @@ public class NotificationsManager: NSObject {
             }
         }
     }
-    
+
     func cancelObservingOptimizedBatteryCharging() {
         optimizedBatteryChargingTask?.cancel()
     }
-        
+
     @MainActor
     func showOptimizedBatteryChargingIsTurnedOn() {
         let alert = NSAlert()
@@ -186,33 +188,35 @@ public class NotificationsManager: NSObject {
             NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.Battery-Settings.extension")!)
         }
     }
-    
+
     @objc
     func supressionWasSelected(_ sender: NSButton) {
         defaults.setValue(.showOptimizedBatteryCharging, value: !(sender.state == .on))
     }
-    
+
     // MARK: - Helpers
+
     func requestAuthorization() async -> Bool? {
         try? await center.requestAuthorization(options: [.alert, .sound])
     }
 }
 
 extension NotificationsManager: UNUserNotificationCenterDelegate {
-    public func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    public func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner])
     }
 
     public func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
+        _: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         defer {
             completionHandler()
         }
-        if response.notification.request.identifier == updateNotificationIdentifier
-            && response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+        if response.notification.request.identifier == updateNotificationIdentifier,
+           response.actionIdentifier == UNNotificationDefaultActionIdentifier
+        {
             // If the notificaton is clicked on, make sure we bring the update in focus
             // If the app is terminated while the notification is clicked on,
             // this will launch the application and perform a new update check.

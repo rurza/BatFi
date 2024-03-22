@@ -1,6 +1,6 @@
 //
 //  PowerStatePoint.swift
-//  
+//
 //
 //  Created by Adam on 19/08/2023.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct PowerStatePoint: Identifiable {
-
     public let batteryLevel: Int16
     public let appMode: AppChargingMode
     public let isCharging: Bool

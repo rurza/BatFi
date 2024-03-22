@@ -1,5 +1,5 @@
 //
-//  Charging.swift
+//  ChargingClient.swift
 //  BatFi
 //
 //  Created by Adam on 25/04/2023.
@@ -35,8 +35,8 @@ public struct ChargingClient: TestDependencyKey {
     public static var testValue: ChargingClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var chargingClient: ChargingClient {
+public extension DependencyValues {
+    var chargingClient: ChargingClient {
         get { self[ChargingClient.self] }
         set { self[ChargingClient.self] = newValue }
     }

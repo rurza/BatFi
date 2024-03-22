@@ -26,7 +26,7 @@ struct PercentageBatteryIndicatorView: View {
                     .foregroundStyle(model.primaryColor())
             }
             .overlay {
-                if !model.monochrome && model.chargingMode != .discharging {
+                if !model.monochrome, model.chargingMode != .discharging {
                     PercentageLabel(model: model, height: height)
                         .foregroundColor(.white.opacity(0.86))
                 }

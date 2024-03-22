@@ -1,6 +1,6 @@
 //
 //  RollingNumberLabel.swift
-//  
+//
 //
 //  Created by Adam on 17/09/2022.
 //
@@ -19,12 +19,12 @@ struct RollingNumberLabel: View {
     ) {
         self.font = font
         self.initialValue = initialValue
-        self.currentValue = initialValue
+        currentValue = initialValue
     }
 
     var body: some View {
         HStack(spacing: -0.5) {
-            ForEach(0..<animationRange.count, id: \.self) { index in
+            ForEach(0 ..< animationRange.count, id: \.self) { index in
                 Text("0")
                     .font(font)
                     .opacity(0)
@@ -32,7 +32,7 @@ struct RollingNumberLabel: View {
                         GeometryReader { proxy in
                             let size = proxy.size
                             VStack(spacing: 0) {
-                                ForEach(0...9, id: \.self) { digit in
+                                ForEach(0 ... 9, id: \.self) { digit in
                                     Text("\(digit)")
                                         .font(font)
                                         .foregroundStyle(.primary)
@@ -42,7 +42,7 @@ struct RollingNumberLabel: View {
                             .monospacedDigit()
                             .offset(y: -CGFloat(animationRange[index]) * size.height)
                         }
-                            .clipped()
+                        .clipped()
                     )
             }
         }
@@ -65,21 +65,21 @@ struct RollingNumberLabel: View {
 
     func updateText(animate: Bool) {
         let stringValue = "\(currentValue)"
-        for (index, value) in zip(0..<stringValue.count, stringValue) {
+        for (index, value) in zip(0 ..< stringValue.count, stringValue) {
             let fraction = min(Double(index) * 0.15, 0.5)
             if animate {
                 withAnimation(
                     .interactiveSpring(
                         response: 0.3,
                         dampingFraction: 1.1 - fraction,
-                        blendDuration: 1.2 - fraction)
+                        blendDuration: 1.2 - fraction
+                    )
                 ) {
                     animationRange[index] = Int(String(value)) ?? 0
                 }
             } else {
                 animationRange[index] = Int(String(value)) ?? 0
             }
-
         }
     }
 
@@ -89,14 +89,14 @@ struct RollingNumberLabel: View {
         let delay = 0.1
 
         if diff > 0 {
-            for _ in 0..<diff {
+            for _ in 0 ..< diff {
                 withAnimation(.easeIn(duration: delay + 0.05)) {
                     animationRange.append(0)
                 }
             }
             updateTextWithDelay(delay)
         } else if diff < 0 {
-            for _ in 0..<(-diff) {
+            for _ in 0 ..< -diff {
                 withAnimation(.easeIn(duration: delay)) {
                     _ = animationRange.removeLast()
                 }

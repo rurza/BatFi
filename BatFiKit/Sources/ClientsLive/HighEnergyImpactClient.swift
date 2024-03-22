@@ -7,16 +7,21 @@ import Shared
 
 extension HighEnergyImpactClient: DependencyKey {
     public static var liveValue: HighEnergyImpactClient {
+        let highEnergyLogger = Logger(category: "🅰️⚡️📊")
+
         @Sendable func topCoalitionInfo(threshold: Int, duration: TimeInterval, capacity: Int) -> TopCoalitionInfo? {
             guard let systemstats_get_top_coalitions = Private.systemstats_get_top_coalitions else {
+                highEnergyLogger.notice("No top coalitions info.")
                 return nil
             }
             guard
-                let topCoalitionDictionary = systemstats_get_top_coalitions(Int(duration), 10000).takeUnretainedValue() as? [String: Any],
+                // https://github.com/rurza/BatFi/issues/24#issuecomment-1899291636
+                let topCoalitionDictionary = systemstats_get_top_coalitions(Int(duration + 0), 10000).takeUnretainedValue() as? [String: Any],
                 let bundleIdentifiers = topCoalitionDictionary["bundle_identifiers"] as? [String],
                 let energyImpacts = topCoalitionDictionary["energy_impacts"] as? [Double],
                 bundleIdentifiers.count == energyImpacts.count
             else {
+                highEnergyLogger.notice("Top coalition dictionary is empty.")
                 return nil
             }
             var topCoalitions = [Coalition]()
@@ -36,9 +41,9 @@ extension HighEnergyImpactClient: DependencyKey {
                     if let bundle = Bundle(url: url) {
                         displayName = (
                             bundle.localizedInfoDictionary?["CFBundleDisplayName"] as? String ??
-                            bundle.infoDictionary?["CFBundleDisplayName"] as? String ??
-                            bundle.localizedInfoDictionary?[kCFBundleNameKey as String] as? String ??
-                            bundle.infoDictionary?[kCFBundleNameKey as String] as? String
+                                bundle.infoDictionary?["CFBundleDisplayName"] as? String ??
+                                bundle.localizedInfoDictionary?[kCFBundleNameKey as String] as? String ??
+                                bundle.infoDictionary?[kCFBundleNameKey as String] as? String
                         )
                     }
                 }
@@ -47,7 +52,6 @@ extension HighEnergyImpactClient: DependencyKey {
             }
             return TopCoalitionInfo(topCoalitions: topCoalitions)
         }
-        let logger = Logger(category: "🅰️⚡️📊")
         let client = Self(
             topCoalitionInfoChanges: { threshold, duration, capacity in
                 AsyncStream { continuation in
@@ -55,8 +59,9 @@ extension HighEnergyImpactClient: DependencyKey {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
                             if let info = topCoalitionInfo(threshold: threshold, duration: duration, capacity: capacity),
-                                info != prevInfo {
-                                logger.debug("New top coalition info: \(info)")
+                               info != prevInfo
+                            {
+                                highEnergyLogger.notice("New top coalition info: \(info, privacy: .public)")
                                 continuation.yield(info)
                                 prevInfo = info
                             }
@@ -64,7 +69,7 @@ extension HighEnergyImpactClient: DependencyKey {
                         }
                     }
                     continuation.onTermination = { _ in
-                        logger.debug("Task terminated")
+                        highEnergyLogger.debug("Task terminated")
                         task.cancel()
                     }
                 }
@@ -74,7 +79,7 @@ extension HighEnergyImpactClient: DependencyKey {
     }
 }
 
-class Private {
+enum Private {
     static let systemstats_get_top_coalitions = {
         var systemstats_get_top_coalitionsPointer: UnsafeMutableRawPointer?
         if let handle = dlopen("/usr/lib/libsystemstats.dylib", RTLD_LAZY) {
@@ -82,7 +87,7 @@ class Private {
             dlclose(handle)
         }
         let systemstats_get_top_coalitions =
-        unsafeBitCast(systemstats_get_top_coalitionsPointer, to: (@convention(c) (_ duration: Int, _ count: Int) -> Unmanaged<NSDictionary>)?.self)
+            unsafeBitCast(systemstats_get_top_coalitionsPointer, to: (@convention(c) (_ duration: Int, _ count: Int) -> Unmanaged<NSDictionary>)?.self)
         return systemstats_get_top_coalitions
     }()
 }

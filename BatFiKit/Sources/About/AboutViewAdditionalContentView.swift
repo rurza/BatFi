@@ -1,17 +1,18 @@
 //
 //  AboutViewAdditionalContentView.swift
-//  
+//
 //
 //  Created by Adam on 21/06/2023.
 //
 
 import AboutKit
+import AppShared
 import L10n
 import SwiftUI
 
 struct AboutViewAdditionalContentView: View {
     @Environment(\.openURL) private var openURL
-    
+
     var body: some View {
         VStack(spacing: 20) {
             Button {
@@ -29,7 +30,7 @@ struct AboutViewAdditionalContentView: View {
                 } label: {
                     Text(L10n.About.Button.Label.website)
                 }
-                .buttonStyle(PrimaryActionButtonStyle(backgroundColor: .accentColor, fillParent: true))
+                .buttonStyle(PrimaryButtonStyle(isLoading: false))
                 .frame(width: 120)
                 Button {
                     openURL(URL(string: "https://twitter.com/rurza")!)
@@ -37,7 +38,7 @@ struct AboutViewAdditionalContentView: View {
                     Text(L10n.About.Button.Label.twitter)
                 }
                 .frame(width: 120)
-                .buttonStyle(PrimaryActionButtonStyle(backgroundColor: .accentColor, fillParent: true))
+                .buttonStyle(PrimaryButtonStyle(isLoading: false))
             }
         }
     }

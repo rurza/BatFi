@@ -1,14 +1,14 @@
 //
 //  BatteryInfoViewModelTests.swift
-//  
+//
 //
 //  Created by Adam on 04/05/2023.
 //
 
-import Dependencies
-import XCTest
 @testable import BatteryInfo
+import Dependencies
 @testable import PowerSource
+import XCTest
 
 @MainActor
 final class BatteryInfoViewModelTests: XCTestCase {

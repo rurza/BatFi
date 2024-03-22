@@ -1,0 +1,2 @@
+--enable sortSwitchCases,spaceInsideComments,spaceAroundOperators,todos,trailingClosures,typeSugar,acronyms
+--xcodeindentation enabled

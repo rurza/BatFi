@@ -13,14 +13,13 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
     lazy var app = BatFi()
 
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    func applicationDidFinishLaunching(_: Notification) {
         app.start()
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
-    }
+    func applicationWillTerminate(_: Notification) {}
 
-    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+    func applicationShouldTerminate(_: NSApplication) -> NSApplication.TerminateReply {
         app.willQuit()
         return .terminateLater
     }

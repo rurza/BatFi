@@ -12,7 +12,7 @@ import SwiftUI
 public struct PowerInfoView: View {
     @StateObject private var model = Model()
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         VStack(alignment: .leading) {
@@ -25,11 +25,13 @@ public struct PowerInfoView: View {
             if let powerInfo = model.powerInfo {
                 PowerGraph(powerInfo: powerInfo)
             } else {
-                VStack {
+                HStack {
                     ProgressView()
-                        .scaleEffect(x: 0.6, y: 0.6)
+                        .scaleEffect(x: 0.5, y: 0.5)
                     Text(L10n.Menu.PowerInfo.loading)
                 }
+                .foregroundColor(.secondary)
+                .font(.callout)
                 .frame(maxWidth: .infinity)
             }
         }
@@ -54,12 +56,12 @@ private struct PowerGraphItem: View {
     var body: some View {
         GroupBox {
             HStack(spacing: 5) {
-                    Image(systemName: type.rawValue)
-                        .frame(width: 20, height: 20)
+                Image(systemName: type.rawValue)
+                    .frame(width: 20, height: 20)
                 Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
                     .monospacedDigit()
             }
-            .frame(width: 70, height: 20)
+            .frame(width: 80, height: 20)
         }
     }
 }

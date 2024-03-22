@@ -6,18 +6,18 @@
 //
 
 import AppShared
+import Charts
 import Clients
 import Dependencies
 import L10n
 import Persistence
 import SwiftUI
-import Charts
 
 public struct ChartsView: View {
     @StateObject private var model = Model()
     @Dependency(\.calendar) private var calendar
 
-    public init() { }
+    public init() {}
 
     public var body: some View {
         VStack(alignment: .leading) {
@@ -30,12 +30,12 @@ public struct ChartsView: View {
                 Chart(model.powerStatePoints) {
                     let offsetDate = model.offsetDateFor($0)
                     LineMark(
-                        x: .value("Time", $0.timestamp..<offsetDate),
+                        x: .value("Time", $0.timestamp ..< offsetDate),
                         y: .value("Battery Level", $0.batteryLevel)
                     )
                     .foregroundStyle(Color(.appGreen))
 
-                    if $0.chargerConnected && $0.isCharging {
+                    if $0.chargerConnected, $0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
@@ -44,7 +44,7 @@ public struct ChartsView: View {
                         )
                         .foregroundStyle(Color(.appGreen))
                         .opacity(0.2)
-                    } else if $0.chargerConnected && !$0.isCharging {
+                    } else if $0.chargerConnected, !$0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
@@ -55,7 +55,7 @@ public struct ChartsView: View {
                         .opacity(0.2)
                     }
                 }
-                .chartYScale(domain: 0...100)
+                .chartYScale(domain: 0 ... 100)
                 .chartXScale(domain: model.fromDate ... model.toDate)
                 .chartYAxis {
                     AxisMarks(

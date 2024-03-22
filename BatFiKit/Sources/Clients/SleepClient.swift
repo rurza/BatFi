@@ -1,6 +1,6 @@
 //
 //  SleepClient.swift
-//  
+//
 //
 //  Created by Adam on 08/05/2023.
 //
@@ -37,8 +37,8 @@ public struct SleepClient: TestDependencyKey {
     public static var testValue: SleepClient = unimplemented()
 }
 
-extension DependencyValues {
-    public var sleepClient: SleepClient {
+public extension DependencyValues {
+    var sleepClient: SleepClient {
         get { self[SleepClient.self] }
         set { self[SleepClient.self] = newValue }
     }

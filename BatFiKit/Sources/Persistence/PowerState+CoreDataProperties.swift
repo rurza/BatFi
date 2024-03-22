@@ -6,18 +6,18 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
-extension PowerStateModel {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<PowerStateModel> {
-        return NSFetchRequest<PowerStateModel>(entityName: "PowerState")
+public extension PowerStateModel {
+    @nonobjc class func fetchRequest() -> NSFetchRequest<PowerStateModel> {
+        NSFetchRequest<PowerStateModel>(entityName: "PowerState")
     }
 
-    @NSManaged public var batteryLevel: Int16
-    @NSManaged public var appMode: String
-    @NSManaged public var isCharging: Bool
-    @NSManaged public var timestamp: Date
-    @NSManaged public var batteryTemperature: Double
-    @NSManaged public var chargerConnected: Bool
+    @NSManaged var batteryLevel: Int16
+    @NSManaged var appMode: String
+    @NSManaged var isCharging: Bool
+    @NSManaged var timestamp: Date
+    @NSManaged var batteryTemperature: Double
+    @NSManaged var chargerConnected: Bool
 }
