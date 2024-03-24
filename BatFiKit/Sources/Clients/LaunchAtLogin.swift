@@ -9,9 +9,9 @@ import Dependencies
 import Foundation
 
 public struct LaunchAtLogin: TestDependencyKey {
-    public var launchAtLogin: (Bool) -> Void
+    public var launchAtLogin: @Sendable (Bool) async -> Void
 
-    public init(launchAtLogin: @escaping (Bool) -> Void) {
+    public init(launchAtLogin: @Sendable @escaping (Bool) async -> Void) {
         self.launchAtLogin = launchAtLogin
     }
 

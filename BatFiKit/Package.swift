@@ -3,29 +3,29 @@
 import PackageDescription
 
 extension Target.Dependency {
-    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
-    static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
-    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
-    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
-    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
-    static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
-    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
-    static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
-    static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
     static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
-    static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
+    static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
+    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
+    static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
     static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
-    static let l10n: Self = "L10n"
+    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
+    static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
+    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
+    static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
+    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
+    static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
+    static let tca: Self = .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
     static let appShared: Self = "AppShared"
     static let clients: Self = "Clients"
     static let defaultsKeys: Self = "DefaultsKeys"
+    static let highEnergyUsage: Self = "HighEnergyUsage"
+    static let l10n: Self = "L10n"
     static let persistence: Self = "Persistence"
-    static let shared: Self = "Shared"
     static let powerCharts: Self = "PowerCharts"
     static let powerInfo: Self = "PowerInfo"
     static let settings: Self = "Settings"
-    static let highEnergyUsage: Self = "HighEnergyUsage"
+    static let shared: Self = "Shared"
 }
 
 let package = Package(
@@ -43,10 +43,12 @@ let package = Package(
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
         .library(name: "Shared", targets: ["Shared"]),
+        // BatFi 2.0
+        .library(name: "Preferences", targets: ["Preferences"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", branch: "shared-state-beta"),
         .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
         .package(url: "https://github.com/trilemma-dev/EmbeddedPropertyList", from: "2.0.0"),
         .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
         .package(url: "https://github.com/rurza/AboutKit.git", branch: "main"),
@@ -92,7 +94,7 @@ let package = Package(
             .asyncAlgorithms,
             .clients,
             .defaultsKeys,
-            .dependencies,
+            .tca,
             .highEnergyUsage,
             .l10n,
             .powerCharts,
@@ -116,7 +118,7 @@ let package = Package(
             .appShared,
             .asyncAlgorithms,
             .clients,
-            .dependencies,
+            .tca,
             .l10n,
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
@@ -124,7 +126,7 @@ let package = Package(
             name: "Clients",
             dependencies: [
                 .appShared,
-                .dependencies,
+                .tca,
                 .shared,
             ]
         ),
@@ -136,7 +138,7 @@ let package = Package(
                 .clients,
                 .defaults,
                 .defaultsKeys,
-                .dependencies,
+                .tca,
                 .persistence,
                 .secureXPC,
                 .shared,
@@ -150,7 +152,7 @@ let package = Package(
                 .asyncAlgorithms,
                 .appShared,
                 .clients,
-                .dependencies,
+                .tca,
                 .defaults,
                 .defaultsKeys,
                 .l10n,
@@ -164,7 +166,7 @@ let package = Package(
                 .asyncAlgorithms,
                 .clients,
                 .defaultsKeys,
-                .dependencies,
+                .tca,
                 .l10n,
             ]
         ),
@@ -182,11 +184,12 @@ let package = Package(
                 .l10n,
             ]
         ),
+
         .target(
             name: "Persistence",
             dependencies: [
                 .appShared,
-                .dependencies,
+                .tca,
                 .shared,
             ]
         ),
@@ -195,7 +198,7 @@ let package = Package(
             dependencies: [
                 .appShared,
                 .clients,
-                .dependencies,
+                .tca,
                 .l10n,
                 .persistence,
                 .identifiedCollections,
@@ -204,10 +207,19 @@ let package = Package(
         .target(name: "PowerInfo", dependencies: [
             .appShared,
             .clients,
-            .dependencies,
+            .tca,
             .l10n,
             .shared,
         ]),
+        .target(
+            name: "Preferences",
+            dependencies: [
+                .clients,
+                .l10n,
+                .settingsKit,
+                .tca,
+            ]
+        ),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
             .secureXPC,
@@ -217,7 +229,7 @@ let package = Package(
             .appShared,
             .clients,
             .defaultsKeys,
-            .dependencies,
+            .tca,
             .l10n,
             .settingsKit,
         ]),

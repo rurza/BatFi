@@ -8,24 +8,27 @@
 import Dependencies
 
 public struct Updater: TestDependencyKey {
-    public var checkForUpdates: () -> Void
-    public var automaticallyChecksForUpdates: () -> Bool
-    public var automaticallyDownloadsUpdates: () -> Bool
-    public var setAutomaticallyChecksForUpdates: (Bool) -> Void
-    public var setAutomaticallyDownloadsUpdates: (Bool) -> Void
+    public var checkForUpdates: @Sendable () async -> Void
+    public var automaticallyChecksForUpdates: @Sendable () async -> Bool
+    public var automaticallyDownloadsUpdates: @Sendable () async -> Bool
+    public var setAutomaticallyChecksForUpdates: @Sendable (Bool) async -> Void
+    public var setAutomaticallyDownloadsUpdates: @Sendable (Bool) async -> Void
+    public var setAllowBetaVersion: @Sendable (Bool) async -> Void
 
     public init(
-        checkForUpdates: @escaping () -> Void,
-        automaticallyChecksForUpdates: @escaping () -> Bool,
-        automaticallyDownloadsUpdates: @escaping () -> Bool,
-        setAutomaticallyChecksForUpdates: @escaping (Bool) -> Void,
-        setAutomaticallyDownloadsUpdates: @escaping (Bool) -> Void
+        checkForUpdates: @Sendable @escaping () async -> Void,
+        automaticallyChecksForUpdates: @Sendable @escaping () async -> Bool,
+        automaticallyDownloadsUpdates: @Sendable @escaping () async -> Bool,
+        setAutomaticallyChecksForUpdates: @Sendable @escaping (Bool) async -> Void,
+        setAutomaticallyDownloadsUpdates: @Sendable @escaping (Bool) async -> Void,
+        setAllowBetaVersion: @Sendable @escaping (Bool) async -> Void
     ) {
         self.checkForUpdates = checkForUpdates
         self.automaticallyChecksForUpdates = automaticallyChecksForUpdates
         self.automaticallyDownloadsUpdates = automaticallyDownloadsUpdates
         self.setAutomaticallyChecksForUpdates = setAutomaticallyChecksForUpdates
         self.setAutomaticallyDownloadsUpdates = setAutomaticallyDownloadsUpdates
+        self.setAllowBetaVersion = setAllowBetaVersion
     }
 
     public static var testValue: Updater = unimplemented()

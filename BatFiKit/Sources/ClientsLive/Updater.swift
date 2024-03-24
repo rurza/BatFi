@@ -25,7 +25,7 @@ extension Updater: DependencyKey {
 
         let client = Updater(
             checkForUpdates: {
-                updaterController.checkForUpdates(nil)
+                await updaterController.checkForUpdates(nil)
             },
             automaticallyChecksForUpdates: {
                 updaterController.updater.automaticallyChecksForUpdates
@@ -34,10 +34,12 @@ extension Updater: DependencyKey {
             },
             setAutomaticallyChecksForUpdates: { check in
                 updaterController.updater.automaticallyChecksForUpdates = check
-
             },
             setAutomaticallyDownloadsUpdates: { download in
                 updaterController.updater.automaticallyDownloadsUpdates = download
+            },
+            setAllowBetaVersion: { allowBeta in
+                updaterDelegate.allowBetaVersion = true
             }
         )
         return client
@@ -45,7 +47,10 @@ extension Updater: DependencyKey {
 }
 
 private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
+    #warning("I don't think it's needed")
     static let instance = UpdaterDelegate()
+
+    var allowBetaVersion = false
 
     var supportsGentleScheduledUpdateReminders: Bool {
         true
@@ -83,7 +88,7 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
     }
 
     func allowedChannels(for _: SPUUpdater) -> Set<String> {
-        guard Defaults[.downloadBetaVersion] else { return [] }
+        guard allowBetaVersion else { return [] }
         return ["beta"]
     }
 }
