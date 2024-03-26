@@ -197,7 +197,9 @@ extension Onboarding {
 
         @MainActor
         func completeOnboarding() {
-            launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
+            Task {
+                await launchAtLogin.launchAtLogin(Defaults[.launchAtLogin])
+            }
             NSApp.windows.first { $0.isKind(of: OnboardingWindow.self) }?.close()
         }
 

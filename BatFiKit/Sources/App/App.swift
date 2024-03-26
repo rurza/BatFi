@@ -83,7 +83,9 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     public func checkForUpdates() {
-        updater.checkForUpdates()
+        Task {
+            await updater.checkForUpdates()
+        }
     }
 
     public func openAbout() {

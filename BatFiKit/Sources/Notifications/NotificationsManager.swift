@@ -221,7 +221,9 @@ extension NotificationsManager: UNUserNotificationCenterDelegate {
             // If the app is terminated while the notification is clicked on,
             // this will launch the application and perform a new update check.
             // This can be more likely to occur if the notification alert style is Alert rather than Banner
-            updater.checkForUpdates()
+            Task {
+                await updater.checkForUpdates()
+            }
         } else if response.actionIdentifier == settingsActionIdentifier {
             NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.Battery-Settings.extension")!)
         }

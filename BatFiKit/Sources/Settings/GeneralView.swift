@@ -37,19 +37,23 @@ struct GeneralView: View {
             Section(title: l10n.Section.updates, bottomDivider: true) {
                 Toggle(l10n.Button.Label.automaticallyCheckUpdates, isOn: $automaticallyChecksForUpdates)
                     .onChange(of: automaticallyChecksForUpdates) { newValue in
-                        updater.setAutomaticallyChecksForUpdates(newValue)
+                        Task {
+                            await updater.setAutomaticallyChecksForUpdates(newValue)
+                        }
                     }
 
                 Toggle(l10n.Button.Label.automaticallyDownloadUpdates, isOn: $automaticallyDownloadsUpdates)
                     .disabled(!automaticallyChecksForUpdates)
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
-                        updater.setAutomaticallyDownloadsUpdates(newValue)
+                        Task {
+                            await updater.setAutomaticallyDownloadsUpdates(newValue)
+                        }
                     }
             }
 
-        }.onAppear {
-            automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()
-            automaticallyDownloadsUpdates = updater.automaticallyDownloadsUpdates()
+        }.task {
+            automaticallyChecksForUpdates = await updater.automaticallyChecksForUpdates()
+            automaticallyDownloadsUpdates = await updater.automaticallyDownloadsUpdates()
         }
     }
 

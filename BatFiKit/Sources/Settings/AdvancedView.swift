@@ -57,7 +57,9 @@ struct AdvancedView: View {
                 Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
                     .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
                         if checkForBetaUpdates {
-                            updater.checkForUpdates()
+                            Task {
+                                await updater.checkForUpdates()
+                            }
                         }
                     }
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)

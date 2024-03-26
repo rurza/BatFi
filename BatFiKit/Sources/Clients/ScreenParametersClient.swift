@@ -9,9 +9,9 @@ import Dependencies
 import Foundation
 
 public struct ScreenParametersClient: TestDependencyKey {
-    public var screenDidChangeParameters: @Sendable () async -> AsyncStream<Void>
+    public var screenDidChangeParameters: () -> AsyncStream<Void>
 
-    public init(screenDidChangeParameters: @Sendable @escaping () async -> AsyncStream<Void>) {
+    public init(screenDidChangeParameters: @escaping () -> AsyncStream<Void>) {
         self.screenDidChangeParameters = screenDidChangeParameters
     }
 

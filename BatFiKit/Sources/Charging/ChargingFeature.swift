@@ -72,7 +72,7 @@ struct ChargingFeature {
                     let status = try await chargingClient.chargingStatus()
                     await send(.updateLidIsOpened(!status.lidClosed))
                     Task {
-                        for await powerState in await powerSourceClient.powerSourceChanges() {
+                        for await powerState in powerSourceClient.powerSourceChanges() {
                             await send(.updatePowerState(powerState))
                         }
                     }
@@ -89,7 +89,7 @@ struct ChargingFeature {
                         }
                     }
                     Task {
-                        for await _ in await screenParametersClient.screenDidChangeParameters() {
+                        for await _ in screenParametersClient.screenDidChangeParameters() {
 
                         }
                     }
@@ -152,7 +152,7 @@ struct ChargingFeature {
                     try await chargingClient.inhibitCharging()
                     await send(.updateCurrentChargingMode(.inhibit))
                 }
-                await sleepAssertionClient.preventSleepIfNeeded(false)
+                sleepAssertionClient.preventSleepIfNeeded(false)
             } else if state.inhibitChargingOnSleep, !state.enableSystemChargeLimitOnSleep, state.computerIsAsleep, state.currentChargingMode != .forceCharge {
                 try await chargingClient.inhibitCharging()
                 await send(.updateCurrentChargingMode(.inhibit))
@@ -163,7 +163,7 @@ struct ChargingFeature {
                 try await chargingClient.turnOnAutoChargingMode()
                 await send(.updateCurrentChargingMode(.charging))
                 if state.disableSleep {
-                    await sleepAssertionClient.preventSleepIfNeeded(true)
+                    sleepAssertionClient.preventSleepIfNeeded(true)
                 }
             }
         }

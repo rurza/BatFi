@@ -71,7 +71,7 @@ public final class ChargingManager {
         }
 
         Task {
-            for await sleepNote in sleepClient.observeMacSleepStatus() {
+            for await sleepNote in await sleepClient.observeMacSleepStatus() {
                 guard defaults.value(.manageCharging) else { continue }
                 switch sleepNote {
                 case .willSleep:
@@ -213,7 +213,7 @@ public final class ChargingManager {
                 } else {
                     await inhibitCharging(chargerConnected: powerState.chargerConnected)
                 }
-                restoreSleepifNeeded()
+                await restoreSleepifNeeded()
             } else if inhibitChargingOnSleep, !enableSystemChargeLimitOnSleep, computerIsAsleep, !forceCharging {
                 await inhibitCharging(chargerConnected: powerState.chargerConnected)
             } else if enableSystemChargeLimitOnSleep, !inhibitChargingOnSleep, computerIsAsleep, !forceCharging {
@@ -273,7 +273,7 @@ public final class ChargingManager {
             logger.critical("Failed to turn on charging. Error: \(error)")
         }
         if preventSleeping, chargerConnected, manageCharging {
-            delaySleepIfNeeded()
+            await delaySleepIfNeeded()
         }
     }
 
@@ -301,11 +301,11 @@ public final class ChargingManager {
         }
     }
 
-    private func delaySleepIfNeeded() {
+    private func delaySleepIfNeeded() async {
         sleepAssertionClient.preventSleepIfNeeded(true)
     }
 
-    private func restoreSleepifNeeded() {
+    private func restoreSleepifNeeded() async {
         sleepAssertionClient.preventSleepIfNeeded(false)
     }
 
