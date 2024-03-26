@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BundleProgram</key>
+	<string>Contents/MacOS/BatFiHelper</string>
 	<key>CFBundleIdentifier</key>
 	<string>software.micropixels.BatFi.Helper</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>1.4.2</string>
 	<key>SMAuthorizedClients</key>
 	<array>
 		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "1.4.2" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
