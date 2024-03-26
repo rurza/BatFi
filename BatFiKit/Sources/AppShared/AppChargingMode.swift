@@ -13,7 +13,6 @@ public enum AppChargingMode: String, Equatable, Identifiable {
     case inhibit
     case forceDischarge
     case forceCharge
-    case chargerNotConnected
 
     public var id: String { rawValue }
 }

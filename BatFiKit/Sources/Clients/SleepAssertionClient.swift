@@ -9,9 +9,9 @@ import Dependencies
 import Foundation
 
 public struct SleepAssertionClient: TestDependencyKey {
-    public var preventSleepIfNeeded: (_ preventSleep: Bool) -> Void
+    public var preventSleepIfNeeded: @Sendable (_ preventSleep: Bool) async -> Void
 
-    public init(preventSleepIfNeeded: @escaping (Bool) -> Void) {
+    public init(preventSleepIfNeeded: @escaping @Sendable (Bool) async -> Void) {
         self.preventSleepIfNeeded = preventSleepIfNeeded
     }
 

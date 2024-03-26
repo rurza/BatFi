@@ -18,6 +18,7 @@ extension SleepAssertionClient: DependencyKey {
         var sleepAssertion: IOPMAssertionID?
         return SleepAssertionClient(
             preventSleepIfNeeded: { preventSleep in
+                
                 if preventSleep {
                     logger.debug("Should delay sleep...")
                     guard sleepAssertion == nil else {

@@ -24,6 +24,7 @@ extension Target.Dependency {
     static let persistence: Self = "Persistence"
     static let powerCharts: Self = "PowerCharts"
     static let powerInfo: Self = "PowerInfo"
+    static let preferences: Self = "Preferences"
     static let settings: Self = "Settings"
     static let shared: Self = "Shared"
 }
@@ -122,6 +123,13 @@ let package = Package(
             .l10n,
         ]),
         .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
+        .target(
+            name: "Charging",
+            dependencies: [
+                .clients,
+                .tca,
+            ]
+        ),
         .target(
             name: "Clients",
             dependencies: [
