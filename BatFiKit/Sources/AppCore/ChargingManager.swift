@@ -27,7 +27,7 @@ public final class ChargingManager {
     @Dependency(\.defaults) private var defaults
 
     private var computerIsAsleep = false
-    private lazy var logger = Logger(category: "🔌👨‍💼")
+    private lazy var logger = Logger(category: "Charging Manager")
 
     public init() {}
 

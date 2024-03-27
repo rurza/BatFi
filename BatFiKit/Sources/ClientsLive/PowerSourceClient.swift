@@ -16,7 +16,7 @@ import Shared
 
 extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
-        let logger = Logger(category: "⚡️")
+        let logger = Logger(category: "Power Source")
         let observer = Observer(logger: logger)
 
         @Sendable

@@ -7,7 +7,7 @@ import Shared
 
 extension HighEnergyImpactClient: DependencyKey {
     public static var liveValue: HighEnergyImpactClient {
-        let highEnergyLogger = Logger(category: "🅰️⚡️📊")
+        let highEnergyLogger = Logger(category: "High Energy Impact Client")
 
         @Sendable func topCoalitionInfo(threshold: Int, duration: TimeInterval, capacity: Int) -> TopCoalitionInfo? {
             guard let systemstats_get_top_coalitions = Private.systemstats_get_top_coalitions else {

@@ -15,7 +15,7 @@ import os
 import Shared
 
 public final class MagSafeColorManager {
-    private lazy var logger = Logger(category: "🚦👨‍💼")
+    private lazy var logger = Logger(category: "MagSafe Color Manager")
     @Dependency(\.magSafeLEDColor) private var magSafeLEDColor
     @Dependency(\.defaults) private var defaults
     @Dependency(\.appChargingState) private var appChargingState

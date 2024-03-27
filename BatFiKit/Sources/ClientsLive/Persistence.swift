@@ -16,7 +16,7 @@ import Shared
 
 extension Persistence: DependencyKey {
     public static let liveValue: Persistence = {
-        let logger = Logger(category: "💾")
+        let logger = Logger(category: "Persistence")
         return Persistence(
             savePowerState: { state, mode in
                 try await persistenceContainer.performBackgroundTask { context in
