@@ -7,13 +7,13 @@ import Shared
 
 extension PowerInfoClient: DependencyKey {
     public static var liveValue: PowerInfoClient = {
-        let logger = Logger(category: "🔋ℹ️")
         @Sendable func createClient() -> XPCClient {
             XPCClient.forMachService(
                 named: Constant.helperBundleIdentifier,
                 withServerRequirement: try! .sameTeamIdentifier
             )
         }
+        let logger = Logger(category: "Power distribution")
 
         @Sendable func powerInfo() async throws -> PowerInfo {
             try await createClient().send(to: XPCRoute.powerInfo)

@@ -17,7 +17,7 @@ extension HelperManager: DependencyKey {
     public static let liveValue: HelperManager = {
         let service = SMAppService.daemon(plistName: Constant.helperPlistName)
         let installer = HelperInstaller(service: service)
-        let logger = Logger(category: "👹")
+        let logger = Logger(category: "Helper Manager")
         let manager = HelperManager(
             installHelper: {
                 do {

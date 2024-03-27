@@ -18,7 +18,7 @@ public final class PersistenceManager {
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.sleepClient) private var sleepClient
     @Dependency(\.persistence) private var persistence
-    private lazy var logger = Logger(category: "💾👨‍💼")
+    private lazy var logger = Logger(category: "Persistence Manager")
 
     public init() {}
 
