@@ -19,7 +19,12 @@ final class RouteHandler {
             SMCKit.close()
         }
         logger.notice("Opening SMC")
-        try SMCKit.open()
+        do {
+            try SMCKit.open()
+        } catch {
+            logger.critical("SMC opening error: \(error)")
+            throw error
+        }
         logger.notice("SMC Opened")
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
@@ -54,13 +59,13 @@ final class RouteHandler {
             try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
             try SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
         } catch {
-            logger.error("SMC writing error: \(error)")
-            reset()
+            logger.critical("SMC writing error: \(error)")
+            resetIfPossible()
             throw error
         }
     }
 
-    func reset() {
+    func resetIfPossible() {
         do {
             try SMCKit.writeData(.disableCharging, uint8: 0)
             try SMCKit.writeData(.inhibitChargingC, uint8: 0)
@@ -71,28 +76,25 @@ final class RouteHandler {
         }
     }
 
-    func smcStatus(_ message: SMCStatusCommand) async throws -> SMCStatus {
+    func smcStatus() async throws -> SMCChargingStatus {
         defer {
             SMCKit.close()
         }
         try SMCKit.open()
 
-        switch message {
-        case .status:
-            let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
-            let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
-            let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
-            let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
+        let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
+        let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
+        let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
+        let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
-            logger.notice("Checking SMC status")
+        logger.notice("Checking SMC status")
 
-            return SMCStatus(
-                forceDischarging: forceDischarging.0 == 01,
-                inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
-                    || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
-                lidClosed: lidClosed.0 == 01
-            )
-        }
+        return SMCChargingStatus(
+            forceDischarging: forceDischarging.0 == 01,
+            inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
+                || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
+            lidClosed: lidClosed.0 == 01
+        )
     }
 
     func magsafeLEDColor(_ option: MagSafeLEDOption) async throws -> MagSafeLEDOption {

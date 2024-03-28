@@ -129,7 +129,7 @@ extension Onboarding {
         @MainActor @Published var helperError: NSError?
         @MainActor @Published var isLoading: Bool = false
         @MainActor @Published var onboardingIsFinished = false
-        @Dependency(\.helperManager) private var helperManager
+        @Dependency(\.helperClient) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
         @Dependency(\.defaults) private var defaults
         var playerModel: OnboardingPlayerViewModel!

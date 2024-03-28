@@ -55,15 +55,6 @@
       }
     },
     {
-      "identity" : "securexpc",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/trilemma-dev/SecureXPC",
-      "state" : {
-        "branch" : "main",
-        "revision" : "1cece54562c7626d042f007d2f38cfe325565850"
-      }
-    },
-    {
       "identity" : "settingskit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rurza/SettingsKit.git",
@@ -133,6 +124,24 @@
       "state" : {
         "revision" : "de1a984a71e51f6e488e98ce3652035563eb8acb",
         "version" : "0.5.1"
+      }
+    },
+    {
+      "identity" : "swift-identified-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/swift-identified-collections",
+      "state" : {
+        "revision" : "d1e45f3e1eee2c9193f5369fa9d70a6ddad635e8",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftyxpc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CharlesJS/SwiftyXPC",
+      "state" : {
+        "revision" : "3968f30df6dad4e21b5cee9c5343fa9fac7cef30",
+        "version" : "0.5.2"
       }
     },
     {

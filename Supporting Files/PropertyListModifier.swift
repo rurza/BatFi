@@ -460,8 +460,12 @@ func satisfyJobBlessRequirements() throws {
     switch target {
     case .helperTool:
         let clients = try SMAuthorizedClientsEntry()
-        let infoEntries: [String: AnyHashable] = try [CFBundleIdentifierKey: target.bundleIdentifier(),
-                                                      clients.key: clients.value]
+        let version = try readEnvironmentVariable(name: "APP_VERSION", description: "", isUserDefined: true)
+        let infoEntries: [String: AnyHashable] = try [
+            CFBundleIdentifierKey: target.bundleIdentifier(),
+            clients.key: clients.value,
+            CFBundleVersionKey: version,
+        ]
         try updatePropertyListWithEntries(infoEntries, atPath: infoPropertyList)
     case .app:
         let executables = try SMPrivilegedExecutablesEntry()

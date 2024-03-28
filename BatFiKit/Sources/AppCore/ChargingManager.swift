@@ -24,6 +24,7 @@ public final class ChargingManager {
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.sleepAssertionClient) private var sleepAssertionClient
+    @Dependency(\.helperClient) private var helperClient
     @Dependency(\.defaults) private var defaults
 
     private var computerIsAsleep = false
@@ -54,7 +55,6 @@ public final class ChargingManager {
                     defaults.observe(.allowDischargingFullBattery)
                 )
             ).debounce(for: .seconds(1), clock: AnyClock(self.clock)) {
-                logger.debug("✨✨✨✨✨✨✨✨✨✨✨")
                 await updateStatus(
                     powerState: powerState,
                     chargeLimit: chargeLimit,
@@ -109,10 +109,16 @@ public final class ChargingManager {
                 await updateStatusWithCurrentState()
             }
         }
+
+        Task {
+            for await _ in helperClient.observeHelperStatus() {
+                await updateStatusWithCurrentState()
+            }
+        }
     }
 
     public func appWillQuit() async {
-        try? await chargingClient.resetChargingMode()
+        try? await chargingClient.turnOnAutoChargingMode()
     }
 
     public func chargeToFull() {
@@ -160,11 +166,6 @@ public final class ChargingManager {
         inhibitChargingOnSleep: Bool,
         enableSystemChargeLimitOnSleep: Bool
     ) async {
-        logger.debug("⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇")
-        defer {
-            logger.debug("⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆⬆")
-        }
-        logger.debug("Battery level: \(powerState.batteryLevel)")
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
@@ -179,6 +180,7 @@ public final class ChargingManager {
             return
         }
         if turnOffChargingWithHotBattery, powerState.batteryTemperature > 35 {
+            logger.notice("Battero is hot")
             await inhibitCharging(chargerConnected: powerState.chargerConnected)
             return
         }

@@ -2,21 +2,15 @@ import AppShared
 import Clients
 import Dependencies
 import os
-import SecureXPC
+import SwiftyXPC
 import Shared
 
-extension PowerInfoClient: DependencyKey {
-    public static var liveValue: PowerInfoClient = {
-        @Sendable func createClient() -> XPCClient {
-            XPCClient.forMachService(
-                named: Constant.helperBundleIdentifier,
-                withServerRequirement: try! .sameTeamIdentifier
-            )
-        }
+extension PowerDistributionClient: DependencyKey {
+    public static var liveValue: PowerDistributionClient = {
         let logger = Logger(category: "Power distribution")
 
         @Sendable func powerInfo() async throws -> PowerInfo {
-            try await createClient().send(to: XPCRoute.powerInfo)
+            try await XPCClient.shared.sendMessage(.powerInfo)
         }
 
         let client = Self(

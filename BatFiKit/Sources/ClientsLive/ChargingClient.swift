@@ -11,157 +11,56 @@ import Clients
 import Dependencies
 import IOKit.pwr_mgt
 import os
-import SecureXPC
+//import SecureXPC
+import SwiftyXPC
 import Shared
 
 extension ChargingClient: DependencyKey {
     public static let liveValue: ChargingClient = {
-        let logger = Logger(category: "🪫🔋")
+        let logger = Logger(category: "Charging Client")
 
-        func createClient() -> XPCClient {
-            XPCClient.forMachService(
-                named: Constant.helperBundleIdentifier,
-                withServerRequirement: try! .sameTeamIdentifier
-            )
-        }
-
-        var reinstallHelperCounter = 0
-
-        func installHelperIfPossibleForError<Result>(
-            _ error: Error,
-            call: @escaping () async throws -> Result
-        ) async throws -> Result {
-            logger.error("Helper error: \(error)")
-            let maxAdditionalDelayDuration = 3
-            if let error = error as? XPCError {
-                switch error {
-                case .connectionInvalid, .insecure:
-                    do {
-                        logger.debug("Quitting helper...")
-                        if let helper = NSWorkspace.shared
-                            .runningApplications
-                            .first(where: { $0.bundleIdentifier == Constant.helperBundleIdentifier })
-                        {
-                            logger.debug("Found helper")
-                            let didQuit = helper.forceTerminate()
-                            logger.debug("Helper did quit: \(didQuit, privacy: .public)")
-                        }
-                        logger.debug("Trying to fix xpc communication")
-                        do {
-                            try await HelperManager.liveValue.removeHelper()
-                            logger.notice("Service removed. Waiting for \(1 + reinstallHelperCounter)s")
-                        } catch {
-                            logger.error("Service removal failed")
-                            logger.error("\(error.localizedDescription)")
-                        }
-                        try? await Task.sleep(for: .seconds(1 + reinstallHelperCounter))
-                        do {
-                            try await HelperManager.liveValue.installHelper()
-                            logger.notice("Service installed")
-                        } catch {
-                            logger.error("Service installation failed")
-                            logger.error("\(error.localizedDescription)")
-                        }
-                        // if installation throws then ignore the error and move on
-                        if reinstallHelperCounter < maxAdditionalDelayDuration {
-                            reinstallHelperCounter += 1
-                        }
-                        let result = try await call()
-                        reinstallHelperCounter = 0
-                        return result
-                    } catch {}
-                default:
-                    break
-                }
-            }
-            throw error
-        }
-
-        func turnOnAutoChargingModel() async throws {
-            logger.debug("Should send \(#function)")
-            do {
-                try await createClient().sendMessage(
-                    SMCChargingCommand.auto,
-                    to: XPCRoute.charging
-                )
-            } catch {
-                try await installHelperIfPossibleForError(
-                    error,
-                    call: turnOnAutoChargingModel
-                )
-            }
-        }
-
-        func inhibitCharging() async throws {
-            logger.debug("Should send \(#function)")
-            do {
-                try await createClient().sendMessage(
-                    SMCChargingCommand.inhibitCharging,
-                    to: XPCRoute.charging
-                )
-            } catch {
-                try await installHelperIfPossibleForError(
-                    error,
-                    call: inhibitCharging
-                )
-            }
-        }
-
-        func forceDischarge() async throws {
-            logger.debug("Should send \(#function)")
-            do {
-                try await createClient().sendMessage(
-                    SMCChargingCommand.forceDischarging,
-                    to: XPCRoute.charging
-                )
-            } catch {
-                try await installHelperIfPossibleForError(error, call: forceDischarge)
-            }
-        }
-
-        func chargingStatus() async throws -> SMCStatus {
-            logger.debug("Should send \(#function)")
-            do {
-                return try await createClient().sendMessage(SMCStatusCommand.status, to: XPCRoute.smcStatus)
-            } catch {
-                return try await installHelperIfPossibleForError(
-                    error,
-                    call: chargingStatus
-                )
-            }
-        }
-
-        func enableSystemChargeLimit() async throws {
-            logger.debug("Should send \(#function)")
-            do {
-                try await createClient().sendMessage(
-                    SMCChargingCommand.enableSystemChargeLimit,
-                    to: XPCRoute.charging
-                )
-            } catch {
-                try await installHelperIfPossibleForError(
-                    error,
-                    call: enableSystemChargeLimit
-                )
-            }
-        }
-
-        let client = ChargingClient(
-            turnOnAutoChargingMode: turnOnAutoChargingModel,
-            inhibitCharging: inhibitCharging,
-            forceDischarge: forceDischarge,
-            chargingStatus: chargingStatus,
-            resetChargingMode: {
-                logger.debug("Should reset the charging mode")
+        return Self(
+            turnOnAutoChargingMode: {
                 do {
-                    try await createClient().sendMessage(SMCChargingCommand.auto, to: XPCRoute.charging)
-                    logger.notice("Did reset the charging")
+                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.auto)
                 } catch {
-                    logger.error("Failed to reset the charging mode")
+                    logger.log(level: .error, "turnOnAutoChargingMode error: \(error)")
+                    throw(error)
                 }
-            },
-            enableSystemChargeLimit: enableSystemChargeLimit
+            }, 
+            inhibitCharging: {
+                do {
+                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.inhibitCharging)
+                } catch {
+                    logger.log(level: .error, "inhibitCharging error: \(error)")
+                    throw(error)
+                }
+            }, 
+            forceDischarge: {
+                do {
+                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.forceDischarging)
+                } catch {
+                    logger.log(level: .error, "forceDischarge error: \(error)")
+                    throw(error)
+                }
+            }, 
+            chargingStatus: {
+                do {
+                    let status: SMCChargingStatus = try await XPCClient.shared.sendMessage(.smcStatus)
+                    return status
+                } catch {
+                    logger.log(level: .error, "chargingStatus error: \(error)")
+                    throw(error)
+                }
+            }, 
+            enableSystemChargeLimit: {
+                do {
+                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.enableSystemChargeLimit)
+                } catch {
+                    logger.log(level: .error, "ChargingClient error: \(error)")
+                    throw(error)
+                }
+            }
         )
-        return client
     }()
 }

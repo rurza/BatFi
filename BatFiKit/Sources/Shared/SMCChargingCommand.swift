@@ -1,5 +1,5 @@
 //
-//  SMCCommands.swift
+//  SMCChargingCommand.swift
 //  BatFi
 //
 //  Created by Adam on 16/04/2023.
@@ -12,8 +12,4 @@ public enum SMCChargingCommand: Codable {
     case auto
     case inhibitCharging
     case enableSystemChargeLimit
-}
-
-public enum SMCStatusCommand: Codable {
-    case status
 }

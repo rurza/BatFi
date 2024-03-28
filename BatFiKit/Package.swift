@@ -4,7 +4,8 @@ import PackageDescription
 
 extension Target.Dependency {
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
-    static let secureXPC: Self = .product(name: "SecureXPC", package: "SecureXPC")
+    static let dependenciesMacros: Self = .product(name: "DependenciesMacros", package: "swift-dependencies")
+    static let swiftyXPC: Self = .product(name: "SwiftyXPC", package: "SwiftyXPC")
     static let defaults: Self = .product(name: "Defaults", package: "Defaults")
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
@@ -45,8 +46,8 @@ let package = Package(
         .library(name: "Shared", targets: ["Shared"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/trilemma-dev/SecureXPC", branch: "main"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.4"),
+        .package(url: "https://github.com/CharlesJS/SwiftyXPC", from: "0.5.2"),
+        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.2.2"),
         .package(url: "https://github.com/trilemma-dev/EmbeddedPropertyList", from: "2.0.0"),
         .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
         .package(url: "https://github.com/rurza/AboutKit.git", branch: "main"),
@@ -105,7 +106,7 @@ let package = Package(
         .target(name: "AppShared", dependencies: [.l10n]),
         .target(
             name: "Shared",
-            dependencies: [.secureXPC]
+            dependencies: [.swiftyXPC]
         ),
         .target(
             name: "BatteryIndicator",
@@ -125,6 +126,7 @@ let package = Package(
             dependencies: [
                 .appShared,
                 .dependencies,
+                .dependenciesMacros,
                 .shared,
             ]
         ),
@@ -138,7 +140,7 @@ let package = Package(
                 .defaultsKeys,
                 .dependencies,
                 .persistence,
-                .secureXPC,
+                .swiftyXPC,
                 .shared,
                 .sparkle,
             ]
@@ -210,7 +212,7 @@ let package = Package(
         ]),
         .target(name: "Server", dependencies: [
             .embeddedPropertyList,
-            .secureXPC,
+            .swiftyXPC,
             .shared,
         ]),
         .target(name: "Settings", dependencies: [

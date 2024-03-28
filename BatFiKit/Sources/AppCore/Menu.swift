@@ -42,7 +42,7 @@ public final class MenuController {
 
     let statusItem: NSStatusItem
     @Dependency(\.appChargingState) private var appChargingState
-    @Dependency(\.helperManager) private var helperManager
+    @Dependency(\.helperClient) private var helperManager
     @Dependency(\.defaults) private var defaults
 
     public weak var delegate: MenuControllerDelegate?
