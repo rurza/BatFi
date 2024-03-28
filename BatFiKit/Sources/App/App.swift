@@ -34,10 +34,12 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.defaults) private var defaults
     @Dependency(\.helperClient) private var helperClient
+    @Dependency(\.sentryClient) private var sentryClient
 
     public init() {}
 
     public func start() {
+        sentryClient.startSDK()
         _ = updater // initialize updater
         if defaults.value(.onboardingIsDone) {
             setUpTheApp()

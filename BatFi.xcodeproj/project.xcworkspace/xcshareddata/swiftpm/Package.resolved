@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "sentry-cocoa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/getsentry/sentry-cocoa",
+      "state" : {
+        "revision" : "bf7bdd75e25556d0f97ad54fb804b4287863e106",
+        "version" : "8.22.4"
+      }
+    },
+    {
       "identity" : "settingskit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rurza/SettingsKit.git",

@@ -17,6 +17,7 @@ extension Target.Dependency {
     static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
     static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
     static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
+    static let sentry: Self = .product(name: "Sentry", package: "sentry-cocoa")
     static let l10n: Self = "L10n"
     static let appShared: Self = "AppShared"
     static let clients: Self = "Clients"
@@ -59,6 +60,7 @@ let package = Package(
         .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main"),
         .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
+        .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.22.4"),
     ],
     targets: [
         .target(
@@ -140,9 +142,10 @@ let package = Package(
                 .defaultsKeys,
                 .dependencies,
                 .persistence,
-                .swiftyXPC,
+                .sentry,
                 .shared,
                 .sparkle,
+                .swiftyXPC,
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
