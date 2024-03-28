@@ -1,5 +1,5 @@
 //
-//  HelperManager.swift
+//  HelperClient.swift
 //
 //
 //  Created by Adam on 16/05/2023.
@@ -9,20 +9,21 @@ import Clients
 import Dependencies
 import Foundation
 import os
-import SecureXPC
+import SwiftyXPC
 import ServiceManagement
 import Shared
 
-extension HelperManager: DependencyKey {
-    public static let liveValue: HelperManager = {
+extension HelperClient: DependencyKey {
+    public static let liveValue: HelperClient = {
         let service = SMAppService.daemon(plistName: Constant.helperPlistName)
         let installer = HelperInstaller(service: service)
-        let logger = Logger(category: "Helper Manager")
-        let manager = HelperManager(
+        let logger = Logger(category: "Helper Client")
+        let manager = HelperClient(
             installHelper: {
                 do {
                     logger.notice("Installing daemon...")
                     try await installer.registerService()
+                    await XPCClient.shared.resetConnection()
                     logger.notice("Daemon installed succesfully")
                 } catch {
                     logger.error("Daemon registering error: \(error, privacy: .public)")
@@ -32,6 +33,7 @@ extension HelperManager: DependencyKey {
             removeHelper: {
                 do {
                     logger.notice("Removing daemon...")
+                    await XPCClient.shared.closeConnection()
                     try await installer.unregisterService()
                     logger.notice("Daemon removed")
                 } catch {
@@ -43,7 +45,7 @@ extension HelperManager: DependencyKey {
             observeHelperStatus: {
                 AsyncStream<SMAppService.Status> { continuation in
                     let task = Task {
-                        for await _ in SuspendingClock().timer(interval: .milliseconds(500)) {
+                        for await _ in SuspendingClock().timer(interval: .milliseconds(1500)) {
                             continuation.yield(service.status)
                         }
                     }
@@ -52,19 +54,20 @@ extension HelperManager: DependencyKey {
                         task.cancel()
                     }
                 }
+                .removeDuplicates()
+                .eraseToStream()
             },
             quitHelper: {
                 logger.debug("Should quit the helper")
                 do {
-                    let client = XPCClient.forMachService(
-                        named: Constant.helperBundleIdentifier,
-                        withServerRequirement: try! .sameTeamIdentifier
-                    )
-                    try await client.send(to: XPCRoute.quit)
+                    try await XPCClient.shared.sendMessage(.quit)
                     logger.notice("Helper did quit")
                 } catch {
                     logger.warning("Helper could failed to quit: \(error.localizedDescription, privacy: .public)")
                 }
+            },
+            pingHelper: {
+                try await XPCClient.shared.sendMessage(.ping)
             }
         )
         return manager

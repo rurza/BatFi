@@ -9,11 +9,11 @@ import EmbeddedPropertyList
 import Foundation
 
 struct HelperPropertyList: Decodable {
-    public let bundleIdentifier: String
+    public let version: String
     public let authorizedClients: [String]
 
     private enum CodingKeys: String, CodingKey {
-        case bundleIdentifier = "CFBundleVersion"
+        case version = "CFBundleVersion"
         case authorizedClients = "SMAuthorizedClients"
     }
 }

@@ -9,24 +9,17 @@ import Clients
 import Dependencies
 import Foundation
 import os
-import SecureXPC
+import SwiftyXPC
 import Shared
 
 extension MagSafeLEDColorClient: DependencyKey {
     public static var liveValue: MagSafeLEDColorClient = {
-
-        func createClient() -> XPCClient {
-            XPCClient.forMachService(
-                named: Constant.helperBundleIdentifier,
-                withServerRequirement: try! .sameTeamIdentifier
-            )
-        }
         let logger = Logger(category: "MagSafe color")
 
         let client = Self(
             changeMagSafeLEDColor: { (option: MagSafeLEDOption) in
                 do {
-                    return try await createClient().sendMessage(option, to: XPCRoute.magSafeLEDColor)
+                    return try await XPCClient.shared.sendMessage(.magSafeLEDColor, request: option)
                 } catch {
                     logger.error("Error when chaging the color of MagSafe: \(error.localizedDescription, privacy: .public)")
                     throw error

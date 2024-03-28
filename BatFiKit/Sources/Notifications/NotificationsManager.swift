@@ -25,6 +25,7 @@ public class NotificationsManager: NSObject {
     @Dependency(\.defaults) private var defaults
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.date) private var date
+    @Dependency(\.userNotificationsClient) var userNotificationsClient
     private lazy var center = UNUserNotificationCenter.current()
     private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
@@ -100,28 +101,18 @@ public class NotificationsManager: NSObject {
     }
 
     func showChargingStateModeDidChangeNotification(_ mode: AppChargingMode) async {
-        if await requestAuthorization() == true {
-            logger.info("permission granted, should dispatch the notification")
-            center.removeAllPendingNotificationRequests()
-            let content = UNMutableNotificationContent()
-            content.subtitle = L10n.Notifications.Notification.Subtitle.newMode(mode.stateDescription)
-            let chargeLimitFraction = Double(defaults.value(.chargeLimit)) / 100
-            if let description = mode.stateDescription(chargeLimitFraction: chargeLimitFraction) {
-                content.body = description
-            } else {
-                content.body = ""
-            }
-            content.interruptionLevel = .active // to show the notification
-            content.threadIdentifier = "Charging mode"
-            let request = UNNotificationRequest(
-                identifier: "software.micropixels.BatFi.notifications.mode",
-                content: content,
-                trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1.5, repeats: false)
-            )
-
+        if await userNotificationsClient.requestAuthorization() == true {
             do {
                 logger.debug("Adding notification request to the notification center")
-                try await center.add(request)
+                let chargeLimitFraction = Double(defaults.value(.chargeLimit)) / 100
+
+                try await userNotificationsClient.showUserNotification(
+                    title: L10n.Notifications.Notification.Subtitle.newMode(mode.stateDescription),
+                    body: mode.stateDescription(chargeLimitFraction: chargeLimitFraction) ?? "",
+                    identifier: "software.micropixels.BatFi.notifications.mode",
+                    threadIdentifier: "Charging mode",
+                    delay: 1.5
+                )
             } catch {
                 logger.error("Notification request error: \(error.localizedDescription, privacy: .public)")
             }
@@ -129,22 +120,16 @@ public class NotificationsManager: NSObject {
     }
 
     func showBatteryIsLowNotification() async {
-        if await requestAuthorization() == true {
-            logger.info("permission granted, should dispatch the notification")
-            let content = UNMutableNotificationContent()
-            content.title = L10n.Notifications.Notification.Title.lowBattery
-            content.body = L10n.Notifications.Notification.Body.lowBattery
-            content.threadIdentifier = "Battery low"
-
-            content.interruptionLevel = .active // to show the notification
-            let request = UNNotificationRequest(
-                identifier: "software.micropixels.BatFi.notifications.lowBattery",
-                content: content,
-                trigger: nil
-            )
+        if await userNotificationsClient.requestAuthorization() == true {
             do {
                 logger.debug("Adding notification request to the notification center")
-                try await center.add(request)
+                try await userNotificationsClient.showUserNotification(
+                    title: L10n.Notifications.Notification.Title.lowBattery,
+                    body: L10n.Notifications.Notification.Body.lowBattery,
+                    identifier: "software.micropixels.BatFi.notifications.lowBattery", 
+                    threadIdentifier: "Battery low",
+                    delay: nil
+                )
             } catch {
                 logger.error("Notification request error: \(error.localizedDescription, privacy: .public)")
             }

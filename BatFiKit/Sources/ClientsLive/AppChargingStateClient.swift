@@ -14,7 +14,7 @@ import Shared
 
 extension AppChargingStateClient: DependencyKey {
     public static let liveValue: AppChargingStateClient = {
-        let logger = Logger(category: "🔋")
+        let logger = Logger(category: "App Charging State")
         let state = AppChargingState.initialState
 
         let client = AppChargingStateClient(

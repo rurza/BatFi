@@ -13,7 +13,7 @@ import Shared
 extension PowerInfoView {
     @MainActor
     final class Model: ObservableObject {
-        @Dependency(\.powerInfoClient) private var powerInfoClient
+        @Dependency(\.powerDistributionClient) private var powerInfoClient
         @Dependency(\.menuDelegate) private var menuDelegate
 
         @Published
