@@ -9,18 +9,18 @@ import App
 import SwiftUI
 
 @main
-@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    lazy var app = BatFi()
+    var app: BatFi?
 
     func applicationDidFinishLaunching(_: Notification) {
-        app.start()
+        app = BatFi()
+        app?.start()
     }
 
     func applicationWillTerminate(_: Notification) {}
 
     func applicationShouldTerminate(_: NSApplication) -> NSApplication.TerminateReply {
-        app.willQuit()
+        app?.willQuit()
         return .terminateLater
     }
 }

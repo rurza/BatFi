@@ -9,7 +9,6 @@ import Clients
 import Dependencies
 import Foundation
 import os
-import SwiftyXPC
 import ServiceManagement
 import Shared
 
@@ -23,7 +22,6 @@ extension HelperClient: DependencyKey {
                 do {
                     logger.notice("Installing daemon...")
                     try await installer.registerService()
-                    await XPCClient.shared.resetConnection()
                     logger.notice("Daemon installed succesfully")
                 } catch {
                     logger.error("Daemon registering error: \(error, privacy: .public)")
@@ -33,7 +31,6 @@ extension HelperClient: DependencyKey {
             removeHelper: {
                 do {
                     logger.notice("Removing daemon...")
-                    await XPCClient.shared.closeConnection()
                     try await installer.unregisterService()
                     logger.notice("Daemon removed")
                 } catch {
@@ -60,14 +57,14 @@ extension HelperClient: DependencyKey {
             quitHelper: {
                 logger.debug("Should quit the helper")
                 do {
-                    try await XPCClient.shared.sendMessage(.quit)
+                    try await XPCClient.shared.quitHelper()
                     logger.notice("Helper did quit")
                 } catch {
                     logger.warning("Helper could failed to quit: \(error.localizedDescription, privacy: .public)")
                 }
             },
             pingHelper: {
-                try await XPCClient.shared.sendMessage(.ping)
+//                try await XPCClient.shared.sendMessage(.ping)
             }
         )
         return manager

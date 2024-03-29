@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "asyncxpcconnection",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ChimeHQ/AsyncXPCConnection",
+      "state" : {
+        "revision" : "d7f6ec40d9f050fef87c25ab67ba5f626e4d4dee",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "combine-schedulers",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/combine-schedulers",
@@ -160,15 +169,6 @@
       "state" : {
         "revision" : "fa8f95c2d536d6620cc2f504ebe8a6167c9fc2dd",
         "version" : "510.0.1"
-      }
-    },
-    {
-      "identity" : "swiftyxpc",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CharlesJS/SwiftyXPC",
-      "state" : {
-        "revision" : "3968f30df6dad4e21b5cee9c5343fa9fac7cef30",
-        "version" : "0.5.2"
       }
     },
     {

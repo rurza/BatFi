@@ -21,7 +21,6 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
     private lazy var magSafeColorManager = MagSafeColorManager()
-    private lazy var helperManager = HelperManager()
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
@@ -58,7 +57,6 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     private func setUpTheApp() {
-        helperManager.observeHelperStatus()
         statusItemIconController = StatusItemIconController(statusItem: statusItem)
         menuController = MenuController(statusItem: statusItem)
         chargingManager.setUpObserving()

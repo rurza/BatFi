@@ -165,7 +165,7 @@ extension Onboarding {
                                 onboardingIsFinished = true
                                 NSSound(named: "Funk")?.play()
                                 break
-                            } else if let error, counter == 30 {
+                            } else if let error, counter == 20 {
                                 self.helperError = error as NSError
                             }
                             counter += 1

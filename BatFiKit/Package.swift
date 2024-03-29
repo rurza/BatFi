@@ -5,11 +5,11 @@ import PackageDescription
 extension Target.Dependency {
     static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
     static let dependenciesMacros: Self = .product(name: "DependenciesMacros", package: "swift-dependencies")
-    static let swiftyXPC: Self = .product(name: "SwiftyXPC", package: "SwiftyXPC")
     static let defaults: Self = .product(name: "Defaults", package: "Defaults")
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
     static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
+    static let asyncXPCConnection: Self = .product(name: "AsyncXPCConnection", package: "AsyncXPCConnection")
     static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
     static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
     static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
@@ -25,7 +25,7 @@ extension Target.Dependency {
     static let persistence: Self = "Persistence"
     static let shared: Self = "Shared"
     static let powerCharts: Self = "PowerCharts"
-    static let powerInfo: Self = "PowerInfo"
+    static let powerDistributionInfo: Self = "PowerDistributionInfo"
     static let settings: Self = "Settings"
     static let highEnergyUsage: Self = "HighEnergyUsage"
 }
@@ -47,7 +47,6 @@ let package = Package(
         .library(name: "Shared", targets: ["Shared"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/CharlesJS/SwiftyXPC", from: "0.5.2"),
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.2.2"),
         .package(url: "https://github.com/trilemma-dev/EmbeddedPropertyList", from: "2.0.0"),
         .package(url: "https://github.com/rurza/SettingsKit.git", branch: "main"),
@@ -61,6 +60,7 @@ let package = Package(
         .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
         .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.22.4"),
+        .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
     ],
     targets: [
         .target(
@@ -99,17 +99,14 @@ let package = Package(
             .highEnergyUsage,
             .l10n,
             .powerCharts,
-            .powerInfo,
+            .powerDistributionInfo,
             .settings,
             .shared,
             .snapKit,
         ]),
         .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
         .target(name: "AppShared", dependencies: [.l10n]),
-        .target(
-            name: "Shared",
-            dependencies: [.swiftyXPC]
-        ),
+        .target(name: "Shared"),
         .target(
             name: "BatteryIndicator",
             dependencies: [
@@ -137,6 +134,7 @@ let package = Package(
             dependencies: [
                 .appShared,
                 .asyncAlgorithms,
+                .asyncXPCConnection,
                 .clients,
                 .defaults,
                 .defaultsKeys,
@@ -145,7 +143,6 @@ let package = Package(
                 .sentry,
                 .shared,
                 .sparkle,
-                .swiftyXPC,
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
@@ -206,7 +203,7 @@ let package = Package(
                 .identifiedCollections,
             ]
         ),
-        .target(name: "PowerInfo", dependencies: [
+        .target(name: "PowerDistributionInfo", dependencies: [
             .appShared,
             .clients,
             .dependencies,
@@ -214,8 +211,8 @@ let package = Package(
             .shared,
         ]),
         .target(name: "Server", dependencies: [
+            .asyncXPCConnection,
             .embeddedPropertyList,
-            .swiftyXPC,
             .shared,
         ]),
         .target(name: "Settings", dependencies: [

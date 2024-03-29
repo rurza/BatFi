@@ -9,7 +9,6 @@ import Clients
 import Dependencies
 import Foundation
 import os
-import SwiftyXPC
 import Shared
 
 extension MagSafeLEDColorClient: DependencyKey {
@@ -19,7 +18,7 @@ extension MagSafeLEDColorClient: DependencyKey {
         let client = Self(
             changeMagSafeLEDColor: { (option: MagSafeLEDOption) in
                 do {
-                    return try await XPCClient.shared.sendMessage(.magSafeLEDColor, request: option)
+                    return try await XPCClient.shared.changeMagSafeLEDColor(option)
                 } catch {
                     logger.error("Error when chaging the color of MagSafe: \(error.localizedDescription, privacy: .public)")
                     throw error

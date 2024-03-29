@@ -67,9 +67,9 @@ private struct PowerGraphItem: View {
 }
 
 struct PowerGraph: View {
-    let powerInfo: PowerInfo
+    let powerInfo: PowerDistributionInfo
 
-    init(powerInfo: PowerInfo) {
+    init(powerInfo: PowerDistributionInfo) {
         self.powerInfo = powerInfo
     }
 

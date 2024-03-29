@@ -1,19 +1,18 @@
 //
-//  RouteHandler.swift
-//  Helper
+//  SMCService.swift
 //
-//  Created by Adam on 25/04/2023.
+//
+//  Created by Adam Różyński on 29/03/2024.
 //
 
-import Cocoa
 import Foundation
 import os
 import Shared
 
-final class RouteHandler {
-    private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🧭")
+actor SMCService {
+    private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "SMC Service")
 
-    func charging(_ message: SMCChargingCommand) async throws {
+    func setChargingMode(_ message: SMCChargingCommand) async throws {
         defer {
             logger.notice("Closing SMC")
             SMCKit.close()
@@ -76,7 +75,7 @@ final class RouteHandler {
         }
     }
 
-    func smcStatus() async throws -> SMCChargingStatus {
+    func smcChargingStatus() async throws -> SMCChargingStatus {
         defer {
             SMCKit.close()
         }
@@ -106,7 +105,7 @@ final class RouteHandler {
         return option
     }
 
-    func powerInfo() throws -> PowerInfo {
+    func getPowerDistribution() throws -> PowerDistributionInfo {
         defer {
             SMCKit.close()
         }
@@ -127,6 +126,7 @@ final class RouteHandler {
 
         let systemPower = batteryPower + externalPower
 
-        return PowerInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
+        return PowerDistributionInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
     }
+
 }

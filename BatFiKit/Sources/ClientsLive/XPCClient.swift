@@ -5,104 +5,129 @@
 //  Created by Adam Różyński on 26/03/2024.
 //
 
+import AsyncXPCConnection
 import Dependencies
 import Foundation
 import os
 import Shared
-import SwiftyXPC
 
 actor XPCClient {
-
-    private var connection: XPCConnection
     private lazy var logger = Logger(category: "XPC Client")
 
-    private init() {
-        connection = Self.createConnection()
-    }
+    private init() { }
 
     static let shared = XPCClient()
 
-    func closeConnection() {
-        connection.cancel()
-    }
-
-    func resetConnection() {
-        connection.cancel()
-        connection = Self.createConnection()
-    }
-
-    func sendMessage<Request: Codable>(_ route: XPCRoute, request: Request) async throws {
-        do {
-            try await withTimeout(seconds: 2) {
-                try await self.connection.sendMessage(name: route.rawValue, request: request)
-            }
-        } catch {
-            logger.error("Error while sending message: \(error). Route: \(route.rawValue)")
-            throw error
+    func changeChargingMode(_ newMode: SMCChargingCommand) async throws {
+        switch newMode {
+        case .forceDischarging:
+            try await setChargingMode(XPCService.setForceDischarge)
+        case .auto:
+            try await setChargingMode(XPCService.setAutocharge)
+        case .inhibitCharging:
+            try await setChargingMode(XPCService.setInhibitCharge)
+        case .enableSystemChargeLimit:
+            try await setChargingMode(XPCService.setEnableSystemChargeLimit)
         }
     }
 
-    func sendMessage<Request: Codable, Response: Codable>(_ route: XPCRoute, request: Request) async throws -> Response {
-        logger.debug("Sending message with route: \(route.rawValue))")
-        return try await withThrowingTaskGroup(of: Response.self) { group in
-            group.addTask {
-                try await self.connection.sendMessage(name: route.rawValue, request: request)
+    func getPowerDistribution() async throws -> PowerDistributionInfo {
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.getPowerDistribution { powerInfo, error in
+                if let powerInfo {
+                    continuation.resume(returning: powerInfo)
+                } else if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    assertionFailure("Shouldn't happen. Both PowerDistributionInfo and error are nil.")
+                }
             }
-            group.addTask {
-                try await Task.sleep(for: .seconds(2))
-                try Task.checkCancellation()
-                await self.logger.error("Time out while sending message with route: \(route.rawValue)")
-                throw TaskError.timedOut
-            }
-            let result = try await group.next()!
-            group.cancelAll()
-            return result
         }
     }
 
-    func sendMessage<Response: Codable>(_ route: XPCRoute) async throws -> Response {
-        logger.debug("Sending message with route: \(route.rawValue)")
-        return try await withThrowingTaskGroup(of: Response.self) { group in
-            group.addTask {
-                try await self.connection.sendMessage(name: route.rawValue)
-            }
-            group.addTask {
-                try await Task.sleep(for: .seconds(2))
-                try Task.checkCancellation()
-                await self.logger.error("Time out while sending message with route: \(route.rawValue)")
-                throw TaskError.timedOut
-            }
-            let result = try await group.next()!
-            group.cancelAll()
-            return result
+    func quitHelper() async throws {
+        logger.debug("Quitting helper")
+        let remote = newRemoteService()
+        try await remote.withService { service in
+            service.quit()
+            self.logger.debug("Helper quit")
         }
     }
 
-    func sendMessage(_ route: XPCRoute) async throws  {
-        logger.debug("Sending message with route: \(route.rawValue)")
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            group.addTask {
-                try await self.connection.sendMessage(name: route.rawValue)
-                await self.logger.debug("Message: \(route.rawValue) sent!")
+    func getSMCChargingStatus() async throws -> SMCChargingStatus {
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.getCurrentChargingStatus { status, error in
+                if let status {
+                    continuation.resume(returning: status)
+                } else if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    assertionFailure("Shouldn't happen. Both status and error are nil.")
+                }
             }
-            group.addTask {
-                try await Task.sleep(for: .seconds(2))
-                try Task.checkCancellation()
-                await self.logger.error("Time out while sending message with route: \(route.rawValue)")
-                throw TaskError.timedOut
-            }
-            try await group.next()
-            group.cancelAll()
         }
     }
 
-    private static func createConnection() -> XPCConnection {
-        let connection = try! XPCConnection(
-            type: .remoteMachService(serviceName: Constant.helperBundleIdentifier, isPrivilegedHelperTool: true),
-            codeSigningRequirement: xpcEntitlement
+    func changeMagSafeLEDColor(_ color: MagSafeLEDOption) async throws -> MagSafeLEDOption {
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.setMagSafeLEDColor(color: color.rawValue) { rawValue, error in
+                if let option = MagSafeLEDOption(rawValue: rawValue) {
+                    continuation.resume(returning: option)
+                } else if let error {
+                    self.logger.error("Error when setting MagSafe LED color: \(error.localizedDescription, privacy: .public)")
+                    continuation.resume(throwing: error)
+                } else {
+                    assertionFailure("Shouldn't happen. Both option and error are nil.")
+                }
+            }
+        }
+    }
+
+    private func setChargingMode(
+        _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
+    ) async throws {
+        let service = newRemoteService()
+        try await service.withContinuation { (service, continuation: CheckedContinuation<Void, Error>) in
+            handler(service)() { error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
+    private func newRemoteService() -> RemoteXPCService<XPCService> {
+        RemoteXPCService(connection: newConnection(), remoteInterface: XPCService.self)
+    }
+
+
+    private func newConnection() -> NSXPCConnection {
+        let connection = NSXPCConnection(
+            machServiceName: Constant.helperBundleIdentifier,
+            options: .privileged
         )
-        connection.activate()
+        connection.resume()
         return connection
     }
 
+    private func newConnectionWithInterface() -> NSXPCConnection {
+        let connection = newConnection()
+        connection.remoteObjectInterface = NSXPCInterface(with: XPCService.self)
+        return connection
+    }
 }
+
+enum XPCRoute {
+    case charging(SMCChargingCommand)
+    case magSafeLEDColor(MagSafeLEDOption)
+    case ping
+    case powerInfo
+    case quit
+    case smcStatus
+}
+
