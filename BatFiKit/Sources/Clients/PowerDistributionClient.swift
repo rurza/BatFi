@@ -2,9 +2,9 @@ import Dependencies
 import Shared
 
 public struct PowerDistributionClient: TestDependencyKey {
-    public var powerInfoChanges: () -> AsyncStream<PowerInfo>
+    public var powerInfoChanges: () -> AsyncStream<PowerDistributionInfo>
 
-    public init(powerInfoChanges: @escaping () -> AsyncStream<PowerInfo>) {
+    public init(powerInfoChanges: @escaping () -> AsyncStream<PowerDistributionInfo>) {
         self.powerInfoChanges = powerInfoChanges
     }
 

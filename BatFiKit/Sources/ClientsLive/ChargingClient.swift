@@ -11,8 +11,6 @@ import Clients
 import Dependencies
 import IOKit.pwr_mgt
 import os
-//import SecureXPC
-import SwiftyXPC
 import Shared
 
 extension ChargingClient: DependencyKey {
@@ -22,7 +20,7 @@ extension ChargingClient: DependencyKey {
         return Self(
             turnOnAutoChargingMode: {
                 do {
-                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.auto)
+                    try await XPCClient.shared.changeChargingMode(.auto)
                 } catch {
                     logger.log(level: .error, "turnOnAutoChargingMode error: \(error)")
                     throw(error)
@@ -30,7 +28,7 @@ extension ChargingClient: DependencyKey {
             }, 
             inhibitCharging: {
                 do {
-                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.inhibitCharging)
+                    try await XPCClient.shared.changeChargingMode(.inhibitCharging)
                 } catch {
                     logger.log(level: .error, "inhibitCharging error: \(error)")
                     throw(error)
@@ -38,7 +36,7 @@ extension ChargingClient: DependencyKey {
             }, 
             forceDischarge: {
                 do {
-                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.forceDischarging)
+                    try await XPCClient.shared.changeChargingMode(.forceDischarging)
                 } catch {
                     logger.log(level: .error, "forceDischarge error: \(error)")
                     throw(error)
@@ -46,8 +44,7 @@ extension ChargingClient: DependencyKey {
             }, 
             chargingStatus: {
                 do {
-                    let status: SMCChargingStatus = try await XPCClient.shared.sendMessage(.smcStatus)
-                    return status
+                    return try await XPCClient.shared.getSMCChargingStatus()
                 } catch {
                     logger.log(level: .error, "chargingStatus error: \(error)")
                     throw(error)
@@ -55,7 +52,7 @@ extension ChargingClient: DependencyKey {
             }, 
             enableSystemChargeLimit: {
                 do {
-                    try await XPCClient.shared.sendMessage(.charging, request: SMCChargingCommand.enableSystemChargeLimit)
+                    try await XPCClient.shared.changeChargingMode(.enableSystemChargeLimit)
                 } catch {
                     logger.log(level: .error, "ChargingClient error: \(error)")
                     throw(error)

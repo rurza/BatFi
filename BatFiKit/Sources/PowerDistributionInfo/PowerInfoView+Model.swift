@@ -17,7 +17,7 @@ extension PowerInfoView {
         @Dependency(\.menuDelegate) private var menuDelegate
 
         @Published
-        private(set) var powerInfo: PowerInfo?
+        private(set) var powerInfo: PowerDistributionInfo?
         private var powerInfoChanges: Task<Void, Never>?
         private var menuChanges: Task<Void, Never>?
 

@@ -16,7 +16,7 @@ import HighEnergyUsage
 import L10n
 import MenuBuilder
 import PowerCharts
-import PowerInfo
+import PowerDistributionInfo
 import SwiftUI
 
 @MainActor

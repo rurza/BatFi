@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum SMCChargingCommand: Codable {
+public enum SMCChargingCommand: String, Codable {
     case forceDischarging
     case auto
     case inhibitCharging

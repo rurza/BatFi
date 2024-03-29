@@ -11,7 +11,7 @@ import Defaults
 import DefaultsKeys
 import HighEnergyUsage
 import PowerCharts
-import PowerInfo
+import PowerDistributionInfo
 import SwiftUI
 
 struct MenuContainerView: View {
