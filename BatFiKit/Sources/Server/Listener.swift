@@ -90,7 +90,7 @@ final class XPCServiceHandler: XPCService {
         Task {
             do {
                 guard let magSafeLEDOption = MagSafeLEDOption(rawValue: color) else {
-                    throw NSError(domain: "com.batfikit", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid MagSafe LED color"])
+                    throw NSError(domain: Constant.helperBundleIdentifier, code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid MagSafe LED color"])
                 }
                 let option = try await smcService.magsafeLEDColor(magSafeLEDOption)
                 reply(option.rawValue, nil)
@@ -100,4 +100,8 @@ final class XPCServiceHandler: XPCService {
             }
         }
     }    
+
+    func ping(_ reply: @escaping (Bool, Error?) -> Void) {
+        reply(true, nil)
+    }
 }

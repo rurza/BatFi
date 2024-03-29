@@ -64,7 +64,7 @@ extension HelperClient: DependencyKey {
                 }
             },
             pingHelper: {
-//                try await XPCClient.shared.sendMessage(.ping)
+                try await XPCClient.shared.pingHelper()
             }
         )
         return manager
