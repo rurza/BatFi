@@ -86,6 +86,19 @@ actor XPCClient {
         }
     }
 
+    func pingHelper() async throws -> Bool {
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.ping { success, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: success)
+                }
+            }
+        }
+    }
+
     private func setChargingMode(
         _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
     ) async throws {
@@ -121,13 +134,3 @@ actor XPCClient {
         return connection
     }
 }
-
-enum XPCRoute {
-    case charging(SMCChargingCommand)
-    case magSafeLEDColor(MagSafeLEDOption)
-    case ping
-    case powerInfo
-    case quit
-    case smcStatus
-}
-

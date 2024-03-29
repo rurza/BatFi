@@ -2461,6 +2461,74 @@
         }
       }
     },
+    "notifications.alert.button.label.open_onboarding" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open Onboarding…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Onboarding…"
+          }
+        }
+      }
+    },
+    "notifications.alert.button.label.open_system_settings" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open System Settings…"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Ustawienia Systemowe…"
+          }
+        }
+      }
+    },
+    "notifications.alert.informative_text.install_helper_troubleshooting" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The app won't work without it.\nOpen and complete the Onboarding process from the More menu.\nVerify that the app is on the 'Allow in background' list with the switch turned on in System Settings → General → Login Items.\n"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi nie będzie bez niej działać.\nOtwórz i ukończ Onboarding z menu \"Więcej\". \nApka powinna być włączona na liście \"Pozwalaj w tle\" w Ustawieniach Systemowych → Ogólne → Logowanie."
+          }
+        }
+      }
+    },
+    "notifications.alert.title.install_helper_troubleshooting" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi's helper app is not installed"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apka pomocnicza BatFi nie jest zainstalowana"
+          }
+        }
+      }
+    },
     "notifications.alert.title.optimized_charging_turned_on" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

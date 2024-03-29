@@ -9,6 +9,7 @@ import About
 import AppCore
 import Cocoa
 import Dependencies
+import L10n
 import MenuBuilder
 import Notifications
 import Onboarding
@@ -42,6 +43,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         _ = updater // initialize updater
         if defaults.value(.onboardingIsDone) {
             setUpTheApp()
+            checkHelperHealth()
         } else {
             openOnboarding()
         }
@@ -129,5 +131,31 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     public func statusItemIconDidAppear() {
         showStatusItemArrow()
         statusItemIconController?.delegate = nil
+    }
+
+    func checkHelperHealth() {
+        Task {
+            do {
+                try await helperClient.pingHelper()
+            } catch {
+                showHelperIsNotInstalled()
+            }
+        }
+    }
+
+    @MainActor
+    func showHelperIsNotInstalled() {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = L10n.Notifications.Alert.Title.installHelperTroubleshooting
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.installHelperTroubleshooting
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openOnboarding)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openSystemSettings)
+        let response = alert.runModal()
+        if response == .alertSecondButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
+        } else if response == .alertFirstButtonReturn {
+            openOnboarding()
+        }
     }
 }

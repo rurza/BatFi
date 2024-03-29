@@ -178,6 +178,32 @@ public enum L10n {
             public enum Title {
                 /// Optimized battery charging is turned ON
                 public static let optimizedChargingTurnedOn = String(localized: "notifications.alert.title.optimized_charging_turned_on", defaultValue: "Optimized battery charging is turned ON", bundle: Bundle.module)
+
+                /// BatFi's helper app is not installed
+                public static let installHelperTroubleshooting = String(
+                    localized: "notifications.alert.title.install_helper_troubleshooting",
+                    defaultValue: "BatFi's helper app is not installed",
+                    bundle: Bundle.module
+                )
+            }
+
+            public enum InformativeText {
+                // The app won't work without it.\nOpen and complete the Onboarding process from the More menu.\nVerify that the app is on the 'Allow in background' list with the switch turned on in System Settings → General → Login Items.\n
+                public static let installHelperTroubleshooting = String(
+                    localized: "notifications.alert.informative_text.install_helper_troubleshooting",
+                    defaultValue: "The app won't work without it.\nOpen and complete the Onboarding process from the More menu.\nVerify that the app is on the 'Allow in background' list with the switch turned on in System Settings → General → Login Items.\n",
+                    bundle: Bundle.module
+                )
+            }
+
+            public enum Button {
+                public enum Label {
+                    /// Open System Settings
+                    public static let openSystemSettings = String(localized: "notifications.alert.button.label.open_system_settings", defaultValue: "Open System Settings…", bundle: Bundle.module)
+
+                    /// Open Onboarding
+                    public static let openOnboarding = String(localized: "notifications.alert.button.label.open_onboarding", defaultValue: "Open Onboarding…", bundle: Bundle.module)
+                }
             }
         }
 
