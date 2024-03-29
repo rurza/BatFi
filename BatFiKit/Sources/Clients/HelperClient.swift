@@ -16,7 +16,7 @@ public struct HelperClient {
     public var helperStatus: () async -> SMAppService.Status = { .notFound }
     public var observeHelperStatus: () -> AsyncStream<SMAppService.Status> = { AsyncStream { _ in } }
     public var quitHelper: () async throws -> Void
-    public var pingHelper: () async throws -> Void
+    public var pingHelper: () async throws -> Bool
 }
 
 extension HelperClient: TestDependencyKey {

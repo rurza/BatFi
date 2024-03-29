@@ -46,15 +46,6 @@ actor XPCClient {
         }
     }
 
-    func quitHelper() async throws {
-        logger.debug("Quitting helper")
-        let remote = newRemoteService()
-        try await remote.withService { service in
-            service.quit()
-            self.logger.debug("Helper quit")
-        }
-    }
-
     func getSMCChargingStatus() async throws -> SMCChargingStatus {
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
@@ -99,6 +90,20 @@ actor XPCClient {
         }
     }
 
+    func quitHelper() async throws -> Bool {
+        logger.debug("Quitting helper")
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.quit { success, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: success)
+                }
+            }
+        }
+    }
+
     private func setChargingMode(
         _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
     ) async throws {
@@ -117,7 +122,6 @@ actor XPCClient {
     private func newRemoteService() -> RemoteXPCService<XPCService> {
         RemoteXPCService(connection: newConnection(), remoteInterface: XPCService.self)
     }
-
 
     private func newConnection() -> NSXPCConnection {
         let connection = NSXPCConnection(

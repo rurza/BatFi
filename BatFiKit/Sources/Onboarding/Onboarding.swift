@@ -160,7 +160,13 @@ extension Onboarding {
                                 if let next = currentScreen.next() {
                                     currentScreen = next
                                 }
-                                didInstallHelper()
+                                do {
+                                    _ = try await helperManager.pingHelper()
+                                    didInstallHelper()
+                                } catch {
+                                    self.helperError = error as NSError
+                                    break
+                                }
                                 defaults.setValue(.onboardingIsDone, value: true)
                                 onboardingIsFinished = true
                                 NSSound(named: "Funk")?.play()
