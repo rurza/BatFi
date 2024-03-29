@@ -12,7 +12,7 @@ import os
 import Shared
 
 public final class Server {
-    private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "🛟")
+    private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "Server")
 
     public init() {}
 
@@ -20,24 +20,9 @@ public final class Server {
         let data = try EmbeddedPropertyListReader.info.readInternal()
         let plist = try PropertyListDecoder().decode(HelperPropertyList.self, from: data)
         logger.notice("Server version: \(plist.version, privacy: .public)")
-        let entitlement = plist.authorizedClients.first!
-        var requirement: SecRequirement!
-        var unmanagedError: Unmanaged<CFError>!
-
-        let status = SecRequirementCreateWithStringAndErrors(
-            entitlement as CFString,
-            [],
-            &unmanagedError,
-            &requirement
-        )
-
-        if status != errSecSuccess {
-            let error = unmanagedError.takeRetainedValue()
-            logger.fault("Code signing requirement text, `\(xpcEntitlement)`, is not valid: \(error).")
-        }
 
         let listener = NSXPCListener(machServiceName: Constant.helperBundleIdentifier)
-        
+        listener.setConnectionCodeSigningRequirement("anchor apple generic and identifier \"software.micropixels.BatFi\"")
         let delegate = ListenerDelegate()
         listener.delegate = delegate
         listener.resume()

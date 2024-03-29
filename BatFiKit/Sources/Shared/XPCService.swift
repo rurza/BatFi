@@ -17,5 +17,5 @@ public protocol XPCService {
     func getPowerDistribution(_ handler: @escaping (PowerDistributionInfo?, Error?) -> Void)
     func setMagSafeLEDColor(color: UInt8, _ handler: @escaping (UInt8, Error?) -> Void)
     func ping(_ handler: @escaping (Bool, Error?) -> Void)
-    func quit()
+    func quit(_ handler: @escaping (Bool, Error?) -> Void)
 }

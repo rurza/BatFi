@@ -63,15 +63,7 @@ final class XPCServiceHandler: XPCService {
             }
         }
     }
-    
-    func quit() {
-        Task {
-            logger.notice("\(#function, privacy: .public)")
-            try? await Task.sleep(for: .milliseconds(500))
-            exit(0)
-        }
-    }
-    
+
     func getPowerDistribution(_ reply: @escaping (Shared.PowerDistributionInfo?, (any Error)?) -> Void) {
         logger.notice("\(#function, privacy: .public)")
         Task {
@@ -104,4 +96,13 @@ final class XPCServiceHandler: XPCService {
     func ping(_ reply: @escaping (Bool, Error?) -> Void) {
         reply(true, nil)
     }
+
+    func quit(_ reply: @escaping (Bool, Error?) -> Void) {
+        Task {
+            reply(true, nil)
+            try? await Task.sleep(for: .milliseconds(500))
+            exit(0)
+        }
+    }
+
 }

@@ -57,14 +57,13 @@ extension HelperClient: DependencyKey {
             quitHelper: {
                 logger.debug("Should quit the helper")
                 do {
-                    try await XPCClient.shared.quitHelper()
-                    logger.notice("Helper did quit")
+                    _ = try await XPCClient.shared.quitHelper()
                 } catch {
                     logger.warning("Helper could failed to quit: \(error.localizedDescription, privacy: .public)")
                 }
             },
             pingHelper: {
-                try await XPCClient.shared.pingHelper()
+                return try await XPCClient.shared.pingHelper()
             }
         )
         return manager
