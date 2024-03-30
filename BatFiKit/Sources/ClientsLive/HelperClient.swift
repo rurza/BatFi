@@ -55,8 +55,7 @@ extension HelperClient: DependencyKey {
                     continuation.onTermination = { _ in
                         task.cancel()
                     }
-                }
-                .removeDuplicates()
+                } // always return a status, even if it's a duplicate, otherwise onboarding won't work
                 .eraseToStream()
             },
             quitHelper: {

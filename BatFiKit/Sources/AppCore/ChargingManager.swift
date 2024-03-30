@@ -109,12 +109,6 @@ public final class ChargingManager {
                 await updateStatusWithCurrentState()
             }
         }
-
-        Task {
-            for await _ in helperClient.observeHelperStatus() {
-                await updateStatusWithCurrentState()
-            }
-        }
     }
 
     public func appWillQuit() async {
