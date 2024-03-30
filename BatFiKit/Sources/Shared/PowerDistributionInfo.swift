@@ -26,7 +26,7 @@ public class PowerDistributionInfo: NSObject, Codable, NSSecureCoding {
 
     public required init?(coder: NSCoder) {
         batteryPower = coder.decodeFloat(forKey: "batteryPower")
-        externalPower = coder.decodeFloat(forKey: "external")
+        externalPower = coder.decodeFloat(forKey: "externalPower")
         systemPower = coder.decodeFloat(forKey: "systemPower")
         super.init()
     }

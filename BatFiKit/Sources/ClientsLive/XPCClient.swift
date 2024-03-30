@@ -13,11 +13,11 @@ import Shared
 
 actor XPCClient {
     private lazy var logger = Logger(category: "XPC Client")
-
+    
     private init() { }
-
+    
     static let shared = XPCClient()
-
+    
     func changeChargingMode(_ newMode: SMCChargingCommand) async throws {
         switch newMode {
         case .forceDischarging:
@@ -30,7 +30,7 @@ actor XPCClient {
             try await setChargingMode(XPCService.setEnableSystemChargeLimit)
         }
     }
-
+    
     func getPowerDistribution() async throws -> PowerDistributionInfo {
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
@@ -45,7 +45,7 @@ actor XPCClient {
             }
         }
     }
-
+    
     func getSMCChargingStatus() async throws -> SMCChargingStatus {
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
@@ -60,7 +60,7 @@ actor XPCClient {
             }
         }
     }
-
+    
     func changeMagSafeLEDColor(_ color: MagSafeLEDOption) async throws -> MagSafeLEDOption {
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
@@ -76,8 +76,9 @@ actor XPCClient {
             }
         }
     }
-
+    
     func pingHelper() async throws -> Bool {
+        logger.debug("Pinging helper")
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
             service.ping { success, error in
@@ -89,7 +90,7 @@ actor XPCClient {
             }
         }
     }
-
+    
     func quitHelper() async throws -> Bool {
         logger.debug("Quitting helper")
         let remote = newRemoteService()
@@ -103,7 +104,7 @@ actor XPCClient {
             }
         }
     }
-
+    
     private func setChargingMode(
         _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
     ) async throws {
@@ -118,11 +119,11 @@ actor XPCClient {
             }
         }
     }
-
+    
     private func newRemoteService() -> RemoteXPCService<XPCService> {
         RemoteXPCService(connection: newConnection(), remoteInterface: XPCService.self)
     }
-
+    
     private func newConnection() -> NSXPCConnection {
         let connection = NSXPCConnection(
             machServiceName: Constant.helperBundleIdentifier,
@@ -131,7 +132,7 @@ actor XPCClient {
         connection.resume()
         return connection
     }
-
+    
     private func newConnectionWithInterface() -> NSXPCConnection {
         let connection = newConnection()
         connection.remoteObjectInterface = NSXPCInterface(with: XPCService.self)
