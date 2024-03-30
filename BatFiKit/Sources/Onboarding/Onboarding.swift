@@ -153,9 +153,6 @@ extension Onboarding {
                         var counter = 0
                         for await status in helperManager.observeHelperStatus() {
                             if status == .enabled {
-                                try? await helperManager.removeHelper()
-                                try? await Task.sleep(for: .seconds(1))
-                                try? await helperManager.installHelper()
                                 self.helperError = nil
                                 if let next = currentScreen.next() {
                                     currentScreen = next
@@ -167,6 +164,10 @@ extension Onboarding {
                                 break
                             } else if let error, counter == 20 {
                                 self.helperError = error as NSError
+                            } else if status != .requiresApproval {
+                                try? await helperManager.removeHelper()
+                                try? await Task.sleep(for: .seconds(1))
+                                try? await helperManager.installHelper()
                             }
                             counter += 1
                         }
