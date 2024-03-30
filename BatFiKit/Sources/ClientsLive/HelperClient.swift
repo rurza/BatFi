@@ -38,7 +38,12 @@ extension HelperClient: DependencyKey {
                     throw error
                 }
             },
-            helperStatus: { installer.service.status },
+            helperStatus: {
+                logger.notice("Checking helper status...")
+                let status = installer.service.status
+                logger.notice("Helper status: \(status, privacy: .public)")
+                return status
+            },
             observeHelperStatus: {
                 AsyncStream<SMAppService.Status> { continuation in
                     let task = Task {
@@ -68,6 +73,23 @@ extension HelperClient: DependencyKey {
         )
         return manager
     }()
+}
+
+extension SMAppService.Status: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .enabled:
+            return "enabled"
+        case .notFound:
+            return "Error. Not found"
+        case .notRegistered:
+            return "not registered"
+        case .requiresApproval:
+            return "requires approval"
+        @unknown default:
+            return "unknown"
+        }
+    }
 }
 
 private actor HelperInstaller {

@@ -135,10 +135,22 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
 
     func checkHelperHealth() {
         Task {
-            do {
-                try await helperClient.pingHelper()
-            } catch {
+            let status = await helperClient.helperStatus()
+
+            if status == .notRegistered {
+                do {
+                    try await helperClient.installHelper()
+                } catch {
+                    showHelperIsNotInstalled()
+                }
+            } else if status == .requiresApproval || status == .notRegistered {
                 showHelperIsNotInstalled()
+            } else if status == .enabled {
+                do {
+                    _ = try await helperClient.pingHelper()
+                } catch {
+                    showHelperIsNotInstalled()
+                }
             }
         }
     }
