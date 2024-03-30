@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BundleProgram</key>
-	<string>Contents/MacOS/BatFiHelper</string>
 	<key>CFBundleIdentifier</key>
 	<string>software.micropixels.BatFi.Helper</string>
 	<key>CFBundleVersion</key>

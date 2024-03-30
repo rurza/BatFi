@@ -461,16 +461,10 @@ func satisfyJobBlessRequirements() throws {
     case .helperTool:
         let clients = try SMAuthorizedClientsEntry()
         let version = try readEnvironmentVariable(name: "APP_VERSION", description: "", isUserDefined: true)
-        let helperName = try readEnvironmentVariable(
-            name: "HELPER_NAME",
-            description: "helper name",
-            isUserDefined: true
-        )
         let infoEntries: [String: AnyHashable] = try [
             CFBundleIdentifierKey: target.bundleIdentifier(),
             clients.key: clients.value,
             CFBundleVersionKey: version,
-            BundleProgramKey: "Contents/MacOS/" + helperName,
         ]
         try updatePropertyListWithEntries(infoEntries, atPath: infoPropertyList)
     case .app:
@@ -480,6 +474,17 @@ func satisfyJobBlessRequirements() throws {
         let launchdPropertyList = try launchdPropertyListPath()
         let label = try LabelEntry()
         try updatePropertyListWithEntries([label.key: label.value], atPath: launchdPropertyList)
+        let helperName = try readEnvironmentVariable(
+            name: "HELPER_NAME",
+            description: "helper name",
+            isUserDefined: true
+        )
+        try updatePropertyListWithEntries(
+            [
+                BundleProgramKey: "Contents/MacOS/" + helperName,
+            ],
+            atPath: launchdPropertyList
+        )
     }
 }
 
