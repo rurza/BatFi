@@ -19,23 +19,6 @@
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		669482FC2BB85CF600BB704D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 669482F72BB85CF600BB704D /* LetsMove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D1107320486CEB800E47090;
-			remoteInfo = "LetsMove Test";
-		};
-		669482FE2BB85CF600BB704D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 669482F72BB85CF600BB704D /* LetsMove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F146F8271CE7094400233A9B;
-			remoteInfo = LetsMove;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		5B11DE0329EB6641007A993C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -106,7 +89,6 @@
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		5BF2F4352B0154D7003454A0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		669482F72BB85CF600BB704D /* LetsMove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LetsMove.xcodeproj; path = LetsMove/LetsMove.xcodeproj; sourceTree = SOURCE_ROOT; };
 		66C3F0B22B7525A10082E15A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,7 +125,6 @@
 		5BB80D4729E9EF6600186827 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				669482F72BB85CF600BB704D /* LetsMove.xcodeproj */,
 				5BB80D4829E9EF6600186827 /* Config.xcconfig */,
 				5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */,
 			);
@@ -194,15 +175,6 @@
 				5BEE21B629E612C00012A4DD /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		669482F82BB85CF600BB704D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				669482FD2BB85CF600BB704D /* LetsMove Test.app */,
-				669482FF2BB85CF600BB704D /* LetsMove.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,12 +262,6 @@
 			);
 			productRefGroup = 5BEE218829E607FB0012A4DD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 669482F82BB85CF600BB704D /* Products */;
-					ProjectRef = 669482F72BB85CF600BB704D /* LetsMove.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				5BEE218629E607FB0012A4DD /* BatFi */,
@@ -303,23 +269,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		669482FD2BB85CF600BB704D /* LetsMove Test.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "LetsMove Test.app";
-			remoteRef = 669482FC2BB85CF600BB704D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		669482FF2BB85CF600BB704D /* LetsMove.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LetsMove.framework;
-			remoteRef = 669482FE2BB85CF600BB704D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5BEE218529E607FB0012A4DD /* Resources */ = {
