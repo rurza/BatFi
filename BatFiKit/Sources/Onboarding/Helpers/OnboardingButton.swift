@@ -6,6 +6,7 @@
 //
 
 import AppShared
+import SharedUI
 import SwiftUI
 
 struct OnboardingButton: View {

@@ -28,6 +28,7 @@ extension Target.Dependency {
     static let powerDistributionInfo: Self = "PowerDistributionInfo"
     static let settings: Self = "Settings"
     static let highEnergyUsage: Self = "HighEnergyUsage"
+    static let sharedUI: Self = "SharedUI"
 }
 
 let package = Package(
@@ -45,6 +46,7 @@ let package = Package(
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
         .library(name: "Shared", targets: ["Shared"]),
+        .library(name: "SharedUI", targets: ["SharedUI"]),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.2.2"),
@@ -69,6 +71,7 @@ let package = Package(
                 .aboutKit,
                 .appShared,
                 .l10n,
+                .sharedUI,
             ]
         ),
         .target(
@@ -182,6 +185,7 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .l10n,
+                .sharedUI,
             ]
         ),
         .target(
@@ -223,5 +227,6 @@ let package = Package(
             .l10n,
             .settingsKit,
         ]),
+        .target(name: "SharedUI"),
     ]
 )

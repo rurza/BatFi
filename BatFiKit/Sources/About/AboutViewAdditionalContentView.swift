@@ -9,6 +9,7 @@ import AboutKit
 import AppShared
 import L10n
 import SwiftUI
+import SharedUI
 
 struct AboutViewAdditionalContentView: View {
     @Environment(\.openURL) private var openURL
