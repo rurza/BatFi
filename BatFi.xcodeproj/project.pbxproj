@@ -17,6 +17,15 @@
 		5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BD6D3D22A4CDB3300575C43 /* Localizable.strings */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
+		666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71A22BBB5C6F00A7E303 /* URL.swift */; };
+		6679F9222BB96A780082C913 /* InstallationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9212BB96A780082C913 /* InstallationState.swift */; };
+		6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9232BB96FDB0082C913 /* BarProgressView.swift */; };
+		6679F9262BBA16740082C913 /* SharedUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6679F9252BBA16740082C913 /* SharedUI */; };
+		6694830C2BB8711F00BB704D /* InstallerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6694830B2BB8711F00BB704D /* InstallerApp.swift */; };
+		6694830E2BB8711F00BB704D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6694830D2BB8711F00BB704D /* ContentView.swift */; };
+		669483102BB8712000BB704D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6694830F2BB8712000BB704D /* Assets.xcassets */; };
+		669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 669483122BB8712000BB704D /* Preview Assets.xcassets */; };
+		6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669483192BB8724200BB704D /* AppInstaller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -89,6 +98,17 @@
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		5BF2F4352B0154D7003454A0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		666A71A22BBB5C6F00A7E303 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		6679F9212BB96A780082C913 /* InstallationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallationState.swift; sourceTree = "<group>"; };
+		6679F9232BB96FDB0082C913 /* BarProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarProgressView.swift; sourceTree = "<group>"; };
+		669483092BB8711F00BB704D /* BatFi Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BatFi Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6694830B2BB8711F00BB704D /* InstallerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallerApp.swift; sourceTree = "<group>"; };
+		6694830D2BB8711F00BB704D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6694830F2BB8712000BB704D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		669483122BB8712000BB704D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		669483142BB8712000BB704D /* Installer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Installer.entitlements; sourceTree = "<group>"; };
+		669483182BB8714E00BB704D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		669483192BB8724200BB704D /* AppInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInstaller.swift; sourceTree = "<group>"; };
 		66C3F0B22B7525A10082E15A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +126,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B40B1322A01BBB800A79785 /* App in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		669483062BB8711F00BB704D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6679F9262BBA16740082C913 /* SharedUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +167,7 @@
 				5BEE218929E607FB0012A4DD /* App */,
 				5B11DE0629EB6641007A993C /* Helper */,
 				5BB80D4729E9EF6600186827 /* Supporting Files */,
+				6694830A2BB8711F00BB704D /* Installer */,
 				5BEE218829E607FB0012A4DD /* Products */,
 				5BEE21B529E612C00012A4DD /* Frameworks */,
 			);
@@ -149,6 +178,7 @@
 			children = (
 				5BEE218729E607FB0012A4DD /* BatFi.app */,
 				5B11DE0529EB6641007A993C /* BatFiHelper */,
+				669483092BB8711F00BB704D /* BatFi Installer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +205,31 @@
 				5BEE21B629E612C00012A4DD /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6694830A2BB8711F00BB704D /* Installer */ = {
+			isa = PBXGroup;
+			children = (
+				669483182BB8714E00BB704D /* Info.plist */,
+				6694830B2BB8711F00BB704D /* InstallerApp.swift */,
+				6694830D2BB8711F00BB704D /* ContentView.swift */,
+				669483192BB8724200BB704D /* AppInstaller.swift */,
+				6679F9212BB96A780082C913 /* InstallationState.swift */,
+				6679F9232BB96FDB0082C913 /* BarProgressView.swift */,
+				666A71A22BBB5C6F00A7E303 /* URL.swift */,
+				6694830F2BB8712000BB704D /* Assets.xcassets */,
+				669483142BB8712000BB704D /* Installer.entitlements */,
+				669483112BB8712000BB704D /* Preview Content */,
+			);
+			path = Installer;
+			sourceTree = "<group>";
+		};
+		669483112BB8712000BB704D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				669483122BB8712000BB704D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +280,26 @@
 			productReference = 5BEE218729E607FB0012A4DD /* BatFi.app */;
 			productType = "com.apple.product-type.application";
 		};
+		669483082BB8711F00BB704D /* Installer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 669483152BB8712000BB704D /* Build configuration list for PBXNativeTarget "Installer" */;
+			buildPhases = (
+				669483052BB8711F00BB704D /* Sources */,
+				669483062BB8711F00BB704D /* Frameworks */,
+				669483072BB8711F00BB704D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Installer;
+			packageProductDependencies = (
+				6679F9252BBA16740082C913 /* SharedUI */,
+			);
+			productName = Installer;
+			productReference = 669483092BB8711F00BB704D /* BatFi Installer.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -232,7 +307,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					5B11DE0429EB6641007A993C = {
@@ -240,6 +315,9 @@
 					};
 					5BEE218629E607FB0012A4DD = {
 						CreatedOnToolsVersion = 14.3;
+					};
+					669483082BB8711F00BB704D = {
+						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
@@ -266,6 +344,7 @@
 			targets = (
 				5BEE218629E607FB0012A4DD /* BatFi */,
 				5B11DE0429EB6641007A993C /* Helper */,
+				669483082BB8711F00BB704D /* Installer */,
 			);
 		};
 /* End PBXProject section */
@@ -279,6 +358,15 @@
 				5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		669483072BB8711F00BB704D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */,
+				669483102BB8712000BB704D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +429,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		669483052BB8711F00BB704D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */,
+				6679F9222BB96A780082C913 /* InstallationState.swift in Sources */,
+				6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */,
+				6694830E2BB8711F00BB704D /* ContentView.swift in Sources */,
+				6694830C2BB8711F00BB704D /* InstallerApp.swift in Sources */,
+				666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -368,7 +469,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MARKETING_VERSION = "";
@@ -384,7 +485,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MARKETING_VERSION = "";
@@ -520,7 +621,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -551,7 +652,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -568,6 +669,73 @@
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		669483162BB8712000BB704D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Installer/Installer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Installer/Preview Content\"";
+				DEVELOPMENT_TEAM = YL78V8PY6H;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Installer/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Installer;
+				PRODUCT_NAME = "BatFi Installer";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		669483172BB8712000BB704D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Installer/Installer.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Installer/Preview Content\"";
+				DEVELOPMENT_TEAM = YL78V8PY6H;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Installer/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Installer;
+				PRODUCT_NAME = "BatFi Installer";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -603,6 +771,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		669483152BB8712000BB704D /* Build configuration list for PBXNativeTarget "Installer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				669483162BB8712000BB704D /* Debug */,
+				669483172BB8712000BB704D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -613,6 +790,10 @@
 		5B40B1312A01BBB800A79785 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
+		};
+		6679F9252BBA16740082C913 /* SharedUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SharedUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
