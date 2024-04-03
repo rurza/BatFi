@@ -377,6 +377,9 @@ public enum L10n {
                 public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power distribution", bundle: Bundle.module)
                 /// Show apps with high energy usage
                 public static let showHighEnergyImpactProcesses = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show apps with high energy usage", bundle: .module)
+
+                /// Send usage analytics
+                public static let sendAnalytics = String(localized: "settings.button.label.send_analytics", defaultValue: "Send usage analytics", bundle: .module)
             }
 
             public enum Tooltip {
@@ -439,6 +442,9 @@ public enum L10n {
 
             /// 5 minutes
             public static let highEnergyImpactProcessesMaxDuration = String(localized: "settings.label.high_energy_impact_processes_max_duration", defaultValue: "5 minutes", bundle: .module)
+
+            /// Always on during Beta
+            public static let analyticsAreAlwaysOnDuringBeta = String(localized: "settings.label.analytics_are_always_on_during_beta", defaultValue: "Always on during Beta", bundle: .module)
         }
 
         public enum Section {
@@ -498,5 +504,71 @@ public enum L10n {
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
             }
         }
+    }
+
+    public enum Installer {
+        /// BatFi Installer
+        public static let name = String(localized: "installer.name", defaultValue: "BatFi Installer", bundle: Bundle.module)
+
+        public enum Button {
+            public enum Label {
+                /// Install
+                public static let install = String(localized: "installer.button.label.install", defaultValue: "Install", bundle: Bundle.module)
+
+            }
+        }
+        public enum Status {
+            /// Ready to install
+            public static let ready = String(localized: "installer.status.ready", defaultValue: "Ready to install", bundle: Bundle.module)
+
+            /// Downloading…
+            public static let downloading = String(localized: "installer.status.downloading", defaultValue: "Downloading…", bundle: Bundle.module)
+
+            /// Unzipping…
+            public static let unzipping = String(localized: "installer.status.unzipping", defaultValue: "Unzipping…", bundle: Bundle.module)
+
+            /// Installing…"
+            public static let installing = String(localized: "installer.status.installing", defaultValue: "Installing…", bundle: Bundle.module)
+
+            /// Done
+            public static let done = String(localized: "installer.status.done", defaultValue: "Done", bundle: Bundle.module)
+
+            /// Installation error. %@
+            public static func installationError(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "installer.status.installation_error",
+                        defaultValue: "Installation error. %@",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            /// Download error. %@
+            public static func downloadError(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "installer.status.download_error",
+                        defaultValue: "Download error. %@",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            /// Unzipping error. %@
+            public static func unzippingError(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "installer.status.unzipping_error",
+                        defaultValue: "Unzipping error. %@",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+        }
+
     }
 }

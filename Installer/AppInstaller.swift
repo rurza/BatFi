@@ -9,10 +9,22 @@ import AppKit
 import os
 
 final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate {
-    @MainActor
-    @Published var installationState: InstallationState = .initial
+    @MainActor @Published
+    var installationState: InstallationState = .initial
+
     private let appBundleName = "BatFi.app"
+    private let bundleIdentifier = "software.micropixels.BatFi"
     private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "App Installer")
+
+    override init() {
+        super.init()
+    }
+
+    @MainActor
+    init(installationState: InstallationState) {
+        self.installationState = installationState
+        super.init()
+    }
 
     func downloadAndInstallApp() {
         downloadFile()
@@ -37,6 +49,14 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
 
     func unzipFile(at sourceURL: URL) -> Bool {
         updateInstallationState(.unzipping)
+        if let runningInstance =  NSWorkspace.shared.runningApplications
+            .first(where: { $0.bundleIdentifier == bundleIdentifier }) {
+            logger.debug("App is running")
+            if !runningInstance.terminate() {
+                runningInstance.forceTerminate()
+                logger.debug("App force terminated")
+            }
+        }
         let process = Process()
         process.launchPath = "/usr/bin/unzip"
         process.arguments = ["-o", sourceURL.path, "-d", "/Applications", "-x", "__MACOSX*"]
@@ -55,6 +75,7 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
 
     private func moveAppToApplicationsFolder(from sourceURL: URL) -> Bool {
         updateInstallationState(.moving)
+
         let fileManager = FileManager.default
         let applicationsURL = URL(fileURLWithPath: "/Applications/\(appBundleName)")
 
@@ -91,9 +112,11 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
     }
 
     private func findAndOpenApp(_ handler: @escaping () -> Void)  {
-        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "software.micropixels.BatFi") else {
+        logger.debug("Finish and open app")
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier) else {
             return
         }
+        logger.debug("opening app at \(url.absoluteString)")
         NSWorkspace.shared.openApplication(at: url, configuration: .init()) { _, _ in
             DispatchQueue.main.async {
                 handler()
@@ -102,9 +125,9 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
     }
 
     private func downloadFile() {
-        updateInstallationState(.downloading(progress: nil))
+        updateInstallationState(.downloading(progress: 0))
 
-        let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
+        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30)
         logger.debug("Downloading app from \(url.absoluteString)")
         let task = session.downloadTask(with: request)
@@ -113,6 +136,18 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
 
     // MARK: URLSessionDownloadDelegate Methods
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let response = downloadTask.response as? HTTPURLResponse else {
+            updateInstallationState(.downloadError(
+                NSError(domain: "Installer", code: 0, userInfo: [NSLocalizedDescriptionKey: "No response"])
+            ))
+            return
+        }
+        guard response.statusCode == 200 else {
+            updateInstallationState(.downloadError(
+                NSError(domain: "Installer", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: "Bad status code"])
+            ))
+            return
+        }
         guard let tempLocation = renameDownloadedFile(downloadTask.response?.suggestedFilename, location: location) else {
             return
         }
@@ -122,7 +157,9 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         cleanUp(url: tempLocation)
         findAndOpenApp { [weak self] in
             self?.updateInstallationState(.done)
-            NSApp.terminate(nil)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+                NSApp.terminate(nil)
+            }
         }
     }
 

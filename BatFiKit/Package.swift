@@ -47,6 +47,7 @@ let package = Package(
         .library(name: "Settings", targets: ["Settings"]),
         .library(name: "Shared", targets: ["Shared"]),
         .library(name: "SharedUI", targets: ["SharedUI"]),
+        .library(name: "L10n", targets: ["L10n"]),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.2.2"),
