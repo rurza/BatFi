@@ -17,6 +17,9 @@
 		5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BD6D3D22A4CDB3300575C43 /* Localizable.strings */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
+		6666F3322BBCB8D400FFFC05 /* L10n in Frameworks */ = {isa = PBXBuildFile; productRef = 6666F3312BBCB8D400FFFC05 /* L10n */; };
+		6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3362BBCBC5B00FFFC05 /* Localizable.strings */; };
+		6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */; };
 		666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71A22BBB5C6F00A7E303 /* URL.swift */; };
 		6679F9222BB96A780082C913 /* InstallationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9212BB96A780082C913 /* InstallationState.swift */; };
 		6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9232BB96FDB0082C913 /* BarProgressView.swift */; };
@@ -98,6 +101,15 @@
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		5BF2F4352B0154D7003454A0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F3372BBCBC5B00FFFC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F3392BBCBC5E00FFFC05 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6666F33A2BBCBC6100FFFC05 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F33B2BBCBC6200FFFC05 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F33C2BBCBC6300FFFC05 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F33D2BBCBC6400FFFC05 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F33E2BBCBC6500FFFC05 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F33F2BBCBC6500FFFC05 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		666A71A22BBB5C6F00A7E303 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		6679F9212BB96A780082C913 /* InstallationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallationState.swift; sourceTree = "<group>"; };
 		6679F9232BB96FDB0082C913 /* BarProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarProgressView.swift; sourceTree = "<group>"; };
@@ -134,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6679F9262BBA16740082C913 /* SharedUI in Frameworks */,
+				6666F3322BBCB8D400FFFC05 /* L10n in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				669483182BB8714E00BB704D /* Info.plist */,
+				6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */,
 				6694830B2BB8711F00BB704D /* InstallerApp.swift */,
 				6694830D2BB8711F00BB704D /* ContentView.swift */,
 				669483192BB8724200BB704D /* AppInstaller.swift */,
@@ -220,6 +234,7 @@
 				6694830F2BB8712000BB704D /* Assets.xcassets */,
 				669483142BB8712000BB704D /* Installer.entitlements */,
 				669483112BB8712000BB704D /* Preview Content */,
+				6666F3362BBCBC5B00FFFC05 /* Localizable.strings */,
 			);
 			path = Installer;
 			sourceTree = "<group>";
@@ -295,6 +310,7 @@
 			name = Installer;
 			packageProductDependencies = (
 				6679F9252BBA16740082C913 /* SharedUI */,
+				6666F3312BBCB8D400FFFC05 /* L10n */,
 			);
 			productName = Installer;
 			productReference = 669483092BB8711F00BB704D /* BatFi Installer.app */;
@@ -366,6 +382,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */,
+				6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */,
+				6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */,
 				669483102BB8712000BB704D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,6 +474,21 @@
 				5BA2D0602B2651130017CD0E /* ko */,
 				5B2A68BC2B58848D009BE4F6 /* ru */,
 				66C3F0B22B7525A10082E15A /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6666F3362BBCBC5B00FFFC05 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6666F3372BBCBC5B00FFFC05 /* en */,
+				6666F3392BBCBC5E00FFFC05 /* zh-Hans */,
+				6666F33A2BBCBC6100FFFC05 /* fr */,
+				6666F33B2BBCBC6200FFFC05 /* de */,
+				6666F33C2BBCBC6300FFFC05 /* ja */,
+				6666F33D2BBCBC6400FFFC05 /* ko */,
+				6666F33E2BBCBC6500FFFC05 /* pl */,
+				6666F33F2BBCBC6500FFFC05 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -677,6 +710,7 @@
 		669483162BB8712000BB704D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -692,7 +726,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Installer/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "micropixels software";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -711,6 +745,7 @@
 		669483172BB8712000BB704D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -726,7 +761,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Installer/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "micropixels software";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -790,6 +825,10 @@
 		5B40B1312A01BBB800A79785 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
+		};
+		6666F3312BBCB8D400FFFC05 /* L10n */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = L10n;
 		};
 		6679F9252BBA16740082C913 /* SharedUI */ = {
 			isa = XCSwiftPackageProductDependency;

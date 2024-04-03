@@ -5,6 +5,7 @@
 //  Created by Adam Różyński on 30/03/2024.
 //
 
+import L10n
 import SharedUI
 import SwiftUI
 
@@ -20,7 +21,7 @@ struct ContentView: View {
                     .frame(height: 150)
                     .padding()
                     .padding(.bottom, -10)
-                Text("Install BatFi")
+                Text(L10n.Installer.name)
                     .font(.title2)
                     .fontWeight(.bold)
             }
@@ -28,6 +29,9 @@ struct ContentView: View {
                 VStack {
                     progressDescriptionView
                         .foregroundStyle(.secondary)
+                        .symbolRenderingMode(.multicolor)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
 
                     BarProgressView(value: appInstaller.installationState.progress)
                     Button(
@@ -35,7 +39,7 @@ struct ContentView: View {
                             appInstaller.downloadAndInstallApp()
                         },
                         label: {
-                            Text("Install")
+                            Text(L10n.Installer.Button.Label.install)
                         }
                     )
                     .buttonStyle(PrimaryButtonStyle(isLoading: false))
@@ -53,21 +57,21 @@ struct ContentView: View {
     var progressDescriptionView: some View {
         switch appInstaller.installationState {
         case .initial:
-            Text("Ready to install")
+            Text(L10n.Installer.Status.ready)
         case .downloading:
-            Text("Downloading…")
+            Text(L10n.Installer.Status.downloading)
         case let .downloadError(error):
-            Label("Download error. \(error.localizedDescription)", systemImage: "exclamationmark.triangle.fill")
+            Label(L10n.Installer.Status.downloadError(error.localizedDescription), systemImage: "exclamationmark.triangle.fill")
         case .unzipping:
-            Text("Unzipping…")
+            Text(L10n.Installer.Status.unzipping)
         case let .unzippingError(error):
-            Label("Unzipping error. \(error.localizedDescription)", systemImage: "exclamationmark.triangle.fill")
+            Label(L10n.Installer.Status.unzippingError(error.localizedDescription), systemImage: "exclamationmark.triangle.fill")
         case .moving:
-            Text("Installing…")
+            Text(L10n.Installer.Status.installing)
         case let .movingError(error):
-            Label("Installation error. \(error.localizedDescription)", systemImage: "exclamationmark.triangle.fill")
+            Label(L10n.Installer.Status.installationError(error.localizedDescription), systemImage: "exclamationmark.triangle.fill")
         case .done:
-            Text("Done")
+            Text(L10n.Installer.Status.done)
         }
     }
 
@@ -85,5 +89,19 @@ struct ContentView: View {
 #Preview {
     ContentView(appInstaller: AppInstaller())
         .frame(width: 340)
+}
 
+#Preview {
+    ContentView(appInstaller: AppInstaller(installationState: .downloadError(NSError(domain: "", code: 0, userInfo: nil))))
+        .frame(width: 340)
+}
+
+#Preview {
+    ContentView(appInstaller: AppInstaller(installationState: .moving))
+        .frame(width: 340)
+}
+
+#Preview {
+    ContentView(appInstaller: AppInstaller(installationState: .downloading(progress: 0.3)))
+        .frame(width: 340)
 }
