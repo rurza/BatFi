@@ -14,6 +14,7 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
 
     private let appBundleName = "BatFi.app"
     private let bundleIdentifier = "software.micropixels.BatFi"
+    private lazy var installedAppPath = "/Applications/\(appBundleName)"
     private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "App Installer")
 
     override init() {
@@ -51,10 +52,10 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         updateInstallationState(.unzipping)
         if let runningInstance =  NSWorkspace.shared.runningApplications
             .first(where: { $0.bundleIdentifier == bundleIdentifier }) {
-            logger.debug("App is running")
+            logger.notice("App is running")
             if !runningInstance.terminate() {
                 runningInstance.forceTerminate()
-                logger.debug("App force terminated")
+                logger.notice("App force terminated")
             }
         }
         let process = Process()
@@ -64,7 +65,7 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         do {
             try process.run()
             process.waitUntilExit()
-
+            updateInstallationState(.done)
             return true
         } catch {
             logger.error("Error unzipping file: \(error.localizedDescription)")
@@ -73,26 +74,10 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         }
     }
 
-    private func moveAppToApplicationsFolder(from sourceURL: URL) -> Bool {
-        updateInstallationState(.moving)
-
-        let fileManager = FileManager.default
-        let applicationsURL = URL(fileURLWithPath: "/Applications/\(appBundleName)")
-
-        do {
-            try fileManager.moveItem(at: sourceURL, to: applicationsURL)
-            return true
-        } catch {
-            logger.error("Error moving app to Applications folder: \(error.localizedDescription)")
-            updateInstallationState(.movingError(error as NSError))
-            return false
-        }
-    }
-
     private func clearQuarantineAttributes() {
         let process = Process()
         process.launchPath = "/usr/bin/xattr"
-        process.arguments = ["-dr", "com.apple.quarantine", "/Applications/\(appBundleName)"]
+        process.arguments = ["-dr", "com.apple.quarantine", installedAppPath]
 
         do {
             try process.run()
@@ -113,9 +98,7 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
 
     private func findAndOpenApp(_ handler: @escaping () -> Void)  {
         logger.debug("Finish and open app")
-        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier) else {
-            return
-        }
+        let url = URL(filePath: installedAppPath)
         logger.debug("opening app at \(url.absoluteString)")
         NSWorkspace.shared.openApplication(at: url, configuration: .init()) { _, _ in
             DispatchQueue.main.async {
@@ -164,14 +147,14 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        logger.debug("\(#function)")
+        logger.notice("\(#function)")
         let progress = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
-        logger.debug("Download progress: \(progress), totalbytes: \(totalBytesWritten), expected: \(totalBytesExpectedToWrite)")
+        logger.notice("Download progress: \(progress), totalbytes: \(totalBytesWritten), expected: \(totalBytesExpectedToWrite)")
         updateInstallationState(.downloading(progress: progress))
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        logger.debug("\(#function)")
+        logger.notice("\(#function)")
         if let error = error {
             logger.error("Download error: \(error.localizedDescription)")
             updateInstallationState(.downloadError(error as NSError))
@@ -180,7 +163,7 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
 
     func updateInstallationState(_ state: InstallationState) {
         Task { @MainActor in
-            logger.debug("Installation state: \(state, privacy: .public)")
+            logger.notice("Installation state: \(state, privacy: .public)")
             installationState = state
         }
     }
