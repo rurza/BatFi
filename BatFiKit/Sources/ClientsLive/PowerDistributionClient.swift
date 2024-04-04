@@ -2,6 +2,7 @@ import AppShared
 import Clients
 import Dependencies
 import os
+import Sentry
 import Shared
 
 extension PowerDistributionClient: DependencyKey {
@@ -9,7 +10,12 @@ extension PowerDistributionClient: DependencyKey {
         let logger = Logger(category: "Power distribution")
 
         @Sendable func powerInfo() async throws -> PowerDistributionInfo {
-            try await XPCClient.shared.getPowerDistribution()
+            do {
+                return try await XPCClient.shared.getPowerDistribution()
+            } catch {
+                SentrySDK.capture(error: error)
+                throw error
+            }
         }
 
         let client = Self(

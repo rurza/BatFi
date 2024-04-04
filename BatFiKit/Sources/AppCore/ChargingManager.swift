@@ -163,6 +163,9 @@ public final class ChargingManager {
         if powerState.batteryLevel == 100 {
             turnOffChargeToFull()
         }
+        if !preventSleeping {
+            restoreSleepifNeeded()
+        }
         guard manageCharging, !forceCharging else {
             logger.debug("Manage charging is turned off or Force charge is turned on")
             await turnOnCharging(
@@ -174,12 +177,12 @@ public final class ChargingManager {
             return
         }
         if turnOffChargingWithHotBattery, powerState.batteryTemperature > 35 {
-            logger.notice("Battero is hot")
+            logger.notice("Battery is hot")
             await inhibitCharging(chargerConnected: powerState.chargerConnected)
             return
         }
         guard let lidOpened = await appChargingState.lidOpened() else {
-            logger.warning("We don't know if the lid is opened")
+            logger.notice("We don't know if the lid is opened")
             do {
                 try await fetchAndUpdateAppChargingState()
                 await updateStatus(

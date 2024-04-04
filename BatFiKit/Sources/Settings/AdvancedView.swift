@@ -22,6 +22,7 @@ struct AdvancedView: View {
     @Default(.downloadBetaVersion) private var checkForBetaUpdates
     @Default(.showDebugMenu) private var showDebugMenu
     @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
+    @Default(.sendAnalytics) private var sendAnalytics
 
     @Dependency(\.updater) private var updater
 
@@ -61,6 +62,13 @@ struct AdvancedView: View {
                         }
                     }
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
+                VStack(alignment: .leading) {
+                    Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
+                        .disabled(true)
+                    #if IS_BETA
+                    Text(l10n.Label.analyticsAreAlwaysOnDuringBeta).settingDescription()
+                    #endif
+                }
             }
         }
     }

@@ -13,6 +13,7 @@ import L10n
 import MenuBuilder
 import Notifications
 import Onboarding
+import Shared
 import Settings
 import StatusItemArrowKit
 
@@ -39,7 +40,13 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     public init() {}
 
     public func start() {
+        #if DEBUG
         sentryClient.startSDK()
+        #else
+        if defaults.value(.sendAnalytics) {
+            sentryClient.startSDK()
+        }
+        #endif
         _ = updater // initialize updater
         if defaults.value(.onboardingIsDone) {
             setUpTheApp()
@@ -50,10 +57,15 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     public func willQuit() {
-        Task(priority: .userInitiated) {
-            await chargingManager.appWillQuit()
-            await magSafeColorManager.appWillQuit()
-            try? await helperClient.quitHelper()
+        Task {
+            try? await Task.sleep(for: .seconds(1))
+            sentryClient.captureMessage("XRPC hangs, timeout, I will quit the app")
+            NSApp.reply(toApplicationShouldTerminate: true)
+        }
+        Task {
+            await self.chargingManager.appWillQuit()
+            await self.magSafeColorManager.appWillQuit()
+            try? await self.helperClient.quitHelper()
             NSApp.reply(toApplicationShouldTerminate: true)
         }
     }
