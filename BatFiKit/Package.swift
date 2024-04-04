@@ -217,7 +217,10 @@ let package = Package(
         ]),
         .target(name: "Server", dependencies: [
             .asyncXPCConnection,
+            .defaults,
+            .defaultsKeys,
             .embeddedPropertyList,
+            .sentry,
             .shared,
         ]),
         .target(name: "Settings", dependencies: [

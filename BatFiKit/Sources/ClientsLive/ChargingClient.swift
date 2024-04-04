@@ -11,6 +11,7 @@ import Clients
 import Dependencies
 import IOKit.pwr_mgt
 import os
+import Sentry
 import Shared
 
 extension ChargingClient: DependencyKey {
@@ -22,6 +23,7 @@ extension ChargingClient: DependencyKey {
                 do {
                     try await XPCClient.shared.changeChargingMode(.auto)
                 } catch {
+                    SentrySDK.capture(error: error)
                     logger.log(level: .error, "turnOnAutoChargingMode error: \(error)")
                     throw(error)
                 }
@@ -30,6 +32,7 @@ extension ChargingClient: DependencyKey {
                 do {
                     try await XPCClient.shared.changeChargingMode(.inhibitCharging)
                 } catch {
+                    SentrySDK.capture(error: error)
                     logger.log(level: .error, "inhibitCharging error: \(error)")
                     throw(error)
                 }
@@ -38,6 +41,7 @@ extension ChargingClient: DependencyKey {
                 do {
                     try await XPCClient.shared.changeChargingMode(.forceDischarging)
                 } catch {
+                    SentrySDK.capture(error: error)
                     logger.log(level: .error, "forceDischarge error: \(error)")
                     throw(error)
                 }
@@ -46,6 +50,7 @@ extension ChargingClient: DependencyKey {
                 do {
                     return try await XPCClient.shared.getSMCChargingStatus()
                 } catch {
+                    SentrySDK.capture(error: error)
                     logger.log(level: .error, "chargingStatus error: \(error)")
                     throw(error)
                 }
@@ -54,6 +59,7 @@ extension ChargingClient: DependencyKey {
                 do {
                     try await XPCClient.shared.changeChargingMode(.enableSystemChargeLimit)
                 } catch {
+                    SentrySDK.capture(error: error)
                     logger.log(level: .error, "ChargingClient error: \(error)")
                     throw(error)
                 }

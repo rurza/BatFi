@@ -7,24 +7,25 @@
 
 import Foundation
 import os
+import Sentry
 import Shared
 
 actor SMCService {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "SMC Service")
 
-    func setChargingMode(_ message: SMCChargingCommand) async throws {
-        defer {
-            logger.notice("Closing SMC")
-            SMCKit.close()
-        }
-        logger.notice("Opening SMC")
+    init() {
         do {
             try SMCKit.open()
         } catch {
-            logger.critical("SMC opening error: \(error)")
-            throw error
+            SentrySDK.capture(error: error)
         }
-        logger.notice("SMC Opened")
+    }
+
+    deinit {
+        SMCKit.close()
+    }
+
+    func setChargingMode(_ message: SMCChargingCommand) async throws {
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
         let enableSystemChargeLimitByte: UInt8
@@ -59,6 +60,7 @@ actor SMCService {
             try SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
         } catch {
             logger.critical("SMC writing error: \(error)")
+            SentrySDK.capture(error: error)
             resetIfPossible()
             throw error
         }
@@ -72,15 +74,11 @@ actor SMCService {
             try SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
         } catch {
             logger.critical("Resetting charging state failed. \(error)")
+            SentrySDK.capture(error: error)
         }
     }
 
     func smcChargingStatus() async throws -> SMCChargingStatus {
-        defer {
-            SMCKit.close()
-        }
-        try SMCKit.open()
-
         let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
         let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
         let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
@@ -97,20 +95,21 @@ actor SMCService {
     }
 
     func magsafeLEDColor(_ option: MagSafeLEDOption) async throws -> MagSafeLEDOption {
-        defer { SMCKit.close() }
-        try SMCKit.open()
         try SMCKit.writeData(SMCKey.magSafeLED, uint8: option.rawValue)
-        let data = try SMCKit.readData(.magSafeLED)
-        guard let option = MagSafeLEDOption(rawValue: data.0) else { throw SMCError.canNotCreateMagSafeLEDOption }
-        return option
+        do {
+            let data = try SMCKit.readData(.magSafeLED)
+            guard let option = MagSafeLEDOption(rawValue: data.0) else {
+                throw SMCError.canNotCreateMagSafeLEDOption
+            }
+            return option
+        } catch {
+            SentrySDK.capture(error: error)
+            throw error
+        }
+
     }
 
-    func getPowerDistribution() throws -> PowerDistributionInfo {
-        defer {
-            SMCKit.close()
-        }
-        try SMCKit.open()
-
+    func getPowerDistribution() async throws -> PowerDistributionInfo {
         let rawBatteryPower = try SMCKit.readData(SMCKey.batteryPower)
         let rawExternalPower = try SMCKit.readData(SMCKey.externalPower)
 

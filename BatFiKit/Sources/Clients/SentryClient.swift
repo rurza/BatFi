@@ -11,8 +11,8 @@ import DependenciesMacros
 @DependencyClient
 public struct SentryClient {
     public var startSDK: @Sendable () -> Void = { }
-    public var captureMessage: @Sendable (String) -> Void = { _ in }
-    public var captureError: @Sendable (Error) -> Void = { _ in }
+    public var captureMessage: @Sendable (_ message: String) -> Void = { _ in }
+    public var captureError: @Sendable (_ error: Error) -> Void = { _ in }
 }
 
 extension SentryClient: TestDependencyKey {

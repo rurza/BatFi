@@ -9,6 +9,7 @@ import AsyncXPCConnection
 import EmbeddedPropertyList
 import Foundation
 import os
+import Sentry
 import Shared
 
 public final class Server {
@@ -22,10 +23,21 @@ public final class Server {
         logger.notice("Server version: \(plist.version, privacy: .public)")
 
         let listener = NSXPCListener(machServiceName: Constant.helperBundleIdentifier)
-        listener.setConnectionCodeSigningRequirement("anchor apple generic and identifier \"software.micropixels.BatFi\"")
         let delegate = ListenerDelegate()
         listener.delegate = delegate
         listener.resume()
+
+        if AppDefaults.userAllowsAnalytics {
+            SentrySDK.start { options in
+                options.dsn = "https://858e7a160cc0add058de86a8fcd489c8@o4506988322357248.ingest.us.sentry.io/4506988323799040"
+                #if DEBUG
+                options.debug = true
+                #endif
+
+                options.tracesSampleRate = 1.0
+                options.diagnosticLevel = .warning
+            }
+        }
 
         logger.notice("Server launched!")
         RunLoop.main.run()

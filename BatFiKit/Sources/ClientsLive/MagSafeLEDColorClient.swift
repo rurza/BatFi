@@ -9,6 +9,7 @@ import Clients
 import Dependencies
 import Foundation
 import os
+import Sentry
 import Shared
 
 extension MagSafeLEDColorClient: DependencyKey {
@@ -20,6 +21,7 @@ extension MagSafeLEDColorClient: DependencyKey {
                 do {
                     return try await XPCClient.shared.changeMagSafeLEDColor(option)
                 } catch {
+                    SentrySDK.capture(error: error)
                     logger.error("Error when chaging the color of MagSafe: \(error.localizedDescription, privacy: .public)")
                     throw error
                 }

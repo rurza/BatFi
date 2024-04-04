@@ -44,6 +44,8 @@ public extension Defaults.Keys {
     static let highEnergyImpactProcessesDuration = Key<TimeInterval>("highEnergyImpactProcessesDuration", default: 180)
     static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)
 
+    static let sendAnalytics = Key<Bool>("sendAnalytics", default: true)
+
     // notifications
     static let showChargingStausChanged = Key<Bool>("showChargingStausChanged", default: true)
     static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)

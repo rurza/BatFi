@@ -8,6 +8,7 @@
 import Foundation
 
 public enum Constant {
+    public static let appBundleIdentifier = "software.micropixels.BatFi"
     public static let helperBundleIdentifier = "software.micropixels.BatFi.Helper"
     public static let helperPlistName = helperBundleIdentifier + ".plist"
 }
