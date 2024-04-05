@@ -25,6 +25,7 @@ struct AdvancedView: View {
     @Default(.sendAnalytics) private var sendAnalytics
 
     @Dependency(\.updater) private var updater
+    @Dependency(\.featureFlags) private var featureFlags
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -63,11 +64,13 @@ struct AdvancedView: View {
                     }
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
                 VStack(alignment: .leading) {
-                    Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
-                        .disabled(true)
-                    #if IS_BETA
-                    Text(l10n.Label.analyticsAreAlwaysOnDuringBeta).settingDescription()
-                    #endif
+                    if featureFlags.isUsingBetaVersion() {
+                        Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
+                            .disabled(true)
+                        Text(l10n.Label.analyticsAreAlwaysOnDuringBeta).settingDescription()
+                    } else {
+                        Toggle(l10n.Button.Label.sendAnalytics, isOn: $sendAnalytics)
+                    }
                 }
             }
         }

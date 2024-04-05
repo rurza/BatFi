@@ -36,17 +36,19 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     @Dependency(\.defaults) private var defaults
     @Dependency(\.helperClient) private var helperClient
     @Dependency(\.sentryClient) private var sentryClient
+    @Dependency(\.featureFlags) private var featureFlags
 
     public init() {}
 
-    public func start() {
-        #if DEBUG
-        sentryClient.startSDK()
-        #else
-        if defaults.value(.sendAnalytics) {
+    public func start(isBeta: Bool) {
+        if isBeta {
+            featureFlags.enableFeatureFlag(.beta)
             sentryClient.startSDK()
+        } else {
+            if defaults.value(.sendAnalytics) {
+                sentryClient.startSDK()
+            }
         }
-        #endif
         _ = updater // initialize updater
         if defaults.value(.onboardingIsDone) {
             setUpTheApp()

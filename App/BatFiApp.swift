@@ -14,7 +14,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_: Notification) {
         app = BatFi()
-        app?.start()
+        #if BETA
+        app?.start(isBeta: true)
+        #else
+        app?.start(isBeta: false)
+        #endif
     }
 
     func applicationWillTerminate(_: Notification) {}

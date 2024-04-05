@@ -41,6 +41,6 @@ INFOPLIST_FILE = $(TARGET_DIRECTORY)/Info.plist
 SKIP_INSTALL = NO
 
 // Used by the shared code to know which target it's being built for
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = APP
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) APP
 
 GENERATE_INFOPLIST_FILE = NO

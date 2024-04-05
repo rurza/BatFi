@@ -223,14 +223,17 @@ let package = Package(
             .sentry,
             .shared,
         ]),
-        .target(name: "Settings", dependencies: [
-            .appShared,
-            .clients,
-            .defaultsKeys,
-            .dependencies,
-            .l10n,
-            .settingsKit,
-        ]),
+        .target(
+            name: "Settings",
+            dependencies: [
+                .appShared,
+                .clients,
+                .defaultsKeys,
+                .dependencies,
+                .l10n,
+                .settingsKit,
+            ]
+        ),
         .target(name: "SharedUI"),
     ]
 )
