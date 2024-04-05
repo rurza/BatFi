@@ -16,12 +16,22 @@ struct MenubarView: View {
     @Default(.showChart) private var showChart
     @Default(.showPowerDiagram) private var showPowerDiagram
     @Default(.showHighEnergyImpactProcesses) private var showHighEnergyImpactProcesses
+    @Default(.showBatteryCycleCount) private var showBatteryCycleCount
+    @Default(.showBatteryHealth) private var showBatteryHealth
+    @Default(.showBatteryTemperature) private var showBatteryTemperature
+    @Default(.showPowerSource) private var showPowerSource
     @State private var showingPopover = false
 
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
             Section(title: l10n.Section.menu) {
+                Toggle(l10n.Button.Label.showPowerSource, isOn: $showPowerSource)
+                Toggle(l10n.Button.Label.showBatteryCycles, isOn: $showBatteryCycleCount)
+                Toggle(l10n.Button.Label.showBatteryTemperature, isOn: $showBatteryTemperature)
+                Toggle(l10n.Button.Label.showBatteryHealth, isOn: $showBatteryHealth)
+                Divider()
+                    .padding(.vertical, 8)
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)
                 HStack(alignment: .top) {

@@ -31,6 +31,11 @@ public extension Defaults.Keys {
     static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
     static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
 
+    static let showBatteryCycleCount = Key<Bool>("showBatteryCycleCount", default: false)
+    static let showBatteryHealth = Key<Bool>("showBatteryHealth", default: true)
+    static let showBatteryTemperature = Key<Bool>("showBatteryTemperature", default: false)
+    static let showPowerSource = Key<Bool>("showPowerSource", default: false)
+
     // Advanced
     static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
     static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)
@@ -51,6 +56,7 @@ public extension Defaults.Keys {
     static let showOptimizedBatteryCharging = Key<Bool>("showOptimizedBatteryCharging", default: true)
     static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
     static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
+    static let batteryLowNotificationThreshold = Key<Int>("batteryLowNotificationThreshold", default: 20)
 
     // feature flags
     static let enableHighEnergyImpactProcesses = Key<Bool>("enableHighEnergyImpactProcesses", default: false)

@@ -27,7 +27,7 @@ struct HighEnergyImpactSettingsView: View {
                     let min = 200.0
                     let max = 800.0
                     Text(l10n.Label.highEnergyImpactProcessesThreshold(highEnergyImpactProcessesThreshold))
-                    HighEnergyUsageSlider(
+                    SettingsSliderContainer(
                         minLabel: "\(Int(min))",
                         maxLabel: "\(Int(max))",
                         min: min,
@@ -46,7 +46,7 @@ struct HighEnergyImpactSettingsView: View {
                     let max = 300.0
                     let minDuration = Duration.seconds(min)
                     let maxDuration = Duration.seconds(max)
-                    HighEnergyUsageSlider(
+                    SettingsSliderContainer(
                         minLabel: minDuration.formatted(style),
                         maxLabel: maxDuration.formatted(style),
                         min: min,
@@ -59,7 +59,7 @@ struct HighEnergyImpactSettingsView: View {
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(l10n.Label.highEnergyImpactProcessesCapacity(highEnergyImpactProcessesCapacity))
-                    HighEnergyUsageSlider(
+                    SettingsSliderContainer(
                         minLabel: "2",
                         maxLabel: "8",
                         min: 2,
@@ -69,30 +69,6 @@ struct HighEnergyImpactSettingsView: View {
                     )
                 }
             })
-        }
-    }
-}
-
-private struct HighEnergyUsageSlider<Value: BinaryFloatingPoint>: View where Value.Stride: BinaryFloatingPoint {
-    let minLabel: String
-    let maxLabel: String
-    let min: Value
-    let max: Value
-    let step: Value.Stride
-    @Binding var value: Value
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Slider(value: $value, in: min ... max, step: step)
-            HStack {
-                Text(minLabel)
-                    .multilineTextAlignment(.leading)
-                Spacer()
-                Text(maxLabel)
-                    .multilineTextAlignment(.trailing)
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
         }
     }
 }

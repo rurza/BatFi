@@ -7,6 +7,7 @@
 
 import AppShared
 import Defaults
+import DefaultsKeys
 import L10n
 import Shared
 import SwiftUI
@@ -14,6 +15,11 @@ import SwiftUI
 @MainActor
 public struct BatteryInfoView: View {
     @EnvironmentObject private var model: Model
+
+    @Default(.showBatteryCycleCount) private var showBatteryCycleCount
+    @Default(.showBatteryHealth) private var showBatteryHealth
+    @Default(.showBatteryTemperature) private var showBatteryTemperature
+    @Default(.showPowerSource) private var showPowerSource
 
     public init() {}
 
@@ -43,24 +49,32 @@ public struct BatteryInfoView: View {
                         label: l10n.Additional.appMode,
                         info: model.modeDescription ?? unknown
                     )
-                    BatteryAdditionalInfo(
-                        label: l10n.Additional.powerSource,
-                        info: powerState?.powerSource ?? unknown
-                    )
-                    BatteryAdditionalInfo(
-                        label: l10n.Additional.cycleCount,
-                        info: powerState?.batteryCycleCount.description ?? unknown
-                    )
-                    if let temperature = model.temperatureDescription() {
+                    if showPowerSource {
                         BatteryAdditionalInfo(
-                            label: l10n.Additional.temperature,
-                            info: temperature
+                            label: l10n.Additional.powerSource,
+                            info: powerState?.powerSource ?? unknown
                         )
                     }
-                    BatteryAdditionalInfo(
-                        label: l10n.Additional.batteryCapacity,
-                        info: powerState?.batteryHealth ?? l10n.Additional.unknownHealth
-                    )
+                    if showBatteryCycleCount {
+                        BatteryAdditionalInfo(
+                            label: l10n.Additional.cycleCount,
+                            info: powerState?.batteryCycleCount.description ?? unknown
+                        )
+                    }
+                    if showBatteryTemperature {
+                        if let temperature = model.temperatureDescription() {
+                            BatteryAdditionalInfo(
+                                label: l10n.Additional.temperature,
+                                info: temperature
+                            )
+                        }
+                    }
+                    if showBatteryHealth {
+                        BatteryAdditionalInfo(
+                            label: l10n.Additional.batteryCapacity,
+                            info: powerState?.batteryHealth ?? l10n.Additional.unknownHealth
+                        )
+                    }
                 }
                 .frame(maxWidth: .infinity)
             }

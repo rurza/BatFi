@@ -15,6 +15,9 @@ struct NotificationsView: View {
     @Default(.showOptimizedBatteryCharging) private var showOptimizedBatteryCharging
     @Default(.blinkMagSafeWhenDischarging) private var blinkMagSafeWhenDischarging
     @Default(.showBatteryLowNotification) private var showBatteryLowNotification
+    @Default(.batteryLowNotificationThreshold) private var batteryLowNotificationThreshold
+
+    @State private var showingPopover = false
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -26,8 +29,16 @@ struct NotificationsView: View {
                 Toggle(isOn: $showOptimizedBatteryCharging) {
                     Text(l10n.Button.Label.showAlertsWhenOptimizedChargingIsEngaged)
                 }
-                Toggle(isOn: $showBatteryLowNotification) {
-                    Text(l10n.Button.Label.showBatteryLowNotification)
+
+                HStack(alignment: .top) {
+                    Toggle(isOn: $showBatteryLowNotification) {
+                        Text(l10n.Label.batteryLowThreshold(batteryLowNotificationThreshold))
+                            .monospacedDigit()
+                    }
+                    Button(action: { showingPopover.toggle() }, label: { Text(L10n.Menu.Label.settings) })
+                        .popover(isPresented: $showingPopover, content: {
+                            BatteryLowThresholdNotificationSettingsView()
+                        })
                 }
             }
 

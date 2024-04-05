@@ -60,18 +60,18 @@ public class NotificationsManager: NSObject {
         }
 
         Task {
-            for await (showBatteryLowNotification, powerSourceState) in combineLatest(
+            for await (showBatteryLowNotification, powerSourceState, threshold) in combineLatest(
                 defaults.observe(.showBatteryLowNotification),
-                powerSourceClient.powerSourceChanges()
+                powerSourceClient.powerSourceChanges(),
+                defaults.observe(.batteryLowNotificationThreshold)
             ) {
-                let batteryLimit = 20
                 guard showBatteryLowNotification, !powerSourceState.isCharging else {
-                    if powerSourceState.batteryLevel > batteryLimit {
+                    if powerSourceState.batteryLevel > threshold {
                         didShowLowBatteryNotification = false
                     }
                     continue
                 }
-                if powerSourceState.batteryLevel <= batteryLimit, !didShowLowBatteryNotification {
+                if powerSourceState.batteryLevel <= threshold, !didShowLowBatteryNotification {
                     didShowLowBatteryNotification = true
                     await showBatteryIsLowNotification()
                 }

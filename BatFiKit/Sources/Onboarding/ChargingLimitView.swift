@@ -33,10 +33,10 @@ struct ChargingLimitView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     let percent = percentageFormatter.string(from: NSNumber(floatLiteral: Double(chargeLimit) / 100))!
                     Text(L10n.Onboarding.Slider.Label.setLimit(percent))
-                    Slider(value: .convert(from: $chargeLimit), in: 60 ... 90, step: 5) {
+                    Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
                         EmptyView()
                     } minimumValueLabel: {
-                        Text("60%")
+                        Text("50%")
                     } maximumValueLabel: {
                         Text("90%")
                     }

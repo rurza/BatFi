@@ -37,6 +37,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     @Dependency(\.helperClient) private var helperClient
     @Dependency(\.sentryClient) private var sentryClient
     @Dependency(\.featureFlags) private var featureFlags
+    @Dependency(\.dockIcon) private var dockIcon
 
     public init() {}
 
@@ -73,13 +74,16 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     private func setUpTheApp() {
-        statusItemIconController = StatusItemIconController(statusItem: statusItem)
-        menuController = MenuController(statusItem: statusItem)
-        chargingManager.setUpObserving()
-        persistenceManager.setUpObserving()
-        magSafeColorManager.setUpObserving()
-        menuController?.delegate = self
-        notificationsManager = NotificationsManager()
+        Task {
+            await dockIcon.show(false)
+            statusItemIconController = StatusItemIconController(statusItem: statusItem)
+            menuController = MenuController(statusItem: statusItem)
+            chargingManager.setUpObserving()
+            persistenceManager.setUpObserving()
+            magSafeColorManager.setUpObserving()
+            menuController?.delegate = self
+            notificationsManager = NotificationsManager()
+        }
     }
 
     // MARK: - MenuControllerDelegate
@@ -114,21 +118,25 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     }
 
     public func openOnboarding() {
-        if onboardingWindow == nil {
-            let window = OnboardingWindow { [weak self] in
-                guard let self else { return }
-                Task {
-                    self.setUpTheApp()
-                    self.statusItemIconController?.delegate = self
+        Task {
+            await dockIcon.show(true)
+
+            if onboardingWindow == nil {
+                let window = OnboardingWindow { [weak self] in
+                    guard let self else { return }
+                    Task {
+                        self.setUpTheApp()
+                        self.statusItemIconController?.delegate = self
+                    }
                 }
+                window.orderFrontRegardless()
+                window.center()
+                onboardingWindow = window
+            } else {
+                onboardingWindow?.orderFrontRegardless()
             }
-            window.orderFrontRegardless()
-            window.center()
-            onboardingWindow = window
-        } else {
-            onboardingWindow?.orderFrontRegardless()
+            NSApp.activate(ignoringOtherApps: true)
         }
-        NSApp.activate(ignoringOtherApps: true)
     }
 
     @MainActor

@@ -370,7 +370,6 @@ public enum L10n {
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.label.turn_off_charging_when_battery_is_hot", defaultValue: "Automatically turn off charging when the battery gets hot", bundle: Bundle.module)
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
-                public static let showBatteryLowNotification = String(localized: "settings.button.label.show_battery_low_notification", defaultValue: "Battery is low at 20%", bundle: Bundle.module)
                 /// Automatically enable system charge limit (80%) when the Mac goes to sleep
                 public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
                 /// Show power distribution
@@ -380,6 +379,18 @@ public enum L10n {
 
                 /// Send usage analytics
                 public static let sendAnalytics = String(localized: "settings.button.label.send_analytics", defaultValue: "Send usage analytics", bundle: .module)
+
+                /// Show battery health
+                public static let showBatteryHealth = String(localized: "settings.button.label.show_battery_health", defaultValue: "Show battery health", bundle: Bundle.module)
+
+                /// Show battery temperature
+                public static let showBatteryTemperature = String(localized: "settings.button.label.show_battery_temperature", defaultValue: "Show battery temperature", bundle: Bundle.module)
+
+                /// Show battery cycles count
+                public static let showBatteryCycles = String(localized: "settings.button.label.show_battery_cycles", defaultValue: "Show battery cycles count", bundle: Bundle.module)
+
+                /// Show power source
+                public static let showPowerSource = String(localized: "settings.button.label.show_power_source", defaultValue: "Show power source", bundle: Bundle.module)
             }
 
             public enum Tooltip {
@@ -445,6 +456,19 @@ public enum L10n {
 
             /// Always on during Beta
             public static let analyticsAreAlwaysOnDuringBeta = String(localized: "settings.label.analytics_are_always_on_during_beta", defaultValue: "Always on during Beta", bundle: .module)
+
+            /// Battery is low at %lld%
+            public static func batteryLowThreshold(_ p1: Int) -> String {
+                String.localizedStringWithFormat(
+                    NSLocalizedString(
+                        "settings.label.battery_low_threshold",
+                        bundle: .module,
+                        value: "Battery is low at %lld%%",
+                        comment: ""
+                    ),
+                    p1
+                )
+            }
         }
 
         public enum Section {

@@ -51,15 +51,15 @@ struct ChargingView: View {
                                     Text(label)
                                         .foregroundColor(manageCharging ? .primary : .secondary)
                                     HStack {
-                                        Slider(value: .convert(from: $chargeLimit), in: 60 ... 90, step: 5) {
+                                        Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
                                             EmptyView()
                                         } minimumValueLabel: {
-                                            Text("60%")
+                                            Text("50%")
                                         } maximumValueLabel: {
                                             Text("90%")
                                         }
                                         .disabled(!manageCharging)
-                                        .frame(width: 340)
+                                        .frame(width: 360)
                                         Spacer()
                                     }.frame(maxWidth: .infinity)
                                 }
