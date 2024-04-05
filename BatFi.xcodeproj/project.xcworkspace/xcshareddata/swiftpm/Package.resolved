@@ -6,7 +6,7 @@
       "location" : "https://github.com/rurza/AboutKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "d75cccc4c97cfad466487ac8ccdd1d53d5ea6207"
+        "revision" : "2db79e6982bfdbefbb06f625ff826639e5145628"
       }
     },
     {
@@ -42,7 +42,7 @@
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
         "branch" : "main",
-        "revision" : "3efef5a28ebdbbe922d4a2049493733ed14475a6"
+        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa",
       "state" : {
-        "revision" : "bf7bdd75e25556d0f97ad54fb804b4287863e106",
-        "version" : "8.22.4"
+        "revision" : "937dce13c2600cc42112c480d04f84899e08e9cc",
+        "version" : "8.23.0"
       }
     },
     {
@@ -78,7 +78,7 @@
       "location" : "https://github.com/rurza/SettingsKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "d22bb9d3ad257842a10e05d13900a092233fc2f5"
+        "revision" : "e99c1e9a51afef7c7c07997ac079586138114422"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "1f07f4096e52f19b5e7abaa697b7fc592b7ff57c",
-        "version" : "2.5.1"
+        "revision" : "0a4caaf7a81eea2cece651ef4b17331fa0634dff",
+        "version" : "2.6.0"
       }
     },
     {
@@ -105,7 +105,7 @@
       "location" : "https://github.com/rurza/StatusItemArrowKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "1b81294b10281c22d889f887f7106384e70e019c"
+        "revision" : "612c11b7154c18c28ad35175f023c43dde428e7c"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections",
       "state" : {
-        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
-        "version" : "1.0.4"
+        "revision" : "94cf62b3ba8d4bed62680a282d4c25f9c63c2efb",
+        "version" : "1.1.0"
       }
     },
     {
