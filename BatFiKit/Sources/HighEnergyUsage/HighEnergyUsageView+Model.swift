@@ -17,7 +17,7 @@ import Foundation
 extension HighEnergyUsageView {
     @MainActor
     final class Model: ObservableObject {
-        @Dependency(\.highEnergyImpactClient) private var highEnergyImpactClient
+        @Dependency(\.energyStatsClient) private var energyStatsClient
         @Dependency(\.defaults) private var defaults
         @Dependency(\.menuDelegate) private var menuDelegate
 
@@ -68,7 +68,7 @@ extension HighEnergyUsageView {
             changesTask?.cancel()
             changesTask = Task { @MainActor [weak self] in
                 guard let self else { return }
-                for await info in highEnergyImpactClient.topCoalitionInfoChanges(threshold, duration, capacity) {
+                for await info in energyStatsClient.topCoalitionInfoChanges(threshold, duration, capacity) {
                     print("new coalition: \(info)")
                     topCoalitionInfo = info
                 }

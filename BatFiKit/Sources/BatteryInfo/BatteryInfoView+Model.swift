@@ -19,6 +19,7 @@ public extension BatteryInfoView {
         @Dependency(\.appChargingState) private var appChargingState
         @Dependency(\.defaults) private var defaults
         @Dependency(\.menuDelegate) private var menuDelegate
+        @Dependency(\.energyStatsClient) private var energyStatsClient
 
         private(set) var state: PowerState? {
             didSet {
@@ -34,9 +35,16 @@ public extension BatteryInfoView {
             }
         }
 
+        private(set) var batteryChargeGraphInfo: BatteryChargeGraphInfo? {
+            willSet {
+                objectWillChange.send()
+            }
+        }
+
         private var menuTask: Task<Void, Never>?
         private var chargingStateModeChanges: Task<Void, Never>?
         private var powerSourceChanges: Task<Void, Never>?
+        private var batteryChargeGraphInfoChanges: Task<Void, Never>?
 
         public init() {
             Task {
@@ -76,6 +84,13 @@ public extension BatteryInfoView {
                     self.state = state
                 }
             }
+
+            batteryChargeGraphInfoChanges = Task { [weak self] in
+                guard let self else { return }
+                for await info in energyStatsClient.batteryChargeGraphInfoChanges() {
+                    self.batteryChargeGraphInfo = info
+                }
+            }
         }
 
         private func cancelObserving() {
@@ -101,6 +116,13 @@ public extension BatteryInfoView {
             guard let temperature = state?.batteryTemperature else { return nil }
             let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
             return temperatureFormatter.string(from: measurement)
+        }
+        
+        func elapsedTimeDescription() -> String? {
+            guard let time = batteryChargeGraphInfo?.batteryStates.last?.time else {
+                return nil
+            }
+            return timeFormatter.string(from: Double(time))
         }
 
         deinit {

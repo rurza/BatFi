@@ -31,10 +31,11 @@ public extension Defaults.Keys {
     static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
     static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
 
-    static let showBatteryCycleCount = Key<Bool>("showBatteryCycleCount", default: false)
+    static let showBatteryCycleCount = Key<Bool>("showBatteryCycleCount", default: true)
     static let showBatteryHealth = Key<Bool>("showBatteryHealth", default: true)
     static let showBatteryTemperature = Key<Bool>("showBatteryTemperature", default: false)
     static let showPowerSource = Key<Bool>("showPowerSource", default: false)
+    static let showElapsedTime = Key<Bool>("showElapsedTime", default: false)
 
     // Advanced
     static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)

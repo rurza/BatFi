@@ -42,13 +42,21 @@ public struct BatteryInfoView: View {
                             info: timeDescription.description
                         )
                     }
-                }
-                SeparatorView()
-                VStack(alignment: .leading, spacing: 7) {
+                    if let elapsedTimeDescription = model.elapsedTimeDescription() {
+                        BatteryAdditionalInfo(
+                            label: l10n.Main.Time.elapsedTime,
+                            info: elapsedTimeDescription
+                        )
+                    }
                     BatteryAdditionalInfo(
                         label: l10n.Additional.appMode,
                         info: model.modeDescription ?? unknown
                     )
+                }
+                if showPowerSource || showBatteryHealth || showBatteryCycleCount || showBatteryTemperature {
+                    SeparatorView()
+                }
+                VStack(alignment: .leading, spacing: 7) {
                     if showPowerSource {
                         BatteryAdditionalInfo(
                             label: l10n.Additional.powerSource,

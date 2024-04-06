@@ -99,6 +99,9 @@ public enum L10n {
                     public static let timeLeft = String(localized: "battery_info.label.main.time.time_left", defaultValue: "Time Left", bundle: Bundle.module)
                     /// Time to Charge
                     public static let timeToCharge = String(localized: "battery_info.label.main.time.time_to_charge", defaultValue: "Time to Charge", bundle: Bundle.module)
+
+                    /// Elapsed Time
+                    public static let elapsedTime = String(localized: "battery_info.label.main.elapsed_time", defaultValue: "Elapsed Time", bundle: Bundle.module)
                 }
             }
         }
