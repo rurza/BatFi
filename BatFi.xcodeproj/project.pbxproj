@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5B11DE0829EB6641007A993C /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B11DE0729EB6641007A993C /* main.swift */; };
-		5B22A36D2A4385DC00252930 /* license.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5B22A36C2A4385DC00252930 /* license.pdf */; };
 		5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B2836D82A05A6F000A42566 /* MainMenu.xib */; };
 		5B40B1302A01BBAA00A79785 /* Server in Frameworks */ = {isa = PBXBuildFile; productRef = 5B40B12F2A01BBAA00A79785 /* Server */; };
 		5B40B1322A01BBB800A79785 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 5B40B1312A01BBB800A79785 /* App */; };
@@ -17,6 +16,9 @@
 		5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BD6D3D22A4CDB3300575C43 /* Localizable.strings */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
+		66558E932BC1C24F00FC377A /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66558E922BC1C24F00FC377A /* LicenseView.swift */; };
+		66558E962BC1C47300FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
+		66558E972BC1CB5D00FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
 		6666F3322BBCB8D400FFFC05 /* L10n in Frameworks */ = {isa = PBXBuildFile; productRef = 6666F3312BBCB8D400FFFC05 /* L10n */; };
 		6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3362BBCBC5B00FFFC05 /* Localizable.strings */; };
 		6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */; };
@@ -81,7 +83,6 @@
 		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
 		5B1E2DC32AB4A84B00A6517D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5B22A36C2A4385DC00252930 /* license.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = license.pdf; sourceTree = "<group>"; };
 		5B2836D82A05A6F000A42566 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		5B2A68BC2B58848D009BE4F6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5B31C86A2A549C1F00D0EB3A /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -101,6 +102,8 @@
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		5BF2F4352B0154D7003454A0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		66558E922BC1C24F00FC377A /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
+		66558E952BC1C47300FC377A /* license.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = license.rtf; sourceTree = "<group>"; };
 		6666F3372BBCBC5B00FFFC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6666F3392BBCBC5E00FFFC05 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6666F33A2BBCBC6100FFFC05 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -166,6 +169,7 @@
 		5BB80D4729E9EF6600186827 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				66558E952BC1C47300FC377A /* license.rtf */,
 				5BB80D4829E9EF6600186827 /* Config.xcconfig */,
 				5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */,
 			);
@@ -199,7 +203,6 @@
 		5BEE218929E607FB0012A4DD /* App */ = {
 			isa = PBXGroup;
 			children = (
-				5B22A36C2A4385DC00252930 /* license.pdf */,
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
 				5B2836D82A05A6F000A42566 /* MainMenu.xib */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
@@ -227,6 +230,7 @@
 				6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */,
 				6694830B2BB8711F00BB704D /* InstallerApp.swift */,
 				6694830D2BB8711F00BB704D /* ContentView.swift */,
+				66558E922BC1C24F00FC377A /* LicenseView.swift */,
 				669483192BB8724200BB704D /* AppInstaller.swift */,
 				6679F9212BB96A780082C913 /* InstallationState.swift */,
 				6679F9232BB96FDB0082C913 /* BarProgressView.swift */,
@@ -370,7 +374,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B22A36D2A4385DC00252930 /* license.pdf in Resources */,
+				66558E972BC1CB5D00FC377A /* license.rtf in Resources */,
 				5BD6D3D02A4CDB3300575C43 /* Localizable.strings in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
@@ -381,6 +385,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66558E962BC1C47300FC377A /* license.rtf in Resources */,
 				669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */,
 				6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */,
 				6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */,
@@ -454,6 +459,7 @@
 				6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */,
 				6679F9222BB96A780082C913 /* InstallationState.swift in Sources */,
 				6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */,
+				66558E932BC1C24F00FC377A /* LicenseView.swift in Sources */,
 				6694830E2BB8711F00BB704D /* ContentView.swift in Sources */,
 				6694830C2BB8711F00BB704D /* InstallerApp.swift in Sources */,
 				666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */,

@@ -11,6 +11,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var appInstaller: AppInstaller
+    @State private var showingLicense = false
 
     var body: some View {
         VStack {
@@ -36,7 +37,7 @@ struct ContentView: View {
                     BarProgressView(value: appInstaller.installationState.progress)
                     Button(
                         action: {
-                            appInstaller.downloadAndInstallApp()
+                            showingLicense.toggle()
                         },
                         label: {
                             Text(L10n.Installer.Button.Label.install)
@@ -49,6 +50,18 @@ struct ContentView: View {
                 .padding()
             }
             .padding()
+        }
+        .sheet(isPresented: $showingLicense) {
+            LicenseView(
+                didAccept: {
+                    showingLicense = false
+                    appInstaller.downloadAndInstallApp()
+                },
+                didDecline: {
+                    showingLicense = false
+                }
+            )
+            .frame(width: 500, height: 700)
         }
         .preferredColorScheme(.dark)
     }

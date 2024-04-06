@@ -1343,6 +1343,40 @@
         }
       }
     },
+    "installer.button.label.accept" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Accept"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akceptuję"
+          }
+        }
+      }
+    },
+    "installer.button.label.decline" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Decline"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odrzucam"
+          }
+        }
+      }
+    },
     "installer.button.label.install" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

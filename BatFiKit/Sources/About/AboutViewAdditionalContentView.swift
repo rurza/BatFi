@@ -18,7 +18,7 @@ struct AboutViewAdditionalContentView: View {
         VStack(spacing: 20) {
             Button {
                 // Bundle.main because the license is stored in the app directly
-                guard let licenseURL = Bundle.main.url(forResource: "license", withExtension: "pdf") else { return }
+                guard let licenseURL = Bundle.main.url(forResource: "license", withExtension: "rtf") else { return }
                 NSWorkspace.shared.open(licenseURL)
             } label: {
                 Text(L10n.About.Button.Label.license)

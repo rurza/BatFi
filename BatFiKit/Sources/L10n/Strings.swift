@@ -539,6 +539,12 @@ public enum L10n {
                 /// Install
                 public static let install = String(localized: "installer.button.label.install", defaultValue: "Install", bundle: Bundle.module)
 
+                /// Accept
+                public static let accept = String(localized: "installer.button.label.accept", defaultValue: "Accept", bundle: Bundle.module)
+
+                /// Decline
+                public static let decline = String(localized: "installer.button.label.decline", defaultValue: "Decline", bundle: Bundle.module)
+
             }
         }
         public enum Status {
