@@ -14,11 +14,13 @@ import SettingsKit
 import SwiftUI
 
 struct GeneralView: View {
-    @Default(.launchAtLogin) private var launchAtLogin
-
     @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
 
+    @Default(.sendAnalytics) private var sendAnalytics
+    @Default(.launchAtLogin) private var launchAtLogin
+
+    @Dependency(\.featureFlags) private var featureFlags
     @Dependency(\.updater) private var updater
 
     var body: some View {
@@ -45,6 +47,17 @@ struct GeneralView: View {
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
+            }
+            Section(title: l10n.Section.other) {
+                VStack(alignment: .leading) {
+                    if featureFlags.isUsingBetaVersion() {
+                        Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
+                            .disabled(true)
+                        Text(l10n.Label.analyticsAreAlwaysOnDuringBeta).settingDescription()
+                    } else {
+                        Toggle(l10n.Button.Label.sendAnalytics, isOn: $sendAnalytics)
+                    }
+                }
             }
 
         }.onAppear {
