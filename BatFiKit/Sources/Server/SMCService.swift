@@ -12,12 +12,11 @@ import Shared
 
 actor SMCService {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "SMC Service")
+    private var smcIsOpened = false
 
     init() {
-        do {
-            try SMCKit.open()
-        } catch {
-            SentrySDK.capture(error: error)
+        Task {
+            await openSMCIfNeeded()
         }
     }
 
@@ -26,6 +25,7 @@ actor SMCService {
     }
 
     func setChargingMode(_ message: SMCChargingCommand) async throws {
+        openSMCIfNeeded()
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
         let enableSystemChargeLimitByte: UInt8
@@ -79,6 +79,7 @@ actor SMCService {
     }
 
     func smcChargingStatus() async throws -> SMCChargingStatus {
+        openSMCIfNeeded()
         let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
         let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
         let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
@@ -95,6 +96,7 @@ actor SMCService {
     }
 
     func magsafeLEDColor(_ option: MagSafeLEDOption) async throws -> MagSafeLEDOption {
+        openSMCIfNeeded()
         try SMCKit.writeData(SMCKey.magSafeLED, uint8: option.rawValue)
         do {
             let data = try SMCKit.readData(.magSafeLED)
@@ -110,6 +112,7 @@ actor SMCService {
     }
 
     func getPowerDistribution() async throws -> PowerDistributionInfo {
+        openSMCIfNeeded()
         let rawBatteryPower = try SMCKit.readData(SMCKey.batteryPower)
         let rawExternalPower = try SMCKit.readData(SMCKey.externalPower)
 
@@ -126,6 +129,17 @@ actor SMCService {
         let systemPower = batteryPower + externalPower
 
         return PowerDistributionInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
+    }
+
+    private func openSMCIfNeeded() {
+        if !smcIsOpened {
+            do {
+                try SMCKit.open()
+                smcIsOpened = true
+            } catch {
+                SentrySDK.capture(error: error)
+            }
+        }
     }
 
 }

@@ -21,6 +21,7 @@ extension Clients.SentryClient: DependencyKey {
 
                     options.tracesSampleRate = 1.0
                     options.diagnosticLevel = .warning
+                    options.enableMetricKit = true
                 }
             },
             captureMessage: { message in

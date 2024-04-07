@@ -29,16 +29,19 @@ struct NotificationsView: View {
                 Toggle(isOn: $showOptimizedBatteryCharging) {
                     Text(l10n.Button.Label.showAlertsWhenOptimizedChargingIsEngaged)
                 }
-
-                HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
                     Toggle(isOn: $showBatteryLowNotification) {
                         Text(l10n.Label.batteryLowThreshold(batteryLowNotificationThreshold))
                             .monospacedDigit()
                     }
-                    Button(action: { showingPopover.toggle() }, label: { Text(L10n.Menu.Label.settings) })
-                        .popover(isPresented: $showingPopover, content: {
-                            BatteryLowThresholdNotificationSettingsView()
-                        })
+                    SettingsSliderContainer(
+                        minLabel: "5%",
+                        maxLabel: "30%",
+                        min: 5,
+                        max: 30,
+                        step: 5,
+                        value: .convert(from: $batteryLowNotificationThreshold)
+                    ).disabled(!showBatteryLowNotification)
                 }
             }
 
