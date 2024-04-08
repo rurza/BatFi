@@ -20,7 +20,7 @@ public final class Server {
     public func start() throws {
         let data = try EmbeddedPropertyListReader.info.readInternal()
         let plist = try PropertyListDecoder().decode(HelperPropertyList.self, from: data)
-        logger.notice("Server version: \(plist.version, privacy: .public)")
+        logger.notice("Server version: \(plist.version, privacy: .public), build: \(plist.build, privacy: .public)")
 
         let listener = NSXPCListener(machServiceName: Constant.helperBundleIdentifier)
         let delegate = ListenerDelegate()
@@ -36,6 +36,8 @@ public final class Server {
 
                 options.tracesSampleRate = 1.0
                 options.diagnosticLevel = .warning
+
+                options.releaseName = "BatFiHelper@\(plist.version)@\(plist.build)"
             }
         }
 

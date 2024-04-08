@@ -19,9 +19,14 @@ extension Clients.SentryClient: DependencyKey {
                     options.debug = true
                     #endif
 
+                    let releaseVersionNumber = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+                    let buildVersionNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+
                     options.tracesSampleRate = 1.0
                     options.diagnosticLevel = .warning
                     options.enableMetricKit = true
+                    options.appHangTimeoutInterval = 3
+                    options.releaseName = "BatFi@\(releaseVersionNumber ?? "Unknown")@\(buildVersionNumber ?? "Unknown")"
                 }
             },
             captureMessage: { message in
@@ -29,6 +34,14 @@ extension Clients.SentryClient: DependencyKey {
             },
             captureError: { error in
                 SentrySDK.capture(error: error)
+            },
+            addBreadcrumb: { category, message in
+                let breadcrumb = Breadcrumb(level: .info, category: category)
+                breadcrumb.message = message
+                SentrySDK.addBreadcrumb(breadcrumb)
+            },
+            closeSDK: {
+                SentrySDK.close()
             }
         )
     }()

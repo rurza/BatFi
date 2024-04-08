@@ -14,18 +14,15 @@ actor SMCService {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "SMC Service")
     private var smcIsOpened = false
 
-    init() {
-        Task {
-            await openSMCIfNeeded()
-        }
-    }
+    static let shared = SMCService()
+
+    private init() { }
 
     func close() {
         SMCKit.close()
     }
 
     func setChargingMode(_ message: SMCChargingCommand) async throws {
-        openSMCIfNeeded()
         let disableChargingByte: UInt8
         let inhibitChargingByte: UInt8
         let enableSystemChargeLimitByte: UInt8
@@ -53,16 +50,18 @@ actor SMCService {
             logger.notice("Handling enable system charge limit")
         }
 
+        logger.notice("Setting SMC charging status")
+        await openSMCIfNeeded()
+
         do {
             try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
             try SMCKit.writeData(.inhibitChargingC, uint8: inhibitChargingByte)
             try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
             try SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
         } catch {
-            logger.critical("SMC writing error: \(error)")
-            SentrySDK.capture(error: error)
-            resetIfPossible()
-            throw error
+            self.logger.critical("SMC writing error: \(error)")
+            self.resetIfPossible()
+            smcIsOpened = false
         }
     }
 
@@ -73,73 +72,112 @@ actor SMCService {
             try SMCKit.writeData(.inhibitChargingB, uint8: 0)
             try SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
         } catch {
+            smcIsOpened = false
             logger.critical("Resetting charging state failed. \(error)")
-            SentrySDK.capture(error: error)
         }
     }
 
     func smcChargingStatus() async throws -> SMCChargingStatus {
-        openSMCIfNeeded()
-        let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
-        let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
-        let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
-        let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
-
         logger.notice("Checking SMC status")
+        await openSMCIfNeeded()
+        do {
+            let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
+            let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
+            let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
+            let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
-        return SMCChargingStatus(
-            forceDischarging: forceDischarging.0 == 01,
-            inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
+            return SMCChargingStatus(
+                forceDischarging: forceDischarging.0 == 01,
+                inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
                 || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
-            lidClosed: lidClosed.0 == 01
-        )
+                lidClosed: lidClosed.0 == 01
+            )
+        } catch {
+            smcIsOpened = false
+            throw error
+        }
     }
 
     func magsafeLEDColor(_ option: MagSafeLEDOption) async throws -> MagSafeLEDOption {
-        openSMCIfNeeded()
-        try SMCKit.writeData(SMCKey.magSafeLED, uint8: option.rawValue)
+        logger.notice("Setting MagSafe LED color")
+        await openSMCIfNeeded()
         do {
+            try SMCKit.writeData(SMCKey.magSafeLED, uint8: option.rawValue)
             let data = try SMCKit.readData(.magSafeLED)
             guard let option = MagSafeLEDOption(rawValue: data.0) else {
                 throw SMCError.canNotCreateMagSafeLEDOption
             }
             return option
         } catch {
-            SentrySDK.capture(error: error)
+            smcIsOpened = false
             throw error
         }
 
     }
 
     func getPowerDistribution() async throws -> PowerDistributionInfo {
-        openSMCIfNeeded()
-        let rawBatteryPower = try SMCKit.readData(SMCKey.batteryPower)
-        let rawExternalPower = try SMCKit.readData(SMCKey.externalPower)
+        logger.notice("Getting power distribution")
+        await openSMCIfNeeded()
+        do {
+            let rawBatteryPower = try SMCKit.readData(SMCKey.batteryPower)
+            let rawExternalPower = try SMCKit.readData(SMCKey.externalPower)
 
-        var batteryPower = Float(fromBytes: (rawBatteryPower.0, rawBatteryPower.1, rawBatteryPower.2, rawBatteryPower.3))
-        var externalPower = Float(fromBytes: (rawExternalPower.0, rawExternalPower.1, rawExternalPower.2, rawExternalPower.3))
+            var batteryPower = Float(fromBytes: (rawBatteryPower.0, rawBatteryPower.1, rawBatteryPower.2, rawBatteryPower.3))
+            var externalPower = Float(fromBytes: (rawExternalPower.0, rawExternalPower.1, rawExternalPower.2, rawExternalPower.3))
 
-        if abs(batteryPower) < 0.01 {
-            batteryPower = 0
+            if abs(batteryPower) < 0.01 {
+                batteryPower = 0
+            }
+            if externalPower < 0.01 {
+                externalPower = 0
+            }
+
+            let systemPower = batteryPower + externalPower
+
+            return PowerDistributionInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
+        } catch {
+            smcIsOpened = false
+            throw error
         }
-        if externalPower < 0.01 {
-            externalPower = 0
-        }
-
-        let systemPower = batteryPower + externalPower
-
-        return PowerDistributionInfo(batteryPower: batteryPower, externalPower: externalPower, systemPower: systemPower)
     }
 
-    private func openSMCIfNeeded() {
-        if !smcIsOpened {
+
+    private func openSMCIfNeeded() async {
+        guard !self.smcIsOpened else {
+            logger.notice("SMC is already opened.")
+            return
+        }
+
+        logger.notice("Opening SMC...")
+        await attemptToOpenSMC(withRetryAttempts: 3)
+    }
+
+    private func attemptToOpenSMC(withRetryAttempts attempts: Int) async {
+        var currentAttempt = 0
+
+        while currentAttempt < attempts {
             do {
-                try SMCKit.open()
-                smcIsOpened = true
+                try await openSMC()
+                logger.notice("SMC successfully opened!")
+                self.smcIsOpened = true
+                return
             } catch {
-                SentrySDK.capture(error: error)
+                currentAttempt += 1
+                if currentAttempt < attempts {
+                    logger.error("Failed to open SMC, retrying... (\(currentAttempt)/\(attempts))")
+                    try? await Task.sleep(for: .seconds(1))
+                } else {
+                    logger.error("Failed to open SMC after \(attempts) attempts. Giving up...")
+                    logger.critical("SMC opening error: \(error)")
+                    SentrySDK.capture(error: error)
+                    return
+                }
             }
         }
     }
 
+    private func openSMC() async throws {
+        logger.notice("Attempting to open SMC...")
+        try SMCKit.open()
+    }
 }

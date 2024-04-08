@@ -67,8 +67,11 @@ func readEnvironmentVariableAsURL(name: String, description: String, isUserDefin
 let SMAuthorizedClientsKey = "SMAuthorizedClients"
 /// Key for bundle identifier.
 let CFBundleIdentifierKey = kCFBundleIdentifierKey as String
-/// Key for bundle version.
+/// Key for bundle build.
 let CFBundleVersionKey = kCFBundleVersionKey as String
+
+let BundleShortVersionString = "CFBundleShortVersionString"
+
 /// Custom key for an entry in the helper tool's info plist that contains a hash of source files. Used to detect when the build changes.
 let BuildHashKey = "BuildHash"
 
@@ -135,10 +138,8 @@ func SMAuthorizedClientsEntry() throws -> (key: String, value: [String]) {
     // older version of the app had a security vulnerability fixed in later versions. The attacker could then
     // intentionally install and run an older version of the app and exploit its vulnerability in order to talk to
     // the helper tool.
-    let appVersion = try readEnvironmentVariable(name: "APP_VERSION",
-                                                 description: "app version",
-                                                 isUserDefined: true)
-    let appVersionRequirement = "info[\(CFBundleVersionKey)] >= \"\(appVersion)\""
+    let build = try appBuildNumber()
+    let appVersionRequirement = "info[\(CFBundleVersionKey)] >= \"\(build)\""
     let requirements = try [appleGenericRequirement,
                             appIdentifierRequirement,
                             appVersionRequirement,
@@ -163,6 +164,15 @@ func LabelEntry() throws -> (key: String, value: String) {
 }
 
 // MARK: property list manipulation
+
+func appBuildNumber() throws -> String {
+    do {
+        return try readEnvironmentVariable(name: "CI_BUILD_NUMBER", description: "", isUserDefined: false)
+    } catch {
+        return try readEnvironmentVariable(name: "BUILD_NUMBER", description: "", isUserDefined: true)
+    }
+}
+
 
 /// Reads the property list at the provided path.
 ///
@@ -461,10 +471,13 @@ func satisfyJobBlessRequirements() throws {
     case .helperTool:
         let clients = try SMAuthorizedClientsEntry()
         let version = try readEnvironmentVariable(name: "APP_VERSION", description: "", isUserDefined: true)
+        let build = try appBuildNumber()
+
         let infoEntries: [String: AnyHashable] = try [
             CFBundleIdentifierKey: target.bundleIdentifier(),
             clients.key: clients.value,
-            CFBundleVersionKey: version,
+            BundleShortVersionString: version,
+            CFBundleVersionKey: build,
         ]
         try updatePropertyListWithEntries(infoEntries, atPath: infoPropertyList)
     case .app:

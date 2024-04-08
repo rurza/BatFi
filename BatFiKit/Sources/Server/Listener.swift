@@ -20,7 +20,7 @@ final class ListenerDelegate: NSObject, NSXPCListenerDelegate {
 
 final class XPCServiceHandler: XPCService {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "XPCServiceHandler")
-    private lazy var smcService = SMCService()
+    private lazy var smcService = SMCService.shared
 
     func setForceDischarge(_ reply: @escaping ((any Error)?) -> Void) {
         changeChargingMode(.forceDischarging, reply: reply)

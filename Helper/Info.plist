@@ -4,11 +4,13 @@
 <dict>
 	<key>CFBundleIdentifier</key>
 	<string>software.micropixels.BatFi.Helper</string>
-	<key>CFBundleVersion</key>
+	<key>CFBundleShortVersionString</key>
 	<string>1.5.0</string>
+	<key>CFBundleVersion</key>
+	<string>50</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "1.5.0" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
+		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "50" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
 	</array>
 </dict>
 </plist>
