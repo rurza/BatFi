@@ -13,7 +13,7 @@ fi
 
 echo "Uploading dSYM to Sentry"
 
-sentry-cli --auth-token $SENTRY_AUTH_TOKEN \
+./sentry-cli --auth-token $SENTRY_AUTH_TOKEN \
     upload-dif --org 'micropixels' \
     --project 'batfi' \
     $CI_ARCHIVE_PATH
