@@ -99,8 +99,9 @@ final class XPCServiceHandler: XPCService {
 
     func quit(_ reply: @escaping (Bool, Error?) -> Void) {
         Task {
+            await smcService.close()
             reply(true, nil)
-            try? await Task.sleep(for: .milliseconds(500))
+            try? await Task.sleep(for: .milliseconds(100))
             exit(0)
         }
     }

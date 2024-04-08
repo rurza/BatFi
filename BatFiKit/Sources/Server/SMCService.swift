@@ -20,7 +20,7 @@ actor SMCService {
         }
     }
 
-    deinit {
+    func close() {
         SMCKit.close()
     }
 
