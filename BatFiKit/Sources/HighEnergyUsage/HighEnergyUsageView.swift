@@ -18,7 +18,6 @@ public struct HighEnergyUsageView: View {
         let l10n = L10n.Menu.HighEnergyUsage.self
         VStack(alignment: .leading, spacing: 12) {
             Text(l10n.header)
-                .bold()
                 .foregroundColor(.secondary)
                 .font(.callout)
                 .multilineTextAlignment(.leading)

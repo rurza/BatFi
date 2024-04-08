@@ -17,7 +17,6 @@ public struct PowerInfoView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(L10n.Menu.PowerInfo.header)
-                .bold()
                 .multilineTextAlignment(.leading)
                 .foregroundColor(.secondary)
                 .font(.callout)

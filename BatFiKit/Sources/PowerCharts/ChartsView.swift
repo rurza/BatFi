@@ -22,7 +22,6 @@ public struct ChartsView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(L10n.Menu.Charts.chartsHeader)
-                .bold()
                 .foregroundColor(.secondary)
                 .font(.callout)
                 .padding(.bottom, 6)
