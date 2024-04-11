@@ -31,6 +31,12 @@
 		669483102BB8712000BB704D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6694830F2BB8712000BB704D /* Assets.xcassets */; };
 		669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 669483122BB8712000BB704D /* Preview Assets.xcassets */; };
 		6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669483192BB8724200BB704D /* AppInstaller.swift */; };
+		66CF84312BC6D4A6003C51B8 /* PreviewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84302BC6D4A6003C51B8 /* PreviewsApp.swift */; };
+		66CF84332BC6D4A6003C51B8 /* BatteryIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84322BC6D4A6003C51B8 /* BatteryIndicator.swift */; };
+		66CF84352BC6D4A6003C51B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84342BC6D4A6003C51B8 /* Assets.xcassets */; };
+		66CF84382BC6D4A6003C51B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */; };
+		66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; };
+		66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,6 +79,17 @@
 				5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */,
 			);
 			name = "Copy Helper Property List";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66CF84412BC6D4B3003C51B8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -125,6 +142,12 @@
 		669483182BB8714E00BB704D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		669483192BB8724200BB704D /* AppInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInstaller.swift; sourceTree = "<group>"; };
 		66C3F0B22B7525A10082E15A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		66CF842E2BC6D4A6003C51B8 /* Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Previews.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66CF84302BC6D4A6003C51B8 /* PreviewsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewsApp.swift; sourceTree = "<group>"; };
+		66CF84322BC6D4A6003C51B8 /* BatteryIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryIndicator.swift; sourceTree = "<group>"; };
+		66CF84342BC6D4A6003C51B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		66CF84392BC6D4A6003C51B8 /* Previews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Previews.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +173,14 @@
 			files = (
 				6679F9262BBA16740082C913 /* SharedUI in Frameworks */,
 				6666F3322BBCB8D400FFFC05 /* L10n in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66CF842B2BC6D4A6003C51B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +216,7 @@
 				5B11DE0629EB6641007A993C /* Helper */,
 				5BB80D4729E9EF6600186827 /* Supporting Files */,
 				6694830A2BB8711F00BB704D /* Installer */,
+				66CF842F2BC6D4A6003C51B8 /* Previews */,
 				5BEE218829E607FB0012A4DD /* Products */,
 				5BEE21B529E612C00012A4DD /* Frameworks */,
 			);
@@ -196,6 +228,7 @@
 				5BEE218729E607FB0012A4DD /* BatFi.app */,
 				5B11DE0529EB6641007A993C /* BatFiHelper */,
 				669483092BB8711F00BB704D /* BatFi Installer.app */,
+				66CF842E2BC6D4A6003C51B8 /* Previews.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,6 +280,26 @@
 			isa = PBXGroup;
 			children = (
 				669483122BB8712000BB704D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		66CF842F2BC6D4A6003C51B8 /* Previews */ = {
+			isa = PBXGroup;
+			children = (
+				66CF84302BC6D4A6003C51B8 /* PreviewsApp.swift */,
+				66CF84322BC6D4A6003C51B8 /* BatteryIndicator.swift */,
+				66CF84342BC6D4A6003C51B8 /* Assets.xcassets */,
+				66CF84392BC6D4A6003C51B8 /* Previews.entitlements */,
+				66CF84362BC6D4A6003C51B8 /* Preview Content */,
+			);
+			path = Previews;
+			sourceTree = "<group>";
+		};
+		66CF84362BC6D4A6003C51B8 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -320,6 +373,27 @@
 			productReference = 669483092BB8711F00BB704D /* BatFi Installer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		66CF842D2BC6D4A6003C51B8 /* Previews */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66CF843A2BC6D4A6003C51B8 /* Build configuration list for PBXNativeTarget "Previews" */;
+			buildPhases = (
+				66CF842A2BC6D4A6003C51B8 /* Sources */,
+				66CF842B2BC6D4A6003C51B8 /* Frameworks */,
+				66CF842C2BC6D4A6003C51B8 /* Resources */,
+				66CF84412BC6D4B3003C51B8 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Previews;
+			packageProductDependencies = (
+				66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */,
+			);
+			productName = Previews;
+			productReference = 66CF842E2BC6D4A6003C51B8 /* Previews.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -337,6 +411,9 @@
 						CreatedOnToolsVersion = 14.3;
 					};
 					669483082BB8711F00BB704D = {
+						CreatedOnToolsVersion = 15.3;
+					};
+					66CF842D2BC6D4A6003C51B8 = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
@@ -365,6 +442,7 @@
 				5BEE218629E607FB0012A4DD /* BatFi */,
 				5B11DE0429EB6641007A993C /* Helper */,
 				669483082BB8711F00BB704D /* Installer */,
+				66CF842D2BC6D4A6003C51B8 /* Previews */,
 			);
 		};
 /* End PBXProject section */
@@ -390,6 +468,15 @@
 				6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */,
 				6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */,
 				669483102BB8712000BB704D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		66CF842C2BC6D4A6003C51B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66CF84382BC6D4A6003C51B8 /* Preview Assets.xcassets in Resources */,
+				66CF84352BC6D4A6003C51B8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +553,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		66CF842A2BC6D4A6003C51B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66CF84332BC6D4A6003C51B8 /* BatteryIndicator.swift in Sources */,
+				66CF84312BC6D4A6003C51B8 /* PreviewsApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -506,6 +602,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 49;
@@ -523,6 +620,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 49;
@@ -669,6 +767,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -703,6 +802,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -793,6 +893,7 @@
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -817,6 +918,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */;
 			buildSettings = {
+				ARCHS = arm64;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 49;
@@ -936,6 +1038,103 @@
 			};
 			name = Release;
 		};
+		66CF843B2BC6D4A6003C51B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Previews/Previews.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Previews/Preview Content\"";
+				DEVELOPMENT_TEAM = YL78V8PY6H;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Previews;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		66CF843C2BC6D4A6003C51B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Previews/Previews.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Previews/Preview Content\"";
+				DEVELOPMENT_TEAM = YL78V8PY6H;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Previews;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		66CF843D2BC6D4A6003C51B8 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Previews/Previews.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Previews/Preview Content\"";
+				DEVELOPMENT_TEAM = YL78V8PY6H;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Previews;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Beta;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -979,6 +1178,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		66CF843A2BC6D4A6003C51B8 /* Build configuration list for PBXNativeTarget "Previews" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66CF843B2BC6D4A6003C51B8 /* Debug */,
+				66CF843C2BC6D4A6003C51B8 /* Release */,
+				66CF843D2BC6D4A6003C51B8 /* Beta */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -997,6 +1206,10 @@
 		6679F9252BBA16740082C913 /* SharedUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SharedUI;
+		};
+		66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BatteryIndicator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
