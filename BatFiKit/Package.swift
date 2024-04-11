@@ -108,7 +108,6 @@ let package = Package(
             .shared,
             .snapKit,
         ]),
-        .testTarget(name: "AppCoreTests", dependencies: ["AppCore"]),
         .target(name: "AppShared", dependencies: [.l10n]),
         .target(name: "Shared"),
         .target(
@@ -123,7 +122,6 @@ let package = Package(
             .dependencies,
             .l10n,
         ]),
-        .testTarget(name: "BatteryInfoTests", dependencies: ["BatteryInfo"]),
         .target(
             name: "Clients",
             dependencies: [
