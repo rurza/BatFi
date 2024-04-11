@@ -23,7 +23,7 @@ struct PercentageBatteryIndicatorView: View {
                     )
                     .transition(.opacity)
                     .id(model.chargingMode)
-                    .foregroundStyle(model.primaryColor())
+                    .foregroundStyle(fillColor)
             }
             .overlay {
                 if !model.monochrome, model.chargingMode != .discharging {
@@ -41,6 +41,23 @@ struct PercentageBatteryIndicatorView: View {
                     PercentageLabel(model: model, height: height)
                 }
             }
+        }
+    }
+
+    var fillColor: Color {
+        guard !model.monochrome else {
+            return Color.primary
+        }
+        guard model.batteryLevel > 10 else {
+            return .red
+        }
+        switch model.chargingMode {
+        case .charging, .inhibited:
+            return .accentColor
+        case .discharging:
+            return .primary
+        case .error:
+            return .red
         }
     }
 }

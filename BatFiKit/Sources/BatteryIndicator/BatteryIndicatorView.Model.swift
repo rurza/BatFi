@@ -14,6 +14,7 @@ public extension BatteryIndicatorView {
             case charging
             case discharging
             case inhibited
+            case error
         }
 
         @Published public var chargingMode: ChargingMode
@@ -31,21 +32,6 @@ public extension BatteryIndicatorView {
             self.batteryLevel = batteryLevel
             self.monochrome = monochrome
             self.showPercentage = showPercentage
-        }
-
-        func primaryColor() -> Color {
-            guard !monochrome else {
-                return Color.primary
-            }
-            guard batteryLevel > 10 else { return Color.red }
-            switch chargingMode {
-            case .charging:
-                return .accentColor
-            case .inhibited:
-                return .orange
-            case .discharging:
-                return .primary
-            }
         }
     }
 }
