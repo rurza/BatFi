@@ -107,6 +107,18 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         }
     }
 
+    private func resetDefaults() {
+        let process = Process()
+        process.launchPath = "/usr/bin/defaults"
+        process.arguments = ["delete", bundleIdentifier]
+        do {
+            try process.run()
+            process.waitUntilExit()
+        } catch {
+            logger.error("Error deleting defaults: \(error.localizedDescription)")
+        }
+    }
+
     private func downloadFile() {
         updateInstallationState(.downloading(progress: 0))
 
@@ -138,6 +150,7 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         guard unzipFile(at: tempLocation) else { return }
         clearQuarantineAttributes()
         cleanUp(url: tempLocation)
+        resetDefaults()
         findAndOpenApp { [weak self] in
             self?.updateInstallationState(.done)
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {

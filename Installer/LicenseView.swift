@@ -28,6 +28,7 @@ struct LicenseView: View {
                         }
                     )
                     .buttonStyle(PrimaryButtonStyle(isLoading: false))
+                    .keyboardShortcut(.defaultAction)
                     Button(
                         action: didDecline,
                         label: {

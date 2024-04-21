@@ -43,6 +43,7 @@ struct ContentView: View {
                             Text(L10n.Installer.Button.Label.install)
                         }
                     )
+                    .keyboardShortcut(.defaultAction)
                     .buttonStyle(PrimaryButtonStyle(isLoading: false))
                     .disabled(installButtonIsDisabled)
 
