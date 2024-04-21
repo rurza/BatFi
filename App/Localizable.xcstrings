@@ -1,0 +1,170 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "app_shortcut.charge_to_full.short_title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charge the battery"
+          }
+        }
+      }
+    },
+    "Charge or run on battery power (when the lid is opened) until the limit of ${limit} is reached." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charge or run on battery power (when the lid is opened) until the limit of ${limit}% is reached."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naładuj/rozładuj baterię (gdy pokrywa z ekranem jest otwarta) dopóki limit ${limit}% nie zostanie osiągnięty."
+          }
+        }
+      }
+    },
+    "Charge the battery" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naładuj baterię"
+          }
+        }
+      }
+    },
+    "Charge the battery with ${applicationName}" : {
+      "extractionState" : "manual"
+    },
+    "Charge to 100% with ${applicationName}" : {
+      "extractionState" : "manual"
+    },
+    "intent.charge_to_full.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charge to 100%"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naładuj do 100%"
+          }
+        }
+      }
+    },
+    "intent.discharge.description" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Works only with the lid opened."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Działa tylko gdy pokrywa z ekranem jest otwarta."
+          }
+        }
+      }
+    },
+    "intent.discharge.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Run on Battery"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zasilaj z baterii"
+          }
+        }
+      }
+    },
+    "intent.override.description" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discharging works only with the lid opened."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozładowywanie działa tylko gdy pokrywa z ekranem jest otwarta."
+          }
+        }
+      }
+    },
+    "intent.override.parameter.description" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Battery percent"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procent baterii"
+          }
+        }
+      }
+    },
+    "intent.override.parameter.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Limit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit"
+          }
+        }
+      }
+    },
+    "intent.override.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Temporarily Override Battery Level"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tymczasowo zmień limit ładowania"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
