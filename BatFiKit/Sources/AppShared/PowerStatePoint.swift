@@ -9,26 +9,23 @@ import Foundation
 
 public struct PowerStatePoint: Identifiable {
     public let batteryLevel: Int16
-    public let appMode: AppChargingMode
+    public let appChargingMode: AppChargingMode
     public let isCharging: Bool
     public let timestamp: Date
     public let batteryTemperature: Double
-    public let chargerConnected: Bool
 
     public init(
         batteryLevel: Int16,
-        appMode: AppChargingMode,
+        appChargingMode: AppChargingMode,
         isCharging: Bool,
         timestamp: Date,
-        batteryTemperature: Double,
-        chargerConnected: Bool
+        batteryTemperature: Double
     ) {
         self.batteryLevel = batteryLevel
-        self.appMode = appMode
+        self.appChargingMode = appChargingMode
         self.isCharging = isCharging
         self.timestamp = timestamp
         self.batteryTemperature = batteryTemperature
-        self.chargerConnected = chargerConnected
     }
 
     public var id: Date { timestamp }

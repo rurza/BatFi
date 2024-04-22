@@ -18,10 +18,10 @@ extension Persistence: DependencyKey {
     public static let liveValue: Persistence = {
         let logger = Logger(category: "Persistence")
         return Persistence(
-            savePowerState: { state, mode in
+            savePowerState: { state, chargingMode in
                 try await persistenceContainer.performBackgroundTask { context in
-                    logger.debug("Will save a new power state: \(state), mode: \(mode.rawValue)")
-                    _ = PowerStateModel(powerState: state, appMode: mode, context: context)
+                    logger.debug("Will save a new power state: \(state), mode: \(chargingMode)")
+                    _ = PowerStateModel(powerState: state, appChargingMode: chargingMode, context: context)
                     do {
                         try context.save()
                     } catch {
@@ -35,7 +35,7 @@ extension Persistence: DependencyKey {
                     let fetchRequest = PowerStateModel.fetchRequest()
                     let fromPredicate = NSPredicate(format: "%K > %@", #keyPath(PowerStateModel.timestamp), fromDate as NSDate)
                     let toPredicate = NSPredicate(format: "%K =< %@", #keyPath(PowerStateModel.timestamp), toDate as NSDate)
-                    let modePredicate = NSPredicate(format: "%K != %@", #keyPath(PowerStateModel.appMode), AppChargingMode.initial.rawValue)
+                    let modePredicate = NSPredicate(format: "%K != %@", #keyPath(PowerStateModel.appMode), ChargingMode.initial.rawValue)
                     fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fromPredicate, toPredicate, modePredicate])
                     fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: true)]
 
@@ -48,16 +48,6 @@ extension Persistence: DependencyKey {
                     let firstItem: PowerStatePoint? = try context.fetch(fetchFirstItemRequest)
                         .first
                         .flatMap { $0.point }
-                        .map {
-                            PowerStatePoint(
-                                batteryLevel: $0.batteryLevel,
-                                appMode: $0.appMode,
-                                isCharging: $0.isCharging,
-                                timestamp: fromDate,
-                                batteryTemperature: $0.batteryTemperature,
-                                chargerConnected: $0.chargerConnected
-                            )
-                        }
                     if let firstItem {
                         return [firstItem] + results.map(\.point)
                     } else {

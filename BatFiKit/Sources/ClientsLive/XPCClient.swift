@@ -76,7 +76,23 @@ actor XPCClient {
             }
         }
     }
-    
+
+    func currentMagSafeLEDOption() async throws -> MagSafeLEDOption {
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.getMagSafeLEDOption { rawValue, error in
+                if let option = MagSafeLEDOption(rawValue: rawValue) {
+                    continuation.resume(returning: option)
+                } else if let error {
+                    self.logger.error("Error when getting MagSafe LED color: \(error.localizedDescription, privacy: .public)")
+                    continuation.resume(throwing: error)
+                } else {
+                    assertionFailure("Shouldn't happen. Both option and error are nil.")
+                }
+            }
+        }
+    }
+
     func pingHelper() async throws -> Bool {
         logger.debug("Pinging helper")
         let remote = newRemoteService()

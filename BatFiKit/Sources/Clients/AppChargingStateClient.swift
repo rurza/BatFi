@@ -7,30 +7,25 @@
 
 import AppShared
 import Dependencies
+import DependenciesMacros
 import Foundation
 
-public struct AppChargingStateClient: TestDependencyKey {
-    public var updateChargingStateMode: (_ mode: AppChargingMode) async -> Void
-    public var observeChargingStateMode: () -> AsyncStream<AppChargingMode>
-    public var updateLidOpenedStatus: (_ opened: Bool) async -> Void
-    public var lidOpened: () async -> Bool?
-    public var chargingStateMode: () async -> AppChargingMode?
+@DependencyClient
+public struct AppChargingStateClient {
+    public var updateLidOpenedStatus: @Sendable (_ opened: Bool) async -> Void
+    public var lidOpened: @Sendable () async -> Bool?
+    public var appChargingModeDidChage: @Sendable () -> AsyncStream<AppChargingMode> = { AsyncStream { _ in } }
+    public var currentAppChargingMode: @Sendable () async -> AppChargingMode = { .init(mode: .initial, userTempOverride: nil, chargerConnected: false) }
+    public var setAppChargingMode: @Sendable (AppChargingMode) async -> Void
+    public var userTempOverrideDidChange: @Sendable () -> AsyncStream<UserTempChargingMode?> = { AsyncStream { _ in } }
+    public var currentUserTempOverrideMode: @Sendable () async -> UserTempChargingMode?
+    public var updateChargingMode: @Sendable (ChargingMode) async -> Void
+    public var setTempOverride: @Sendable (UserTempChargingMode?) async -> Void
+    public var setChargerConnected: @Sendable (Bool) async -> Void
+}
 
-    public init(
-        updateChargingStateMode: @escaping (AppChargingMode) async -> Void,
-        observeChargingStateMode: @escaping () -> AsyncStream<AppChargingMode>,
-        updateLidOpenedStatus: @escaping (_ opened: Bool) async -> Void,
-        lidOpened: @escaping () async -> Bool?,
-        chargingStateMode: @escaping () async -> AppChargingMode?
-    ) {
-        self.updateChargingStateMode = updateChargingStateMode
-        self.observeChargingStateMode = observeChargingStateMode
-        self.updateLidOpenedStatus = updateLidOpenedStatus
-        self.lidOpened = lidOpened
-        self.chargingStateMode = chargingStateMode
-    }
-
-    public static var testValue: AppChargingStateClient = unimplemented()
+extension AppChargingStateClient: TestDependencyKey {
+    public static var testValue: AppChargingStateClient = .init()
 }
 
 public extension DependencyValues {

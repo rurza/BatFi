@@ -84,12 +84,13 @@ public class NotificationsManager: NSObject {
     func startObservingChargingStateMode() {
         chargingModeTask = Task {
             for await (chargingMode, manageCharging) in combineLatest(
-                appChargingState.observeChargingStateMode(),
+                appChargingState.appChargingModeDidChage(),
                 defaults.observe(.manageCharging)
             ) {
-                guard chargingMode != .chargerNotConnected,
-                      chargingMode != .initial,
-                      manageCharging else { continue }
+                guard chargingMode.mode != .initial,
+                      manageCharging,
+                      chargingMode.chargerConnected 
+                else { continue }
                 logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }

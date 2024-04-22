@@ -16,6 +16,7 @@ public protocol XPCService {
     func getCurrentChargingStatus(_ handler: @escaping (SMCChargingStatus?, Error?) -> Void)
     func getPowerDistribution(_ handler: @escaping (PowerDistributionInfo?, Error?) -> Void)
     func setMagSafeLEDColor(color: UInt8, _ handler: @escaping (UInt8, Error?) -> Void)
+    func getMagSafeLEDOption(_ handler: @escaping (UInt8, Error?) -> Void)
     func ping(_ handler: @escaping (Bool, Error?) -> Void)
     func quit(_ handler: @escaping (Bool, Error?) -> Void)
 }

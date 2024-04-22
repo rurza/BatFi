@@ -10,6 +10,7 @@ import AsyncAlgorithms
 import Clients
 import Dependencies
 import Foundation
+import L10n
 import Shared
 
 public extension BatteryInfoView {
@@ -21,7 +22,7 @@ public extension BatteryInfoView {
         @Dependency(\.menuDelegate) private var menuDelegate
         @Dependency(\.energyStatsClient) private var energyStatsClient
 
-        private(set) var state: PowerState? {
+        private(set) public var state: PowerState? {
             didSet {
                 updateTime()
             }
@@ -67,13 +68,13 @@ public extension BatteryInfoView {
             chargingStateModeChanges = Task { [weak self] in
                 guard let self else { return }
                 for await (mode, manageCharging) in combineLatest(
-                    appChargingState.observeChargingStateMode(),
+                    appChargingState.appChargingModeDidChage(),
                     defaults.observe(.manageCharging)
                 ) {
                     if manageCharging {
                         modeDescription = mode.stateDescription
                     } else {
-                        modeDescription = "Disabled"
+                        modeDescription = L10n.AppChargingMode.State.Title.disabled
                     }
                 }
             }

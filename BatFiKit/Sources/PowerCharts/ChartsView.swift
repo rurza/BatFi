@@ -34,7 +34,7 @@ public struct ChartsView: View {
                     )
                     .foregroundStyle(Color(.appGreen))
 
-                    if $0.chargerConnected, $0.isCharging {
+                    if $0.appChargingMode.chargerConnected, $0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),
@@ -43,7 +43,7 @@ public struct ChartsView: View {
                         )
                         .foregroundStyle(Color(.appGreen))
                         .opacity(0.2)
-                    } else if $0.chargerConnected, !$0.isCharging {
+                    } else if $0.appChargingMode.chargerConnected, !$0.isCharging {
                         RectangleMark(
                             xStart: .value("Time", $0.timestamp),
                             xEnd: .value("Time", offsetDate),

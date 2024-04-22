@@ -12,7 +12,7 @@ import Foundation
 public extension PowerStateModel {
     convenience init(
         powerState: PowerState,
-        appMode: AppChargingMode,
+        appChargingMode: AppChargingMode,
         context: NSManagedObjectContext
     ) {
         self.init(context: context)
@@ -21,17 +21,20 @@ public extension PowerStateModel {
         chargerConnected = powerState.chargerConnected
         isCharging = powerState.isCharging
         timestamp = Date.now
-        self.appMode = appMode.rawValue
+        appMode = appChargingMode.mode.rawValue
     }
 
     var point: PowerStatePoint {
         PowerStatePoint(
             batteryLevel: batteryLevel,
-            appMode: AppChargingMode(rawValue: appMode)!,
+            appChargingMode: AppChargingMode(
+                mode: ChargingMode(rawValue: appMode)!,
+                userTempOverride: nil,
+                chargerConnected: chargerConnected
+            ),
             isCharging: isCharging,
             timestamp: timestamp,
-            batteryTemperature: batteryTemperature,
-            chargerConnected: chargerConnected
+            batteryTemperature: batteryTemperature
         )
     }
 }

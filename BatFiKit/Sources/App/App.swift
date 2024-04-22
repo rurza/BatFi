@@ -17,16 +17,19 @@ import Shared
 import Settings
 import StatusItemArrowKit
 
-@MainActor
-public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelegate {
+public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelegate, Sendable {
     private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
     private lazy var magSafeColorManager = MagSafeColorManager()
+    private lazy var analyticsManager = AnalyticsManager()
+
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
     private var statusItemIconController: StatusItemIconController?
+
+    public var chargingModeManager: ChargingModeManager { chargingManager }
 
     private weak var aboutWindow: NSWindow?
     private weak var onboardingWindow: OnboardingWindow?
@@ -35,25 +38,22 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.defaults) private var defaults
     @Dependency(\.helperClient) private var helperClient
-    @Dependency(\.sentryClient) private var sentryClient
+    @Dependency(\.analyticsClient) private var analyticsClient
     @Dependency(\.featureFlags) private var featureFlags
     @Dependency(\.dockIcon) private var dockIcon
 
     public init() {}
-
+    
     public func start(isBeta: Bool) {
-        if isBeta {
-            featureFlags.enableFeatureFlag(.beta)
-            sentryClient.startSDK()
-        } else {
-            if defaults.value(.sendAnalytics) {
-                sentryClient.startSDK()
-            }
-        }
+        setFeatureFlags(beta: isBeta)
+        analyticsManager.start(shouldEnable: isBeta || defaults.value(.sendAnalytics))
         _ = updater // initialize updater
         if defaults.value(.onboardingIsDone) {
-            setUpTheApp()
-            checkHelperHealth()
+            Task {
+                await dockIcon.show(false)
+                await setUpTheApp()
+                checkHelperHealth()
+            }
         } else {
             openOnboarding()
         }
@@ -62,7 +62,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     public func willQuit() {
         Task {
             try? await Task.sleep(for: .seconds(1))
-            sentryClient.captureMessage("XRPC hangs, timeout, I will quit the app")
+            await analyticsClient.addBreadcrumb(category: .lifecycle, message: "XRPC hangs, timeout, the app should terminate")
             NSApp.reply(toApplicationShouldTerminate: true)
         }
         Task {
@@ -73,30 +73,28 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         }
     }
 
-    private func setUpTheApp() {
-        Task {
-            await dockIcon.show(false)
-            statusItemIconController = StatusItemIconController(statusItem: statusItem)
+    private func setUpTheApp() async {
             menuController = MenuController(statusItem: statusItem)
-            chargingManager.setUpObserving()
+            await chargingManager.setUpObserving()
             persistenceManager.setUpObserving()
-            magSafeColorManager.setUpObserving()
+            await magSafeColorManager.setUpObserving()
             menuController?.delegate = self
             notificationsManager = NotificationsManager()
+            statusItemIconController = StatusItemIconController(statusItem: statusItem)
+    }
+
+    private func setFeatureFlags(
+        beta isBeta: Bool
+    ) {
+        if isBeta {
+            featureFlags.enableFeatureFlag(.beta)
         }
     }
 
     // MARK: - MenuControllerDelegate
 
-    public func forceCharge() {
-        chargingManager.chargeToFull()
-    }
-
-    public func stopForceCharge() {
-        chargingManager.turnOffChargeToFull()
-    }
-
     public func openSettings() {
+        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
         settingsController.openSettings()
     }
 
@@ -117,6 +115,14 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         }
     }
 
+    public func chargeToFull() {
+        chargingManager.forceCharge()
+    }
+
+    public func dischargeBattery(to limit: Int) {
+        chargingManager.dischargeBattery(to: limit)
+    }
+
     public func openOnboarding() {
         Task {
             await dockIcon.show(true)
@@ -125,17 +131,21 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
                 let window = OnboardingWindow { [weak self] in
                     guard let self else { return }
                     Task {
-                        self.setUpTheApp()
+                        await self.setUpTheApp()
                         self.statusItemIconController?.delegate = self
                     }
+                } onClose: { [weak self] in
+                    Task {
+                        await self?.dockIcon.show(false)
+                    }
                 }
-                window.orderFrontRegardless()
+                window.makeKeyAndOrderFront(nil)
                 window.center()
                 onboardingWindow = window
             } else {
-                onboardingWindow?.orderFrontRegardless()
+                onboardingWindow?.makeKeyAndOrderFront(nil)
             }
-            NSApp.activate(ignoringOtherApps: true)
+            NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
         }
     }
 

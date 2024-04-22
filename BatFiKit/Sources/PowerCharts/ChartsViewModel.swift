@@ -84,7 +84,7 @@ extension ChartsView {
             if index < powerStatePoints.count - 1 {
                 let nextPointIndex = powerStatePoints.index(after: index)
                 let nextPoint = powerStatePoints[nextPointIndex]
-                if nextPoint.appMode == point.appMode {
+                if nextPoint.appChargingMode == point.appChargingMode {
                     return nextPoint.timestamp
                 }
             } else {

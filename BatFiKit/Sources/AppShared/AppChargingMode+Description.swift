@@ -11,19 +11,24 @@ import L10n
 public extension AppChargingMode {
     var stateDescription: String {
         let label = L10n.AppChargingMode.State.Title.self
-        switch self {
+
+        guard chargerConnected || mode == .forceDischarge else {
+            return label.chargerNotConnected
+        }
+
+        if let userTempOverride {
+            return "Override"
+        }
+
+        switch self.mode {
         case .initial:
             return label.initial
         case .charging:
             return label.charging
-        case .forceCharge:
-            return label.forceCharge
         case .forceDischarge:
             return label.forceDischarge
         case .inhibit:
             return label.inhibit
-        case .chargerNotConnected:
-            return label.chargerNotConnected
         }
     }
 
@@ -31,19 +36,23 @@ public extension AppChargingMode {
         let limit = percentageFormatter.string(from: limit as NSNumber)!
         let label = L10n.AppChargingMode.State.Description.self
 
-        switch self {
+        guard chargerConnected || mode == .forceDischarge else {
+            return nil
+        }
+
+        if let userTempOverride {
+            return "Override"
+        }
+
+        switch self.mode {
         case .initial:
             return nil
         case .charging:
             return label.charging(limit)
-        case .forceCharge:
-            return label.forceCharge
         case .forceDischarge:
             return label.forceDischarge
         case .inhibit:
             return label.inhibit(limit)
-        case .chargerNotConnected:
-            return nil
         }
     }
 }

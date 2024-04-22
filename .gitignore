@@ -7,3 +7,4 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 Installer/URL.swift
+BatFiKit/Sources/ClientsLive/AnalyticsDSN.swift

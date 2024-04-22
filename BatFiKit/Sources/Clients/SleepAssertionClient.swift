@@ -6,16 +6,17 @@
 //
 
 import Dependencies
+import DependenciesMacros
 import Foundation
 
-public struct SleepAssertionClient: TestDependencyKey {
-    public var preventSleepIfNeeded: (_ preventSleep: Bool) -> Void
+@DependencyClient
+public struct SleepAssertionClient {
+    public var preventSleepIfNeeded: @Sendable (_ preventSleep: Bool) async -> Void
+    public var preventsSleep: @Sendable () async -> Bool = { false }
+}
 
-    public init(preventSleepIfNeeded: @escaping (Bool) -> Void) {
-        self.preventSleepIfNeeded = preventSleepIfNeeded
-    }
-
-    public static var testValue: SleepAssertionClient = unimplemented()
+extension SleepAssertionClient: TestDependencyKey {
+    public static var testValue: SleepAssertionClient = .init()
 }
 
 public extension DependencyValues {

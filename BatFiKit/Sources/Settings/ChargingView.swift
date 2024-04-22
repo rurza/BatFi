@@ -16,6 +16,9 @@ struct ChargingView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.manageCharging) private var manageCharging
     @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
+    #if DEBUG
+    @Default(.showDebugMenu) private var showDebugMenu
+    #endif
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -76,6 +79,13 @@ struct ChargingView: View {
                                         .settingDescription()
                                         .opacity(manageCharging ? 1 : 0.4)
                                 }
+
+                                #if DEBUG
+                                if showDebugMenu {
+                                    TempOverrideDebugView()
+                                        .padding(.top)
+                                }
+                                #endif
                             }
                             .padding(4)
                         }

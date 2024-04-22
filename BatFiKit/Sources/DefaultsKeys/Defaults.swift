@@ -16,7 +16,6 @@ import Foundation
 
 public extension Defaults.Keys {
     static let launchAtLogin = Key<Bool>("launchAtLogin", default: true)
-    static let forceCharge = Key<Bool>("forceCharge", default: false)
     static let onboardingIsDone = Key<Bool>("onboardingIsDone", default: false)
 
     // Charging

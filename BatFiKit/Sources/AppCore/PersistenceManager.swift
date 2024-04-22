@@ -26,7 +26,7 @@ public final class PersistenceManager {
         Task {
             for await (state, mode) in combineLatest(
                 powerSourceClient.powerSourceChanges(),
-                appChargingState.observeChargingStateMode()
+                appChargingState.appChargingModeDidChage()
             ) {
                 do {
                     try await persistence.savePowerState(state, mode)
@@ -39,9 +39,8 @@ public final class PersistenceManager {
             for await _ in sleepClient.macDidWake() {
                 do {
                     let state = try await powerSourceClient.currentPowerSourceState()
-                    if let mode = await appChargingState.chargingStateMode() {
-                        try await persistence.savePowerState(state, mode)
-                    }
+                    let mode = await appChargingState.currentAppChargingMode()
+                    try await persistence.savePowerState(state, mode)
                 } catch {
                     logger.error("Power source state / persistence error: \(error.localizedDescription, privacy: .public)")
                 }

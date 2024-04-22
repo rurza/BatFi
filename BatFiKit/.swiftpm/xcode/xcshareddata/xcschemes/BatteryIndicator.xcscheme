@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Server"
-               BuildableName = "Server"
-               BlueprintName = "Server"
+               BlueprintIdentifier = "BatteryIndicator"
+               BuildableName = "BatteryIndicator"
+               BlueprintName = "BatteryIndicator"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Server"
-            BuildableName = "Server"
-            BlueprintName = "Server"
+            BlueprintIdentifier = "BatteryIndicator"
+            BuildableName = "BatteryIndicator"
+            BlueprintName = "BatteryIndicator"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

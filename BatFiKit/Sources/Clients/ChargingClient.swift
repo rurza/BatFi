@@ -6,30 +6,20 @@
 //
 
 import Dependencies
+import DependenciesMacros
 import Shared
 
-public struct ChargingClient: TestDependencyKey {
-    public var turnOnAutoChargingMode: () async throws -> Void
-    public var inhibitCharging: () async throws -> Void
-    public var forceDischarge: () async throws -> Void
-    public var chargingStatus: () async throws -> SMCChargingStatus
-    public var enableSystemChargeLimit: () async throws -> Void
+@DependencyClient
+public struct ChargingClient {
+    public var turnOnAutoChargingMode: @Sendable () async throws -> Void
+    public var inhibitCharging: @Sendable () async throws -> Void
+    public var forceDischarge: @Sendable () async throws -> Void
+    public var chargingStatus: @Sendable () async throws -> SMCChargingStatus
+    public var enableSystemChargeLimit: @Sendable () async throws -> Void
+}
 
-    public init(
-        turnOnAutoChargingMode: @escaping () async throws -> Void,
-        inhibitCharging: @escaping () async throws -> Void,
-        forceDischarge: @escaping () async throws -> Void,
-        chargingStatus: @escaping () async throws -> SMCChargingStatus,
-        enableSystemChargeLimit: @escaping () async throws -> Void
-    ) {
-        self.turnOnAutoChargingMode = turnOnAutoChargingMode
-        self.inhibitCharging = inhibitCharging
-        self.forceDischarge = forceDischarge
-        self.chargingStatus = chargingStatus
-        self.enableSystemChargeLimit = enableSystemChargeLimit
-    }
-
-    public static var testValue: ChargingClient = unimplemented()
+extension ChargingClient: TestDependencyKey {
+    public static var testValue: ChargingClient = .init()
 }
 
 public extension DependencyValues {

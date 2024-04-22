@@ -43,6 +43,7 @@ let package = Package(
         .library(name: "BatteryInfo", targets: ["BatteryInfo"]),
         .library(name: "ClientsLive", targets: ["ClientsLive"]),
         .library(name: "Onboarding", targets: ["Onboarding"]),
+        .library(name: "PowerCharts", targets: ["PowerCharts"]),
         .library(name: "Server", targets: ["Server"]),
         .library(name: "Settings", targets: ["Settings"]),
         .library(name: "Shared", targets: ["Shared"]),
@@ -94,14 +95,16 @@ let package = Package(
             ]
         ),
         .target(name: "AppCore", dependencies: [
-            "BatteryInfo",
             .appShared,
             .asyncAlgorithms,
+            "BatteryInfo",
+            "BatteryIndicator",
             .clients,
             .defaultsKeys,
             .dependencies,
             .highEnergyUsage,
             .l10n,
+            .menuBuilder,
             .powerCharts,
             .powerDistributionInfo,
             .settings,
@@ -126,6 +129,7 @@ let package = Package(
             name: "Clients",
             dependencies: [
                 .appShared,
+                .defaults,
                 .dependencies,
                 .dependenciesMacros,
                 .shared,

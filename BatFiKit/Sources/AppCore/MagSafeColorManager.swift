@@ -14,7 +14,7 @@ import Foundation
 import os
 import Shared
 
-public final class MagSafeColorManager {
+public actor MagSafeColorManager {
     private lazy var logger = Logger(category: "MagSafe Color Manager")
     @Dependency(\.magSafeLEDColor) private var magSafeLEDColor
     @Dependency(\.defaults) private var defaults
@@ -34,7 +34,7 @@ public final class MagSafeColorManager {
                         defaults.observe(.chargeLimit)
                     ),
                     combineLatest(
-                        appChargingState.observeChargingStateMode(),
+                        appChargingState.appChargingModeDidChage(),
                         powerSourceClient.powerSourceChanges()
                     )
                 ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock))
@@ -43,7 +43,7 @@ public final class MagSafeColorManager {
                     showGreenLightWhenInhibiting: greenLight,
                     blinkWhenDischarging: blinkWhenDischarging,
                     powerState: powerState,
-                    appMode: mode,
+                    chargingMode: mode,
                     limit: limit
                 )
             }
@@ -58,18 +58,29 @@ public final class MagSafeColorManager {
         showGreenLightWhenInhibiting: Bool,
         blinkWhenDischarging: Bool,
         powerState: PowerState,
-        appMode: AppChargingMode,
+        chargingMode: AppChargingMode,
         limit: Int
     ) async {
-        if appMode == .inhibit, showGreenLightWhenInhibiting, powerState.batteryLevel >= limit {
+        let appMode = chargingMode.mode
+        let currentMagSafeLEDOption = try? await magSafeLEDColor.currentMagSafeLEDOption()
+        if let currentMagSafeLEDOption = currentMagSafeLEDOption {
+            logger.debug("Current MagSafe LED Option: \(currentMagSafeLEDOption)")
+        } else {
+            logger.warning("Current MagSafe LED Option is nil")
+        }
+        if appMode == .inhibit,
+           showGreenLightWhenInhibiting,
+           powerState.batteryLevel >= limit,
+           currentMagSafeLEDOption.isDifferentThan(.green) {
             logger.debug("Should change the color of MagSafe to green")
             do {
                 _ = try await magSafeLEDColor.changeMagSafeLEDColor(.green)
                 logger.debug("Color changed! 🎉")
             } catch {}
-        } else if appMode == .forceDischarge, blinkWhenDischarging {
+        } else if appMode == .forceDischarge, blinkWhenDischarging, currentMagSafeLEDOption.isDifferentThan(.errorOnce) {
+            logger.debug("Should blink the LED and turn it off")
             _ = try? await magSafeLEDColor.changeMagSafeLEDColor(.errorOnce)
-        } else {
+        } else if currentMagSafeLEDOption.isDifferentThan(.reset) {
             await resetMagSafeColor()
         }
     }
@@ -81,6 +92,17 @@ public final class MagSafeColorManager {
             logger.debug("Color reset was succesful! 🎉")
         } catch {
             logger.error("Error when resetting the color of MagSafe: \(error.localizedDescription, privacy: .public)")
+        }
+    }
+}
+
+private extension Optional where Wrapped == MagSafeLEDOption {
+    func isDifferentThan(_ option: MagSafeLEDOption) -> Bool {
+        switch self {
+        case .none:
+            return true
+        case .some(let wrapped):
+            return wrapped != option
         }
     }
 }

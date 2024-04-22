@@ -51,6 +51,19 @@ public enum L10n {
                         String(describing: p1)
                     )
                 }
+
+                /// The charging limit has been temporarily set to %@.
+                public static func tempChargingTo(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.description.temp_charging_to",
+                            defaultValue: "The charging limit has been temporarily set to %@.",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
             }
 
             public enum Title {
@@ -66,6 +79,15 @@ public enum L10n {
                 public static let inhibit = String(localized: "app_charging_mode.state.title.inhibit", defaultValue: "Inhibiting charging", bundle: Bundle.module)
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
+
+                /// Temporarily discharging
+                public static let tempDischarging = String(localized: "app_charging_mode.state.title.temp_discharging", defaultValue: "Temporarily discharging", bundle: Bundle.module)
+
+                /// Temporarily charging
+                public static let tempCharging = String(localized: "app_charging_mode.state.title.temp_charging", defaultValue: "Temporarily charging", bundle: Bundle.module)
+
+                /// Disabled
+                public static let disabled = String(localized: "app_charging_mode.state.title.disabled", defaultValue: "Disabled", bundle: Bundle.module)
             }
         }
     }
@@ -133,6 +155,21 @@ public enum L10n {
             public static let settings = String(localized: "menu.label.settings", defaultValue: "Settings…", bundle: Bundle.module)
             /// Stop charging to 100%
             public static let stopChargingToHundred = String(localized: "menu.label.stop_charging_to_hundred", defaultValue: "Stop charging to 100%", bundle: Bundle.module)
+
+            /// Run on Battery
+            public static let dischargeBattery = String(localized: "menu.label.discharge_battery", defaultValue: "Run on Battery", bundle: Bundle.module)
+
+            /// Stop Using Battery
+            public static let stopUsingBattery = String(localized: "menu.label.stop_discharging_battery", defaultValue: "Stop Using Battery", bundle: Bundle.module)
+
+            /// Stop Override
+            public static let stopOverride = String(localized: "menu.label.stop_override", defaultValue: "Stop Override", bundle: Bundle.module)
+
+            /// Activates once charger is connected
+            public static let chargerNotConnectedDisclaimer = String(localized: "menu.label.charger_not_connected_disclaimer", defaultValue: "Activates once charger is connected", bundle: .module)
+
+            /// Inhibit Charging
+            public static let inhibitCharging = String(localized: "menu.label.inhibit_charging", defaultValue: "Inhibit Charging", bundle: Bundle.module)
         }
 
         public enum Charts {
@@ -602,6 +639,6 @@ public enum L10n {
                 )
             }
         }
-
     }
 }
+

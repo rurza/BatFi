@@ -14,17 +14,13 @@ import Shared
 
 extension SleepAssertionClient: DependencyKey {
     public static let liveValue: SleepAssertionClient = {
-        let logger = Logger(category: "☕️")
-        var sleepAssertion: IOPMAssertionID?
+        let state = SleepState()
         return SleepAssertionClient(
             preventSleepIfNeeded: { preventSleep in
                 if preventSleep {
-                    logger.debug("Should delay sleep...")
-                    guard sleepAssertion == nil else {
-                        logger.debug("...already delayed")
+                    guard await state.sleepAssertion == nil else {
                         return
                     }
-                    logger.notice("Delaying sleep")
                     var assertionID: IOPMAssertionID = .init(0)
                     let reason: CFString = "BatFi" as NSString
                     let cfAssertion: CFString = kIOPMAssertionTypePreventSystemSleep as NSString
@@ -35,16 +31,26 @@ extension SleepAssertionClient: DependencyKey {
                         &assertionID
                     )
                     if success == kIOReturnSuccess {
-                        sleepAssertion = assertionID
+                        await state.setAssertion(assertionID)
                     }
                 } else {
-                    if let assertion = sleepAssertion {
-                        logger.notice("Returning sleep")
+                    if let assertion = await state.sleepAssertion {
                         IOPMAssertionRelease(assertion)
-                        sleepAssertion = nil
+                        await state.setAssertion(nil)
                     }
                 }
+            },
+            preventsSleep: {
+                await state.sleepAssertion != nil
             }
         )
     }()
+}
+
+actor SleepState {
+    var sleepAssertion: IOPMAssertionID?
+
+    func setAssertion(_ assertion: IOPMAssertionID?) {
+        sleepAssertion = assertion
+    }
 }

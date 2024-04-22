@@ -50,7 +50,7 @@ public final class StatusItemIconController {
             for await ((powerState, mode), (showPercentage, showMonochrome)) in combineLatest(
                 combineLatest(
                     powerSourceClient.powerSourceChanges(),
-                    appChargingState.observeChargingStateMode()
+                    appChargingState.appChargingModeDidChage()
                 ),
                 combineLatest(
                     defaults.observe(.showBatteryPercentageInStatusIcon),
@@ -91,13 +91,19 @@ public final class StatusItemIconController {
 
 extension BatteryIndicatorView.Model.ChargingMode {
     init(appChargingStateMode: AppChargingMode) {
-        switch appChargingStateMode {
-        case .charging, .forceCharge:
+        guard appChargingStateMode.chargerConnected else {
+            self = .discharging
+            return
+        }
+        switch appChargingStateMode.mode {
+        case .charging:
             self = .charging
         case .inhibit:
             self = .inhibited
-        case .chargerNotConnected, .forceDischarge, .initial:
+        case .forceDischarge:
             self = .discharging
+        case .initial:
+            self = .error
         }
     }
 }

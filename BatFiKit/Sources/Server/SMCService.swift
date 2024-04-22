@@ -112,7 +112,21 @@ actor SMCService {
             smcIsOpened = false
             throw error
         }
+    }
 
+    func magsafeLEDColor() async throws -> MagSafeLEDOption {
+        logger.notice("Getting MagSafe LED color")
+        await openSMCIfNeeded()
+        do {
+            let data = try SMCKit.readData(.magSafeLED)
+            guard let option = MagSafeLEDOption(rawValue: data.0) else {
+                throw SMCError.canNotCreateMagSafeLEDOption
+            }
+            return option
+        } catch {
+            smcIsOpened = false
+            throw error
+        }
     }
 
     func getPowerDistribution() async throws -> PowerDistributionInfo {

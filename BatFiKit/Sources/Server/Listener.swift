@@ -91,7 +91,20 @@ final class XPCServiceHandler: XPCService {
                 reply(UInt8.max, error)
             }
         }
-    }    
+    }
+
+    func getMagSafeLEDOption(_ handler: @escaping (UInt8, (any Error)?) -> Void) {
+        logger.notice("\(#function, privacy: .public)")
+        Task {
+            do {
+                let option = try await smcService.magsafeLEDColor()
+                handler(option.rawValue, nil)
+            } catch {
+                logger.error("Error getting MagSafe LED color: \(error)")
+                handler(UInt8.max, error)
+            }
+        }
+    }
 
     func ping(_ reply: @escaping (Bool, Error?) -> Void) {
         reply(true, nil)

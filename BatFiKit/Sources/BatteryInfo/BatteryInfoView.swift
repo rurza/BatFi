@@ -8,6 +8,7 @@
 import AppShared
 import Defaults
 import DefaultsKeys
+import Dependencies
 import L10n
 import Shared
 import SwiftUI
@@ -20,6 +21,8 @@ public struct BatteryInfoView: View {
     @Default(.showBatteryHealth) private var showBatteryHealth
     @Default(.showBatteryTemperature) private var showBatteryTemperature
     @Default(.showPowerSource) private var showPowerSource
+
+    @Dependency(\.appChargingState) var chargingState
 
     public init() {}
 
@@ -55,36 +58,36 @@ public struct BatteryInfoView: View {
                 }
                 if showPowerSource || showBatteryHealth || showBatteryCycleCount || showBatteryTemperature {
                     SeparatorView()
-                }
-                VStack(alignment: .leading, spacing: 7) {
-                    if showPowerSource {
-                        BatteryAdditionalInfo(
-                            label: l10n.Additional.powerSource,
-                            info: powerState?.powerSource ?? unknown
-                        )
-                    }
-                    if showBatteryCycleCount {
-                        BatteryAdditionalInfo(
-                            label: l10n.Additional.cycleCount,
-                            info: powerState?.batteryCycleCount.description ?? unknown
-                        )
-                    }
-                    if showBatteryTemperature {
-                        if let temperature = model.temperatureDescription() {
+                    VStack(alignment: .leading, spacing: 8) {
+                        if showPowerSource {
                             BatteryAdditionalInfo(
-                                label: l10n.Additional.temperature,
-                                info: temperature
+                                label: l10n.Additional.powerSource,
+                                info: powerState?.powerSource ?? unknown
+                            )
+                        }
+                        if showBatteryCycleCount {
+                            BatteryAdditionalInfo(
+                                label: l10n.Additional.cycleCount,
+                                info: powerState?.batteryCycleCount.description ?? unknown
+                            )
+                        }
+                        if showBatteryTemperature {
+                            if let temperature = model.temperatureDescription() {
+                                BatteryAdditionalInfo(
+                                    label: l10n.Additional.temperature,
+                                    info: temperature
+                                )
+                            }
+                        }
+                        if showBatteryHealth {
+                            BatteryAdditionalInfo(
+                                label: l10n.Additional.batteryCapacity,
+                                info: powerState?.batteryHealth ?? l10n.Additional.unknownHealth
                             )
                         }
                     }
-                    if showBatteryHealth {
-                        BatteryAdditionalInfo(
-                            label: l10n.Additional.batteryCapacity,
-                            info: powerState?.batteryHealth ?? l10n.Additional.unknownHealth
-                        )
-                    }
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
             }
         }
     }

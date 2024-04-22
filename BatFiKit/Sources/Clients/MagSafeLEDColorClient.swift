@@ -6,17 +6,18 @@
 //
 
 import Dependencies
+import DependenciesMacros
 import Foundation
 import Shared
 
-public struct MagSafeLEDColorClient: TestDependencyKey {
+@DependencyClient
+public struct MagSafeLEDColorClient {
     public var changeMagSafeLEDColor: (MagSafeLEDOption) async throws -> MagSafeLEDOption
+    public var currentMagSafeLEDOption: () async throws -> MagSafeLEDOption
+}
 
-    public static var testValue: MagSafeLEDColorClient = unimplemented()
-
-    public init(changeMagSafeLEDColor: @escaping (MagSafeLEDOption) async throws -> MagSafeLEDOption) {
-        self.changeMagSafeLEDColor = changeMagSafeLEDColor
-    }
+extension MagSafeLEDColorClient: TestDependencyKey {
+    public static var testValue: MagSafeLEDColorClient = .init()
 }
 
 public extension DependencyValues {

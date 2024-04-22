@@ -9,7 +9,6 @@ import Clients
 import Dependencies
 import Foundation
 import os
-import Sentry
 import ServiceManagement
 import Shared
 
@@ -25,7 +24,6 @@ extension HelperClient: DependencyKey {
                     try await installer.registerService()
                     logger.notice("Daemon installed succesfully")
                 } catch {
-                    SentrySDK.capture(error: error)
                     logger.error("Daemon registering error: \(error, privacy: .public)")
                     throw error
                 }
@@ -36,7 +34,6 @@ extension HelperClient: DependencyKey {
                     try await installer.unregisterService()
                     logger.notice("Daemon removed")
                 } catch {
-                    SentrySDK.capture(error: error)
                     logger.error("Daemon removal error: \(error, privacy: .public)")
                     throw error
                 }
@@ -66,7 +63,6 @@ extension HelperClient: DependencyKey {
                 do {
                     _ = try await XPCClient.shared.quitHelper()
                 } catch {
-                    SentrySDK.capture(error: error)
                     logger.warning("Helper could failed to quit: \(error.localizedDescription, privacy: .public)")
                 }
             },

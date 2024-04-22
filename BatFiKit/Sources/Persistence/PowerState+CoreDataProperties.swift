@@ -20,4 +20,5 @@ public extension PowerStateModel {
     @NSManaged var timestamp: Date
     @NSManaged var batteryTemperature: Double
     @NSManaged var chargerConnected: Bool
+    #warning("add a new field that represent user temp charging mode")
 }

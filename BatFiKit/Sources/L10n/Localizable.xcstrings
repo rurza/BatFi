@@ -425,6 +425,23 @@
         }
       }
     },
+    "app_charging_mode.state.description.temp_charging_to" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The charging limit has been temporarily set to %@."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit ładowania został tymczasowo zmieniony na %@."
+          }
+        }
+      }
+    },
     "app_charging_mode.state.title.charger_not_connected" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -527,6 +544,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充电至限制值"
+          }
+        }
+      }
+    },
+    "app_charging_mode.state.title.disabled" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disabled"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłączone"
           }
         }
       }
@@ -739,6 +773,34 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "初始化中"
+          }
+        }
+      }
+    },
+    "app_charging_mode.state.title.temp_charging" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Temporarily charging"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tymczasowe ładowanie"
+          }
+        }
+      }
+    },
+    "app_charging_mode.state.title.temp_discharging" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Temporarily discharging"
           }
         }
       }
@@ -1952,6 +2014,23 @@
         }
       }
     },
+    "menu.label.charger_not_connected_disclaimer" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activates once charger is connected"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Włączy się wraz z podłączeniem ładowarki"
+          }
+        }
+      }
+    },
     "menu.label.check_for_updates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2054,6 +2133,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "调试"
+          }
+        }
+      }
+    },
+    "menu.label.discharge_battery" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Run on Battery"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozładuj baterię"
+          }
+        }
+      }
+    },
+    "menu.label.inhibit_charging" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Inhibit Charging"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wstrzymaj ładowanie"
           }
         }
       }
@@ -2478,6 +2591,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "停止充电至100%"
+          }
+        }
+      }
+    },
+    "menu.label.stop_discharging_battery" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop Using Battery"
+          }
+        }
+      }
+    },
+    "menu.label.stop_override" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop Override"
           }
         }
       }
