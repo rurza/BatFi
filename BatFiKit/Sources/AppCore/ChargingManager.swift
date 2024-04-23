@@ -89,14 +89,17 @@ public actor ChargingManager: ChargingModeManager {
                     logger.debug("Mac is going to sleep")
                     let appChargingMode = await appChargingState.currentAppChargingMode()
                     let currentMode = appChargingMode.mode
-                    if (currentMode == .forceDischarge || appChargingMode.userTempOverride != nil) ||
-                        (defaults.value(.turnOnInhibitingChargingWhenGoingToSleep) &&
-                       !defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)) {
-                        await inhibitCharging(chargerConnected: true, currentMode: currentMode)
+                    let powerState = try? await powerSourceClient.currentPowerSourceState()
+                    let currentLimit = appChargingMode.userTempOverride?.limit ?? defaults.value(.chargeLimit)
+                    let inhibitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
+                    let systemChargingLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
 
-                    } else if defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep),
-                              !defaults.value(.turnOnInhibitingChargingWhenGoingToSleep)
-                    {
+                    if powerState?.batteryLevel ?? 0 < currentLimit,
+                        (inhibitOnSleep && !systemChargingLimitOnSleep) {
+                        logger.debug("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
+                        await inhibitCharging(chargerConnected: true, currentMode: currentMode)
+                    } else if systemChargingLimitOnSleep, !inhibitOnSleep {
+                        logger.debug("current mode: \(appChargingMode), enable system charging limit on sleep")
                         logger.debug("I will enable system charge limit, because user chose the option")
                         try? await chargingClient.enableSystemChargeLimit()
                     }
