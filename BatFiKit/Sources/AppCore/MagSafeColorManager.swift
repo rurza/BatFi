@@ -37,7 +37,8 @@ public actor MagSafeColorManager {
                         appChargingState.appChargingModeDidChage(),
                         powerSourceClient.powerSourceChanges()
                     )
-                ).debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock))
+                )
+                    .debounce(for: .seconds(1), clock: AnyClock(self.suspendingClock))
             {
                 await updateMagsafeLEDIndicator(
                     showGreenLightWhenInhibiting: greenLight,
@@ -70,7 +71,6 @@ public actor MagSafeColorManager {
         }
         if appMode == .inhibit,
            showGreenLightWhenInhibiting,
-           powerState.batteryLevel >= limit,
            currentMagSafeLEDOption.isDifferentThan(.green) {
             logger.debug("Should change the color of MagSafe to green")
             do {
@@ -80,7 +80,9 @@ public actor MagSafeColorManager {
         } else if appMode == .forceDischarge, blinkWhenDischarging, currentMagSafeLEDOption.isDifferentThan(.errorOnce) {
             logger.debug("Should blink the LED and turn it off")
             _ = try? await magSafeLEDColor.changeMagSafeLEDColor(.errorOnce)
-        } else if currentMagSafeLEDOption.isDifferentThan(.reset) {
+        } else if currentMagSafeLEDOption.isDifferentThan(.reset) &&
+                    !(appMode == .forceDischarge && blinkWhenDischarging) && !(appMode == .inhibit && showGreenLightWhenInhibiting)
+        {
             await resetMagSafeColor()
         }
     }
