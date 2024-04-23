@@ -108,38 +108,11 @@ public final class MenuController {
         statusItem.menu?.replaceItems {
             MenuItem("")
                 .view {
-                    BatteryInfoView()
+                    MenuContent()
                         .frame(minWidth: 220)
-                        .modifier(MenuViewModifier(leadingPadding: horizontalPadding(for: tempChargingMode?.limit)))
+                        .modifier(MenuViewModifier())
                         .environmentObject(batteryInfoModel)
                 }
-            SeparatorItem()
-            if defaults.value(.showChart) {
-                MenuItem("")
-                    .view {
-                        ChartsView()
-                            .frame(height: 120)
-                            .clipped()
-                            .modifier(MenuViewModifier(leadingPadding: horizontalPadding(for: tempChargingMode?.limit)))
-                    }
-                SeparatorItem()
-            }
-            if defaults.value(.showPowerDiagram) {
-                MenuItem("")
-                    .view {
-                        PowerInfoView()
-                            .modifier(MenuViewModifier(leadingPadding: horizontalPadding(for: tempChargingMode?.limit)))
-                    }
-                SeparatorItem()
-            }
-            if defaults.value(.showHighEnergyImpactProcesses) {
-                MenuItem("")
-                    .view {
-                        HighEnergyUsageView()
-                            .modifier(MenuViewModifier(leadingPadding: horizontalPadding(for: tempChargingMode?.limit)))
-                    }
-                SeparatorItem()
-            }
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
@@ -166,7 +139,7 @@ public final class MenuController {
                 chargerNotConnectedTempOverrideDisclaimer(limit: limit)
             }
             
-            if dependencies.appChargingState.chargerConnected {
+            if showInhibitChargingCommand(chargingMode: dependencies.appChargingState) {
                 MenuItem(L10n.Menu.Label.inhibitCharging)
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.inhibitCharging()
@@ -225,6 +198,11 @@ public final class MenuController {
         }
     }
 
+    private func showInhibitChargingCommand(chargingMode: AppChargingMode) -> Bool {
+        guard chargingMode.chargerConnected else { return false }
+        return chargingMode.mode == .charging || chargingMode.mode == .forceDischarge
+    }
+
     @MenuBuilder
     func moreMenuItems(dependencies: MenuDependencies) -> [NSMenuItem] {
         MenuItem(L10n.Menu.Label.batfi)
@@ -259,12 +237,9 @@ public final class MenuController {
 }
 
 private struct MenuViewModifier: ViewModifier {
-    let leadingPadding: CGFloat
-
     func body(content: Content) -> some View {
         content
-            .padding(.trailing, 15)
-            .padding(.leading, leadingPadding)
+            .padding(.horizontal, 15)
             .padding(.top, 6)
             .padding(.bottom, 6)
     }

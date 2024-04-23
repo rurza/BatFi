@@ -88,6 +88,9 @@ public enum L10n {
 
                 /// Disabled
                 public static let disabled = String(localized: "app_charging_mode.state.title.disabled", defaultValue: "Disabled", bundle: Bundle.module)
+
+                // Charge Override
+                public static let chargeOverride = String(localized: "app_charging_mode.state.title.override", defaultValue: "Charge Override", bundle: Bundle.module)
             }
         }
     }

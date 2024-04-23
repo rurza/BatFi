@@ -777,6 +777,23 @@
         }
       }
     },
+    "app_charging_mode.state.title.override" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charge Override"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Własne ustawienia"
+          }
+        }
+      }
+    },
     "app_charging_mode.state.title.temp_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -2613,6 +2630,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Stop Override"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłącz własne ustawienia"
           }
         }
       }

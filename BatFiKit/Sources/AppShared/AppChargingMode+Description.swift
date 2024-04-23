@@ -16,8 +16,8 @@ public extension AppChargingMode {
             return label.chargerNotConnected
         }
 
-        if let userTempOverride {
-            return "Override"
+        if userTempOverride != nil {
+            return label.chargeOverride
         }
 
         switch self.mode {
@@ -40,8 +40,10 @@ public extension AppChargingMode {
             return nil
         }
 
-        if let userTempOverride {
-            return "Override"
+        if let overrideLimit = userTempOverride?.limit {
+            let limitFraction = Double(overrideLimit) / 100
+            let percentage = percentageFormatter.string(from: NSNumber(floatLiteral: limitFraction))!
+            return label.tempChargingTo(percentage)
         }
 
         switch self.mode {
