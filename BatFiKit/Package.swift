@@ -10,6 +10,7 @@ extension Target.Dependency {
     static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
     static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
     static let asyncXPCConnection: Self = .product(name: "AsyncXPCConnection", package: "AsyncXPCConnection")
+    static let keyboardShortcuts: Self = .product(name: "KeyboardShortcuts", package: "KeyboardShortcuts")
     static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
     static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
     static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
@@ -65,6 +66,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
         .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.22.4"),
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
+        .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
     ],
     targets: [
         .target(
@@ -232,6 +234,7 @@ let package = Package(
                 .clients,
                 .defaultsKeys,
                 .dependencies,
+                .keyboardShortcuts,
                 .l10n,
                 .settingsKit,
             ]

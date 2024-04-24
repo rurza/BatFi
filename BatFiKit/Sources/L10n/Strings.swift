@@ -369,6 +369,24 @@ public enum L10n {
                 public static let statusBar = String(localized: "settings.accessibility.title.statusBar", defaultValue: "Menu bar pane", bundle: Bundle.module)
                 /// Advanced pane
                 public static let advanced = String(localized: "settings.accessibility.title.advanced", defaultValue: "Advanced pane", bundle: Bundle.module)
+                /// Hotkeys pane
+                public static let hotkeys = String(localized: "settings.accessibility.title.hotkeys", defaultValue: "Hotkeys pane", bundle: Bundle.module)
+            }
+        }
+
+        public enum Hotkey {
+            public enum Label {
+                /// Toggle charge to 100%
+                public static let chargeToFull = String(localized: "settings.hotkey.label.charge_to_full", defaultValue: "Toggle charge to 100%", bundle: Bundle.module)
+
+                /// Toggle run on battery
+                public static let discharge = String(localized: "settings.hotkey.label.discharge", defaultValue: "Toggle run on battery", bundle: Bundle.module)
+
+                /// Toggle inhibit charging
+                public static let inhibit = String(localized: "settings.hotkey.label.inhibit", defaultValue: "Toggle inhibit charging", bundle: Bundle.module)
+
+                /// Stop charge override
+                public static let stopOverride = String(localized: "settings.hotkey.label.stop_override", defaultValue: "Stop charge override", bundle: Bundle.module)
             }
         }
 
@@ -434,6 +452,7 @@ public enum L10n {
 
                 /// Show power source
                 public static let showPowerSource = String(localized: "settings.button.label.show_power_source", defaultValue: "Show power source", bundle: Bundle.module)
+
             }
 
             public enum Tooltip {
@@ -569,6 +588,8 @@ public enum L10n {
                 public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu Bar", bundle: Bundle.module)
                 /// Advanced
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
+                /// Hotkeys
+                public static let hotkeys = String(localized: "settings.tab.title.hotkeys", defaultValue: "Hotkeys", bundle: Bundle.module)
             }
         }
     }

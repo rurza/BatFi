@@ -45,7 +45,7 @@ struct ChargingView: View {
                         .padding(.bottom, 20)
                         .padding(.top, 10)
 
-                        GroupBox {
+                        GroupBackground {
                             VStack(alignment: .leading, spacing: 6) {
                                 VStack(alignment: .leading, spacing: 14) {
                                     let label = l10n.Slider.Label.turnOffChargingAt(
@@ -79,15 +79,8 @@ struct ChargingView: View {
                                         .settingDescription()
                                         .opacity(manageCharging ? 1 : 0.4)
                                 }
-
-                                #if DEBUG
-                                if showDebugMenu {
-                                    TempOverrideDebugView()
-                                        .padding(.top)
-                                }
-                                #endif
                             }
-                            .padding(4)
+                            .padding()
                         }
                     }
                 }

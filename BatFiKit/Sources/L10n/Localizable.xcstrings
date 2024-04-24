@@ -4374,6 +4374,17 @@
         }
       }
     },
+    "settings.accessibility.title.hotkeys" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hotkeys pane"
+          }
+        }
+      }
+    },
     "settings.accessibility.title.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -5786,6 +5797,50 @@
         }
       }
     },
+    "settings.hotkey.label.charge_to_full" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle charge to 100%"
+          }
+        }
+      }
+    },
+    "settings.hotkey.label.discharge" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle run on battery"
+          }
+        }
+      }
+    },
+    "settings.hotkey.label.inhibit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle inhibit charging"
+          }
+        }
+      }
+    },
+    "settings.hotkey.label.stop_override" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop charge override"
+          }
+        }
+      }
+    },
     "settings.label.analytics_are_always_on_during_beta" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -7017,6 +7072,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用"
+          }
+        }
+      }
+    },
+    "settings.tab.title.hotkeys" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Hotkeys"
           }
         }
       }

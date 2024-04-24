@@ -14,10 +14,11 @@ public struct SeparatorView: View {
 
     public var body: some View {
         VStack(spacing: 0) {
-            Divider()
+            Rectangle().frame(height: 1)
+                .foregroundColor(colorScheme == .light ? Color.secondary.opacity(0.2) : Color.black.opacity(0.17))
             Rectangle().frame(height: 1)
                 .foregroundColor(Color.white)
-                .opacity(colorScheme == .light ? 0.3 : 0)
+                .opacity(colorScheme == .light ? 0.4 : 0.1)
         }
     }
 }
