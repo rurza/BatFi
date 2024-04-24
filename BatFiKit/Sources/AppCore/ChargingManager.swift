@@ -104,6 +104,7 @@ public actor ChargingManager: ChargingModeManager {
                         try? await chargingClient.enableSystemChargeLimit()
                     }
                 case .didWake:
+                    logger.debug("Mac did wake up")
                     computerIsAsleep = false
                     await fetchAndUpdateAppChargingState()
                     await updateStatusWithCurrentState()
@@ -408,6 +409,7 @@ public actor ChargingManager: ChargingModeManager {
             await appChargingState.setAppChargingMode(
                 .init(mode: mode, userTempOverride: userTempOverride, chargerConnected: powerState.chargerConnected)
             )
+            await updateStatusWithCurrentState()
         } catch {
             logger.error("Error fetching charging state: \(error)")
             await analytics.captureMessage(message: "Error fetching charging state: \(error.localizedDescription)")
