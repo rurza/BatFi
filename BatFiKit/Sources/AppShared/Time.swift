@@ -5,31 +5,35 @@
 //  Created by Adam on 05/05/2023.
 //
 
-import AppShared
 import Foundation
 import L10n
 
-struct Time: Equatable {
-    let info: Info
-    let direction: Direction
+public struct Time: Equatable {
+    public let info: Info
+    public let direction: Direction
 
-    enum Direction: Equatable {
+    public enum Direction: Equatable {
         case timeLeft
         case timeToCharge
     }
 
-    enum Info: Equatable {
+    public enum Info: Equatable {
         case claculating
         case unknown
         case time(Int)
     }
 
-    struct Description {
-        let label: String
-        let description: String
+    public struct Description {
+        public let label: String
+        public let description: String
     }
 
-    var description: Description? {
+    init(info: Info, direction: Direction) {
+        self.info = info
+        self.direction = direction
+    }
+
+    public var description: Description? {
         let l10n = L10n.BatteryInfo.Label.Main.Time.self
         func infoDescription() -> String? {
             switch info {
@@ -54,7 +58,7 @@ struct Time: Equatable {
         }
     }
 
-    var hasKnownTime: Bool {
+    public var hasKnownTime: Bool {
         switch info {
         case .claculating, .unknown:
             return false
@@ -63,7 +67,7 @@ struct Time: Equatable {
         }
     }
 
-    init?(isCharging: Bool, timeLeft: Int, timeToCharge: Int, batteryLevel: Int) {
+    public init?(isCharging: Bool, timeLeft: Int, timeToCharge: Int, batteryLevel: Int) {
         if isCharging {
             if batteryLevel < 100 {
                 direction = .timeToCharge
@@ -87,5 +91,18 @@ struct Time: Equatable {
                 info = .claculating
             }
         }
+    }
+
+    public static func timeLeft(time: Int) -> Time {
+        let info: Info
+        switch time {
+        case let time where time > 0:
+            info = .time(time)
+        case 0:
+            info = .unknown
+        default:
+            info = .claculating
+        }
+        return Time(info: info, direction: .timeLeft)
     }
 }

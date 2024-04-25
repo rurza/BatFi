@@ -43,7 +43,7 @@ struct NotificationsView: View {
                         value: .convert(from: $batteryLowNotificationThreshold)
                     )
                     .disabled(!showBatteryLowNotification)
-                    .frame(width: 360)
+                    .frame(width: 180)
                 }
             }
 

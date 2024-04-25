@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import KeyboardShortcuts
 import SettingsKit
 
 public final class SettingsController {
@@ -17,6 +18,7 @@ public final class SettingsController {
             NotificationsView.pane,
             HotkeysView.pane,
             AdvancedView.pane,
+            TipJarView.pane
         ]
     )
 
@@ -25,4 +27,13 @@ public final class SettingsController {
     public func openSettings() {
         settingsWindowController.show(pane: ChargingView.identifier)
     }
+}
+
+// MARK: -
+
+public extension KeyboardShortcuts.Name {
+    static let chargeToHundred = Self("chargeToHundred")
+    static let dischargeBattery = Self("dischargeBattery")
+    static let inhibitCharging = Self("inhibitCharging")
+    static let stopOverride = Self("stopOverride")
 }

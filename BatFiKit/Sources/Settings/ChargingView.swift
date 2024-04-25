@@ -10,15 +10,15 @@ import Defaults
 import DefaultsKeys
 import L10n
 import SettingsKit
+import SharedUI
 import SwiftUI
 
 struct ChargingView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.manageCharging) private var manageCharging
     @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
-    #if DEBUG
-    @Default(.showDebugMenu) private var showDebugMenu
-    #endif
+    @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
+    @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -68,10 +68,19 @@ struct ChargingView: View {
                                 }
                                 .padding(.bottom, 14)
 
+                                Toggle(isOn: $inhibitChargingOnSleep) {
+                                    Text(l10n.Button.Label.pauseChargingOnSleep)
+                                }
+                                .disabled(enableSystemChargeLimitOnSleep || !manageCharging)
+
+                                Toggle(isOn: $enableSystemChargeLimitOnSleep) {
+                                    Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
+                                }
+                                .disabled(inhibitChargingOnSleep || !manageCharging)
+
                                 VStack(alignment: .leading, spacing: 2) {
                                     Toggle(isOn: $dischargeBatteryWhenFull) {
                                         Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
-                                            .withBetaLabel(disabled: !manageCharging)
                                             .help(l10n.Button.Tooltip.dischargeBatterWhenOvercharged)
                                     }
                                     .disabled(!manageCharging)

@@ -19,7 +19,7 @@ public struct GroupBackground<Content: View>: View {
         content
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .foregroundColor(colorScheme == .light ? .white.opacity(0.7) : .white.opacity(0.05))
+                    .foregroundColor(colorScheme == .light ? .white.opacity(0.7) : .black.opacity(0.1))
                     .overlay {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(colorScheme == .light ? .black.opacity(0.08) : .white.opacity(0.05), lineWidth: 1)

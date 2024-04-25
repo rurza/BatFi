@@ -17,11 +17,9 @@ import SwiftUI
 struct AdvancedView: View {
     @Default(.temperatureSwitch) private var temperatureSwitch
     @Default(.disableSleep) private var disableAutomaticSleep
-    @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
     @Default(.showGreenLightMagSafeWhenInhibiting) private var greenLight
     @Default(.downloadBetaVersion) private var checkForBetaUpdates
     @Default(.showDebugMenu) private var showDebugMenu
-    @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
 
     @Dependency(\.updater) private var updater
 
@@ -38,16 +36,6 @@ struct AdvancedView: View {
                     Text(l10n.Button.Label.disableAutomaticSleep)
                         .help(l10n.Button.Tooltip.disableAutomaticSleep)
                 }
-
-                Toggle(isOn: $inhibitChargingOnSleep) {
-                    Text(l10n.Button.Label.pauseChargingOnSleep)
-                }
-                .disabled(enableSystemChargeLimitOnSleep)
-
-                Toggle(isOn: $enableSystemChargeLimitOnSleep) {
-                    Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
-                }
-                .disabled(inhibitChargingOnSleep)
 
                 Toggle(isOn: $greenLight) {
                     Text(l10n.Button.Label.magsafeUseGreenLight)

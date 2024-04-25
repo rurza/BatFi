@@ -2037,12 +2037,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Activates once charger is connected"
+            "value" : "Override is active only when charger is connected"
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Włączy się wraz z podłączeniem ładowarki"
           }
         }
@@ -2167,6 +2167,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rozładuj baterię"
+          }
+        }
+      }
+    },
+    "menu.label.discharging_override_but_lid_closed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Inhibiting charging; open lid to discharge the battery"
           }
         }
       }
@@ -7183,6 +7194,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "菜单栏"
+          }
+        }
+      }
+    },
+    "settings.tab.title.tip_jar" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tip jar"
           }
         }
       }

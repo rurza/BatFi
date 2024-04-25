@@ -14,6 +14,13 @@ public let timeFormatter: DateComponentsFormatter = {
     return formatter
 }()
 
+public let shortTimeFormatter: DateComponentsFormatter = {
+    let formatter = DateComponentsFormatter()
+    formatter.allowedUnits = [.hour, .minute]
+    formatter.unitsStyle = .positional
+    return formatter
+}()
+
 public let temperatureFormatter: MeasurementFormatter = {
     let formatter = MeasurementFormatter()
     formatter.unitStyle = .short

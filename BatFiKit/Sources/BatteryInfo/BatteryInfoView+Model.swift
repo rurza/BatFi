@@ -22,13 +22,18 @@ public extension BatteryInfoView {
         @Dependency(\.menuDelegate) private var menuDelegate
         @Dependency(\.energyStatsClient) private var energyStatsClient
 
-        private(set) public var state: PowerState? {
-            didSet {
-                updateTime()
-            }
-        }
+        @Published
+        private(set) public var state: PowerState?
 
-        private(set) var time: Time?
+        var time: Time? {
+            guard let state else { return nil }
+            return Time(
+                isCharging: state.isCharging,
+                timeLeft: state.timeLeft,
+                timeToCharge: state.timeToCharge,
+                batteryLevel: state.batteryLevel
+            )
+        }
 
         private(set) var modeDescription: String? {
             willSet {
@@ -97,20 +102,6 @@ public extension BatteryInfoView {
         private func cancelObserving() {
             chargingStateModeChanges?.cancel()
             powerSourceChanges?.cancel()
-        }
-
-        private func updateTime() {
-            objectWillChange.send()
-            if let state {
-                time = Time(
-                    isCharging: state.isCharging,
-                    timeLeft: state.timeLeft,
-                    timeToCharge: state.timeToCharge,
-                    batteryLevel: state.batteryLevel
-                )
-            } else {
-                time = nil
-            }
         }
 
         func temperatureDescription() -> String? {

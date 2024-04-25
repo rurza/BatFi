@@ -20,6 +20,7 @@ struct MenubarView: View {
     @Default(.showBatteryHealth) private var showBatteryHealth
     @Default(.showBatteryTemperature) private var showBatteryTemperature
     @Default(.showPowerSource) private var showPowerSource
+    @Default(.showTimeLeftNextToStatusIcon) private var showTimeLeftNextToStatusIcon
     @State private var showingPopover = false
 
     var body: some View {
@@ -46,6 +47,7 @@ struct MenubarView: View {
             Section(title: l10n.Section.statusIcon, bottomDivider: true) {
                 Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
                 Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
+                Toggle(l10n.Button.Label.statusIconTimeLeft, isOn: $showTimeLeftNextToStatusIcon)
             }
         }
     }

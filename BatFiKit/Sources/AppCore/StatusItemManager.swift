@@ -1,5 +1,5 @@
 //
-//  StatusItemIconController.swift
+//  StatusItemManager.swift
 //
 //
 //  Created by Adam on 18/05/2023.
@@ -8,6 +8,7 @@
 import AppShared
 import AsyncAlgorithms
 import BatteryIndicator
+import Combine
 import Clients
 import Cocoa
 import DefaultsKeys
@@ -16,13 +17,13 @@ import SnapKit
 import SwiftUI
 
 @MainActor
-public protocol StatusItemIconControllerDelegate: AnyObject {
+public protocol StatusItemManagerDelegate: AnyObject {
     func statusItemIconDidAppear()
 }
 
 @MainActor
-public final class StatusItemIconController {
-    public weak var delegate: StatusItemIconControllerDelegate?
+public final class StatusItemManager {
+    public weak var delegate: StatusItemManagerDelegate?
 
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.appChargingState) private var appChargingState
@@ -45,6 +46,9 @@ public final class StatusItemIconController {
         showPercentage: true
     )
 
+    private var sizePassthrough = PassthroughSubject<CGSize, Never>()
+    private var sizeCancellable: AnyCancellable?
+
     func setUpObserving() {
         Task {
             for await ((powerState, mode), (showPercentage, showMonochrome)) in combineLatest(
@@ -64,27 +68,38 @@ public final class StatusItemIconController {
                 model.showPercentage = showPercentage
                 guard let button = statusItem.button else { continue }
                 if batteryIndicatorView == nil {
-                    let hostingView = NSHostingView(rootView: BatteryIndicatorView(model: self.model))
-                    hostingView.translatesAutoresizingMaskIntoConstraints = false
+                    let hostingView = NSHostingView(
+                        rootView: StatusItem(
+                            powerState: powerState,
+                            sizePassthrough: sizePassthrough,
+                            model: self.model
+                        )
+                    )
+                    hostingView.frame = NSRect(x: 0, y: 0, width: 38, height: 13)
+                    button.frame = hostingView.frame
                     hostingView.wantsLayer = true
                     button.addSubview(hostingView)
-                    hostingView.snp.makeConstraints { make in
-                        make.centerX.equalToSuperview().offset(3) // offset by the "nipple" so the battery will look centered
-                        make.width.equalTo(33)
-                        make.height.equalTo(13)
-                        make.centerY.equalToSuperview()
-                    }
-                    button.snp.makeConstraints { make in
-                        make.width.equalTo(38)
-                        make.centerX.equalToSuperview()
-                    }
                     self.batteryIndicatorView = hostingView
+                    sizeCancellable = sizePassthrough.sink { [weak self] size in
+                        let frame = NSRect(origin: .zero, size: .init(width: size.width, height: 24))
+                        self?.batteryIndicatorView?.frame = frame
+                        self?.statusItem.button?.frame = frame
+                    }
                 }
                 if !didAppear {
                     didAppear = true
                     delegate?.statusItemIconDidAppear()
                 }
             }
+        }
+    }
+
+    @ViewBuilder
+    func indicatorView(powerState: PowerState) -> some View {
+        HStack {
+            Text("\(powerState.timeLeft)")
+            BatteryIndicatorView(model: self.model)
+                .frame(width: 33)
         }
     }
 }

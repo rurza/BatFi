@@ -5,19 +5,12 @@
 //  Created by Adam Różyński on 24/04/2024.
 //
 
-import AppShared
 import Defaults
 import KeyboardShortcuts
 import L10n
 import SettingsKit
+import SharedUI
 import SwiftUI
-
-extension KeyboardShortcuts.Name {
-    static let chargeToHundred = Self("chargeToHundred")
-    static let dischargeBattery = Self("dischargeBattery")
-    static let inhibitCharging = Self("inhibitCharging")
-    static let stopOverride = Self("stopOverride")
-}
 
 struct HotkeysView: View {
 

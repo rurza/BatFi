@@ -17,6 +17,7 @@ import L10n
 import MenuBuilder
 import PowerCharts
 import PowerDistributionInfo
+import SharedUI
 import SwiftUI
 
 public protocol ChargingModeManager {
@@ -55,6 +56,7 @@ public final class MenuController {
         let showPowerDiagram: Bool
         let showHighImpactProcesses: Bool
         let showDebugMenu: Bool
+        let lidOpened: Bool
     }
 
     let statusItem: NSStatusItem
@@ -73,25 +75,26 @@ public final class MenuController {
 
     private func setUpObserving() {
         Task {
-            for await ((state, showDebugMenu, showChart), (showPowerDiagram, showHighEnergyImpactProcesses)) in combineLatest(
+            for await ((state, showDebugMenu), (showChart, showPowerDiagram, showHighEnergyImpactProcesses)) in combineLatest(
                 combineLatest(
                     appChargingState.appChargingModeDidChage(),
-                    defaults.observe(.showDebugMenu),
-                    defaults.observe(.showChart)
+                    defaults.observe(.showDebugMenu)
                 ),
                 combineLatest(
+                    defaults.observe(.showChart),
                     defaults.observe(.showPowerDiagram),
                     defaults.observe(.showHighEnergyImpactProcesses)
                 )
             ) {
                 updateMenu(dependencies:
-                    MenuDependencies(
-                        appChargingState: state,
-                        showChart: showChart,
-                        showPowerDiagram: showPowerDiagram,
-                        showHighImpactProcesses: showHighEnergyImpactProcesses,
-                        showDebugMenu: showDebugMenu
-                    )
+                            MenuDependencies(
+                                appChargingState: state,
+                                showChart: showChart,
+                                showPowerDiagram: showPowerDiagram,
+                                showHighImpactProcesses: showHighEnergyImpactProcesses,
+                                showDebugMenu: showDebugMenu,
+                                lidOpened: await appChargingState.lidOpened() ?? false
+                            )
                 )
             }
         }
@@ -122,9 +125,6 @@ public final class MenuController {
                     }
                 }
                 .state(tempChargingMode?.limit == 100 ? .on : .off)
-            if let limit = tempChargingMode?.limit, !dependencies.appChargingState.chargerConnected && limit == 100 {
-                chargerNotConnectedTempOverrideDisclaimer(limit: limit)
-            }
 
             MenuItem(L10n.Menu.Label.dischargeBattery)
                 .onSelect { [weak self] in
@@ -135,25 +135,31 @@ public final class MenuController {
                     }
                 }
                 .state(tempChargingMode?.limit == 0 ? .on : .off)
-            if let limit = tempChargingMode?.limit, !dependencies.appChargingState.chargerConnected && limit == 0 {
-                chargerNotConnectedTempOverrideDisclaimer(limit: limit)
+            if let limit = tempChargingMode?.limit,
+               limit == 0,
+               dependencies.appChargingState.chargerConnected,
+               !dependencies.lidOpened {
+                lidClosedSoBatteryWontDischargeDisclaimer
             }
-            
+
             if showInhibitChargingCommand(chargingMode: dependencies.appChargingState) {
                 MenuItem(L10n.Menu.Label.inhibitCharging)
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.inhibitCharging()
                     }
             }
-
+            if let limit = tempChargingMode?.limit,
+               ((limit != 0 && limit != 100) || !dependencies.appChargingState.chargerConnected) {
+                SeparatorItem()
+            }
             if let limit = tempChargingMode?.limit, limit != 0, limit != 100 {
                 MenuItem(L10n.Menu.Label.stopOverride)
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.stopOverride()
                     }
-                if !dependencies.appChargingState.chargerConnected {
-                    chargerNotConnectedTempOverrideDisclaimer(limit: limit)
-                }
+            }
+            if let limit = tempChargingMode?.limit, !dependencies.appChargingState.chargerConnected {
+                chargerNotConnectedTempOverrideDisclaimer(limit: limit)
             }
 
             SeparatorItem()
@@ -175,6 +181,8 @@ public final class MenuController {
         }
     }
 
+    private let menuItemCheckMarkPadding: CGFloat = 25
+
     @MenuBuilder
     func chargerNotConnectedTempOverrideDisclaimer(limit: Int) -> [NSMenuItem] {
         MenuItem("")
@@ -185,6 +193,21 @@ public final class MenuController {
                     .foregroundStyle(.tertiary)
                     .frame(width: 220, alignment: .leading)
                     .padding(.horizontal, horizontalPadding(for: limit))
+                    .padding(.top, 6)
+                    .padding(.bottom, 6)
+            }
+    }
+
+    @MenuBuilder
+    var lidClosedSoBatteryWontDischargeDisclaimer: [NSMenuItem] {
+        MenuItem("")
+            .view {
+                Text(L10n.Menu.Label.dischargingOverrideButLidIsClosed)
+                    .font(.callout)
+                    .multilineTextAlignment(.leading)
+                    .foregroundStyle(.tertiary)
+                    .frame(width: 220, alignment: .leading)
+                    .padding(.horizontal, menuItemCheckMarkPadding)
                     .padding(.top, 2)
                     .padding(.bottom, 6)
             }
@@ -192,7 +215,7 @@ public final class MenuController {
 
     func horizontalPadding(for limit: Int?) -> CGFloat {
         if (limit == 100 || limit == 0) {
-            return 25
+            return menuItemCheckMarkPadding
         } else {
             return 15
         }

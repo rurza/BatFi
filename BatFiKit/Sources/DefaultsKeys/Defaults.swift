@@ -36,6 +36,8 @@ public extension Defaults.Keys {
     static let showPowerSource = Key<Bool>("showPowerSource", default: false)
     static let showElapsedTime = Key<Bool>("showElapsedTime", default: false)
 
+    static let showTimeLeftNextToStatusIcon = Key<Bool>("showTimeLeftNextToStatusIcon", default: false)
+
     // Advanced
     static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
     static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)

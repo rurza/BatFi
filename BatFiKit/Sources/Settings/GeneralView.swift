@@ -11,6 +11,7 @@ import Dependencies
 import L10n
 import ServiceManagement
 import SettingsKit
+import SharedUI
 import SwiftUI
 
 struct GeneralView: View {
@@ -22,6 +23,8 @@ struct GeneralView: View {
 
     @Dependency(\.featureFlags) private var featureFlags
     @Dependency(\.updater) private var updater
+
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -48,7 +51,7 @@ struct GeneralView: View {
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
             }
-            Section(title: l10n.Section.other) {
+            Section(title: l10n.Section.other, bottomDivider: true) {
                 VStack(alignment: .leading) {
                     if featureFlags.isUsingBetaVersion() {
                         Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
@@ -59,7 +62,6 @@ struct GeneralView: View {
                     }
                 }
             }
-
         }.onAppear {
             automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()
             automaticallyDownloadsUpdates = updater.automaticallyDownloadsUpdates()

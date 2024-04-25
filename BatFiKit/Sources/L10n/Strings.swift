@@ -168,11 +168,14 @@ public enum L10n {
             /// Stop Override
             public static let stopOverride = String(localized: "menu.label.stop_override", defaultValue: "Stop Override", bundle: Bundle.module)
 
-            /// Activates once charger is connected
-            public static let chargerNotConnectedDisclaimer = String(localized: "menu.label.charger_not_connected_disclaimer", defaultValue: "Activates once charger is connected", bundle: .module)
+            /// Override is active only when charger is connected
+            public static let chargerNotConnectedDisclaimer = String(localized: "menu.label.charger_not_connected_disclaimer", defaultValue: "Override is active only when charger is connected", bundle: .module)
 
             /// Inhibit Charging
             public static let inhibitCharging = String(localized: "menu.label.inhibit_charging", defaultValue: "Inhibit Charging", bundle: Bundle.module)
+
+            /// Inhibiting charging; open lid to discharge the battery.
+            public static let dischargingOverrideButLidIsClosed = String(localized: "menu.label.discharging_override_but_lid_closed", defaultValue: "Inhibiting charging; open lid to discharge the battery", bundle: .module)
         }
 
         public enum Charts {
@@ -453,6 +456,9 @@ public enum L10n {
                 /// Show power source
                 public static let showPowerSource = String(localized: "settings.button.label.show_power_source", defaultValue: "Show power source", bundle: Bundle.module)
 
+                /// Show time left
+                public static let statusIconTimeLeft = String(localized: "settings.button.label.show_time_left_status_icon", defaultValue: "Show time left", bundle: Bundle.module)
+
             }
 
             public enum Tooltip {
@@ -590,6 +596,9 @@ public enum L10n {
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
                 /// Hotkeys
                 public static let hotkeys = String(localized: "settings.tab.title.hotkeys", defaultValue: "Hotkeys", bundle: Bundle.module)
+
+                /// Tip jar
+                public static let tipJar = String(localized: "settings.tab.title.tip_jar", defaultValue: "Tip jar", bundle: Bundle.module)
             }
         }
     }

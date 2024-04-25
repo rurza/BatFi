@@ -12,6 +12,7 @@ import DefaultsKeys
 import HighEnergyUsage
 import PowerCharts
 import PowerDistributionInfo
+import SharedUI
 import SwiftUI
 
 struct MenuContent: View {

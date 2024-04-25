@@ -11,6 +11,7 @@ import DefaultsKeys
 import Dependencies
 import L10n
 import Shared
+import SharedUI
 import SwiftUI
 
 @MainActor

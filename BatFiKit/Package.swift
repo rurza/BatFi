@@ -90,6 +90,7 @@ let package = Package(
                 "Onboarding",
                 .clients,
                 .defaultsKeys,
+                .keyboardShortcuts,
                 .l10n,
                 .menuBuilder,
                 .settings,
@@ -237,6 +238,7 @@ let package = Package(
                 .keyboardShortcuts,
                 .l10n,
                 .settingsKit,
+                .sharedUI,
             ]
         ),
         .target(name: "SharedUI"),

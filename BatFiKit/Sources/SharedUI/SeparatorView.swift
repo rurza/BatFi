@@ -18,7 +18,7 @@ public struct SeparatorView: View {
                 .foregroundColor(colorScheme == .light ? Color.secondary.opacity(0.2) : Color.black.opacity(0.17))
             Rectangle().frame(height: 1)
                 .foregroundColor(Color.white)
-                .opacity(colorScheme == .light ? 0.4 : 0.1)
+                .opacity(colorScheme == .light ? 0.15 : 0.1)
         }
     }
 }

@@ -9,6 +9,7 @@ import About
 import AppCore
 import Cocoa
 import Dependencies
+import KeyboardShortcuts
 import L10n
 import MenuBuilder
 import Notifications
@@ -17,7 +18,7 @@ import Shared
 import Settings
 import StatusItemArrowKit
 
-public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelegate, Sendable {
+public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sendable {
     private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
@@ -27,7 +28,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
-    private var statusItemIconController: StatusItemIconController?
+    private var statusItemIconController: StatusItemManager?
 
     public var chargingModeManager: ChargingModeManager { chargingManager }
 
@@ -53,6 +54,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
                 await dockIcon.show(false)
                 await setUpTheApp()
                 checkHelperHealth()
+                observerKeyboardHotkeys()
             }
         } else {
             openOnboarding()
@@ -80,7 +82,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
             await magSafeColorManager.setUpObserving()
             menuController?.delegate = self
             notificationsManager = NotificationsManager()
-            statusItemIconController = StatusItemIconController(statusItem: statusItem)
+            statusItemIconController = StatusItemManager(statusItem: statusItem)
     }
 
     private func setFeatureFlags(
@@ -157,6 +159,21 @@ public final class BatFi: MenuControllerDelegate, StatusItemIconControllerDelega
         Task {
             try await clock.sleep(for: .seconds(7))
             arrowWindow?.close()
+        }
+    }
+
+    private func observerKeyboardHotkeys() {
+        KeyboardShortcuts.onKeyUp(for: .dischargeBattery) { [weak self] in
+            self?.dischargeBattery(to: 0)
+        }
+        KeyboardShortcuts.onKeyUp(for: .chargeToHundred) { [weak self] in
+            self?.chargeToFull()
+        }
+        KeyboardShortcuts.onKeyUp(for: .stopOverride) { [weak self] in
+            self?.chargingManager.stopOverride()
+        }
+        KeyboardShortcuts.onKeyUp(for: .inhibitCharging) { [weak self] in
+            self?.chargingManager.inhibitCharging()
         }
     }
 
