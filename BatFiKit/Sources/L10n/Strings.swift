@@ -459,6 +459,18 @@ public enum L10n {
                 /// Show time left
                 public static let statusIconTimeLeft = String(localized: "settings.button.label.show_time_left_status_icon", defaultValue: "Show time left", bundle: Bundle.module)
 
+                /// Tip %@
+                public static func tipJarTip(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "onboarding.button.label.tip_jar.tip",
+                            defaultValue: "Tip %@",
+                            bundle: Bundle.module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
             }
 
             public enum Tooltip {
@@ -537,6 +549,21 @@ public enum L10n {
                     p1
                 )
             }
+
+            /// Enjoying BatFi?
+            public static let tipJarTitle = String(localized: "settings.label.tip_jar.title", defaultValue: "Enjoying BatFi?", bundle: .module)
+
+            /// Show your support with a tip!
+            /// Your contribution helps me keep improving and makes BatFi even better for you.
+            /// Thank you for being an awesome part of our community!
+            public static let tipJarBody = String(localized: "settings.label.tip_jar.body", defaultValue: "Show your support with a tip!\nYour contribution helps me keep improving and makes BatFi even better for you.\nThank you for being an awesome part of our community!", bundle: .module)
+
+            /// The button will open Gumroad website with price already set.
+            public static let tipJarButtonDescription1 = String(localized: "settings.label.tip_jar.button_description_1", defaultValue: "The button will open Gumroad website with price already set.", bundle: .module)
+
+            /// You can change the amount before proceeding.
+            public static let tipJarButtonDescription2 = String(localized: "settings.label.tip_jar.button_description_2", defaultValue: "You can change the amount before proceeding.", bundle: .module)
+
         }
 
         public enum Section {

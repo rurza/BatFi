@@ -3614,6 +3614,23 @@
         }
       }
     },
+    "onboarding.button.label.tip_jar.tip" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tip %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przekaż %@ "
+          }
+        }
+      }
+    },
     "onboarding.label.almost_done" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -6349,6 +6366,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高能耗应用的显示阈值：%lld"
+          }
+        }
+      }
+    },
+    "settings.label.tip_jar.body" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show your support with a tip!\nYour contribution helps me keep improving and makes BatFi even better for you.\nThank you for being an awesome part of our community!"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż swoje wsparcie z napiwkiem!\nTwój wkład pozwala mi utrzymywać i rozwijać apkę.\nDzięki za bycie częścią wspaniałej społeczności!"
+          }
+        }
+      }
+    },
+    "settings.label.tip_jar.button_description_1" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The button will open Gumroad website with price already set."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przycisk otworzy stronę Gumroad z ustawioną kwotą."
+          }
+        }
+      }
+    },
+    "settings.label.tip_jar.button_description_2" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can change the amount before proceeding."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zawsze możesz zmienić wartość napiwku."
+          }
+        }
+      }
+    },
+    "settings.label.tip_jar.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enjoying BatFi?"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lubisz BatFi?"
           }
         }
       }

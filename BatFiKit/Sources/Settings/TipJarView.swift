@@ -22,13 +22,9 @@ struct TipJarView: View {
                 HStack {
                     GroupBackground {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("Enjoying BatFi?")
+                            Text(L10n.Settings.Label.tipJarTitle)
                                 .font(.headline)
-                            Text("""
-                            Show your support with a tip!
-                            Your contribution helps me keep improving and makes BatFi even better for you.
-                            Thank you for being an awesome part of our community!
-                            """)
+                            Text(L10n.Settings.Label.tipJarBody)
                             .multilineTextAlignment(.leading)
                             VStack {
                                 HStack {
@@ -36,25 +32,25 @@ struct TipJarView: View {
                                         Button(action: {
                                             openURL(URL(string: "https://micropixels.gumroad.com/l/tipjar")!)
                                         }, label: {
-                                            Text("Tip $1")
+                                            Text(L10n.Settings.Button.Label.tipJarTip(formattedPrice(1)))
                                         })
                                         Button(action: {
                                             openURL(URL(string: "https://micropixels.gumroad.com/l/tipjar?price=5")!)
                                         }, label: {
-                                            Text("Tip $5")
+                                            Text(L10n.Settings.Button.Label.tipJarTip(formattedPrice(5)))
                                         })
                                         Button(action: {
                                             openURL(URL(string: "https://micropixels.gumroad.com/l/tipjar?price=10")!)
                                         }, label: {
-                                            Text("Tip $10")
+                                            Text(L10n.Settings.Button.Label.tipJarTip(formattedPrice(10)))
                                         })
                                     }
                                     .padding()
                                     .buttonStyle(SecondaryButtonStyle())
                                 }
-                                Text("The button will open Gumroad website with price already set.")
+                                Text(L10n.Settings.Label.tipJarButtonDescription1)
                                     .settingDescription()
-                                Text("You can change the amount before proceeding.")
+                                Text(L10n.Settings.Label.tipJarButtonDescription2)
                                     .settingDescription()
                             }
                             .frame(maxWidth: .infinity)
@@ -65,6 +61,16 @@ struct TipJarView: View {
                 .frame(maxWidth: .infinity)
             }
         }
+    }
+
+    func formattedPrice(_ price: Int) -> String {
+        let doubleValue = Double(price)
+        let formatter = NumberFormatter()
+        formatter.currencyCode = "USD"
+        formatter.currencySymbol = "$"
+        formatter.maximumFractionDigits = 0
+        formatter.numberStyle = .currencyAccounting
+        return formatter.string(from: NSNumber(value: doubleValue))!
     }
 
     static let pane: Pane<Self> = Pane(
