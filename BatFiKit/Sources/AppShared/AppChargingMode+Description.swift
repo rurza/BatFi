@@ -12,6 +12,10 @@ public extension AppChargingMode {
     var stateDescription: String {
         let label = L10n.AppChargingMode.State.Title.self
 
+        guard mode != .initial else {
+            return label.initial
+        }
+
         guard chargerConnected || mode == .forceDischarge else {
             return label.chargerNotConnected
         }

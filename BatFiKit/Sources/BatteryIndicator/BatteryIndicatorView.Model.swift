@@ -70,6 +70,10 @@ extension BatteryIndicatorView.Model {
         case error
 
         init(appChargingStateMode: AppChargingMode) {
+            guard appChargingStateMode.mode != .initial else {
+                self = .error
+                return
+            }
             guard appChargingStateMode.chargerConnected else {
                 self = .discharging
                 return

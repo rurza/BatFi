@@ -32,7 +32,7 @@ struct StatusItem: View {
                 Text(timeLeftDescription)
                     .offset(y: -1)
                     .fontWeight(.medium)
-                    .padding(.leading, 1) // adds padding to look be visually centered
+                    .padding(.leading, 1) // adds padding to look horizontally centered
             }
             BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 33, height: 13)
