@@ -33,6 +33,7 @@
 		669483102BB8712000BB704D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6694830F2BB8712000BB704D /* Assets.xcassets */; };
 		669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 669483122BB8712000BB704D /* Preview Assets.xcassets */; };
 		6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669483192BB8724200BB704D /* AppInstaller.swift */; };
+		66B305D82BDBE9F4005182C0 /* TurnOffOverrideIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B305D72BDBE9F4005182C0 /* TurnOffOverrideIntent.swift */; };
 		66CA64BF2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA64BE2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift */; };
 		66CF84312BC6D4A6003C51B8 /* PreviewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84302BC6D4A6003C51B8 /* PreviewsApp.swift */; };
 		66CF84332BC6D4A6003C51B8 /* BatteryIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84322BC6D4A6003C51B8 /* BatteryIndicator.swift */; };
@@ -141,6 +142,7 @@
 		669483142BB8712000BB704D /* Installer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Installer.entitlements; sourceTree = "<group>"; };
 		669483182BB8714E00BB704D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		669483192BB8724200BB704D /* AppInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInstaller.swift; sourceTree = "<group>"; };
+		66B305D72BDBE9F4005182C0 /* TurnOffOverrideIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnOffOverrideIntent.swift; sourceTree = "<group>"; };
 		66CA64BE2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempOverrideBatteryLevelIntent.swift; sourceTree = "<group>"; };
 		66CF842E2BC6D4A6003C51B8 /* Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Previews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66CF84302BC6D4A6003C51B8 /* PreviewsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewsApp.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				667BA0332BCDC83300369B79 /* ChargeToFullIntent.swift */,
 				667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */,
 				66CA64BE2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift */,
+				66B305D72BDBE9F4005182C0 /* TurnOffOverrideIntent.swift */,
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
 				5B2836D82A05A6F000A42566 /* MainMenu.xib */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
@@ -542,6 +545,7 @@
 			files = (
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
 				66CA64BF2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift in Sources */,
+				66B305D82BDBE9F4005182C0 /* TurnOffOverrideIntent.swift in Sources */,
 				667BA0352BCDC83300369B79 /* ChargeToFullIntent.swift in Sources */,
 				66939C242BD5A4E600A9B73A /* AppShortcuts.swift in Sources */,
 				667BA0342BCDC83300369B79 /* DischargeBatteryIntent.swift in Sources */,

@@ -125,6 +125,10 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sen
         chargingManager.dischargeBattery(to: limit)
     }
 
+    public func stopOverride() {
+        chargingManager.stopOverride()
+    }
+
     public func openOnboarding() {
         Task {
             await dockIcon.show(true)
@@ -171,7 +175,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sen
             self?.chargeToFull()
         }
         KeyboardShortcuts.onKeyUp(for: .stopOverride) { [weak self] in
-            self?.chargingManager.stopOverride()
+            self?.stopOverride()
         }
         KeyboardShortcuts.onKeyUp(for: .inhibitCharging) { [weak self] in
             self?.chargingManager.inhibitCharging()

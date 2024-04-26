@@ -9,6 +9,12 @@
             "state" : "new",
             "value" : "Charge the battery"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naładuj baterię"
+          }
         }
       }
     },
@@ -29,22 +35,27 @@
         }
       }
     },
-    "Charge the battery" : {
-      "extractionState" : "stale",
+    "Charge the battery with ${applicationName}" : {
+      "extractionState" : "manual",
       "localizations" : {
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Naładuj baterię"
+            "value" : "Naładuj baterię z ${BatFi}"
           }
         }
       }
     },
-    "Charge the battery with ${applicationName}" : {
-      "extractionState" : "manual"
-    },
     "Charge to 100% with ${applicationName}" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Naładuj do 100% z ${applicationName}"
+          }
+        }
+      }
     },
     "intent.charge_to_full.title" : {
       "extractionState" : "extracted_with_value",
@@ -161,6 +172,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tymczasowo zmień limit ładowania"
+          }
+        }
+      }
+    },
+    "intent.stop_override.title" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Stop charge override"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłącz własne ustawienia"
           }
         }
       }
