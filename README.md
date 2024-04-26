@@ -27,8 +27,11 @@ The app uses [String Catalog](https://developer.apple.com/documentation/xcode/lo
     
 1) Install Xcode 15 ([Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12))
 2) Fork this repo, the develop branch
-3) Open and edit `./BatFiKit/Sources/L10n/Localizable.xcstrings` with Xcode 15. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
-4) Commit changes and make pull request
+3) There are two `.xcstrings` files. One related to the app's UI and second one for the App Intents (used for Siri Shortcuts):
+- App UI `./BatFiKit/Sources/L10n/Localizable.xcstrings`
+- App Intents `./App/Localizable.xcstrings`
+4) Open and edit them with Xcode 15. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
+5) Commit changes and make pull request
 
 </details>
 
@@ -36,9 +39,10 @@ The app uses [String Catalog](https://developer.apple.com/documentation/xcode/lo
 <summary>If you have no idea what Git is</summary>
     
 1) Install Xcode 15 ([Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12))
-2) Download [Localizable.xcstrings](https://github.com/rurza/BatFi/blob/develop/BatFiKit/Sources/L10n/Localizable.xcstrings) using the "Download raw file" button in the top right corner
-3) Open and edit downloaded file. It'll open in Xcode. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
-4) Send it to me: adam@micropixels.pl
+2) Download [App UI Localizable.xcstrings](https://github.com/rurza/BatFi/blob/develop/BatFiKit/Sources/L10n/Localizable.xcstrings) using the "Download raw file" button in the top right corner
+3) Download [App Intents Localizable.xcstrings](https://github.com/rurza/BatFi/blob/develop/App/Localizable.xcstrings) using the "Download raw file" button in the top right corner
+4) Open and edit downloaded file. It'll open in Xcode. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
+5) Send it to me: adam@micropixels.pl
 
 </details>
 
