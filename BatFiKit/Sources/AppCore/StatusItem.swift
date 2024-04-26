@@ -17,10 +17,19 @@ private struct SizePreferenceKey: PreferenceKey {
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) { value = nextValue() }
 }
 
+final class StatusItemModel: ObservableObject {
+    @Published
+    var powerState: PowerState
+
+    init(powerState: PowerState) {
+        self.powerState = powerState
+    }
+}
+
 struct StatusItem: View {
-    let powerState: PowerState
     var sizePassthrough: PassthroughSubject<CGSize, Never>
-    @ObservedObject var model: BatteryIndicatorView.Model
+    @ObservedObject var batteryIndicatorModel: BatteryIndicatorView.Model
+    @ObservedObject var model: StatusItemModel
 
     @Default(.showTimeLeftNextToStatusIcon)
     private var showTimeLeftNextToStatusIcon
@@ -32,7 +41,7 @@ struct StatusItem: View {
                     .offset(y: -1)
                     .fontWeight(.medium)
             }
-            BatteryIndicatorView(model: self.model)
+            BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 33, height: 13)
                 .offset(x: 2, y: -1)
         }
@@ -54,7 +63,7 @@ struct StatusItem: View {
     }
 
     var timeLeftDescription: String? {
-        let time = Time.timeLeft(time: powerState.timeLeft)
+        let time = Time.timeLeft(time: model.powerState.timeLeft)
         guard case let .time(timeLeft) = time.info else { return nil }
         return shortTimeFormatter.string(from: Double(timeLeft * 60))
     }

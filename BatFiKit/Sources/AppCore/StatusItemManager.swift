@@ -39,12 +39,14 @@ public final class StatusItemManager {
     }
 
     weak var batteryIndicatorView: NSView?
-    private lazy var model = BatteryIndicatorView.Model(
+    private lazy var batteryIndicatorModel = BatteryIndicatorView.Model(
         chargingMode: .discharging,
         batteryLevel: 0,
         monochrome: true,
         showPercentage: true
     )
+
+    private var statusItemModel: StatusItemModel?
 
     private var sizePassthrough = PassthroughSubject<CGSize, Never>()
     private var sizeCancellable: AnyCancellable?
@@ -62,17 +64,20 @@ public final class StatusItemManager {
                 )
             )
             .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
-                model.batteryLevel = powerState.batteryLevel
-                model.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
-                model.monochrome = showMonochrome
-                model.showPercentage = showPercentage
+                batteryIndicatorModel.batteryLevel = powerState.batteryLevel
+                batteryIndicatorModel.chargingMode = BatteryIndicatorView.Model.ChargingMode(appChargingStateMode: mode)
+                batteryIndicatorModel.monochrome = showMonochrome
+                batteryIndicatorModel.showPercentage = showPercentage
+                statusItemModel?.powerState = powerState
+
                 guard let button = statusItem.button else { continue }
                 if batteryIndicatorView == nil {
+                    statusItemModel = StatusItemModel(powerState: powerState)
                     let hostingView = NSHostingView(
                         rootView: StatusItem(
-                            powerState: powerState,
                             sizePassthrough: sizePassthrough,
-                            model: self.model
+                            batteryIndicatorModel: batteryIndicatorModel,
+                            model: statusItemModel!
                         )
                     )
                     hostingView.frame = NSRect(x: 0, y: 0, width: 38, height: 13)
@@ -98,7 +103,7 @@ public final class StatusItemManager {
     func indicatorView(powerState: PowerState) -> some View {
         HStack {
             Text("\(powerState.timeLeft)")
-            BatteryIndicatorView(model: self.model)
+            BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 33)
         }
     }
