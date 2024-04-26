@@ -119,6 +119,9 @@ let package = Package(
         .target(
             name: "BatteryIndicator",
             dependencies: [
+                .appShared,
+                .asyncAlgorithms,
+                .clients,
             ]
         ),
         .target(name: "BatteryInfo", dependencies: [

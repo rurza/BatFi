@@ -819,6 +819,12 @@
             "state" : "new",
             "value" : "Temporarily discharging"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tymczasowo rozładowuję"
+          }
         }
       }
     },
@@ -2042,7 +2048,7 @@
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Włączy się wraz z podłączeniem ładowarki"
           }
         }
@@ -2178,6 +2184,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Inhibiting charging; open lid to discharge the battery"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ładowanie wstrzymane. Otwórz pokrywę ekranu by zasilać z baterii"
           }
         }
       }
@@ -2630,6 +2642,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Stop Using Battery"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przywróć ładowanie"
           }
         }
       }
@@ -4393,6 +4411,12 @@
             "state" : "new",
             "value" : "Hotkeys pane"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel skrótów"
+          }
         }
       }
     },
@@ -5816,6 +5840,12 @@
             "state" : "new",
             "value" : "Toggle charge to 100%"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Włącz/wyłącz ładowanie do 100%"
+          }
         }
       }
     },
@@ -5826,6 +5856,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Toggle run on battery"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Włącz/wyłącz zasilanie z baterii"
           }
         }
       }
@@ -5838,6 +5874,12 @@
             "state" : "new",
             "value" : "Toggle inhibit charging"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Włącz/wyłącz wstrzymanie ładowania"
+          }
         }
       }
     },
@@ -5848,6 +5890,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Stop charge override"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłącz własne ustawienia ładowania"
           }
         }
       }
@@ -7095,6 +7143,12 @@
             "state" : "new",
             "value" : "Hotkeys"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skróty"
+          }
         }
       }
     },
@@ -7205,6 +7259,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Tip jar"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napiwki"
           }
         }
       }

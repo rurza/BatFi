@@ -151,6 +151,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sen
         }
     }
 
+    // MARKL -
     @MainActor
     private func showStatusItemArrow() {
         let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)

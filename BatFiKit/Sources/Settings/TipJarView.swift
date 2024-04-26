@@ -54,6 +54,8 @@ struct TipJarView: View {
                                 }
                                 Text("The button will open Gumroad website with price already set.")
                                     .settingDescription()
+                                Text("You can change the amount before proceeding.")
+                                    .settingDescription()
                             }
                             .frame(maxWidth: .infinity)
                         }

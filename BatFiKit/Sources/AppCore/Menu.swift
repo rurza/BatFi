@@ -112,9 +112,11 @@ public final class MenuController {
             MenuItem("")
                 .view {
                     MenuContent()
-                        .frame(minWidth: 220)
-                        .modifier(MenuViewModifier())
                         .environmentObject(batteryInfoModel)
+                        .frame(minWidth: 220)
+                        .frame(maxHeight: .infinity)
+                        .modifier(MenuViewModifier())
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
@@ -179,6 +181,9 @@ public final class MenuController {
                 }
                 .shortcut("q")
         }
+
+        statusItem.menu?.items.forEach { $0.view?.needsLayout = true }
+        statusItem.menu?.update()
     }
 
     private let menuItemCheckMarkPadding: CGFloat = 25

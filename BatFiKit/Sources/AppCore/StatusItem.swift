@@ -8,6 +8,7 @@
 import AppShared
 import Defaults
 import DefaultsKeys
+import Dependencies
 import BatteryIndicator
 import Combine
 import SwiftUI
@@ -17,19 +18,10 @@ private struct SizePreferenceKey: PreferenceKey {
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) { value = nextValue() }
 }
 
-final class StatusItemModel: ObservableObject {
-    @Published
-    var powerState: PowerState
-
-    init(powerState: PowerState) {
-        self.powerState = powerState
-    }
-}
-
 struct StatusItem: View {
     var sizePassthrough: PassthroughSubject<CGSize, Never>
     @ObservedObject var batteryIndicatorModel: BatteryIndicatorView.Model
-    @ObservedObject var model: StatusItemModel
+    @ObservedObject var model: StatusItem.Model
 
     @Default(.showTimeLeftNextToStatusIcon)
     private var showTimeLeftNextToStatusIcon
@@ -40,6 +32,7 @@ struct StatusItem: View {
                 Text(timeLeftDescription)
                     .offset(y: -1)
                     .fontWeight(.medium)
+                    .padding(.leading, 1) // adds padding to look be visually centered
             }
             BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 33, height: 13)
@@ -63,8 +56,32 @@ struct StatusItem: View {
     }
 
     var timeLeftDescription: String? {
-        let time = Time.timeLeft(time: model.powerState.timeLeft)
+        guard let timeLeft = model.powerState?.timeLeft else { return nil }
+        let time = Time.timeLeft(time: timeLeft)
         guard case let .time(timeLeft) = time.info else { return nil }
         return shortTimeFormatter.string(from: Double(timeLeft * 60))
+    }
+}
+
+extension StatusItem {
+    @MainActor
+    final class Model: ObservableObject {
+        @Published
+        var powerState: PowerState?
+
+        @Dependency(\.powerSourceClient.powerSourceChanges)
+        private var powerSourceChanges
+
+        init() {
+            setUpObserving()
+        }
+
+        private func setUpObserving() {
+            Task {
+                for await powerState in powerSourceChanges() {
+                    self.powerState = powerState
+                }
+            }
+        }
     }
 }
