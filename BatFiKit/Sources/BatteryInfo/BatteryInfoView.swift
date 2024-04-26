@@ -136,7 +136,6 @@ struct BatteryAdditionalInfo<Label: View>: View {
             Text(info)
                 .multilineTextAlignment(.trailing)
                 .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
         }
         .foregroundColor(.secondary)
         .font(.callout)

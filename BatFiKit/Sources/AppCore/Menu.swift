@@ -150,8 +150,12 @@ public final class MenuController {
                         self?.delegate?.chargingModeManager.inhibitCharging()
                     }
             }
+            if let limit = tempChargingMode?.limit, !dependencies.appChargingState.chargerConnected {
+                chargerNotConnectedTempOverrideDisclaimer(limit: limit)
+            }
             if let limit = tempChargingMode?.limit,
-               ((limit != 0 && limit != 100) || !dependencies.appChargingState.chargerConnected) {
+               limit != 0,
+               limit != 100 {
                 SeparatorItem()
             }
             if let limit = tempChargingMode?.limit, limit != 0, limit != 100 {
@@ -159,9 +163,6 @@ public final class MenuController {
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.stopOverride()
                     }
-            }
-            if let limit = tempChargingMode?.limit, !dependencies.appChargingState.chargerConnected {
-                chargerNotConnectedTempOverrideDisclaimer(limit: limit)
             }
 
             SeparatorItem()
