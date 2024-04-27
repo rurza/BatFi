@@ -116,7 +116,6 @@ public final class MenuController {
                         .frame(minWidth: 220)
                         .frame(maxHeight: .infinity)
                         .modifier(MenuViewModifier())
-                        .fixedSize(horizontal: false, vertical: true)
                 }
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in

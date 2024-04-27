@@ -25,7 +25,7 @@ struct HotkeysView: View {
                             shortcut(label: L10n.Settings.Hotkey.Label.inhibit, key: .inhibitCharging)
                             shortcut(label: L10n.Settings.Hotkey.Label.stopOverride, key: .stopOverride)
                         }
-                        .frame(maxWidth: 360)
+                        .frame(maxWidth: 380)
                         .padding()
                     }
                 }
