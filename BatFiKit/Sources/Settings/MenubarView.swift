@@ -26,13 +26,12 @@ struct MenubarView: View {
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
-            Section(title: l10n.Section.menu) {
+            Section(title: l10n.Section.menu, bottomDivider: true) {
                 Toggle(l10n.Button.Label.showPowerSource, isOn: $showPowerSource)
                 Toggle(l10n.Button.Label.showBatteryCycles, isOn: $showBatteryCycleCount)
                 Toggle(l10n.Button.Label.showBatteryTemperature, isOn: $showBatteryTemperature)
                 Toggle(l10n.Button.Label.showBatteryHealth, isOn: $showBatteryHealth)
-                Divider()
-                    .padding(.vertical, 8)
+                Text("").accessibilityHidden(true) // used to separate content visually
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)
                 HStack(alignment: .top) {

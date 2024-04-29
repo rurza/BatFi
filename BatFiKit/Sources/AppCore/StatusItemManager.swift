@@ -23,7 +23,14 @@ public protocol StatusItemManagerDelegate: AnyObject {
 
 @MainActor
 public final class StatusItemManager {
-    public weak var delegate: StatusItemManagerDelegate?
+    public weak var delegate: StatusItemManagerDelegate? {
+        didSet {
+            if !didAppear {
+                delegate?.statusItemIconDidAppear()
+                didAppear = true
+            }
+        }
+    }
     private var didAppear = false
 
     let statusItem: NSStatusItem
@@ -59,6 +66,5 @@ public final class StatusItemManager {
             self?.batteryIndicatorView?.frame = frame
             self?.statusItem.button?.frame = frame
         }
-        delegate?.statusItemIconDidAppear()
     }
 }

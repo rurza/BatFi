@@ -45,16 +45,16 @@ struct TipJarView: View {
                                             Text(L10n.Settings.Button.Label.tipJarTip(formattedPrice(10)))
                                         })
                                     }
-                                    .padding()
                                     .buttonStyle(SecondaryButtonStyle())
+                                    .padding(.vertical)
                                 }
                                 Text(L10n.Settings.Label.tipJarButtonDescription1)
                                     .settingDescription()
                                 Text(L10n.Settings.Label.tipJarButtonDescription2)
                                     .settingDescription()
                             }
-                            .frame(maxWidth: .infinity)
                         }
+                        .frame(width: 400)
                         .padding()
                     }
                 }
