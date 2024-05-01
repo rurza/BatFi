@@ -28,7 +28,7 @@ public extension PowerStateModel {
         PowerStatePoint(
             batteryLevel: batteryLevel,
             appChargingMode: AppChargingMode(
-                mode: ChargingMode(rawValue: appMode)!,
+                mode: ChargingMode(rawValue: appMode) ?? .initial,
                 userTempOverride: nil,
                 chargerConnected: chargerConnected
             ),
