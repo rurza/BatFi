@@ -35,6 +35,7 @@ public struct HighEnergyUsageView: View {
                                 .multilineTextAlignment(.center)
                                 .padding(6)
                                 .frame(maxWidth: .infinity)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
                     }
                 } else {

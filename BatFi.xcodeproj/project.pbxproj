@@ -22,6 +22,7 @@
 		6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3362BBCBC5B00FFFC05 /* Localizable.strings */; };
 		6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */; };
 		666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71A22BBB5C6F00A7E303 /* URL.swift */; };
+		66768FC92BE2814A002A7528 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66768FC82BE2814A002A7528 /* main.swift */; };
 		6679F9222BB96A780082C913 /* InstallationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9212BB96A780082C913 /* InstallationState.swift */; };
 		6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9232BB96FDB0082C913 /* BarProgressView.swift */; };
 		6679F9262BBA16740082C913 /* SharedUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6679F9252BBA16740082C913 /* SharedUI */; };
@@ -129,6 +130,7 @@
 		6666F33F2BBCBC6500FFFC05 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		666A71A22BBB5C6F00A7E303 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		66768FC82BE2814A002A7528 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6679F9212BB96A780082C913 /* InstallationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallationState.swift; sourceTree = "<group>"; };
 		6679F9232BB96FDB0082C913 /* BarProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarProgressView.swift; sourceTree = "<group>"; };
 		667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DischargeBatteryIntent.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				66CA64BE2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift */,
 				66B305D72BDBE9F4005182C0 /* TurnOffOverrideIntent.swift */,
 				5BEE218A29E607FB0012A4DD /* BatFiApp.swift */,
+				66768FC82BE2814A002A7528 /* main.swift */,
 				5B2836D82A05A6F000A42566 /* MainMenu.xib */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
@@ -544,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */,
+				66768FC92BE2814A002A7528 /* main.swift in Sources */,
 				66CA64BF2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift in Sources */,
 				66B305D82BDBE9F4005182C0 /* TurnOffOverrideIntent.swift in Sources */,
 				667BA0352BCDC83300369B79 /* ChargeToFullIntent.swift in Sources */,
@@ -771,6 +775,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = SentryCrashExceptionApplication;
 				INFOPLIST_KEY_UILaunchStoryboardName = MainMenu.xib;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -806,6 +811,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = SentryCrashExceptionApplication;
 				INFOPLIST_KEY_UILaunchStoryboardName = MainMenu.xib;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -897,6 +903,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = SentryCrashExceptionApplication;
 				INFOPLIST_KEY_UILaunchStoryboardName = MainMenu.xib;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

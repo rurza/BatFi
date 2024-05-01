@@ -64,7 +64,7 @@ let package = Package(
         .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main"),
         .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
-        .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.22.4"),
+        .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.25.0"),
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
         .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
     ],

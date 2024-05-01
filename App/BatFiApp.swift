@@ -9,7 +9,6 @@ import App
 import AppIntents
 import SwiftUI
 
-@main
 final class AppDelegate: NSObject, NSApplicationDelegate {
     var app: BatFi?
 

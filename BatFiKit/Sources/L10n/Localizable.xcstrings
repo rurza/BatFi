@@ -1234,7 +1234,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Czas na baterii"
+            "value" : "Czas na baterii/zasilaczu"
           }
         }
       }
