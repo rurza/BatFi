@@ -307,7 +307,7 @@ public actor ChargingManager: ChargingModeManager {
             await appChargingState.updateChargingMode(.charging)
         } catch {
             logger.warning("Failed to turn on charging: \(error, privacy: .public)")
-            await analytics.captureMessage(message: "Failed to turn on charging. Error: \(error.localizedDescription)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to turn on charging. Error: \(error.localizedDescription)")
         }
     }
 
@@ -325,7 +325,7 @@ public actor ChargingManager: ChargingModeManager {
             await appChargingState.updateChargingMode(.inhibit)
         } catch {
             logger.warning("Failed to inhibit charging: \(error, privacy: .public)")
-            await analytics.captureMessage(message: "Failed to inhibit charging. Error: \(error.localizedDescription)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to inhibit charging. Error: \(error.localizedDescription)")
         }
     }
 
@@ -348,7 +348,7 @@ public actor ChargingManager: ChargingModeManager {
 
         } catch {
             logger.warning("Failed to turn on discharging: \(error, privacy: .public)")
-            await analytics.captureMessage(message: "Failed to turn on discharging. Error: \(error.localizedDescription)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to turn on discharging. Error: \(error.localizedDescription)")
         }
     }
 
@@ -360,7 +360,7 @@ public actor ChargingManager: ChargingModeManager {
             await analytics.addBreadcrumb(category: .chargingManager, message: "System charging limit turned on")
         } catch {
             logger.warning("Failed to turn on system charging limit: \(error, privacy: .public)")
-            await analytics.captureMessage(message: "Failed to turn on system charging limit. Error: \(error.localizedDescription)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to turn on system charging limit. Error: \(error.localizedDescription)")
         }
     }
 
@@ -412,7 +412,7 @@ public actor ChargingManager: ChargingModeManager {
             await updateStatusWithCurrentState()
         } catch {
             logger.error("Error fetching charging state: \(error)")
-            await analytics.captureMessage(message: "Error fetching charging state: \(error.localizedDescription)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Error fetching charging state: \(error.localizedDescription)")
         }
     }
 
