@@ -4563,7 +4563,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den Akku entladen, wenn Ladelimit überschritten wurde"
+            "value" : "Den Akku entladen, wenn das Ladelimit überschritten wurde"
           }
         },
         "en" : {
