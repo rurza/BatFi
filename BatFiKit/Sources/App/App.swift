@@ -18,12 +18,13 @@ import Shared
 import Settings
 import StatusItemArrowKit
 
-public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sendable {
+public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, HelperConnectionManagerDelegate, Sendable {
     private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
     private lazy var magSafeColorManager = MagSafeColorManager()
     private lazy var analyticsManager = AnalyticsManager()
+    private lazy var helperConnectionManager = HelperConnectionManager(delegate: self)
 
     private var chargingManager = ChargingManager()
     private var menuController: MenuController?
@@ -53,7 +54,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sen
             Task {
                 await dockIcon.show(false)
                 await setUpTheApp()
-                checkHelperHealth()
+                helperConnectionManager.checkHelperHealth()
                 observerKeyboardHotkeys()
             }
         } else {
@@ -187,28 +188,6 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Sen
         statusItemIconController?.delegate = nil
     }
 
-    func checkHelperHealth() {
-        Task {
-            let status = await helperClient.helperStatus()
-            if status == .notRegistered {
-                do {
-                    try await helperClient.installHelper()
-                } catch {
-                    showHelperIsNotInstalled()
-                }
-            } else if status == .requiresApproval || status == .notFound {
-                showHelperIsNotInstalled()
-            } else if status == .enabled {
-                do {
-                    _ = try await helperClient.pingHelper()
-                } catch {
-                    showHelperIsNotInstalled()
-                }
-            }
-        }
-    }
-
-    @MainActor
     func showHelperIsNotInstalled() {
         let alert = NSAlert()
         alert.alertStyle = .critical
