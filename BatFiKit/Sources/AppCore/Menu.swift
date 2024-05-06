@@ -113,7 +113,7 @@ public final class MenuController {
                 .view {
                     MenuContent()
                         .environmentObject(batteryInfoModel)
-                        .frame(minWidth: 220)
+                        .frame(width: 220)
                         .frame(maxHeight: .infinity)
                         .modifier(MenuViewModifier())
                 }
