@@ -27,7 +27,7 @@ extension Clients.AnalyticsClient: DependencyKey {
                     options.tracesSampleRate = 1.0
                     options.diagnosticLevel = .warning
                     options.enableMetricKit = true
-                    options.appHangTimeoutInterval = 3
+                    options.enableAppHangTracking = false
                     options.releaseName = "BatFi@\(releaseVersionNumber ?? "Unknown")@\(buildVersionNumber ?? "Unknown")"
                 }
                 await state.enableAnalytics()
