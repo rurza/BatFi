@@ -534,8 +534,8 @@ public enum L10n {
             /// 5 minutes
             public static let highEnergyImpactProcessesMaxDuration = String(localized: "settings.label.high_energy_impact_processes_max_duration", defaultValue: "5 minutes", bundle: .module)
 
-            /// Always on during Beta
-            public static let analyticsAreAlwaysOnDuringBeta = String(localized: "settings.label.analytics_are_always_on_during_beta", defaultValue: "Always on during Beta", bundle: .module)
+            /// Always enabled during Beta
+            public static let analyticsAreAlwaysOnDuringBeta = String(localized: "settings.label.analytics_are_always_on_during_beta", defaultValue: "Always enabled during Beta", bundle: .module)
 
             /// Battery is low at %lld%
             public static func batteryLowThreshold(_ p1: Int) -> String {
