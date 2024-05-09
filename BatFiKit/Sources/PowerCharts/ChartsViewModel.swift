@@ -78,7 +78,9 @@ extension ChartsView {
         @MainActor
         func offsetDateFor(_ point: PowerStatePoint) -> Date {
             guard let index = powerStatePoints.index(id: point.id) else {
-                return point.timestamp
+                // this timestamp can be used in upper bound
+                // so let's add some small time interval to mitigate crash
+                return point.timestamp.addingTimeInterval(0.1)
             }
 
             if index < powerStatePoints.count - 1 {
