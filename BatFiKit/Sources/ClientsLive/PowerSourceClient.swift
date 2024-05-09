@@ -18,9 +18,14 @@ extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "Power Source")
         let observer = Observer(logger: logger)
+        let batteryHealthState = BatteryHealthState()
 
         @Sendable
-        func getBatteryHealth() -> String? {
+        func getBatteryHealthIfNeeded() async -> String? {
+            if let batteryHealth = await batteryHealthState.lastBatteryHealth, 
+                batteryHealth.date.timeIntervalSinceNow > -60 * 60 {
+                return batteryHealth.health
+            }
             let task = Process()
             task.launchPath = "/usr/sbin/system_profiler"
             task.arguments = ["SPPowerDataType"]
@@ -39,6 +44,7 @@ extension PowerSourceClient: DependencyKey {
                         let components = line.components(separatedBy: ":")
                         if components.count == 2 {
                             let maximumCapacity = components[1].trimmingCharacters(in: .whitespaces)
+                            await batteryHealthState.setBatteryHealth(.init(health: maximumCapacity, date: .now))
                             return maximumCapacity
                         }
                         return nil
@@ -113,7 +119,7 @@ extension PowerSourceClient: DependencyKey {
                 timeLeft: timeLeft,
                 timeToCharge: timeToCharge,
                 batteryCycleCount: cycleCount,
-                batteryHealth: getBatteryHealth(),
+                batteryHealth: await getBatteryHealthIfNeeded(),
                 batteryTemperature: batteryTemperature,
                 chargerConnected: chargerConnected,
                 optimizedBatteryChargingEngaged: optimizedBatteryCharging
@@ -203,4 +209,17 @@ extension PowerSourceClient: DependencyKey {
             return id
         }
     }
+}
+
+private actor BatteryHealthState {
+    var lastBatteryHealth: BatteryHealth?
+
+    func setBatteryHealth(_ batteryHealth: BatteryHealth) {
+        lastBatteryHealth = batteryHealth
+    }
+}
+
+private struct BatteryHealth {
+    let health: String
+    let date: Date
 }
