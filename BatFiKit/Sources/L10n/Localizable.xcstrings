@@ -1196,7 +1196,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Benötigte Zeit"
+            "value" : "Verbleibende Zeit"
           }
         },
         "en" : {
@@ -1737,7 +1737,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nach Updates suchen…"
+            "value" : "Nach Aktualisierung suchen…"
           }
         },
         "en" : {
@@ -2161,7 +2161,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Einstellungen..."
+            "value" : "Einstellungen…"
           }
         },
         "en" : {
@@ -2361,7 +2361,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindert, weil Ladegerät nicht angeschlossen ist"
+            "value" : "Verhindert, da Ladegerät nicht angeschlossen"
           }
         },
         "en" : {
@@ -2414,7 +2414,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindert, weil \"Entlade Akku wenn über Akku-Limit geladen\" eingeschaltet ist"
+            "value" : "Verhindert, weil \"Entlade Akku, wenn über Akku-Limit geladen\" eingeschaltet ist"
           }
         },
         "en" : {
@@ -2467,7 +2467,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Optimierte Akkuaufladung ist AN"
+            "value" : "Optimiertes Aufladen des Akkus ist aktiv"
           }
         },
         "en" : {
@@ -2667,7 +2667,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffne Systemeinstellungen"
+            "value" : "Systemeinstellungen öffnen"
           }
         },
         "en" : {
@@ -2720,7 +2720,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort / Touch ID Abfrage bekommen haben, ist das OK – das ist ein macOS Bug und passiert manchmal. Du kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen. Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
+            "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort/Touch ID Abfrage bekommen haben, ist das OK – das ist ein macOS Bug und passiert manchmal. \nDu kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen.\n Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
           }
         },
         "en" : {
@@ -2985,7 +2985,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Starte BatFi beim Login"
+            "value" : "BatFi beim Login öffnen"
           }
         },
         "en" : {
@@ -3197,7 +3197,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi hilft dir die Akkuleistung deines macOS Geräts zu optimieren, indem es die Ladestände intelligent verwaltet und dir volle Kontrolle gibt – lade erst auf 100 % sobald du's brauchst."
+            "value" : "BatFi lässt Dich die Akkuleistung deines Macs selber optimieren, oder übernimmt die intelligente Verwaltung der Ladestände. – Lade erst auf 100 %, wenn notwendig."
           }
         },
         "en" : {
@@ -3409,7 +3409,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi wird ein Helper installieren, welches im Hintergrund läuft und es ermöglich die Ladezustände des Gerätes zu steuern."
+            "value" : "BatFi wird einen Helper installieren, welcher im Hintergrund läuft und es ermöglich die Ladezustände deines Macs zu steuern."
           }
         },
         "en" : {
@@ -3462,7 +3462,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Admin-Rechte werden benötigt um den Helper zu installieren, welcher essentiell ist damit BatFi funktioniert."
+            "value" : "Admin-Rechte werden benötigt um den Helper zu installieren, welcher benötigt wird, damit BatFi funktioniert."
           }
         },
         "en" : {
@@ -3568,7 +3568,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Setze Ladelimit."
+            "value" : "Ladelimit einrichten."
           }
         },
         "en" : {
@@ -3621,7 +3621,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Setze ein Ladelimit in Prozent um eine Aufladung auf 100 % zu verhindern und so die Lebensdauer deines Akkus verlängerst."
+            "value" : "Setze ein Ladelimit in Prozent, um das Aufladen auf 100 % zu verhindern und so die Lebensdauer deines Akkus zu verlängern."
           }
         },
         "en" : {
@@ -3674,7 +3674,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dies kannst auch auch später in den Einstellungen ändern."
+            "value" : "Dies kann auch auch später in den Einstellungen geändert werden."
           }
         },
         "en" : {
@@ -3727,7 +3727,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unterbrich die Aufladung sobald  %@ erreicht wurden"
+            "value" : "Unterbricht das Aufladen, sobald  %@ erreicht wurden"
           }
         },
         "en" : {
@@ -3780,7 +3780,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fortgeschrittene Ansicht"
+            "value" : "Erweiterte Ansicht"
           }
         },
         "en" : {
@@ -3827,7 +3827,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lade Ansicht"
+            "value" : "Lade-Ansicht"
           }
         },
         "en" : {
@@ -3933,7 +3933,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mitteilungen Ansicht"
+            "value" : "Mitteilungs-Ansicht"
           }
         },
         "en" : {
@@ -3986,7 +3986,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Menüleiste Ansicht"
+            "value" : "Menüleisten-Ansicht"
           }
         },
         "en" : {
@@ -4086,7 +4086,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Suche automatisch nach Updates"
+            "value" : "Suche automatisch nach Aktualisierungen"
           }
         },
         "en" : {
@@ -4192,7 +4192,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwalte die Akkuladung automatisch"
+            "value" : "Verwalte das Aufladen automatisch"
           }
         },
         "en" : {
@@ -4298,7 +4298,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Blinke die MagSafe LED ein paar mal sobald die App beginnt, den Akku zu entladen"
+            "value" : "Lasse die MagSafe LED ein paar mal blinken, sobald die App beginnt den Akku zu entladen"
           }
         },
         "en" : {
@@ -4404,7 +4404,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erlaube die Beta Version der App"
+            "value" : "Erlaube Beta-Versionen der App"
           }
         },
         "en" : {
@@ -4457,7 +4457,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeige das Debug Menü"
+            "value" : "Zeige das Debug-Menü"
           }
         },
         "en" : {
@@ -4510,7 +4510,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindere den automatischen Ruhezustand beim Laden wenn die Aufladung das Limit noch nicht erreich hat"
+            "value" : "Verhindere den automatischen Ruhezustand beim Laden, wenn das Ladelimit noch nicht erreicht ist"
           }
         },
         "en" : {
@@ -4563,7 +4563,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Entladung vom Akku wenn über das Limit geladen wurde"
+            "value" : "Den Akku entladen, wenn das Ladelimit überschritten wurde"
           }
         },
         "en" : {
@@ -4616,7 +4616,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktiviere automatische das System Lade-Limit (80 %) sobald der Mac in den Ruhezustand wechselt"
+            "value" : "Automatisch das System-Ladelimit (80 %) aktivieren, sobald der Mac in den Ruhezustand wechselt"
           }
         },
         "en" : {
@@ -4710,7 +4710,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Öffne beim Login"
+            "value" : "Beim Login öffnen"
           }
         },
         "en" : {
@@ -4763,7 +4763,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verwende die grüne LED des MagSafe Anschlusses sobald die Aufladung pausiert wird"
+            "value" : "Verwende die grüne MagSafe-LED, sobald das Aufladen pausiert wird"
           }
         },
         "en" : {
@@ -4816,7 +4816,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeige monochrome Icons"
+            "value" : "Monochrome Icons verwenden"
           }
         },
         "en" : {
@@ -4869,7 +4869,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pausiere die Aufladung automatisch wenn der Mac in den Ruhezustand wechselt"
+            "value" : "Das Aufladen automatisch passieren, wenn der Mac in den Ruhezustand wechselt"
           }
         },
         "en" : {
@@ -4922,7 +4922,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeige eine Mitteilung wenn die optimierte Akkuaufladung eingreift"
+            "value" : "Zeige eine Mitteilung, sobald das optimierte Aufladen einsetzt"
           }
         },
         "en" : {
@@ -4975,7 +4975,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeige die Akkuladungsprozent im Menü"
+            "value" : "Zeige die Akkuladung in Prozent im Menü"
           }
         },
         "en" : {
@@ -5022,7 +5022,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Akkuladung nierdig bei 20 %"
+            "value" : "Akkuladung niedrig bei 20 %"
           }
         },
         "en" : {
@@ -5116,7 +5116,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verhindere die Akkuaufladung wenn der Akku heiß wird"
+            "value" : "Verhindere das Aufladen, wenn der Akku zu warm wird"
           }
         },
         "en" : {
@@ -5169,7 +5169,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die App verzögert den Ruhezustand solange bis das Ladelimit erreicht wurde, pausiert die Aufladung und gibt den Mac anschließend  in den Ruhezustand"
+            "value" : "Der Ruhezustand wird bis zum Erreichen des festgelegte Ladelimits ausgesetzt. Anschließend wird dieser aktiviert und das Aufladen pausiert"
           }
         },
         "en" : {
@@ -5222,7 +5222,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wenn das Macbook aufgeklappt ist kann die App den Akku entladen bis das Ladelimit erreicht wurde"
+            "value" : "Wenn das Macbook aufgeklappt ist, kann die App den Akku entladen bis das Ladelimit erreicht wurde"
           }
         },
         "en" : {
@@ -5275,7 +5275,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schalte die Aufladung ab wenn der Akku über 35°C oder mehr hat"
+            "value" : "Aufladen aussetzten, sobald der Akku 35°C überschreitet."
           }
         },
         "en" : {
@@ -5328,7 +5328,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "80 % ist die empfohlene Einstellung für den Alltäglichen gebrauch"
+            "value" : "80 % ist die empfohlene Einstellung für den alltäglichen Gebrauch"
           }
         },
         "en" : {
@@ -5381,7 +5381,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du kannst diese Einstellung manuell überbrücken indem du im Menü \"Aufladen auf 100 %\" wählst"
+            "value" : "Du kannst diese Einstellung über den Menüpunkt \"Aufladen auf 100 %\" vorrübergehend aussetzten"
           }
         },
         "en" : {
@@ -5576,7 +5576,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Probe Dauer: %@"
+            "value" : "Probeintervall: %@"
           }
         },
         "en" : {
@@ -5764,7 +5764,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fortgeschritten"
+            "value" : "Erweitert"
           }
         },
         "en" : {
@@ -5817,7 +5817,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alarm"
+            "value" : "Benachrichtigungen"
           }
         },
         "en" : {
@@ -6234,7 +6234,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Status icon"
+            "value" : "Status Symbol"
           }
         },
         "en" : {
@@ -6287,7 +6287,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Updates"
+            "value" : "Aktualisierungen"
           }
         },
         "en" : {
@@ -6340,7 +6340,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Schalte die Aufladung ab bei %@"
+            "value" : "Schalte das Aufladen bei %@ ab"
           }
         },
         "en" : {
