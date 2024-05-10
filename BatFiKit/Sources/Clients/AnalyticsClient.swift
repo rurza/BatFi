@@ -14,7 +14,7 @@ public enum BreadcrumbCategory: String {
 }
 
 @DependencyClient
-public struct AnalyticsClient {
+public struct AnalyticsClient: Sendable {
     public var startSDK: @Sendable () async -> Void = { }
     public var captureMessage: @Sendable (_ message: String) async -> Void = { _ in }
     public var captureError: @Sendable (_ error: Error) async -> Void = { _ in }
