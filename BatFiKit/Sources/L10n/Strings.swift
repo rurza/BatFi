@@ -441,8 +441,8 @@ public enum L10n {
                 /// Show apps with high energy usage
                 public static let showHighEnergyImpactProcesses = String(localized: "settings.button.label.high_energy_impact_processes_show", defaultValue: "Show apps with high energy usage", bundle: .module)
 
-                /// Send usage analytics
-                public static let sendAnalytics = String(localized: "settings.button.label.send_analytics", defaultValue: "Send usage analytics", bundle: .module)
+                /// Send crash reports
+                public static let sendAnalytics = String(localized: "settings.button.label.send_analytics", defaultValue: "Send crash reports", bundle: .module)
 
                 /// Show battery health
                 public static let showBatteryHealth = String(localized: "settings.button.label.show_battery_health", defaultValue: "Show battery health", bundle: Bundle.module)
