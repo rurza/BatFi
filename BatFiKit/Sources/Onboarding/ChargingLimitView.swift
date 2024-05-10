@@ -9,6 +9,7 @@ import AppShared
 import Defaults
 import DefaultsKeys
 import L10n
+import SharedUI
 import SwiftUI
 
 struct ChargingLimitView: View {
@@ -30,22 +31,27 @@ struct ChargingLimitView: View {
                 Text(l10n.setLimitDescription)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
-                VStack(alignment: .leading, spacing: 10) {
-                    let percent = percentageFormatter.string(from: NSNumber(floatLiteral: Double(chargeLimit) / 100))!
-                    Text(L10n.Onboarding.Slider.Label.setLimit(percent))
-                    Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
-                        EmptyView()
-                    } minimumValueLabel: {
-                        Text("50%")
-                    } maximumValueLabel: {
-                        Text("90%")
+                GroupBackground {
+                    VStack(alignment: .leading, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 10) {
+                            let percent = percentageFormatter.string(from: NSNumber(floatLiteral: Double(chargeLimit) / 100))!
+                            Text(L10n.Onboarding.Slider.Label.setLimit(percent))
+                            Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
+                                EmptyView()
+                            } minimumValueLabel: {
+                                Text("50%")
+                            } maximumValueLabel: {
+                                Text("90%")
+                            }
+                            .frame(maxWidth: .infinity)
+                        }
+                        Spacer()
+                        Text(l10n.setLimitSetUpLater)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .foregroundStyle(.secondary)
                     }
-                    .frame(maxWidth: .infinity)
+                    .padding()
                 }
-                Spacer()
-                Text(l10n.setLimitSetUpLater)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .foregroundStyle(.secondary)
             }
             .padding(20)
         }
