@@ -102,6 +102,7 @@ public extension BatteryInfoView {
         private func cancelObserving() {
             chargingStateModeChanges?.cancel()
             powerSourceChanges?.cancel()
+            batteryChargeGraphInfoChanges?.cancel()
         }
 
         func temperatureDescription() -> String? {
@@ -119,7 +120,7 @@ public extension BatteryInfoView {
 
         deinit {
             chargingStateModeChanges?.cancel()
-            chargingStateModeChanges?.cancel()
+            batteryChargeGraphInfoChanges?.cancel()
             powerSourceChanges?.cancel()
             menuTask?.cancel()
         }
