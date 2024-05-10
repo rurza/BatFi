@@ -53,6 +53,7 @@ struct TipJarView: View {
                                 Text(L10n.Settings.Label.tipJarButtonDescription2)
                                     .settingDescription()
                             }
+                            .frame(maxWidth: .infinity)
                         }
                         .frame(width: 400)
                         .padding()
