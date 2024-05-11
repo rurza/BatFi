@@ -27,28 +27,25 @@ extension PowerSourceClient: DependencyKey {
                 return batteryHealth.health
             }
             let task = Process()
-            task.launchPath = "/usr/sbin/system_profiler"
-            task.arguments = ["SPPowerDataType"]
+            task.launchPath = "/usr/bin/pmset"
+            task.arguments = ["-g", "batt", "-xml"]
 
             let pipe = Pipe()
             task.standardOutput = pipe
-            task.launch()
+            do {
+                try task.run()
+            } catch {
+                return nil
+            }
 
             let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            task.waitUntilExit()
 
             if let output = String(data: data, encoding: .utf8) {
-                let lines = output.split(separator: "\n")
-                for line in lines {
-                    if line.contains("Maximum Capacity") {
-                        let components = line.components(separatedBy: ":")
-                        if components.count == 2 {
-                            let maximumCapacity = components[1].trimmingCharacters(in: .whitespaces)
-                            await batteryHealthState.setBatteryHealth(.init(health: maximumCapacity, date: .now))
-                            return maximumCapacity
-                        }
-                        return nil
-                    }
+                let regex = #/<key>Maximum Capacity Percent<\/key>\s*<integer>(\d+)<\/integer>/#
+                if let result = try? regex.firstMatch(in: output) {
+                    let maximumCapacity = "\(result.1)%"
+                    await batteryHealthState.setBatteryHealth(.init(health: maximumCapacity, date: .now))
+                    return maximumCapacity
                 }
             }
 
