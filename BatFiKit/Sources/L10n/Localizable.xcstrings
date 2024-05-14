@@ -6485,55 +6485,53 @@
         }
       }
     },
-    "settings.button.label.show_battery_low_notification" : {
+    "settings.button.label.show_battery_cycles" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Akkuladung niedrig bei 20 %"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Battery is low at 20%"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La batterie est à 20%"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "배터리가 20% 미만일 경우"
+            "value" : "Show battery cycles count"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bateria ma 20%"
+            "value" : "Pokazuj liczbę cykli baterii"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_battery_health" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show battery health"
           }
         },
-        "pt-BR" : {
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bateria está baixa em 20%"
+            "value" : "Pokazuj opis żywotności baterii"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_battery_temperature" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show battery temperature"
           }
         },
-        "ru" : {
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Низкий уровень заряда 20%"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "电量低于20%"
+            "value" : "Pokazuj temperaturę baterii"
           }
         }
       }
@@ -6587,6 +6585,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示功率分配"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_power_source" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show power source"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj źródło zasilania"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_time_left_status_icon" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show time left"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj czas na baterii"
           }
         }
       }
@@ -6908,6 +6940,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zawsze włączone w wersji Beta"
+          }
+        }
+      }
+    },
+    "settings.label.battery_low_threshold" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Battery is low at %lld%%"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niski stan baterii przy %lld%%"
           }
         }
       }

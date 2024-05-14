@@ -118,6 +118,7 @@
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		6623A8BB2BF415B800855908 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		66558E922BC1C24F00FC377A /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		66558E952BC1C47300FC377A /* license.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = license.rtf; sourceTree = "<group>"; };
 		6666F3372BBCBC5B00FFFC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -442,6 +443,7 @@
 				ko,
 				ru,
 				"zh-Hans",
+				"pt-BR",
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -593,6 +595,7 @@
 				6666F33D2BBCBC6400FFFC05 /* ko */,
 				6666F33E2BBCBC6500FFFC05 /* pl */,
 				6666F33F2BBCBC6500FFFC05 /* ru */,
+				6623A8BB2BF415B800855908 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

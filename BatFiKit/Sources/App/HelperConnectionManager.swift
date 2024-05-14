@@ -58,7 +58,7 @@ final class HelperConnectionManager {
                 let status = await helperClient.helperStatus()
                 guard status == .enabled else { continue }
                 try await userNotificationsClient.showUserNotification(
-                    title: "⚠️ Houston, we have a problem",
+                    title: "⚠️ Houston, we have a problem.",
                     body: "The app is stuck in the initial mode. Restart your Mac.",
                     identifier: "software.micropixels.BatFi.notifications.initial_mode",
                     threadIdentifier: nil,
