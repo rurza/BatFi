@@ -1396,6 +1396,12 @@
             "value" : "Unknown"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inconnu"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1826,6 +1832,12 @@
             "value" : "Accept"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accepter"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1841,6 +1853,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Decline"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décliner"
           }
         },
         "pl" : {
@@ -1860,6 +1878,12 @@
             "value" : "Install"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1875,6 +1899,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "BatFi Installer"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer BatFi"
           }
         },
         "pl" : {
@@ -1894,6 +1924,12 @@
             "value" : "Done"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1909,6 +1945,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Download error. %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de téléchargement. %@"
           }
         },
         "pl" : {
@@ -1928,6 +1970,12 @@
             "value" : "Downloading…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Téléchargement..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1943,6 +1991,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Installation error. %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de l'installation. %@"
           }
         },
         "pl" : {
@@ -1962,6 +2016,12 @@
             "value" : "Installing…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installation..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1977,6 +2037,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Ready to install"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prêt à installer"
           }
         },
         "pl" : {
@@ -1996,6 +2062,12 @@
             "value" : "Unzipping…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Décompression..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2011,6 +2083,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Unzipping error. %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur de décompression. %@"
           }
         },
         "pl" : {
@@ -2690,6 +2768,12 @@
             "value" : "Inhibiting charging; open lid to discharge the battery"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher la charge; ouvrir l'écran pour décharger la batterie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2705,6 +2789,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Inhibit Charging"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empêcher la charge"
           }
         },
         "pl" : {
@@ -3196,6 +3286,12 @@
             "value" : "Stop Using Battery"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopper l'utilisation de la batterie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3211,6 +3307,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Stop Override"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopper"
           }
         },
         "pl" : {
@@ -3454,6 +3556,12 @@
             "value" : "Open Onboarding…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir le tutoriel..."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3471,6 +3579,12 @@
             "value" : "Open System Settings…"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les réglages système…"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3486,6 +3600,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "The app won't work without it.\nOpen and complete the Onboarding process from the More menu.\nVerify that the app is on the 'Allow in background' list with the switch turned on in System Settings → General → Login Items.\n"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'application ne fonctionnera pas sans. Ouvrez et complétez le processus à partir du menu Plus. Vérifiez que l'application est dans la liste 'Autoriser en arrière-plan' avec l'interrupteur activé dans Réglages Système → Général → Ouverture."
           }
         },
         "pl" : {
@@ -4311,6 +4431,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Tip %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don %@"
           }
         },
         "pl" : {
@@ -5207,6 +5333,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Hotkeys pane"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panneau de raccourcis"
           }
         },
         "pl" : {
@@ -6494,6 +6626,12 @@
             "value" : "Show battery cycles count"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le nombre de cycles de la batterie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6511,6 +6649,12 @@
             "value" : "Show battery health"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la santé de la batterie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6526,6 +6670,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show battery temperature"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la température de la batterie"
           }
         },
         "pl" : {
@@ -6598,6 +6748,12 @@
             "value" : "Show power source"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la source d'énergie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6613,6 +6769,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show time left"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher le temps restant"
           }
         },
         "pl" : {
@@ -6868,6 +7030,12 @@
             "value" : "Toggle charge to 100%"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer la charge à 100%"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6883,6 +7051,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Toggle run on battery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer l'utilisation de la batterie"
           }
         },
         "pl" : {
@@ -6902,6 +7076,12 @@
             "value" : "Toggle inhibit charging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer le blocage de la charge"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6917,6 +7097,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Stop charge override"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter la charge"
           }
         },
         "pl" : {
@@ -6936,6 +7122,12 @@
             "value" : "Always enabled during Beta"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toujours activé pour les versions Beta"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6951,6 +7143,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Battery is low at %lld%%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La batterie est basse à %lld%%"
           }
         },
         "pl" : {
@@ -7460,6 +7658,12 @@
             "value" : "Show your support with a tip!\nYour contribution helps me keep improving and makes BatFi even better for you.\nThank you for being an awesome part of our community!"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montrez votre soutien avec un don !\nVotre contribution m'aide à améliorer et rendre BatFi encore meilleur pour vous.\nMerci de faire partie de notre communauté !"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7475,6 +7679,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "The button will open Gumroad website with price already set."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le bouton ouvrira le site Gumroad avec le prix déjà inclu."
           }
         },
         "pl" : {
@@ -7494,6 +7704,12 @@
             "value" : "You can change the amount before proceeding."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pourrez changez le montant avant de continuer."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7509,6 +7725,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Enjoying BatFi?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous aimez BatFi ?"
           }
         },
         "pl" : {
@@ -8035,6 +8257,12 @@
             "value" : "Other"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autres"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8406,6 +8634,12 @@
             "value" : "Hotkeys"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8533,6 +8767,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Tip jar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boite à dons"
           }
         },
         "pl" : {
