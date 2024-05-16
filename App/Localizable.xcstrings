@@ -10,6 +10,12 @@
             "value" : "Charge the battery"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger la batterie"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27,6 +33,12 @@
             "value" : "Charge or run on battery power (when the lid is opened) until the limit of ${limit}% is reached."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger ou utiliser la batterie (quand l'écran est ouvert) jusqu'a ${limit}%"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -38,6 +50,12 @@
     "Charge the battery with ${applicationName}" : {
       "extractionState" : "manual",
       "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger la batterie avec ${applicationName}"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -49,6 +67,12 @@
     "Charge to 100% with ${applicationName}" : {
       "extractionState" : "manual",
       "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger à 100% avec ${applicationName}"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -64,6 +88,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Charge to 100%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger à 100%"
           }
         },
         "pl" : {
@@ -83,6 +113,12 @@
             "value" : "Works only with the lid opened."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne fonctionne que si l'écran est ouvert."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -98,6 +134,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Run on Battery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser la batterie"
           }
         },
         "pl" : {
@@ -117,6 +159,12 @@
             "value" : "Discharging works only with the lid opened."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le déchargement ne fonctionne que si l'écran est ouvert"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -132,6 +180,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Battery percent"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pourcentage de la batterie"
           }
         },
         "pl" : {
@@ -160,7 +214,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limit"
+            "value" : "Limite"
           }
         },
         "ja" : {
@@ -210,6 +264,12 @@
             "value" : "Temporarily Override Battery Level"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporairement charger la batterie au dela de la limite"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -225,6 +285,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Stop charge override"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrêter la charge"
           }
         },
         "pl" : {
