@@ -23,7 +23,7 @@ public let shortTimeFormatter: DateComponentsFormatter = {
 
 public let temperatureFormatter: MeasurementFormatter = {
     let formatter = MeasurementFormatter()
-    formatter.unitStyle = .short
+    formatter.unitStyle = .medium
     let numberFormatter = NumberFormatter()
     numberFormatter.numberStyle = .decimal
     numberFormatter.maximumFractionDigits = 1

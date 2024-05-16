@@ -103,7 +103,7 @@ extension PowerSourceClient: DependencyKey {
                 throw PowerSourceError.infoMissing
             }
 
-            guard let temperature: Double = getValue(kIOPMPSBatteryTemperatureKey, from: service) else {
+            guard let temperature: Double = getValue("VirtualTemperature", from: service) else {
                 throw PowerSourceError.infoMissing
             }
             let batteryTemperature = temperature / 100
