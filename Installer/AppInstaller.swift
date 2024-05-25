@@ -8,6 +8,11 @@
 import AppKit
 import os
 
+private struct AppleScriptError: Error {
+    let message: String
+    static let unknown: Self = AppleScriptError(message: "Unknown error")
+}
+
 final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate {
     @MainActor @Published
     var installationState: InstallationState = .initial
@@ -58,19 +63,37 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
                 logger.notice("App force terminated")
             }
         }
-        let process = Process()
-        process.launchPath = "/usr/bin/unzip"
-        process.arguments = ["-o", sourceURL.path, "-d", "/Applications", "-x", "__MACOSX*"]
-
         do {
-            try process.run()
-            process.waitUntilExit()
+            let command = "/usr/bin/unzip -o \(sourceURL.path) -d /Applications -x __MACOSX*"
+            try runCommandWithSudo(command)
             updateInstallationState(.done)
             return true
         } catch {
             logger.error("Error unzipping file: \(error.localizedDescription)")
             updateInstallationState(.unzippingError(error as NSError))
             return false
+        }
+    }
+
+    private func runCommandWithSudo(_ command: String) throws {
+        let appleScriptSource = """
+        do shell script "\(command)" with administrator privileges
+        """
+        try executeAppleScript(appleScriptSource)
+    }
+
+    private func executeAppleScript(_ appleScriptSource: String) throws {
+        var error: NSDictionary?
+        if let scriptObject = NSAppleScript(source: appleScriptSource) {
+            if let output = scriptObject.executeAndReturnError(&error).stringValue {
+                print(output)
+            } else if let error = error {
+                if let message = error["NSAppleScriptErrorMessage"] as? String {
+                    throw AppleScriptError(message: message)
+                } else {
+                    throw AppleScriptError.unknown
+                }
+            }
         }
     }
 
