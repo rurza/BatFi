@@ -681,7 +681,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aan het opladen tot het limiet"
+            "value" : "Aan het opladen tot de limiet"
           }
         },
         "pl" : {
@@ -3950,7 +3950,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uitgeschakeld omdat \"Ontlaad batterij wanneer deze is opgeladen over het limiet\" is ingeschakeld"
+            "value" : "Uitgeschakeld omdat \"Ontlaad batterij wanneer deze is opgeladen over de limiet\" is ingeschakeld"
           }
         },
         "pl" : {
@@ -6795,7 +6795,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ontlaad batterij wanneer deze is opgeladen over het limiet"
+            "value" : "Ontlaad batterij wanneer deze is opgeladen over de limiet"
           }
         },
         "pl" : {
@@ -7690,7 +7690,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sluimerstand wordt uitgesteld zodat de computer tot het limiet oplaadt, daarna zal opladen worden verhinderd en zal sluimerstand geactiveerd worden."
+            "value" : "Sluimerstand wordt uitgesteld zodat de computer tot de limiet oplaadt, daarna zal opladen worden verhinderd en zal sluimerstand geactiveerd worden."
           }
         },
         "pl" : {
@@ -7755,7 +7755,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wanneer de Macbook is opengeklapt, kan de batterij ontladen worden tot het limiet is bereikt"
+            "value" : "Wanneer de Macbook is opengeklapt, kan de batterij ontladen worden tot de limiet is bereikt"
           }
         },
         "pl" : {
