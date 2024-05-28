@@ -16,6 +16,12 @@
             "value" : "Charger la batterie"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad de batterij op"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -39,6 +45,12 @@
             "value" : "Charger ou utiliser la batterie (quand l'écran est ouvert) jusqu'a ${limit}%"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad op of gebruik batterij (als de MacBook is opengeklapt) totdat de limiet van ${limit}% is bereikt."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -56,6 +68,12 @@
             "value" : "Charger la batterie avec ${applicationName}"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad de batterij op met ${applicationName}"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -71,6 +89,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Charger à 100% avec ${applicationName}"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad tot 100% op met ${applicationName}"
           }
         },
         "pl" : {
@@ -96,6 +120,12 @@
             "value" : "Charger à 100%"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laad op tot 100%"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -117,6 +147,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ne fonctionne que si l'écran est ouvert."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Werkt alleen als de MacBook is opengeklapt."
           }
         },
         "pl" : {
@@ -142,6 +178,12 @@
             "value" : "Utiliser la batterie"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik Batterij"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -165,6 +207,12 @@
             "value" : "Le déchargement ne fonctionne que si l'écran est ouvert"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ontladen werkt alleen als de MacBook is opengeklapt."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -186,6 +234,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pourcentage de la batterie"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterijpercentage"
           }
         },
         "pl" : {
@@ -229,6 +283,12 @@
             "value" : "Limit"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limiet"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -270,6 +330,12 @@
             "value" : "Temporairement charger la batterie au dela de la limite"
           }
         },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tijdelijke Instelling Batterijniveau"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -291,6 +357,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arrêter la charge"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop tijdelijke oplaadinstelling"
           }
         },
         "pl" : {
