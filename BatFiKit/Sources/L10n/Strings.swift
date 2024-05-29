@@ -478,8 +478,8 @@ public enum L10n {
                 public static let disableAutomaticSleep = String(localized: "settings.button.tooltip.disable_automatic_sleep", defaultValue: "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep", bundle: Bundle.module)
                 /// When Macbook's lid is opened, the app can discharge battery until it will reach the limit
                 public static let dischargeBatterWhenOvercharged = String(localized: "settings.button.tooltip.discharge_battery_when_overcharged", defaultValue: "When Macbook's lid is opened, the app can discharge battery until it will reach the limit", bundle: Bundle.module)
-                /// Turns off charging when the battery is 35°C or more.
-                public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.tooltip.turn_off_charging_when_battery_is_hot", defaultValue: "Turns off charging when the battery is 35°C or more.", bundle: Bundle.module)
+                /// Turns off charging when the battery is 40°C or more.
+                public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.tooltip.turn_off_charging_when_battery_is_hot", defaultValue: "Turns off charging when the battery is 40°C or more.", bundle: Bundle.module)
             }
         }
 

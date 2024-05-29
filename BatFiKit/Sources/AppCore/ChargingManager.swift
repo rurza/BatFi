@@ -31,6 +31,9 @@ public actor ChargingManager: ChargingModeManager {
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "Charging Manager")
 
+    @MainActor
+    private var powerStatePullingTask: Task<Void, Never>?
+
     public init() {}
 
     public func setUpObserving() {
@@ -169,6 +172,27 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
+    @MainActor
+    private func startPullingPowerStateIfNeeded() async {
+        guard powerStatePullingTask == nil else { return }
+        powerStatePullingTask = Task.detached { [weak self] in
+            guard let self else { return }
+            await analytics.addBreadcrumb(category: .chargingManager, message: "started pulling power state")
+            while !Task.isCancelled {
+                try? await clock.sleep(for: .seconds(30))
+                await updateStatusWithCurrentState()
+            }
+        }
+    }
+
+    @MainActor
+    private func cancelPullingPowerStateTaskIfNeeded() async {
+        guard powerStatePullingTask != nil else { return }
+        await analytics.addBreadcrumb(category: .chargingManager, message: "pulling power state stopped")
+        powerStatePullingTask?.cancel()
+        powerStatePullingTask = nil
+    }
+
     private func updateStatusWithCurrentState() async {
         let powerState = try? await powerSourceClient.currentPowerSourceState()
         let userTempChargingMode = await appChargingState.currentUserTempOverrideMode()
@@ -211,6 +235,7 @@ public actor ChargingManager: ChargingModeManager {
 
         guard currentMode != .initial else {
             logger.debug("We don't have a mode yet")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "App mode is still set to initial")
             await fetchAndUpdateAppChargingState()
             return
         }
@@ -227,12 +252,14 @@ public actor ChargingManager: ChargingModeManager {
             return
         }
         
-        if turnOffChargingWithHotBattery, powerState.batteryTemperature > 35 {
+        if turnOffChargingWithHotBattery, powerState.batteryTemperature > Constant.batteryTemperatureWarning {
             logger.notice("Battery is hot")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Battery is hot, \(powerState.batteryTemperature)")
             await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             return
         }
+
+        await cancelPullingPowerStateTaskIfNeeded()
 
         let isLidOpened: Bool
         if let lidOpened = await appChargingState.lidOpened() {
@@ -324,6 +351,7 @@ public actor ChargingManager: ChargingModeManager {
             try await chargingClient.inhibitCharging()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
             await appChargingState.updateChargingMode(.inhibit)
+            await startPullingPowerStateIfNeeded()
         } catch {
             logger.warning("Failed to inhibit charging: \(error, privacy: .public)")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to inhibit charging. Error: \(error.localizedDescription)")

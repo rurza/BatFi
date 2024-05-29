@@ -72,12 +72,23 @@ public struct BatteryInfoView: View {
                                 info: powerState?.batteryCycleCount.description ?? unknown
                             )
                         }
-                        if showBatteryTemperature {
+                        let batteryReachedFortyDegrees = model.state?.batteryTemperature ?? 0 >= Constant.batteryTemperatureWarning
+                        if showBatteryTemperature || batteryReachedFortyDegrees {
                             if let temperature = model.temperatureDescription() {
-                                BatteryAdditionalInfo(
-                                    label: l10n.Additional.temperature,
-                                    info: temperature
-                                )
+                                HStack(alignment: .top) {
+                                    Text(l10n.Additional.temperature)
+                                    Spacer(minLength: 20)
+                                    HStack(spacing: 2) {
+                                        if batteryReachedFortyDegrees {
+                                            Image(systemName: "exclamationmark.triangle.fill")
+                                        }
+                                        Text(temperature)
+                                            .multilineTextAlignment(.trailing)
+                                            .lineLimit(2)
+                                    }
+                                }
+                                .foregroundColor(.secondary)
+                                .font(.callout)
                             }
                         }
                         if showBatteryHealth {

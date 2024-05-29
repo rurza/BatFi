@@ -7790,61 +7790,61 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aufladen aussetzten, sobald der Akku 35°C überschreitet."
+            "value" : "Aufladen aussetzten, sobald der Akku 40°C überschreitet."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Turns off charging when the battery is 35°C or more."
+            "value" : "Turns off charging when the battery is 40°C or more."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Désactiver la charge lorsque la batterie atteint 35 °C ou plus."
+            "value" : "Désactiver la charge lorsque la batterie atteint 40 °C ou plus."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリーが35°C以上の場合、充電をオフにします。"
+            "value" : "バッテリーが40°C以上の場合、充電をオフにします。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "35°C 이상 배터리 온도가 올라갈 경우 충전을 제한합니다."
+            "value" : "40°C 이상 배터리 온도가 올라갈 경우 충전을 제한합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stopt het opladen als de batterij 35ºC of warmer is."
+            "value" : "Stopt het opladen als de batterij 40ºC of warmer is."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wyłącza ładowanie gdy temperatura baterii przekroczy 35°C"
+            "value" : "Wyłącza ładowanie gdy temperatura baterii przekroczy 40°C"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desliga o carregamento quando a bateria está a 35°C ou mais."
+            "value" : "Desliga o carregamento quando a bateria está a 40°C ou mais."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отключает зарядку при температуре аккумулятора 35°C и выше."
+            "value" : "Отключает зарядку при температуре аккумулятора 40°C и выше."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当电池温度达到35˚C或者以上时停止充电"
+            "value" : "当电池温度达到40˚C或者以上时停止充电"
           }
         }
       }
