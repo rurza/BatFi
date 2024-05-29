@@ -131,6 +131,7 @@
 		6666F33F2BBCBC6500FFFC05 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		666A71A22BBB5C6F00A7E303 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		666F03CC2C07C70E0046CA15 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		66768FC82BE2814A002A7528 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6679F9212BB96A780082C913 /* InstallationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallationState.swift; sourceTree = "<group>"; };
 		6679F9232BB96FDB0082C913 /* BarProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarProgressView.swift; sourceTree = "<group>"; };
@@ -444,6 +445,7 @@
 				ru,
 				"zh-Hans",
 				"pt-BR",
+				nl,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -596,6 +598,7 @@
 				6666F33E2BBCBC6500FFFC05 /* pl */,
 				6666F33F2BBCBC6500FFFC05 /* ru */,
 				6623A8BB2BF415B800855908 /* pt-BR */,
+				666F03CC2C07C70E0046CA15 /* nl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
