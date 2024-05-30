@@ -25,7 +25,7 @@ public struct ChartsView: View {
                 .foregroundColor(.secondary)
                 .font(.callout)
                 .padding(.bottom, 6)
-            if !model.powerStatePoints.isEmpty {
+            if model.powerStatePoints.count > 1 {
                 Chart(model.powerStatePoints) {
                     let offsetDate = model.offsetDateFor($0)
                     LineMark(
