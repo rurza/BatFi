@@ -1419,7 +1419,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Source"
+            "value" : "Source d'énergie"
           }
         },
         "ja" : {
@@ -2499,7 +2499,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Empêcher le chargement"
+            "value" : "Empêcher la charge"
           }
         },
         "ko" : {
@@ -3054,7 +3054,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utiliser sur batterie"
+            "value" : "Utiliser la batterie"
           }
         },
         "ja" : {
@@ -3301,7 +3301,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Commencer…"
+            "value" : "Installation…"
           }
         },
         "ja" : {
@@ -7220,7 +7220,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Envoyer les rapports de plantage"
+            "value" : "Envoyer les rapports de bug"
           }
         },
         "ja" : {
@@ -7977,7 +7977,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toujours activé pour les versions Beta"
+            "value" : "Toujours activé pour les versions bêta"
           }
         },
         "nl" : {
@@ -8006,7 +8006,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La batterie est basse à %lld%%"
+            "value" : "La batterie est à %lld%%"
           }
         },
         "nl" : {
@@ -9828,7 +9828,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Boite à dons"
+            "value" : "Dons"
           }
         },
         "nl" : {
