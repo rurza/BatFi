@@ -59,6 +59,7 @@ public final class StatusItemManager {
         hostingView.frame = NSRect(x: 0, y: 0, width: 38, height: 13)
         button.frame = hostingView.frame
         hostingView.wantsLayer = true
+        button.subviews.forEach { $0.removeFromSuperview() }
         button.addSubview(hostingView)
         self.batteryIndicatorView = hostingView
         sizeCancellable = sizePassthrough.sink { [weak self] size in

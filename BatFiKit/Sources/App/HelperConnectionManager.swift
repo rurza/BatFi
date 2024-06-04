@@ -53,7 +53,7 @@ final class HelperConnectionManager {
         Task {
             for await _ in appChargingState
                 .appChargingModeDidChage()
-                .debounce(for: .seconds(5))
+                .debounce(for: .seconds(30))
                 .filter({ $0.mode == .initial }) {
                 let status = await helperClient.helperStatus()
                 guard status == .enabled else { continue }
