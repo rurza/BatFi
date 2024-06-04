@@ -16,6 +16,12 @@
             "value" : "Charger la batterie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーを充電"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -45,6 +51,12 @@
             "value" : "Charger ou utiliser la batterie (quand l'écran est ouvert) jusqu'a ${limit}%"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " ${limit} の制限に達するまでバッテリーを充電するかバッテリー駆動にする(Macの蓋が開いているとき)"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -68,6 +80,12 @@
             "value" : "Charger la batterie avec ${applicationName}"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーを ${applicationName} で充電する"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -89,6 +107,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Charger à 100% avec ${applicationName}"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%まで ${applicationName} で充電する"
           }
         },
         "nl" : {
@@ -120,6 +144,12 @@
             "value" : "Charger à 100%"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%まで充電する"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -147,6 +177,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ne fonctionne que si l'écran est ouvert."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macの蓋が開いている時のみ動作します。"
           }
         },
         "nl" : {
@@ -178,6 +214,12 @@
             "value" : "Utiliser la batterie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーで動作"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -207,6 +249,12 @@
             "value" : "Le déchargement ne fonctionne que si l'écran est ouvert"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放電はMacの蓋が開いている時のみ動作します。"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -234,6 +282,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pourcentage de la batterie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー残量"
           }
         },
         "nl" : {
@@ -330,6 +384,12 @@
             "value" : "Temporairement charger la batterie au dela de la limite"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一時的にバッテリー残量を上書きする"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -357,6 +417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arrêter la charge"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電オーバーライドを停止する"
           }
         },
         "nl" : {
