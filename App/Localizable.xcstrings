@@ -252,7 +252,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "放電はMacの蓋が開いている時のみ動作します。"
+            "value" : "放電はMacが開いている時のみ動作します。"
           }
         },
         "nl" : {

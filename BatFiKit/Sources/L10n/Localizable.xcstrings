@@ -285,7 +285,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "制限は%@です。"
+            "value" : "上限は%@です。"
           }
         },
         "ko" : {
@@ -480,7 +480,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電制限は%@に設定されています。"
+            "value" : "充電上限は%@に設定されています。"
           }
         },
         "ko" : {
@@ -545,7 +545,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電限界が一時的に%@に設定されました。"
+            "value" : "充電上限が一時的に%@に設定されました。"
           }
         },
         "ko" : {
@@ -669,7 +669,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "限界まで充電する"
+            "value" : "上限まで充電する"
           }
         },
         "ko" : {
@@ -2045,7 +2045,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "同意"
+            "value" : "承諾"
           }
         },
         "nl" : {
@@ -3233,7 +3233,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電停止中: 蓋を開けてバッテリーを放電します"
+            "value" : "充電停止中: Macを開けてバッテリーを放電します"
           }
         },
         "nl" : {
@@ -4094,7 +4094,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「制限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります"
+            "value" : "「上限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります"
           }
         },
         "ko" : {
@@ -5723,7 +5723,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電制限を設定します。"
+            "value" : "充電上限を設定します。"
           }
         },
         "ko" : {
@@ -5983,7 +5983,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "発展パネル"
+            "value" : "詳細パネル"
           }
         },
         "ko" : {
@@ -6343,7 +6343,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "蓋を開けた状態でのみ動作します。"
+            "value" : "Macを開けた状態でのみ動作します。"
           }
         },
         "ko" : {
@@ -6993,7 +6993,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "制限を超えて充電されたときにバッテリーを放電する"
+            "value" : "上限を超えて充電されたときにバッテリーを放電する"
           }
         },
         "ko" : {
@@ -7058,7 +7058,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Macがスリープしたら自動でシステムの充電制限(80%)を有効化する"
+            "value" : "Macがスリープしたら自動でシステムの充電上限(80%)を有効化する"
           }
         },
         "ko" : {
@@ -8007,7 +8007,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Macbookの蓋を開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
+            "value" : "Macを開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
           }
         },
         "ko" : {
@@ -9888,7 +9888,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "発展"
+            "value" : "詳細"
           }
         },
         "ko" : {
