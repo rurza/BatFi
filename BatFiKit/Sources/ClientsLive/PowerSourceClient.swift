@@ -22,36 +22,32 @@ extension PowerSourceClient: DependencyKey {
 
         @Sendable
         func getBatteryHealthIfNeeded() async -> String? {
-            if let batteryHealth = await batteryHealthState.lastBatteryHealth, 
-                batteryHealth.date.timeIntervalSinceNow > -60 * 60 {
+            if let batteryHealth = await batteryHealthState.lastBatteryHealth,
+               batteryHealth.date.timeIntervalSinceNow > -60 * 60 {
                 return batteryHealth.health
             }
             let task = Process()
-            task.launchPath = "/usr/sbin/system_profiler"
-            task.arguments = ["SPPowerDataType"]
+            task.launchPath = "/usr/bin/pmset"
+            task.arguments = ["-g", "batt", "-xml"]
 
             let pipe = Pipe()
             task.standardOutput = pipe
-            task.launch()
-
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            task.waitUntilExit()
-
-            if let output = String(data: data, encoding: .utf8) {
-                let lines = output.split(separator: "\n")
-                for line in lines {
-                    if line.contains("Maximum Capacity") {
-                        let components = line.components(separatedBy: ":")
-                        if components.count == 2 {
-                            let maximumCapacity = components[1].trimmingCharacters(in: .whitespaces)
-                            await batteryHealthState.setBatteryHealth(.init(health: maximumCapacity, date: .now))
-                            return maximumCapacity
-                        }
-                        return nil
-                    }
-                }
+            do {
+                try task.run()
+            } catch {
+                return nil
             }
 
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+
+            if let output = String(data: data, encoding: .utf8) {
+                let regex = #/<key>Maximum Capacity Percent<\/key>\s*<integer>(\d+)<\/integer>/#
+                if let result = try? regex.firstMatch(in: output) {
+                    let maximumCapacity = "\(result.1)%"
+                    await batteryHealthState.setBatteryHealth(.init(health: maximumCapacity, date: .now))
+                    return maximumCapacity
+                }
+            }
             return nil
         }
 
@@ -73,6 +69,9 @@ extension PowerSourceClient: DependencyKey {
             let sourcesRef = IOPSCopyPowerSourcesList(snapshot)
             defer { sourcesRef?.release() }
             let sources = sourcesRef!.takeUnretainedValue() as Array
+            guard !sources.isEmpty else {
+                throw PowerSourceError.infoMissing
+            }
             let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
 
             let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
