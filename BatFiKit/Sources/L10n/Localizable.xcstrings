@@ -58,6 +58,12 @@
             "value" : "Лицензия"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lisans"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -118,6 +124,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -188,6 +200,12 @@
             "value" : "Веб-сайт"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Web sitesi"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -251,6 +269,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сделано с ❤️ и 🔋 "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "❤️ ve 🔋 ile yapıldı."
           }
         },
         "zh-Hans" : {
@@ -318,6 +342,12 @@
             "value" : "Лимит составляет %@."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sınır %@"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -381,6 +411,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Зарядка до 100%"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%100 şarj oluyor"
           }
         },
         "zh-Hans" : {
@@ -448,6 +484,12 @@
             "value" : "Использование аккумулятора."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil kullanılıyor."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -513,6 +555,12 @@
             "value" : "Лимит зарядки установлен на %@."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj limiti %@ olarak ayarlandı."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -570,6 +618,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Предел зарядки временно установлен на %@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj limiti geçici olarak %@ olarak ayarlandı."
           }
         },
         "zh-Hans" : {
@@ -637,6 +691,12 @@
             "value" : "Зарядное устройство не подключено"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj aleti bağlı değil"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -702,6 +762,12 @@
             "value" : "Зарядка до лимита"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite kadar şarj oluyor"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -759,6 +825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отключено"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devre dışı bırakıldı"
           }
         },
         "zh-Hans" : {
@@ -826,6 +898,12 @@
             "value" : "Зарядка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj oluyor"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -889,6 +967,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Разрядка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil boşaltılıyor"
           }
         },
         "zh-Hans" : {
@@ -956,6 +1040,12 @@
             "value" : "Ограничение зарядки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj engelleme"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1021,6 +1111,12 @@
             "value" : "Инициализация"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlatılıyor"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1078,6 +1174,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переопределение зарядки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarjı Geçersiz Kılma"
           }
         },
         "zh-Hans" : {
@@ -1139,6 +1241,12 @@
             "value" : "Временная зарядка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçici olarak şarj oluyor"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1196,6 +1304,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Временный разряд"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçici olarak pil boşaltılıyor"
           }
         },
         "zh-Hans" : {
@@ -1263,6 +1377,12 @@
             "value" : "Режим приложения"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama modu"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1326,6 +1446,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Состояние аккумулятора"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil Sağlığı"
           }
         },
         "zh-Hans" : {
@@ -1393,6 +1519,12 @@
             "value" : "Количество циклов перезарядки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devir Sayısı"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1419,7 +1551,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Source d'énergie"
+            "value" : "Source"
           }
         },
         "ja" : {
@@ -1456,6 +1588,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Источник питания"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güç Kaynağı"
           }
         },
         "zh-Hans" : {
@@ -1523,6 +1661,12 @@
             "value" : "Температура"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıcaklık"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1562,6 +1706,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desconhecido"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmiyor"
           }
         },
         "zh-Hans" : {
@@ -1629,6 +1779,12 @@
             "value" : "Информация отсутствует"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgi eksik"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1694,6 +1850,12 @@
             "value" : "Аккумулятор"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1751,6 +1913,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Прошедшее время"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçen Süre"
           }
         },
         "zh-Hans" : {
@@ -1818,6 +1986,12 @@
             "value" : "Вычисление…"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hesaplanıyor..."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1881,6 +2055,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Осталось времени"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalan Süre"
           }
         },
         "zh-Hans" : {
@@ -1948,6 +2128,12 @@
             "value" : "Время зарядки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj etme vakti"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2007,6 +2193,12 @@
             "value" : "Нет приложений, потребляющих значительное количество энергии"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önemli ölçüde enerji kullanan uygulama yok"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2041,6 +2233,12 @@
             "state" : "translated",
             "value" : "Akceptuję"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kabul et"
+          }
         }
       }
     },
@@ -2069,6 +2267,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Odrzucam"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reddet"
           }
         }
       }
@@ -2099,6 +2303,12 @@
             "state" : "translated",
             "value" : "Zainstaluj"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükle"
+          }
         }
       }
     },
@@ -2127,6 +2337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instalator BatFi"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi Yükleyicisi"
           }
         }
       }
@@ -2157,6 +2373,12 @@
             "state" : "translated",
             "value" : "Gotowe"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti"
+          }
         }
       }
     },
@@ -2185,6 +2407,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd pobierania. %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndirme hatası. %@"
           }
         }
       }
@@ -2215,6 +2443,12 @@
             "state" : "translated",
             "value" : "Pobieram…"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İndiriliyor"
+          }
         }
       }
     },
@@ -2243,6 +2477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd instalacji. %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kurulum hatası. %@"
           }
         }
       }
@@ -2273,6 +2513,12 @@
             "state" : "translated",
             "value" : "Instaluję…"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yükleniyor..."
+          }
         }
       }
     },
@@ -2301,6 +2547,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gotowy do instalacji"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuruluma hazır"
           }
         }
       }
@@ -2331,6 +2583,12 @@
             "state" : "translated",
             "value" : "Rozpakowuję…"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıkıştırma açılıyor..."
+          }
         }
       }
     },
@@ -2359,6 +2617,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd rozpakowywania. %@ "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sıkıştırmayı açma hatası. %@"
           }
         }
       }
@@ -2412,6 +2676,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Последние 12 часов"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son 12 saat"
           }
         },
         "zh-Hans" : {
@@ -2473,6 +2743,12 @@
             "value" : "Зарядка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj oluyor"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2499,7 +2775,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Empêcher la charge"
+            "value" : "Empêcher le chargement"
           }
         },
         "ko" : {
@@ -2530,6 +2806,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ограничение зарядки"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj Etmeyi Engelleme"
           }
         },
         "zh-Hans" : {
@@ -2591,6 +2873,12 @@
             "value" : "Ожидание (дополнительных) данных…"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(Daha fazla) veri bekleniyor..."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2650,6 +2938,12 @@
             "value" : "Приложения с высоким энергопотреблением"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek enerji kullanımına sahip uygulamalar"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2707,6 +3001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ожидание данных…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri bekleniyor..."
           }
         },
         "zh-Hans" : {
@@ -2769,6 +3069,12 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi…"
+          }
+        },
+        "tr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi…"
@@ -2839,6 +3145,12 @@
             "value" : "Зарядить до 100%"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%100'e şarj et"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2896,6 +3208,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переопределение активно только при подключении зарядного устройства."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçersiz kılma yalnızca şarj cihazı bağlıyken aktif olur"
           }
         },
         "zh-Hans" : {
@@ -2963,6 +3281,12 @@
             "value" : "Проверить наличие обновлений…"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeleri Kontrol Et"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3028,6 +3352,12 @@
             "value" : "Отладка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hata Ayıklama"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3054,7 +3384,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utiliser la batterie"
+            "value" : "Utiliser sur batterie"
           }
         },
         "ja" : {
@@ -3085,6 +3415,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Работать от батареи"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil ile çalıştır"
           }
         },
         "zh-Hans" : {
@@ -3121,6 +3457,12 @@
             "state" : "translated",
             "value" : "Ładowanie wstrzymane. Otwórz pokrywę ekranu by zasilać z baterii"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarjı engelleme; Pili boşaltmak için kapağı açın"
+          }
         }
       }
     },
@@ -3149,6 +3491,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wstrzymaj ładowanie"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj Etmeyi Engelleme"
           }
         }
       }
@@ -3208,6 +3556,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Установить Помощник"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcıyı Yükle"
           }
         },
         "zh-Hans" : {
@@ -3275,6 +3629,12 @@
             "value" : "Ещё"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha fazla"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3301,7 +3661,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installation…"
+            "value" : "Commencer…"
           }
         },
         "ja" : {
@@ -3338,6 +3698,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Первичная настройка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı Rehberi "
           }
         },
         "zh-Hans" : {
@@ -3405,6 +3771,12 @@
             "value" : "Завершить BatFi"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi'den çık"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3468,6 +3840,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить Помощник"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı'yı Kaldır"
           }
         },
         "zh-Hans" : {
@@ -3535,6 +3913,12 @@
             "value" : "Восстановить настройки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarları sıfırla"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3598,6 +3982,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Настройки…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar..."
           }
         },
         "zh-Hans" : {
@@ -3665,6 +4055,12 @@
             "value" : "Остановить зарядку до 100%"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%100 şarj etmeyi duraklat"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3699,6 +4095,12 @@
             "state" : "translated",
             "value" : "Przywróć ładowanie"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pili Kullanmayı Duraklat"
+          }
         }
       }
     },
@@ -3727,6 +4129,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz własne ustawienia"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geçersiz Kılmayı Durdur"
           }
         }
       }
@@ -3780,6 +4188,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Распределение питания"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güç dağıtımı"
           }
         },
         "zh-Hans" : {
@@ -3839,6 +4253,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ожидание данных…"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veri bekleniyor..."
           }
         },
         "zh-Hans" : {
@@ -3906,6 +4326,12 @@
             "value" : "Отключено, поскольку зарядное устройство не подключено"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj aleti bağlı olmadığı için devre dışı bırakıldı"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3971,6 +4397,12 @@
             "value" : "Отключено, поскольку включена функция «Разряжать аккумулятор при превышении лимита заряда»."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Limitin üzerinde şarj edildiğinde pili boşalt” açık olduğu için devre dışı bırakıldı"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4005,6 +4437,12 @@
             "state" : "translated",
             "value" : "Otwórz Onboarding…"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanıcı Rehberini Aç.."
+          }
         }
       }
     },
@@ -4034,6 +4472,12 @@
             "state" : "translated",
             "value" : "Otwórz Ustawienia Systemowe…"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarlarını Aç..."
+          }
         }
       }
     },
@@ -4062,6 +4506,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi nie będzie bez niej działać.\nOtwórz i ukończ Onboarding z menu \"Więcej\". \nApka powinna być włączona na liście \"Pozwalaj w tle\" w Ustawieniach Systemowych → Ogólne → Logowanie."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama bu olmadan çalışmayacaktır.\nDaha fazla menüsünden Kullanıcı Rehberini açın ve tamamlayın.\nSistem Ayarları → Genel → Oturum Açma Öğeleri'nde anahtar açıkken uygulamanın 'Arka Planda İzin Ver’ listesinde olduğunu emin olun."
           }
         }
       }
@@ -4115,6 +4565,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вспомогательное приложение BatFi не установлено."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi'nin yardımcı uygulaması yüklü değil"
           }
         },
         "zh-Hans" : {
@@ -4182,6 +4638,12 @@
             "value" : "Оптимизированная зарядка аккумулятора включена."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimize edilmiş pil şarjı AÇIK"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4239,6 +4701,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мне нужно больше сока!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha fazla enerjiye ihtiyacım var!"
           }
         },
         "zh-Hans" : {
@@ -4306,6 +4774,12 @@
             "value" : "Новый режим: %@"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni mod: %@"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4363,6 +4837,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Низкий уровень заряда"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil seviyesi düşük"
           }
         },
         "zh-Hans" : {
@@ -4430,6 +4910,12 @@
             "value" : "Системные настройки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem Ayarlarını Aç"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4493,6 +4979,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Похоже, что вы не предоставили разрешения помощнику. Если не было запроса пароля/Touch ID, это нормально - это ошибка macOS, и иногда такое случается.\nВы всегда можете изменить разрешения в Системных настройках.\nИмейте в виду, что приложение не будет работать без помощника."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünüşe göre yardımcıya izin vermemişsiniz. Parola/Touch ID istemi yoksa sorun değil - bu bir macOS hatasıdır ve bazen olur.\nSistem Ayarları'ndan izinleri her zaman değiştirebilirsiniz.\nLütfen uygulamanın yardımcı araç olmadan çalışmayacağını unutmayın."
           }
         },
         "zh-Hans" : {
@@ -4560,6 +5052,12 @@
             "value" : "Помощник (все еще) не установлен"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı (hala) yüklü değil"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4623,6 +5121,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Завершить"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamamlandı"
           }
         },
         "zh-Hans" : {
@@ -4690,6 +5194,12 @@
             "value" : "Приступить"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Başlayın"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4753,6 +5263,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Установить помощник"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcıyı yükle"
           }
         },
         "zh-Hans" : {
@@ -4820,6 +5336,12 @@
             "value" : "Открывать BatFi при входе"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturum Açıldığında BatFi'yi Aç"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4883,6 +5405,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Далее"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonraki"
           }
         },
         "zh-Hans" : {
@@ -4950,6 +5478,12 @@
             "value" : "Назад"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önceki"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4983,6 +5517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przekaż %@ "
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bahşiş %@"
           }
         }
       }
@@ -5042,6 +5582,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Почти готово."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neredeyse bitti."
           }
         },
         "zh-Hans" : {
@@ -5109,6 +5655,12 @@
             "value" : "BatFi помогает вам оптимизировать производительность аккумулятора macOS за счет умного управления уровнями заряда, при этом предоставляя полный контроль - зарядка до 100% только тогда, когда это необходимо."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi, macOS pil performansınızı optimize etmenize yardımcı olur. Şarj seviyelerini akıllıca yöneterek, sadece gerektiğinde %100 şarj eder ve size tam kontrol sağlar."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5172,6 +5724,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Приложение готово к использованию!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama kullanıma hazır!"
           }
         },
         "zh-Hans" : {
@@ -5239,6 +5797,12 @@
             "value" : "Готово."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5302,6 +5866,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Продлите жизнь вашему Mac."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac'inizin ömrünü uzatın."
           }
         },
         "zh-Hans" : {
@@ -5369,6 +5939,12 @@
             "value" : "BatFi установит вспомогательный инструмент, который будет работать в фоновом режиме и сможет изменять режим зарядки вашего компьютера."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi, arka planda çalışacak ve bilgisayarınızın şarj modunu değiştirebilecek yardımcı bir araç yükleyecektir."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5432,6 +6008,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Для установки вспомогательного инструмента требуются права администратора, и он необходим для функциональности BatFi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı aracın yüklenmesi yönetici izinleri gerektirir ve BatFi'nin işlevselliği için gereklidir."
           }
         },
         "zh-Hans" : {
@@ -5499,6 +6081,12 @@
             "value" : "Рекомендуется. Вы можете изменить это позже в настройках приложения."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önerilen.\nBunu daha sonra uygulamanın ayarlarından değiştirebilirsiniz."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5562,6 +6150,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Установить лимит заряда."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj Limitini Ayarla."
           }
         },
         "zh-Hans" : {
@@ -5629,6 +6223,12 @@
             "value" : "Установите максимальный процент зарядки, чтобы предотвратить поддержание уровня заряда на уровне 100% и увеличить срок службы аккумулятора."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj seviyesini %100'de tutmayı önlemek ve pil ömrünü uzatmak için maksimum şarj yüzdesi ayarlayın."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5692,6 +6292,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы можете изменить этот параметр позже в настройках приложения."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu ayarı daha sonra uygulamanın ayarlarından değiştirebilirsiniz."
           }
         },
         "zh-Hans" : {
@@ -5759,6 +6365,12 @@
             "value" : "Выключите зарядку, когда аккумулятор достигнет %@."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil %@ değerine ulaştığında şarjı duraklat"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5816,6 +6428,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Расширенная панель"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelişmiş"
           }
         },
         "zh-Hans" : {
@@ -5883,6 +6501,12 @@
             "value" : "Панель зарядки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj Etme"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5948,6 +6572,12 @@
             "value" : "Общая панель"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genel"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5981,6 +6611,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel skrótów"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısayol Tuşları"
           }
         }
       }
@@ -6042,6 +6678,12 @@
             "value" : "Панель уведомлений"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimler"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6099,6 +6741,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Панель строки меню"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü Çubuğu"
           }
         },
         "zh-Hans" : {
@@ -6166,6 +6814,12 @@
             "value" : "Работает только при открытой крышке."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sadece kapak açıkken çalışır."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6229,6 +6883,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Автоматически проверять наличие обновлений"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeleri otomatik olarak kontrol et"
           }
         },
         "zh-Hans" : {
@@ -6296,6 +6956,12 @@
             "value" : "Автоматически загружать обновления"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeleri otomatik olarak indir"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6359,6 +7025,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Автоматически управлять зарядкой"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarjı otomatik olarak yönet"
           }
         },
         "zh-Hans" : {
@@ -6426,6 +7098,12 @@
             "value" : "Показывать процент заряда аккумулятора"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil yüzdesini göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6489,6 +7167,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мигнуть светодиодом на MagSafe несколько раз, когда приложение начнет разряжать аккумулятор."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama pili boşaltmaya başladığında MagSafe üzerindeki LED’i birkaç kez yanıp söndür."
           }
         },
         "zh-Hans" : {
@@ -6556,6 +7240,12 @@
             "value" : "Статус зарядки изменился"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj durumu değişti"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6619,6 +7309,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Разрешить бета-версию приложения"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulamanın beta sürümüne izin ver"
           }
         },
         "zh-Hans" : {
@@ -6686,6 +7382,12 @@
             "value" : "Показать меню отладки"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hata ayıklama menüsünü göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6749,6 +7451,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отложить автоматический сон при зарядке и недостигнутом лимите"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj olurken ve limite ulaşmadığında otomatik uyku modunu geciktir"
           }
         },
         "zh-Hans" : {
@@ -6816,6 +7524,12 @@
             "value" : "Разряжать аккумулятор при превышении лимита заряда"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limitin üzerinde şarj edildiğinde pili boşalt"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6875,6 +7589,12 @@
             "value" : "Автоматически включать системное ограничение заряда (80 %), когда Mac переходит в спящий режим"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac uyku moduna geçtiğinde sistem şarj limitini (%80) otomatik olarak etkinleştir"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6932,6 +7652,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать приложения с высоким энергопотреблением"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek enerji kullanan uygulamaları göster"
           }
         },
         "zh-Hans" : {
@@ -6999,6 +7725,12 @@
             "value" : "Открывать при входе"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oturum açıldığında aç"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7062,6 +7794,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Использовать зеленый индикатор на MagSafe, когда зарядка приостановлена"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj duraklatıldığında MagSafe üzerindeki yeşil ışığı kullan"
           }
         },
         "zh-Hans" : {
@@ -7129,6 +7867,12 @@
             "value" : "Показать монохромный значок"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monokrom simgeyi göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7194,6 +7938,12 @@
             "value" : "Автоматически приостанавливать зарядку, когда Mac переходит в спящий режим"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac uyku moduna geçtiğinde şarjı otomatik olarak duraklat. "
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7220,7 +7970,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Envoyer les rapports de bug"
+            "value" : "Envoyer les rapports de plantage"
           }
         },
         "ja" : {
@@ -7251,6 +8001,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отправить отчёты о сбоях"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çökme raporlarını gönder"
           }
         },
         "zh-Hans" : {
@@ -7318,6 +8074,12 @@
             "value" : "Показывать предупреждение, когда включена оптимизированная зарядка аккумулятора"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimize edilmiş pil şarjı devreye girdiğinde uyarı göster "
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7377,6 +8139,12 @@
             "value" : "Показывать диаграмму процента заряда аккумулятора в меню"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menüde pil yüzdesi grafiğini göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7411,6 +8179,12 @@
             "state" : "translated",
             "value" : "Pokazuj liczbę cykli baterii"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil devir sayısını göster"
+          }
         }
       }
     },
@@ -7440,6 +8214,12 @@
             "state" : "translated",
             "value" : "Pokazuj opis żywotności baterii"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil sağlığını göster"
+          }
         }
       }
     },
@@ -7468,6 +8248,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj temperaturę baterii"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil sıcaklığını göster"
           }
         }
       }
@@ -7523,6 +8309,12 @@
             "value" : "Показать распределение питания"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güç dağılımını göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7557,6 +8349,12 @@
             "state" : "translated",
             "value" : "Pokazuj źródło zasilania"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güç kaynağını göster"
+          }
         }
       }
     },
@@ -7585,6 +8383,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj czas na baterii"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kalan süreyi göster"
           }
         }
       }
@@ -7644,6 +8448,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Автоматически отключать зарядку при нагревании аккумулятора"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil ısındığında şarjı otomatik olarak duraklat"
           }
         },
         "zh-Hans" : {
@@ -7711,6 +8521,12 @@
             "value" : "Приложение отложит переход в спящий режим, чтобы компьютер зарядился до лимита, а затем ограничит зарядку и переведет Mac в спящий режим."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama, bilgisayarın sınıra kadar şarj olması için uyku modunu geciktirecek ve ardından şarjı engelleyerek Mac'i uyku moduna geçirecektir"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7774,6 +8590,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Когда крышка MacBook открыта, приложение может разряжать аккумулятор до лимита."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBook'un kapağı açıldığında, uygulama sınıra ulaşana kadar pili boşaltabilir"
           }
         },
         "zh-Hans" : {
@@ -7841,6 +8663,12 @@
             "value" : "Отключает зарядку при температуре аккумулятора 40°C и выше."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil 40°C veya daha fazla olduğunda şarj işlemini duraklatır."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7875,6 +8703,12 @@
             "state" : "translated",
             "value" : "Włącz/wyłącz ładowanie do 100%"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarjı %100'e getir"
+          }
         }
       }
     },
@@ -7903,6 +8737,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Włącz/wyłącz zasilanie z baterii"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil ile çalışmayı aç/kapat"
           }
         }
       }
@@ -7933,6 +8773,12 @@
             "state" : "translated",
             "value" : "Włącz/wyłącz wstrzymanie ładowania"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarjı engellemeyi aç/kapat"
+          }
         }
       }
     },
@@ -7962,6 +8808,12 @@
             "state" : "translated",
             "value" : "Wyłącz własne ustawienia ładowania"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarjı geçersiz kılmayı duraklat"
+          }
         }
       }
     },
@@ -7977,7 +8829,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toujours activé pour les versions bêta"
+            "value" : "Toujours activé pour les versions Beta"
           }
         },
         "nl" : {
@@ -7990,6 +8842,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zawsze włączone w wersji Beta"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beta sırasında her zaman etkin"
           }
         }
       }
@@ -8006,7 +8864,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La batterie est à %lld%%"
+            "value" : "La batterie est basse à %lld%%"
           }
         },
         "nl" : {
@@ -8019,6 +8877,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niski stan baterii przy %lld%%"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil %lld%%'de zayıf"
           }
         }
       }
@@ -8078,6 +8942,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "80% - это рекомендуемое значение для ежедневного использования."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Günlük kullanım için önerilen değer %80'dir."
           }
         },
         "zh-Hans" : {
@@ -8143,6 +9013,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы можете вручную отменить эту настройку, воспользовавшись командой \"Зарядить до 100%\" в меню."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menüden \"%100 Şarj et\" komutunu kullanarak bu ayarı manuel olarak geçersiz kılabilirsiniz."
           }
         },
         "zh-Hans" : {
@@ -8317,6 +9193,24 @@
             }
           }
         },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d'ye kadar işlem göster"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d'ye kadar işlem göster"
+                }
+              }
+            }
+          }
+        },
         "zh-Hans" : {
           "variations" : {
             "plural" : {
@@ -8382,6 +9276,12 @@
             "value" : "Продолжительность выборки: %@"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Örnek süre: %@"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8439,6 +9339,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "5 минут"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 dakika"
           }
         },
         "zh-Hans" : {
@@ -8500,6 +9406,12 @@
             "value" : "30 с."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30s"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8559,6 +9471,12 @@
             "value" : "Порог энергетического воздействия: %lld"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enerji etkisinin eşik değeri: %lld"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8593,6 +9511,12 @@
             "state" : "translated",
             "value" : "Pokaż swoje wsparcie z napiwkiem!\nTwój wkład pozwala mi utrzymywać i rozwijać apkę.\nDzięki za bycie częścią wspaniałej społeczności!"
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir bahşişle desteğinizi gösterin!\nKatkınız, BatFi'yi sizin için daha da iyi hale getirmeme yardımcı olur.\nTopluluğumuzun harika bir parçası olduğunuz için teşekkürler!"
+          }
         }
       }
     },
@@ -8621,6 +9545,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przycisk otworzy stronę Gumroad z ustawioną kwotą."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düğme, fiyatı önceden belirlenmiş Gumroad web sitesini açacaktır."
           }
         }
       }
@@ -8651,6 +9581,12 @@
             "state" : "translated",
             "value" : "Zawsze możesz zmienić wartość napiwku."
           }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devam etmeden önce miktarı değiştirebilirsiniz."
+          }
         }
       }
     },
@@ -8679,6 +9615,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lubisz BatFi?"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi hoşuna gitti mi?"
           }
         }
       }
@@ -8738,6 +9680,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дополнительно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelişmiş"
           }
         },
         "zh-Hans" : {
@@ -8805,6 +9753,12 @@
             "value" : "Предупреждения"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uyarılar"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8864,6 +9818,12 @@
             "value" : "Зарядка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj Etme"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8921,6 +9881,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отладка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hata Ayıklama"
           }
         },
         "zh-Hans" : {
@@ -8988,6 +9954,12 @@
             "value" : "Основные"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genel"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9045,6 +10017,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Приложения с высоким энергопотреблением"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Önemli ölçüde enerji kullanan uygulamalar"
           }
         },
         "zh-Hans" : {
@@ -9112,6 +10090,12 @@
             "value" : "MagSafe"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9169,6 +10153,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Меню"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü"
           }
         },
         "zh-Hans" : {
@@ -9236,6 +10226,12 @@
             "value" : "Уведомления"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimler"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9275,6 +10271,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Outro"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diğer"
           }
         }
       }
@@ -9334,6 +10336,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Иконка состояния"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durum Simgesi"
           }
         },
         "zh-Hans" : {
@@ -9401,6 +10409,12 @@
             "value" : "Обновления"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güncellemeler"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9466,6 +10480,12 @@
             "value" : "Выключить зарядку, когда заряд аккумулятора достигнет %@."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil %@ değerine ulaştığında şarjı duraklat"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9523,6 +10543,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Дополнительно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gelişmiş"
           }
         },
         "zh-Hans" : {
@@ -9590,6 +10616,12 @@
             "value" : "Зарядка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj Etme"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9655,6 +10687,12 @@
             "value" : "Основные"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genel"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9688,6 +10726,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Skróty"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kısayol Tuşları"
           }
         }
       }
@@ -9749,6 +10793,12 @@
             "value" : "Уведомления"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildirimler"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9808,6 +10858,12 @@
             "value" : "Строка меню"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menü Çubuğu"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9828,7 +10884,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dons"
+            "value" : "Boite à dons"
           }
         },
         "nl" : {
@@ -9841,6 +10897,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Napiwek"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bahşiş Kutusu"
           }
         }
       }
