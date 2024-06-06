@@ -309,7 +309,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "制限は%@です。"
+            "value" : "上限は%@です。"
           }
         },
         "ko" : {
@@ -451,7 +451,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリーを使う。"
+            "value" : "バッテリーを使用する。"
           }
         },
         "ko" : {
@@ -522,7 +522,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電制限は%@に設定されています。"
+            "value" : "充電上限は%@に設定されています。"
           }
         },
         "ko" : {
@@ -593,7 +593,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電限界が一時的に%@に設定されました。"
+            "value" : "充電上限が一時的に%@に設定されました。"
           }
         },
         "ko" : {
@@ -729,7 +729,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "限界まで充電する"
+            "value" : "上限まで充電する"
           }
         },
         "ko" : {
@@ -1007,7 +1007,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電の抑制"
+            "value" : "充電停止中"
           }
         },
         "ko" : {
@@ -1690,6 +1690,12 @@
             "value" : "Inconnu"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2163,6 +2169,12 @@
             "value" : "Aucune application n'utilise suffisamment d'énergie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エネルギーを著しく消費するアプリなし"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2222,6 +2234,12 @@
             "value" : "Accepter"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "承諾"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2255,6 +2273,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décliner"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拒否"
           }
         },
         "nl" : {
@@ -2292,6 +2316,12 @@
             "value" : "Installer"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストール"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2325,6 +2355,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Installer BatFi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi インストーラ"
           }
         },
         "nl" : {
@@ -2362,6 +2398,12 @@
             "value" : "OK"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2395,6 +2437,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de téléchargement. %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロードエラー %@"
           }
         },
         "nl" : {
@@ -2432,6 +2480,12 @@
             "value" : "Téléchargement..."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダウンロード中..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2465,6 +2519,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de l'installation. %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストールエラー %@"
           }
         },
         "nl" : {
@@ -2502,6 +2562,12 @@
             "value" : "Installation..."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストール中..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2535,6 +2601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prêt à installer"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インストール準備完了"
           }
         },
         "nl" : {
@@ -2572,6 +2644,12 @@
             "value" : "Décompression..."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解凍中..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2605,6 +2683,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de décompression. %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解凍エラー %@"
           }
         },
         "nl" : {
@@ -2646,6 +2730,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernières 12 heures"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直近の12時間"
           }
         },
         "ko" : {
@@ -2713,6 +2803,12 @@
             "value" : "Chargement"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2776,6 +2872,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empêcher le chargement"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電停止中"
           }
         },
         "ko" : {
@@ -2843,6 +2945,12 @@
             "value" : "En attente (de plus) de données..."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(より)多くのデータを待機中..."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2908,6 +3016,12 @@
             "value" : "Applications énergivores"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エネルギーを著しく消費中のアプリ"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2971,6 +3085,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En attente de données..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データ待機中"
           }
         },
         "ko" : {
@@ -3390,7 +3510,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリーで実行"
+            "value" : "バッテリーで稼働"
           }
         },
         "ko" : {
@@ -3446,6 +3566,12 @@
             "value" : "Empêcher la charge; ouvrir l'écran pour décharger la batterie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電停止中: Macを開けてバッテリーを放電します"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3479,6 +3605,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empêcher la charge"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電停止"
           }
         },
         "nl" : {
@@ -4084,6 +4216,12 @@
             "value" : "Stopper l'utilisation de la batterie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーの使用を停止"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4117,6 +4255,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stopper"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オーバーライドを停止"
           }
         },
         "nl" : {
@@ -4158,6 +4302,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distribution de l'énergie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電力配分"
           }
         },
         "ko" : {
@@ -4223,6 +4373,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En attente de données..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データを待機中..."
           }
         },
         "ko" : {
@@ -4364,7 +4520,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「制限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります"
+            "value" : "「上限を超えて充電されたときにバッテリーを放電する」がオンになっているため、無効になります"
           }
         },
         "ko" : {
@@ -4426,6 +4582,12 @@
             "value" : "Ouvrir le tutoriel..."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オンボーディングを開く..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4461,6 +4623,12 @@
             "value" : "Ouvrir les réglages système…"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム設定を開く..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4494,6 +4662,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'application ne fonctionnera pas sans. Ouvrez et complétez le processus à partir du menu Plus. Vérifiez que l'application est dans la liste 'Autoriser en arrière-plan' avec l'interrupteur activé dans Réglages Système → Général → Ouverture."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これがないとこのアプリは動作しません。メニューの詳細からオンボーディングを開き、完了させてください。システム設定→一般→ログイン項目画面から、アプリが「バックグラウンドでの実行を許可」のリスト上で有効化されているか確かめてください。"
           }
         },
         "nl" : {
@@ -4673,6 +4847,12 @@
             "value" : "J'ai besoin d'énergie!"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "たくさんのジュースが必要です！"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4807,6 +4987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Batterie faible"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー残量低下"
           }
         },
         "ko" : {
@@ -5507,6 +5693,12 @@
             "value" : "Don %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チップ %@"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5693,7 +5885,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリはすぐに使えます！"
+            "value" : "アプリはすぐに使用できます！"
           }
         },
         "ko" : {
@@ -6119,7 +6311,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電制限を設定します。"
+            "value" : "充電上限を設定します。"
           }
         },
         "ko" : {
@@ -6400,6 +6592,12 @@
             "value" : "Avancé"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細パネル"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6601,6 +6799,12 @@
             "value" : "Panneau de raccourcis"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホットキーパネル"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6713,6 +6917,12 @@
             "value" : "Barre de menu"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メニューバーパネル"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6781,7 +6991,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "蓋を開けた状態でのみ動作します。"
+            "value" : "Macを開けた状態でのみ動作します。"
           }
         },
         "ko" : {
@@ -7136,7 +7346,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅します。"
+            "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅させます。"
           }
         },
         "ko" : {
@@ -7491,7 +7701,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "制限を超えて充電されたときにバッテリーを放電する"
+            "value" : "上限を超えて充電されたときにバッテリーを放電する"
           }
         },
         "ko" : {
@@ -7559,6 +7769,12 @@
             "value" : "Activer automatiquement la limite de charge système (80 %) lorsque le Mac passe veille"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macがスリープしたら自動でシステムの充電上限(80%)を有効化する"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7622,6 +7838,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher les applications avec une utilisation élevée de l'énergie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エネルギーを著しく消費しているアプリを表示する"
           }
         },
         "ko" : {
@@ -7763,7 +7985,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電が一時停止している場合は、MagSafeの緑色のランプを使用してください。"
+            "value" : "充電が一時停止している場合、MagSafeの緑色のランプを使用する"
           }
         },
         "ko" : {
@@ -7905,7 +8127,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Macがスリープ状態になると、自動的に充電を一時停止します。"
+            "value" : "Macがスリープ状態になった時、自動的に充電を一時停止する"
           }
         },
         "ko" : {
@@ -8109,6 +8331,12 @@
             "value" : "Afficher le pourcentage de la batterie dans le menu"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー残量グラフをメニューに表示する"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8168,6 +8396,12 @@
             "value" : "Afficher le nombre de cycles de la batterie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーサイクル数を表示する"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8203,6 +8437,12 @@
             "value" : "Afficher la santé de la batterie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー状態を表示する"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8236,6 +8476,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher la température de la batterie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーの温度を表示する"
           }
         },
         "nl" : {
@@ -8277,6 +8523,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher la distribution de l'énergie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電力配分を表示する"
           }
         },
         "ko" : {
@@ -8338,6 +8590,12 @@
             "value" : "Afficher la source d'énergie"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電源を表示する"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8371,6 +8629,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher le temps restant"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー残量を表示する"
           }
         },
         "nl" : {
@@ -8559,7 +8823,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Macbookの蓋を開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
+            "value" : "Macを開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
           }
         },
         "ko" : {
@@ -8692,6 +8956,12 @@
             "value" : "Activer la charge à 100%"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%まで充電を切り替える"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8725,6 +8995,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activer l'utilisation de la batterie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーで稼働の切り替え"
           }
         },
         "nl" : {
@@ -8762,6 +9038,12 @@
             "value" : "Activer le blocage de la charge"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電停止の切り替え"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8795,6 +9077,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arrêter la charge"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電オーバーライドを停止"
           }
         },
         "nl" : {
@@ -8832,6 +9120,12 @@
             "value" : "Toujours activé pour les versions Beta"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ベータ版では常に有効化されます"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8865,6 +9159,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La batterie est basse à %lld%%"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー残量が %lld%%で低下"
           }
         },
         "nl" : {
@@ -9085,6 +9385,18 @@
             }
           }
         },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "最大 %d プロセス表示"
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "variations" : {
             "plural" : {
@@ -9246,6 +9558,12 @@
             "value" : "Rafraichissement: %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サンプルの間隔: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9309,6 +9627,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "5 minutes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5分"
           }
         },
         "ko" : {
@@ -9376,6 +9700,12 @@
             "value" : "30s"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30秒"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9441,6 +9771,12 @@
             "value" : "Seuil de l'impact énergétique: %lld"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "著しいエネルギーの閾値: %lld"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9500,6 +9836,12 @@
             "value" : "Montrez votre soutien avec un don !\nVotre contribution m'aide à améliorer et rendre BatFi encore meilleur pour vous.\nMerci de faire partie de notre communauté !"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チップであなたの応援を表示しましょう！\nあなたの支援がBatFiを維持し続け、あなたのためによりよく改善するのに役立ちます。\n私たちのコミュニチーの素晴らしい一員であり続けてくれてありがとうございます！"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9533,6 +9875,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le bouton ouvrira le site Gumroad avec le prix déjà inclu."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ボタンをクリックすると金額がセットされた状態でGumroadのサイトを開きます。"
           }
         },
         "nl" : {
@@ -9570,6 +9918,12 @@
             "value" : "Vous pourrez changez le montant avant de continuer."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チップを送金する前に金額を変更できます。"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9603,6 +9957,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous aimez BatFi ?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiをお楽しみいただけましたか？"
           }
         },
         "nl" : {
@@ -9788,6 +10148,12 @@
             "value" : "Chargement"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9851,6 +10217,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Débugger"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバッグ"
           }
         },
         "ko" : {
@@ -9989,6 +10361,12 @@
             "value" : "Applications énergivores"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エネルギー消費が著しいアプリ"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10125,6 +10503,12 @@
             "value" : "Menu"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メニュー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10253,6 +10637,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Autres"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その他"
           }
         },
         "nl" : {
@@ -10515,6 +10905,12 @@
             "value" : "Avancé"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10716,6 +11112,12 @@
             "value" : "Raccourcis"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホットキー"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10828,6 +11230,12 @@
             "value" : "Barre de menu"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メニューバー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10885,6 +11293,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Boite à dons"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チップ入れ"
           }
         },
         "nl" : {
