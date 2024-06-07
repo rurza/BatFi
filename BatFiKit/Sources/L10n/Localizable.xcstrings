@@ -203,7 +203,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Web sitesi"
+            "value" : "Web Sitesi"
           }
         },
         "zh-Hans" : {
@@ -274,7 +274,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "❤️ ve 🔋 ile yapıldı"
+            "value" : "❤️ ve 🔋 ile yapıldı."
           }
         },
         "zh-Hans" : {
@@ -1179,7 +1179,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı Geçersiz Kılma"
+            "value" : "Şarjı geçersiz kılma"
           }
         },
         "zh-Hans" : {
@@ -2137,7 +2137,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj Etme Vakti"
+            "value" : "Şarj etme vakti"
           }
         },
         "zh-Hans" : {
@@ -3628,7 +3628,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı Durdur"
+            "value" : "Şarjı durdur"
           }
         }
       }
@@ -3906,7 +3906,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi'den çık"
+            "value" : "BatFi'den Çık"
           }
         },
         "zh-Hans" : {
@@ -7666,7 +7666,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj olurken ve limite ulaşmadığında otomatik uyku modunu geciktir"
+            "value" : "Şarj edilirken ve limite ulaşmadığında otomatik uyku modunu geciktir"
           }
         },
         "zh-Hans" : {
@@ -8021,7 +8021,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj duraklatıldığında MagSafe üzerindeki yeşil ışığı kullan"
+            "value" : "Şarj etme durdurulduğunda MagSafe üzerindeki yeşil ışığı kullan"
           }
         },
         "zh-Hans" : {
@@ -8163,7 +8163,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mac uyku moduna geçtiğinde şarjı otomatik olarak duraklat"
+            "value" : "Mac uyku moduna geçtiğinde şarj etmeyi otomatik olarak durdur"
           }
         },
         "zh-Hans" : {
@@ -8717,7 +8717,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil ısındığında şarjı otomatik olarak durdur"
+            "value" : "Pil ısındığında şarj etmeyi otomatik olarak durdur"
           }
         },
         "zh-Hans" : {
@@ -8788,7 +8788,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulama, bilgisayarın sınıra kadar şarj edilmesi için uyku modunu geciktirecek ve ardından şarjı engelleyerek Mac'i uyku moduna geçirecektir"
+            "value" : "Uygulama, bilgisayarın limite kadar şarj edilmesi için uyku modunu geciktirecek ve ardından şarjı durdurarak Mac'i uyku moduna geçirecektir"
           }
         },
         "zh-Hans" : {
@@ -8859,7 +8859,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MacBook'un kapağı açıldığında, uygulama sınıra ulaşana kadar pili boşaltabilir"
+            "value" : "MacBook'un kapağı açıldığında, uygulama limite ulaşana kadar pili boşaltabilir"
           }
         },
         "zh-Hans" : {
@@ -8930,7 +8930,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil 40°C veya daha fazla olduğunda şarj işlemini durdurur."
+            "value" : "Pil sıcaklığı 40°C veya üzerine çıktığında şarj etmeyi durdurur."
           }
         },
         "zh-Hans" : {
@@ -9318,7 +9318,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Menüden \"%100 Şarj et\" komutunu kullanarak bu ayarı manuel olarak geçersiz kılabilirsiniz."
+            "value" : "Menüden \"%100 şarj et\" komutunu kullanarak bu ayarı manuel olarak geçersiz kılabilirsiniz."
           }
         },
         "zh-Hans" : {
@@ -9511,13 +9511,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d kadar olan işlemi göster"
+                  "value" : "En fazla %d işlem göster"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d kadar olan işlemler göster"
+                  "value" : "En fazla %d işlem göster"
                 }
               }
             }
@@ -9739,7 +9739,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "30 saniye"
+            "value" : "30s"
           }
         },
         "zh-Hans" : {
@@ -9810,7 +9810,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enerji etkisinin eşik değeri: %lld"
+            "value" : "Enerji etkisinin eşiği: %lld"
           }
         },
         "zh-Hans" : {
@@ -10038,7 +10038,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi hoşuna gitti mi?"
+            "value" : "BatFi'yi kullanmaktan keyif alıyor musun?"
           }
         }
       }
