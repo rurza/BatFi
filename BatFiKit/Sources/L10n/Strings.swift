@@ -564,6 +564,11 @@ public enum L10n {
             /// You can change the amount before proceeding.
             public static let tipJarButtonDescription2 = String(localized: "settings.label.tip_jar.button_description_2", defaultValue: "You can change the amount before proceeding.", bundle: .module)
 
+            /// 50%
+            public static let lowestLimit = String(localized: "settings.label.lowest_limit", defaultValue: "50%", bundle: Bundle.module)
+
+            /// 90%
+            public static let highestLimit = String(localized: "settings.label.highest_limit", defaultValue: "90%", bundle: Bundle.module)
         }
 
         public enum Section {

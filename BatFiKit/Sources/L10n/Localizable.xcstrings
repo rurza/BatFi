@@ -1953,7 +1953,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Calcul..."
+            "value" : "Calcul…"
           }
         },
         "ja" : {
@@ -1965,13 +1965,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "계산 중..."
+            "value" : "계산 중…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Berekenen..."
+            "value" : "Berekenen…"
           }
         },
         "pl" : {
@@ -1983,7 +1983,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Calculando..."
+            "value" : "Calculando…"
           }
         },
         "ru" : {
@@ -1995,13 +1995,13 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hesaplanıyor..."
+            "value" : "Hesaplanıyor…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "计算中..."
+            "value" : "计算中…"
           }
         }
       }
@@ -2477,19 +2477,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Téléchargement..."
+            "value" : "Téléchargement…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ダウンロード中..."
+            "value" : "ダウンロード中…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Downloaden..."
+            "value" : "Downloaden…"
           }
         },
         "pl" : {
@@ -2501,7 +2501,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "İndiriliyor..."
+            "value" : "İndiriliyor…"
           }
         }
       }
@@ -2559,19 +2559,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installation..."
+            "value" : "Installation…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "インストール中..."
+            "value" : "インストール中…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Installeren..."
+            "value" : "Installeren…"
           }
         },
         "pl" : {
@@ -2583,7 +2583,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kuruluyor..."
+            "value" : "Kuruluyor…"
           }
         }
       }
@@ -2641,19 +2641,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Décompression..."
+            "value" : "Décompression…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "解凍中..."
+            "value" : "解凍中…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unzippen..."
+            "value" : "Unzippen…"
           }
         },
         "pl" : {
@@ -2665,7 +2665,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sıkıştırma açılıyor..."
+            "value" : "Sıkıştırma açılıyor…"
           }
         }
       }
@@ -2942,25 +2942,25 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En attente (de plus) de données..."
+            "value" : "En attente (de plus) de données…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "(より)多くのデータを待機中..."
+            "value" : "(より)多くのデータを待機中…"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "더 많은 데이터를 기다리는 중..."
+            "value" : "더 많은 데이터를 기다리는 중…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wachten op (meer) gegevens..."
+            "value" : "Wachten op (meer) gegevens…"
           }
         },
         "pl" : {
@@ -2972,7 +2972,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aguardando (mais) dados..."
+            "value" : "Aguardando (mais) dados…"
           }
         },
         "ru" : {
@@ -2984,7 +2984,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "(Daha fazla) veri bekleniyor..."
+            "value" : "(Daha fazla) veri bekleniyor…"
           }
         },
         "zh-Hans" : {
@@ -3084,7 +3084,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En attente de données..."
+            "value" : "En attente de données…"
           }
         },
         "ja" : {
@@ -3096,13 +3096,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "데이터를 기다리는 중..."
+            "value" : "데이터를 기다리는 중…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wachten op gegevens..."
+            "value" : "Wachten op gegevens…"
           }
         },
         "pl" : {
@@ -3126,13 +3126,13 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veri bekleniyor..."
+            "value" : "Veri bekleniyor…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "等待数据..."
+            "value" : "等待数据…"
           }
         }
       }
@@ -3155,7 +3155,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi..."
+            "value" : "BatFi…"
           }
         },
         "ja" : {
@@ -3167,13 +3167,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi..."
+            "value" : "BatFi…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi..."
+            "value" : "BatFi…"
           }
         },
         "pl" : {
@@ -3185,7 +3185,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi..."
+            "value" : "BatFi…"
           }
         },
         "ru" : {
@@ -3362,7 +3362,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rechercher les mises à jour..."
+            "value" : "Rechercher les mises à jour…"
           }
         },
         "ja" : {
@@ -3374,13 +3374,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "업데이트 확인..."
+            "value" : "업데이트 확인…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zoek naar updates..."
+            "value" : "Zoek naar updates…"
           }
         },
         "pl" : {
@@ -3404,7 +3404,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Güncellemeleri Kontrol Et..."
+            "value" : "Güncellemeleri Kontrol Et…"
           }
         },
         "zh-Hans" : {
@@ -3811,7 +3811,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Introductie..."
+            "value" : "Introductie…"
           }
         },
         "pl" : {
@@ -3835,7 +3835,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kullanıcı Rehberi..."
+            "value" : "Kullanıcı Rehberi…"
           }
         },
         "zh-Hans" : {
@@ -4095,7 +4095,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Instellingen..."
+            "value" : "Instellingen…"
           }
         },
         "pl" : {
@@ -4107,7 +4107,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurações..."
+            "value" : "Configurações…"
           }
         },
         "ru" : {
@@ -4119,7 +4119,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayarlar..."
+            "value" : "Ayarlar…"
           }
         },
         "zh-Hans" : {
@@ -4372,13 +4372,13 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En attente de données..."
+            "value" : "En attente de données…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "データを待機中..."
+            "value" : "データを待機中…"
           }
         },
         "ko" : {
@@ -4390,7 +4390,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wachten op gegevens..."
+            "value" : "Wachten op gegevens…"
           }
         },
         "pl" : {
@@ -4402,7 +4402,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aguardando dados..."
+            "value" : "Aguardando dados…"
           }
         },
         "ru" : {
@@ -4414,13 +4414,13 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Veri bekleniyor..."
+            "value" : "Veri bekleniyor…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "等待数据中..."
+            "value" : "等待数据中…"
           }
         }
       }
@@ -4579,19 +4579,19 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ouvrir le tutoriel..."
+            "value" : "Ouvrir le tutoriel…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "オンボーディングを開く..."
+            "value" : "オンボーディングを開く…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Introductie..."
+            "value" : "Open Introductie…"
           }
         },
         "pl" : {
@@ -4603,7 +4603,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kullanıcı Rehberini Aç..."
+            "value" : "Kullanıcı Rehberini Aç…"
           }
         }
       }
@@ -4626,13 +4626,13 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "システム設定を開く..."
+            "value" : "システム設定を開く…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open Systeeminstellingen..."
+            "value" : "Open Systeeminstellingen…"
           }
         },
         "pl" : {
@@ -4644,7 +4644,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sistem Ayarlarını Aç..."
+            "value" : "Sistem Ayarlarını Aç…"
           }
         }
       }
@@ -9182,7 +9182,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil %lld altına düştüğünde"
+            "value" : "Pil %%%lld altına düştüğünde"
           }
         }
       }
@@ -9817,6 +9817,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "高能耗应用的显示阈值：%lld"
+          }
+        }
+      }
+    },
+    "settings.label.highest_limit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "90%"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%90"
+          }
+        }
+      }
+    },
+    "settings.label.lowest_limit" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "50%"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%50"
           }
         }
       }
