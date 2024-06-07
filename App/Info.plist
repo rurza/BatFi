@@ -7,6 +7,8 @@
 		<key>software.micropixels.BatFi.Helper</key>
 		<string>anchor apple generic and identifier "software.micropixels.BatFi.Helper" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
 	</dict>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>SUFeedURL</key>
 	<string>https://files.micropixels.software/batfi/appcast.xml</string>
 	<key>SUPublicEDKey</key>

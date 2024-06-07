@@ -57,9 +57,9 @@ struct ChargingView: View {
                                         Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
                                             EmptyView()
                                         } minimumValueLabel: {
-                                            Text("50%")
+                                            Text(L10n.Settings.Label.lowestLimit)
                                         } maximumValueLabel: {
-                                            Text("90%")
+                                            Text(L10n.Settings.Label.highestLimit)
                                         }
                                         .disabled(!manageCharging)
                                         .frame(width: 360)

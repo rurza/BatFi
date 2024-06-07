@@ -15,11 +15,11 @@ import SharedUI
 import SwiftUI
 
 struct GeneralView: View {
-    @State private var automaticallyChecksForUpdates: Bool = false
     @State private var automaticallyDownloadsUpdates: Bool = false
 
     @Default(.sendAnalytics) private var sendAnalytics
     @Default(.launchAtLogin) private var launchAtLogin
+    @Default(.downloadBetaVersion) private var checkForBetaUpdates
 
     @Dependency(\.featureFlags) private var featureFlags
     @Dependency(\.updater) private var updater
@@ -40,15 +40,15 @@ struct GeneralView: View {
                     }
             }
             Section(title: l10n.Section.updates, bottomDivider: true) {
-                Toggle(l10n.Button.Label.automaticallyCheckUpdates, isOn: $automaticallyChecksForUpdates)
-                    .onChange(of: automaticallyChecksForUpdates) { newValue in
-                        updater.setAutomaticallyChecksForUpdates(newValue)
-                    }
-
                 Toggle(l10n.Button.Label.automaticallyDownloadUpdates, isOn: $automaticallyDownloadsUpdates)
-                    .disabled(!automaticallyChecksForUpdates)
                     .onChange(of: automaticallyDownloadsUpdates) { newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
+                    }
+                Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
+                    .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
+                        if checkForBetaUpdates {
+                            updater.checkForUpdates()
+                        }
                     }
             }
             Section(title: l10n.Section.other, bottomDivider: true) {
@@ -63,7 +63,6 @@ struct GeneralView: View {
                 }
             }
         }.onAppear {
-            automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates()
             automaticallyDownloadsUpdates = updater.automaticallyDownloadsUpdates()
         }
     }

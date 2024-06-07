@@ -18,7 +18,6 @@ struct AdvancedView: View {
     @Default(.temperatureSwitch) private var temperatureSwitch
     @Default(.disableSleep) private var disableAutomaticSleep
     @Default(.showGreenLightMagSafeWhenInhibiting) private var greenLight
-    @Default(.downloadBetaVersion) private var checkForBetaUpdates
     @Default(.showDebugMenu) private var showDebugMenu
 
     @Dependency(\.updater) private var updater
@@ -42,12 +41,6 @@ struct AdvancedView: View {
                 }
             }
             Section(title: l10n.Section.other) {
-                Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
-                    .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
-                        if checkForBetaUpdates {
-                            updater.checkForUpdates()
-                        }
-                    }
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
             }
         }
