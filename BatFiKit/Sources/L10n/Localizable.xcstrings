@@ -22,6 +22,12 @@
             "value" : "License"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licenza"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -82,6 +88,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twitter"
@@ -152,6 +164,12 @@
             "value" : "Site web"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sito web"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -215,6 +233,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fait avec ❤️ et 🔋 par"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fatto col❤️ e 🔋 da"
           }
         },
         "ja" : {
@@ -282,6 +306,12 @@
             "value" : "La limite est %@."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il limite è %@."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -345,6 +375,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Charger jusqu'à 100%"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In carica fino al 100%"
           }
         },
         "ja" : {
@@ -412,6 +448,12 @@
             "value" : "Utilisation de la batterie."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilizzando la batteria."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -475,6 +517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La limite de charge est fixée à %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il limite di ricarica è impostato a %@."
           }
         },
         "ja" : {
@@ -542,6 +590,12 @@
             "value" : "La limite de charge a été temporairement fixée à %@."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il limite di ricarica è temporaneamente impostato a %@."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -599,6 +653,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le chargeur n'est pas connecté"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricatore non connesso"
           }
         },
         "ja" : {
@@ -666,6 +726,12 @@
             "value" : "Charger jusqu'à la limite"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In carica fino al limite"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -731,6 +797,12 @@
             "value" : "Désactivé"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabilitato"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -788,6 +860,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chargement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In carica"
           }
         },
         "ja" : {
@@ -855,6 +933,12 @@
             "value" : "Déchargement"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In fase di scarica"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -918,6 +1002,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empêcher la charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impedimento della carica"
           }
         },
         "ja" : {
@@ -985,6 +1075,12 @@
             "value" : "Initialisation"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inizializzando"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1050,6 +1146,12 @@
             "value" : "Forcer la charge"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sovrascrivi carica"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1107,6 +1209,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chargement temporaire"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporaneamente in carica"
           }
         },
         "ja" : {
@@ -1168,6 +1276,12 @@
             "value" : "Décharge temporaire"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporaneamente in fase di scarica"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1225,6 +1339,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Statut"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modalità"
           }
         },
         "ja" : {
@@ -1292,6 +1412,12 @@
             "value" : "Santé de la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salute batteria"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1355,6 +1481,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nombre de cycles"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cicli di carica"
           }
         },
         "ja" : {
@@ -1422,6 +1554,12 @@
             "value" : "Source d'énergie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonte di carica"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1487,6 +1625,12 @@
             "value" : "Température"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperatura"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1546,6 +1690,12 @@
             "value" : "Inconnu"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sconosciuto"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1591,6 +1741,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Information manquante"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazione mancante"
           }
         },
         "ja" : {
@@ -1658,6 +1814,12 @@
             "value" : "Batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batteria"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1723,6 +1885,12 @@
             "value" : "Temps écoulé"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo trascorso"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1780,6 +1948,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calcul..."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calcolando..."
           }
         },
         "ja" : {
@@ -1847,6 +2021,12 @@
             "value" : "Temps restant"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo rimasto"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1910,6 +2090,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Temps de charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo di ricarica"
           }
         },
         "ja" : {
@@ -1977,6 +2163,12 @@
             "value" : "Aucune application n'utilise suffisamment d'énergie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna app utilizza molta energia"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2030,6 +2222,12 @@
             "value" : "Accepter"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accetta"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2057,6 +2255,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décliner"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rifiuta"
           }
         },
         "nl" : {
@@ -2088,6 +2292,12 @@
             "value" : "Installer"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2115,6 +2325,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Installer BatFi"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi Installer "
           }
         },
         "nl" : {
@@ -2146,6 +2362,12 @@
             "value" : "OK"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completato"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2173,6 +2395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de téléchargement. %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Errore di Download. $@"
           }
         },
         "nl" : {
@@ -2204,6 +2432,12 @@
             "value" : "Téléchargement..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scaricando..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2231,6 +2465,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de l'installation. %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Errore di installazione. %@"
           }
         },
         "nl" : {
@@ -2262,6 +2502,12 @@
             "value" : "Installation..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installazione..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2289,6 +2535,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prêt à installer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto per l'installazione"
           }
         },
         "nl" : {
@@ -2320,6 +2572,12 @@
             "value" : "Décompression..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Decompressione..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2347,6 +2605,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erreur de décompression. %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Errore di decompressione. %@"
           }
         },
         "nl" : {
@@ -2382,6 +2646,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernières 12 heures"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultime 12 ore"
           }
         },
         "ko" : {
@@ -2443,6 +2713,12 @@
             "value" : "Chargement"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In carica"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2500,6 +2776,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empêcher la charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impedimento della carica"
           }
         },
         "ko" : {
@@ -2561,6 +2843,12 @@
             "value" : "En attente (de plus) de données..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendendo (altri) dati..."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2618,6 +2906,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Applications énergivores"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applicazioni ad alto consumo"
           }
         },
         "ko" : {
@@ -2679,6 +2973,12 @@
             "value" : "En attente de données..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendendo i dati"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2733,6 +3033,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi..."
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi..."
@@ -2803,6 +3109,12 @@
             "value" : "Charger à 100%"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carica al 100%"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2868,6 +3180,12 @@
             "value" : "L'override est actif uniquement lorsque le chargeur est connecté."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modalità Override attiva solo con caricatore connesso"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2925,6 +3243,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rechercher les mises à jour..."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla gli aggiornamenti..."
           }
         },
         "ja" : {
@@ -2992,6 +3316,12 @@
             "value" : "Déboguer"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3057,6 +3387,12 @@
             "value" : "Utiliser la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alimentato a batteria"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3110,6 +3446,12 @@
             "value" : "Empêcher la charge; ouvrir l'écran pour décharger la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impedimento della ricarica; apri il coperchio per scaricare la batteria"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3137,6 +3479,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empêcher la charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impedimento della ricarica"
           }
         },
         "nl" : {
@@ -3172,6 +3520,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Installer l'assistant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa Helper"
           }
         },
         "ja" : {
@@ -3239,6 +3593,12 @@
             "value" : "Plus"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altro"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3302,6 +3662,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Installation…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inizializzazione..."
           }
         },
         "ja" : {
@@ -3369,6 +3735,12 @@
             "value" : "Quitter BatFi"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi BatFi"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3432,6 +3804,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Désinstaller l'assistant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi Helper"
           }
         },
         "ja" : {
@@ -3499,6 +3877,12 @@
             "value" : "Rétablir les réglages par défaut"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripristina impostazioni"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3562,6 +3946,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réglages…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni..."
           }
         },
         "ja" : {
@@ -3629,6 +4019,12 @@
             "value" : "Arrêter la charge à 100%"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ferma la ricarica al 100%"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3688,6 +4084,12 @@
             "value" : "Stopper l'utilisation de la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ferma l'utilizzo della batteria"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3715,6 +4117,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Stopper"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interrompi sovrascrizione"
           }
         },
         "nl" : {
@@ -3750,6 +4158,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distribution de l'énergie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distribuzione dell'energia"
           }
         },
         "ko" : {
@@ -3811,6 +4225,12 @@
             "value" : "En attente de données..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendendo i dati"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3868,6 +4288,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Désactivé car le chargeur n'est pas connecté"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabilitato perché il caricatore non è connesso"
           }
         },
         "ja" : {
@@ -3935,6 +4361,12 @@
             "value" : "Désactivé car \"Décharger la batterie lorsqu'elle est chargée au-delà de la limite\" est activée"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabilitato perché \"Scarica la batteria quando la percentuale è sopra il limite\" è impostato"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3994,6 +4426,12 @@
             "value" : "Ouvrir le tutoriel..."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri inizializzazione..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4023,6 +4461,12 @@
             "value" : "Ouvrir les réglages système…"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Impostazioni di Sistema..."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4050,6 +4494,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'application ne fonctionnera pas sans. Ouvrez et complétez le processus à partir du menu Plus. Vérifiez que l'application est dans la liste 'Autoriser en arrière-plan' avec l'interrupteur activé dans Réglages Système → Général → Ouverture."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app non funzionerà senza l'Helper. Apri l'app e completa il processo di inizializzazione dal menu Altro. Verifica che l'app è nella lista \"Consenti in background\" ed il relativo interruttore è impostato ad ON dentro Impostazioni di Sistema →Generale → Elementi di login"
           }
         },
         "nl" : {
@@ -4085,6 +4535,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'application auxiliaire de BatFi n'est pas installée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper di BatFi non è installato"
           }
         },
         "ja" : {
@@ -4144,6 +4600,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recharge optimisée de la batterie activée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'ottimizzazione della ricarica è impostato su ON"
           }
         },
         "ja" : {
@@ -4211,6 +4673,12 @@
             "value" : "J'ai besoin d'énergie!"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mi serve più carica!"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4268,6 +4736,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nouveau mode: %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova modalità: %@."
           }
         },
         "ja" : {
@@ -4335,6 +4809,12 @@
             "value" : "Batterie faible"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batteria quasi scarica"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4392,6 +4872,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ouvrez Réglages système"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Impostazioni di Sistema"
           }
         },
         "ja" : {
@@ -4459,6 +4945,12 @@
             "value" : "Il semble que vous n'ayez pas accordé les autorisations nécessaires à l'assistant. S'il n'y avait pas de demande de mot de passe/Touch ID, c'est normal - c'est un bug de macOS et cela arrive parfois. Vous pouvez toujours modifier les autorisations dans les paramètres système. Veuillez noter que l'application ne fonctionnera pas sans l'outil d'assistance."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sembra che non hai dato i permessi all'helper. Se non è apparsa una finestra per la password/Touch ID è tutto ok - è un bug di macOS e ogni tanto succede. Puoi sempre cambiare i permessi in Impostazioni di Sistema. Ricorda che l'app non funzione senza l'helper."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4522,6 +5014,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'assistant n'est (toujours) pas installé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper non è (ancora) installato."
           }
         },
         "ja" : {
@@ -4589,6 +5087,12 @@
             "value" : "Terminé"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completa"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4652,6 +5156,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Commencer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniziare"
           }
         },
         "ja" : {
@@ -4719,6 +5229,12 @@
             "value" : "Installer l'assistant"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa helper"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4782,6 +5298,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lancer BatFi à l'ouverture de session"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri BatFi al login"
           }
         },
         "ja" : {
@@ -4849,6 +5371,12 @@
             "value" : "Suivant"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Successivo"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4914,6 +5442,12 @@
             "value" : "Précédent"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precedente"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4973,6 +5507,12 @@
             "value" : "Don %@"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dona %@."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5006,6 +5546,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bientôt terminé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quasi finito."
           }
         },
         "ja" : {
@@ -5073,6 +5619,12 @@
             "value" : "BatFi vous aide à optimiser les performances de la batterie de votre macOS en gérant intelligemment les niveaux de charge, tout en vous donnant un contrôle total - ne chargeant à 100% que lorsque cela est nécessaire."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi ti aiuta ad ottimizzare le performance della batteria di macOS gestendo i livelli della carica in maniera intelligente, ma comunque lasciando a te il pieno controllo - carica fino al 100% quando ne hai bisogno."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5136,6 +5688,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous pouvez maintenant utiliser l'application!"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app è pronta per l'uso!"
           }
         },
         "ja" : {
@@ -5203,6 +5761,12 @@
             "value" : "Terminé."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fatto."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5266,6 +5830,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prolongez la durée de vie de votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estendi la vita del tuo Mac."
           }
         },
         "ja" : {
@@ -5333,6 +5903,12 @@
             "value" : "BatFi installera un outil d'assistance qui fonctionnera en arrière-plan et sera capable de modifier le mode de charge de votre ordinateur."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi installerà uno strumento helper, che lavorerà in background ed è in grado di cambiare la modalità di carica del tuo computer."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5396,6 +5972,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'installation de l'outil d'assistance nécessite des autorisations d'administrateur et est essentielle au bon fonctionnement de BatFi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installar lo strumento helper richiede i permessi di admin ed è essenziale per le funzionalità di BatFi."
           }
         },
         "ja" : {
@@ -5463,6 +6045,12 @@
             "value" : "Recommandé. Vous pouvez le modifier ultérieurement dans les paramètres de l'application."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccomandato. Puoi cambiarlo dopo nelle impostazioni dell'applicazione."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5526,6 +6114,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Définir la limite de charge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta limite di carica."
           }
         },
         "ja" : {
@@ -5593,6 +6187,12 @@
             "value" : "Définissez un pourcentage de charge maximum pour éviter de maintenir le niveau de charge à 100% et améliorer la longévité de la batterie."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta una percentuale di ricarica massima per evitare di mantenere il livello di carica al 100% e migliorare la longevità della batteria."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5656,6 +6256,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous pouvez modifier le paramètre ultérieurement dans les paramètres de l'application."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi modificare questa impostazione dopo nelle impostazioni dell'app."
           }
         },
         "ja" : {
@@ -5723,6 +6329,12 @@
             "value" : "Arrêter la charge quand la batterie atteindra %@"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interrompi carica quando la batteria raggiunge il %@"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5788,6 +6400,12 @@
             "value" : "Avancé"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pannello Avanzate"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5845,6 +6463,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chargement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pannello Carica"
           }
         },
         "ja" : {
@@ -5912,6 +6536,12 @@
             "value" : "Général"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pannello Generale"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5971,6 +6601,12 @@
             "value" : "Panneau de raccourcis"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pannello Tasti di scelta rapida"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6004,6 +6640,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pannello Notifiche"
           }
         },
         "ja" : {
@@ -6071,6 +6713,12 @@
             "value" : "Barre de menu"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pannello Menu"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6128,6 +6776,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fonctionne uniquement avec l'écran ouvert."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funziona solo quando il coperchio è aperto."
           }
         },
         "ja" : {
@@ -6195,6 +6849,12 @@
             "value" : "Rechercher automatiquement les mises à jour"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla automaticamente gli aggiornamenti"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6258,6 +6918,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Télécharger automatiquement les mises à jour"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scarica automaticamente gli aggiornamenti"
           }
         },
         "ja" : {
@@ -6325,6 +6991,12 @@
             "value" : "Gestion automatique de la charge"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestisci automaticamente la carica"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6388,6 +7060,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher le niveau de la batterie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra percentuale batteria"
           }
         },
         "ja" : {
@@ -6455,6 +7133,12 @@
             "value" : "Faire clignoter la LED du MagSafe quelques fois lorsque l'application commence à décharger la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lampeggia il LED sul MagSafe qualche volta quando l'applicazione comincia a scaricare la batteria"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6518,6 +7202,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le statut de charge a changé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo stato della batteria è cambiato"
           }
         },
         "ja" : {
@@ -6585,6 +7275,12 @@
             "value" : "Autoriser la version bêta de l'application"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consenti la versione beta dell'app"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6648,6 +7344,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher le menu de débug"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra menu di Debug"
           }
         },
         "ja" : {
@@ -6715,6 +7417,12 @@
             "value" : "Retarder la mise en veille automatique lors de la charge tant que la limite n'est pas atteinte"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ritarda la sospensione automatica durante la ricarica, se il limite non è stato raggiunto"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6778,6 +7486,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Décharger la batterie lorsqu'elle est chargée au-delà de la limite"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scarica la batteria quando la carica supera il limite"
           }
         },
         "ja" : {
@@ -6845,6 +7559,12 @@
             "value" : "Activer automatiquement la limite de charge système (80 %) lorsque le Mac passe veille"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abilita automaticamente il limite (80%) quando il Mac va in standby"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6904,6 +7624,12 @@
             "value" : "Afficher les applications avec une utilisation élevée de l'énergie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra applicazioni ad alto consumo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6961,6 +7687,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lancer à l'ouverture de session"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri al login"
           }
         },
         "ja" : {
@@ -7028,6 +7760,12 @@
             "value" : "Utiliser la lumière verte du MagSafe lorsque la charge est en pause"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa la luce verde sul MagSafe quando la carica è in pausa"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7091,6 +7829,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Affichage monochrome des icônes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra l'icona monocolore"
           }
         },
         "ja" : {
@@ -7158,6 +7902,12 @@
             "value" : "Mettre automatiquement en pause la charge lorsque le Mac passe en veille"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metti in pausa automaticamente la carica quando il Mac va in standby."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7223,6 +7973,12 @@
             "value" : "Envoyer les rapports de bug"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invia rapporti sugli arresti anomali"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7280,6 +8036,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher une alerte lorsque la charge optimisée de la batterie est activée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra un avviso quando viene attivata la modalità carica ottimizzata"
           }
         },
         "ja" : {
@@ -7347,6 +8109,12 @@
             "value" : "Afficher le pourcentage de la batterie dans le menu"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra grafico della percentuale della batteria nel menu"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7400,6 +8168,12 @@
             "value" : "Afficher le nombre de cycles de la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il conteggio dei cicli della batteria"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7429,6 +8203,12 @@
             "value" : "Afficher la santé de la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la salute della batteria"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7456,6 +8236,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher la température de la batterie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la temperatura della batteria"
           }
         },
         "nl" : {
@@ -7491,6 +8277,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher la distribution de l'énergie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la distribuzione dell'energia"
           }
         },
         "ko" : {
@@ -7546,6 +8338,12 @@
             "value" : "Afficher la source d'énergie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la fonte di energia"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7573,6 +8371,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher le temps restant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il tempo rimasto"
           }
         },
         "nl" : {
@@ -7608,6 +8412,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Désactiver automatiquement la charge lorsque la batterie devient chaude"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva automaticamente la carica quando al surriscaldamento della batteria."
           }
         },
         "ja" : {
@@ -7675,6 +8485,12 @@
             "value" : "L'application retardera la mise en veille pour permettre à l'ordinateur de se charger jusqu'à la limite, puis elle arrêtera la charge et mettra le Mac en veille"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app ritarderà la modalità di sospensione in modo che il computer si carichi fino al limite, quindi inibirà la ricarica e metterà il Mac in modalità di sospensione"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7738,6 +8554,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lorsque l'écran du MacBook est ouvert, l'application peut décharger la batterie jusqu'à ce qu'elle atteigne la limite"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando il coperchio del Macbook viene aperto, l'app può scaricare la batteria fino a raggiungere il limite"
           }
         },
         "ja" : {
@@ -7805,6 +8627,12 @@
             "value" : "Désactiver la charge lorsque la batterie atteint 40 °C ou plus."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva la carica quando la batteria raggiunge i 40°C o più."
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7864,6 +8692,12 @@
             "value" : "Activer la charge à 100%"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva/Disattiva carica fino al 100%"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7891,6 +8725,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Activer l'utilisation de la batterie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva/Disattiva esecuzione a batteria"
           }
         },
         "nl" : {
@@ -7922,6 +8762,12 @@
             "value" : "Activer le blocage de la charge"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva/Disattiva impedimento della carica"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7949,6 +8795,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arrêter la charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interrompi sovracrizione della carica"
           }
         },
         "nl" : {
@@ -7980,6 +8832,12 @@
             "value" : "Toujours activé pour les versions bêta"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sempre abilitato durante la Beta"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8007,6 +8865,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La batterie est à %lld%%"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La batteria è scarica al %lld%%"
           }
         },
         "nl" : {
@@ -8042,6 +8906,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "80 % est la valeur recommandée pour une utilisation quotidienne."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80% è il valore raccomandato per un utilizzo giornaliero."
           }
         },
         "ja" : {
@@ -8107,6 +8977,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous pouvez contourner manuellement ce paramètre en utilisant la commande \"Charger à 100%\" dans le menu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi manualmente sovrascrivere queste impostazioni utilizzando il comando \"Carica fino al 100%\" nel menu."
           }
         },
         "ja" : {
@@ -8352,6 +9228,12 @@
             "value" : "Rafraichissement: %@"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiorna ogni: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8411,6 +9293,12 @@
             "value" : "5 minutes"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 minuti"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8465,6 +9353,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30s"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "30s"
@@ -8529,6 +9423,12 @@
             "value" : "Seuil de l'impact énergétique: %lld"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soglia dell'impatto energetico: %lld"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8582,6 +9482,12 @@
             "value" : "Montrez votre soutien avec un don !\nVotre contribution m'aide à améliorer et rendre BatFi encore meilleur pour vous.\nMerci de faire partie de notre communauté !"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il tuo sostegno con una donazione!\nIl tuo contributo mi aiuta a continuare a migliorare e rende BatFi ancora migliore per te.\nGrazie per essere una parte straordinaria della nostra comunità!"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8609,6 +9515,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Le bouton ouvrira le site Gumroad avec le prix déjà inclu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il pulsante aprirà il sito Gumroad con il prezzo già impostato."
           }
         },
         "nl" : {
@@ -8640,6 +9552,12 @@
             "value" : "Vous pourrez changez le montant avant de continuer."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi cambiare l'importo prima di procedere."
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8667,6 +9585,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vous aimez BatFi ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ti piace BatFi?"
           }
         },
         "nl" : {
@@ -8702,6 +9626,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avancé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avanzato"
           }
         },
         "ja" : {
@@ -8769,6 +9699,12 @@
             "value" : "Alertes"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvisi"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8834,6 +9770,12 @@
             "value" : "Chargement"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carica"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8893,6 +9835,12 @@
             "value" : "Débugger"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8950,6 +9898,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Général"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generale"
           }
         },
         "ja" : {
@@ -9017,6 +9971,12 @@
             "value" : "Applications énergivores"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Applicazioni ad alto consumo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9071,6 +10031,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "MagSafe"
@@ -9141,6 +10107,12 @@
             "value" : "Menu"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9198,6 +10170,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifiche"
           }
         },
         "ja" : {
@@ -9259,6 +10237,12 @@
             "value" : "Autres"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altro"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9298,6 +10282,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Icône d'état"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icona di stato"
           }
         },
         "ja" : {
@@ -9365,6 +10355,12 @@
             "value" : "Mises à jour"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornamenti"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9428,6 +10424,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Arrêter la charge quand la batterie atteindra %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva ricarica quando la batteria raggiunge il %@."
           }
         },
         "ja" : {
@@ -9495,6 +10497,12 @@
             "value" : "Avancé"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avanzate"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9552,6 +10560,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chargement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carica"
           }
         },
         "ja" : {
@@ -9619,6 +10633,12 @@
             "value" : "Général"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generale"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9678,6 +10698,12 @@
             "value" : "Raccourcis"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasti di scelta rapida"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9711,6 +10737,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notifications"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifiche"
           }
         },
         "ja" : {
@@ -9778,6 +10810,12 @@
             "value" : "Barre de menu"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barra dei menu"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9829,6 +10867,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dons"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvadanaio"
           }
         },
         "nl" : {
