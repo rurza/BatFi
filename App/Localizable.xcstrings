@@ -78,7 +78,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "${limit}% limitine ulaşana kadar pili şarj et ya da pil gücüyle (kapak açıkken) çalıştır."
+            "value" : "%${limit} sınırına ulaşana kadar pili şarj et ya da pil gücüyle (kapak açıkken) çalıştır."
           }
         }
       }
@@ -113,7 +113,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pili ${applicationName} ile şarj et"
+            "value" : "Pili ${applicationName} ile Şarj Et"
           }
         }
       }
@@ -148,7 +148,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "${applicationName} ile %100 şarj et"
+            "value" : "${applicationName} ile %100 Şarj Et"
           }
         }
       }
@@ -189,7 +189,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%100 şarj et"
+            "value" : "%100 Şarj Et"
           }
         }
       }
@@ -271,7 +271,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil ile çalıştır"
+            "value" : "Pil ile Çalıştır"
           }
         }
       }
@@ -418,7 +418,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limit"
+            "value" : "Sınır"
           }
         },
         "zh-Hans" : {

@@ -274,7 +274,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "❤️ ve 🔋 ile yapıldı."
+            "value" : "❤️ ve 🔋 ile yapıldı"
           }
         },
         "zh-Hans" : {
@@ -345,7 +345,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limit %@."
+            "value" : "Sınır %@."
           }
         },
         "zh-Hans" : {
@@ -416,7 +416,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%100 şarj ediliyor"
+            "value" : "%100 Şarj Oluyor"
           }
         },
         "zh-Hans" : {
@@ -558,7 +558,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj limiti %@ olarak ayarlandı."
+            "value" : "Şarj sınırı %@ olarak ayarlandı."
           }
         },
         "zh-Hans" : {
@@ -623,7 +623,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj limiti geçici olarak %@ olarak ayarlandı."
+            "value" : "Şarj sınırı geçici olarak %@ olarak ayarlandı."
           }
         },
         "zh-Hans" : {
@@ -694,7 +694,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj aleti bağlı değil"
+            "value" : "Şarj cihazı bağlı değil"
           }
         },
         "zh-Hans" : {
@@ -765,7 +765,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limite kadar şarj ediliyor"
+            "value" : "Sınıra kadar şarj oluyor"
           }
         },
         "zh-Hans" : {
@@ -901,7 +901,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj ediliyor"
+            "value" : "Şarj Oluyor"
           }
         },
         "zh-Hans" : {
@@ -972,7 +972,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil boşaltılıyor"
+            "value" : "Pil Boşaltılıyor"
           }
         },
         "zh-Hans" : {
@@ -1043,7 +1043,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı durdurma"
+            "value" : "Şarj etmeyi durdurma"
           }
         },
         "zh-Hans" : {
@@ -1179,7 +1179,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı geçersiz kılma"
+            "value" : "Şarjı Geçersiz Kılma"
           }
         },
         "zh-Hans" : {
@@ -1244,7 +1244,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçici olarak şarj ediliyor"
+            "value" : "Geçici olarak şarj oluyor"
           }
         },
         "zh-Hans" : {
@@ -2137,7 +2137,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj etme vakti"
+            "value" : "Şarj Zamanı"
           }
         },
         "zh-Hans" : {
@@ -2255,7 +2255,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kabul et"
+            "value" : "Kabul Et"
           }
         }
       }
@@ -2706,7 +2706,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sıkıştırmayı açma hatası. %@"
+            "value" : "Sıkıştırma'yı açma hatası. %@"
           }
         }
       }
@@ -2842,7 +2842,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj ediliyor"
+            "value" : "Şarj Oluyor"
           }
         },
         "zh-Hans" : {
@@ -2913,7 +2913,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı Durdurma"
+            "value" : "Şarj Etmeyi Durdurma"
           }
         },
         "zh-Hans" : {
@@ -3268,7 +3268,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%100 şarj et"
+            "value" : "%100 Şarj Et"
           }
         },
         "zh-Hans" : {
@@ -3333,7 +3333,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçersiz kılma sadece şarj aleti bağlıyken aktif olur"
+            "value" : "Geçersiz kılma sadece şarj cihazı bağlıyken aktif olur"
           }
         },
         "zh-Hans" : {
@@ -3540,7 +3540,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil ile çalıştır"
+            "value" : "Pil ile Çalıştır"
           }
         },
         "zh-Hans" : {
@@ -3587,7 +3587,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı durdurma; Pili boşaltmak için kapağı açın"
+            "value" : "Şarj etmeyi durdurma; pili boşaltmak için kapağı açın"
           }
         }
       }
@@ -3628,7 +3628,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı durdur"
+            "value" : "Şarj Etmeyi Durdur"
           }
         }
       }
@@ -4190,7 +4190,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%100 şarj etmeyi durdur"
+            "value" : "%100 Şarj Etmeyi Durdur"
           }
         },
         "zh-Hans" : {
@@ -4485,7 +4485,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj aleti bağlı olmadığı için devre dışı bırakıldı"
+            "value" : "Şarj cihazı bağlı olmadığı için devre dışı bırakıldı"
           }
         },
         "zh-Hans" : {
@@ -4556,7 +4556,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Limitin üzerinde şarj edildiğinde pili boşalt” açık olduğu için devre dışı bırakıldı"
+            "value" : "“Sınırın üzerinde şarj edildiğinde pili boşalt” açık olduğu için devre dışı bırakıldı"
           }
         },
         "zh-Hans" : {
@@ -6347,7 +6347,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj Limitini Ayarla."
+            "value" : "Şarj Sınırını Ayarla."
           }
         },
         "zh-Hans" : {
@@ -7666,7 +7666,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj edilirken ve limite ulaşmadığında otomatik uyku modunu geciktir"
+            "value" : "Şarj olurken ve sınıra ulaşılmadığında otomatik uyku modunu geciktir"
           }
         },
         "zh-Hans" : {
@@ -7737,7 +7737,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limitin üzerinde şarj edildiğinde pili boşalt"
+            "value" : "Sınırın üzerinde şarj edildiğinde pili boşalt"
           }
         },
         "zh-Hans" : {
@@ -7808,7 +7808,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mac uyku moduna geçtiğinde sistem şarj limitini (%80) otomatik olarak etkinleştir"
+            "value" : "Mac uyku moduna geçtiğinde sistem şarj sınırını (%80) otomatik olarak etkinleştir"
           }
         },
         "zh-Hans" : {
@@ -8092,7 +8092,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Monokrom simgeyi göster"
+            "value" : "Tek renkli simgeyi göster"
           }
         },
         "zh-Hans" : {
@@ -8788,7 +8788,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulama, bilgisayarın limite kadar şarj edilmesi için uyku modunu geciktirecek ve ardından şarjı durdurarak Mac'i uyku moduna geçirecektir"
+            "value" : "Uygulama, bilgisayarın sınıra kadar şarj olması için uyku modunu geciktirecek ve ardından şarjı durdurarak Mac'i uyku moduna geçirecektir"
           }
         },
         "zh-Hans" : {
@@ -8859,7 +8859,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MacBook'un kapağı açıldığında, uygulama limite ulaşana kadar pili boşaltabilir"
+            "value" : "MacBook'un kapağı açıldığında, uygulama sınıra ulaşana kadar pili boşaltabilir"
           }
         },
         "zh-Hans" : {
@@ -8977,7 +8977,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%100 şarj etmeyi aç/kapat"
+            "value" : "%100 Şarj Et'e geçiş yap"
           }
         }
       }
@@ -9018,7 +9018,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil ile çalışmayı aç/kapat"
+            "value" : "Pil ile Çalıştır'a geçiş yap"
           }
         }
       }
@@ -9059,7 +9059,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarjı durdurmayı aç/kapat"
+            "value" : "Şarj Etmeyi Durdur'a geçiş yap"
           }
         }
       }
@@ -9318,7 +9318,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Menüden \"%100 şarj et\" komutunu kullanarak bu ayarı manuel olarak geçersiz kılabilirsiniz."
+            "value" : "Menüden \"%100 Şarj Et\" komutunu kullanarak bu ayarı manuel olarak geçersiz kılabilirsiniz."
           }
         },
         "zh-Hans" : {
@@ -9511,13 +9511,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "En fazla %d işlem göster"
+                  "value" : "%d işleme kadar göster"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "En fazla %d işlem göster"
+                  "value" : "%d işleme kadar göster"
                 }
               }
             }
@@ -10789,7 +10789,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Durum Simgesi"
+            "value" : "Durum simgesi"
           }
         },
         "zh-Hans" : {
@@ -11374,7 +11374,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bahşiş kutusu"
+            "value" : "Bahşiş Kavanozu"
           }
         }
       }
