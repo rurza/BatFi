@@ -14,7 +14,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
     public let timeLeft: Int
     public let timeToCharge: Int
     public let batteryCycleCount: Int
-    public let batteryHealth: String?
+    public let batteryHealth: Int?
     public let batteryTemperature: Double
     public let chargerConnected: Bool
     public let optimizedBatteryChargingEngaged: Bool
@@ -26,7 +26,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
         timeLeft: Int,
         timeToCharge: Int,
         batteryCycleCount: Int,
-        batteryHealth: String?,
+        batteryHealth: Int?,
         batteryTemperature: Double,
         chargerConnected: Bool,
         optimizedBatteryChargingEngaged: Bool
@@ -45,7 +45,7 @@ public struct PowerState: CustomStringConvertible, Equatable {
 
     public var description: String {
         """
-        PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft), time to charge: \(timeToCharge), cycle count: \(batteryCycleCount), battery capacity: \(batteryHealth ?? "unknown"), battery temperature: \(batteryTemperature)°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(optimizedBatteryChargingEngaged)
+        PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft), time to charge: \(timeToCharge), cycle count: \(batteryCycleCount), battery health: \(batteryHealth?.description ?? "unknown"), battery temperature: \(batteryTemperature)°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(optimizedBatteryChargingEngaged)
         """
     }
 }

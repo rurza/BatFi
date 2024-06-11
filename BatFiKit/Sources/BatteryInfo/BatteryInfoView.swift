@@ -36,7 +36,7 @@ public struct BatteryInfoView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     BatteryMainInfo(
                         label: l10n.Main.battery,
-                        info: powerState?.batteryLevel != nil ? "\(powerState!.batteryLevel)%" : unknown,
+                        info: model.batteryPercentageDescription() ?? unknown,
                         primaryForegroundColor: true
                     )
                     .fontWeight(.bold)
@@ -94,7 +94,7 @@ public struct BatteryInfoView: View {
                         if showBatteryHealth {
                             BatteryAdditionalInfo(
                                 label: l10n.Additional.batteryCapacity,
-                                info: powerState?.batteryHealth ?? l10n.Additional.unknownHealth
+                                info: model.batteryHealthDescription() ?? l10n.Additional.unknownHealth
                             )
                         }
                     }

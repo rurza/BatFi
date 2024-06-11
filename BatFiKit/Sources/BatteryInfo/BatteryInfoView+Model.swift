@@ -118,6 +118,18 @@ public extension BatteryInfoView {
             return timeFormatter.string(from: Double(time))
         }
 
+        func batteryPercentageDescription() -> String? {
+            guard let percentage = state?.batteryLevel else { return nil }
+            let doubleValue = Double(percentage) / 100.0
+            return percentageFormatter.string(for: doubleValue)
+        }
+
+        func batteryHealthDescription() -> String? {
+            guard let percentage = state?.batteryHealth else { return nil }
+            let doubleValue = Double(percentage) / 100.0
+            return percentageFormatter.string(for: doubleValue)
+        }
+
         deinit {
             chargingStateModeChanges?.cancel()
             batteryChargeGraphInfoChanges?.cancel()

@@ -21,8 +21,8 @@ extension PowerSourceClient: DependencyKey {
         let batteryHealthState = BatteryHealthState()
 
         @Sendable
-        func getBatteryHealthIfNeeded() async -> String? {
-            if let batteryHealth = await batteryHealthState.lastBatteryHealth, 
+        func getBatteryHealthIfNeeded() async -> Int? {
+            if let batteryHealth = await batteryHealthState.lastBatteryHealth,
                 batteryHealth.date.timeIntervalSinceNow > -60 * 60 {
                 return batteryHealth.health
             }
@@ -43,9 +43,10 @@ extension PowerSourceClient: DependencyKey {
                     if line.contains("Maximum Capacity") {
                         let components = line.components(separatedBy: ":")
                         if components.count == 2 {
-                            let maximumCapacity = components[1].trimmingCharacters(in: .whitespaces)
-                            await batteryHealthState.setBatteryHealth(.init(health: maximumCapacity, date: .now))
-                            return maximumCapacity
+                            let maximumCapacity = components[1].trimmingCharacters(in: .whitespaces.union(.decimalDigits.inverted))
+                            guard let capacityInteger = Int(maximumCapacity) else { return nil }
+                            await batteryHealthState.setBatteryHealth(.init(health: capacityInteger, date: .now))
+                            return capacityInteger
                         }
                         return nil
                     }
@@ -220,6 +221,6 @@ private actor BatteryHealthState {
 }
 
 private struct BatteryHealth {
-    let health: String
+    let health: Int
     let date: Date
 }

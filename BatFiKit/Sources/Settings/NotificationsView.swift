@@ -5,6 +5,7 @@
 //  Created by Adam on 05/05/2023.
 //
 
+import AppShared
 import Defaults
 import L10n
 import SettingsKit
@@ -35,8 +36,8 @@ struct NotificationsView: View {
                             .monospacedDigit()
                     }
                     SettingsSliderContainer(
-                        minLabel: "5%",
-                        maxLabel: "30%",
+                        minLabel: percentageFormatter.string(for: 0.05) ?? "5%",
+                        maxLabel: percentageFormatter.string(for: 0.3) ?? "30%",
                         min: 5,
                         max: 30,
                         step: 5,
