@@ -7,10 +7,10 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>50</string>
+	<string>99999</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "50" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
+		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "99999" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
 	</array>
 </dict>
 </plist>
