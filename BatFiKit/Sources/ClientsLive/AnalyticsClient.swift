@@ -25,7 +25,7 @@ extension Clients.AnalyticsClient: DependencyKey {
                     let buildVersionNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
 
                     options.tracesSampleRate = 1.0
-                    options.diagnosticLevel = .warning
+                    options.diagnosticLevel = .error
                     options.enableMetricKit = true
                     options.enableAppHangTracking = false
                     options.releaseName = "BatFi@\(releaseVersionNumber ?? "Unknown")@\(buildVersionNumber ?? "Unknown")"
