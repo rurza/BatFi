@@ -145,6 +145,7 @@ actor XPCClient {
             machServiceName: Constant.helperBundleIdentifier,
             options: .privileged
         )
+        connection.setCodeSigningRequirement(xpcEntitlement)
         connection.resume()
         return connection
     }

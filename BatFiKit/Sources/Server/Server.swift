@@ -22,7 +22,24 @@ public final class Server {
         let plist = try PropertyListDecoder().decode(HelperPropertyList.self, from: data)
         logger.notice("Server version: \(plist.version, privacy: .public), build: \(plist.build, privacy: .public)")
 
+        let entitlement = plist.authorizedClients.first!
+        var requirement: SecRequirement!
+        var unmanagedError: Unmanaged<CFError>!
+
+        let status = SecRequirementCreateWithStringAndErrors(
+            entitlement as CFString,
+            [],
+            &unmanagedError,
+            &requirement
+        )
+
+        if status != errSecSuccess {
+            let error = unmanagedError.takeRetainedValue()
+            logger.fault("Code signing requirement text, `\(entitlement)`, is not valid: \(error).")
+        }
+
         let listener = NSXPCListener(machServiceName: Constant.helperBundleIdentifier)
+        listener.setConnectionCodeSigningRequirement(entitlement)
         let delegate = ListenerDelegate()
         listener.delegate = delegate
         listener.resume()
