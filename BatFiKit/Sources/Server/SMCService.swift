@@ -84,13 +84,15 @@ actor SMCService {
             let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
             let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
             let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
+            let systemChargeLimit = try SMCKit.readData(SMCKey.enableSystemChargeLimit)
             let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
             return SMCChargingStatus(
                 forceDischarging: forceDischarging.0 == 01,
                 inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
                 || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
-                lidClosed: lidClosed.0 == 01
+                lidClosed: lidClosed.0 == 01,
+                systemChargeLimit: systemChargeLimit.0 == 01
             )
         } catch {
             smcIsOpened = false

@@ -21,7 +21,7 @@ public actor ChargingManager: ChargingModeManager {
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.screenParametersClient) private var screenParametersClient
     @Dependency(\.sleepClient) private var sleepClient
-    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.continuousClock) private var clock
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.sleepAssertionClient) private var sleepAssertionClient
     @Dependency(\.helperClient) private var helperClient
@@ -94,6 +94,7 @@ public actor ChargingManager: ChargingModeManager {
                     let currentMode = appChargingMode.mode
                     let powerState = try? await powerSourceClient.currentPowerSourceState()
                     let currentLimit = appChargingMode.userTempOverride?.limit ?? defaults.value(.chargeLimit)
+                    let tempOverride = appChargingMode.userTempOverride != nil
                     let inhibitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
                     let systemChargingLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
 
@@ -101,7 +102,7 @@ public actor ChargingManager: ChargingModeManager {
                         (inhibitOnSleep && !systemChargingLimitOnSleep) {
                         logger.debug("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
                         await inhibitCharging(chargerConnected: true, currentMode: currentMode)
-                    } else if systemChargingLimitOnSleep, !inhibitOnSleep {
+                    } else if systemChargingLimitOnSleep, !inhibitOnSleep, !tempOverride {
                         logger.debug("current mode: \(appChargingMode), enable system charging limit on sleep")
                         logger.debug("I will enable system charge limit, because user chose the option")
                         try? await chargingClient.enableSystemChargeLimit()
@@ -431,9 +432,12 @@ public actor ChargingManager: ChargingModeManager {
                 mode = .forceDischarge
             } else if chargingStatus.inhitbitCharging {
                 mode = .inhibit
-            } else {
+            } else if chargingStatus.isCharging {
                 mode = .charging
+            } else {
+                mode = .inhibit
             }
+
             await appChargingState.updateLidOpenedStatus(!chargingStatus.lidClosed)
             await appChargingState.setAppChargingMode(
                 .init(mode: mode, userTempOverride: userTempOverride, chargerConnected: powerState.chargerConnected)
