@@ -99,7 +99,7 @@ public actor ChargingManager: ChargingModeManager {
                     let systemChargingLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
 
                     if powerState?.batteryLevel ?? 0 < currentLimit,
-                        (inhibitOnSleep && !systemChargingLimitOnSleep) {
+                        (inhibitOnSleep && !systemChargingLimitOnSleep), !tempOverride {
                         logger.debug("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
                         await inhibitCharging(chargerConnected: true, currentMode: currentMode)
                     } else if systemChargingLimitOnSleep, !inhibitOnSleep, !tempOverride {
