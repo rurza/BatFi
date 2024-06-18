@@ -21,7 +21,7 @@ public actor ChargingManager: ChargingModeManager {
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.screenParametersClient) private var screenParametersClient
     @Dependency(\.sleepClient) private var sleepClient
-    @Dependency(\.continuousClock) private var clock
+    @Dependency(\.suspendingClock) private var clock
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.sleepAssertionClient) private var sleepAssertionClient
     @Dependency(\.helperClient) private var helperClient
@@ -31,7 +31,6 @@ public actor ChargingManager: ChargingModeManager {
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "Charging Manager")
 
-    @MainActor
     private var powerStatePullingTask: Task<Void, Never>?
 
     public init() {}
@@ -100,15 +99,15 @@ public actor ChargingManager: ChargingModeManager {
 
                     if powerState?.batteryLevel ?? 0 < currentLimit,
                         (inhibitOnSleep && !systemChargingLimitOnSleep), !tempOverride {
-                        logger.debug("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
+                        logger.notice("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
                         await inhibitCharging(chargerConnected: true, currentMode: currentMode)
                     } else if systemChargingLimitOnSleep, !inhibitOnSleep, !tempOverride {
-                        logger.debug("current mode: \(appChargingMode), enable system charging limit on sleep")
-                        logger.debug("I will enable system charge limit, because user chose the option")
+                        logger.notice("current mode: \(appChargingMode), enable system charging limit on sleep")
+                        logger.notice("I will enable system charge limit, because user chose the option and there is no temp override")
                         try? await chargingClient.enableSystemChargeLimit()
                     }
                 case .didWake:
-                    logger.debug("Mac did wake up")
+                    logger.notice("Mac did wake up")
                     computerIsAsleep = false
                     await fetchAndUpdateAppChargingState()
                     await updateStatusWithCurrentState()
@@ -173,20 +172,22 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
-    @MainActor
     private func startPullingPowerStateIfNeeded() async {
         guard powerStatePullingTask == nil else { return }
-        powerStatePullingTask = Task.detached { [weak self] in
+        powerStatePullingTask = Task { [weak self] in
             guard let self else { return }
             await analytics.addBreadcrumb(category: .chargingManager, message: "started pulling power state")
             while !Task.isCancelled {
+                #if DEBUG
+                try? await clock.sleep(for: .seconds(3))
+                #else
                 try? await clock.sleep(for: .seconds(30))
+                #endif
                 await updateStatusWithCurrentState()
             }
         }
     }
 
-    @MainActor
     private func cancelPullingPowerStateTaskIfNeeded() async {
         guard powerStatePullingTask != nil else { return }
         await analytics.addBreadcrumb(category: .chargingManager, message: "pulling power state stopped")
@@ -260,8 +261,6 @@ public actor ChargingManager: ChargingModeManager {
             return
         }
 
-        await cancelPullingPowerStateTaskIfNeeded()
-
         let isLidOpened: Bool
         if let lidOpened = await appChargingState.lidOpened() {
             isLidOpened = lidOpened
@@ -270,7 +269,7 @@ public actor ChargingManager: ChargingModeManager {
         }
 
         let currentBatteryLevel = powerState.batteryLevel
-        if let tempLimit = userTempChargingMode?.limit, !computerIsAsleep {
+        if let tempLimit = userTempChargingMode?.limit {
             logger.debug("User set temp limit to \(tempLimit)")
             if currentBatteryLevel > tempLimit, isLidOpened {
                 return await turnOnDischarging(
@@ -323,6 +322,7 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
+        await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
         guard currentMode != .charging else {
             logger.debug("Charging is already turned on")
@@ -360,6 +360,7 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func turnOnDischarging(chargerConnected: Bool, currentMode: ChargingMode) async {
+        await cancelPullingPowerStateTaskIfNeeded()
         guard currentMode != .forceDischarge else {
             logger.debug("Force discharge is already turned on")
             return
@@ -383,7 +384,8 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func turnOnSystemChargingLimit() async {
-        logger.debug("Turning on system charging limit")
+        await cancelPullingPowerStateTaskIfNeeded()
+        logger.notice("Turning on system charging limit")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on system charging limit")
         do {
             try await chargingClient.enableSystemChargeLimit()
@@ -404,7 +406,7 @@ public actor ChargingManager: ChargingModeManager {
 
     private func delaySleepIfNeeded() async {
         if await !sleepAssertionClient.preventsSleep() {
-            logger.debug("Preventing sleep")
+            logger.notice("Preventing sleep")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Preventing sleep")
             await sleepAssertionClient.preventSleepIfNeeded(preventSleep: true)
         }
@@ -412,7 +414,7 @@ public actor ChargingManager: ChargingModeManager {
 
     private func restoreSleepifNeeded() async {
         if await sleepAssertionClient.preventsSleep() {
-            logger.debug("Restoring sleep")
+            logger.notice("Restoring sleep")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Restoring sleep")
             await sleepAssertionClient.preventSleepIfNeeded(false)
         }
@@ -420,12 +422,12 @@ public actor ChargingManager: ChargingModeManager {
 
     private func fetchAndUpdateAppChargingState() async {
         do {
-            logger.debug("Fetching charging state")
+            logger.notice("Fetching charging state")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Fetching charging state")
             let powerState = try await powerSourceClient.currentPowerSourceState()
             let chargingStatus = try await chargingClient.chargingStatus()
             let userTempOverride = await appChargingState.currentUserTempOverrideMode()
-            logger.debug("Current status: \(chargingStatus.description, privacy: .public)")
+            logger.notice("Current status: \(chargingStatus.description, privacy: .public)")
 
             let mode: ChargingMode
             if chargingStatus.forceDischarging {
@@ -450,7 +452,7 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func fetchLidStatus() async -> Bool {
-        logger.debug("We don't know if the lid is opened")
+        logger.notice("We don't know if the lid is opened")
         await analytics.addBreadcrumb(category: .chargingManager, message: "We don't know if the lid is opened")
         do {
             let chargingStatus = try await chargingClient.chargingStatus()
@@ -465,7 +467,7 @@ public actor ChargingManager: ChargingModeManager {
 
     private func updateChargerConnected(_ chargerConnected: Bool) async {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Updating charger connected status")
-        logger.debug("Updating charger connected status: \(chargerConnected)")
+        logger.notice("Updating charger connected status: \(chargerConnected)")
         await appChargingState.setChargerConnected(chargerConnected)
     }
 }

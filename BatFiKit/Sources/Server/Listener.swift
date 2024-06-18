@@ -39,7 +39,6 @@ final class XPCServiceHandler: XPCService {
     }
 
     private func changeChargingMode(_ newMode: SMCChargingCommand, reply: @escaping (Error?) -> Void) {
-        logger.notice("Changing charging mode: \(newMode.rawValue, privacy: .public)")
         Task {
             do {
                 try await smcService.setChargingMode(newMode)
@@ -52,7 +51,6 @@ final class XPCServiceHandler: XPCService {
     }
 
     func getCurrentChargingStatus(_ reply: @escaping (Shared.SMCChargingStatus?, (any Error)?) -> Void) {
-        logger.notice("\(#function, privacy: .public)")
         Task {
             do {
                 let status = try await smcService.smcChargingStatus()
@@ -65,7 +63,6 @@ final class XPCServiceHandler: XPCService {
     }
 
     func getPowerDistribution(_ reply: @escaping (Shared.PowerDistributionInfo?, (any Error)?) -> Void) {
-        logger.notice("\(#function, privacy: .public)")
         Task {
             do {
                 let info = try await smcService.getPowerDistribution()
@@ -94,7 +91,6 @@ final class XPCServiceHandler: XPCService {
     }
 
     func getMagSafeLEDOption(_ handler: @escaping (UInt8, (any Error)?) -> Void) {
-        logger.notice("\(#function, privacy: .public)")
         Task {
             do {
                 let option = try await smcService.magsafeLEDColor()

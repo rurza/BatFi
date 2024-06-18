@@ -12,7 +12,13 @@ import Shared
 
 actor SMCService {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "SMC Service")
-    private var smcIsOpened = false
+    private var smcIsOpened = false {
+        didSet {
+            if !smcIsOpened && oldValue {
+                close()
+            }
+        }
+    }
 
     static let shared = SMCService()
 
@@ -159,10 +165,7 @@ actor SMCService {
 
 
     private func openSMCIfNeeded() async {
-        guard !self.smcIsOpened else {
-            logger.notice("SMC is already opened.")
-            return
-        }
+        guard !self.smcIsOpened else { return  }
 
         logger.notice("Opening SMC...")
         await attemptToOpenSMC(withRetryAttempts: 3)
@@ -174,7 +177,6 @@ actor SMCService {
         while currentAttempt < attempts {
             do {
                 try await openSMC()
-                logger.notice("SMC successfully opened!")
                 self.smcIsOpened = true
                 return
             } catch {
@@ -195,5 +197,6 @@ actor SMCService {
     private func openSMC() async throws {
         logger.notice("Attempting to open SMC...")
         try SMCKit.open()
+        logger.notice("SMC successfully opened!")
     }
 }
