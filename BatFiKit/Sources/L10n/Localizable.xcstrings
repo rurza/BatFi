@@ -8853,7 +8853,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Aufladen automatisch passieren, wenn der Mac in den Ruhezustand wechselt"
+            "value" : "Das Aufladen automatisch pausieren, wenn der Mac in den Ruhezustand wechselt"
           }
         },
         "en" : {
