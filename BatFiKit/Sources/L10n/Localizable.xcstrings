@@ -3313,7 +3313,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "エネルギーを著しく消費中のアプリ"
+            "value" : "エネルギーを著しく消費"
           }
         },
         "ko" : {
@@ -8030,7 +8030,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅させます。"
+            "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDを数回点滅させる"
           }
         },
         "ko" : {
@@ -10028,7 +10028,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリー残量が %lld%%で低下"
+            "value" : "バッテリー残量が %lld%%で残量低下"
           }
         },
         "nl" : {
