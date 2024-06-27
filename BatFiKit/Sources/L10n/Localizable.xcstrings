@@ -9438,7 +9438,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリー残量を表示する"
+            "value" : "残り時間を表示する"
           }
         },
         "nl" : {
