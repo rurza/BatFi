@@ -718,7 +718,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電器が未接続です"
+            "value" : "充電器未接続"
           }
         },
         "ko" : {
@@ -1618,7 +1618,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電回数"
+            "value" : "充電サイクル数"
           }
         },
         "ko" : {
