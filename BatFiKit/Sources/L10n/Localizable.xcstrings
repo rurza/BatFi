@@ -718,7 +718,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電器が未接続です"
+            "value" : "充電器未接続"
           }
         },
         "ko" : {
@@ -1618,7 +1618,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充電回数"
+            "value" : "充電サイクル数"
           }
         },
         "ko" : {
@@ -3313,7 +3313,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "エネルギーを著しく消費中のアプリ"
+            "value" : "エネルギーを著しく消費"
           }
         },
         "ko" : {
@@ -4473,7 +4473,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリの設定を開く"
+            "value" : "設定を開く"
           }
         },
         "ko" : {
@@ -8030,7 +8030,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDが数回点滅させます。"
+            "value" : "アプリがバッテリーを放電し始めると、MagSafeのLEDを数回点滅させる"
           }
         },
         "ko" : {
@@ -8853,7 +8853,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Das Aufladen automatisch passieren, wenn der Mac in den Ruhezustand wechselt"
+            "value" : "Das Aufladen automatisch pausieren, wenn der Mac in den Ruhezustand wechselt"
           }
         },
         "en" : {
@@ -9438,7 +9438,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリー残量を表示する"
+            "value" : "残り時間を表示する"
           }
         },
         "nl" : {
@@ -10028,7 +10028,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バッテリー残量が %lld%%で低下"
+            "value" : "バッテリー残量が %lld%%で残量低下"
           }
         },
         "nl" : {
