@@ -2323,7 +2323,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj Zamanı"
+            "value" : "Şarj Etme Süresi"
           }
         },
         "zh-Hans" : {
@@ -9811,7 +9811,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%100 Şarj Et'e geçiş yap"
+            "value" : "%100 şarj et'e geçiş yap"
           }
         }
       }
@@ -9858,7 +9858,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pil ile Çalıştır'a geçiş yap"
+            "value" : "Pil ile çalıştır'a geçiş yap"
           }
         }
       }
@@ -9905,7 +9905,7 @@
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj Etmeyi Durdur'a geçiş yap"
+            "value" : "Şarj etmeyi durdur'a geçiş yap"
           }
         }
       }
