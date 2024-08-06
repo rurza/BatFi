@@ -63,7 +63,7 @@ actor SMCService {
             try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
             try SMCKit.writeData(.inhibitChargingC, uint8: inhibitChargingByte)
             try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
-            try SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
+            try? SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
@@ -76,7 +76,7 @@ actor SMCService {
             try SMCKit.writeData(.disableCharging, uint8: 0)
             try SMCKit.writeData(.inhibitChargingC, uint8: 0)
             try SMCKit.writeData(.inhibitChargingB, uint8: 0)
-            try SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
+            try? SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
         } catch {
             smcIsOpened = false
             logger.critical("Resetting charging state failed. \(error)")
@@ -87,10 +87,15 @@ actor SMCService {
         logger.notice("Checking SMC status")
         await openSMCIfNeeded()
         do {
+            logger.notice("Getting disbale charging status")
             let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
+            logger.notice("Getting inhibit charging C status")
             let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
+            logger.notice("Getting inhibit charging B status")
             let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
-            let systemChargeLimit = try SMCKit.readData(SMCKey.enableSystemChargeLimit)
+            logger.notice("Getting system charge limit status")
+            let systemChargeLimit = try? SMCKit.readData(SMCKey.enableSystemChargeLimit)
+            logger.notice("Getting lid closed status")
             let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
             return SMCChargingStatus(
@@ -98,7 +103,7 @@ actor SMCService {
                 inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
                 || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
                 lidClosed: lidClosed.0 == 01,
-                systemChargeLimit: systemChargeLimit.0 == 01
+                systemChargeLimit: (systemChargeLimit?.0 ?? 00) == 01
             )
         } catch {
             smcIsOpened = false
