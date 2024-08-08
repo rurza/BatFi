@@ -227,7 +227,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "网址"
+            "value" : "网站"
           }
         }
       }
@@ -1139,7 +1139,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充电停止中"
+            "value" : "停止充电中"
           }
         }
       }
@@ -1506,7 +1506,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充电模式"
+            "value" : "应用模式"
           }
         }
       }
@@ -1583,7 +1583,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "电池健康度"
+            "value" : "电池健康"
           }
         }
       }
@@ -1660,7 +1660,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充电循环数"
+            "value" : "循环计数"
           }
         }
       }
@@ -2455,6 +2455,12 @@
             "state" : "translated",
             "value" : "Kabul Et"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接受"
+          }
         }
       }
     },
@@ -2501,6 +2507,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reddet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拒绝"
           }
         }
       }
@@ -2549,6 +2561,12 @@
             "state" : "translated",
             "value" : "Yükle"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装"
+          }
         }
       }
     },
@@ -2595,6 +2613,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi Yükleyicisi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi安装器"
           }
         }
       }
@@ -2643,6 +2667,12 @@
             "state" : "translated",
             "value" : "Bitti"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
         }
       }
     },
@@ -2689,6 +2719,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "İndirme hatası. %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下载错误。%@"
           }
         }
       }
@@ -2737,6 +2773,12 @@
             "state" : "translated",
             "value" : "İndiriliyor…"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下载中…"
+          }
         }
       }
     },
@@ -2783,6 +2825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kurulum hatası. %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装错误。%@"
           }
         }
       }
@@ -2831,6 +2879,12 @@
             "state" : "translated",
             "value" : "Kuruluyor…"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装中…"
+          }
         }
       }
     },
@@ -2877,6 +2931,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kuruluma hazır"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已准备好进行安装"
           }
         }
       }
@@ -2925,6 +2985,12 @@
             "state" : "translated",
             "value" : "Sıkıştırma açılıyor…"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解压中…"
+          }
         }
       }
     },
@@ -2971,6 +3037,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sıkıştırma'yı açma hatası. %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解压错误。%@"
           }
         }
       }
@@ -3201,7 +3273,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充电停止中"
+            "value" : "停止充电中"
           }
         }
       }
@@ -3278,7 +3350,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "等待（更多）数据..."
+            "value" : "等待（更多）数据…"
           }
         }
       }
@@ -3509,7 +3581,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi..."
+            "value" : "BatFi…"
           }
         }
       }
@@ -3657,7 +3729,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当充电器连接时，覆盖功能才激活。"
+            "value" : "当充电器连接时，覆盖功能才激活"
           }
         }
       }
@@ -3734,7 +3806,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "检查更新..."
+            "value" : "检查更新…"
           }
         }
       }
@@ -3931,6 +4003,12 @@
             "state" : "translated",
             "value" : "Şarj etmeyi durdurma; pili boşaltmak için kapağı açın"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止充电中；打开上盖放电"
+          }
         }
       }
     },
@@ -3977,6 +4055,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şarj Etmeyi Durdur"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止充电"
           }
         }
       }
@@ -4207,7 +4291,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上手引导"
+            "value" : "上手引导…"
           }
         }
       }
@@ -4438,7 +4522,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "重制设置"
+            "value" : "重置设置"
           }
         }
       }
@@ -4515,7 +4599,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "应用设置..."
+            "value" : "应用设置…"
           }
         }
       }
@@ -4641,6 +4725,12 @@
             "state" : "translated",
             "value" : "Pili Kullanmayı Durdur"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止使用电池"
+          }
         }
       }
     },
@@ -4687,6 +4777,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geçersiz Kılmayı Durdur"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止覆盖"
           }
         }
       }
@@ -4840,7 +4936,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "等待数据中…"
+            "value" : "等待数据…"
           }
         }
       }
@@ -4994,7 +5090,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无效，“超过设置电量时对电池放电”已开启"
+            "value" : "无效，由于“当电量超过限制值时对电池放电”已启用"
           }
         }
       }
@@ -5043,6 +5139,12 @@
             "state" : "translated",
             "value" : "Kullanıcı Rehberini Aç…"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开上手引导…"
+          }
         }
       }
     },
@@ -5090,6 +5192,12 @@
             "state" : "translated",
             "value" : "Sistem Ayarlarını Aç…"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开系统设置…"
+          }
         }
       }
     },
@@ -5136,6 +5244,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uygulama bu olmadan çalışmayacaktır.\nDaha fazla menüsünden Kullanıcı Rehberini açın ve tamamlayın.\nSistem Ayarları → Genel → Oturum Açma Öğeleri'nde anahtar açıkken uygulamanın 'Arka Planda İzin Ver’ listesinde olduğunu emin olun."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果没有它，应用将无法运行。\n从“更多”菜单打开并完成上手引导。\n验证应用是否位于“允许在后台”列表中，并在“系统设置”→“通用”→“登录项”中打开开关。\n"
           }
         }
       }
@@ -5206,7 +5320,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi的辅助应用程序未安装。"
+            "value" : "BatFi的Helper应用未安装"
           }
         }
       }
@@ -5283,7 +5397,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "电池设置中“优化电池充电”选项已开启"
+            "value" : "优化电池充电已启用"
           }
         }
       }
@@ -5668,7 +5782,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "看起来Helper工具没有获得合适的系统信息访问和控制权限。如果没有密码/Touch ID提示出来，不用担心，这是一个macOS的系统bug，时有发生。\n你永远都可以在系统设置中自行更改本软件的权限。\n请记住这个应用需要在Helper工具已安装且获得相关权限的前提下才能正常工作。"
+            "value" : "看起来Helper工具没有获得合适的系统信息访问和控制权限。如果没有出现密码/Touch ID提示，不用担心，这是一个macOS的系统bug，时有发生。\n你始终都可以在系统设置中自行更改本软件的权限。\n请记住这个应用需要在Helper工具已安装且获得相关权限的前提下才能正常工作。"
           }
         }
       }
@@ -5745,7 +5859,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Helper （仍） 未安装"
+            "value" : "Helper（仍）未安装"
           }
         }
       }
@@ -5976,7 +6090,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "安装 Helper工具"
+            "value" : "安装Helper"
           }
         }
       }
@@ -6053,7 +6167,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "登陆系统时启动BatFI"
+            "value" : "系统登录时启动BatFi"
           }
         }
       }
@@ -6256,6 +6370,12 @@
             "state" : "translated",
             "value" : "Bahşiş %@"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "赞助%@"
+          }
         }
       }
     },
@@ -6331,7 +6451,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "几乎完成了。"
+            "value" : "接近完成。"
           }
         }
       }
@@ -6408,7 +6528,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi 通过智能化的充电限制来优化电池性能以及寿命，然而你依然可以解除限制并充电至100%来满足额外的续航需求。"
+            "value" : "BatFi通过智能化的充电限制来优化macOS电池性能以及寿命，然而你依然可以解除限制并充电至100%来满足额外的续航需求。"
           }
         }
       }
@@ -6716,7 +6836,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi即将安装helper工具包，它会在后台运行并更改此Mac的充电模式"
+            "value" : "BatFi即将安装Helper工具，它会在后台运行并更改此Mac的充电模式"
           }
         }
       }
@@ -6793,7 +6913,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "安装helper 工具包需要管理员权限，且该工具包是BatFi正常运行的必要组件。"
+            "value" : "安装Helper工具需要管理员权限，且此工具是BatFi正常运行的必要组件。"
           }
         }
       }
@@ -7101,7 +7221,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你后面可以在应用设置中调整该选项。"
+            "value" : "你可以稍后在应用设置中修改此设置。"
           }
         }
       }
@@ -7178,7 +7298,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在电池达到%@后停止充电"
+            "value" : "在电量达到%@后停止充电"
           }
         }
       }
@@ -7457,6 +7577,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kısayol Tuşları"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快捷键面板"
           }
         }
       }
@@ -7995,7 +8121,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "限制电池百分比"
+            "value" : "显示电量百分比"
           }
         }
       }
@@ -8072,7 +8198,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "电池开始放电时，MagSafe上的LED将闪烁数次"
+            "value" : "当电池开始放电时，MagSafe上的LED将闪烁数次"
           }
         }
       }
@@ -8380,7 +8506,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当充电中且未达到限制时，推迟系统自动睡眠"
+            "value" : "当充电中且未达到限制值时，推迟系统自动睡眠"
           }
         }
       }
@@ -8457,7 +8583,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "超过设置电量时对电池放电"
+            "value" : "当电量超过限制值时对电池放电"
           }
         }
       }
@@ -8534,7 +8660,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在Mac睡眠时自动启动系统充电限制（80%）"
+            "value" : "当Mac进入睡眠时自动启动系统充电限制（80%）"
           }
         }
       }
@@ -8688,7 +8814,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "系统登录时自动启动"
+            "value" : "系统登录时启动"
           }
         }
       }
@@ -8765,7 +8891,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "充电停止时在MagSafe上显示绿色LED"
+            "value" : "当充电停止时在MagSafe上显示绿色LED"
           }
         }
       }
@@ -8919,7 +9045,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在Mac睡眠时自动停止充电"
+            "value" : "当Mac进入睡眠时自动停止充电"
           }
         }
       }
@@ -9067,7 +9193,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当电池充电优化启用时显示提醒"
+            "value" : "当优化电池充电启用时显示提醒"
           }
         }
       }
@@ -9144,7 +9270,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在菜单栏中显示电池百分比图标"
+            "value" : "在菜单中显示电量百分比图表"
           }
         }
       }
@@ -9193,6 +9319,12 @@
             "state" : "translated",
             "value" : "Pil devir sayısını göster"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示电池循环计数"
+          }
         }
       }
     },
@@ -9240,6 +9372,12 @@
             "state" : "translated",
             "value" : "Pil sağlığını göster"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示电池健康"
+          }
         }
       }
     },
@@ -9286,6 +9424,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pil sıcaklığını göster"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示电池温度"
           }
         }
       }
@@ -9411,6 +9555,12 @@
             "state" : "translated",
             "value" : "Güç kaynağını göster"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示电源"
+          }
         }
       }
     },
@@ -9457,6 +9607,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kalan süreyi göster"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示剩余时间"
           }
         }
       }
@@ -9610,7 +9766,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此应用会推迟睡眠以达到设置的充电限制，而后停止充电且进入正常的睡眠流程。"
+            "value" : "此应用会推迟睡眠以充电至设置的限制值，随后会停止充电并使Mac进入睡眠。"
           }
         }
       }
@@ -9687,7 +9843,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当Mac上盖打开时，此Mac可以对电池放电直到达到设定限制值"
+            "value" : "当MacBook上盖打开时，此应用可以对电池放电直到达到设定限制值"
           }
         }
       }
@@ -9764,7 +9920,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当电池温度达到40˚C或者以上时停止充电"
+            "value" : "当电池温度达到40˚C或者以上时停止充电。"
           }
         }
       }
@@ -9813,6 +9969,12 @@
             "state" : "translated",
             "value" : "%100 şarj et'e geçiş yap"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开/关 充电至100%"
+          }
         }
       }
     },
@@ -9859,6 +10021,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pil ile çalıştır'a geçiş yap"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开/关 使用电池运行"
           }
         }
       }
@@ -9907,6 +10075,12 @@
             "state" : "translated",
             "value" : "Şarj etmeyi durdur'a geçiş yap"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开/关 停止充电"
+          }
         }
       }
     },
@@ -9953,6 +10127,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Şarjı geçersiz kılmayı durdur"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止充电覆盖"
           }
         }
       }
@@ -10001,6 +10181,12 @@
             "state" : "translated",
             "value" : "Beta sırasında her zaman etkin"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "测试版期间始终启用"
+          }
         }
       }
     },
@@ -10047,6 +10233,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pil %%%lld altına düştüğünde"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电量低至%lld%%"
           }
         }
       }
@@ -10823,6 +11015,12 @@
             "state" : "translated",
             "value" : "Bir bahşişle desteğinizi gösterin!\nKatkınız, BatFi'yi sizin için daha da iyi hale getirmeme yardımcı olur.\nTopluluğumuzun harika bir parçası olduğunuz için teşekkür ederiz!"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过赞助来表达你的支持！\n你的贡献可以帮助我不断进步，并使BatFi为你提供更好的服务。\n感谢你成为我们社区的重要一员！"
+          }
         }
       }
     },
@@ -10869,6 +11067,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fiyatı önceden belirlenmiş Gumroad web sitesi açılacaktır."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此按钮将打开Gumroad网站，其中已设置价格。"
           }
         }
       }
@@ -10917,6 +11121,12 @@
             "state" : "translated",
             "value" : "Devam etmeden önce miktarı değiştirebilirsiniz."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你可以在继续之前更改金额。"
+          }
         }
       }
     },
@@ -10963,6 +11173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi'yi kullanmaktan keyif alıyor musun?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "喜欢BatFi吗？"
           }
         }
       }
@@ -11116,7 +11332,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "提示"
+            "value" : "提醒"
           }
         }
       }
@@ -11501,7 +11717,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "MagSafe充电口"
+            "value" : "MagSafe"
           }
         }
       }
@@ -11709,6 +11925,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Diğer"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他"
           }
         }
       }
@@ -12219,6 +12441,12 @@
             "state" : "translated",
             "value" : "Kısayol Tuşları"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快捷键"
+          }
         }
       }
     },
@@ -12419,6 +12647,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bahşiş Kavanozu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "赞助"
           }
         }
       }
