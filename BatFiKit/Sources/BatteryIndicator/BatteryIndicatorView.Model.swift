@@ -12,6 +12,7 @@ import Defaults
 import DefaultsKeys
 import Dependencies
 import Foundation
+import os.log
 import SwiftUI
 
 public extension BatteryIndicatorView {
@@ -35,7 +36,9 @@ public extension BatteryIndicatorView {
         @Dependency(\.suspendingClock)
         private var clock
 
-        public init() { 
+        private lazy var logger = Logger(category: "BatteryInfdicatorView.Model")
+
+        public init() {
             setUpObserving()
         }
 
@@ -52,6 +55,7 @@ public extension BatteryIndicatorView {
                     )
                 )
                     .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
+                    logger.debug("Update battery indicator: \(powerState)")
                     self.batteryLevel = powerState.batteryLevel
                     self.chargingMode = ChargingMode(appChargingStateMode: mode)
                     self.monochrome = showMonochrome
