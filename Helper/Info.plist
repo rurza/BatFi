@@ -5,7 +5,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>software.micropixels.BatFi.Helper</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.2</string>
+	<string>2.1.0</string>
 	<key>CFBundleVersion</key>
 	<string>99999</string>
 	<key>SMAuthorizedClients</key>
