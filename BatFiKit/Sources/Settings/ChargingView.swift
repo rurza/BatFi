@@ -6,8 +6,10 @@
 //
 
 import AppShared
+import Clients
 import Defaults
 import DefaultsKeys
+import Dependencies
 import L10n
 import SettingsKit
 import SharedUI
@@ -19,6 +21,8 @@ struct ChargingView: View {
     @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
     @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
     @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
+
+    @Dependency(\.systemVersionClient) var systemVersion
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -73,10 +77,12 @@ struct ChargingView: View {
                                 }
                                 .disabled(enableSystemChargeLimitOnSleep || !manageCharging)
 
-                                Toggle(isOn: $enableSystemChargeLimitOnSleep) {
-                                    Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
+                                if !systemVersion.currentSystemIsSequoiaOrNewer() {
+                                    Toggle(isOn: $enableSystemChargeLimitOnSleep) {
+                                        Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
+                                    }
+                                    .disabled(inhibitChargingOnSleep || !manageCharging)
                                 }
-                                .disabled(inhibitChargingOnSleep || !manageCharging)
 
                                 VStack(alignment: .leading, spacing: 2) {
                                     Toggle(isOn: $dischargeBatteryWhenFull) {

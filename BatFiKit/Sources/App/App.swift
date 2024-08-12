@@ -36,13 +36,16 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
     private weak var aboutWindow: NSWindow?
     private weak var onboardingWindow: OnboardingWindow?
     private weak var arrowWindow: ArrowWindow?
-    @Dependency(\.updater) private var updater
-    @Dependency(\.suspendingClock) private var clock
-    @Dependency(\.defaults) private var defaults
-    @Dependency(\.helperClient) private var helperClient
     @Dependency(\.analyticsClient) private var analyticsClient
-    @Dependency(\.featureFlags) private var featureFlags
+    @Dependency(\.defaults) private var defaults
     @Dependency(\.dockIcon) private var dockIcon
+    @Dependency(\.featureFlags) private var featureFlags
+    @Dependency(\.helperClient) private var helperClient
+    @Dependency(\.suspendingClock) private var clock
+    @Dependency(\.systemVersionClient) private var systemVersion
+    @Dependency(\.updater) private var updater
+    @Dependency(\.userNotificationsClient) private var userNotificationsClient
+
 
     public init() {}
     
@@ -52,6 +55,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
         _ = updater // initialize updater
         if defaults.value(.onboardingIsDone) {
             Task {
+                await runMigration()
                 await dockIcon.show(false)
                 await setUpTheApp()
                 helperConnectionManager.checkHelperHealth()
@@ -84,6 +88,19 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
             menuController?.delegate = self
             notificationsManager = NotificationsManager()
             statusItemIconController = StatusItemManager(statusItem: statusItem)
+    }
+
+    private func runMigration() async {
+        if systemVersion.currentSystemIsSequoiaOrNewer() && defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) {
+            defaults.setValue(.turnOnSystemChargeLimitingWhenGoingToSleep, value: false)
+            try? await userNotificationsClient.showUserNotification(
+                title: "System charge limit removed",
+                body: "It looks like you're running on macOS 15. System charge limit was removed from this macOS",
+                identifier: "software.micropixels.BatFi.migration.system_charge_limit",
+                threadIdentifier: nil,
+                delay: nil
+            )
+        }
     }
 
     private func setFeatureFlags(
