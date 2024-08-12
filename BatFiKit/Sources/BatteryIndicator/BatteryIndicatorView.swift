@@ -20,13 +20,14 @@ public struct BatteryIndicatorView: View {
         GeometryReader { proxy in
             let size = proxy.size
             HStack(spacing: 1) {
-                if model.showPercentage {
-                    PercentageBatteryIndicatorView(model: model, height: size.height)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                } else {
-                    BasicBatteryIndicatorView(model: model, height: size.height)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                Group {
+                    if model.showPercentage && !model.showPercentageNextToIndicator {
+                        PercentageBatteryIndicatorView(model: model, height: size.height)
+                    } else {
+                        BasicBatteryIndicatorView(model: model, height: size.height)
+                    }
                 }
+                .animation(.default, value: model.batteryLevel)
                 HalfCircleShape()
                     .foregroundStyle(.primary)
                     .opacity(secondaryOpacity)
@@ -37,10 +38,6 @@ public struct BatteryIndicatorView: View {
                     .offset(x: -0.5)
             }
         }
-        .animation(.default, value: model.batteryLevel)
-        .animation(.default, value: model.chargingMode)
-        .animation(.default, value: model.showPercentage)
-        .animation(.default, value: model.monochrome)
     }
 }
 
@@ -49,7 +46,16 @@ struct HalfCircleShape: Shape {
         var path = Path()
 
         path.move(to: CGPoint(x: rect.minX, y: rect.midY))
-        path.addArc(center: CGPoint(x: rect.minX, y: rect.midY), radius: rect.height, startAngle: .degrees(90), endAngle: .degrees(270), clockwise: true)
+        path.addArc(
+            center: CGPoint(
+                x: rect.minX,
+                y: rect.midY
+            ),
+            radius: rect.height,
+            startAngle: .degrees(90),
+            endAngle: .degrees(270),
+            clockwise: true
+        )
         return path
     }
 }

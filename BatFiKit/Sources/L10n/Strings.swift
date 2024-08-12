@@ -408,6 +408,8 @@ public enum L10n {
                 public static let automaticallyManageCharging = String(localized: "settings.button.label.automatically_manage_charging", defaultValue: "Automatically manage charging", bundle: Bundle.module)
                 /// Show battery percentage
                 public static let batteryPercentage = String(localized: "settings.button.label.battery_percentage", defaultValue: "Show battery percentage", bundle: Bundle.module)
+                /// Show percentage next to icon
+                public static let batteryPercentageNextToIcon = String(localized: "settings.button.label.battery_percentage_next_to_icon", defaultValue: "Show percentage next to icon", bundle: Bundle.module)
                 /// Blink the LED on MagSafe a few times when the app begins to discharge the battery
                 public static let blinkMagSafeWhenDischarging = String(localized: "settings.button.label.blink_magSafe_when_discharging", defaultValue: "Blink the LED on MagSafe a few times when the app begins to discharge the battery", bundle: Bundle.module)
                 /// Charging status has changed

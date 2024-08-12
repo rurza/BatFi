@@ -23,9 +23,11 @@ public extension BatteryIndicatorView {
         @Published
         private(set) public var batteryLevel: Int = 0
         @Published
-        private(set) public var monochrome: Bool = true
+        private(set) public var monochrome: Bool = Defaults[.monochromeStatusIcon]
         @Published
-        private(set) public var showPercentage: Bool = true
+        private(set) public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
+        @Published
+        private(set) public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
 
         @Dependency(\.powerSourceClient.powerSourceChanges) 
         private var powerSourceChanges
@@ -44,22 +46,23 @@ public extension BatteryIndicatorView {
 
         private func setUpObserving() {
             Task {
-                for await ((powerState, mode), (showPercentage, showMonochrome)) in combineLatest(
+                for await ((powerState, mode), (showPercentage, showMonochrome, showPercentageOnBatteryIcon)) in combineLatest(
                     combineLatest(
                         powerSourceChanges(),
                         appChargingModeDidChage()
                     ),
                     combineLatest(
                         defaults.observe(.showBatteryPercentageInStatusIcon),
-                        defaults.observe(.monochromeStatusIcon)
+                        defaults.observe(.monochromeStatusIcon),
+                        defaults.observe(.showPercentageOnBatteryIcon)
                     )
-                )
-                    .debounce(for: .milliseconds(200), clock: AnyClock(self.clock)) {
+                ) {
                     logger.debug("Update battery indicator: \(powerState)")
                     self.batteryLevel = powerState.batteryLevel
                     self.chargingMode = ChargingMode(appChargingStateMode: mode)
                     self.monochrome = showMonochrome
                     self.showPercentage = showPercentage
+                    self.showPercentageNextToIndicator = showPercentageOnBatteryIcon
                 }
             }
         }

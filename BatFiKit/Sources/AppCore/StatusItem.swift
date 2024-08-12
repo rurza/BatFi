@@ -27,18 +27,29 @@ struct StatusItem: View {
     private var showTimeLeftNextToStatusIcon
 
     var body: some View {
-        HStack(spacing: 2) {
+        HStack(alignment: .center, spacing: 2) {
             if let timeLeftDescription, showTimeLeftNextToStatusIcon {
                 Text(timeLeftDescription)
-                    .offset(y: -1)
-                    .fontWeight(.medium)
-                    .padding(.leading, 1) // adds padding to look horizontally centered
+                    .font(.system(size: 11, weight: .medium))
+                    .monospacedDigit()
+                    .padding(.trailing, 1) // adds padding to look horizontally centered
+                    .id("timeLeft")
+                    .offset(x: showTimeLeftNextToStatusIcon && self.timeLeftDescription != nil ? 0 : 300)
+                    .opacity(showTimeLeftNextToStatusIcon && self.timeLeftDescription != nil ? 1 : 0)
+                    .animation(.default.delay(0.1), value: showTimeLeftNextToStatusIcon)
+                    .animation(.default.delay(0.1), value: timeLeftDescription)
             }
             BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 33, height: 13)
-                .offset(x: 2, y: -1)
+            if batteryIndicatorModel.showPercentageNextToIndicator && batteryIndicatorModel.showPercentage {
+                Text(batteryIndicatorModel.batteryLevel, format: .percent)
+                    .font(.system(size: 11, weight: .medium))
+                    .monospacedDigit()
+                    .id("batteryLevel")
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .offset(y: -1)
         .fixedSize()
         .padding(.horizontal, 2)
         .overlay(

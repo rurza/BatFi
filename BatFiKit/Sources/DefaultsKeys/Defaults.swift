@@ -29,6 +29,7 @@ public extension Defaults.Keys {
     static let showChart = Key<Bool>("showChart", default: false)
     static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)
     static let showHighEnergyImpactProcesses = Key<Bool>("showHighEnergyImpactProcesses", default: false)
+    static let showPercentageOnBatteryIcon = Key<Bool>("showPercentageOnBatteryIcon", default: true)
 
     static let showBatteryCycleCount = Key<Bool>("showBatteryCycleCount", default: true)
     static let showBatteryHealth = Key<Bool>("showBatteryHealth", default: true)
