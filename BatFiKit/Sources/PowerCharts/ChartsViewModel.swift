@@ -19,7 +19,7 @@ extension ChartsView {
         @Dependency(\.calendar) private var calendar
         @MainActor
         @Published var powerStatePoints: IdentifiedArrayOf<PowerStatePoint> = []
-        private lazy var logger = Logger(category: "📈🌁")
+        private lazy var logger = Logger(category: "ChartsView.Model")
 
         var fromDate: Date {
             let components = calendar.dateComponents([.minute, .second], from: toDate)
@@ -92,7 +92,7 @@ extension ChartsView {
             } else {
                 return date.now
             }
-            return point.timestamp
+            return point.timestamp.addingTimeInterval(0.1)
         }
     }
 }
