@@ -94,7 +94,12 @@ actor SMCService {
             logger.notice("Getting inhibit charging B status")
             let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
             logger.notice("Getting system charge limit status")
-            let systemChargeLimit = try? SMCKit.readData(SMCKey.enableSystemChargeLimit)
+            var systemChargeLimit: SMCBytes?
+            do {
+                systemChargeLimit = try SMCKit.readData(SMCKey.enableSystemChargeLimit)
+            } catch {
+                logger.warning("System charge limit can't be read")
+            }
             logger.notice("Getting lid closed status")
             let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
