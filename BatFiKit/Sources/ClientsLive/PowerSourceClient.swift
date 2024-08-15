@@ -7,6 +7,7 @@
 
 import AppShared
 import Clients
+import Combine
 import Dependencies
 import Foundation
 import IOKit.ps
@@ -17,7 +18,6 @@ import Shared
 extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "Power Source")
-        let observer = Observer(logger: logger)
         let batteryHealthState = BatteryHealthState()
 
         @Sendable
@@ -128,6 +128,9 @@ extension PowerSourceClient: DependencyKey {
             return powerState
         }
 
+        let observer = Observer(getPowerSourceInfo: getPowerSourceInfo)
+
+
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
@@ -140,19 +143,18 @@ extension PowerSourceClient: DependencyKey {
                         }
                     }
 
-                    let id = observer.addHandler {
-                        Task {
-                            do {
-                                let powerState = try await getPowerSourceInfo()
-                                logger.notice("Power state did change: \(powerState, privacy: .public)")
+                    var cancellables: Set<AnyCancellable> = []
+
+                    observer.subject
+                        .sink { powerState in
+                            Task {
                                 continuation.yield(powerState)
-                            } catch {
-                                logger.error("New power state, but there is an info missing")
                             }
                         }
-                    }
+                        .store(in: &cancellables)
+
                     continuation.onTermination = { _ in
-                        observer.removeHandler(id)
+                        cancellables.forEach { $0.cancel() }
                     }
                 }
             },
@@ -165,12 +167,12 @@ extension PowerSourceClient: DependencyKey {
     }()
 
     private class Observer {
-        private let logger: Logger
-        private var handlers = [UUID: () -> Void]()
-        private let handlersQueue = DispatchQueue(label: "software.micropixels.BatFi.PowerSourceClient.Observer")
+        let getPowerSourceInfo: () async throws -> PowerState
+        let subject = PassthroughSubject<PowerState, Never>()
+        private lazy var logger = Logger(category: "PowerSourceClienty.Observer")
 
-        init(logger: Logger) {
-            self.logger = logger
+        init(getPowerSourceInfo: @escaping () async throws -> PowerState) {
+            self.getPowerSourceInfo = getPowerSourceInfo
             setUpObserving()
         }
 
@@ -181,33 +183,21 @@ extension PowerSourceClient: DependencyKey {
                     context in
                     if let context {
                         let observer = Unmanaged<Observer>.fromOpaque(context).takeUnretainedValue()
-                        observer.updateBatteryState()
+                        observer.logger.debug("Power state did change.")
+                        Task {
+                            do {
+                                let powerState = try await observer.getPowerSourceInfo()
+                                observer.logger.debug("New power state: \(powerState)")
+                                observer.subject.send(powerState)
+                            } catch {
+                                observer.logger.error("")
+                            }
+                        }
                     }
                 },
                 context
             ).takeRetainedValue() as CFRunLoopSource
             CFRunLoopAddSource(CFRunLoopGetMain(), loop, CFRunLoopMode.commonModes)
-        }
-
-        func updateBatteryState() {
-            logger.debug("New power state")
-            handlersQueue.sync { [weak self] in
-                self?.handlers.values.forEach { $0() }
-            }
-        }
-
-        func removeHandler(_ id: UUID) {
-            handlersQueue.sync { [weak self] in
-                _ = self?.handlers.removeValue(forKey: id)
-            }
-        }
-
-        func addHandler(_ handler: @escaping () -> Void) -> UUID {
-            let id = UUID()
-            handlersQueue.sync { [weak self] in
-                self?.handlers[id] = handler
-            }
-            return id
         }
     }
 }
