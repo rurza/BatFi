@@ -17,6 +17,27 @@ import Shared
 extension Persistence: DependencyKey {
     public static let liveValue: Persistence = {
         let logger = Logger(category: "Persistence")
+
+        @Dependency(\.date) var date
+
+        func fetchLastFullChargeDate(context: NSManagedObjectContext) throws -> Date? {
+            let fetchRequest = PowerStateModel.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
+            fetchRequest.predicate = NSPredicate(format: "%K <= %@", #keyPath(PowerStateModel.batteryLevel), 100 as NSNumber)
+            fetchRequest.fetchLimit = 1
+            let results = try context.fetch(fetchRequest)
+            return results.first?.timestamp
+        }
+
+        func fetchLastDischargeDate(context: NSManagedObjectContext) throws -> Date? {
+            let fetchRequest = PowerStateModel.fetchRequest()
+            fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
+            fetchRequest.predicate = NSPredicate(format: "%K <= %@", #keyPath(PowerStateModel.batteryLevel), 1 as NSNumber)
+            fetchRequest.fetchLimit = 1
+            let results = try context.fetch(fetchRequest)
+            return results.first?.timestamp
+        }
+
         return Persistence(
             savePowerState: { state, chargingMode in
                 try await persistenceContainer.performBackgroundTask { context in
@@ -81,6 +102,32 @@ extension Persistence: DependencyKey {
                         _ = delegate
                         _ = controller
                     }
+                }
+            },
+            fetchLastDischargeDate: {
+                try await persistenceContainer.performBackgroundTask { context in
+                    try fetchLastDischargeDate(context: context)
+                }
+            },
+            fetchLastFullChargeDate: {
+                try await persistenceContainer.performBackgroundTask { context in
+                    try fetchLastFullChargeDate(context: context)
+                }
+            },
+            fullChargeAndDischargeWasInLast30Days: {
+                try await persistenceContainer.performBackgroundTask { context in
+                    let referenceDate = date.now.addingTimeInterval(-30 * 24 * 60 * 60)
+                    let oldestDataPointRequest = PowerStateModel.fetchRequest()
+                    oldestDataPointRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: true)]
+                    oldestDataPointRequest.fetchLimit = 1
+                    guard let oldestDataPoint = try context.fetch(oldestDataPointRequest).first, oldestDataPoint.timestamp <= referenceDate else {
+                        return nil
+                    }
+                    let lastFullChageDate = try fetchLastFullChargeDate(context: context)
+                    let lastDischargeDate = try fetchLastDischargeDate(context: context)
+                    let wasFullyChargedIn30Days = lastFullChageDate != nil && lastFullChageDate! >= referenceDate
+                    let wasDischargedIn30Days = lastDischargeDate != nil && lastDischargeDate! >= referenceDate
+                    return (wasFullyChargedIn30Days, wasDischargedIn30Days)
                 }
             }
         )

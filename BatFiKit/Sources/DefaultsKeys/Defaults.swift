@@ -60,8 +60,12 @@ public extension Defaults.Keys {
     static let blinkMagSafeWhenDischarging = Key<Bool>("blinkMagSafeWhenDischarging", default: false)
     static let showBatteryLowNotification = Key<Bool>("showBatteryLowNotification", default: false)
     static let batteryLowNotificationThreshold = Key<Int>("batteryLowNotificationThreshold", default: 20)
+    static let showRemindersToDischargeAndChargeBattery = Key<Bool>("showRemindersToDischargeAndChargeBattery", default: true)
 
     // feature flags
     static let enableHighEnergyImpactProcesses = Key<Bool>("enableHighEnergyImpactProcesses", default: false)
     static let enablePowerDiagram = Key<Bool>("enablePowerDiagram", default: false)
+
+    // charging reminder
+    static let lastChargingReminderDate = Key<Date>("lastChargingReminderDate", default: Date.distantPast)
 }

@@ -48,7 +48,7 @@ struct MenubarView: View {
                 Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
                 Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
                 Toggle(l10n.Button.Label.batteryPercentageNextToIcon, isOn: $showPercentageOnBatteryIcon)
-                    .offset(x: 12)
+                    .offset(x: 16)
                     .disabled(!batteryPercentage)
                 Toggle(l10n.Button.Label.statusIconTimeLeft, isOn: $showTimeLeftNextToStatusIcon)
             }
