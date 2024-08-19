@@ -1665,6 +1665,40 @@
         }
       }
     },
+    "battery_info.label.additional.last_discharge" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Last discharge"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ostatnio rozładowano"
+          }
+        }
+      }
+    },
+    "battery_info.label.additional.last_full_charge" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Last full charge"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ostatnio naładowano"
+          }
+        }
+      }
+    },
     "battery_info.label.additional.power_source" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -5522,6 +5556,23 @@
         }
       }
     },
+    "notifications.notification.body.battery_calibration" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unplug the computer and let the battery drain completely. Then, plug it in and charge it to 100%, using the “Charge to 100%” command from the menu if needed."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odłącz komputer od ładowarki i rozładuj baterię do zera. Następnie naładuj do 100% używając polecenia “Naładuj do 100%” z menu."
+          }
+        }
+      }
+    },
     "notifications.notification.body.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -5672,6 +5723,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新模式：%@"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.battery_calibration" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Time to calibrate the battery"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Czas na kalibrację baterii"
           }
         }
       }

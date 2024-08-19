@@ -112,6 +112,10 @@ public enum L10n {
                 public static let temperature = String(localized: "battery_info.label.additional.temperature", defaultValue: "Temperature", bundle: Bundle.module)
                 /// Unknown Health
                 public static let unknownHealth = String(localized: "battery_info.label.additional.unknown_health", defaultValue: "Unknown", bundle: Bundle.module)
+                /// Last discharge
+                public static let dischargeDate = String(localized: "battery_info.label.additional.last_discharge", defaultValue: "Last discharge", bundle: Bundle.module)
+                /// Last full charge
+                public static let fullChargeDate = String(localized: "battery_info.label.additional.last_full_charge", defaultValue: "Last full charge", bundle: Bundle.module)
             }
 
             public enum Main {
@@ -270,10 +274,13 @@ public enum L10n {
 
             public enum Title {
                 public static let lowBattery = String(localized: "notifications.notification.title.low_battery", defaultValue: "Battery is low", bundle: Bundle.module)
+                public static let batteryCalibration = String(localized: "notifications.notification.title.battery_calibration", defaultValue: "Time to calibrate the battery", bundle: Bundle.module)
+
             }
 
             public enum Body {
                 public static let lowBattery = String(localized: "notifications.notification.body.low_battery", defaultValue: "I need more juice!", bundle: Bundle.module)
+                public static let batteryCalibration = String(localized: "notifications.notification.body.battery_calibration", defaultValue: "Unplug the computer and let the battery drain completely. Then, plug it in and charge it to 100%, using the “Charge to 100%” command from the menu if needed.", bundle: Bundle.module)
             }
         }
     }
