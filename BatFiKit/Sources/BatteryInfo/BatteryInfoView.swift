@@ -97,10 +97,21 @@ public struct BatteryInfoView: View {
                                 info: model.batteryHealthDescription() ?? l10n.Additional.unknownHealth
                             )
                         }
+                        BatteryAdditionalInfo(
+                            label: "Last discharge",
+                            info: model.dischargeDateRelativeTime ?? unknown
+                        )
+                        BatteryAdditionalInfo(
+                            label: "Last full charge",
+                            info: model.fullChargeDateRelativeTime ?? unknown
+                        )
                     }
                     .frame(maxWidth: .infinity)
                 }
             }
+        }
+        .onAppear {
+            model.viewDidAppear()
         }
     }
 }

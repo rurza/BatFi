@@ -21,9 +21,21 @@ public extension BatteryInfoView {
         @Dependency(\.defaults) private var defaults
         @Dependency(\.menuDelegate) private var menuDelegate
         @Dependency(\.energyStatsClient) private var energyStatsClient
+        @Dependency(\.persistence) private var persistence
+        @Dependency(\.date) private var date
 
         @Published
         private(set) public var state: PowerState?
+
+        @Published
+        private var dischargeDate: Date?
+
+        var dischargeDateRelativeTime: String? { dischargeDate?.relativeTime(to: date.now) }
+
+        @Published
+        private var fullChargeDate: Date?
+
+        var fullChargeDateRelativeTime: String? { fullChargeDate?.relativeTime(to: date.now) }
 
         var time: Time? {
             guard let state else { return nil }
@@ -128,6 +140,13 @@ public extension BatteryInfoView {
             guard let percentage = state?.batteryHealth else { return nil }
             let doubleValue = Double(percentage) / 100.0
             return percentageFormatter.string(for: doubleValue)
+        }
+
+        func viewDidAppear() {
+            Task { @MainActor in
+                self.dischargeDate = try? await persistence.fetchLastDischargeDate()
+                self.fullChargeDate = try? await persistence.fetchLastFullChargeDate()
+            }
         }
 
         deinit {

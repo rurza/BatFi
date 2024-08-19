@@ -38,3 +38,12 @@ public let percentageFormatter: NumberFormatter = {
     formatter.maximumFractionDigits = 0
     return formatter
 }()
+
+extension Date {
+    public func relativeTime(to date: Date) -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        let relativeDate = formatter.localizedString(for: self, relativeTo: date)
+        return relativeDate
+    }
+}
