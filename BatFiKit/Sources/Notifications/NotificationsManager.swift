@@ -26,6 +26,7 @@ public class NotificationsManager: NSObject {
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.date) private var date
     @Dependency(\.userNotificationsClient) var userNotificationsClient
+    @Dependency(\.persistence) var persistence
     private lazy var center = UNUserNotificationCenter.current()
     private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
@@ -75,6 +76,24 @@ public class NotificationsManager: NSObject {
                     didShowLowBatteryNotification = true
                     await showBatteryIsLowNotification()
                 }
+            }
+        }
+        Task {
+            for await (lastChargingReminderDate, showRemindersToDischargeAndChargeBattery, powerState) in combineLatest(
+                    defaults.observe(.lastChargingReminderDate),
+                    defaults.observe(.showRemindersToDischargeAndChargeBattery),
+                    powerSourceClient.powerSourceChanges()
+                    ) {
+                guard showRemindersToDischargeAndChargeBattery else { continue }
+                guard lastChargingReminderDate < date.now.addingTimeInterval(-60 * 60 * 24 * 3) else { continue }
+                guard let values = try? await persistence.fullChargeAndDischargeWasInLast30Days() else { continue }
+                guard !values.charge && !values.discharge else {
+                    continue
+                }
+                do {
+                    try await showBatteryCalibrationReminder()
+                    defaults.setValue(.lastChargingReminderDate, value: date.now)
+                } catch { }
             }
         }
     }
@@ -133,6 +152,24 @@ public class NotificationsManager: NSObject {
                 )
             } catch {
                 logger.error("Notification request error: \(error.localizedDescription, privacy: .public)")
+            }
+        }
+    }
+
+    func showBatteryCalibrationReminder() async throws {
+        if await userNotificationsClient.requestAuthorization() == true {
+            do {
+                logger.debug("Adding battery calibration notification request to the notification center")
+                try await userNotificationsClient.showUserNotification(
+                    title: L10n.Notifications.Notification.Title.lowBattery,
+                    body: L10n.Notifications.Notification.Body.lowBattery,
+                    identifier: "software.micropixels.BatFi.notifications.calibration",
+                    threadIdentifier: "Calibration",
+                    delay: nil
+                )
+            } catch {
+                logger.error("Notification request error: \(error.localizedDescription, privacy: .public)")
+                throw error
             }
         }
     }

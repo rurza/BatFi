@@ -23,7 +23,7 @@ extension Persistence: DependencyKey {
         func fetchLastFullChargeDate(context: NSManagedObjectContext) throws -> Date? {
             let fetchRequest = PowerStateModel.fetchRequest()
             fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
-            fetchRequest.predicate = NSPredicate(format: "%K <= %@", #keyPath(PowerStateModel.batteryLevel), 100 as NSNumber)
+            fetchRequest.predicate = NSPredicate(format: "%K >= %@", #keyPath(PowerStateModel.batteryLevel), 100 as NSNumber)
             fetchRequest.fetchLimit = 1
             let results = try context.fetch(fetchRequest)
             return results.first?.timestamp
