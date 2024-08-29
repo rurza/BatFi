@@ -36,6 +36,8 @@ public extension Defaults.Keys {
     static let showBatteryTemperature = Key<Bool>("showBatteryTemperature", default: false)
     static let showPowerSource = Key<Bool>("showPowerSource", default: false)
     static let showElapsedTime = Key<Bool>("showElapsedTime", default: false)
+    static let showLastDischarge = Key<Bool>("showLastDischarge", default: false)
+    static let showLastFullCharge = Key<Bool>("showLastFullCharge", default: false)
 
     static let showTimeLeftNextToStatusIcon = Key<Bool>("showTimeLeftNextToStatusIcon", default: false)
 

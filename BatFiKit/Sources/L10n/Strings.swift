@@ -468,6 +468,12 @@ public enum L10n {
                 /// Show time left
                 public static let statusIconTimeLeft = String(localized: "settings.button.label.show_time_left_status_icon", defaultValue: "Show time left", bundle: Bundle.module)
 
+                public static let showLastDischargeDate = String(localized: "settings.button.label.show_last_discharge_date", defaultValue: "Show last discharge date", bundle: Bundle.module)
+
+                public static let showLastFullChargeDate = String(localized: "settings.button.label.show_last_full_charge_date", defaultValue: "Show last full charge date", bundle: Bundle.module)
+
+                public static let batteryCalibrationRecommended = String(localized: "settings.button.label.battery_calibration_recommended", defaultValue: "Battery calibration recommended")
+
                 /// Tip %@
                 public static func tipJarTip(_ p1: Any) -> String {
                     String(

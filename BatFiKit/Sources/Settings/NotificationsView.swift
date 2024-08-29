@@ -17,6 +17,7 @@ struct NotificationsView: View {
     @Default(.blinkMagSafeWhenDischarging) private var blinkMagSafeWhenDischarging
     @Default(.showBatteryLowNotification) private var showBatteryLowNotification
     @Default(.batteryLowNotificationThreshold) private var batteryLowNotificationThreshold
+    @Default(.showRemindersToDischargeAndChargeBattery) private var showRemindersToDischargeAndChargeBattery
 
     @State private var showingPopover = false
 
@@ -29,6 +30,9 @@ struct NotificationsView: View {
                 }
                 Toggle(isOn: $showOptimizedBatteryCharging) {
                     Text(l10n.Button.Label.showAlertsWhenOptimizedChargingIsEngaged)
+                }
+                Toggle(isOn: $showRemindersToDischargeAndChargeBattery) {
+                    Text(l10n.Button.Label.batteryCalibrationRecommended)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Toggle(isOn: $showBatteryLowNotification) {

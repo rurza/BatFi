@@ -22,6 +22,8 @@ public struct BatteryInfoView: View {
     @Default(.showBatteryHealth) private var showBatteryHealth
     @Default(.showBatteryTemperature) private var showBatteryTemperature
     @Default(.showPowerSource) private var showPowerSource
+    @Default(.showLastFullCharge) private var showLastFullCharge
+    @Default(.showLastDischarge) private var showLastDischarge
 
     @Dependency(\.appChargingState) var chargingState
 
@@ -97,14 +99,18 @@ public struct BatteryInfoView: View {
                                 info: model.batteryHealthDescription() ?? l10n.Additional.unknownHealth
                             )
                         }
-                        BatteryAdditionalInfo(
-                            label: "Last discharge",
-                            info: model.dischargeDateRelativeTime ?? unknown
-                        )
-                        BatteryAdditionalInfo(
-                            label: "Last full charge",
-                            info: model.fullChargeDateRelativeTime ?? unknown
-                        )
+                        if showLastDischarge {
+                            BatteryAdditionalInfo(
+                                label: l10n.Additional.dischargeDate,
+                                info: model.dischargeDateRelativeTime ?? unknown
+                            )
+                        }
+                        if showLastFullCharge {
+                            BatteryAdditionalInfo(
+                                label: l10n.Additional.fullChargeDate,
+                                info: model.fullChargeDateRelativeTime ?? unknown
+                            )
+                        }
                     }
                     .frame(maxWidth: .infinity)
                 }

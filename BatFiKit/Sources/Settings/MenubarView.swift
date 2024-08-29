@@ -22,6 +22,8 @@ struct MenubarView: View {
     @Default(.showPowerSource) private var showPowerSource
     @Default(.showTimeLeftNextToStatusIcon) private var showTimeLeftNextToStatusIcon
     @Default(.showPercentageOnBatteryIcon) private var showPercentageOnBatteryIcon
+    @Default(.showLastDischarge) private var showLastDischarge
+    @Default(.showLastFullCharge) private var showLastFullCharge
     @State private var showingPopover = false
 
     var body: some View {
@@ -32,6 +34,8 @@ struct MenubarView: View {
                 Toggle(l10n.Button.Label.showBatteryCycles, isOn: $showBatteryCycleCount)
                 Toggle(l10n.Button.Label.showBatteryTemperature, isOn: $showBatteryTemperature)
                 Toggle(l10n.Button.Label.showBatteryHealth, isOn: $showBatteryHealth)
+                Toggle(l10n.Button.Label.showLastDischargeDate, isOn: $showLastDischarge)
+                Toggle(l10n.Button.Label.showLastFullChargeDate, isOn: $showLastFullCharge)
                 Text("").accessibilityHidden(true) // used to separate content visually
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)

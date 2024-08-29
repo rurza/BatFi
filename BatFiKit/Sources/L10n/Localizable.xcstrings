@@ -8249,6 +8249,17 @@
         }
       }
     },
+    "settings.button.label.battery_calibration_recommended" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Battery calibration recommended"
+          }
+        }
+      }
+    },
     "settings.button.label.battery_percentage" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -9725,6 +9736,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示电池温度"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_last_discharge_date" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show last discharge date"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_last_full_charge_date" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show last full charge date"
           }
         }
       }
