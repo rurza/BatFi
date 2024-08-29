@@ -143,18 +143,15 @@ extension PowerSourceClient: DependencyKey {
                         }
                     }
 
-                    var cancellables: Set<AnyCancellable> = []
-
-                    observer.subject
+                    let cancellable = observer.subject
                         .sink { powerState in
                             Task {
                                 continuation.yield(powerState)
                             }
                         }
-                        .store(in: &cancellables)
 
                     continuation.onTermination = { _ in
-                        cancellables.forEach { $0.cancel() }
+                        cancellable.cancel()
                     }
                 }
             },
