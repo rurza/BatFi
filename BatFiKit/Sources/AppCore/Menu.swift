@@ -66,7 +66,7 @@ public final class MenuController {
 
     public weak var delegate: MenuControllerDelegate?
     private let menuDelegate = MenuObserver.shared
-    private let batteryInfoModel = BatteryInfoView.Model()
+    private let batteryInfoModel = BatteryInfoViewModel()
 
     public init(statusItem: NSStatusItem) {
         self.statusItem = statusItem
@@ -100,6 +100,7 @@ public final class MenuController {
         }
     }
 
+    @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
         let tempChargingMode = dependencies.appChargingState.userTempOverride
 

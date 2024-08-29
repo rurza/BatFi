@@ -16,7 +16,7 @@ import SwiftUI
 
 @MainActor
 public struct BatteryInfoView: View {
-    @EnvironmentObject private var model: Model
+    @EnvironmentObject private var model: BatteryInfoViewModel
 
     @Default(.showBatteryCycleCount) private var showBatteryCycleCount
     @Default(.showBatteryHealth) private var showBatteryHealth

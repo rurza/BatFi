@@ -10,7 +10,7 @@ import Shared
 import SwiftUI
 
 public struct PowerInfoView: View {
-    @StateObject private var model = Model()
+    @StateObject private var model = PowerInfoViewModel()
 
     public init() {}
 

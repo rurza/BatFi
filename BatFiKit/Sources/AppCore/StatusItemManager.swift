@@ -41,8 +41,8 @@ public final class StatusItemManager {
     }
 
     weak var batteryIndicatorView: NSView?
-    private lazy var batteryIndicatorModel = BatteryIndicatorView.Model()
-    private lazy var statusItemModel = StatusItem.Model()
+    private lazy var batteryIndicatorModel = BatteryIndicatorViewModel()
+    private lazy var statusItemModel = StatusItemModel()
 
     private var sizePassthrough = PassthroughSubject<CGSize, Never>()
     private var sizeCancellable: AnyCancellable?

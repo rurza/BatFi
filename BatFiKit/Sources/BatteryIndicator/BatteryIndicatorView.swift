@@ -10,9 +10,9 @@ import SwiftUI
 let secondaryOpacity = 0.5
 
 public struct BatteryIndicatorView: View {
-    @ObservedObject private var model: Model
+    @ObservedObject private var model: BatteryIndicatorViewModel
 
-    public init(model: Model) {
+    public init(model: BatteryIndicatorViewModel) {
         self.model = model
     }
 

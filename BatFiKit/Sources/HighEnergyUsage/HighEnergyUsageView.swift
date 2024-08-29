@@ -10,7 +10,7 @@ import L10n
 import SwiftUI
 
 public struct HighEnergyUsageView: View {
-    @StateObject private var model = Model()
+    @StateObject private var model = HighEnergyUsageViewModel()
 
     public init() {}
 
@@ -47,6 +47,12 @@ public struct HighEnergyUsageView: View {
                 }
             }
             .frame(maxWidth: .infinity)
+        }
+        .onAppear {
+            model.startObserving()
+        }
+        .onDisappear {
+            model.cancelObserving()
         }
         .foregroundColor(.secondary)
         .font(.callout)

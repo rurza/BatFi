@@ -13,147 +13,145 @@ import Foundation
 import L10n
 import Shared
 
-public extension BatteryInfoView {
-    @MainActor
-    final class Model: ObservableObject {
-        @Dependency(\.powerSourceClient) private var powerSourceClient
-        @Dependency(\.appChargingState) private var appChargingState
-        @Dependency(\.defaults) private var defaults
-        @Dependency(\.menuDelegate) private var menuDelegate
-        @Dependency(\.energyStatsClient) private var energyStatsClient
-        @Dependency(\.persistence) private var persistence
-        @Dependency(\.date) private var date
+@MainActor
+public final class BatteryInfoViewModel: ObservableObject {
+    @Dependency(\.powerSourceClient) private var powerSourceClient
+    @Dependency(\.appChargingState) private var appChargingState
+    @Dependency(\.defaults) private var defaults
+    @Dependency(\.menuDelegate) private var menuDelegate
+    @Dependency(\.energyStatsClient) private var energyStatsClient
+    @Dependency(\.persistence) private var persistence
+    @Dependency(\.date) private var date
 
-        @Published
-        private(set) public var state: PowerState?
+    @Published
+    private(set) public var state: PowerState?
 
-        @Published
-        private var dischargeDate: Date?
+    @Published
+    private var dischargeDate: Date?
 
-        var dischargeDateRelativeTime: String? { dischargeDate?.relativeTime(to: date.now) }
+    var dischargeDateRelativeTime: String? { dischargeDate?.relativeTime(to: date.now) }
 
-        @Published
-        private var fullChargeDate: Date?
+    @Published
+    private var fullChargeDate: Date?
 
-        var fullChargeDateRelativeTime: String? { fullChargeDate?.relativeTime(to: date.now) }
+    var fullChargeDateRelativeTime: String? { fullChargeDate?.relativeTime(to: date.now) }
 
-        var time: Time? {
-            guard let state else { return nil }
-            return Time(
-                isCharging: state.isCharging,
-                timeLeft: state.timeLeft,
-                timeToCharge: state.timeToCharge,
-                batteryLevel: state.batteryLevel
-            )
+    var time: Time? {
+        guard let state else { return nil }
+        return Time(
+            isCharging: state.isCharging,
+            timeLeft: state.timeLeft,
+            timeToCharge: state.timeToCharge,
+            batteryLevel: state.batteryLevel
+        )
+    }
+
+    private(set) var modeDescription: String? {
+        willSet {
+            objectWillChange.send()
         }
+    }
 
-        private(set) var modeDescription: String? {
-            willSet {
-                objectWillChange.send()
-            }
+    private(set) var batteryChargeGraphInfo: BatteryChargeGraphInfo? {
+        willSet {
+            objectWillChange.send()
         }
+    }
 
-        private(set) var batteryChargeGraphInfo: BatteryChargeGraphInfo? {
-            willSet {
-                objectWillChange.send()
-            }
+    private var menuTask: Task<Void, Never>?
+    private var chargingStateModeChanges: Task<Void, Never>?
+    private var powerSourceChanges: Task<Void, Never>?
+    private var batteryChargeGraphInfoChanges: Task<Void, Never>?
+
+    public init() {
+        Task { [weak self] in
+            self?.state = try? await self?.powerSourceClient.currentPowerSourceState()
         }
-
-        private var menuTask: Task<Void, Never>?
-        private var chargingStateModeChanges: Task<Void, Never>?
-        private var powerSourceChanges: Task<Void, Never>?
-        private var batteryChargeGraphInfoChanges: Task<Void, Never>?
-
-        public init() {
-            Task {
-                state = try? await powerSourceClient.currentPowerSourceState()
-            }
-            menuTask = Task { [weak self] in
-                if let menuChanged = await self?.menuDelegate.observeMenu() {
-                    for await menuIsOpened in menuChanged {
-                        if menuIsOpened {
-                            self?.observeChargingStateAndPowerSourceChanges()
-                        } else {
-                            self?.cancelObserving()
-                        }
-                    }
-                }
-            }
-        }
-
-        private func observeChargingStateAndPowerSourceChanges() {
-            chargingStateModeChanges = Task { [weak self] in
-                guard let self else { return }
-                for await (mode, manageCharging) in combineLatest(
-                    appChargingState.appChargingModeDidChage(),
-                    defaults.observe(.manageCharging)
-                ) {
-                    if manageCharging {
-                        modeDescription = mode.stateDescription
+        menuTask = Task { [weak self] in
+            if let menuChanged = await self?.menuDelegate.observeMenu() {
+                for await menuIsOpened in menuChanged {
+                    if menuIsOpened {
+                        self?.observeChargingStateAndPowerSourceChanges()
                     } else {
-                        modeDescription = L10n.AppChargingMode.State.Title.disabled
+                        self?.cancelObserving()
                     }
                 }
             }
+        }
+    }
 
-            powerSourceChanges = Task { [weak self] in
-                guard let self else { return }
-                for await state in powerSourceClient.powerSourceChanges() {
-                    self.state = state
+    private func observeChargingStateAndPowerSourceChanges() {
+        chargingStateModeChanges = Task { [weak self] in
+            guard let self else { return }
+            for await (mode, manageCharging) in combineLatest(
+                appChargingState.appChargingModeDidChage(),
+                defaults.observe(.manageCharging)
+            ) {
+                if manageCharging {
+                    modeDescription = mode.stateDescription
+                } else {
+                    modeDescription = L10n.AppChargingMode.State.Title.disabled
                 }
             }
+        }
 
-            batteryChargeGraphInfoChanges = Task { [weak self] in
-                guard let self else { return }
-                for await info in energyStatsClient.batteryChargeGraphInfoChanges() {
-                    self.batteryChargeGraphInfo = info
-                }
+        powerSourceChanges = Task { [weak self] in
+            guard let self else { return }
+            for await state in powerSourceClient.powerSourceChanges() {
+                self.state = state
             }
         }
 
-        private func cancelObserving() {
-            chargingStateModeChanges?.cancel()
-            powerSourceChanges?.cancel()
-            batteryChargeGraphInfoChanges?.cancel()
-        }
-
-        func temperatureDescription() -> String? {
-            guard let temperature = state?.batteryTemperature else { return nil }
-            let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
-            return temperatureFormatter.string(from: measurement)
-        }
-        
-        func elapsedTimeDescription() -> String? {
-            guard let time = batteryChargeGraphInfo?.batteryStates.last?.time else {
-                return nil
-            }
-            return timeFormatter.string(from: Double(time))
-        }
-
-        func batteryPercentageDescription() -> String? {
-            guard let percentage = state?.batteryLevel else { return nil }
-            let doubleValue = Double(percentage) / 100.0
-            return percentageFormatter.string(for: doubleValue)
-        }
-
-        func batteryHealthDescription() -> String? {
-            guard let percentage = state?.batteryHealth else { return nil }
-            let doubleValue = Double(percentage) / 100.0
-            return percentageFormatter.string(for: doubleValue)
-        }
-
-        func viewDidAppear() {
-            Task { @MainActor in
-                self.dischargeDate = try? await persistence.fetchLastDischargeDate()
-                self.fullChargeDate = try? await persistence.fetchLastFullChargeDate()
+        batteryChargeGraphInfoChanges = Task { [weak self] in
+            guard let self else { return }
+            for await info in energyStatsClient.batteryChargeGraphInfoChanges() {
+                self.batteryChargeGraphInfo = info
             }
         }
+    }
 
-        deinit {
-            chargingStateModeChanges?.cancel()
-            batteryChargeGraphInfoChanges?.cancel()
-            powerSourceChanges?.cancel()
-            menuTask?.cancel()
+    private func cancelObserving() {
+        chargingStateModeChanges?.cancel()
+        powerSourceChanges?.cancel()
+        batteryChargeGraphInfoChanges?.cancel()
+    }
+
+    func temperatureDescription() -> String? {
+        guard let temperature = state?.batteryTemperature else { return nil }
+        let measurement = Measurement(value: temperature, unit: UnitTemperature.celsius)
+        return temperatureFormatter.string(from: measurement)
+    }
+
+    func elapsedTimeDescription() -> String? {
+        guard let time = batteryChargeGraphInfo?.batteryStates.last?.time else {
+            return nil
         }
+        return timeFormatter.string(from: Double(time))
+    }
+
+    func batteryPercentageDescription() -> String? {
+        guard let percentage = state?.batteryLevel else { return nil }
+        let doubleValue = Double(percentage) / 100.0
+        return percentageFormatter.string(for: doubleValue)
+    }
+
+    func batteryHealthDescription() -> String? {
+        guard let percentage = state?.batteryHealth else { return nil }
+        let doubleValue = Double(percentage) / 100.0
+        return percentageFormatter.string(for: doubleValue)
+    }
+
+    func viewDidAppear() {
+        Task { @MainActor [weak self] in
+            self?.dischargeDate = try? await self?.persistence.fetchLastDischargeDate()
+            self?.fullChargeDate = try? await self?.persistence.fetchLastFullChargeDate()
+        }
+    }
+    
+    deinit {
+        chargingStateModeChanges?.cancel()
+        batteryChargeGraphInfoChanges?.cancel()
+        powerSourceChanges?.cancel()
+        menuTask?.cancel()
     }
 }

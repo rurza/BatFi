@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PercentageLabel: View {
-    @ObservedObject var model: BatteryIndicatorView.Model
+    @ObservedObject var model: BatteryIndicatorViewModel
     let height: Double
 
     var body: some View {

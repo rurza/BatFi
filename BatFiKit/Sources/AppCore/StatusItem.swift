@@ -20,8 +20,8 @@ private struct SizePreferenceKey: PreferenceKey {
 
 struct StatusItem: View {
     var sizePassthrough: PassthroughSubject<CGSize, Never>
-    @ObservedObject var batteryIndicatorModel: BatteryIndicatorView.Model
-    @ObservedObject var model: StatusItem.Model
+    @ObservedObject var batteryIndicatorModel: BatteryIndicatorViewModel
+    @ObservedObject var model: StatusItemModel
 
     @Default(.showTimeLeftNextToStatusIcon)
     private var showTimeLeftNextToStatusIcon
@@ -74,24 +74,22 @@ struct StatusItem: View {
     }
 }
 
-extension StatusItem {
-    @MainActor
-    final class Model: ObservableObject {
-        @Published
-        var powerState: PowerState?
+@MainActor
+final class StatusItemModel: ObservableObject {
+    @Published
+    var powerState: PowerState?
 
-        @Dependency(\.powerSourceClient.powerSourceChanges)
-        private var powerSourceChanges
+    @Dependency(\.powerSourceClient.powerSourceChanges)
+    private var powerSourceChanges
 
-        init() {
-            setUpObserving()
-        }
+    init() {
+        setUpObserving()
+    }
 
-        private func setUpObserving() {
-            Task {
-                for await powerState in powerSourceChanges() {
-                    self.powerState = powerState
-                }
+    private func setUpObserving() {
+        Task {
+            for await powerState in powerSourceChanges() {
+                self.powerState = powerState
             }
         }
     }

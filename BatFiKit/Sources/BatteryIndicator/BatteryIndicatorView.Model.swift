@@ -15,61 +15,64 @@ import Foundation
 import os.log
 import SwiftUI
 
-public extension BatteryIndicatorView {
-    @MainActor
-    final class Model: ObservableObject {
-        @Published
-        private(set) public var chargingMode: ChargingMode = .discharging
-        @Published
-        private(set) public var batteryLevel: Int = 0
-        @Published
-        private(set) public var monochrome: Bool = Defaults[.monochromeStatusIcon]
-        @Published
-        private(set) public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
-        @Published
-        private(set) public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
+@MainActor
+public final class BatteryIndicatorViewModel: ObservableObject {
+    @Published
+    private(set) public var chargingMode: ChargingMode = .discharging
+    @Published
+    private(set) public var batteryLevel: Int = 0
+    @Published
+    private(set) public var monochrome: Bool = Defaults[.monochromeStatusIcon]
+    @Published
+    private(set) public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
+    @Published
+    private(set) public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
 
-        @Dependency(\.powerSourceClient.powerSourceChanges) 
-        private var powerSourceChanges
-        @Dependency(\.appChargingState.appChargingModeDidChage)
-        private var appChargingModeDidChage
-        @Dependency(\.defaults)
-        private var defaults
-        @Dependency(\.suspendingClock)
-        private var clock
+    @Dependency(\.powerSourceClient.powerSourceChanges)
+    private var powerSourceChanges
+    @Dependency(\.appChargingState.appChargingModeDidChage)
+    private var appChargingModeDidChage
+    @Dependency(\.defaults)
+    private var defaults
+    @Dependency(\.suspendingClock)
+    private var clock
 
-        private lazy var logger = Logger(category: "BatteryInfdicatorView.Model")
+    private lazy var logger = Logger(category: "BatteryInfdicatorView.Model")
 
-        public init() {
-            setUpObserving()
+    public init() {
+        setUpObserving()
+    }
+
+    private func setUpObserving() {
+        Task {
+            for await ((powerState, mode), (showPercentage, showMonochrome, showPercentageOnBatteryIcon)) in combineLatest(
+                combineLatest(
+                    powerSourceChanges(),
+                    appChargingModeDidChage()
+                ),
+                combineLatest(
+                    defaults.observe(.showBatteryPercentageInStatusIcon),
+                    defaults.observe(.monochromeStatusIcon),
+                    defaults.observe(.showPercentageOnBatteryIcon)
+                )
+            ) {
+                logger.debug("Update battery indicator: \(powerState)")
+                self.batteryLevel = powerState.batteryLevel
+                self.chargingMode = ChargingMode(appChargingStateMode: mode)
+                self.monochrome = showMonochrome
+                self.showPercentage = showPercentage
+                self.showPercentageNextToIndicator = showPercentageOnBatteryIcon
+            }
         }
-
-        private func setUpObserving() {
-            Task {
-                for await ((powerState, mode), (showPercentage, showMonochrome, showPercentageOnBatteryIcon)) in combineLatest(
-                    combineLatest(
-                        powerSourceChanges(),
-                        appChargingModeDidChage()
-                    ),
-                    combineLatest(
-                        defaults.observe(.showBatteryPercentageInStatusIcon),
-                        defaults.observe(.monochromeStatusIcon),
-                        defaults.observe(.showPercentageOnBatteryIcon)
-                    )
-                ) {
-                    logger.debug("Update battery indicator: \(powerState)")
-                    self.batteryLevel = powerState.batteryLevel
-                    self.chargingMode = ChargingMode(appChargingStateMode: mode)
-                    self.monochrome = showMonochrome
-                    self.showPercentage = showPercentage
-                    self.showPercentageNextToIndicator = showPercentageOnBatteryIcon
-                }
+        Task {
+            for await powerState in powerSourceChanges() {
+                logger.debug("Power state did change, I should update the battery indicator")
             }
         }
     }
 }
 
-extension BatteryIndicatorView.Model {
+extension BatteryIndicatorViewModel {
     public enum ChargingMode: Hashable {
         case charging
         case discharging

@@ -14,7 +14,7 @@ import Persistence
 import SwiftUI
 
 public struct ChartsView: View {
-    @StateObject private var model = Model()
+    @StateObject private var model = ChartsViewModel()
     @Dependency(\.calendar) private var calendar
 
     public init() {}
