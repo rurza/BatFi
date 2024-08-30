@@ -1674,6 +1674,12 @@
             "value" : "Last discharge"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière décharge complète"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1689,6 +1695,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Last full charge"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dernière charge complète"
           }
         },
         "pl" : {
@@ -5565,6 +5577,12 @@
             "value" : "Unplug the computer and let the battery drain completely. Then, plug it in and charge it to 100%, using the “Charge to 100%” command from the menu if needed."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Débrancher l'ordinateur et laisser la batterie se vider complètement. Ensuite, rebrancher l'ordinateur et charger le jusqu'à 100% en utilisant la fonction \"Charger à 100%\" du menu, si besoin."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5734,6 +5752,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Time to calibrate the battery"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il est temps de calibrer la batterie"
           }
         },
         "pl" : {
@@ -8257,6 +8281,12 @@
             "state" : "new",
             "value" : "Battery calibration recommended"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une calibration de la batterie est recommandé"
+          }
         }
       }
     },
@@ -9748,6 +9778,12 @@
             "state" : "new",
             "value" : "Show last discharge date"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la date de la dernière décharge complète"
+          }
         }
       }
     },
@@ -9758,6 +9794,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Show last full charge date"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher la date de la dernière charge complète"
           }
         }
       }
@@ -11298,6 +11340,12 @@
             "value" : "90%"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11330,6 +11378,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "50%"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "50%"
           }
         },
