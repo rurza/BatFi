@@ -59,7 +59,7 @@ public struct BatteryInfoView: View {
                         info: model.modeDescription ?? unknown
                     )
                 }
-                if showPowerSource || showBatteryHealth || showBatteryCycleCount || showBatteryTemperature {
+                if showPowerSource || showBatteryHealth || showBatteryCycleCount || showBatteryTemperature || showLastDischarge || showLastFullCharge {
                     SeparatorView()
                     VStack(alignment: .leading, spacing: 8) {
                         if showPowerSource {
