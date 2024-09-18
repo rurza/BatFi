@@ -324,10 +324,6 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
-        guard currentMode != .charging, let status = try? await chargingClient.chargingStatus(), !status.isCharging else {
-            logger.debug("Charging is already turned on")
-            return
-        }
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
         do {
@@ -342,10 +338,6 @@ public actor ChargingManager: ChargingModeManager {
 
     private func inhibitCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await updateChargerConnected(chargerConnected)
-        guard currentMode != .inhibit, let status = try? await chargingClient.chargingStatus(), !status.inhitbitCharging else {
-            logger.debug("Inhibit charging is already turned on")
-            return
-        }
         logger.debug("Inhibiting charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibiting charging")
         do {
@@ -361,10 +353,6 @@ public actor ChargingManager: ChargingModeManager {
 
     private func turnOnDischarging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
-        guard currentMode != .forceDischarge, let status = try? await chargingClient.chargingStatus(), !status.forceDischarging else {
-            logger.debug("Force discharge is already turned on")
-            return
-        }
         await updateChargerConnected(chargerConnected)
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
