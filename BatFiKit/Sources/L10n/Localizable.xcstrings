@@ -594,7 +594,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O limite de recarga foi limitado em %@."
+            "value" : "O limite de carregamento foi limitado para %@."
           }
         },
         "ru" : {
@@ -666,6 +666,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limit ładowania został tymczasowo zmieniony na %@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O limite de carregamento foi temporariamente definido para %@"
           }
         },
         "ru" : {
@@ -891,6 +897,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłączone"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desabilitado"
           }
         },
         "ru" : {
@@ -1121,7 +1133,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inibindo recarga"
+            "value" : "Inibindo o carregamento"
           }
         },
         "ru" : {
@@ -1272,6 +1284,12 @@
             "value" : "Własne ustawienia"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregar Sobreposição"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1343,6 +1361,12 @@
             "value" : "Tymczasowe ładowanie"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando temporariamente"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1412,6 +1436,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tymczasowo rozładowuję"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descarregando temporariamente"
           }
         },
         "ru" : {
@@ -1565,7 +1595,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Saúde da bateria"
+            "value" : "Saúde da Bateria"
           }
         },
         "ru" : {
@@ -1642,7 +1672,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ciclos"
+            "value" : "Contagem de Ciclos"
           }
         },
         "ru" : {
@@ -1719,7 +1749,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fonte de energia"
+            "value" : "Fonte de Energia"
           }
         },
         "ru" : {
@@ -1932,7 +1962,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Faltando informação"
+            "value" : "Falta Informação"
           }
         },
         "ru" : {
@@ -2081,6 +2111,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czas na baterii/zasilaczu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo Decorrido"
           }
         },
         "ru" : {
@@ -2234,7 +2270,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tempo restante"
+            "value" : "Tempo Restante"
           }
         },
         "ru" : {
@@ -2311,7 +2347,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tempo para recarregar"
+            "value" : "Tempo para Carregar"
           }
         },
         "ru" : {
@@ -2450,6 +2486,12 @@
             "value" : "Akceptuję"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceitar"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2495,6 +2537,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Odrzucam"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recusar"
           }
         },
         "tr" : {
@@ -2544,6 +2592,12 @@
             "value" : "Zainstaluj"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2589,6 +2643,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instalator BatFi"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalador BatFi"
           }
         },
         "tr" : {
@@ -2638,6 +2698,12 @@
             "value" : "Gotowe"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concluído"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2683,6 +2749,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd pobierania. %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro de download. %@"
           }
         },
         "tr" : {
@@ -2732,6 +2804,12 @@
             "value" : "Pobieram…"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixando…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2777,6 +2855,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd instalacji. %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro de instalação. %@"
           }
         },
         "tr" : {
@@ -2826,6 +2910,12 @@
             "value" : "Instaluję…"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalando…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2871,6 +2961,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gotowy do instalacji"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto para instalar"
           }
         },
         "tr" : {
@@ -2920,6 +3016,12 @@
             "value" : "Rozpakowuję…"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descompactando…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2965,6 +3067,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd rozpakowywania. %@ "
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro ao descompactar. %@"
           }
         },
         "tr" : {
@@ -3106,7 +3214,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Carregando"
+            "value" : "Carregamento"
           }
         },
         "ru" : {
@@ -3183,7 +3291,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inibindo recarga"
+            "value" : "Inibindo o Carregamento"
           }
         },
         "ru" : {
@@ -3642,6 +3750,12 @@
             "value" : "Włączy się wraz z podłączeniem ładowarki"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sobreposição fica ativa somente quando o carregador está conectado"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3716,7 +3830,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buscar por atualizações..."
+            "value" : "Buscar por Atualizações..."
           }
         },
         "ru" : {
@@ -3867,6 +3981,12 @@
             "value" : "Rozładuj baterię"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Operar na Bateria"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3926,6 +4046,12 @@
             "value" : "Ładowanie wstrzymane. Otwórz pokrywę ekranu by zasilać z baterii"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inibição do carregamento; abra a tampa para descarregar a bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3971,6 +4097,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wstrzymaj ładowanie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inibir Carregamento"
           }
         },
         "tr" : {
@@ -4420,7 +4552,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resetar configurações"
+            "value" : "Resetar Configurações"
           }
         },
         "ru" : {
@@ -4636,6 +4768,12 @@
             "value" : "Przywróć ładowanie"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar de Usar a Bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4681,6 +4819,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz własne ustawienia"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar Sobreposição"
           }
         },
         "tr" : {
@@ -4899,7 +5043,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desabilitado pois o carregador não está conectado"
+            "value" : "Desabilitado porque o carregador não está conectado"
           }
         },
         "ru" : {
@@ -4976,7 +5120,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desabilitado pois a configuração \"Descarregar bateria quando passar do limite\" está ligada"
+            "value" : "Desabilitado porque a configuração \"Descarregar a bateria quando a carga estiver acima do limite estabelecido\" está ligada"
           }
         },
         "ru" : {
@@ -5038,6 +5182,12 @@
             "value" : "Otwórz Onboarding…"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Introdução..."
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5085,6 +5235,12 @@
             "value" : "Otwórz Ustawienia Systemowe…"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ajustes do Sistema…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5130,6 +5286,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi nie będzie bez niej działać.\nOtwórz i ukończ Onboarding z menu \"Więcej\". \nApka powinna być włączona na liście \"Pozwalaj w tle\" w Ustawieniach Systemowych → Ogólne → Logowanie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplicativo não funcionará sem ele.\nAbra e conclua o processo de integração no menu Mais.\nVerifique se o aplicativo está na lista \"Permitir em Segundo Plano\" com o interruptor ligado em Ajustes do Sistema → Geral → Itens de Início."
           }
         },
         "tr" : {
@@ -5189,6 +5351,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apka pomocnicza BatFi nie jest zainstalowana"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplicativo auxiliar Helper do BatFi não está instalado"
           }
         },
         "ru" : {
@@ -5265,7 +5433,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otimizar recarga de bateria está LIGADO"
+            "value" : "O carregamento otimizado da bateria está LIGADO"
           }
         },
         "ru" : {
@@ -5573,7 +5741,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir Configurações do Sistema"
+            "value" : "Abrir Ajustes do Sistema"
           }
         },
         "ru" : {
@@ -5650,7 +5818,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parece que você não deu permissão ao Helper. Se não houver solicitação de senha/Touch ID, tudo bem – é um bug do macOS e às vezes acontece.\nVocê sempre pode alterar as permissões nas configurações do sistema.\nLembre-se de que o aplicativo não funcionará sem a ferramenta auxiliar."
+            "value" : "Parece que você não deu permissão ao Helper. Se não houver solicitação de senha/Touch ID, tudo bem – é um bug do macOS e às vezes acontece.\nVocê sempre pode alterar as permissões nos Ajustes do Sistema.\nLembre-se de que o aplicativo não funcionará sem a ferramenta auxiliar Helper."
           }
         },
         "ru" : {
@@ -6035,7 +6203,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir BatFi no login"
+            "value" : "Iniciar BatFi no login"
           }
         },
         "ru" : {
@@ -6251,6 +6419,12 @@
             "value" : "Przekaż %@ "
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doar %@"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6390,7 +6564,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi ajuda você a otimizar o desempenho da bateria do macOS gerenciando os níveis de carga de forma inteligente, mas oferecendo controle total – carregando até 100% somente quando necessário."
+            "value" : "BatFi ajuda você a otimizar o desempenho da bateria do macOS gerenciando os níveis de carga de forma inteligente, mas oferecendo a você controle total – carregando até 100% somente quando necessário."
           }
         },
         "ru" : {
@@ -6929,7 +7103,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Definir limite de recarga."
+            "value" : "Definir Limite de Carregamento."
           }
         },
         "ru" : {
@@ -7391,7 +7565,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Painel Geral"
+            "value" : "Painel geral"
           }
         },
         "ru" : {
@@ -7451,6 +7625,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Panel skrótów"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Painel de teclas de atalho"
           }
         },
         "tr" : {
@@ -7592,7 +7772,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Painel da barra de menus"
+            "value" : "Painel da barra de menu"
           }
         },
         "ru" : {
@@ -8208,7 +8388,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permitir a versão beta do aplicativo"
+            "value" : "Permitir versões beta do aplicativo"
           }
         },
         "ru" : {
@@ -8362,7 +8542,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Atrase a suspensão automática durante o carregamento e o limite não for atingido"
+            "value" : "Atrase a suspensão automática durante o carregamento enquanto o limite não for atingido"
           }
         },
         "ru" : {
@@ -8439,7 +8619,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Descarregue a bateria quando carregada acima do limite"
+            "value" : "Descarregar a bateria quando a carga estiver acima do limite estabelecido"
           }
         },
         "ru" : {
@@ -8516,7 +8696,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ative automaticamente o limite de carga do sistema (80%) quando o Mac entrar em suspensão"
+            "value" : "Habilitar automaticamente o limite de carga do sistema (80%) quando o Mac entrar em suspensão"
           }
         },
         "ru" : {
@@ -8670,7 +8850,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abrir no login"
+            "value" : "Iniciar no login"
           }
         },
         "ru" : {
@@ -8975,6 +9155,12 @@
             "value" : "Wysyłaj dane diagnostyczne"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar relatórios de falhas"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9188,6 +9374,12 @@
             "value" : "Pokazuj liczbę cykli baterii"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar contagem de ciclos da bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9235,6 +9427,12 @@
             "value" : "Pokazuj opis żywotności baterii"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar saúde da bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9280,6 +9478,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj temperaturę baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar temperatura da bateria"
           }
         },
         "tr" : {
@@ -9406,6 +9610,12 @@
             "value" : "Pokazuj źródło zasilania"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar fonte de energia"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9451,6 +9661,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj czas na baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar tempo restante"
           }
         },
         "tr" : {
@@ -9515,7 +9731,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desligue automaticamente o carregamento quando a bateria esquentar"
+            "value" : "Desligar automaticamente o carregamento quando a bateria esquentar"
           }
         },
         "ru" : {
@@ -9669,7 +9885,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quando a tampa do Macbook é aberta, o aplicativo pode descarregar a bateria até atingir o limite"
+            "value" : "Quando a tampa do Macbook é aberta, o aplicativo pode descarregar a bateria até atingir o limite estabelecido"
           }
         },
         "ru" : {
@@ -9808,6 +10024,12 @@
             "value" : "Włącz/wyłącz ładowanie do 100%"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar carregar até 100%"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9853,6 +10075,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Włącz/wyłącz zasilanie z baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar operar na bateria"
           }
         },
         "tr" : {
@@ -9902,6 +10130,12 @@
             "value" : "Włącz/wyłącz wstrzymanie ładowania"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar inibir carregamento"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9947,6 +10181,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz własne ustawienia ładowania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar carregar sobreposição"
           }
         },
         "tr" : {
@@ -9996,6 +10236,12 @@
             "value" : "Zawsze włączone w wersji Beta"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sempre habilitado durante o Beta"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10041,6 +10287,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Niski stan baterii przy %lld%%"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A bateria está baixa em %lld%%"
           }
         },
         "tr" : {
@@ -10742,6 +10994,12 @@
             "value" : "90%"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10766,6 +11024,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
+          }
+        },
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "50%"
@@ -10818,6 +11082,12 @@
             "value" : "Pokaż swoje wsparcie z napiwkiem!\nTwój wkład pozwala mi utrzymywać i rozwijać apkę.\nDzięki za bycie częścią wspaniałej społeczności!"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostre seu apoio com uma gorjeta!\nSua contribuição me ajuda a continuar melhorando e tornando o BatFi ainda melhor para você.\nObrigado por ser uma parte incrível da nossa comunidade!"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10863,6 +11133,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przycisk otworzy stronę Gumroad z ustawioną kwotą."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O botão abrirá o site Gumroad com o preço já definido."
           }
         },
         "tr" : {
@@ -10912,6 +11188,12 @@
             "value" : "Zawsze możesz zmienić wartość napiwku."
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode alterar o valor antes de prosseguir."
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10957,6 +11239,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lubisz BatFi?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Está gostando do BatFi?"
           }
         },
         "tr" : {
@@ -12075,7 +12363,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Carregando"
+            "value" : "Carregamento"
           }
         },
         "ru" : {
@@ -12212,6 +12500,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Skróty"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teclas de Atalhos"
           }
         },
         "tr" : {
@@ -12353,7 +12647,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Barra de menu"
+            "value" : "Barra de Menu"
           }
         },
         "ru" : {
@@ -12413,6 +12707,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Napiwek"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gorjeta"
           }
         },
         "tr" : {
