@@ -34,6 +34,12 @@
             "value" : "Naładuj baterię"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue a bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -75,6 +81,12 @@
             "value" : "Naładuj/rozładuj baterię (gdy pokrywa z ekranem jest otwarta) dopóki limit ${limit}% nie zostanie osiągnięty."
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue ou utilize na bateria (com a tampa aberta) até que o limite de ${limit}% seja atingido."
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -110,6 +122,12 @@
             "value" : "Naładuj baterię z ${BatFi}"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue a bateria com ${applicationName}"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -143,6 +161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Naładuj do 100% z ${applicationName}"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue até 100% com ${applicationName}"
           }
         },
         "tr" : {
@@ -186,6 +210,12 @@
             "value" : "Naładuj do 100%"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregue até 100%"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -225,6 +255,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Działa tylko gdy pokrywa z ekranem jest otwarta."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funciona somente com a tampa aberta."
           }
         },
         "tr" : {
@@ -268,6 +304,12 @@
             "value" : "Zasilaj z baterii"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilize na Bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -309,6 +351,12 @@
             "value" : "Rozładowywanie działa tylko gdy pokrywa z ekranem jest otwarta."
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O descargamento só funciona com a tampa aberta."
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -348,6 +396,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Procent baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porcentagem da bateria"
           }
         },
         "tr" : {
@@ -406,7 +460,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limit"
+            "value" : "Limite"
           }
         },
         "ru" : {
@@ -462,6 +516,12 @@
             "value" : "Tymczasowo zmień limit ładowania"
           }
         },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobrepor Temporariamente o Nível da Bateria"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -501,6 +561,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz własne ustawienia"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar sobreposição da bateria"
           }
         },
         "tr" : {
