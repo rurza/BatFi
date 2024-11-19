@@ -1698,6 +1698,12 @@
     "battery_info.label.additional.last_discharge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte Entladung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1708,6 +1714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernière décharge complète"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막 방전"
           }
         },
         "pl" : {
@@ -1721,6 +1733,12 @@
     "battery_info.label.additional.last_full_charge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Letzte vollständige Ladung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -1731,6 +1749,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dernière charge complète"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막 완전 충전"
           }
         },
         "pl" : {
@@ -1898,6 +1922,12 @@
     "battery_info.label.additional.unknown_health" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2502,6 +2532,12 @@
     "installer.button.label.accept" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akzeptieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2567,6 +2603,12 @@
     "installer.button.label.decline" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ablehnen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2632,6 +2674,12 @@
     "installer.button.label.install" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2697,6 +2745,12 @@
     "installer.name" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi Installer"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2762,6 +2816,12 @@
     "installer.status.done" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fertig"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2827,6 +2887,12 @@
     "installer.status.download_error" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler beim Herunterladen. %@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2892,6 +2958,12 @@
     "installer.status.downloading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird heruntergeladen…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -2957,6 +3029,12 @@
     "installer.status.installation_error" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installationsfehler. %@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3022,6 +3100,12 @@
     "installer.status.installing" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installiere…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3087,6 +3171,12 @@
     "installer.status.ready" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bereit zur Installation"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3152,6 +3242,12 @@
     "installer.status.unzipping" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entpacken…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3217,6 +3313,12 @@
     "installer.status.unzipping_error" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fehler beim Entpacken. %@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -4206,6 +4308,12 @@
     "menu.label.discharging_override_but_lid_closed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden wird verhindert; öffnen Sie den Deckel, um die Batterie zu entladen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -4271,6 +4379,12 @@
     "menu.label.inhibit_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden verhindern"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -4952,6 +5066,12 @@
     "menu.label.stop_discharging_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie nicht mehr verwenden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5017,6 +5137,12 @@
     "menu.label.stop_override" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Überschreibung stoppen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5390,6 +5516,12 @@
     "notifications.alert.button.label.open_onboarding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onboarding öffnen…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5455,6 +5587,12 @@
     "notifications.alert.button.label.open_system_settings" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellungen öffnen…"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5520,6 +5658,12 @@
     "notifications.alert.informative_text.install_helper_troubleshooting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App funktioniert nicht ohne dies. Öffnen und schließen Sie den Onboarding-Prozess über das „Mehr“-Menü ab. Stellen Sie sicher, dass die App in der Liste ‚Im Hintergrund erlauben‘ mit aktiviertem Schalter in den Systemeinstellungen → Allgemein → Anmeldeobjekte enthalten ist."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5585,10 +5729,64 @@
     "notifications.alert.informative_text.not_laptop" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es scheint, dass die App nicht auf einem Laptop läuft. Bitte starten Sie BatFi auf einem Apple-Notebook."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il semble que l’application ne fonctionne pas sur un ordinateur portable. \nVeuillez lancer BatFi sur un ordinateur Apple."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sembra che l’app non sia in esecuzione su un laptop. Avvia BatFi su un notebook Apple."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリがノートパソコンで実行されていないようです。AppleのノートブックでBatFiを起動してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱이 노트북에서 실행되지 않는 것 같습니다. \nApple 노트북에서 BatFi를 실행하세요."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wygląda na to, że aplikacja nie została uruchomiona na laptopie. Uruchom BatFi na notebooku Apple"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parece que o aplicativo não está sendo executado em um laptop. Por favor, inicie o BatFi em um notebook da Apple."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже, приложение не работает на ноутбуке. Пожалуйста, запустите BatFi на ноутбуке Apple."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "似乎该应用程序未在笔记本电脑上运行。请在苹果笔记本上启动 BatFi。"
           }
         }
       }
@@ -5673,10 +5871,64 @@
     "notifications.alert.title.not_laptop" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starten Sie BatFi auf einem MacBook"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Run BatFi on a MacBook"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lancez BatFi sur un MacBook."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvia BatFi su un MacBook"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBookでBatFiを起動。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MacBook에서 BatFi 실행"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uruchom BatFi na MacBooku"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute o BatFi em um MacBook"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запустите BatFi на MacBook"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 MacBook 上运行 BatFi。"
           }
         }
       }
@@ -5761,6 +6013,12 @@
     "notifications.notification.body.battery_calibration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trennen Sie den Computer vom Stromnetz und lassen Sie die Batterie vollständig entladen. Schließen Sie ihn dann wieder an und laden Sie ihn auf 100 %, falls nötig mit dem Befehl „Auf 100 % laden“ im Menü."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5771,6 +6029,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Débrancher l'ordinateur et laisser la batterie se vider complètement. Ensuite, rebrancher l'ordinateur et charger le jusqu'à 100% en utilisant la fonction \"Charger à 100%\" du menu, si besoin."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "컴퓨터를 전원에서 분리하고 배터리를 완전히 방전시키세요. \n그런 다음 다시 연결하여 100%까지 충전하세요. \n필요시 메뉴에서 ‘100%까지 충전’ 명령을 사용하세요."
           }
         },
         "pl" : {
@@ -5938,6 +6202,12 @@
     "notifications.notification.title.battery_calibration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeit zur Kalibrierung der Batterie"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -5948,6 +6218,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il est temps de calibrer la batterie"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 보정 시간"
           }
         },
         "pl" : {
@@ -6731,6 +7007,12 @@
     "onboarding.button.label.tip_jar.tip" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipp %@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -7951,6 +8233,12 @@
     "settings.accessibility.title.hotkeys" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tastenkürzelbereich"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -8478,6 +8766,12 @@
     "settings.button.label.battery_calibration_recommended" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batteriekalibrierung empfohlen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -8488,6 +8782,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Une calibration de la batterie est recommandé"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리 보정 권장"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj rekomendacje kalibracji baterii"
           }
         }
       }
@@ -9804,6 +10110,12 @@
     "settings.button.label.show_battery_cycles" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anzahl der Batterieladezyklen anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9869,6 +10181,12 @@
     "settings.button.label.show_battery_health" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batteriezustand anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9934,6 +10252,12 @@
     "settings.button.label.show_battery_temperature" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterietemperatur anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -9999,6 +10323,12 @@
     "settings.button.label.show_last_discharge_date" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum der letzten Entladung anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10010,12 +10340,30 @@
             "state" : "translated",
             "value" : "Afficher la date de la dernière décharge complète"
           }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막 방전 날짜 보기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj datę ostatniego rozładowania"
+          }
         }
       }
     },
     "settings.button.label.show_last_full_charge_date" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum der letzten vollständigen Ladung anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10026,6 +10374,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afficher la date de la dernière charge complète"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마지막 완전 충전 날짜 보기"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuj datę ostatniego naładowania"
           }
         }
       }
@@ -10110,6 +10470,12 @@
     "settings.button.label.show_power_source" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stromquelle anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10175,6 +10541,12 @@
     "settings.button.label.show_time_left_status_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibende Zeit anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10548,6 +10920,12 @@
     "settings.hotkey.label.charge_to_full" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden auf 100% umschalten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10613,6 +10991,12 @@
     "settings.hotkey.label.discharge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Umschalten auf Batteriebetrieb"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10678,6 +11062,12 @@
     "settings.hotkey.label.inhibit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laden verhindern umschalten"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10743,6 +11133,12 @@
     "settings.hotkey.label.stop_override" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ladeüberschreibung stoppen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10808,6 +11204,12 @@
     "settings.label.analytics_are_always_on_during_beta" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Immer während der Beta aktiviert"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -10873,6 +11275,12 @@
     "settings.label.battery_low_threshold" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie ist schwach bei %lld%%"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -11608,6 +12016,12 @@
     "settings.label.highest_limit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -11655,6 +12069,12 @@
     "settings.label.lowest_limit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -11702,6 +12122,12 @@
     "settings.label.tip_jar.body" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unterstützen Sie uns mit einem Trinkgeld! \nIhr Beitrag hilft mir, BatFi weiterzuentwickeln und noch besser für Sie zu machen. \nVielen Dank, dass Sie ein fantastischer Teil unserer Community sind!"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -11767,6 +12193,12 @@
     "settings.label.tip_jar.button_description_1" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Button öffnet die Gumroad-Website mit bereits festgelegtem Preis."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -11832,6 +12264,12 @@
     "settings.label.tip_jar.button_description_2" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie können den Betrag vor dem Fortfahren ändern."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -11897,6 +12335,12 @@
     "settings.label.tip_jar.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genießen Sie BatFi?"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -12655,6 +13099,12 @@
     "settings.section.other" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -13182,6 +13632,12 @@
     "settings.tab.title.hotkeys" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tastenkürzel"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -13401,6 +13857,12 @@
     "settings.tab.title.tip_jar" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trinkgeldglas"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
