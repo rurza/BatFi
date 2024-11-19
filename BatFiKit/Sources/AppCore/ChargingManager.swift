@@ -198,6 +198,7 @@ public actor ChargingManager: ChargingModeManager {
     private func updateStatusWithCurrentState() async {
         let powerState = try? await powerSourceClient.currentPowerSourceState()
         let userTempChargingMode = await appChargingState.currentUserTempOverrideMode()
+        logger.debug("\(#function). Battery level: \(powerState?.batteryLevel.description ?? "no power state"), Charge limit: \(self.defaults.value(.chargeLimit))")
         if let powerState {
             let chargeLimit = defaults.value(.chargeLimit)
             let manageCharging = defaults.value(.manageCharging)

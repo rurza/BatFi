@@ -16,16 +16,19 @@ public enum PowerSourceError: Error {
 public struct PowerSourceClient: TestDependencyKey {
     public var powerSourceChanges: () -> AsyncStream<PowerState>
     public var currentPowerSourceState: () async throws -> PowerState
+    public var isRunningOnLaptop: () -> Bool
+
+    public static var testValue: PowerSourceClient = unimplemented()
 
     public init(
         powerSourceChanges: @escaping () -> AsyncStream<PowerState>,
-        currentPowerSourceState: @escaping () async throws -> PowerState
+        currentPowerSourceState: @escaping () async throws -> PowerState,
+        isRunningOnLaptop: @escaping () -> Bool
     ) {
         self.powerSourceChanges = powerSourceChanges
         self.currentPowerSourceState = currentPowerSourceState
+        self.isRunningOnLaptop = isRunningOnLaptop
     }
-
-    public static var testValue: PowerSourceClient = unimplemented()
 }
 
 public extension DependencyValues {

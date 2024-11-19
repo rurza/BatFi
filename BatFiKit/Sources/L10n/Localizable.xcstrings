@@ -5582,6 +5582,17 @@
         }
       }
     },
+    "notifications.alert.informative_text.not_laptop" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook."
+          }
+        }
+      }
+    },
     "notifications.alert.title.install_helper_troubleshooting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -5655,6 +5666,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi的Helper应用未安装"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.not_laptop" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Run BatFi on a MacBook"
           }
         }
       }

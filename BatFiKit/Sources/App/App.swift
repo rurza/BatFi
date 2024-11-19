@@ -45,11 +45,16 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
     @Dependency(\.systemVersionClient) private var systemVersion
     @Dependency(\.updater) private var updater
     @Dependency(\.userNotificationsClient) private var userNotificationsClient
+    @Dependency(\.powerSourceClient) private var powerSourceClient
 
 
     public init() {}
     
     public func start(isBeta: Bool) {
+        guard powerSourceClient.isRunningOnLaptop() else {
+            showAppIsNotRunningOnLaptop()
+            return
+        }
         setFeatureFlags(beta: isBeta)
         analyticsManager.start(shouldEnable: isBeta || defaults.value(.sendAnalytics))
         _ = updater // initialize updater
@@ -95,7 +100,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
             defaults.setValue(.turnOnSystemChargeLimitingWhenGoingToSleep, value: false)
             try? await userNotificationsClient.showUserNotification(
                 title: "System charge limit removed",
-                body: "It looks like you're running on macOS 15. System charge limit was removed from this macOS",
+                body: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
                 identifier: "software.micropixels.BatFi.migration.system_charge_limit",
                 threadIdentifier: nil,
                 delay: nil
@@ -218,5 +223,15 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
         } else if response == .alertFirstButtonReturn {
             openOnboarding()
         }
+    }
+
+    private func showAppIsNotRunningOnLaptop() {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = L10n.Notifications.Alert.Title.notLaptop
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.notLaptop
+        alert.addButton(withTitle: L10n.Menu.Label.quit)
+        let response = alert.runModal()
+        NSApp.terminate(nil)
     }
 }

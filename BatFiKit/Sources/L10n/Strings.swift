@@ -235,6 +235,12 @@ public enum L10n {
                     defaultValue: "BatFi's helper app is not installed",
                     bundle: Bundle.module
                 )
+
+                public static let notLaptop = String(
+                    localized: "notifications.alert.title.not_laptop",
+                    defaultValue: "Run BatFi on a MacBook",
+                    bundle: Bundle.module
+                )
             }
 
             public enum InformativeText {
@@ -242,6 +248,12 @@ public enum L10n {
                 public static let installHelperTroubleshooting = String(
                     localized: "notifications.alert.informative_text.install_helper_troubleshooting",
                     defaultValue: "The app won't work without it.\nOpen and complete the Onboarding process from the More menu.\nVerify that the app is on the 'Allow in background' list with the switch turned on in System Settings → General → Login Items.\n",
+                    bundle: Bundle.module
+                )
+
+                public static let notLaptop = String(
+                    localized: "notifications.alert.informative_text.not_laptop",
+                    defaultValue: "It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook.",
                     bundle: Bundle.module
                 )
             }

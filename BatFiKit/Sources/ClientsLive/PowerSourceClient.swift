@@ -157,6 +157,20 @@ extension PowerSourceClient: DependencyKey {
             },
             currentPowerSourceState: {
                 try await getPowerSourceInfo()
+            },
+            isRunningOnLaptop: {
+                if let powerSourceInfo = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
+                   let powerSourcesList = IOPSCopyPowerSourcesList(powerSourceInfo)?.takeRetainedValue() as? [CFTypeRef] {
+                    // Check if any power source has a battery
+                    for powerSource in powerSourcesList {
+                        if let description = IOPSGetPowerSourceDescription(powerSourceInfo, powerSource)?.takeUnretainedValue() as? [String: Any],
+                           let type = description[kIOPSTypeKey] as? String,
+                           type == kIOPSInternalBatteryType {
+                            return true // A built-in battery is found, indicating a laptop
+                        }
+                    }
+                }
+                return false // No internal battery found, likely a desktop Mac
             }
         )
 
