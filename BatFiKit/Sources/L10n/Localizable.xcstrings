@@ -1745,6 +1745,12 @@
             "state" : "translated",
             "value" : "Última descarga"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次放电"
+          }
         }
       }
     },
@@ -1797,6 +1803,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Última carga completa"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上次完全充电"
           }
         }
       }
@@ -3929,6 +3941,12 @@
             "state" : "translated",
             "value" : "Modo de energia automático"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动电源模式"
+          }
         }
       }
     },
@@ -4515,6 +4533,12 @@
             "state" : "translated",
             "value" : "Modo de alto desempenho"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高性能模式"
+          }
         }
       }
     },
@@ -4715,6 +4739,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modo de baixo consumo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低功耗模式"
           }
         }
       }
@@ -5900,6 +5930,12 @@
             "state" : "translated",
             "value" : "Restaurar ícone da barra de status"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "恢复状态栏图标"
+          }
         }
       }
     },
@@ -6088,6 +6124,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Para reabrir as configurações do BatFi, clique na notificação, selecione o ícone no Launchpad ou clique duas vezes no Finder."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要重新打开 BatFi 设置，请点击其通知，选择 Launchpad 中的图标，或在 Finder 中双击图标。"
           }
         }
       }
@@ -6361,6 +6403,12 @@
             "state" : "translated",
             "value" : "O ícone da barra de status está oculto"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "状态栏图标已隐藏"
+          }
         }
       }
     },
@@ -6413,6 +6461,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desconecte o computador e deixe a bateria descarregar completamente. Em seguida, reconecte e carregue até 100%, usando o comando “Carregar até 100%” no menu, se necessário."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "断开电脑连接，让电池完全放电。然后，重新连接并充电至 100%，如果需要，可以从菜单中使用“充电至 100%”命令。"
           }
         }
       }
@@ -6621,6 +6675,12 @@
             "state" : "translated",
             "value" : "O modo de energia automático está ativado"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动电源模式已启用"
+          }
         }
       }
     },
@@ -6674,6 +6734,12 @@
             "state" : "translated",
             "value" : "Hora de calibrar a bateria"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池校准时间已到"
+          }
         }
       }
     },
@@ -6726,6 +6792,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O modo de alto desempenho está ativado"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高性能模式已启用"
           }
         }
       }
@@ -6856,6 +6928,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O modo de baixo consumo está ativado"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低功耗模式已启用"
           }
         }
       }
@@ -9362,6 +9440,12 @@
             "state" : "translated",
             "value" : "Calibração de bateria recomendada"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "建议校准电池"
+          }
         }
       }
     },
@@ -10937,6 +11021,12 @@
             "state" : "translated",
             "value" : "Mostrar data da última descarga"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示上次放电日期"
+          }
         }
       }
     },
@@ -10989,6 +11079,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar data da última carga completa"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示上次完全充电日期"
           }
         }
       }
@@ -11120,6 +11216,12 @@
             "state" : "translated",
             "value" : "Mostrar opções de modo de energia"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示电源模式选项"
+          }
         }
       }
     },
@@ -11243,6 +11345,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar ícone da barra de status"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示状态栏图标"
           }
         }
       }
@@ -11960,6 +12068,12 @@
             "state" : "translated",
             "value" : "Alternar para modo de alto desempenho"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切换到高性能模式"
+          }
         }
       }
     },
@@ -12012,6 +12126,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alternar para modo de baixo consumo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切换到低功耗模式"
           }
         }
       }
@@ -12902,6 +13022,12 @@
             "state" : "translated",
             "value" : "%90"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
         }
       }
     },
@@ -12960,6 +13086,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%50"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
           }
         }
       }
