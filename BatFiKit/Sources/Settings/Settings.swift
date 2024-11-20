@@ -36,4 +36,6 @@ public extension KeyboardShortcuts.Name {
     static let dischargeBattery = Self("dischargeBattery")
     static let inhibitCharging = Self("inhibitCharging")
     static let stopOverride = Self("stopOverride")
+    static let toggleHighPowerMode = Self("toogleHighPowerMode")
+    static let toggleLowPowerMode = Self("toggleLowPowerMode")
 }

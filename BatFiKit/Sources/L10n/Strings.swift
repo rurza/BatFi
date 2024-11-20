@@ -180,6 +180,15 @@ public enum L10n {
 
             /// Inhibiting charging; open lid to discharge the battery.
             public static let dischargingOverrideButLidIsClosed = String(localized: "menu.label.discharging_override_but_lid_closed", defaultValue: "Inhibiting charging; open lid to discharge the battery", bundle: .module)
+
+            /// Low Power Mode
+            public static let lowPowerMode = String(localized: "menu.label.low_power_mode", defaultValue: "Low Power Mode", bundle: Bundle.module)
+
+            /// Automatic Power Mode
+            public static let automaticPowerMode = String(localized: "menu.label.automatic_power_mode", defaultValue: "Automatic Power Mode", bundle: Bundle.module)
+
+            /// High Power Mode
+            public static let highPowerMode = String(localized: "menu.label.high_power_mode", defaultValue: "High Power Mode", bundle: Bundle.module)
         }
 
         public enum Charts {
@@ -508,6 +517,9 @@ public enum L10n {
                 public static let showLastFullChargeDate = String(localized: "settings.button.label.show_last_full_charge_date", defaultValue: "Show last full charge date", bundle: Bundle.module)
 
                 public static let batteryCalibrationRecommended = String(localized: "settings.button.label.battery_calibration_recommended", defaultValue: "Battery calibration recommended")
+
+                /// Show power mode options
+                public static let showPowerModeOptions = String(localized: "settings.button.label.show_power_mode_options", defaultValue: "Show power mode options", bundle: Bundle.module)
 
                 /// Tip %@
                 public static func tipJarTip(_ p1: Any) -> String {

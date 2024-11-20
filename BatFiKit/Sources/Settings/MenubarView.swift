@@ -25,6 +25,7 @@ struct MenubarView: View {
     @Default(.showLastDischarge) private var showLastDischarge
     @Default(.showLastFullCharge) private var showLastFullCharge
     @Default(.showMenuBarIcon) private var showMenuBarIcon
+    @Default(.showPowerModeOptions) private var showPowerModeOptions
     @State private var showingPopover = false
     @State private var showingAlert = false
 
@@ -41,6 +42,7 @@ struct MenubarView: View {
                 Text("").accessibilityHidden(true) // used to separate content visually
                 Toggle(l10n.Button.Label.showBatteryChartInMenu, isOn: $showChart)
                 Toggle(l10n.Button.Label.showPowerDiagram, isOn: $showPowerDiagram)
+                Toggle(l10n.Button.Label.showPowerModeOptions, isOn: $showPowerModeOptions)
                 HStack(alignment: .top) {
                     Toggle(l10n.Button.Label.showHighEnergyImpactProcesses, isOn: $showHighEnergyImpactProcesses)
                     Button(action: { showingPopover.toggle() }, label: { Text(L10n.Menu.Label.settings) })

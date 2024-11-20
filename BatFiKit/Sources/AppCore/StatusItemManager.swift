@@ -54,19 +54,25 @@ public final class StatusItemManager {
     private var sizePassthrough = PassthroughSubject<CGSize, Never>()
     private var sizeCancellable: AnyCancellable?
     private var menuStateTask: Task<Void, Never>?
+    private var menuOpenedTask: Task<Void, Never>?
+    private var powerModeTask: Task<Void, Never>?
+    @Published
+    private var lastPowerMode: PowerMode?
     private let menuDelegate = MenuObserver.shared
     private let batteryInfoModel = BatteryInfoViewModel()
 
     @Dependency(\.defaults) private var defaults
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.helperClient) private var helperManager
+    @Dependency(\.powerModeClient) private var powerModeClient
+    @Dependency(\.suspendingClock) private var clock
+
 
     public init() {
         setUp()
     }
 
     private func setUp() {
-
         setUpObserving()
     }
 
@@ -80,6 +86,8 @@ public final class StatusItemManager {
                     menuStateTask = nil
                     sizeCancellable?.cancel()
                     sizeCancellable = nil
+                    menuOpenedTask?.cancel()
+                    menuOpenedTask = nil
                 } else {
                     if self.statusItem == nil {
                         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -88,31 +96,49 @@ public final class StatusItemManager {
                 }
             }
         }
+
     }
 
-    private func setUpObservingMenuState() {
-        menuStateTask = Task {
-            for await ((state, showDebugMenu), (showChart, showPowerDiagram, showHighEnergyImpactProcesses)) in combineLatest(
+    private func observeMenuState() {
+        menuStateTask = Task { [weak self] in
+            guard let self else { return }
+            self.lastPowerMode = try? await self.powerModeClient.getCurrentPowerMode()
+            for await ((state, showDebugMenu, showPowerModeOptions), (showChart, showPowerDiagram, showHighEnergyImpactProcesses), powerMode) in combineLatest(
                 combineLatest(
                     appChargingState.appChargingModeDidChage(),
-                    defaults.observe(.showDebugMenu)
+                    defaults.observe(.showDebugMenu),
+                    defaults.observe(.showPowerModeOptions)
                 ),
                 combineLatest(
                     defaults.observe(.showChart),
                     defaults.observe(.showPowerDiagram),
                     defaults.observe(.showHighEnergyImpactProcesses)
-                )
+                ),
+                self.$lastPowerMode.values.eraseToStream()
             ) {
-                updateMenu(dependencies:
-                            MenuDependencies(
-                                appChargingState: state,
-                                showChart: showChart,
-                                showPowerDiagram: showPowerDiagram,
-                                showHighImpactProcesses: showHighEnergyImpactProcesses,
-                                showDebugMenu: showDebugMenu,
-                                lidOpened: await appChargingState.lidOpened() ?? false
-                            )
+                updateMenu(
+                    dependencies:
+                        MenuDependencies(
+                            appChargingState: state,
+                            showChart: showChart,
+                            showPowerDiagram: showPowerDiagram,
+                            showHighImpactProcesses: showHighEnergyImpactProcesses,
+                            showDebugMenu: showDebugMenu,
+                            lidOpened: await appChargingState.lidOpened() ?? false,
+                            showPowerModeOptions: showPowerModeOptions,
+                            powerMode: powerMode
+                        )
                 )
+            }
+        }
+    }
+
+    private func observePowerMode() {
+        powerModeTask = Task { [weak self] in
+            guard let self else { return }
+            while !Task.isCancelled {
+                self.lastPowerMode = try? await self.powerModeClient.getCurrentPowerMode()
+                try? await self.clock.sleep(for: .seconds(1), tolerance: .milliseconds(50))
             }
         }
     }
@@ -181,6 +207,34 @@ public final class StatusItemManager {
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.stopOverride()
                     }
+            }
+
+            if dependencies.showPowerModeOptions {
+                SeparatorItem()
+                MenuItem(L10n.Menu.Label.lowPowerMode)
+                    .onSelect { [weak self] in
+                        Task {
+                            self?.lastPowerMode = .low
+                            try? await self?.powerModeClient.setPowerMode(.low)
+                        }
+                    }
+                    .state(dependencies.powerMode == .low ? .on : .off)
+                MenuItem(L10n.Menu.Label.automaticPowerMode)
+                    .onSelect { [weak self] in
+                        Task {
+                            self?.lastPowerMode = .normal
+                            try? await self?.powerModeClient.setPowerMode(.normal)
+                        }
+                    }
+                    .state(dependencies.powerMode == .normal ? .on : .off)
+                MenuItem(L10n.Menu.Label.highPowerMode)
+                    .onSelect { [weak self] in
+                        Task {
+                            self?.lastPowerMode = .high
+                            try? await self?.powerModeClient.setPowerMode(.high)
+                        }
+                    }
+                    .state(dependencies.powerMode == .high ? .on : .off)
             }
 
             SeparatorItem()
@@ -302,7 +356,18 @@ public final class StatusItemManager {
             self?.batteryIndicatorView?.frame = frame
             self?.statusItem?.button?.frame = frame
         }
-        setUpObservingMenuState()
+        observeMenuState()
+        menuOpenedTask = Task { [weak self] in
+            guard let self else { return }
+            for await menuIsOpened in menuDelegate.$menuIsOpened.values.removeDuplicates().eraseToStream() {
+                if menuIsOpened {
+                    observePowerMode()
+                } else {
+                    powerModeTask?.cancel()
+                    powerModeTask = nil
+                }
+            }
+        }
     }
 }
 
@@ -313,6 +378,8 @@ struct MenuDependencies {
     let showHighImpactProcesses: Bool
     let showDebugMenu: Bool
     let lidOpened: Bool
+    let showPowerModeOptions: Bool
+    let powerMode: PowerMode?
 }
 
 private struct MenuViewModifier: ViewModifier {

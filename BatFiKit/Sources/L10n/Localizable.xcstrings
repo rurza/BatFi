@@ -3843,6 +3843,17 @@
         }
       }
     },
+    "menu.label.automatic_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Automatic Power Mode"
+          }
+        }
+      }
+    },
     "menu.label.batfi" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -4376,6 +4387,17 @@
         }
       }
     },
+    "menu.label.high_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High Power Mode"
+          }
+        }
+      }
+    },
     "menu.label.inhibit_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -4520,6 +4542,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "安装Helper"
+          }
+        }
+      }
+    },
+    "menu.label.low_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Low Power Mode"
           }
         }
       }
@@ -10496,6 +10529,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示功率分配"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_power_mode_options" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show power mode options"
           }
         }
       }

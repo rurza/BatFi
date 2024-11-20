@@ -27,7 +27,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     private var chargingManager = ChargingManager()
     private var notificationsManager: NotificationsManager?
-    private var statusItemIconController: StatusItemManager?
+    private var statusItemManager: StatusItemManager?
 
     public var chargingModeManager: ChargingModeManager { chargingManager }
 
@@ -159,8 +159,8 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         await magSafeColorManager.setUpObserving()
 
         notificationsManager = NotificationsManager()
-        statusItemIconController = StatusItemManager()
-        statusItemIconController?.delegate = self
+        statusItemManager = StatusItemManager()
+        statusItemManager?.delegate = self
     }
 
     private func runMigration() async {
@@ -186,7 +186,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     @MainActor
     private func showStatusItemArrow() {
-        if let statusItem = statusItemIconController?.statusItem {
+        if let statusItem = statusItemManager?.statusItem {
             let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
             arrowWindow = window
             window.show()
@@ -214,7 +214,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     public func statusItemIconDidAppear() {
         showStatusItemArrow()
-        statusItemIconController?.delegate = nil
+        statusItemManager?.delegate = nil
     }
 
     func showHelperIsNotInstalled() {

@@ -1,5 +1,5 @@
 //
-//  Defaults.swift
+//  DefaultsKeys.swift
 //  BatFi
 //
 //  Created by Adam on 26/04/2023.
@@ -39,6 +39,7 @@ public extension Defaults.Keys {
     static let showElapsedTime = Key<Bool>("showElapsedTime", default: false)
     static let showLastDischarge = Key<Bool>("showLastDischarge", default: false)
     static let showLastFullCharge = Key<Bool>("showLastFullCharge", default: false)
+    static let showPowerModeOptions = Key<Bool>("showPowerModeOptions", default: false)
 
     static let showTimeLeftNextToStatusIcon = Key<Bool>("showTimeLeftNextToStatusIcon", default: false)
 

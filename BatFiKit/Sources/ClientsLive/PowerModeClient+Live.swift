@@ -9,8 +9,8 @@ import Foundation
 import Clients
 import Dependencies
 
-extension PowerModeClient {
-    public static let live: Self = {
+extension PowerModeClient: DependencyKey {
+    public static var liveValue: Clients.PowerModeClient {
         let xpcClient = XPCClient.shared
         return Self(
             getCurrentPowerMode: {
@@ -25,7 +25,7 @@ extension PowerModeClient {
                 try await xpcClient.setPowerMode(powerMode.uint)
             }
         )
-    }()
+    }
 }
 
 extension PowerMode {
