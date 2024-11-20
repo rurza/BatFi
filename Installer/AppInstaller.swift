@@ -8,17 +8,11 @@
 import AppKit
 import os
 
-private struct AppleScriptError: Error {
-    let message: String
-    static let unknown: Self = AppleScriptError(message: "Unknown error")
-}
-
 final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate {
     @MainActor @Published
     var installationState: InstallationState = .initial
 
     private let appBundleName = "BatFi.app"
-    private let bundleIdentifier = "software.micropixels.BatFi"
     private lazy var installedAppPath = "/Applications/\(appBundleName)"
     private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "App Installer")
 
@@ -46,62 +40,65 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
             }
             try fileManager.moveItem(at: location, to: newLocation)
             return newLocation
-        } catch let error as NSError {
+        } catch {
             logger.error("Error renaming downloaded file: \(error.localizedDescription)")
             updateInstallationState(.movingError(error as NSError))
             return nil
         }
     }
 
-    func unzipFile(at sourceURL: URL) -> Bool {
+    func unzipFile(at sourceURL: URL) -> URL? {
         updateInstallationState(.unzipping)
-        if let runningInstance =  NSWorkspace.shared.runningApplications
-            .first(where: { $0.bundleIdentifier == bundleIdentifier }) {
-            logger.notice("App is running")
-            if !runningInstance.terminate() {
-                runningInstance.forceTerminate()
-                logger.notice("App force terminated")
-            }
-        }
+        let tempDirectory = FileManager.default.temporaryDirectory.appendingPathComponent("UnzippedApp")
         do {
-            let command = "/usr/bin/unzip -o \(sourceURL.path) -d /Applications -x __MACOSX*"
-            try runCommandWithSudo(command)
-            updateInstallationState(.done)
-            return true
+            if FileManager.default.fileExists(atPath: tempDirectory.path) {
+                try FileManager.default.removeItem(at: tempDirectory)
+            }
+            try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
+
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/unzip")
+            process.arguments = ["-o", sourceURL.path, "-d", tempDirectory.path]
+            try process.run()
+            process.waitUntilExit()
+
+            let unzippedAppPath = tempDirectory.appendingPathComponent(appBundleName)
+            if FileManager.default.fileExists(atPath: unzippedAppPath.path) {
+                return unzippedAppPath
+            } else {
+                logger.error("Unzipped file not found at expected location")
+                updateInstallationState(.unzippingError(NSError(domain: "Installer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unzipped file not found"])))
+                return nil
+            }
         } catch {
             logger.error("Error unzipping file: \(error.localizedDescription)")
             updateInstallationState(.unzippingError(error as NSError))
-            return false
+            return nil
         }
     }
 
-    private func runCommandWithSudo(_ command: String) throws {
-        let appleScriptSource = """
-        do shell script "\(command)" with administrator privileges
-        """
-        try executeAppleScript(appleScriptSource)
-    }
-
-    private func executeAppleScript(_ appleScriptSource: String) throws {
-        var error: NSDictionary?
-        if let scriptObject = NSAppleScript(source: appleScriptSource) {
-            if let output = scriptObject.executeAndReturnError(&error).stringValue {
-                print(output)
-            } else if let error = error {
-                if let message = error["NSAppleScriptErrorMessage"] as? String {
-                    throw AppleScriptError(message: message)
-                } else {
-                    throw AppleScriptError.unknown
+    private func moveApp(to destination: URL, from source: URL) {
+        do {
+            if FileManager.default.fileExists(atPath: destination.path) {
+                try FileManager.default.removeItem(at: destination)
+            }
+            try FileManager.default.moveItem(at: source, to: destination)
+            updateInstallationState(.done)
+            NSWorkspace.shared.openApplication(at: destination, configuration: .init()) { _, _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+                    NSApp.terminate(nil)
                 }
             }
+        } catch {
+            logger.error("Error moving app: \(error.localizedDescription)")
+            updateInstallationState(.movingError(error as NSError))
         }
     }
 
-    private func clearQuarantineAttributes() {
+    private func clearQuarantineAttributes(for path: String) {
         let process = Process()
         process.launchPath = "/usr/bin/xattr"
-        process.arguments = ["-dr", "com.apple.quarantine", installedAppPath]
-
+        process.arguments = ["-dr", "com.apple.quarantine", path]
         do {
             try process.run()
             process.waitUntilExit()
@@ -110,97 +107,41 @@ final class AppInstaller: NSObject, ObservableObject, URLSessionDownloadDelegate
         }
     }
 
-    private func cleanUp(url: URL) {
-        let fileManager = FileManager.default
-        do {
-            try fileManager.removeItem(at: url)
-        } catch {
-            logger.error("Error cleaning up: \(error.localizedDescription)")
-        }
-    }
-
-    private func findAndOpenApp(_ handler: @escaping () -> Void)  {
-        logger.debug("Finish and open app")
-        let url = URL(filePath: installedAppPath)
-        logger.debug("opening app at \(url.absoluteString)")
-        NSWorkspace.shared.openApplication(at: url, configuration: .init()) { _, _ in
-            DispatchQueue.main.async {
-                handler()
-            }
-        }
-    }
-
-    private func resetDefaults() {
-        let process = Process()
-        process.launchPath = "/usr/bin/defaults"
-        process.arguments = ["delete", bundleIdentifier]
-        do {
-            try process.run()
-            process.waitUntilExit()
-        } catch {
-            logger.error("Error deleting defaults: \(error.localizedDescription)")
-        }
-    }
-
     private func downloadFile() {
         updateInstallationState(.downloading(progress: 0))
 
         let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 30)
-        logger.debug("Downloading app from \(url.absoluteString)")
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 130)
+        logger.debug("Downloading app")
         let task = session.downloadTask(with: request)
         task.resume()
     }
 
     // MARK: URLSessionDownloadDelegate Methods
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        guard let response = downloadTask.response as? HTTPURLResponse else {
-            updateInstallationState(.downloadError(
-                NSError(domain: "Installer", code: 0, userInfo: [NSLocalizedDescriptionKey: "No response"])
-            ))
-            return
-        }
-        guard response.statusCode == 200 else {
-            updateInstallationState(.downloadError(
-                NSError(domain: "Installer", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: "Bad status code"])
-            ))
-            return
-        }
         guard let tempLocation = renameDownloadedFile(downloadTask.response?.suggestedFilename, location: location) else {
             return
         }
-        // unzip it
-        guard unzipFile(at: tempLocation) else { return }
-        clearQuarantineAttributes()
-        cleanUp(url: tempLocation)
-        resetDefaults()
-        findAndOpenApp { [weak self] in
-            self?.updateInstallationState(.done)
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
-                NSApp.terminate(nil)
-            }
-        }
+        guard let unzippedAppPath = unzipFile(at: tempLocation) else { return }
+        clearQuarantineAttributes(for: unzippedAppPath.path)
+        moveApp(to: URL(fileURLWithPath: installedAppPath), from: unzippedAppPath)
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        logger.notice("\(#function)")
         let progress = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
-        logger.notice("Download progress: \(progress), totalbytes: \(totalBytesWritten), expected: \(totalBytesExpectedToWrite)")
         updateInstallationState(.downloading(progress: progress))
     }
 
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        logger.notice("\(#function)")
         if let error = error {
             logger.error("Download error: \(error.localizedDescription)")
             updateInstallationState(.downloadError(error as NSError))
         }
     }
 
-    func updateInstallationState(_ state: InstallationState) {
-        Task { @MainActor in
-            logger.notice("Installation state: \(state, privacy: .public)")
-            installationState = state
+    private func updateInstallationState(_ state: InstallationState) {
+        DispatchQueue.main.async {
+            self.installationState = state
         }
     }
 }
