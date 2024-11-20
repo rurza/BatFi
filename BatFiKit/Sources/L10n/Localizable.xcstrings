@@ -1716,6 +1716,18 @@
             "value" : "Dernière décharge complète"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultima scarica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後の放電"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1726,6 +1738,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ostatnio rozładowano"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última descarga"
           }
         }
       }
@@ -1751,6 +1769,18 @@
             "value" : "Dernière charge complète"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ultima carica completa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後の完全充電"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1761,6 +1791,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ostatnio naładowano"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última carga completa"
           }
         }
       }
@@ -3846,10 +3882,52 @@
     "menu.label.automatic_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatischer Energiemodus"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Automatic Power Mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode alimentation automatique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modalità energia automatica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動電源モード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동 전원 모드"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatyczny tryb energii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo de energia automático"
           }
         }
       }
@@ -4390,10 +4468,52 @@
     "menu.label.high_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hohe Leistung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "High Power Mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode haute puissance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modalità alta potenza"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高性能モード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고성능 모드"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wysoka moc"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo de alto desempenho"
           }
         }
       }
@@ -4549,10 +4669,52 @@
     "menu.label.low_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedriger Energieverbrauch"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Low Power Mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode faible consommation d’énergie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modalità basso consumo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "省電力モード"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저전력 모드"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niskie zużycie energii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo de baixo consumo"
           }
         }
       }
@@ -5691,10 +5853,52 @@
     "notifications.alert.button.label.restore_status_bar_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statusleisten-Symbol wiederherstellen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Restore Status Bar Icon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurer l’icône de la barre d’état"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripristina icona della barra di stato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ステータスバーアイコンを復元"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태 표시줄 아이콘 복원"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przywróć ikonę"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar ícone da barra de status"
           }
         }
       }
@@ -5838,10 +6042,52 @@
     "notifications.alert.informative_text.status_bar_icon_hidden" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um die BatFi-Einstellungen erneut zu öffnen, klicken Sie auf die Benachrichtigung, wählen Sie das Symbol im Launchpad aus oder doppelklicken Sie im Finder."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "To open BatFi settings again, click its notification, select its icon in the Launchpad, or double-click it in the Finder."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour rouvrir les paramètres de BatFi, cliquez sur sa notification, sélectionnez son icône dans le Launchpad ou double-cliquez dessus dans le Finder."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per riaprire le impostazioni di BatFi, fai clic sulla notifica, seleziona l’icona nel Launchpad o fai doppio clic nel Finder."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi設定を再度開くには、通知をクリックするか、Launchpadでアイコンを選択するか、Finderでダブルクリックしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 설정을 다시 열려면 알림을 클릭하거나 Launchpad에서 아이콘을 선택하거나 Finder에서 두 번 클릭하세요."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby ponownie otworzyć ustawienia BatFi, kliknij jego powiadomienie, wybierz ikonę w Launchpadzie lub dwukrotnie kliknij w Finderze."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para reabrir as configurações do BatFi, clique na notificação, selecione o ícone no Launchpad ou clique duas vezes no Finder."
           }
         }
       }
@@ -6068,10 +6314,52 @@
     "notifications.alert.title.status_bar_icon_hidden" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statusleisten-Symbol ist ausgeblendet"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Status bar icon is hidden"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’icône de la barre d’état est masquée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’icona della barra di stato è nascosta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ステータスバーアイコンが非表示です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태 표시줄 아이콘이 숨겨져 있습니다"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona paska statusu jest ukryta"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O ícone da barra de status está oculto"
           }
         }
       }
@@ -6097,6 +6385,18 @@
             "value" : "Débrancher l'ordinateur et laisser la batterie se vider complètement. Ensuite, rebrancher l'ordinateur et charger le jusqu'à 100% en utilisant la fonction \"Charger à 100%\" du menu, si besoin."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scollega il computer e lascia che la batteria si scarichi completamente. Quindi, collegalo e caricalo al 100% utilizzando il comando “Carica al 100%” dal menu, se necessario."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンピュータの電源を切り、バッテリーを完全に放電してください。その後、再接続して100％まで充電します。必要に応じて、メニューの「100％まで充電」コマンドを使用してください。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6107,6 +6407,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Odłącz komputer od ładowarki i rozładuj baterię do zera. Następnie naładuj do 100% używając polecenia “Naładuj do 100%” z menu."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconecte o computador e deixe a bateria descarregar completamente. Em seguida, reconecte e carregue até 100%, usando o comando “Carregar até 100%” no menu, se necessário."
           }
         }
       }
@@ -6265,6 +6571,59 @@
         }
       }
     },
+    "notifications.notification.title.automatic_power_mode_on" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatischer Energiemodus ist aktiviert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Automatic power mode is on"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode alimentation automatique est activé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modalità energia automatica è attiva"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動電源モードが有効です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동 전원 모드가 활성화되었습니다"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatyczny tryb energii jest włączony"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O modo de energia automático está ativado"
+          }
+        }
+      }
+    },
     "notifications.notification.title.battery_calibration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -6286,6 +6645,18 @@
             "value" : "Il est temps de calibrer la batterie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È ora di calibrare la batteria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー校正の時間です"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6296,6 +6667,65 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Czas na kalibrację baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora de calibrar a bateria"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.high_power_mode_on" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hohe Leistung ist aktiviert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High power mode is on"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode haute puissance est activé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modalità alta potenza è attiva"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高性能モードが有効です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고성능 모드가 활성화되었습니다"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wysoka moc jest włączona"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O modo de alto desempenho está ativado"
           }
         }
       }
@@ -6373,6 +6803,59 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "电量低"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.low_power_mode_on" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedriger Energieverbrauch ist aktiviert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Low power mode is on"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode faible consommation d’énergie est activé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modalità basso consumo è attiva"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "省電力モードが有効です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저전력 모드가 활성화되었습니다"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niskie zużycie energii jest włączone"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O modo de baixo consumo está ativado"
           }
         }
       }
@@ -8850,6 +9333,18 @@
             "value" : "Une calibration de la batterie est recommandé"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibrazione della batteria raccomandata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー校正の推奨"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8860,6 +9355,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj rekomendacje kalibracji baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibração de bateria recomendada"
           }
         }
       }
@@ -10407,6 +10908,18 @@
             "value" : "Afficher la date de la dernière décharge complète"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la data dell’ultima scarica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後の放電日を表示"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10417,6 +10930,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj datę ostatniego rozładowania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar data da última descarga"
           }
         }
       }
@@ -10442,6 +10961,18 @@
             "value" : "Afficher la date de la dernière charge complète"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la data dell’ultima carica completa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後の完全充電日を表示"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10452,6 +10983,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokazuj datę ostatniego naładowania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar data da última carga completa"
           }
         }
       }
@@ -10536,10 +11073,52 @@
     "settings.button.label.show_power_mode_options" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Energieoptionen anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Show power mode options"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les options du mode d’alimentation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra le opzioni della modalità energia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "電源モードオプションを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전원 모드 옵션 표시"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż opcje trybu energii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar opções de modo de energia"
           }
         }
       }
@@ -10618,10 +11197,52 @@
     "settings.button.label.show_status_bar_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbol anzeigen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Show status bar icon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher l’icône de la barre d’état"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra l’icona della barra di stato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ステータスバーアイコンを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상태 표시줄 아이콘 표시"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż ikonę na pasku statusu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar ícone da barra de status"
           }
         }
       }
@@ -11289,6 +11910,112 @@
         }
       }
     },
+    "settings.hotkey.label.toggle_high_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hohe Leistung umschalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle high power mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer/désactiver le mode haute puissance"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva/disattiva modalità alta potenza"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高性能モードを切り替え"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고성능 모드 전환"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przełącz tryb wysokiego zużycia energii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar para modo de alto desempenho"
+          }
+        }
+      }
+    },
+    "settings.hotkey.label.toggle_low_power_mode" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedrigen Energieverbrauch umschalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle low power mode"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activer/désactiver le mode faible consommation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva/disattiva modalità basso consumo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "省電力モードを切り替え"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저전력 모드 전환"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przełącz tryb niskiego zużycia energii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar para modo de baixo consumo"
+          }
+        }
+      }
+    },
     "settings.label.analytics_are_always_on_during_beta" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -11636,6 +12363,24 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Afficher %d processus"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mostra fino a %d processo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mostra fino a %d processi"
                 }
               }
             }
@@ -12122,6 +12867,12 @@
             "value" : "90%"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12170,6 +12921,12 @@
           }
         },
         "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "50%"
