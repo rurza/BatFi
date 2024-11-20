@@ -317,7 +317,9 @@ public enum L10n {
             public enum Title {
                 public static let lowBattery = String(localized: "notifications.notification.title.low_battery", defaultValue: "Battery is low", bundle: Bundle.module)
                 public static let batteryCalibration = String(localized: "notifications.notification.title.battery_calibration", defaultValue: "Time to calibrate the battery", bundle: Bundle.module)
-
+                public static let lowPowerModeOn = String(localized: "notifications.notification.title.low_power_mode_on", defaultValue: "Low power mode is on", bundle: Bundle.module)
+                public static let highPowerModeOn = String(localized: "notifications.notification.title.high_power_mode_on", defaultValue: "High power mode is on", bundle: Bundle.module)
+                public static let automaticPowerModeOn = String(localized: "notifications.notification.title.automatic_power_mode_on", defaultValue: "Automatic power mode is on", bundle: Bundle.module)
             }
 
             public enum Body {
@@ -439,6 +441,12 @@ public enum L10n {
 
                 /// Stop charge override
                 public static let stopOverride = String(localized: "settings.hotkey.label.stop_override", defaultValue: "Stop charge override", bundle: Bundle.module)
+
+                /// Toggle low power mode
+                public static let toggleLowPowerMode = String(localized: "settings.hotkey.label.toggle_low_power_mode", defaultValue: "Toggle low power mode", bundle: Bundle.module)
+
+                /// Toggle high power mode
+                public static let toggleHighPowerMode = String(localized: "settings.hotkey.label.toggle_high_power_mode", defaultValue: "Toggle high power mode", bundle: Bundle.module)
             }
         }
 

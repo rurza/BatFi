@@ -44,6 +44,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     @Dependency(\.updater) private var updater
     @Dependency(\.userNotificationsClient) private var userNotificationsClient
     @Dependency(\.powerSourceClient) private var powerSourceClient
+    @Dependency(\.powerModeClient) private var powerModeClient
 
 
     public init() {}
@@ -209,6 +210,64 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         }
         KeyboardShortcuts.onKeyUp(for: .inhibitCharging) { [weak self] in
             self?.chargingManager.inhibitCharging()
+        }
+        KeyboardShortcuts.onKeyUp(for: .toggleLowPowerMode) { [weak self] in
+            guard let self else { return }
+            Task {
+                guard let mode = try? await self.powerModeClient.getCurrentPowerMode() else { return }
+                if mode != .low {
+                    do {
+                        try await self.powerModeClient.setPowerMode(.low)
+                        try? await self.userNotificationsClient.showUserNotification(
+                            title: L10n.Notifications.Notification.Title.lowPowerModeOn,
+                            body: "",
+                            identifier: "low",
+                            threadIdentifier: "powermode",
+                            delay: nil
+                        )
+                    } catch { }
+                } else {
+                    do {
+                        try await self.powerModeClient.setPowerMode(.normal)
+                        try? await self.userNotificationsClient.showUserNotification(
+                            title: L10n.Notifications.Notification.Title.automaticPowerModeOn,
+                            body: "",
+                            identifier: "automatic",
+                            threadIdentifier: "powermode",
+                            delay: nil
+                        )
+                    } catch { }
+                }
+            }
+        }
+        KeyboardShortcuts.onKeyUp(for: .toggleHighPowerMode) { [weak self] in
+            guard let self else { return }
+            Task {
+                guard let mode = try? await self.powerModeClient.getCurrentPowerMode() else { return }
+                if mode != .high {
+                    do {
+                        try await self.powerModeClient.setPowerMode(.high)
+                        try? await self.userNotificationsClient.showUserNotification(
+                            title: L10n.Notifications.Notification.Title.highPowerModeOn,
+                            body: "",
+                            identifier: "high",
+                            threadIdentifier: "powermode",
+                            delay: nil
+                        )
+                    } catch { }
+                } else {
+                    do {
+                        try await self.powerModeClient.setPowerMode(.normal)
+                        try? await self.userNotificationsClient.showUserNotification(
+                            title: L10n.Notifications.Notification.Title.automaticPowerModeOn,
+                            body: "",
+                            identifier: "automatic",
+                            threadIdentifier: "powermode",
+                            delay: nil
+                        )
+                    } catch { }
+                }
+            }
         }
     }
 

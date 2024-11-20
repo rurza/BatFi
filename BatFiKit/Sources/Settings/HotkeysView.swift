@@ -24,6 +24,9 @@ struct HotkeysView: View {
                             shortcut(label: L10n.Settings.Hotkey.Label.discharge, key: .dischargeBattery)
                             shortcut(label: L10n.Settings.Hotkey.Label.inhibit, key: .inhibitCharging)
                             shortcut(label: L10n.Settings.Hotkey.Label.stopOverride, key: .stopOverride)
+                            Divider()
+                            shortcut(label: L10n.Settings.Hotkey.Label.toggleLowPowerMode, key: .toggleLowPowerMode)
+                            shortcut(label: L10n.Settings.Hotkey.Label.toggleHighPowerMode, key: .toggleHighPowerMode)
                         }
                         .frame(width: 400)
                         .padding()
