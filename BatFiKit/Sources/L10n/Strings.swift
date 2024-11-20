@@ -236,9 +236,17 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// Run BatFi on a MacBook
                 public static let notLaptop = String(
                     localized: "notifications.alert.title.not_laptop",
                     defaultValue: "Run BatFi on a MacBook",
+                    bundle: Bundle.module
+                )
+
+                /// Status Bar Icon Hidden
+                public static let statusBarIconHidden = String(
+                    localized: "notifications.alert.title.status_bar_icon_hidden",
+                    defaultValue: "Status bar icon is hidden",
                     bundle: Bundle.module
                 )
             }
@@ -251,9 +259,17 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook.
                 public static let notLaptop = String(
                     localized: "notifications.alert.informative_text.not_laptop",
                     defaultValue: "It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook.",
+                    bundle: Bundle.module
+                )
+
+                /// To open BatFi settings again, click its notification, select its icon in the Launchpad, or double-click it in the Finder.
+                public static let statusBarIconHidden = String(
+                    localized: "notifications.alert.informative_text.status_bar_icon_hidden",
+                    defaultValue: "To open BatFi settings again, click its notification, select its icon in the Launchpad, or double-click it in the Finder.",
                     bundle: Bundle.module
                 )
             }
@@ -265,6 +281,11 @@ public enum L10n {
 
                     /// Open Onboarding
                     public static let openOnboarding = String(localized: "notifications.alert.button.label.open_onboarding", defaultValue: "Open Onboarding…", bundle: Bundle.module)
+
+                    /// Restore Status Bar Icon
+                    public static let restoreStatusBarIcon = String(localized: "notifications.alert.button.label.restore_status_bar_icon", defaultValue: "Restore Status Bar Icon", bundle: Bundle.module)
+
+
                 }
             }
         }
@@ -419,6 +440,8 @@ public enum L10n {
             }
 
             public enum Label {
+                /// Show status bar icon
+                public static let showStatusBarIcon = String(localized: "settings.button.label.show_status_bar_icon", defaultValue: "Show status bar icon", bundle: Bundle.module)
                 /// Automatically check for updates
                 public static let automaticallyCheckUpdates = String(localized: "settings.button.label.automatically_check_updates", defaultValue: "Automatically check for updates", bundle: Bundle.module)
                 /// Automatically download updates

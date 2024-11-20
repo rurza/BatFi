@@ -24,7 +24,8 @@ public extension Defaults.Keys {
     static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
 
     // Menu bar
-    static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: true)
+    static let showMenuBarIcon = Key<Bool>("showMenuBarIcon", default: true)
+    static let showBatteryPercentageInStatusIcon = Key<Bool>("showBatteryPercentageInStatusIcon", default: false)
     static let monochromeStatusIcon = Key<Bool>("monochromeStatusIcon", default: true)
     static let showChart = Key<Bool>("showChart", default: false)
     static let showPowerDiagram = Key<Bool>("showPowerDiagram", default: false)

@@ -5655,6 +5655,17 @@
         }
       }
     },
+    "notifications.alert.button.label.restore_status_bar_icon" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Restore Status Bar Icon"
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.install_helper_troubleshooting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -5787,6 +5798,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "似乎该应用程序未在笔记本电脑上运行。请在苹果笔记本上启动 BatFi。"
+          }
+        }
+      }
+    },
+    "notifications.alert.informative_text.status_bar_icon_hidden" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "To open BatFi settings again, click its notification, select its icon in the Launchpad, or double-click it in the Finder."
           }
         }
       }
@@ -6006,6 +6028,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "优化电池充电已启用"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.status_bar_icon_hidden" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Status bar icon is hidden"
           }
         }
       }
@@ -10534,6 +10567,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示电源"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_status_bar_icon" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show status bar icon"
           }
         }
       }

@@ -29,6 +29,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return .terminateLater
     }
 
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
+        app?.shouldHandleReopen()
+        return false
+    }
+
     @IBAction
     func openSettings(_ sender: Any?) {
         app?.openSettings()

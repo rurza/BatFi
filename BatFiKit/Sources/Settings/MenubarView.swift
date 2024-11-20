@@ -24,7 +24,9 @@ struct MenubarView: View {
     @Default(.showPercentageOnBatteryIcon) private var showPercentageOnBatteryIcon
     @Default(.showLastDischarge) private var showLastDischarge
     @Default(.showLastFullCharge) private var showLastFullCharge
+    @Default(.showMenuBarIcon) private var showMenuBarIcon
     @State private var showingPopover = false
+    @State private var showingAlert = false
 
     var body: some View {
         let l10n = L10n.Settings.self
@@ -49,13 +51,30 @@ struct MenubarView: View {
             }
 
             Section(title: l10n.Section.statusIcon, bottomDivider: true) {
+                Toggle(l10n.Button.Label.showStatusBarIcon, isOn: $showMenuBarIcon)
                 Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
+                    .disabled(!showMenuBarIcon)
                 Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
+                    .disabled(!showMenuBarIcon)
                 Toggle(l10n.Button.Label.batteryPercentageNextToIcon, isOn: $showPercentageOnBatteryIcon)
                     .offset(x: 16)
-                    .disabled(!batteryPercentage)
+                    .disabled(!batteryPercentage || !showMenuBarIcon)
                 Toggle(l10n.Button.Label.statusIconTimeLeft, isOn: $showTimeLeftNextToStatusIcon)
+                    .disabled(!showMenuBarIcon)
             }
+        }
+        .onChange(of: showMenuBarIcon) { newValue in
+            if !newValue {
+                showingAlert = true
+            }
+        }
+        .alert(L10n.Notifications.Alert.Title.statusBarIconHidden, isPresented: $showingAlert) {
+            Button(L10n.Notifications.Alert.Button.Label.restoreStatusBarIcon, role: .cancel) {
+                self.showMenuBarIcon = true
+            }
+            Button("OK") { }
+        } message: {
+            Text(L10n.Notifications.Alert.InformativeText.statusBarIconHidden)
         }
     }
 

@@ -18,8 +18,7 @@ import Shared
 import Settings
 import StatusItemArrowKit
 
-public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, HelperConnectionManagerDelegate, Sendable {
-    private lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDelegate, Sendable {
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
     private lazy var magSafeColorManager = MagSafeColorManager()
@@ -27,7 +26,6 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
     private lazy var helperConnectionManager = HelperConnectionManager(delegate: self)
 
     private var chargingManager = ChargingManager()
-    private var menuController: MenuController?
     private var notificationsManager: NotificationsManager?
     private var statusItemIconController: StatusItemManager?
 
@@ -49,7 +47,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
 
 
     public init() {}
-    
+
     public func start(isBeta: Bool) {
         guard powerSourceClient.isRunningOnLaptop() else {
             showAppIsNotRunningOnLaptop()
@@ -85,34 +83,9 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
         }
     }
 
-    private func setUpTheApp() async {
-            menuController = MenuController(statusItem: statusItem)
-            await chargingManager.setUpObserving()
-            persistenceManager.setUpObserving()
-            await magSafeColorManager.setUpObserving()
-            menuController?.delegate = self
-            notificationsManager = NotificationsManager()
-            statusItemIconController = StatusItemManager(statusItem: statusItem)
-    }
-
-    private func runMigration() async {
-        if systemVersion.currentSystemIsSequoiaOrNewer() && defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) {
-            defaults.setValue(.turnOnSystemChargeLimitingWhenGoingToSleep, value: false)
-            try? await userNotificationsClient.showUserNotification(
-                title: "System charge limit removed",
-                body: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
-                identifier: "software.micropixels.BatFi.migration.system_charge_limit",
-                threadIdentifier: nil,
-                delay: nil
-            )
-        }
-    }
-
-    private func setFeatureFlags(
-        beta isBeta: Bool
-    ) {
-        if isBeta {
-            featureFlags.enableFeatureFlag(.beta)
+    public func shouldHandleReopen() {
+        if !defaults.value(.showMenuBarIcon) {
+            openSettings()
         }
     }
 
@@ -161,7 +134,7 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
                     guard let self else { return }
                     Task {
                         await self.setUpTheApp()
-                        self.statusItemIconController?.delegate = self
+                        self.showStatusItemArrow()
                     }
                 } onClose: { [weak self] in
                     Task {
@@ -178,15 +151,49 @@ public final class BatFi: MenuControllerDelegate, StatusItemManagerDelegate, Hel
         }
     }
 
-    // MARKL -
+    // MARK: -
+
+    private func setUpTheApp() async {
+        await chargingManager.setUpObserving()
+        persistenceManager.setUpObserving()
+        await magSafeColorManager.setUpObserving()
+
+        notificationsManager = NotificationsManager()
+        statusItemIconController = StatusItemManager()
+        statusItemIconController?.delegate = self
+    }
+
+    private func runMigration() async {
+        if systemVersion.currentSystemIsSequoiaOrNewer() && defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) {
+            defaults.setValue(.turnOnSystemChargeLimitingWhenGoingToSleep, value: false)
+            try? await userNotificationsClient.showUserNotification(
+                title: "System charge limit removed",
+                body: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
+                identifier: "software.micropixels.BatFi.migration.system_charge_limit",
+                threadIdentifier: nil,
+                delay: nil
+            )
+        }
+    }
+
+    private func setFeatureFlags(
+        beta isBeta: Bool
+    ) {
+        if isBeta {
+            featureFlags.enableFeatureFlag(.beta)
+        }
+    }
+
     @MainActor
     private func showStatusItemArrow() {
-        let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
-        arrowWindow = window
-        window.show()
-        Task {
-            try await clock.sleep(for: .seconds(7))
-            arrowWindow?.close()
+        if let statusItem = statusItemIconController?.statusItem {
+            let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
+            arrowWindow = window
+            window.show()
+            Task {
+                try await clock.sleep(for: .seconds(7))
+                arrowWindow?.close()
+            }
         }
     }
 
