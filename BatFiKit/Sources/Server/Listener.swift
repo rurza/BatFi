@@ -122,6 +122,7 @@ final class XPCServiceHandler: XPCService {
             process.arguments = ["-a", "powermode", mode.description]
             process.launch()
             process.waitUntilExit()
+            handler(nil)
         }
     }
 
