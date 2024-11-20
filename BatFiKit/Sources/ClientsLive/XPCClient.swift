@@ -11,6 +11,10 @@ import Foundation
 import os
 import Shared
 
+enum XPCClientError: Error {
+    case canNotGetPowerMode
+}
+
 actor XPCClient {
     private lazy var logger = Logger(category: "XPC Client")
     
@@ -120,7 +124,38 @@ actor XPCClient {
             }
         }
     }
-    
+
+    func setPowerMode(_ mode: UInt8) async throws {
+        logger.debug("Setting power mode: \(mode)")
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.turnPowerMode(mode) { error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
+    func getPowerMode() async throws -> UInt8 {
+        logger.debug("Getting power mode")
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.currentPowerMode { mode in
+                if let uint = mode?.uint8Value {
+                    continuation.resume(returning: uint)
+                } else {
+                    continuation.resume(throwing: XPCClientError.canNotGetPowerMode)
+                }
+            }
+        }
+    }
+
+
+    // MARK: - Private
+
     private func setChargingMode(
         _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
     ) async throws {

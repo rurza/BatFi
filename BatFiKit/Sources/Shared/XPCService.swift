@@ -19,4 +19,6 @@ public protocol XPCService {
     func getMagSafeLEDOption(_ handler: @escaping (UInt8, Error?) -> Void)
     func ping(_ handler: @escaping (Bool, Error?) -> Void)
     func quit(_ handler: @escaping (Bool, Error?) -> Void)
+    func turnPowerMode(_ mode: UInt8, _ handler: @escaping (Error?) -> Void)
+    func currentPowerMode(_ handler: @escaping (NSNumber?) -> Void)
 }

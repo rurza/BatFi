@@ -115,4 +115,60 @@ final class XPCServiceHandler: XPCService {
         }
     }
 
+    func turnPowerMode(_ mode: UInt8, _ handler: @escaping ((any Error)?) -> Void) {
+        Task {
+            let process = Process()
+            process.launchPath = "/usr/bin/pmset"
+            process.arguments = ["-a", "powermode", mode.description]
+            process.launch()
+            process.waitUntilExit()
+        }
+    }
+
+    func currentPowerMode(_ handler: @escaping (NSNumber?) -> Void) {
+        Task {
+            let pmsetProcess = Process()
+                let grepProcess = Process()
+                let pipe1 = Pipe()
+                let pipe2 = Pipe()
+
+                // Configure the `pmset` process
+                pmsetProcess.launchPath = "/usr/bin/pmset"
+                pmsetProcess.arguments = ["-g"]
+                pmsetProcess.standardOutput = pipe1
+
+                // Configure the `grep` process
+                grepProcess.launchPath = "/usr/bin/grep"
+                grepProcess.arguments = ["powermode"]
+                grepProcess.standardInput = pipe1
+                grepProcess.standardOutput = pipe2
+
+                // Launch the processes
+                pmsetProcess.launch()
+                grepProcess.launch()
+
+                // Wait for the processes to complete
+                pmsetProcess.waitUntilExit()
+                grepProcess.waitUntilExit()
+
+                // Read the output from the `grep` process
+                let outputData = pipe2.fileHandleForReading.readDataToEndOfFile()
+                guard let output = String(data: outputData, encoding: .utf8) else {
+                    handler(nil)
+                    return
+                }
+
+                // Extract the value by trimming spaces and suffixing the last character
+                let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
+                if let lastSpaceIndex = trimmedOutput.lastIndex(of: " ") {
+                    let valueStartIndex = trimmedOutput.index(after: lastSpaceIndex)
+                    if let uint = UInt8(trimmedOutput[valueStartIndex...]) {
+                        handler(NSNumber(value: uint))
+                        return
+                    }
+                }
+                handler(nil)
+        }
+    }
+
 }
