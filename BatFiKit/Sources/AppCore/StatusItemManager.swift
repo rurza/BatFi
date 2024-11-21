@@ -137,7 +137,10 @@ public final class StatusItemManager {
         powerModeTask = Task { [weak self] in
             guard let self else { return }
             while !Task.isCancelled {
-                self.lastPowerMode = try? await self.powerModeClient.getCurrentPowerMode()
+                let mode = try? await self.powerModeClient.getCurrentPowerMode()
+                if mode != self.lastPowerMode {
+                    self.lastPowerMode = mode
+                }
                 try? await self.clock.sleep(for: .seconds(1), tolerance: .milliseconds(50))
             }
         }
