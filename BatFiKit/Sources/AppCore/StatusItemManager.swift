@@ -46,8 +46,7 @@ public protocol StatusItemManagerDelegate: AnyObject {
 @MainActor
 public final class StatusItemManager {
     public weak var delegate: StatusItemManagerDelegate?
-    public private(set) var statusItem: NSStatusItem?
-
+    public private(set) lazy var statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     weak var batteryIndicatorView: NSView?
     private lazy var batteryIndicatorModel = BatteryIndicatorViewModel()
     private lazy var statusItemModel = StatusItemModel()
@@ -74,27 +73,14 @@ public final class StatusItemManager {
     }
 
     private func setUp() {
+        setUpStatusItem()
         setUpObserving()
     }
 
     private func setUpObserving() {
         Task {
             for await showMenuBarIcon in defaults.observe(.showMenuBarIcon).removeDuplicates() {
-                if !showMenuBarIcon {
-                    self.statusItem = nil
-                    self.batteryIndicatorView = nil
-                    menuStateTask?.cancel()
-                    menuStateTask = nil
-                    sizeCancellable?.cancel()
-                    sizeCancellable = nil
-                    menuOpenedTask?.cancel()
-                    menuOpenedTask = nil
-                } else {
-                    if self.statusItem == nil {
-                        self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-                        setUpStatusItem()
-                    }
-                }
+                self.statusItem.isVisible = showMenuBarIcon
             }
         }
 
@@ -156,7 +142,6 @@ public final class StatusItemManager {
 
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
-        guard let statusItem else { return }
         let tempChargingMode = dependencies.appChargingState.userTempOverride
 
         if statusItem.menu == nil {
@@ -350,7 +335,8 @@ public final class StatusItemManager {
     }
 
     private func setUpStatusItem() {
-        guard let button = statusItem?.button else { fatalError() }
+        statusItem.isVisible = true
+        guard let button = statusItem.button else { fatalError() }
         let hostingView = NSHostingView(
             rootView: StatusItem(
                 sizePassthrough: sizePassthrough,
@@ -367,7 +353,7 @@ public final class StatusItemManager {
         sizeCancellable = sizePassthrough.sink { [weak self] size in
             let frame = NSRect(origin: .zero, size: .init(width: size.width, height: 24))
             self?.batteryIndicatorView?.frame = frame
-            self?.statusItem?.button?.frame = frame
+            self?.statusItem.button?.frame = frame
         }
         observeMenuState()
         menuOpenedTask = Task { [weak self] in
