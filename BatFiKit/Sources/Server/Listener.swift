@@ -139,6 +139,7 @@ final class XPCServiceHandler: XPCService {
                 }
                 return nil
             }
+            
             let pmsetProcess = Process()
             let grepProcess = Process()
             let pipe1 = Pipe()
@@ -165,7 +166,10 @@ final class XPCServiceHandler: XPCService {
 
             // Read the output from the `grep` process
             let outputData = pipe2.fileHandleForReading.readDataToEndOfFile()
-            guard let output = String(data: outputData, encoding: .utf8) else {
+            if let output = String(data: outputData, encoding: .utf8),
+               let result = parsePowerMode(output: output) {
+                handler(NSNumber(value: result), true)
+            } else {
                 let anotherGrepProcess = Process()
                 let pipe3 = Pipe()
                 // Configure the `grep` process
@@ -180,13 +184,7 @@ final class XPCServiceHandler: XPCService {
                     return
                 }
                 handler(NSNumber(value: result), false)
-                return
             }
-            guard let result = parsePowerMode(output: output) else {
-                handler(nil, false)
-                return
-            }
-            handler(NSNumber(value: result), true)
         }
     }
 
