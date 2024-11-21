@@ -139,13 +139,13 @@ actor XPCClient {
         }
     }
 
-    func getPowerMode() async throws -> UInt8 {
+    func getPowerMode() async throws -> (UInt8, Bool) {
         logger.debug("Getting power mode")
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
-            service.currentPowerMode { mode in
+            service.currentPowerMode { mode, highPowerModeIsAvailable in
                 if let uint = mode?.uint8Value {
-                    continuation.resume(returning: uint)
+                    continuation.resume(returning: (uint, highPowerModeIsAvailable))
                 } else {
                     continuation.resume(throwing: XPCClientError.canNotGetPowerMode)
                 }

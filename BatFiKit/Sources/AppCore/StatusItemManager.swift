@@ -58,6 +58,7 @@ public final class StatusItemManager {
     private var powerModeTask: Task<Void, Never>?
     @Published
     private var lastPowerMode: PowerMode?
+    private var showHighPowerMode = false
     private let menuDelegate = MenuObserver.shared
     private let batteryInfoModel = BatteryInfoViewModel()
 
@@ -102,7 +103,10 @@ public final class StatusItemManager {
     private func observeMenuState() {
         menuStateTask = Task { [weak self] in
             guard let self else { return }
-            self.lastPowerMode = try? await self.powerModeClient.getCurrentPowerMode()
+            if let result = try? await self.powerModeClient.getCurrentPowerMode() {
+                self.lastPowerMode = result.0
+                self.showHighPowerMode = result.1
+            }
             for await ((state, showDebugMenu, showPowerModeOptions), (showChart, showPowerDiagram, showHighEnergyImpactProcesses), powerMode) in combineLatest(
                 combineLatest(
                     appChargingState.appChargingModeDidChage(),
@@ -137,9 +141,13 @@ public final class StatusItemManager {
         powerModeTask = Task { [weak self] in
             guard let self else { return }
             while !Task.isCancelled {
-                let mode = try? await self.powerModeClient.getCurrentPowerMode()
-                if mode != self.lastPowerMode {
-                    self.lastPowerMode = mode
+                if let result = try? await self.powerModeClient.getCurrentPowerMode() {
+                    if result.0 != self.lastPowerMode {
+                        self.lastPowerMode = result.0
+                    }
+                    if result.1 != self.showHighPowerMode {
+                        self.showHighPowerMode = result.1
+                    }
                 }
                 try? await self.clock.sleep(for: .seconds(1), tolerance: .milliseconds(50))
             }
@@ -230,14 +238,16 @@ public final class StatusItemManager {
                         }
                     }
                     .state(dependencies.powerMode == .normal ? .on : .off)
-                MenuItem(L10n.Menu.Label.highPowerMode)
-                    .onSelect { [weak self] in
-                        Task {
-                            self?.lastPowerMode = .high
-                            try? await self?.powerModeClient.setPowerMode(.high)
+                if showHighPowerMode {
+                    MenuItem(L10n.Menu.Label.highPowerMode)
+                        .onSelect { [weak self] in
+                            Task {
+                                self?.lastPowerMode = .high
+                                try? await self?.powerModeClient.setPowerMode(.high)
+                            }
                         }
-                    }
-                    .state(dependencies.powerMode == .high ? .on : .off)
+                        .state(dependencies.powerMode == .high ? .on : .off)
+                }
             }
 
             SeparatorItem()

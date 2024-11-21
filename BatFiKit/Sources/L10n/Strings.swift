@@ -320,6 +320,7 @@ public enum L10n {
                 public static let lowPowerModeOn = String(localized: "notifications.notification.title.low_power_mode_on", defaultValue: "Low power mode is on", bundle: Bundle.module)
                 public static let highPowerModeOn = String(localized: "notifications.notification.title.high_power_mode_on", defaultValue: "High power mode is on", bundle: Bundle.module)
                 public static let automaticPowerModeOn = String(localized: "notifications.notification.title.automatic_power_mode_on", defaultValue: "Automatic power mode is on", bundle: Bundle.module)
+                public static let highPowerModeUnsupported = String(localized: "notifications.notification.title.high_power_mode_unsupported", defaultValue: "High power mode is not supported", bundle: Bundle.module)
             }
 
             public enum Body {

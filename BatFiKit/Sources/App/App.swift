@@ -214,8 +214,8 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         KeyboardShortcuts.onKeyUp(for: .toggleLowPowerMode) { [weak self] in
             guard let self else { return }
             Task {
-                guard let mode = try? await self.powerModeClient.getCurrentPowerMode() else { return }
-                if mode != .low {
+                guard let result = try? await self.powerModeClient.getCurrentPowerMode() else { return }
+                if result.0 != .low {
                     do {
                         try await self.powerModeClient.setPowerMode(.low)
                         try? await self.userNotificationsClient.showUserNotification(
@@ -243,8 +243,17 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         KeyboardShortcuts.onKeyUp(for: .toggleHighPowerMode) { [weak self] in
             guard let self else { return }
             Task {
-                guard let mode = try? await self.powerModeClient.getCurrentPowerMode() else { return }
-                if mode != .high {
+                guard let result = try? await self.powerModeClient.getCurrentPowerMode(), result.1 else {
+                    try? await self.userNotificationsClient.showUserNotification(
+                        title: L10n.Notifications.Notification.Title.highPowerModeUnsupported,
+                        body: "",
+                        identifier: "high",
+                        threadIdentifier: "powermode",
+                        delay: nil
+                    )
+                    return
+                }
+                if result.0 != .high {
                     do {
                         try await self.powerModeClient.setPowerMode(.high)
                         try? await self.userNotificationsClient.showUserNotification(

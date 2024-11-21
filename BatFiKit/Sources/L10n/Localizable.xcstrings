@@ -6802,6 +6802,17 @@
         }
       }
     },
+    "notifications.notification.title.high_power_mode_unsupported" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High power mode is not supported"
+          }
+        }
+      }
+    },
     "notifications.notification.title.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

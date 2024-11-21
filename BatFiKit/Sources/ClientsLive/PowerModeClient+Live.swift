@@ -14,9 +14,9 @@ extension PowerModeClient: DependencyKey {
         let xpcClient = XPCClient.shared
         return Self(
             getCurrentPowerMode: {
-                let uint = try await xpcClient.getPowerMode()
+                let (uint, highPowerModeIsAvailable) = try await xpcClient.getPowerMode()
                 if let mode = PowerMode(uint: uint) {
-                    return mode
+                    return (mode, highPowerModeIsAvailable)
                 } else {
                     throw PowerModeClientError.unsupportedMode
                 }

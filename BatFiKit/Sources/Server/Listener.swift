@@ -126,49 +126,67 @@ final class XPCServiceHandler: XPCService {
         }
     }
 
-    func currentPowerMode(_ handler: @escaping (NSNumber?) -> Void) {
+    func currentPowerMode(_ handler: @escaping (NSNumber?, Bool) -> Void) {
         Task {
-            let pmsetProcess = Process()
-                let grepProcess = Process()
-                let pipe1 = Pipe()
-                let pipe2 = Pipe()
-
-                // Configure the `pmset` process
-                pmsetProcess.launchPath = "/usr/bin/pmset"
-                pmsetProcess.arguments = ["-g"]
-                pmsetProcess.standardOutput = pipe1
-
-                // Configure the `grep` process
-                grepProcess.launchPath = "/usr/bin/grep"
-                grepProcess.arguments = ["powermode"]
-                grepProcess.standardInput = pipe1
-                grepProcess.standardOutput = pipe2
-
-                // Launch the processes
-                pmsetProcess.launch()
-                grepProcess.launch()
-
-                // Wait for the processes to complete
-                pmsetProcess.waitUntilExit()
-                grepProcess.waitUntilExit()
-
-                // Read the output from the `grep` process
-                let outputData = pipe2.fileHandleForReading.readDataToEndOfFile()
-                guard let output = String(data: outputData, encoding: .utf8) else {
-                    handler(nil)
-                    return
-                }
-
+            func parsePowerMode(output: String) -> UInt8? {
                 // Extract the value by trimming spaces and suffixing the last character
                 let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
                 if let lastSpaceIndex = trimmedOutput.lastIndex(of: " ") {
                     let valueStartIndex = trimmedOutput.index(after: lastSpaceIndex)
                     if let uint = UInt8(trimmedOutput[valueStartIndex...]) {
-                        handler(NSNumber(value: uint))
-                        return
+                        return uint
                     }
                 }
-                handler(nil)
+                return nil
+            }
+            let pmsetProcess = Process()
+            let grepProcess = Process()
+            let pipe1 = Pipe()
+            let pipe2 = Pipe()
+
+            // Configure the `pmset` process
+            pmsetProcess.launchPath = "/usr/bin/pmset"
+            pmsetProcess.arguments = ["-g"]
+            pmsetProcess.standardOutput = pipe1
+
+            // Configure the `grep` process
+            grepProcess.launchPath = "/usr/bin/grep"
+            grepProcess.arguments = ["powermode"]
+            grepProcess.standardInput = pipe1
+            grepProcess.standardOutput = pipe2
+
+            // Launch the processes
+            pmsetProcess.launch()
+            grepProcess.launch()
+
+            // Wait for the processes to complete
+            pmsetProcess.waitUntilExit()
+            grepProcess.waitUntilExit()
+
+            // Read the output from the `grep` process
+            let outputData = pipe2.fileHandleForReading.readDataToEndOfFile()
+            guard let output = String(data: outputData, encoding: .utf8) else {
+                let anotherGrepProcess = Process()
+                let pipe3 = Pipe()
+                // Configure the `grep` process
+                anotherGrepProcess.launchPath = "/usr/bin/grep"
+                anotherGrepProcess.arguments = ["lowpowermode"]
+                anotherGrepProcess.standardInput = pipe1
+                anotherGrepProcess.standardOutput = pipe3
+                let outputData = pipe3.fileHandleForReading.readDataToEndOfFile()
+                guard let output = String(data: outputData, encoding: .utf8),
+                let result = parsePowerMode(output: output) else {
+                    handler(nil, false)
+                    return
+                }
+                handler(NSNumber(value: result), false)
+                return
+            }
+            guard let result = parsePowerMode(output: output) else {
+                handler(nil, false)
+                return
+            }
+            handler(NSNumber(value: result), true)
         }
     }
 

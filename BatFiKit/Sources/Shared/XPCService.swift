@@ -20,5 +20,6 @@ public protocol XPCService {
     func ping(_ handler: @escaping (Bool, Error?) -> Void)
     func quit(_ handler: @escaping (Bool, Error?) -> Void)
     func turnPowerMode(_ mode: UInt8, _ handler: @escaping (Error?) -> Void)
-    func currentPowerMode(_ handler: @escaping (NSNumber?) -> Void)
+    /// Boolean is telling us if the high power mode is available
+    func currentPowerMode(_ handler: @escaping (NSNumber?, Bool) -> Void)
 }
