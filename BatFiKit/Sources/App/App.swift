@@ -28,6 +28,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     private var chargingManager = ChargingManager()
     private var notificationsManager: NotificationsManager?
     private var statusItemManager: StatusItemManager?
+    private var appDidLaunch: Bool = false
 
     public var chargingModeManager: ChargingModeManager { chargingManager }
 
@@ -64,6 +65,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                 await setUpTheApp()
                 helperConnectionManager.checkHelperHealth()
                 observerKeyboardHotkeys()
+                appDidLaunch = true
             }
         } else {
             openOnboarding()
@@ -85,7 +87,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     }
 
     public func shouldHandleReopen() {
-        if !defaults.value(.showMenuBarIcon) {
+        if !defaults.value(.showMenuBarIcon) && appDidLaunch {
             openSettings()
         }
     }
