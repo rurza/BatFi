@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let secondaryOpacity = 0.5
+let secondaryOpacity = 0.4
 
 public struct BatteryIndicatorView: View {
     @ObservedObject private var model: BatteryIndicatorViewModel

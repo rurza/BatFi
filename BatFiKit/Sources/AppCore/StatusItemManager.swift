@@ -346,6 +346,7 @@ public final class StatusItemManager {
         )
         hostingView.frame = NSRect(x: 0, y: 0, width: 38, height: 13)
         button.frame = hostingView.frame
+        button.image = NSImage()
         hostingView.wantsLayer = true
         button.subviews.forEach { $0.removeFromSuperview() }
         button.addSubview(hostingView)
