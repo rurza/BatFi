@@ -21,8 +21,8 @@ extension PowerModeClient: DependencyKey {
                     throw PowerModeClientError.unsupportedMode
                 }
             },
-            setPowerMode: { powerMode in
-                try await xpcClient.setPowerMode(powerMode.uint)
+            setPowerMode: { powerMode, lowPowerModeOnly in
+                try await xpcClient.setPowerMode(powerMode.uint, lowPowerModeOnly: lowPowerModeOnly)
             }
         )
     }

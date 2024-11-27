@@ -206,12 +206,13 @@ public final class StatusItemManager {
             }
 
             if dependencies.showPowerModeOptions {
+                let showHighPowerMode = self.showHighPowerMode
                 SeparatorItem()
                 MenuItem(L10n.Menu.Label.lowPowerMode)
                     .onSelect { [weak self] in
                         Task {
                             self?.lastPowerMode = .low
-                            try? await self?.powerModeClient.setPowerMode(.low)
+                            try? await self?.powerModeClient.setPowerMode(.low, !showHighPowerMode)
                         }
                     }
                     .state(dependencies.powerMode == .low ? .on : .off)
@@ -219,7 +220,7 @@ public final class StatusItemManager {
                     .onSelect { [weak self] in
                         Task {
                             self?.lastPowerMode = .normal
-                            try? await self?.powerModeClient.setPowerMode(.normal)
+                            try? await self?.powerModeClient.setPowerMode(.normal, !showHighPowerMode)
                         }
                     }
                     .state(dependencies.powerMode == .normal ? .on : .off)
@@ -228,7 +229,7 @@ public final class StatusItemManager {
                         .onSelect { [weak self] in
                             Task {
                                 self?.lastPowerMode = .high
-                                try? await self?.powerModeClient.setPowerMode(.high)
+                                try? await self?.powerModeClient.setPowerMode(.high, !showHighPowerMode)
                             }
                         }
                         .state(dependencies.powerMode == .high ? .on : .off)

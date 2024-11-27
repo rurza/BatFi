@@ -125,11 +125,11 @@ actor XPCClient {
         }
     }
 
-    func setPowerMode(_ mode: UInt8) async throws {
+    func setPowerMode(_ mode: UInt8, lowPowerModeOnly: Bool) async throws {
         logger.debug("Setting power mode: \(mode)")
         let remote = newRemoteService()
         return try await remote.withContinuation { service, continuation in
-            service.turnPowerMode(mode) { error in
+            service.turnPowerMode(mode, lowPowerModeOnly: lowPowerModeOnly) { error in
                 if let error {
                     continuation.resume(throwing: error)
                 } else {

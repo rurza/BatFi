@@ -217,9 +217,11 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             guard let self else { return }
             Task {
                 guard let result = try? await self.powerModeClient.getCurrentPowerMode() else { return }
+                let mode = result.0
+                let highPowerIsAvailable = result.1
                 if result.0 != .low {
                     do {
-                        try await self.powerModeClient.setPowerMode(.low)
+                        try await self.powerModeClient.setPowerMode(.low, !highPowerIsAvailable)
                         try? await self.userNotificationsClient.showUserNotification(
                             title: L10n.Notifications.Notification.Title.lowPowerModeOn,
                             body: "",
@@ -230,7 +232,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                     } catch { }
                 } else {
                     do {
-                        try await self.powerModeClient.setPowerMode(.normal)
+                        try await self.powerModeClient.setPowerMode(.normal, !highPowerIsAvailable)
                         try? await self.userNotificationsClient.showUserNotification(
                             title: L10n.Notifications.Notification.Title.automaticPowerModeOn,
                             body: "",
@@ -257,7 +259,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                 }
                 if result.0 != .high {
                     do {
-                        try await self.powerModeClient.setPowerMode(.high)
+                        try await self.powerModeClient.setPowerMode(.high, false)
                         try? await self.userNotificationsClient.showUserNotification(
                             title: L10n.Notifications.Notification.Title.highPowerModeOn,
                             body: "",
@@ -268,7 +270,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                     } catch { }
                 } else {
                     do {
-                        try await self.powerModeClient.setPowerMode(.normal)
+                        try await self.powerModeClient.setPowerMode(.normal, false)
                         try? await self.userNotificationsClient.showUserNotification(
                             title: L10n.Notifications.Notification.Title.automaticPowerModeOn,
                             body: "",

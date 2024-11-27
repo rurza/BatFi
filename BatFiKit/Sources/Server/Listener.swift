@@ -115,11 +115,11 @@ final class XPCServiceHandler: XPCService {
         }
     }
 
-    func turnPowerMode(_ mode: UInt8, _ handler: @escaping ((any Error)?) -> Void) {
+    func turnPowerMode(_ mode: UInt8, lowPowerModeOnly: Bool, _ handler: @escaping ((any Error)?) -> Void) {
         Task {
             let process = Process()
             process.launchPath = "/usr/bin/pmset"
-            process.arguments = ["-a", "powermode", mode.description]
+            process.arguments = ["-a", (lowPowerModeOnly ? "lowpowermode" : "powermode"), mode.description]
             process.launch()
             process.waitUntilExit()
             handler(nil)
