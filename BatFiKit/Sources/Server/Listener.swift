@@ -139,45 +139,57 @@ final class XPCServiceHandler: XPCService {
                 }
                 return nil
             }
-            
-            let pmsetProcess = Process()
-            let grepProcess = Process()
-            let pipe1 = Pipe()
-            let pipe2 = Pipe()
 
-            // Configure the `pmset` process
-            pmsetProcess.launchPath = "/usr/bin/pmset"
-            pmsetProcess.arguments = ["-g"]
-            pmsetProcess.standardOutput = pipe1
+            func newPmset(output: Pipe) -> Process {
+                let pmsetProcess = Process()
+                // Configure the `pmset` process
+                pmsetProcess.launchPath = "/usr/bin/pmset"
+                pmsetProcess.arguments = ["-g"]
+                pmsetProcess.standardOutput = output
+                return pmsetProcess
+            }
 
-            // Configure the `grep` process
-            grepProcess.launchPath = "/usr/bin/grep"
-            grepProcess.arguments = ["-w", "powermode"]
-            grepProcess.standardInput = pipe1
-            grepProcess.standardOutput = pipe2
+            func newGrep(input: Pipe, output: Pipe, argument: String) -> Process {
+                let grepProcess = Process()
+                grepProcess.launchPath = "/usr/bin/grep"
+                grepProcess.arguments = ["-w", argument]
+                grepProcess.standardInput = input
+                grepProcess.standardOutput = output
+                return grepProcess
+            }
 
-            // Launch the processes
-            pmsetProcess.launch()
-            grepProcess.launch()
-
-            // Wait for the processes to complete
+            let inputPipe = Pipe()
+            let outputPipe = Pipe()
+            let pmsetProcess = newPmset(output: inputPipe)
+            let grepProcess = newGrep(input: inputPipe, output: outputPipe, argument: "powermode")
+            do {
+                try pmsetProcess.run()
+                try grepProcess.run()
+            } catch {
+                handler(nil, false)
+            }
             pmsetProcess.waitUntilExit()
             grepProcess.waitUntilExit()
 
             // Read the output from the `grep` process
-            let outputData = pipe2.fileHandleForReading.readDataToEndOfFile()
+            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
             if let output = String(data: outputData, encoding: .utf8),
                let result = parsePowerMode(output: output) {
                 handler(NSNumber(value: result), true)
             } else {
-                let anotherGrepProcess = Process()
-                let pipe3 = Pipe()
-                // Configure the `grep` process
-                anotherGrepProcess.launchPath = "/usr/bin/grep"
-                anotherGrepProcess.arguments = ["-w", "lowpowermode"]
-                anotherGrepProcess.standardInput = pipe1
-                anotherGrepProcess.standardOutput = pipe3
-                let outputData = pipe3.fileHandleForReading.readDataToEndOfFile()
+                let inputPipe = Pipe()
+                let outputPipe = Pipe()
+                let pmsetProcess = newPmset(output: inputPipe)
+                let grepProcess = newGrep(input: inputPipe, output: outputPipe, argument: "powermode")
+                do {
+                    try pmsetProcess.run()
+                    try grepProcess.run()
+                } catch {
+                    handler(nil, false)
+                }
+                pmsetProcess.waitUntilExit()
+                grepProcess.waitUntilExit()
+                let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
                 guard let output = String(data: outputData, encoding: .utf8),
                 let result = parsePowerMode(output: output) else {
                     handler(nil, false)
