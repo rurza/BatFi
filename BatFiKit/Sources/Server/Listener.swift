@@ -152,7 +152,7 @@ final class XPCServiceHandler: XPCService {
 
             // Configure the `grep` process
             grepProcess.launchPath = "/usr/bin/grep"
-            grepProcess.arguments = ["powermode"]
+            grepProcess.arguments = ["-w", "powermode"]
             grepProcess.standardInput = pipe1
             grepProcess.standardOutput = pipe2
 
@@ -174,7 +174,7 @@ final class XPCServiceHandler: XPCService {
                 let pipe3 = Pipe()
                 // Configure the `grep` process
                 anotherGrepProcess.launchPath = "/usr/bin/grep"
-                anotherGrepProcess.arguments = ["lowpowermode"]
+                anotherGrepProcess.arguments = ["-w", "lowpowermode"]
                 anotherGrepProcess.standardInput = pipe1
                 anotherGrepProcess.standardOutput = pipe3
                 let outputData = pipe3.fileHandleForReading.readDataToEndOfFile()
