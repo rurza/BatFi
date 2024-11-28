@@ -40,7 +40,7 @@ struct StatusItem: View {
                     .animation(.default.delay(0.1), value: timeLeftDescription)
             }
             BatteryIndicatorView(model: self.batteryIndicatorModel)
-                .frame(width: 33, height: 13)
+                .frame(width: 30, height: 13)
             if batteryIndicatorModel.showPercentageNextToIndicator && batteryIndicatorModel.showPercentage {
                 Text(batteryIndicatorModel.batteryLevel, format: .percent)
                     .font(.system(size: 11, weight: .medium))
@@ -51,7 +51,6 @@ struct StatusItem: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .offset(y: -1)
         .fixedSize()
-        .padding(.horizontal, 2)
         .overlay(
             GeometryReader { geometryProxy in
                 Color.clear

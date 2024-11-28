@@ -83,7 +83,6 @@ public final class StatusItemManager {
                 self.statusItem.isVisible = showMenuBarIcon
             }
         }
-
     }
 
     private func observeMenuState() {

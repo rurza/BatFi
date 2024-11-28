@@ -32,7 +32,7 @@ public struct BatteryIndicatorView: View {
                     .foregroundStyle(.primary)
                     .opacity(secondaryOpacity)
                     .frame(
-                        width: size.width / 6,
+                        width: 2,
                         height: size.height / 6
                     )
                     .offset(x: -0.5)
