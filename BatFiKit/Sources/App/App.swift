@@ -129,7 +129,8 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     }
 
     public func openOnboarding() {
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
             await dockIcon.show(true)
 
             if onboardingWindow == nil {
@@ -161,9 +162,13 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         persistenceManager.setUpObserving()
         await magSafeColorManager.setUpObserving()
 
-        notificationsManager = NotificationsManager()
-        statusItemManager = StatusItemManager()
-        statusItemManager?.delegate = self
+        if notificationsManager == nil {
+            notificationsManager = NotificationsManager()
+        }
+        if statusItemManager == nil {
+            statusItemManager = StatusItemManager()
+            statusItemManager?.delegate = self
+        }
     }
 
     private func runMigration() async {
@@ -193,9 +198,9 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             let window = ArrowWindow(arrowSize: NSSize(width: 40, height: 120), statusItem: statusItem)
             arrowWindow = window
             window.show()
-            Task {
-                try await clock.sleep(for: .seconds(7))
-                arrowWindow?.close()
+            Task { [weak self] in
+                try await self?.clock.sleep(for: .seconds(7))
+                self?.arrowWindow?.close()
             }
         }
     }

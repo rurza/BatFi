@@ -86,12 +86,15 @@ public final class StatusItemManager {
     }
 
     private func observeMenuState() {
-        menuStateTask = Task { [weak self] in
+        Task { [weak self] in
             guard let self else { return }
             if let result = try? await self.powerModeClient.getCurrentPowerMode() {
                 self.lastPowerMode = result.0
                 self.showHighPowerMode = result.1
             }
+        }
+        menuStateTask = Task { [weak self] in
+            guard let self else { return }
             for await ((state, showDebugMenu, showPowerModeOptions), (showChart, showPowerDiagram, showHighEnergyImpactProcesses), powerMode) in combineLatest(
                 combineLatest(
                     appChargingState.appChargingModeDidChage(),
