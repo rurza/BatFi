@@ -428,7 +428,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aan het opladen tot 100%"
+            "value" : "Opladen tot 100%"
           }
         },
         "pl" : {
@@ -1352,7 +1352,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tijdelijk aan het opladen"
+            "value" : "Tijdelijk opladen"
           }
         },
         "pl" : {
@@ -1583,7 +1583,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Batteryconditie"
+            "value" : "Batterijconditie"
           }
         },
         "pl" : {
@@ -1660,7 +1660,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aantal cycli"
+            "value" : "Aantal Cycli"
           }
         },
         "pl" : {
@@ -1867,7 +1867,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bron Stroomvoorziening"
+            "value" : "Stroomvoorziening"
           }
         },
         "pl" : {
@@ -2477,7 +2477,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tijd om op te laden"
+            "value" : "Resterende Oplaadtijd"
           }
         },
         "pl" : {
@@ -3637,7 +3637,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opladen Verhinderen"
+            "value" : "Opladen Gepauzeerd"
           }
         },
         "pl" : {
@@ -4608,7 +4608,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beperk Opladen"
+            "value" : "Pauzeer Opladen"
           }
         },
         "pl" : {
@@ -5502,7 +5502,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stroomdistributie"
+            "value" : "Stroomverdeling"
           }
         },
         "pl" : {
@@ -5952,7 +5952,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Herstel Statusbalkicoon"
+            "value" : "Zet Statusbalkicoon Terug"
           }
         },
         "pl" : {
@@ -6017,7 +6017,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De app zal anders niet werken.\nOpen en doorloop het Introductie proces, te vinden onder \"Meer\". \nControleer dat de app in de lijst 'Sta toe op de achtergond' is toegevoegd en ingeschakeld in Systeeminstellingen → Algemeen → Inlogonderdelen.\n"
+            "value" : "De app zal anders niet werken.\nOpen en doorloop het Introductie proces, te vinden onder \"Meer”. \nControleer dat de app in de lijst “Sta toe op de achtergond” is toegevoegd en ingeschakeld in Systeeminstellingen → Algemeen → Inlogonderdelen.\n"
           }
         },
         "pl" : {
@@ -6159,7 +6159,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om BatFi instellingen weer te openen: klik op de melding van BatFi, selecteer BatFi in Launchpad, of dubbelklik op BatFi in Finder."
+            "value" : "Om BatFi instellingen te openen kan je klikken op een BatFi melding, het BatFi icoon selecteren in Launchpad, of in Finder dubbelkikken op BatFi."
           }
         },
         "pl" : {
@@ -6514,7 +6514,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ontkoppel de oplader en laat de batterij volledig leeglopen. Sluit de MacBook daarna weer aan en laad hem op tot 100%. Gebruik indien nodig de “Opladen tot 100%” functie in het menu."
+            "value" : "Ontkoppel de oplader en laat de batterij volledig leeglopen. Sluit de MacBook daarna weer aan en laad het apparaat op tot 100%. Gebruik indien nodig de “Opladen tot 100%” functie via het menu."
           }
         },
         "pl" : {
@@ -7703,7 +7703,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vorige"
+            "value" : "Terug"
           }
         },
         "pl" : {
@@ -7851,7 +7851,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bijna klaar."
+            "value" : "Bijna klaar"
           }
         },
         "pl" : {
@@ -7928,7 +7928,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi helpt je met het optimaliseren van batterijprestaties door de batterijlading intelligent te beheren, terwijl jij de controle in handen houdt om tot 100% op te laden als dat nodig is."
+            "value" : "BatFi verlengt de levensduur van de batterij in je MacBook door de batterijlading slim te beheren. Jij houdt de controle om tot 100% op te laden wanneer dat nodig is."
           }
         },
         "pl" : {
@@ -8082,7 +8082,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Klaar."
+            "value" : "Klaar"
           }
         },
         "pl" : {
@@ -8159,7 +8159,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verleng de levensduur van je Mac."
+            "value" : "Verleng de levensduur van je Mac"
           }
         },
         "pl" : {
@@ -8313,7 +8313,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om het hulpprogramma te installeren is beheerderstoegang vereist. Het hulpprogramma is essentieel voor BatFi's functionaliteit."
+            "value" : "Om het hulpprogramma te installeren zijn beheerdersbevoegdheden vereist. Het hulpprogramma is essentieel voor BatFi's functionaliteit."
           }
         },
         "pl" : {
@@ -8390,7 +8390,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aanbevolen. Je kunt dit later aanpassen in de instellingen van de app."
+            "value" : "Aanbevolen. Je kan dit later aanpassen in de app-instellingen."
           }
         },
         "pl" : {
@@ -8467,7 +8467,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel Oplaadlimiet In."
+            "value" : "Stel een oplaadlimiet in"
           }
         },
         "pl" : {
@@ -8544,7 +8544,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel een maximaal oplaadpercentage in om te voorkomen dat je batterij tot 100% oplaadt. Hierdoor gaat je batterij langer mee."
+            "value" : "Voorkom opladen tot 100% zodat je batterij langer meegaat. Stel een percentage in waarna opladen gepauzeerd zal worden."
           }
         },
         "pl" : {
@@ -8621,7 +8621,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kunt deze instelling later aanpassen in de instellingen van de app."
+            "value" : "Je kan dit later aanpassen in de app-instellingen."
           }
         },
         "pl" : {
@@ -9681,7 +9681,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Percentage naast pictogram weergeven"
+            "value" : "Toon percentage naast icoon"
           }
         },
         "pl" : {
@@ -10066,7 +10066,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stel automatische sluimerstand uit als limiet nog niet bereikt is tijdens het opladen."
+            "value" : "Stel automatische sluimerstand uit als de limiet nog niet bereikt is tijdens het opladen."
           }
         },
         "pl" : {
@@ -10759,7 +10759,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon melding als geoptimaliseerd opladen is ingeschakeld"
+            "value" : "Geoptimaliseerd opladen is ingeschakeld"
           }
         },
         "pl" : {
@@ -11256,7 +11256,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon stroomdistributie"
+            "value" : "Toon stroomverdeling"
           }
         },
         "pl" : {
@@ -11398,7 +11398,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon bron stroomvoorziening"
+            "value" : "Toon stroomvoorziening"
           }
         },
         "pl" : {
@@ -11682,7 +11682,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sluimerstand wordt uitgesteld zodat de computer tot de limiet oplaadt, daarna zal opladen worden verhinderd en zal sluimerstand geactiveerd worden."
+            "value" : "Sluimerstand wordt uitgesteld zodat de computer tot de limiet oplaadt, daarna zal opladen worden gepauzeerd en zal sluimerstand geactiveerd worden."
           }
         },
         "pl" : {
@@ -12469,7 +12469,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "80% is de aanbevolen waarde voor dagelijks gebruik."
+            "value" : "80% is het aanbevolen percentage voor dagelijks gebruik."
           }
         },
         "pl" : {
@@ -13370,7 +13370,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze knop opent de Gumroad website met de prijs alvast ingesteld."
+            "value" : "De knoppen openen de Gumroad website met het bedrag alvast ingevuld."
           }
         },
         "pl" : {
@@ -13441,7 +13441,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je kan de hoeveelheid aanpassen voordat je doorgaat."
+            "value" : "Je kan het bedrag daar ook nog aanpassen."
           }
         },
         "pl" : {
@@ -13512,7 +13512,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi, handig he?"
+            "value" : "Bij met BatFi?"
           }
         },
         "pl" : {
