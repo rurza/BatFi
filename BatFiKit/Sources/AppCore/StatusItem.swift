@@ -51,6 +51,7 @@ struct StatusItem: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .offset(y: -1)
         .fixedSize()
+        .padding(.horizontal, 7)
         .overlay(
             GeometryReader { geometryProxy in
                 Color.clear
