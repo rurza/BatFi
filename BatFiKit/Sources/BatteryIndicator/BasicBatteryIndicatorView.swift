@@ -40,10 +40,10 @@ struct BasicBatteryIndicatorView: View {
             .reverseMask {
                 ZStack {
                     if model.chargingMode == .charging {
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -1.5)
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 1.5)
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -2, y: 1)
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 2, y: -1)
+                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -0.9, y: 0.1)
+                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 0.9, y: -0.1)
+                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -1.2, y: 0.7)
+                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 1.2, y: -0.7)
                     } else if model.chargingMode == .inhibited, model.monochrome, model.batteryLevel > 45 {
                         ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
                     }
