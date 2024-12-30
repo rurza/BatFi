@@ -10,3 +10,4 @@ Installer/URL.swift
 BatFiKit/Sources/ClientsLive/AnalyticsDSN.swift
 BatFiKit/.build
 BatFiKit/.vscode
+BatFiKit/Sources/ClientsLive/LicenseClient+Live.swift
