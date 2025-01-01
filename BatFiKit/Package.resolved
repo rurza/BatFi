@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "keyboardshortcuts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rurza/KeyboardShortcuts",
+      "state" : {
+        "branch" : "main",
+        "revision" : "010d5900f7eed37c834eb9d39d7b59b0d4a03911"
+      }
+    },
+    {
       "identity" : "menubuilder",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/j-f1/MenuBuilder",
@@ -68,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa",
       "state" : {
-        "revision" : "bf7bdd75e25556d0f97ad54fb804b4287863e106",
-        "version" : "8.22.4"
+        "revision" : "c1404acfa3a71e42aa789c6d5564da59d4377569",
+        "version" : "8.42.1"
       }
     },
     {
@@ -95,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "87e4fcbac39912f9cdb9a9acf205cad60e1ca3bc",
-        "version" : "2.4.2"
+        "revision" : "0ef1ee0220239b3776f433314515fd849025673f",
+        "version" : "2.6.4"
       }
     },
     {
