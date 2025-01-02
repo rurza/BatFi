@@ -158,6 +158,9 @@ let package = Package(
                 .sentry,
                 .shared,
                 .sparkle,
+            ],
+            resources: [
+                .copy("public_key.pem")
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
