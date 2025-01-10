@@ -48,7 +48,20 @@ extension LicenseClient: DependencyKey {
                 )
                 request.httpMethod = "POST"
 
-                request.httpBody = try? JSONEncoder().encode(licenseRequest)
+                let publicKeyData = loadPublicKey()
+                let options: [String: Any] = [
+                    kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
+                    kSecAttrKeyClass as String: kSecAttrKeyClassPublic
+                ]
+                var error: Unmanaged<CFError>?
+                guard let publicKey = SecKeyCreateWithData(publicKeyData as CFData, options as CFDictionary, &error) else {
+                    fatalError("Failed to create SecKey from public key data, error: \(String(describing: error?.takeRetainedValue()))")
+                }
+                let requestBody = try JSONEncoder().encode(licenseRequest)
+                let encryptedRequestBody = try encryptRSA(data: requestBody, key: publicKey)
+                let base64EncodedBody = encryptedRequestBody.base64EncodedString()
+                request.httpBody = base64EncodedBody.data(using: .utf8)
+
                 let (data, response) = try await session.data(for: request)
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw "Invalid response"
@@ -65,8 +78,7 @@ extension LicenseClient: DependencyKey {
                 guard let jwtString = String(data: data, encoding: .utf8) else {
                     throw "Unexpected response"
                 }
-                let publicKey = try loadPublicKey()
-                let rsaJWTDecoder = JWTDecoder(jwtVerifier: JWTVerifier.rs256(publicKey: publicKey))
+                let rsaJWTDecoder = JWTDecoder(jwtVerifier: JWTVerifier.rs256(publicKey: publicKeyData))
                 let jwt = try rsaJWTDecoder.decode(JWT<Claims>.self, fromString: jwtString)
                 guard let privateKeyData = Data(base64Encoded: jwt.claims.k) else {
                     throw "Unexpected response"
@@ -106,6 +118,19 @@ private func decryptRSA(data: Data, privateKey: SecKey) throws -> Data {
         throw error?.takeRetainedValue() as Error? ?? "Decryption failed"
     }
     return decryptedData as Data
+}
+
+private func encryptRSA(data: Data, key: SecKey) throws -> Data {
+    var error: Unmanaged<CFError>?
+    guard let encryptedData = SecKeyCreateEncryptedData(
+        key,
+        .rsaEncryptionPKCS1,
+        data as CFData,
+        &error
+    ) else {
+        throw error?.takeRetainedValue() as Error? ?? "Encryption failed"
+    }
+    return encryptedData as Data
 }
 
 extension License: Decodable {
@@ -149,9 +174,9 @@ func getSystemSerialNumber() -> String? {
     return serialNumber
 }
 
-private func loadPublicKey() throws -> Data {
-    guard let publicKeyURL = Bundle.module.url(forResource: "public_key", withExtension: "pem") else {
-        fatalError("Couldn't find public key file at \(String(describing: Bundle.module.resourceURL)).public_key.pem")
+private func loadPublicKey() -> Data {
+    guard let publicKeyURL = Bundle.module.url(forResource: "key", withExtension: "der") else {
+        fatalError("Couldn't find public key file at \(String(describing: Bundle.module.resourceURL)).key.der")
     }
-    return try Data(contentsOf: publicKeyURL)
+    return try! Data(contentsOf: publicKeyURL)
 }

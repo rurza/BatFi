@@ -160,7 +160,7 @@ let package = Package(
                 .sparkle,
             ],
             resources: [
-                .copy("public_key.pem")
+                .copy("key.der")
             ]
         ),
         .target(name: "DefaultsKeys", dependencies: [.defaults]),
