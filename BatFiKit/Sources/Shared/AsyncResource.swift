@@ -13,21 +13,21 @@ public enum AsyncResource<Resource> {
     case loaded(Resource)
     case error(NSError)
 
-    var isLoading: Bool {
+    public var isLoading: Bool {
         switch self {
         case .loading: return true
         default: return false
         }
     }
 
-    var error: NSError? {
+    public var error: NSError? {
         switch self {
         case .error(let error): return error
         default: return nil
         }
     }
 
-    var resource: Resource? {
+    public var resource: Resource? {
         switch self {
         case .loaded(let resource): return resource
         default: return nil
