@@ -156,9 +156,14 @@ struct LicenseRequest: Encodable {
     let email: String
     let key: String
     let id: String
+
+    private enum CodingKeys: String, CodingKey {
+        case email, key
+        case id = "computer_id"
+    }
 }
 
-func getSystemSerialNumber() -> String? {
+private func getSystemSerialNumber() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
     guard platformExpert != 0 else { return nil }
     defer { IOObjectRelease(platformExpert) }
