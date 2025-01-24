@@ -20,7 +20,7 @@ final class LicenseModel: ObservableObject {
     var license: String = ""
 
     @Published
-    var state: AsyncResource<License> = .initial
+    var state: AsyncResource<License?> = .initial
 
     var canVerifyLicense: Bool {
         !email.isEmpty && !license.isEmpty
@@ -45,6 +45,31 @@ final class LicenseModel: ObservableObject {
                 state = .error(error as NSError)
             }
         }
+    }
+
+    func verifyCachedLicense() async -> Bool {
+        state = .loading
+        do {
+            let license = try await licenseClient.cachedLicense()
+            guard let license else {
+                state = .loaded(nil)
+                return false
+            }
+            do {
+                let fetchedLicense = try await licenseClient.checkLicense(email: license.email, key: license.key)
+                if fetchedLicense == license {
+                    state = .loaded(license)
+                } else {
+                    state = .loaded(nil)
+                }
+                return license == fetchedLicense
+            } catch {
+                state = .error(error as NSError)
+            }
+        } catch {
+            state = .error(error as NSError)
+        }
+        return false
     }
 
     func purchaseLicenseButtonClicked() {
