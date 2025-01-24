@@ -22,17 +22,15 @@ extension LicenseClient: DependencyKey {
             URL(string: "https://" + "license" + "." + "batfi" + "." + "micropixels" + "." + "software" + "/" + "verify")!
         }
 
-        struct Claims: SwiftJWT.Claims {
-            let k: String
-            let l: String
-        }
-
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["User-Agent": "BatFi"]
         let session = URLSession(configuration: config)
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
+
+        @Dependency(\.keychainClient) var keychainClient
+        let publicKeyData = loadPublicKey()
 
         return LicenseClient(
             checkLicense: { email, key in
@@ -48,7 +46,6 @@ extension LicenseClient: DependencyKey {
                 )
                 request.httpMethod = "POST"
 
-                let publicKeyData = loadPublicKey()
                 let options: [String: Any] = [
                     kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
                     kSecAttrKeyClass as String: kSecAttrKeyClassPublic
@@ -78,22 +75,42 @@ extension LicenseClient: DependencyKey {
                 guard let jwtString = String(data: data, encoding: .utf8) else {
                     throw "Unexpected response"
                 }
-                let rsaJWTDecoder = JWTDecoder(jwtVerifier: JWTVerifier.rs256(publicKey: publicKeyData))
-                let jwt = try rsaJWTDecoder.decode(JWT<Claims>.self, fromString: jwtString)
-                guard let privateKeyData = Data(base64Encoded: jwt.claims.k) else {
-                    throw "Unexpected response"
-                }
-                let privateKey = try createSecKey(from: privateKeyData)
 
-                guard let encryptedLicenseData = Data(base64Encoded: jwt.claims.l) else {
-                    throw "Unexpected response"
+                let license = try licenseFrom(jwtString, publicKeyData: publicKeyData, decoder: decoder)
+                do {
+                    try await keychainClient.saveLicense(jwtString)
+                } catch {
+                    logger.error("Could not save license to keychain: \(error.localizedDescription, privacy: .public)")
                 }
-                let decryptedLicenseData = try decryptRSA(data: encryptedLicenseData, privateKey: privateKey)
-                let license = try decoder.decode(License.self, from: decryptedLicenseData)
                 return license
+            },
+            cachedLicense: {
+                guard let jwtString = try await keychainClient.getLicense() else { return nil }
+                return try licenseFrom(jwtString, publicKeyData: publicKeyData, decoder: decoder)
             }
         )
     }()
+}
+
+private struct Claims: SwiftJWT.Claims {
+    let k: String
+    let l: String
+}
+
+private func licenseFrom(_ jwtString: String, publicKeyData: Data, decoder: JSONDecoder) throws -> License {
+    let rsaJWTDecoder = JWTDecoder(jwtVerifier: JWTVerifier.rs256(publicKey: publicKeyData))
+    let jwt: JWT<Claims> = try rsaJWTDecoder.decode(JWT<Claims>.self, fromString: jwtString)
+    guard let privateKeyData = Data(base64Encoded: jwt.claims.k) else {
+        throw "Unexpected response"
+    }
+    let privateKey = try createSecKey(from: privateKeyData)
+
+    guard let encryptedLicenseData = Data(base64Encoded: jwt.claims.l) else {
+        throw "Unexpected response"
+    }
+    let decryptedLicenseData = try decryptRSA(data: encryptedLicenseData, privateKey: privateKey)
+    let license = try decoder.decode(License.self, from: decryptedLicenseData)
+    return license
 }
 
 private func createSecKey(from privateKeyData: Data) throws -> SecKey {
@@ -150,7 +167,6 @@ extension License: Decodable {
         case purchaseDate = "purchase_date"
     }
 }
-
 
 struct LicenseRequest: Encodable {
     let email: String

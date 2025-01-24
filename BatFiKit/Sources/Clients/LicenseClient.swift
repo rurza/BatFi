@@ -5,7 +5,7 @@ import DependenciesMacros
 @DependencyClient
 public struct LicenseClient: TestDependencyKey {
     public var checkLicense: (_ email: String, _ key: String) async throws -> License
-
+    public var cachedLicense: () async throws -> License?
     public static var testValue: LicenseClient = unimplemented()
 }
 
