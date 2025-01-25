@@ -5,6 +5,7 @@
 //  Created by Adam Różyński on 11.01.2025.
 //
 
+import ConfettiSwiftUI
 import L10n
 import SwiftUI
 
@@ -22,20 +23,37 @@ struct LicenseView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            unlockView
-            Divider()
-            purchaseView
-                .alert("Unlock failed", isPresented: Binding(get: {
-                    model.state.error != nil
-                }, set: { _ in
-                    model.dimissErrorClicked()
-                })) {
-                    Button("OK") { }
-                } message: {
-                    Text(model.state.error?.localizedDescription ?? "Unknown Error")
-                }
+        ZStack {
+            VStack(spacing: 0) {
+                unlockView
+                Divider()
+                purchaseView
+            }
+            .opacity(model.state.license == nil ? 1 : 0)
+            Text("Thank You!")
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .padding()
+                .opacity(model.state.license != nil ? 1 : 0)
         }
+
+        .alert("Unlock failed", isPresented: Binding(get: {
+            model.state.error != nil
+        }, set: { _ in
+            model.dimissErrorClicked()
+        })) {
+            Button("OK") { }
+        } message: {
+            Text(model.state.error?.localizedDescription ?? "Unknown Error")
+        }
+        .confettiCannon(
+            counter: Binding(get: { model.state.license != nil ? 1 : 0 }, set: { _ in }),
+            confettiSize: 10,
+            openingAngle: Angle(degrees: 30),
+            closingAngle: Angle(degrees: 150),
+            repetitions: 2,
+            repetitionInterval: 0.7
+        )
     }
 
     @ViewBuilder
@@ -120,3 +138,4 @@ struct LicenseView: View {
         .padding(.top, 10)
     }
 }
+
