@@ -153,6 +153,20 @@ actor XPCClient {
         }
     }
 
+    func setDisableAutosleep(_ disable: Bool) async throws {
+        logger.debug("Setting disable autosleep: \(disable)")
+        let remote = newRemoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.disableAutosleep(disable, { error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            })
+        }
+    }
+
 
     // MARK: - Private
 

@@ -262,17 +262,10 @@ public actor ChargingManager: ChargingModeManager {
             return
         }
 
-        let isLidOpened: Bool
-        if let lidOpened = await appChargingState.lidOpened() {
-            isLidOpened = lidOpened
-        } else {
-            isLidOpened = await fetchLidStatus()
-        }
-
         let currentBatteryLevel = powerState.batteryLevel
         if let tempLimit = userTempChargingMode?.limit {
             logger.debug("User set temp limit to \(tempLimit)")
-            if currentBatteryLevel > tempLimit, isLidOpened {
+            if currentBatteryLevel > tempLimit {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
@@ -290,7 +283,7 @@ public actor ChargingManager: ChargingModeManager {
             }
         } else {
             if currentBatteryLevel >= chargeLimit {
-                if currentBatteryLevel > chargeLimit, allowDischarging, isLidOpened, !computerIsAsleep {
+                if currentBatteryLevel > chargeLimit, allowDischarging, !computerIsAsleep {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
                         currentMode: currentMode
@@ -328,6 +321,9 @@ public actor ChargingManager: ChargingModeManager {
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
         do {
+            if defaults.value(.allowDischargingFullBattery) {
+                try? await sleepAssertionClient.disableSleep(false)
+            }
             try await chargingClient.turnOnAutoChargingMode()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Charging turned on")
             await appChargingState.updateChargingMode(.charging)
@@ -342,6 +338,9 @@ public actor ChargingManager: ChargingModeManager {
         logger.debug("Inhibiting charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibiting charging")
         do {
+            if defaults.value(.allowDischargingFullBattery) {
+                try? await sleepAssertionClient.disableSleep(false)
+            }
             try await chargingClient.inhibitCharging()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
             await appChargingState.updateChargingMode(.inhibit)
@@ -362,6 +361,7 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on discharging")
         logger.debug("Turning on discharging")
         do {
+            try await sleepAssertionClient.disableSleep(true)
             try await chargingClient.forceDischarge()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Discharging turned on")
             await appChargingState.updateChargingMode(.forceDischarge)
@@ -377,6 +377,9 @@ public actor ChargingManager: ChargingModeManager {
         logger.notice("Turning on system charging limit")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on system charging limit")
         do {
+            if defaults.value(.allowDischargingFullBattery) {
+                try? await sleepAssertionClient.disableSleep(false)
+            }
             try await chargingClient.enableSystemChargeLimit()
             await analytics.addBreadcrumb(category: .chargingManager, message: "System charging limit turned on")
         } catch {
