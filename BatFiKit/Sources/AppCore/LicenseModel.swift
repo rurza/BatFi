@@ -12,28 +12,45 @@ import Dependencies
 import Shared
 
 @MainActor
-final class LicenseModel: ObservableObject {
+public final class LicenseModel: ObservableObject {
 
     @Published
-    var email: String = ""
+    public var email: String = ""
     @Published
-    var license: String = ""
+    public var license: String = ""
 
     @Published
-    var state: AsyncResource<License?> = .initial
+    public private(set) var state: AsyncResource<License?> = .initial
+
+    public var hasValidLicense: Bool {
+        state.resource.flatMap { $0 != nil } == true
+    }
 
     var canVerifyLicense: Bool {
         !email.isEmpty && !license.isEmpty
     }
 
+    public init() {
+        Task {
+            let license = try await licenseClient.cachedLicense()
+            guard let license else {
+                return
+            }
+            state = .loaded(license)
+        }
+    }
+
     @Dependency(\.licenseClient)
     private var licenseClient
 
-    func lostLicenseButtonClicked() {
+    @Dependency(\.keychainClient)
+    private var keychainClient
+
+    public func lostLicenseButtonClicked() {
         NSWorkspace.shared.open(URL(string: "https://micropixels.software/apps/batfi#faq")!)
     }
 
-    func verifyLicenseButtonClicked() {
+    public func verifyLicenseButtonClicked() {
         guard canVerifyLicense else { return }
         guard state != .loading else { return }
         state = .loading
@@ -47,8 +64,7 @@ final class LicenseModel: ObservableObject {
         }
     }
 
-    func verifyCachedLicense() async -> Bool {
-        state = .loading
+    public func verifyCachedLicense() async -> Bool {
         do {
             let license = try await licenseClient.cachedLicense()
             guard let license else {
@@ -60,6 +76,7 @@ final class LicenseModel: ObservableObject {
                 if fetchedLicense == license {
                     state = .loaded(license)
                 } else {
+                    try? await keychainClient.saveLicense(nil)
                     state = .loaded(nil)
                 }
                 return license == fetchedLicense

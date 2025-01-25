@@ -64,16 +64,16 @@ extension LicenseClient: DependencyKey {
                     throw "Invalid response"
                 }
                 guard httpResponse.statusCode != 404 else {
-                    throw "Invalid license"
+                    throw "Invalid license key or email"
                 }
                 guard httpResponse.statusCode != 403 else {
-                    throw "License is deactivated"
+                    throw "License is deactivated. Please purchase the app again."
                 }
                 guard httpResponse.statusCode == 200 else {
-                    throw "Unexpected response"
+                    throw "Unexpected response. Contact the developer if you think this is an error and have a valid license key."
                 }
                 guard let jwtString = String(data: data, encoding: .utf8) else {
-                    throw "Unexpected response"
+                    throw "Unexpected response. Contact the developer if you think this is an error and have a valid license key."
                 }
 
                 let license = try licenseFrom(jwtString, publicKeyData: publicKeyData, decoder: decoder)

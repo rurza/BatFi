@@ -19,6 +19,7 @@ import Settings
 import StatusItemArrowKit
 
 public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDelegate, Sendable {
+    private let licenseModel = LicenseModel()
     private lazy var settingsController = SettingsController()
     private lazy var persistenceManager = PersistenceManager()
     private lazy var magSafeColorManager = MagSafeColorManager()
@@ -47,29 +48,36 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.powerModeClient) private var powerModeClient
 
-
     public init() {}
 
     public func start(isBeta: Bool) {
-        guard powerSourceClient.isRunningOnLaptop() else {
-            showAppIsNotRunningOnLaptop()
-            return
-        }
-        setFeatureFlags(beta: isBeta)
-        analyticsManager.start(shouldEnable: isBeta || defaults.value(.sendAnalytics))
-        _ = updater // initialize updater
-        if defaults.value(.onboardingIsDone) {
-            Task {
+        Task {
+            await chargingManager.setLicenseModel(licenseModel)
+            guard powerSourceClient.isRunningOnLaptop() else {
+                showAppIsNotRunningOnLaptop()
+                return
+            }
+            setFeatureFlags(beta: isBeta)
+            analyticsManager.start(shouldEnable: isBeta || defaults.value(.sendAnalytics))
+            _ = updater // initialize updater
+            if defaults.value(.onboardingIsDone) {
                 await runMigration()
                 await dockIcon.show(false)
                 await setUpTheApp()
                 helperConnectionManager.checkHelperHealth()
                 observerKeyboardHotkeys()
                 appDidLaunch = true
+            } else {
+                openOnboarding()
             }
-        } else {
-            openOnboarding()
+            if await !licenseModel.verifyCachedLicense() {
+                await dockIcon.show(true)
+                let window = LicenseWindow(model: licenseModel)
+                window.makeKeyAndOrderFront(nil)
+                window.center()
+            }
         }
+
     }
 
     public func willQuit() {

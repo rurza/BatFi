@@ -8,5 +8,5 @@
 import Foundation
 
 extension String: @retroactive LocalizedError {
-    var localizedDescription: String { self }
+    public var errorDescription: String? { self }
 }
