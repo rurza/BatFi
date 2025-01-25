@@ -42,6 +42,9 @@ extension SleepAssertionClient: DependencyKey {
             },
             preventsSleep: {
                 await state.sleepAssertion != nil
+            },
+            disableSleep: { disable in
+                try await XPCClient.shared.setDisableAutosleep(disable)
             }
         )
     }()

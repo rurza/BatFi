@@ -22,4 +22,5 @@ public protocol XPCService {
     func turnPowerMode(_ mode: UInt8, lowPowerModeOnly: Bool, _ handler: @escaping (Error?) -> Void)
     /// Boolean is telling us if the high power mode is available
     func currentPowerMode(_ handler: @escaping (NSNumber?, Bool) -> Void)
+    func disableAutosleep(_ disable: Bool, _ handler: @escaping (Error?) -> Void)
 }

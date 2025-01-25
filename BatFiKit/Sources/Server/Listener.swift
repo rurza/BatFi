@@ -38,18 +38,6 @@ final class XPCServiceHandler: XPCService {
         changeChargingMode(.enableSystemChargeLimit, reply: handler)
     }
 
-    private func changeChargingMode(_ newMode: SMCChargingCommand, reply: @escaping (Error?) -> Void) {
-        Task {
-            do {
-                try await smcService.setChargingMode(newMode)
-                reply(nil)
-            } catch {
-                logger.error("Error changing charging mode \(newMode.rawValue, privacy: .public): \(error, privacy: .public)")
-                reply(error)
-            }
-        }
-    }
-
     func getCurrentChargingStatus(_ reply: @escaping (Shared.SMCChargingStatus?, (any Error)?) -> Void) {
         Task {
             do {
@@ -196,6 +184,33 @@ final class XPCServiceHandler: XPCService {
                     return
                 }
                 handler(NSNumber(value: result), false)
+            }
+        }
+    }
+
+    func disableAutosleep(_ disable: Bool, _ handler: @escaping (Error?) -> Void) {
+        let process = Process()
+        process.launchPath = "/usr/bin/pmset"
+        process.arguments = ["-a", "disablesleep", disable ? "1" : "0"]
+        do {
+            try process.run()
+        } catch {
+            handler(error)
+        }
+        process.waitUntilExit()
+        handler(nil)
+    }
+
+    // MARK: - Priv
+
+    private func changeChargingMode(_ newMode: SMCChargingCommand, reply: @escaping (Error?) -> Void) {
+        Task {
+            do {
+                try await smcService.setChargingMode(newMode)
+                reply(nil)
+            } catch {
+                logger.error("Error changing charging mode \(newMode.rawValue, privacy: .public): \(error, privacy: .public)")
+                reply(error)
             }
         }
     }
