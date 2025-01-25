@@ -23,7 +23,7 @@ public final class LicenseModel: ObservableObject {
     public private(set) var state: AsyncResource<License?> = .initial
 
     public var hasValidLicense: Bool {
-        state.resource.flatMap { $0 != nil } == true
+        state.license != nil
     }
 
     var canVerifyLicense: Bool {
@@ -97,4 +97,15 @@ public final class LicenseModel: ObservableObject {
         state = .initial
     }
 
+}
+
+extension AsyncResource where Resource == License? {
+    var license: License? {
+        switch self {
+        case .loaded(let resource):
+            return resource
+        default:
+            return nil
+        }
+    }
 }

@@ -14,7 +14,7 @@ public final class LicenseWindow: NSWindow {
         vc.sizingOptions = [.preferredContentSize]
         super.init(
             contentRect: NSRect(origin: .zero, size: vc.view.fittingSize),
-            styleMask: [.miniaturizable, .titled, .fullSizeContentView],
+            styleMask: [.closable, .miniaturizable, .titled, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
