@@ -33,12 +33,14 @@ public actor ChargingManager: ChargingModeManager {
     private lazy var logger = Logger(category: "Charging Manager")
 
     private var powerStatePullingTask: Task<Void, Never>?
+    private var licenseModel: LicenseModel?
 
     private var lastChargerConnectedStatus: ChargerConnectedStatus?
 
     public init() {}
 
     public func setUpObserving() {
+        assert(licenseModel != nil)
         Task {
             for await (
                 (
@@ -127,6 +129,16 @@ public actor ChargingManager: ChargingModeManager {
                 await updateStatusWithCurrentState()
             }
         }
+
+        Task {
+            for await _ in await licenseModel!.$state.values {
+                await updateStatusWithCurrentState()
+            }
+        }
+    }
+
+    public func setLicenseModel(_ licenseModel: LicenseModel) {
+        self.licenseModel = licenseModel
     }
 
     public func appWillQuit() async {
@@ -242,6 +254,7 @@ public actor ChargingManager: ChargingModeManager {
         enableSystemChargeLimitOnSleep: Bool,
         disableSleepDuringDischarge: Bool
     ) async {
+
         let chargerConnected = powerState.chargerConnected
         let previousChargerConnectedState = self.lastChargerConnectedStatus
         updateLastChargerConnectedStateIfNeeded(chargerConnected)
@@ -252,6 +265,11 @@ public actor ChargingManager: ChargingModeManager {
             logger.debug("We don't have a mode yet")
             await analytics.addBreadcrumb(category: .chargingManager, message: "App mode is still set to initial")
             await fetchAndUpdateAppChargingState()
+            return
+        }
+
+        guard await licenseModel?.hasValidLicense == true else {
+            logger.notice("License not activated")
             return
         }
 

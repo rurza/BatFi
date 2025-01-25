@@ -12,7 +12,7 @@ import SwiftUI
 public class OnboardingWindow: NSWindow {
     private let onClose: () -> Void
 
-    public init(_ installHelper: @escaping () -> Void, onClose: @escaping () -> Void) {
+    public init(installHelper: @escaping () -> Void, onClose: @escaping () -> Void) {
         let vc = NSHostingController(rootView: Onboarding(didInstallHelper: installHelper))
         vc.sizingOptions = [.preferredContentSize]
         let windowMask: NSWindow.StyleMask

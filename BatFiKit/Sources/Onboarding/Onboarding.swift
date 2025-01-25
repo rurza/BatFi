@@ -61,7 +61,7 @@ struct Onboarding: View {
                     isLoading: model.isLoading,
                     action: { model.nextAction() }
                 )
-                .disabled(model.isLoading)
+                .disabled(nextButtonDisabled)
                 .animation(.spring(), value: model.currentScreen)
             }.overlay(alignment: .center) {
                 PageControl(
@@ -119,6 +119,10 @@ struct Onboarding: View {
         default:
             return l10n.next
         }
+    }
+
+    var nextButtonDisabled: Bool {
+        model.isLoading
     }
 }
 
@@ -181,7 +185,6 @@ extension Onboarding {
                     }
                     isLoading = false
                 }
-
             default:
                 if let next = currentScreen.next() {
                     currentScreen = next
