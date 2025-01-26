@@ -21,8 +21,6 @@ public final class LicenseModel: ObservableObject {
     @Published
     public private(set) var state: AsyncResource<License?> = .initial
 
-    @Dependency(\.dockIcon) private var dockIcon
-
     @Dependency(\.licenseClient)
     private var licenseClient
 
@@ -96,7 +94,6 @@ public final class LicenseModel: ObservableObject {
         if let existingLicenseWindow {
             existingLicenseWindow.makeKeyAndOrderFront(nil)
         } else {
-            dockIcon.show(true)
             let window = LicenseWindow(model: self)
             window.makeKeyAndOrderFront(nil)
             window.center()

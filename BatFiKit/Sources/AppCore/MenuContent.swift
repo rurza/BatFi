@@ -22,6 +22,7 @@ struct MenuContent: View {
         VStack(spacing: 12) {
             if !licenseModel.hasValidLicense {
                 MenuLicenseView(licenseModel: licenseModel)
+                    .padding(.top, 4) // for equal visual padding with default horizontal padding
             }
             BatteryInfoView()
             SeparatorView()
