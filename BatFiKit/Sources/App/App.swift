@@ -71,10 +71,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                 openOnboarding()
             }
             if await !licenseModel.verifyCachedLicense() {
-                await dockIcon.show(true)
-                let window = LicenseWindow(model: licenseModel)
-                window.makeKeyAndOrderFront(nil)
-                window.center()
+                licenseModel.openLicenseWindow()
             }
         }
 
@@ -174,7 +171,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             notificationsManager = NotificationsManager()
         }
         if statusItemManager == nil {
-            statusItemManager = StatusItemManager()
+            statusItemManager = StatusItemManager(licenseModel: licenseModel)
             statusItemManager?.delegate = self
         }
     }
