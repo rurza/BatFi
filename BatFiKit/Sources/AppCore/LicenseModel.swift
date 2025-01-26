@@ -33,7 +33,7 @@ public final class LicenseModel: ObservableObject {
         state.license != nil
     }
 
-    var canVerifyLicense: Bool {
+    public var canVerifyLicense: Bool {
         !email.isEmpty && !license.isEmpty
     }
 
