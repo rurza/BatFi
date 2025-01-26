@@ -60,6 +60,7 @@ public final class StatusItemManager {
     private var showHighPowerMode = false
     private let menuDelegate = MenuObserver.shared
     private let batteryInfoModel = BatteryInfoViewModel()
+    private let licenseModel: LicenseModel
 
     @Dependency(\.defaults) private var defaults
     @Dependency(\.appChargingState) private var appChargingState
@@ -68,7 +69,8 @@ public final class StatusItemManager {
     @Dependency(\.suspendingClock) private var clock
 
 
-    public init() {
+    public init(licenseModel: LicenseModel) {
+        self.licenseModel = licenseModel
         setUp()
     }
 
@@ -154,7 +156,7 @@ public final class StatusItemManager {
         statusItem.menu?.replaceItems {
             MenuItem("")
                 .view {
-                    MenuContent()
+                    MenuContent(licenseModel: licenseModel)
                         .environmentObject(batteryInfoModel)
                         .frame(width: 220)
                         .frame(maxHeight: .infinity)

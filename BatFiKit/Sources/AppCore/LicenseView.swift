@@ -65,7 +65,6 @@ struct LicenseView: View {
                 model.purchaseLicenseButtonClicked()
             } label: {
                 Text("Buy Now")
-
             }
         }
         .padding(.horizontal, 20)
@@ -115,6 +114,7 @@ struct LicenseView: View {
                                 }, label: {
                                     Text("Unlock")
                                 })
+                                .tint(Color.init("appGreen"))
                                 .buttonStyle(.borderedProminent)
                                 .disabled(model.state.isLoading || !model.canVerifyLicense)
                                 .opacity(model.state.isLoading ? 0 : 1)

@@ -16,8 +16,13 @@ import SharedUI
 import SwiftUI
 
 struct MenuContent: View {
+    @ObservedObject var licenseModel: LicenseModel
+
     var body: some View {
         VStack(spacing: 12) {
+            if !licenseModel.hasValidLicense {
+                MenuLicenseView(licenseModel: licenseModel)
+            }
             BatteryInfoView()
             SeparatorView()
             if Defaults[.showChart] {

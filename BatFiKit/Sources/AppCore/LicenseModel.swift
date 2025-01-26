@@ -13,7 +13,6 @@ import Shared
 
 @MainActor
 public final class LicenseModel: ObservableObject {
-
     @Published
     public var email: String = ""
     @Published
@@ -21,6 +20,16 @@ public final class LicenseModel: ObservableObject {
 
     @Published
     public private(set) var state: AsyncResource<License?> = .initial
+
+    @Dependency(\.dockIcon) private var dockIcon
+
+    @Dependency(\.licenseClient)
+    private var licenseClient
+
+    @Dependency(\.keychainClient)
+    private var keychainClient
+
+    weak var existingLicenseWindow: NSWindow?
 
     public var hasValidLicense: Bool {
         state.license != nil
@@ -39,12 +48,6 @@ public final class LicenseModel: ObservableObject {
             state = .loaded(license)
         }
     }
-
-    @Dependency(\.licenseClient)
-    private var licenseClient
-
-    @Dependency(\.keychainClient)
-    private var keychainClient
 
     public func lostLicenseButtonClicked() {
         NSWorkspace.shared.open(URL(string: "https://micropixels.software/apps/batfi#faq")!)
@@ -89,6 +92,18 @@ public final class LicenseModel: ObservableObject {
         return false
     }
 
+    public func openLicenseWindow() {
+        if let existingLicenseWindow {
+            existingLicenseWindow.makeKeyAndOrderFront(nil)
+        } else {
+            dockIcon.show(true)
+            let window = LicenseWindow(model: self)
+            window.makeKeyAndOrderFront(nil)
+            window.center()
+            existingLicenseWindow = window
+        }
+    }
+
     func purchaseLicenseButtonClicked() {
         NSWorkspace.shared.open(URL(string: "https://micropixels.software/batfi")!)
     }
@@ -96,7 +111,6 @@ public final class LicenseModel: ObservableObject {
     func dimissErrorClicked() {
         state = .initial
     }
-
 }
 
 extension AsyncResource where Resource == License? {
