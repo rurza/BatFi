@@ -22,6 +22,7 @@ extension Target.Dependency {
     static let l10n: Self = "L10n"
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let persistence: Self = "Persistence"
+    static let pow: Self = .product(name: "Pow", package: "Pow")
     static let powerCharts: Self = "PowerCharts"
     static let powerDistributionInfo: Self = "PowerDistributionInfo"
     static let sentry: Self = .product(name: "Sentry", package: "sentry-cocoa")
@@ -69,7 +70,8 @@ let package = Package(
         .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.25.0"),
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
         .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
-        .package(url: "https://github.com/Kitura/Swift-JWT", from: "4.0.0")
+        .package(url: "https://github.com/Kitura/Swift-JWT", from: "4.0.0"),
+        .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.5")
     ],
     targets: [
         .target(
@@ -202,6 +204,7 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .l10n,
+                .pow,
                 .sharedUI,
             ]
         ),

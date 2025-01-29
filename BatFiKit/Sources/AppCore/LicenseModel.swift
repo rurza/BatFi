@@ -29,6 +29,8 @@ public final class LicenseModel: ObservableObject {
 
     weak var existingLicenseWindow: NSWindow?
 
+    private(set) var onboardingLicenseViewVisible = false
+
     public var hasValidLicense: Bool {
         state.license != nil
     }
@@ -60,6 +62,7 @@ public final class LicenseModel: ObservableObject {
     public func asyncVerifyLicense() async {
         guard canVerifyLicense else { return }
         guard state != .loading && state.license == nil else { return }
+        openLicenseWindowIfNotOpened()
         state = .loading
         do {
             let license = try await licenseClient.checkLicense(email: email, key: license)
@@ -94,6 +97,12 @@ public final class LicenseModel: ObservableObject {
         return false
     }
 
+    private func openLicenseWindowIfNotOpened() {
+        guard existingLicenseWindow == nil && !onboardingLicenseViewVisible else { return }
+        openLicenseWindow()
+    }
+
+    @MainActor
     public func openLicenseWindow() {
         if let existingLicenseWindow {
             existingLicenseWindow.makeKeyAndOrderFront(nil)
@@ -111,6 +120,10 @@ public final class LicenseModel: ObservableObject {
 
     public func dimissErrorClicked() {
         state = .initial
+    }
+
+    public func licenseViewOnOnboardingVisibilityDidChange(isVisible: Bool) {
+        onboardingLicenseViewVisible = isVisible
     }
 }
 
