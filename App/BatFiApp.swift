@@ -39,6 +39,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         return false
     }
 
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else { return }
+        app?.handleOpeningURL(url)
+    }
+
     @IBAction
     func openSettings(_ sender: Any?) {
         app?.openSettings()
