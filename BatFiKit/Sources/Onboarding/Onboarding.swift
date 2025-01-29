@@ -6,6 +6,7 @@
 //
 
 import AVKit
+import AppCore
 import Clients
 import ConfettiSwiftUI
 import Defaults
@@ -17,6 +18,7 @@ import SwiftUI
 
 enum OnboardingScreen: Int, CaseIterable {
     case welcome
+    case license
     case charging
     case helper
 
@@ -32,9 +34,14 @@ enum OnboardingScreen: Int, CaseIterable {
 struct Onboarding: View {
     @StateObject var model: Model
     @State private var confettiCounter = 0
+    @ObservedObject var licenseModel: LicenseModel
 
-    init(didInstallHelper: @escaping () -> Void) {
-        _model = StateObject(wrappedValue: Model(didInstallHelper: didInstallHelper))
+    init(licenseModel: LicenseModel, didInstallHelper: @escaping () -> Void) {
+        self.licenseModel = licenseModel
+        _model = StateObject(wrappedValue: Model(
+            licenseModel: licenseModel,
+            didInstallHelper: didInstallHelper
+        ))
     }
 
     var body: some View {
@@ -46,6 +53,7 @@ struct Onboarding: View {
                 index: model.currentScreen.rawValue
             ) {
                 WelcomeView().id(OnboardingScreen.welcome.rawValue)
+                OnboardingLicenseView(licenseModel: licenseModel, onboardingModel: model).id(OnboardingScreen.license.rawValue)
                 ChargingLimitView(model: model).id(OnboardingScreen.charging.rawValue)
                 InstallHelperView(model: model).id(OnboardingScreen.helper.rawValue)
             }
@@ -58,7 +66,7 @@ struct Onboarding: View {
                 Spacer()
                 OnboardingButton(
                     title: nextButtonTitle,
-                    isLoading: model.isLoading,
+                    isLoading: model.isLoading || licenseModel.state.isLoading,
                     action: { model.nextAction() }
                 )
                 .disabled(nextButtonDisabled)
@@ -110,6 +118,8 @@ struct Onboarding: View {
         switch model.currentScreen {
         case .welcome:
             return l10n.getStarted
+        case .license:
+            return "Unlock"
         case .helper:
             if model.onboardingIsFinished {
                 return l10n.complete
@@ -122,7 +132,7 @@ struct Onboarding: View {
     }
 
     var nextButtonDisabled: Bool {
-        model.isLoading
+        model.isLoading || (!licenseModel.canVerifyLicense && model.currentScreen == .license)
     }
 }
 
@@ -137,8 +147,10 @@ extension Onboarding {
         @Dependency(\.launchAtLogin) private var launchAtLogin
         @Dependency(\.defaults) private var defaults
         var playerModel: OnboardingPlayerViewModel!
+        var licenseModel: LicenseModel
 
-        init(didInstallHelper: @escaping () -> Void) {
+        init(licenseModel: LicenseModel, didInstallHelper: @escaping () -> Void) {
+            self.licenseModel = licenseModel
             self.didInstallHelper = didInstallHelper
             playerModel = OnboardingPlayerViewModel($currentScreen.eraseToAnyPublisher())
         }
@@ -185,6 +197,13 @@ extension Onboarding {
                     }
                     isLoading = false
                 }
+            case .license:
+                Task {
+                    await licenseModel.asyncVerifyLicense()
+                    if licenseModel.hasValidLicense, let next = currentScreen.next() {
+                            currentScreen = next
+                    }
+                }
             default:
                 if let next = currentScreen.next() {
                     currentScreen = next
@@ -213,7 +232,7 @@ extension Onboarding {
 
 struct Onboarding_Previews: PreviewProvider {
     static var previews: some View {
-        Onboarding(didInstallHelper: {})
+        Onboarding(licenseModel: LicenseModel(), didInstallHelper: {})
             .frame(width: 420, height: 600)
     }
 }

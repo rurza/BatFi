@@ -62,16 +62,16 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             _ = updater // initialize updater
             if defaults.value(.onboardingIsDone) {
                 await runMigration()
-                await dockIcon.show(false)
+                dockIcon.show(false)
                 await setUpTheApp()
                 helperConnectionManager.checkHelperHealth()
                 observerKeyboardHotkeys()
                 appDidLaunch = true
+                if await !licenseModel.verifyCachedLicense() {
+                    licenseModel.openLicenseWindow()
+                }
             } else {
                 openOnboarding()
-            }
-            if await !licenseModel.verifyCachedLicense() {
-                licenseModel.openLicenseWindow()
             }
         }
 
@@ -139,7 +139,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             await dockIcon.show(true)
 
             if onboardingWindow == nil {
-                let window = OnboardingWindow { [weak self] in
+                let window = OnboardingWindow(licenseModel: licenseModel) { [weak self] in
                     guard let self else { return }
                     Task {
                         await self.setUpTheApp()
@@ -147,7 +147,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                     }
                 } onClose: { [weak self] in
                     Task {
-                        await self?.dockIcon.show(false)
+                        self?.dockIcon.show(false)
                     }
                 }
                 window.makeKeyAndOrderFront(nil)
