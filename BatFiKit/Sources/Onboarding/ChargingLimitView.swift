@@ -57,11 +57,3 @@ struct ChargingLimitView: View {
         }
     }
 }
-
-struct ChargingLimitView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChargingLimitView(model: Onboarding.Model(didInstallHelper: {}))
-            .frame(width: 420, height: 600)
-            .preferredColorScheme(.dark)
-    }
-}

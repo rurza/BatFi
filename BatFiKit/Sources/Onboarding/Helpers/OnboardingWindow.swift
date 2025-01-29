@@ -5,6 +5,7 @@
 //  Created by Adam on 01/06/2023.
 //
 
+import AppCore
 import Cocoa
 import Defaults
 import SwiftUI
@@ -12,8 +13,8 @@ import SwiftUI
 public class OnboardingWindow: NSWindow {
     private let onClose: () -> Void
 
-    public init(installHelper: @escaping () -> Void, onClose: @escaping () -> Void) {
-        let vc = NSHostingController(rootView: Onboarding(didInstallHelper: installHelper))
+    public init(licenseModel: LicenseModel, installHelper: @escaping () -> Void, onClose: @escaping () -> Void) {
+        let vc = NSHostingController(rootView: Onboarding(licenseModel: licenseModel, didInstallHelper: installHelper))
         vc.sizingOptions = [.preferredContentSize]
         let windowMask: NSWindow.StyleMask
         if Defaults[.onboardingIsDone] {

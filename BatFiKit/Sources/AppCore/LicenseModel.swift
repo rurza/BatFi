@@ -52,16 +52,20 @@ public final class LicenseModel: ObservableObject {
     }
 
     public func verifyLicenseButtonClicked() {
+        Task {
+            await asyncVerifyLicense()
+        }
+    }
+
+    public func asyncVerifyLicense() async {
         guard canVerifyLicense else { return }
         guard state != .loading else { return }
         state = .loading
-        Task {
-            do {
-                let license = try await licenseClient.checkLicense(email: email, key: license)
-                state = .loaded(license)
-            } catch {
-                state = .error(error as NSError)
-            }
+        do {
+            let license = try await licenseClient.checkLicense(email: email, key: license)
+            state = .loaded(license)
+        } catch {
+            state = .error(error as NSError)
         }
     }
 
@@ -101,11 +105,11 @@ public final class LicenseModel: ObservableObject {
         }
     }
 
-    func purchaseLicenseButtonClicked() {
+    public func purchaseLicenseButtonClicked() {
         NSWorkspace.shared.open(URL(string: "https://micropixels.software/batfi")!)
     }
 
-    func dimissErrorClicked() {
+    public func dimissErrorClicked() {
         state = .initial
     }
 }

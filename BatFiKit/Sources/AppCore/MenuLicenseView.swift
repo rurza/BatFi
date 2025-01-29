@@ -27,7 +27,7 @@ struct MenuLicenseView: View {
                 .buttonStyle(.bordered)
                 .padding(.top, 10)
             }
-            .padding()
+            .padding(15)
             .frame(maxWidth: .infinity)
         }
     }

@@ -4,6 +4,7 @@ import PackageDescription
 
 extension Target.Dependency {
     static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
+    static let appCore: Self = "AppCore"
     static let appShared: Self = "AppShared"
     static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
     static let asyncXPCConnection: Self = .product(name: "AsyncXPCConnection", package: "AsyncXPCConnection")
@@ -84,7 +85,7 @@ let package = Package(
             name: "App",
             dependencies: [
                 "About",
-                "AppCore",
+                .appCore,
                 "BatteryIndicator",
                 "BatteryInfo",
                 "ClientsLive",
@@ -194,6 +195,7 @@ let package = Package(
         .target(
             name: "Onboarding",
             dependencies: [
+                .appCore,
                 .appShared,
                 .clients,
                 .confetti,

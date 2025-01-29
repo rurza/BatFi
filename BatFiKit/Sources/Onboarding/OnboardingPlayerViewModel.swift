@@ -18,6 +18,8 @@ private extension OnboardingScreen {
             return "helper"
         case .charging:
             return "usage"
+        case .license:
+            return "usage"
         }
     }
 }
