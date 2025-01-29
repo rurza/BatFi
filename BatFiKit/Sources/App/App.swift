@@ -97,6 +97,22 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         }
     }
 
+    public func handleOpeningURL(_ url: URL) {
+        do {
+            let (email, license) = try URLParser.parseURL(url)
+            licenseModel.email = email
+            licenseModel.license = license
+            licenseModel.verifyLicenseButtonClicked()
+        } catch {
+            let alert = NSAlert()
+            alert.alertStyle = .warning
+            alert.messageText = "Can't use this link"
+            alert.informativeText = error.localizedDescription
+            alert.addButton(withTitle: "OK")
+            _ = alert.runModal()
+        }
+    }
+
     // MARK: - MenuControllerDelegate
 
     public func openSettings() {

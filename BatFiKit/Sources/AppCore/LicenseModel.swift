@@ -59,7 +59,7 @@ public final class LicenseModel: ObservableObject {
 
     public func asyncVerifyLicense() async {
         guard canVerifyLicense else { return }
-        guard state != .loading else { return }
+        guard state != .loading && state.license == nil else { return }
         state = .loading
         do {
             let license = try await licenseClient.checkLicense(email: email, key: license)
