@@ -19,7 +19,7 @@ private extension OnboardingScreen {
         case .charging:
             return "usage"
         case .license:
-            return "usage"
+            return "license"
         }
     }
 }

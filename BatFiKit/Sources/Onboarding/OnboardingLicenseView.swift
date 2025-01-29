@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import Pow
 import SwiftUI
 
 struct OnboardingLicenseView: View {
@@ -24,32 +25,49 @@ struct OnboardingLicenseView: View {
                 .edgesIgnoringSafeArea(.all)
                 .frame(maxWidth: .infinity)
                 .aspectRatio(1.33333, contentMode: .fill)
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Unlock BatFi")
-                    .font(.system(size: 24, weight: .bold))
+            if licenseModel.hasValidLicense {
+                licenseActivated
+            } else {
+                activateLicenseView
+            }
+        }
+    }
 
-                Text("The app requires a valid license key to work. \nProvide the email and license key you received when getting the app.")
-                    .padding(.bottom, 10)
-                Form {
-                    TextField(text: $licenseModel.email) {
-                        Text("Email")
-                    }
-                    .focused($focus, equals: Focus.email)
-                    .onSubmit {
-                        focus = .license
-                    }
-                    TextField(text: $licenseModel.license) {
-                        Text("License")
-                    }
-                    .focused($focus, equals: Focus.license)
-                    .onSubmit {
-                        licenseModel.verifyLicenseButtonClicked()
-                    }
-                    .padding(.bottom, 5)
+    @ViewBuilder
+    var activateLicenseView: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Activate the License")
+                .font(.system(size: 24, weight: .bold))
+
+            Text("The app requires a valid license key to work. \nProvide the email and license key you received when getting the app.")
+                .padding(.bottom, 20)
+            Form {
+                TextField(text: $licenseModel.email) {
+                    Text("Email")
                 }
-                .textFieldStyle(.roundedBorder)
-                .frame(width: 340)
-                HStack(spacing: 20) {
+                .focused($focus, equals: Focus.email)
+                .onSubmit {
+                    focus = .license
+                }
+                .disabled(licenseModel.state.isLoading)
+                TextField(text: $licenseModel.license) {
+                    Text("License")
+                }
+                .focused($focus, equals: Focus.license)
+                .disabled(licenseModel.state.isLoading)
+                .onSubmit {
+                    licenseModel.verifyLicenseButtonClicked()
+                }
+                .padding(.bottom, 5)
+            }
+            .textFieldStyle(.roundedBorder)
+            .frame(width: 340)
+            VStack {
+                Text("The app requires Internet connection to validate the license key.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 10)
+                HStack(spacing: 30) {
                     Button(action: {
                         licenseModel.lostLicenseButtonClicked()
                     }, label: {
@@ -63,15 +81,12 @@ struct OnboardingLicenseView: View {
                     })
                     .buttonStyle(.link)
                 }
-                .frame(maxWidth: .infinity)
-                Text("The app requires Internet connection to validate the license key.")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity)
             }
-            .padding(20)
-            .frame(width: 420)
+            .frame(maxWidth: .infinity)
+            .padding(.bottom, 10)
         }
+        .padding(20)
+        .frame(width: 420)
         .alert("Unlock failed", isPresented: Binding(get: {
             licenseModel.state.error != nil
         }, set: { _ in
@@ -81,5 +96,22 @@ struct OnboardingLicenseView: View {
         } message: {
             Text(licenseModel.state.error?.localizedDescription ?? "Unknown Error")
         }
+    }
+
+    @ViewBuilder
+    var licenseActivated: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Thank You!")
+                .font(.system(size: 24, weight: .bold))
+            Spacer()
+            Image(systemName: "checkmark.seal")
+                .font(.system(size: 54, weight: .bold))
+                .foregroundStyle(.green)
+                .transition(.movingParts.pop(.green))
+                .frame(maxWidth: .infinity)
+            Spacer()
+        }
+        .padding(20)
+        .frame(width: 420)
     }
 }

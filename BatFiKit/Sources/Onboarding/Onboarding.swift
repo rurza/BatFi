@@ -77,9 +77,7 @@ struct Onboarding: View {
                     index: Binding(
                         get: { model.currentScreen.rawValue },
                         set: { index in
-                            if let screen = OnboardingScreen(rawValue: index) {
-                                model.currentScreen = screen
-                            }
+                            model.changeScreenToOneWithIndex(index)
                         }
                     )
                 )
@@ -119,7 +117,11 @@ struct Onboarding: View {
         case .welcome:
             return l10n.getStarted
         case .license:
-            return "Unlock"
+            if licenseModel.hasValidLicense {
+                return l10n.next
+            } else {
+                return "Unlock"
+            }
         case .helper:
             if model.onboardingIsFinished {
                 return l10n.complete
@@ -132,17 +134,21 @@ struct Onboarding: View {
     }
 
     var nextButtonDisabled: Bool {
-        model.isLoading || (!licenseModel.canVerifyLicense && model.currentScreen == .license)
+        model.isLoading || (!licenseModel.canVerifyLicense && model.currentScreen == .license && !licenseModel.hasValidLicense)
     }
 }
 
 extension Onboarding {
     final class Model: ObservableObject {
         let didInstallHelper: () -> Void
-        @MainActor @Published var currentScreen: OnboardingScreen = .welcome
-        @MainActor @Published var helperError: NSError?
-        @MainActor @Published var isLoading: Bool = false
-        @MainActor @Published var onboardingIsFinished = false
+        @MainActor @Published
+        private(set) var currentScreen: OnboardingScreen = .welcome
+        @MainActor @Published
+        var helperError: NSError?
+        @MainActor @Published
+        var isLoading: Bool = false
+        @MainActor @Published
+        var onboardingIsFinished = false
         @Dependency(\.helperClient) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
         @Dependency(\.defaults) private var defaults
@@ -171,7 +177,7 @@ extension Onboarding {
                             if status == .enabled {
                                 self.helperError = nil
                                 if let next = currentScreen.next() {
-                                    currentScreen = next
+                                    changeScreenTo(next)
                                 }
                                 didInstallHelper()
                                 defaults.setValue(.onboardingIsDone, value: true)
@@ -201,12 +207,12 @@ extension Onboarding {
                 Task {
                     await licenseModel.asyncVerifyLicense()
                     if licenseModel.hasValidLicense, let next = currentScreen.next() {
-                            currentScreen = next
+                        changeScreenTo(next)
                     }
                 }
             default:
                 if let next = currentScreen.next() {
-                    currentScreen = next
+                    changeScreenTo(next)
                 }
             }
         }
@@ -214,8 +220,21 @@ extension Onboarding {
         @MainActor
         func previousAction() {
             if let previous = currentScreen.previous() {
-                currentScreen = previous
+                changeScreenTo(previous)
             }
+        }
+
+        @MainActor
+        func changeScreenToOneWithIndex(_ index: Int) {
+            if let screen = OnboardingScreen(rawValue: index) {
+                changeScreenTo(screen)
+            }
+        }
+
+        @MainActor
+        private func changeScreenTo(_ screen: OnboardingScreen) {
+            currentScreen = screen
+            licenseModel.licenseViewOnOnboardingVisibilityDidChange(isVisible: screen == .license)
         }
 
         @MainActor
