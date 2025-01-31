@@ -18,6 +18,7 @@ public let shortTimeFormatter: DateComponentsFormatter = {
     let formatter = DateComponentsFormatter()
     formatter.allowedUnits = [.hour, .minute]
     formatter.unitsStyle = .positional
+    formatter.zeroFormattingBehavior = .dropLeading
     return formatter
 }()
 
