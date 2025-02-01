@@ -8,6 +8,7 @@
 import AppCore
 import Cocoa
 import Defaults
+import License
 import SwiftUI
 
 public class OnboardingWindow: NSWindow {

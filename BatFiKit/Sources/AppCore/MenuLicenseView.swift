@@ -5,6 +5,7 @@
 //  Created by Adam Różyński on 26/01/2025.
 //
 
+import License
 import SwiftUI
 
 struct MenuLicenseView: View {

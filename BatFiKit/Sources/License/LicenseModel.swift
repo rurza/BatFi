@@ -84,12 +84,17 @@ public final class LicenseModel: ObservableObject {
                 if fetchedLicense == license {
                     state = .loaded(license)
                 } else {
-                    try? await keychainClient.saveLicense(nil)
+                    try await keychainClient.saveLicense(nil)
                     state = .loaded(nil)
                 }
                 return license == fetchedLicense
             } catch {
-                state = .error(error as NSError)
+                if error is URLError {
+                    state = .loaded(license)
+                    return true
+                } else {
+                    state = .error(error as NSError)
+                }
             }
         } catch {
             state = .error(error as NSError)
@@ -128,7 +133,7 @@ public final class LicenseModel: ObservableObject {
 }
 
 extension AsyncResource where Resource == License? {
-    var license: License? {
+    public var license: License? {
         switch self {
         case .loaded(let resource):
             return resource

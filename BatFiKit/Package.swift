@@ -20,6 +20,7 @@ extension Target.Dependency {
     static let jwt: Self = .product(name: "SwiftJWT", package: "Swift-JWT")
     static let keyboardShortcuts: Self = .product(name: "KeyboardShortcuts", package: "KeyboardShortcuts")
     static let l10n: Self = "L10n"
+    static let license: Self = "License"
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let persistence: Self = "Persistence"
     static let pow: Self = .product(name: "Pow", package: "Pow")
@@ -97,6 +98,7 @@ let package = Package(
                 .defaultsKeys,
                 .keyboardShortcuts,
                 .l10n,
+                .license,
                 .menuBuilder,
                 .settings,
                 .statusItemArrowKit,
@@ -195,6 +197,13 @@ let package = Package(
             name: "L10n"
         ),
         .target(
+            name: "License",
+            dependencies: [
+                .clients,
+                .shared
+            ]
+        ),
+        .target(
             name: "Onboarding",
             dependencies: [
                 .appCore,
@@ -204,6 +213,7 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .l10n,
+                .license,
                 .pow,
                 .sharedUI,
             ]
@@ -251,6 +261,7 @@ let package = Package(
                 .dependencies,
                 .keyboardShortcuts,
                 .l10n,
+                .license,
                 .settingsKit,
                 .sharedUI,
             ]

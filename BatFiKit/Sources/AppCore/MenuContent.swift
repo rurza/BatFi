@@ -10,6 +10,7 @@ import BatteryInfo
 import Defaults
 import DefaultsKeys
 import HighEnergyUsage
+import License
 import PowerCharts
 import PowerDistributionInfo
 import SharedUI
