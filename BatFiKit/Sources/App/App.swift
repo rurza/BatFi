@@ -11,6 +11,7 @@ import Cocoa
 import Dependencies
 import KeyboardShortcuts
 import L10n
+import License
 import MenuBuilder
 import Notifications
 import Onboarding
@@ -20,7 +21,7 @@ import StatusItemArrowKit
 
 public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDelegate, Sendable {
     private let licenseModel = LicenseModel()
-    private lazy var settingsController = SettingsController()
+    private lazy var settingsController = SettingsController(licenseModel: licenseModel)
     private lazy var persistenceManager = PersistenceManager()
     private lazy var magSafeColorManager = MagSafeColorManager()
     private lazy var analyticsManager = AnalyticsManager()
@@ -74,7 +75,6 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                 openOnboarding()
             }
         }
-
     }
 
     public func willQuit() {

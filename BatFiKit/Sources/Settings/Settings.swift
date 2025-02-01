@@ -7,9 +7,12 @@
 
 import Cocoa
 import KeyboardShortcuts
+import License
 import SettingsKit
 
 public final class SettingsController {
+    private let licenseModel: LicenseModel
+
     private lazy var settingsWindowController = SettingsWindowController(
         panes: [
             GeneralView.pane,
@@ -18,11 +21,13 @@ public final class SettingsController {
             NotificationsView.pane,
             HotkeysView.pane,
             AdvancedView.pane,
-            SettingsLicenseView.pane
+            SettingsLicenseView.pane(licenseModel: licenseModel)
         ]
     )
 
-    public init() {}
+    public init(licenseModel: LicenseModel) {
+        self.licenseModel = licenseModel
+    }
 
     public func openSettings() {
         settingsWindowController.show(pane: ChargingView.identifier)

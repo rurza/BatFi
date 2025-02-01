@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import License
 import Pow
 import SwiftUI
 
@@ -22,15 +23,21 @@ struct OnboardingLicenseView: View {
     var body: some View {
         VStack(spacing: 0) {
             AVPlayerViewRepresented(player: onboardingModel.player)
+//            Color.pink
                 .edgesIgnoringSafeArea(.all)
                 .frame(maxWidth: .infinity)
-                .aspectRatio(1.33333, contentMode: .fill)
-            if licenseModel.hasValidLicense {
-                licenseActivated
-            } else {
-                activateLicenseView
+                .aspectRatio(1.4, contentMode: .fill)
+                .frame(height: 300)
+            Group {
+                if licenseModel.hasValidLicense {
+                    licenseActivated
+                } else {
+                    activateLicenseView
+                }
             }
+            .padding(20)
         }
+        .frame(width: 420)
     }
 
     @ViewBuilder
@@ -40,6 +47,7 @@ struct OnboardingLicenseView: View {
                 .font(.system(size: 24, weight: .bold))
 
             Text("The app requires a valid license key to work. \nProvide the email and license key you received when getting the app.")
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom, 20)
             Form {
                 TextField(text: $licenseModel.email) {
@@ -85,8 +93,6 @@ struct OnboardingLicenseView: View {
             .frame(maxWidth: .infinity)
             .padding(.bottom, 10)
         }
-        .padding(20)
-        .frame(width: 420)
         .alert("Unlock failed", isPresented: Binding(get: {
             licenseModel.state.error != nil
         }, set: { _ in
@@ -111,7 +117,5 @@ struct OnboardingLicenseView: View {
                 .frame(maxWidth: .infinity)
             Spacer()
         }
-        .padding(20)
-        .frame(width: 420)
     }
 }

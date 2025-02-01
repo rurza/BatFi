@@ -13,6 +13,7 @@ import Defaults
 import DefaultsKeys
 import Dependencies
 import L10n
+import License
 import ServiceManagement
 import SwiftUI
 
@@ -58,11 +59,11 @@ struct Onboarding: View {
                 InstallHelperView(model: model).id(OnboardingScreen.helper.rawValue)
             }
             HStack {
-                OnboardingButton(title: l10n.Button.Label.previous, isLoading: false, action: { model.previousAction() })
-                    .opacity(model.currentScreen != .welcome && !model.onboardingIsFinished ? 1 : 0)
-                    .animation(.spring(), value: model.currentScreen)
-                    .disabled(model.isLoading)
-
+                if model.currentScreen == .helper && !model.onboardingIsFinished {
+                    OnboardingButton(title: l10n.Button.Label.previous, isLoading: false, action: { model.previousAction() })
+                        .animation(.spring(), value: model.currentScreen)
+                        .disabled(model.isLoading)
+                }
                 Spacer()
                 OnboardingButton(
                     title: nextButtonTitle,

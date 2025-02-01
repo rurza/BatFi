@@ -12,6 +12,7 @@ import DefaultsKeys
 import Dependencies
 import Foundation
 import IOKit.pwr_mgt
+import License
 import os
 import Settings
 import Shared

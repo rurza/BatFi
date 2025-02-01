@@ -16,6 +16,7 @@ import DefaultsKeys
 import Dependencies
 import HighEnergyUsage
 import L10n
+import License
 import MenuBuilder
 import PowerCharts
 import PowerDistributionInfo
