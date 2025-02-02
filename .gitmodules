@@ -1,0 +1,3 @@
+[submodule "LetsMove"]
+	path = LetsMove
+	url = https://github.com/potionfactory/LetsMove
