@@ -23,7 +23,6 @@ struct OnboardingLicenseView: View {
     var body: some View {
         VStack(spacing: 0) {
             AVPlayerViewRepresented(player: onboardingModel.player)
-//            Color.pink
                 .edgesIgnoringSafeArea(.all)
                 .frame(maxWidth: .infinity)
                 .aspectRatio(1.4, contentMode: .fill)

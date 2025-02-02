@@ -9,7 +9,7 @@ public struct LicenseClient: TestDependencyKey {
     public static var testValue: LicenseClient = unimplemented()
 }
 
-public struct License: Equatable {
+public struct License: Equatable, Sendable {
     public let key: String
     public let name: String?
     public let email: String

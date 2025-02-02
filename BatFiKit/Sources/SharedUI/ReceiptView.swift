@@ -6,6 +6,7 @@
 //
 
 import Clients
+import CryptoKit
 import SwiftUI
 
 public struct ReceiptView: View {
@@ -22,76 +23,99 @@ public struct ReceiptView: View {
     }
 
     public var body: some View {
-        VStack(spacing: 16) {
-            Text("Thank You")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .monospaced()
-                .foregroundStyle(.black.opacity(0.8))
-
-            SeparatorView()
-
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("Date:")
-                        .monospaced()
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.black.opacity(0.8))
-                    Spacer()
-                    Text(formattedDate)
-                        .font(.body)
-                        .monospaced()
-                        .foregroundStyle(.gray)
-                }
-                HStack {
-                    Text("Email:")
-                        .font(.body)
-                        .monospaced()
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.black.opacity(0.8))
-                    Spacer()
-                    Text(license.email)
-                        .font(.body)
-                        .monospaced()
-                        .foregroundStyle(.gray)
-                }
-                HStack {
-                    Text("Key:")
-                        .font(.body)
-                        .monospaced()
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.black.opacity(0.8))
-                    Spacer()
-                    Text(license.key)
-                        .font(.body)
-                        .monospaced()
-                        .foregroundStyle(.gray)
-                }
+        VStack(spacing: 24) {
+            VStack(spacing: 8) {
+                Text("Thank You")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .monospaced()
+                    .foregroundStyle(.black.opacity(0.8))
+                    .padding(.top, 20)
+                Text("I appreciate your support!")
+                    .font(.footnote)
+                    .monospaced()
+                    .foregroundStyle(.gray)
+                    .multilineTextAlignment(.center)
             }
 
             SeparatorView()
 
-            Text("I appreciate your support!")
-                .font(.footnote)
-                .monospaced()
-                .foregroundStyle(.gray)
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 20)
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Text("Date:")
+                        .font(.callout)
+                        .monospaced()
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.gray)
+                    Spacer(minLength: 16)
+                    Text(formattedDate)
+                        .font(.callout)
+                        .monospaced()
+                        .foregroundStyle(.black.opacity(0.7))
+                }
+                HStack {
+                    Text("Email:")
+                        .font(.callout)
+                        .monospaced()
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.gray)
+                    Spacer(minLength: 16)
+                    if #available(macOS 14.0, *) {
+                        ScrollView(.horizontal) {
+                            Text(license.email)
+                                .font(.callout)
+                                .textSelection(.enabled)
+                                .monospaced()
+                                .foregroundStyle(.black.opacity(0.7))
+                        }
+                        .defaultScrollAnchor(.trailing)
+                        .scrollIndicators(.hidden)
+                    } else {
+                        ScrollView(.horizontal) {
+                            Text(license.email)
+                                .font(.callout)
+                                .textSelection(.enabled)
+                                .monospaced()
+                                .foregroundStyle(.black.opacity(0.7))
+                        }
+                        .scrollIndicators(.hidden)
+                    }
+                }
+                HStack {
+                    Text("Key:")
+                        .font(.callout)
+                        .monospaced()
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.gray)
+                    Spacer(minLength: 16)
+                    ScrollView(.horizontal) {
+                        Text(license.key)
+                            .textSelection(.enabled)
+                            .font(.callout)
+                            .monospaced()
+                            .foregroundStyle(.black.opacity(0.7))
+                    }
+                    .scrollIndicators(.hidden)
+                }
+            }
+
+            SeparatorView()
             Image(.micropixels)
+                .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(height: 20)
+                .frame(height: 16)
                 .foregroundStyle(.gray)
+                .padding(.bottom, 20)
         }
         .padding()
         .background(
             VStack(spacing: 0) {
-                ReceiptTopShape(purchaseDate: license.purchaseDate)
+                ReceiptTopShape(license: license)
                     .fill(Color.white)
                     .frame(height: 20)
                     .offset(y: 1)
                 Color.white
-                    .clipShape(UnevenRoundedRectangle(cornerRadii: .init(topLeading: 4, bottomLeading: 0, bottomTrailing: 0, topTrailing: 4), style: .continuous))
-                ReceiptBottomShape(purchaseDate: license.purchaseDate)
+                ReceiptBottomShape(license: license)
                     .fill(Color.white)
                     .frame(height: 20)
                     .offset(y: -1)
@@ -100,17 +124,18 @@ public struct ReceiptView: View {
         .compositingGroup()
         .shadow(color: Color.black.opacity(0.12), radius: 8, x: 0, y: 8)
         .padding()
+
     }
 }
 
 
 struct ReceiptBottomShape: Shape {
-    let purchaseDate: Date
+    let license: License
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
-        var randomGenerator = RandomNumberGeneratorForDate(seed: purchaseDate)
+        var randomGenerator = RandomNumberGeneratorForDate(seed: license)
         /// Both top and bottom shapes have the same seed for randomGenerator so we want to have different
         /// shapes at top and bottom but still deterministic
         _ = randomGenerator.next()
@@ -151,11 +176,11 @@ struct ReceiptBottomShape: Shape {
 }
 
 struct ReceiptTopShape: Shape {
-    let purchaseDate: Date
+    let license: License
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        var randomGenerator = RandomNumberGeneratorForDate(seed: purchaseDate)
+        var randomGenerator = RandomNumberGeneratorForDate(seed: license)
 
         // Define scallop geometry.
         let scallopRadius = rect.width / CGFloat.random(in: 40...48, using: &randomGenerator)
@@ -214,9 +239,8 @@ struct ReceiptTopShape: Shape {
 struct RandomNumberGeneratorForDate: RandomNumberGenerator {
     private var state: UInt64
 
-    init(seed: Date) {
-        let timeInterval = seed.timeIntervalSince1970
-        self.state = UInt64(timeInterval.bitPattern)
+    init(seed: License) {
+        self.state = seed.key.toUniqueNumber() ?? 0
     }
 
     mutating func next() -> UInt64 {
@@ -225,3 +249,14 @@ struct RandomNumberGeneratorForDate: RandomNumberGenerator {
     }
 }
 
+private extension String {
+    func toUniqueNumber() -> UInt64? {
+        guard let data = self.data(using: .utf8) else { return nil }
+        let hash = SHA256.hash(data: data)
+        // Use the first 8 bytes of the hash as a UInt64 value.
+        return hash.withUnsafeBytes { pointer in
+            guard pointer.count >= 8 else { return nil }
+            return pointer.load(as: UInt64.self)
+        }
+    }
+}
