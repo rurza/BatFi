@@ -7,10 +7,15 @@
 
 import App
 import AppIntents
+import LetsMove
 import SwiftUI
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     var app: BatFi?
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        PFMoveToApplicationsFolderIfNecessary()
+    }
 
     func applicationDidFinishLaunching(_: Notification) {
         app = BatFi()
