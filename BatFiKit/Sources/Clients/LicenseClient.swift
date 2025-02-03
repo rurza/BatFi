@@ -14,12 +14,14 @@ public struct License: Equatable, Sendable {
     public let name: String?
     public let email: String
     public let purchaseDate: Date
+    public let refreshDate: Date
 
-    public init(key: String, name: String?, email: String, purchaseDate: Date) {
+    public init(key: String, name: String?, email: String, purchaseDate: Date, refreshDate: Date) {
         self.key = key
         self.name = name
         self.email = email
         self.purchaseDate = purchaseDate
+        self.refreshDate = refreshDate
     }
 }
 
