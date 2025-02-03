@@ -157,7 +157,8 @@ extension License: Decodable {
         let key = try container.decode(String.self, forKey: .key)
         let name = try container.decodeIfPresent(String.self, forKey: .name)
         let purchaseDate = try container.decode(Date.self, forKey: .purchaseDate)
-        self.init(key: key, name: name, email: email, purchaseDate: purchaseDate)
+        let refreshDate = try container.decode(Date.self, forKey: .refreshDate)
+        self.init(key: key, name: name, email: email, purchaseDate: purchaseDate, refreshDate: refreshDate)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -165,6 +166,7 @@ extension License: Decodable {
         case key
         case name = "customer_name"
         case purchaseDate = "purchase_date"
+        case refreshDate = "refresh_date"
     }
 }
 
