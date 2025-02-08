@@ -25,7 +25,7 @@ struct MenuLicenseView: View {
                 Button(action: {
                     licenseModel.openLicenseWindow()
                 }) {
-                    Text(l10n.unlockTheApp)
+                    Text(l10n.activateBatFi)
                 }
                 .buttonStyle(.bordered)
                 .padding(.top, 10)

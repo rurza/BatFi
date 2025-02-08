@@ -10,7 +10,7 @@ import SwiftUI
 
 public final class LicenseWindow: NSWindow {
     public init(model: LicenseModel) {
-        let vc = NSHostingController(rootView: LicenseView(model: model))
+        let vc = NSHostingController(rootView: LicenseView(model: model).frame(width: 550))
         vc.sizingOptions = [.preferredContentSize]
         super.init(
             contentRect: NSRect(origin: .zero, size: vc.view.fittingSize),

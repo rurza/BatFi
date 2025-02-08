@@ -3456,6 +3456,12 @@
     "license.error.deactivated_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lizenz ist deaktiviert. Bitte kaufen Sie die App erneut."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3473,6 +3479,12 @@
     "license.error.invalid_license_or_email" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ungültiger Lizenzschlüssel oder E-Mail"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3490,6 +3502,12 @@
     "license.error.invalid_response" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ungültige Antwort"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3507,6 +3525,12 @@
     "license.error.system_identification" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System kann nicht identifiziert werden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3524,6 +3548,12 @@
     "license.error.unexpected_response" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unerwartete Antwort. \nKontaktieren Sie den Entwickler, wenn Sie glauben, dass dies ein Fehler ist und Sie einen gültigen Lizenzschlüssel besitzen."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3534,6 +3564,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nieprawidłowa odpowiedź z serwera.\nSkontaktuj się z developerem jeśli uważasz że to błąd i posiadasz poprawny klucz licencyjny."
+          }
+        }
+      }
+    },
+    "license.label.activate_batfi" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activate BatFi"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywuj BatFi"
           }
         }
       }
@@ -3567,7 +3614,24 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aktywuj klucz by korzystać z aplikacji"
+            "value" : "Aktywuj klucz licencyjny by korzystać z aplikacji"
+          }
+        }
+      }
+    },
+    "license.label.buy_now" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Don't own BatFi yet? Buy it now!"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie posiadasz BatFi? Kup teraz!"
           }
         }
       }
@@ -3589,19 +3653,19 @@
         }
       }
     },
-    "license.label.license" : {
+    "license.label.key" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "License"
+            "value" : "Key"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Licencja"
+            "value" : "Klucz"
           }
         }
       }
@@ -3660,6 +3724,12 @@
     "license.label.requires_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App erfordert einen gültigen Lizenzschlüssel. \nGeben Sie die E-Mail und den Lizenzschlüssel ein, die Sie beim Erwerb der App erhalten haben."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3668,8 +3738,8 @@
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Aplikacja wymaga ważnego klucza licencyjnego"
+            "state" : "translated",
+            "value" : "Aplikacja wymaga ważnego klucza licencyjnego.\nPodaj adres email oraz klucz który otrzymałeś z aplikacją."
           }
         }
       }
@@ -3691,43 +3761,15 @@
         }
       }
     },
-    "license.label.unlock" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Unlock"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktywuj"
-          }
-        }
-      }
-    },
-    "license.label.unlock_batfi" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Unlock BatFi"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aktywuj BatFi"
-          }
-        }
-      }
-    },
     "license.label.unlock_failed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivierung fehlgeschlagen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -3743,7 +3785,7 @@
       }
     },
     "license.label.unlock_the_app" : {
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -9525,79 +9567,19 @@
         }
       }
     },
-    "settings.button.description.lid_must_be_opened" : {
+    "settings.button.description.lid_must_be_opened_disable_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Funktioniert nur mit aufgeklapptem Display."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Works only with the lid opened."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fonctionne uniquement avec l'écran ouvert."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Funziona solo quando il coperchio è aperto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Macを開けた状態でのみ動作します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "디스플레이가 열렸을 경우에만 작동합니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Werkt alleen als de MacBook is opengeklapt."
+            "value" : "Works only when the lid is open. Disable sleep to use it in clamshell mode."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Działa tylko, gdy pokrywa z ekranem jest otwarta."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Funciona apenas com a tampa aberta."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Работает только при открытой крышке."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sadece kapak açıkken çalışır."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "仅在打开上盖时启用。"
+            "value" : "Działa tylko, gdy pokrywa z ekranem jest otwarta.\nWyłącz usypianie by rozładowywać z zamknięta pokrywą"
           }
         }
       }
@@ -10439,6 +10421,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "当充电中且未达到限制值时，推迟系统自动睡眠"
+          }
+        }
+      }
+    },
+    "settings.button.label.disable_sleep_while_discharging" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disable sleep while discharging"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłącz usypianie podczas rozładowywania baterii"
           }
         }
       }
@@ -12109,83 +12108,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此应用会推迟睡眠以充电至设置的限制值，随后会停止充电并使Mac进入睡眠。"
-          }
-        }
-      }
-    },
-    "settings.button.tooltip.discharge_battery_when_overcharged" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wenn das Macbook aufgeklappt ist, kann die App den Akku entladen bis das Ladelimit erreicht wurde"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "When Macbook's lid is opened, the app can discharge battery until it will reach the limit"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lorsque l'écran du MacBook est ouvert, l'application peut décharger la batterie jusqu'à ce qu'elle atteigne la limite"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quando il coperchio del Macbook viene aperto, l'app può scaricare la batteria fino a raggiungere il limite"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Macを開けている時のみ、バッテリーを放電できます。クラムシェル時には無効化されます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Macbook의 디스플레이가 열려 있을 경우, 앱이 충전 제한에 도달하기 위해 배터리를 방전할 수 있습니다"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wanneer de Macbook is opengeklapt, kan de batterij ontladen worden tot de limiet is bereikt"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gdy pokrywa Macbooka jest otwarta, apka może rozładowywać baterie do momentu osiągnięcia limitu ładowania"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quando a tampa do Macbook é aberta, o aplicativo pode descarregar a bateria até atingir o limite estabelecido"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Когда крышка MacBook открыта, приложение может разряжать аккумулятор до лимита."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "MacBook'un kapağı açıldığında, uygulama sınıra ulaşana kadar pili boşaltabilir"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "当MacBook上盖打开时，此应用可以对电池放电直到达到设定限制值"
           }
         }
       }
@@ -15278,6 +15200,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "快捷键"
+          }
+        }
+      }
+    },
+    "settings.tab.title.license" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "License"
           }
         }
       }
