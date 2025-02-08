@@ -59,7 +59,7 @@ struct OnboardingLicenseView: View {
                 }
                 .disabled(licenseModel.state.isLoading)
                 TextField(text: $licenseModel.license) {
-                    Text(l10n.license)
+                    Text(l10n.licenseKey)
                 }
                 .focused($focus, equals: Focus.license)
                 .disabled(licenseModel.state.isLoading)
@@ -79,7 +79,7 @@ struct OnboardingLicenseView: View {
                     Button(action: {
                         licenseModel.lostLicenseButtonClicked()
                     }, label: {
-                        Text(l10n.requiresInternet)
+                        Text(l10n.lostLicense)
                     })
                     .buttonStyle(.link)
                     Button(action: {

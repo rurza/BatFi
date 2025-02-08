@@ -36,7 +36,6 @@ struct LicenseView: View {
                 .padding()
                 .opacity(model.state.license != nil ? 1 : 0)
         }
-
         .alert(L10n.License.unlockFailed, isPresented: Binding(get: {
             model.state.error != nil
         }, set: { _ in
@@ -60,7 +59,7 @@ struct LicenseView: View {
     var purchaseView: some View {
         let l10n = L10n.License.self
         HStack {
-            Text(l10n.purchaseBatFi)
+            Text(l10n.buyNow)
             Spacer()
             Button {
                 model.purchaseLicenseButtonClicked()
@@ -82,7 +81,7 @@ struct LicenseView: View {
                 .frame(width: 64, height: 64)
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(l10n.unlockBatFi)
+                    Text(l10n.activateBatFi)
                         .font(.title3)
                         .fontWeight(.bold)
                     Text(l10n.requiresLicense)
@@ -96,7 +95,7 @@ struct LicenseView: View {
                             focus = .license
                         }
                         TextField(text: $model.license) {
-                            Text(l10n.license)
+                            Text(l10n.licenseKey)
                         }
                         .focused($focus, equals: LicenseView.Focus.license)
                         .onSubmit {
@@ -109,12 +108,13 @@ struct LicenseView: View {
                             }, label: {
                                 Text(l10n.lostLicense)
                             })
+                            .buttonStyle(.link)
                             Spacer()
                             ZStack {
                                 Button(action: {
                                     model.verifyLicenseButtonClicked()
                                 }, label: {
-                                    Text(l10n.unlock)
+                                    Text(l10n.activateBatFi)
                                 })
                                 .tint(Color.init("appGreen"))
                                 .buttonStyle(.borderedProminent)

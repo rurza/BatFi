@@ -52,7 +52,7 @@ struct SettingsLicenseView: View {
     static func pane(licenseModel: LicenseModel) -> Pane<Self>  {
         Pane(
             identifier: NSToolbarItem.Identifier("License"),
-            title: "License",
+            title: L10n.Settings.Tab.Title.license,
             toolbarIcon: NSImage(
                 systemSymbolName: "person.text.rectangle.fill",
                 accessibilityDescription: ""

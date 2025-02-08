@@ -121,7 +121,7 @@ struct Onboarding: View {
             if licenseModel.hasValidLicense {
                 return l10n.next
             } else {
-                return "Unlock"
+                return L10n.License.activateBatFi
             }
         case .helper:
             if model.onboardingIsFinished {
