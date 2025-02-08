@@ -1752,6 +1752,12 @@
             "value" : "Última descarga"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "последняя разрядка"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1815,6 +1821,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Última carga completa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "последний полный заряд"
           }
         },
         "zh-Hans" : {
@@ -3449,6 +3461,12 @@
             "state" : "new",
             "value" : "License is deactivated. Please purchase the app again."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licencja jest nieaktywna. Kup aplikację ponownie."
+          }
         }
       }
     },
@@ -3459,6 +3477,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Invalid license key or email"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieprawidłowy klucz lub email"
           }
         }
       }
@@ -3471,6 +3495,12 @@
             "state" : "new",
             "value" : "Invalid response"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieprawidłowa odpowiedź z serwera"
+          }
         }
       }
     },
@@ -3482,6 +3512,12 @@
             "state" : "new",
             "value" : "Can't identify system"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie mogę zidentyfikować systemu"
+          }
         }
       }
     },
@@ -3492,6 +3528,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Unexpected response. Contact the developer if you think this is an error and have a valid license key."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieprawidłowa odpowiedź z serwera.\nSkontaktuj się z developerem jeśli uważasz że to błąd i posiadasz poprawny klucz licencyjny."
           }
         }
       }
@@ -3577,23 +3619,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zgubiłem swoją licencję"
-          }
-        }
-      }
-    },
-    "license.label.provide_license_details" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Provide the email and license key you received when getting the app."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Podaj użyty przez Ciebie adres email oraz klucz licencyjny który otrzymałeś wraz z apką"
           }
         }
       }
@@ -3707,6 +3732,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "Unlock failed"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywacja nie powiodła się"
           }
         }
       }
@@ -4245,6 +4276,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modo de energia automático"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "автоматический режим питания"
           }
         },
         "zh-Hans" : {
@@ -5056,6 +5093,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modo de baixo consumo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "режим пониженного энергопотребления"
           }
         },
         "zh-Hans" : {
@@ -9847,6 +9890,12 @@
             "value" : "Calibração de bateria recomendada"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "рекомендуется калибровка аккумулятора"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11221,6 +11270,12 @@
             "value" : "Mostrar contagem de ciclos da bateria"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать количество циклов заряда аккумулятора"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11290,6 +11345,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar saúde da bateria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать состояние аккумулятора"
           }
         },
         "tr" : {
@@ -11363,6 +11424,12 @@
             "value" : "Mostrar temperatura da bateria"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать температуру аккумулятора"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11434,6 +11501,12 @@
             "value" : "Mostrar data da última descarga"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать дату последнего разряда"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11497,6 +11570,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar data da última carga completa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать дату последнего полного заряда"
           }
         },
         "zh-Hans" : {
@@ -11641,6 +11720,12 @@
             "value" : "Mostrar opções de modo de energia"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать параметры режима питания"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11704,6 +11789,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar fonte de energia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать источник питания"
           }
         },
         "tr" : {
@@ -11777,6 +11868,12 @@
             "value" : "Mostrar ícone da barra de status"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать значок в строке состояния"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11840,6 +11937,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar tempo restante"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "показать оставшееся время"
           }
         },
         "tr" : {
@@ -12221,6 +12324,12 @@
             "value" : "Alternar carregar até 100%"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "включить зарядку до 100%"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12290,6 +12399,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alternar operar na bateria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "включить режим работы от аккумулятора"
           }
         },
         "tr" : {
@@ -12363,6 +12478,12 @@
             "value" : "Alternar inibir carregamento"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "включить блокирование зарядки"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12432,6 +12553,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Parar carregar sobreposição"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "остановить процесс зарядки"
           }
         },
         "tr" : {
@@ -12505,6 +12632,12 @@
             "value" : "Alternar para modo de alto desempenho"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "переключить в режим высокой производительности"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12568,6 +12701,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alternar para modo de baixo consumo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "переключить в режим низкого энергопотребления"
           }
         },
         "zh-Hans" : {
@@ -12704,6 +12843,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A bateria está baixa em %lld%%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "аккумулятор разряжен до %lld%%"
           }
         },
         "tr" : {
@@ -14582,6 +14727,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Outro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "другое"
           }
         },
         "tr" : {
