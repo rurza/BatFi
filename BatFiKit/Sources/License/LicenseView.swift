@@ -30,14 +30,14 @@ struct LicenseView: View {
                 purchaseView
             }
             .opacity(model.state.license == nil ? 1 : 0)
-            Text("Thank You!")
+            Text(L10n.License.Label.thankYou)
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .padding()
                 .opacity(model.state.license != nil ? 1 : 0)
         }
 
-        .alert("Unlock failed", isPresented: Binding(get: {
+        .alert(L10n.License.Label.unlockFailed, isPresented: Binding(get: {
             model.state.error != nil
         }, set: { _ in
             model.dimissErrorClicked()
@@ -58,13 +58,14 @@ struct LicenseView: View {
 
     @ViewBuilder
     var purchaseView: some View {
+        let l10n = L10n.License.Label.self
         HStack {
-            Text("Don't own BatFi yet? Buy it now!")
+            Text(l10n.purchaseBatFi)
             Spacer()
             Button {
                 model.purchaseLicenseButtonClicked()
             } label: {
-                Text("Buy Now")
+                Text(l10n.purchaseBatFi)
             }
         }
         .padding(.horizontal, 20)
@@ -75,26 +76,30 @@ struct LicenseView: View {
 
     var unlockView: some View {
         HStack(alignment: .top, spacing: 20) {
+            let l10n = L10n.License.Label.self
             Image(nsImage: NSApp.applicationIconImage!)
                 .resizable()
                 .frame(width: 64, height: 64)
             VStack(alignment: .leading) {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Unlock BatFi")
+                    Text(l10n.unlockBatFi)
                         .font(.title3)
                         .fontWeight(.bold)
-                    Text("The app requires a valid license key to work. \nProvide the email and license key you received when getting the app.")
-                        .padding(.bottom, 10)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(l10n.requiresLicense)
+                        Text(l10n.provideLicenseDetails)
+                    }
+                    .padding(.bottom, 10)
                     Form {
                         TextField(text: $model.email) {
-                            Text("Email")
+                            Text(l10n.email)
                         }
                         .focused($focus, equals: LicenseView.Focus.email)
                         .onSubmit {
                             focus = .license
                         }
                         TextField(text: $model.license) {
-                            Text("License")
+                            Text(l10n.license)
                         }
                         .focused($focus, equals: LicenseView.Focus.license)
                         .onSubmit {
@@ -105,14 +110,14 @@ struct LicenseView: View {
                             Button(action: {
                                 model.lostLicenseButtonClicked()
                             }, label: {
-                                Text("I lost my license")
+                                Text(l10n.lostLicense)
                             })
                             Spacer()
                             ZStack {
                                 Button(action: {
                                     model.verifyLicenseButtonClicked()
                                 }, label: {
-                                    Text("Unlock")
+                                    Text(l10n.unlock)
                                 })
                                 .tint(Color.init("appGreen"))
                                 .buttonStyle(.borderedProminent)
@@ -127,7 +132,7 @@ struct LicenseView: View {
                     }
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 340)
-                    Text("The app requires Internet connection to validate the license key.")
+                    Text(l10n.requiresInternet)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }

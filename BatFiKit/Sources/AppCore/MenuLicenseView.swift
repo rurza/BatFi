@@ -5,6 +5,7 @@
 //  Created by Adam Różyński on 26/01/2025.
 //
 
+import L10n
 import License
 import SwiftUI
 
@@ -12,18 +13,19 @@ struct MenuLicenseView: View {
     var licenseModel: LicenseModel
 
     var body: some View {
+        let l10n = L10n.License.Label.self
         GroupBox {
             VStack {
                 HStack {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .foregroundColor(.red)
-                    Text("Activate the license key to use the app.")
+                    Text(l10n.activateLicenseKeyToUse)
                         .foregroundStyle(.secondary)
                 }
                 Button(action: {
                     licenseModel.openLicenseWindow()
                 }) {
-                    Text("Unlock the app")
+                    Text(l10n.unlockTheApp)
                 }
                 .buttonStyle(.bordered)
                 .padding(.top, 10)
