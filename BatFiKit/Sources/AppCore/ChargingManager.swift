@@ -45,8 +45,8 @@ public actor ChargingManager: ChargingModeManager {
                     (userTempChargingMode, powerState)
                 ),
                 (
-                    (inhibitOnSleep, enableSystemChargeLimitOnSleep),
-                    (preventSleeping, temperature),
+                    (inhibitOnSleep, enableSystemChargeLimitOnSleep, disableSleepDuringDischarge),
+                    (preventAutomaticSleep, temperature),
                     (chargeLimit, manageCharging, allowDischarging)
                 )
             ) in combineLatest(
@@ -57,7 +57,8 @@ public actor ChargingManager: ChargingModeManager {
                 combineLatest(
                     combineLatest(
                         defaults.observe(.turnOnInhibitingChargingWhenGoingToSleep),
-                        defaults.observe(.turnOnSystemChargeLimitingWhenGoingToSleep)
+                        defaults.observe(.turnOnSystemChargeLimitingWhenGoingToSleep),
+                        defaults.observe(.disableSleepDuringDischarging)
                     ),
                     combineLatest(
                         defaults.observe(.disableSleep),
@@ -76,10 +77,11 @@ public actor ChargingManager: ChargingModeManager {
                     chargeLimit: chargeLimit,
                     manageCharging: manageCharging,
                     allowDischarging: allowDischarging,
-                    preventSleeping: preventSleeping,
+                    preventAutomaticSleep: preventAutomaticSleep,
                     turnOffChargingWithHotBattery: temperature,
                     inhibitChargingOnSleep: inhibitOnSleep,
-                    enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep
+                    enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep,
+                    disableSleepDuringDischarge: disableSleepDuringDischarge
                 )
             }
             logger.warning("The main loop did quit")
@@ -216,20 +218,23 @@ public actor ChargingManager: ChargingModeManager {
             let chargeLimit = defaults.value(.chargeLimit)
             let manageCharging = defaults.value(.manageCharging)
             let allowDischargingFullBattery = defaults.value(.allowDischargingFullBattery)
-            let preventSleeping = defaults.value(.disableSleep)
+            let preventAutomaticSleep = defaults.value(.disableSleep)
             let batteryTemperature = defaults.value(.temperatureSwitch)
             let inhibitChargingOnSleep = defaults.value(.turnOnInhibitingChargingWhenGoingToSleep)
             let enableSystemChargeLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
+            let disableSleepDuringDischarge = defaults.value(.disableSleepDuringDischarging)
+
             await updateStatus(
                 powerState: powerState,
                 userTempChargingMode: userTempChargingMode,
                 chargeLimit: Int(chargeLimit),
                 manageCharging: manageCharging,
                 allowDischarging: allowDischargingFullBattery,
-                preventSleeping: preventSleeping,
+                preventAutomaticSleep: preventAutomaticSleep,
                 turnOffChargingWithHotBattery: batteryTemperature,
                 inhibitChargingOnSleep: inhibitChargingOnSleep,
-                enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep
+                enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep,
+                disableSleepDuringDischarge: disableSleepDuringDischarge
             )
         }
     }
@@ -240,12 +245,12 @@ public actor ChargingManager: ChargingModeManager {
         chargeLimit: Int,
         manageCharging: Bool,
         allowDischarging: Bool,
-        preventSleeping: Bool,
+        preventAutomaticSleep: Bool,
         turnOffChargingWithHotBattery: Bool,
         inhibitChargingOnSleep: Bool,
-        enableSystemChargeLimitOnSleep: Bool
+        enableSystemChargeLimitOnSleep: Bool,
+        disableSleepDuringDischarge: Bool
     ) async {
-
         let chargerConnected = powerState.chargerConnected
         let appChargingMode = await appChargingState.currentAppChargingMode()
         let currentMode = appChargingMode.mode
@@ -263,7 +268,7 @@ public actor ChargingManager: ChargingModeManager {
         }
 
         await setUpDelaySleep(
-            preventSleeping &&
+            preventAutomaticSleep &&
             powerState.batteryLevel < userTempChargingMode?.limit ?? chargeLimit &&
             powerState.chargerConnected
         )
@@ -281,10 +286,19 @@ public actor ChargingManager: ChargingModeManager {
             return
         }
 
+        let isLidOpened: Bool
+        if let lidOpened = await appChargingState.lidOpened() {
+            isLidOpened = lidOpened
+        } else {
+            isLidOpened = await fetchLidStatus()
+        }
+
+        let isLidOpenedOrSleepDisabled = isLidOpened || disableSleepDuringDischarge
+
         let currentBatteryLevel = powerState.batteryLevel
         if let tempLimit = userTempChargingMode?.limit {
             logger.debug("User set temp limit to \(tempLimit)")
-            if currentBatteryLevel > tempLimit {
+            if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
@@ -302,7 +316,7 @@ public actor ChargingManager: ChargingModeManager {
             }
         } else {
             if currentBatteryLevel >= chargeLimit {
-                if currentBatteryLevel > chargeLimit, allowDischarging, !computerIsAsleep {
+                if currentBatteryLevel > chargeLimit, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
                         currentMode: currentMode
@@ -380,7 +394,9 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on discharging")
         logger.debug("Turning on discharging")
         do {
-            try await sleepAssertionClient.disableSleep(true)
+            if defaults.value(.disableSleepDuringDischarging) {
+                try await sleepAssertionClient.disableSleep(true)
+            }
             try await chargingClient.forceDischarge()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Discharging turned on")
             await appChargingState.updateChargingMode(.forceDischarge)
