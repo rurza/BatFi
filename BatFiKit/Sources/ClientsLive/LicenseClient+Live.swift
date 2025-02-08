@@ -9,6 +9,7 @@ import Clients
 import Dependencies
 import Foundation
 import IOKit
+import L10n
 import os.log
 import Shared
 import SwiftJWT
@@ -34,8 +35,10 @@ extension LicenseClient: DependencyKey {
 
         return LicenseClient(
             checkLicense: { email, key in
+                let l10n = L10n.License.self
+
                 guard let serialNumber = getSystemSerialNumber() else {
-                    throw "Can't identify system"
+                    throw l10n.errorSystemIdentification
                 }
                 let licenseRequest = LicenseRequest(email: email, key: key, id: serialNumber)
 
@@ -59,21 +62,22 @@ extension LicenseClient: DependencyKey {
                 let base64EncodedBody = encryptedRequestBody.base64EncodedString()
                 request.httpBody = base64EncodedBody.data(using: .utf8)
 
+
                 let (data, response) = try await session.data(for: request)
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    throw "Invalid response"
+                    throw l10n.errorInvalidResponse
                 }
                 guard httpResponse.statusCode != 404 else {
-                    throw "Invalid license key or email"
+                    throw l10n.errorInvalidLicenseOrEmail
                 }
                 guard httpResponse.statusCode != 403 else {
-                    throw "License is deactivated. Please purchase the app again."
+                    throw l10n.errorDeactivatedLicense
                 }
                 guard httpResponse.statusCode == 200 else {
-                    throw "Unexpected response. Contact the developer if you think this is an error and have a valid license key."
+                    throw l10n.errorUnexpectedResponse
                 }
                 guard let jwtString = String(data: data, encoding: .utf8) else {
-                    throw "Unexpected response. Contact the developer if you think this is an error and have a valid license key."
+                    throw l10n.errorUnexpectedResponse
                 }
 
                 let license = try licenseFrom(jwtString, publicKeyData: publicKeyData, decoder: decoder)

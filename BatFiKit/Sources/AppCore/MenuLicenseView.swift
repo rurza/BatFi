@@ -13,7 +13,7 @@ struct MenuLicenseView: View {
     var licenseModel: LicenseModel
 
     var body: some View {
-        let l10n = L10n.License.Label.self
+        let l10n = L10n.License.self
         GroupBox {
             VStack {
                 HStack {
