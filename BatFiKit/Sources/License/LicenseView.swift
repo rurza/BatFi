@@ -30,14 +30,14 @@ struct LicenseView: View {
                 purchaseView
             }
             .opacity(model.state.license == nil ? 1 : 0)
-            Text(L10n.License.Label.thankYou)
+            Text(L10n.License.thankYou)
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .padding()
                 .opacity(model.state.license != nil ? 1 : 0)
         }
 
-        .alert(L10n.License.Label.unlockFailed, isPresented: Binding(get: {
+        .alert(L10n.License.unlockFailed, isPresented: Binding(get: {
             model.state.error != nil
         }, set: { _ in
             model.dimissErrorClicked()
@@ -58,7 +58,7 @@ struct LicenseView: View {
 
     @ViewBuilder
     var purchaseView: some View {
-        let l10n = L10n.License.Label.self
+        let l10n = L10n.License.self
         HStack {
             Text(l10n.purchaseBatFi)
             Spacer()
@@ -76,7 +76,7 @@ struct LicenseView: View {
 
     var unlockView: some View {
         HStack(alignment: .top, spacing: 20) {
-            let l10n = L10n.License.Label.self
+            let l10n = L10n.License.self
             Image(nsImage: NSApp.applicationIconImage!)
                 .resizable()
                 .frame(width: 64, height: 64)
@@ -85,11 +85,8 @@ struct LicenseView: View {
                     Text(l10n.unlockBatFi)
                         .font(.title3)
                         .fontWeight(.bold)
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(l10n.requiresLicense)
-                        Text(l10n.provideLicenseDetails)
-                    }
-                    .padding(.bottom, 10)
+                    Text(l10n.requiresLicense)
+                        .padding(.bottom, 10)
                     Form {
                         TextField(text: $model.email) {
                             Text(l10n.email)

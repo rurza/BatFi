@@ -6,6 +6,7 @@
 //
 
 import AppCore
+import L10n
 import License
 import Pow
 import SwiftUI
@@ -41,16 +42,16 @@ struct OnboardingLicenseView: View {
 
     @ViewBuilder
     var activateLicenseView: some View {
+        let l10n = L10n.License.self
         VStack(alignment: .leading, spacing: 10) {
-            Text("Activate the License")
+            Text(l10n.activateLicense)
                 .font(.system(size: 24, weight: .bold))
-
-            Text("The app requires a valid license key to work. \nProvide the email and license key you received when getting the app.")
+            Text(l10n.requiresLicense)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom, 20)
             Form {
                 TextField(text: $licenseModel.email) {
-                    Text("Email")
+                    Text(l10n.email)
                 }
                 .focused($focus, equals: Focus.email)
                 .onSubmit {
@@ -58,7 +59,7 @@ struct OnboardingLicenseView: View {
                 }
                 .disabled(licenseModel.state.isLoading)
                 TextField(text: $licenseModel.license) {
-                    Text("License")
+                    Text(l10n.license)
                 }
                 .focused($focus, equals: Focus.license)
                 .disabled(licenseModel.state.isLoading)
@@ -70,7 +71,7 @@ struct OnboardingLicenseView: View {
             .textFieldStyle(.roundedBorder)
             .frame(width: 340)
             VStack {
-                Text("The app requires Internet connection to validate the license key.")
+                Text(l10n.requiresInternet)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .padding(.bottom, 10)
@@ -78,13 +79,13 @@ struct OnboardingLicenseView: View {
                     Button(action: {
                         licenseModel.lostLicenseButtonClicked()
                     }, label: {
-                        Text("I lost my license")
+                        Text(l10n.requiresInternet)
                     })
                     .buttonStyle(.link)
                     Button(action: {
                         licenseModel.purchaseLicenseButtonClicked()
                     }, label: {
-                        Text("Purchase BatFi")
+                        Text(l10n.purchaseBatFi)
                     })
                     .buttonStyle(.link)
                 }
@@ -92,7 +93,7 @@ struct OnboardingLicenseView: View {
             .frame(maxWidth: .infinity)
             .padding(.bottom, 10)
         }
-        .alert("Unlock failed", isPresented: Binding(get: {
+        .alert(l10n.unlockFailed, isPresented: Binding(get: {
             licenseModel.state.error != nil
         }, set: { _ in
             licenseModel.dimissErrorClicked()
@@ -105,8 +106,9 @@ struct OnboardingLicenseView: View {
 
     @ViewBuilder
     var licenseActivated: some View {
+        let l10n = L10n.License.self
         VStack(alignment: .leading, spacing: 10) {
-            Text("Thank You!")
+            Text(l10n.thankYou)
                 .font(.system(size: 24, weight: .bold))
             Spacer()
             Image(systemName: "checkmark.seal")
