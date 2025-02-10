@@ -28,25 +28,29 @@ struct SettingsLicenseView: View {
                             Button(action: {
                                 openURL(URL(string: "https://micropixels.gumroad.com/l/tipjar?price=10")!)
                             }, label: {
-                                Text(L10n.Settings.Button.Label.tipJarTip(formattedPrice(10)))
+                                Text(L10n.Settings.Label.tipJarTitle)
                             })
                             .buttonStyle(.link)
+                        }
+                    } else {
+                        GroupBackground {
+                            VStack {
+                                Button(action: {
+                                    licenseModel.openLicenseWindow()
+                                }) {
+                                    Text(L10n.License.activateBatFi)
+                                }
+                                .buttonStyle(.borderedProminent)
+                                .padding()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
                         }
                     }
                 }
                 .frame(maxWidth: .infinity)
             }
         }
-    }
-
-    private func formattedPrice(_ price: Int) -> String {
-        let doubleValue = Double(price)
-        let formatter = NumberFormatter()
-        formatter.currencyCode = "USD"
-        formatter.currencySymbol = "$"
-        formatter.maximumFractionDigits = 0
-        formatter.numberStyle = .currencyAccounting
-        return formatter.string(from: NSNumber(value: doubleValue))!
     }
 
     static func pane(licenseModel: LicenseModel) -> Pane<Self>  {

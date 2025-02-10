@@ -6,6 +6,7 @@
 //
 
 import Clients
+import L10n
 import CryptoKit
 import SwiftUI
 
@@ -25,7 +26,7 @@ public struct ReceiptView: View {
     public var body: some View {
         VStack(spacing: 24) {
             VStack(spacing: 8) {
-                Text("Thank You")
+                Text(L10n.License.thankYou)
                     .font(.title2)
                     .fontWeight(.bold)
                     .monospaced()
