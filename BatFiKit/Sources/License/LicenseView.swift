@@ -32,7 +32,7 @@ struct LicenseView: View {
             .opacity(model.state.license == nil ? 1 : 0)
             Text(L10n.License.thankYou)
                 .font(.largeTitle)
-                .fontWeight(.heavy)
+                .fontWeight(.bold)
                 .padding()
                 .opacity(model.state.license != nil ? 1 : 0)
         }

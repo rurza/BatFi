@@ -27,7 +27,7 @@ struct MenuLicenseView: View {
                 }) {
                     Text(l10n.activateBatFi)
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.borderedProminent)
                 .padding(.top, 10)
             }
             .padding(15)
