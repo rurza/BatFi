@@ -271,6 +271,7 @@ public actor ChargingManager: ChargingModeManager {
 
         guard await licenseModel?.hasValidLicense == true else {
             logger.notice("License not activated")
+            await turnOnCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             return
         }
 
@@ -398,6 +399,9 @@ public actor ChargingManager: ChargingModeManager {
         try? await sleepAssertionClient.disableSleep(disableSleep)
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        if defaults.value(.disableSleepDuringDischarging) {
+            try? await sleepAssertionClient.disableSleep(true)
+        }
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
             return

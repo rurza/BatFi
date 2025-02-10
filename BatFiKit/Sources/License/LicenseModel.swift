@@ -81,13 +81,14 @@ public final class LicenseModel: ObservableObject {
             }
             do {
                 let fetchedLicense = try await licenseClient.checkLicense(email: license.email, key: license.key)
-                if fetchedLicense == license {
+                if fetchedLicense.key == license.key && fetchedLicense.email == license.email {
                     state = .loaded(license)
+                    return true
                 } else {
                     try await keychainClient.saveLicense(nil)
                     state = .loaded(nil)
+                    return false
                 }
-                return license == fetchedLicense
             } catch {
                 if error is URLError {
                     state = .loaded(license)
@@ -109,6 +110,7 @@ public final class LicenseModel: ObservableObject {
 
     @MainActor
     public func openLicenseWindow() {
+        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
         if let existingLicenseWindow {
             existingLicenseWindow.makeKeyAndOrderFront(nil)
         } else {
