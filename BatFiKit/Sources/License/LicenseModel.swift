@@ -79,6 +79,10 @@ public final class LicenseModel: ObservableObject {
                 state = .loaded(nil)
                 return false
             }
+            guard license.refreshDate.timeIntervalSinceNow < -60 * 60 * 24 * 10 else {
+                state = .loaded(license)
+                return true
+            }
             do {
                 let fetchedLicense = try await licenseClient.checkLicense(email: license.email, key: license.key)
                 if fetchedLicense.key == license.key && fetchedLicense.email == license.email {
