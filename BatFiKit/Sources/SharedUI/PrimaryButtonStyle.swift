@@ -24,7 +24,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
             .padding(.vertical, 8)
             .background(derivedBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .shadow(color: .accentColor.opacity(0.15), radius: 8, x: 0, y: 6)
+            .shadow(color: .accentColor.opacity(isEnabled ? 0.15 : 0), radius: 8, x: 0, y: 6)
     }
 
     var derivedBackgroundColor: Color {
