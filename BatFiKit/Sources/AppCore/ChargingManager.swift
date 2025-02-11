@@ -27,11 +27,14 @@ public actor ChargingManager: ChargingModeManager {
     @Dependency(\.helperClient) private var helperClient
     @Dependency(\.defaults) private var defaults
     @Dependency(\.analyticsClient) private var analytics
+    @Dependency(\.date) private var date
 
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "Charging Manager")
 
     private var powerStatePullingTask: Task<Void, Never>?
+
+    private var lastChargerConnectedStatus: ChargerConnectedStatus?
 
     public init() {}
 
@@ -239,6 +242,8 @@ public actor ChargingManager: ChargingModeManager {
         disableSleepDuringDischarge: Bool
     ) async {
         let chargerConnected = powerState.chargerConnected
+        let previousChargerConnectedState = self.lastChargerConnectedStatus
+        updateLastChargerConnectedStateIfNeeded(chargerConnected)
         let appChargingMode = await appChargingState.currentAppChargingMode()
         let currentMode = appChargingMode.mode
 
@@ -286,6 +291,7 @@ public actor ChargingManager: ChargingModeManager {
                     currentMode: currentMode
                 )
             } else if currentBatteryLevel < tempLimit {
+                removeTempOverrideIfStatusHasChanged(previousStatus: previousChargerConnectedState)
                 return await turnOnCharging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
@@ -478,5 +484,27 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Updating charger connected status")
         logger.notice("Updating charger connected status: \(chargerConnected)")
         await appChargingState.setChargerConnected(chargerConnected)
+    }
+
+    // MARK: - Last state of charger connected
+    private func updateLastChargerConnectedStateIfNeeded(_ chargerConnected: Bool) {
+        let newState = ChargerConnectedStatus(date: date.now, isConnected: chargerConnected)
+        if let lastChargerConnectedStatus {
+            if lastChargerConnectedStatus.isConnected != chargerConnected {
+                logger.debug("Update last charger connected status: \(chargerConnected)")
+                self.lastChargerConnectedStatus = newState
+            }
+        } else {
+            self.lastChargerConnectedStatus = newState
+        }
+    }
+
+    private func removeTempOverrideIfStatusHasChanged(previousStatus: ChargerConnectedStatus?) {
+        if let lastChargerConnectedStatus, let previousStatus,
+           !previousStatus.isConnected, lastChargerConnectedStatus.isConnected,
+           previousStatus.date.timeIntervalSince(date.now) < -15 {
+            logger.debug("Removing temp override because charger connection status has not changed for a while")
+            removeTempOverride()
+        }
     }
 }
