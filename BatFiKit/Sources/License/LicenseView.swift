@@ -36,6 +36,7 @@ struct LicenseView: View {
                 .padding()
                 .opacity(model.state.license != nil ? 1 : 0)
         }
+        .frame(maxWidth: .infinity)
         .alert(L10n.License.unlockFailed, isPresented: Binding(get: {
             model.state.error != nil
         }, set: { _ in
@@ -128,7 +129,7 @@ struct LicenseView: View {
                         }
                     }
                     .textFieldStyle(.roundedBorder)
-                    .frame(width: 340)
+                    .frame(width: 360)
                     Text(l10n.requiresInternet)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
