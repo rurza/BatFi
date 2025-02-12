@@ -12,14 +12,12 @@ import Dependencies
 extension DockIconClient: DependencyKey {
     public static var liveValue: DockIconClient = {
         .init(
-            show: { show in
-                MainActor.assumeIsolated {
-                    if show {
-                        NSApp.setActivationPolicy(.regular)
-                        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
-                    } else {
-                        NSApp.setActivationPolicy(.accessory)
-                    }
+            show: { @MainActor show in
+                if show {
+                    NSApp.setActivationPolicy(.regular)
+                    NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+                } else {
+                    NSApp.setActivationPolicy(.accessory)
                 }
             }
         )
