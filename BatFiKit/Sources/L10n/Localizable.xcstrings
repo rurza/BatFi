@@ -1758,6 +1758,12 @@
             "value" : "последняя разрядка"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son deşarj"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1827,6 +1833,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "последний полный заряд"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son tam şarj"
           }
         },
         "zh-Hans" : {
@@ -5287,6 +5299,12 @@
             "value" : "автоматический режим питания"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik Güç Modu"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5814,6 +5832,12 @@
             "value" : "Inibição do carregamento; abra a tampa para descarregar a bateria"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зарядка заблокирована; откройте крышку, чтобы разрядить аккумулятор"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5885,6 +5909,18 @@
             "value" : "Modo de alto desempenho"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим высокой мощности"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek Güç Modu"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5948,6 +5984,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inibir Carregamento"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запретить зарядку"
           }
         },
         "tr" : {
@@ -6102,6 +6144,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "режим пониженного энергопотребления"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düşük Güç Modu"
           }
         },
         "zh-Hans" : {
@@ -6708,6 +6756,12 @@
             "value" : "Parar de Usar a Bateria"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прекратить использование аккумулятора"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6777,6 +6831,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Parar Sobreposição"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить принудительный режим"
           }
         },
         "tr" : {
@@ -7158,6 +7218,12 @@
             "value" : "Abrir Introdução..."
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть обучение…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7227,6 +7293,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir Ajustes do Sistema…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть системные настройки…"
           }
         },
         "tr" : {
@@ -7300,6 +7372,18 @@
             "value" : "Restaurar ícone da barra de status"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить значок в строке состояния"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durum Çubuğu Simgesini Geri Yükle"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7363,6 +7447,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O aplicativo não funcionará sem ele.\nAbra e conclua o processo de integração no menu Mais.\nVerifique se o aplicativo está na lista \"Permitir em Segundo Plano\" com o interruptor ligado em Ajustes do Sistema → Geral → Itens de Início."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение не будет работать без этого. Откройте и завершите процесс обучения в меню 'Дополнительно'. Убедитесь, что приложение находится в списке 'Разрешить в фоновом режиме' и включено в системных настройках → Основные → Элементы входа."
           }
         },
         "tr" : {
@@ -7442,6 +7532,12 @@
             "value" : "Похоже, приложение не работает на ноутбуке. Пожалуйста, запустите BatFi на ноутбуке Apple."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünüşe göre uygulama bir dizüstü bilgisayarda çalışmıyor. \nLütfen BatFi'yi bir Apple dizüstü bilgisayarda başlatın."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7505,6 +7601,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Para reabrir as configurações do BatFi, clique na notificação, selecione o ícone no Launchpad ou clique duas vezes no Finder."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы снова открыть настройки BatFi, нажмите на его уведомление, выберите его значок в Launchpad или дважды щелкните по нему в Finder."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi ayarlarını tekrar açmak için bildirimine tıklayın, Launchpad'deki simgesini seçin veya Finder'da çift tıklayın."
           }
         },
         "zh-Hans" : {
@@ -7655,6 +7763,12 @@
             "value" : "Запустите BatFi на MacBook"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi'yi bir MacBook'ta çalıştırın"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7797,6 +7911,18 @@
             "value" : "O ícone da barra de status está oculto"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значок строки состояния скрыт"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durum çubuğu simgesi gizlendi"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7860,6 +7986,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desconecte o computador e deixe a bateria descarregar completamente. Em seguida, reconecte e carregue até 100%, usando o comando “Carregar até 100%” no menu, se necessário."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключите компьютер от сети и полностью разрядите аккумулятор. Затем подключите его и зарядите до 100%, используя команду «Зарядить до 100%» в меню, если необходимо."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilgisayarın fişini çekin ve pilin tamamen boşalmasını bekleyin. Ardından, fişi takıp %100'e kadar şarj edin. Gerekirse menüden ' %100 Şarj Et' komutunu kullanın."
           }
         },
         "zh-Hans" : {
@@ -8081,6 +8219,18 @@
             "value" : "O modo de energia automático está ativado"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматический режим питания включен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otomatik güç modu açık"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8144,6 +8294,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hora de calibrar a bateria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время калибровки аккумулятора"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pili kalibre etme zamanı"
           }
         },
         "zh-Hans" : {
@@ -8211,6 +8373,18 @@
             "value" : "O modo de alto desempenho está ativado"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим высокой мощности включен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek güç modu açık"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8222,10 +8396,40 @@
     "notifications.notification.title.high_power_mode_unsupported" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Hochleistungsmodus wird nicht unterstützt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "High power mode is not supported"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode haute puissance n'est pas pris en charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modalità ad alta potenza non è supportata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高出力モードはサポートされていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고성능 모드는 지원되지 않습니다"
           }
         },
         "nl" : {
@@ -8238,6 +8442,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tryb Wysoka wydajność nie jest obsługiwany"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O modo de alta potência não é suportado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим высокой мощности не поддерживается"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek güç modu desteklenmiyor"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不支持高能模式"
           }
         }
       }
@@ -8374,6 +8602,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O modo de baixo consumo está ativado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Режим низкого энергопотребления включен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düşük güç modu açık"
           }
         },
         "zh-Hans" : {
@@ -9132,6 +9372,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Doar %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чаевые %@"
           }
         },
         "tr" : {
@@ -10360,6 +10606,12 @@
             "value" : "Painel de teclas de atalho"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панель горячих клавиш"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10531,16 +10783,76 @@
     "settings.button.description.lid_must_be_opened_disable_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funktioniert nur, wenn der Deckel geöffnet ist. \nDeaktivieren Sie den Ruhezustand, um ihn im Clamshell-Modus zu verwenden."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Works only when the lid is open. Disable sleep to use it in clamshell mode."
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonctionne uniquement lorsque le couvercle est ouvert. \nDésactivez la mise en veille pour l'utiliser en mode coque."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funziona solo quando il coperchio è aperto. \nDisattiva il sonno per usarlo in modalità conchiglia."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "蓋が開いているときのみ機能します。\nクラムシェルモードで使用するにはスリープを無効にしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "뚜껑이 열려 있을 때만 작동합니다. 클램쉘 모드에서 사용하려면 수면을 비활성화하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Werkt alleen als het deksel open is. \nSchakel slaapstand uit om het in clamshell-modus te gebruiken."
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Działa tylko, gdy ekran jest otwarty.\nWyłącz usypianie by rozładowywać baterię z zamkniętym ekranem."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funciona apenas quando a tampa está aberta. \nDesative o modo de espera para usá-lo no modo concha."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Работает только при открытой крышке. \nОтключите сон, чтобы использовать в режиме ракушки."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca kapak açıkken çalışır. \nKabuğu modunda kullanmak için uyku modunu devre dışı bırakın."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在翻盖打开时有效。\n禁用睡眠以在合盖模式下使用。"
           }
         }
       }
@@ -10837,6 +11149,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "рекомендуется калибровка аккумулятора"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil kalibrasyonu önerilir"
           }
         },
         "zh-Hans" : {
@@ -11389,16 +11707,76 @@
     "settings.button.label.disable_sleep_while_discharging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruhezustand beim Entladen deaktivieren"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Disable sleep while discharging"
           }
         },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver la mise en veille lors de la décharge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva il sonno durante la scarica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放電中はスリープを無効にする"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "방전 중 수면 비활성화"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schakel slaapstand uit tijdens ontladen"
+          }
+        },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyłącz usypianie podczas rozładowywania baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativar o modo de espera durante a descarga"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключить сон во время разряда"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deşarj sırasında uyku modunu devre dışı bırak"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "放电时禁用睡眠"
           }
         }
       }
@@ -12467,6 +12845,12 @@
             "value" : "показать дату последнего разряда"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son deşarj tarihini göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12536,6 +12920,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "показать дату последнего полного заряда"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son tam şarj tarihini göster"
           }
         },
         "zh-Hans" : {
@@ -12686,6 +13076,12 @@
             "value" : "показать параметры режима питания"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Güç modu seçeneklerini göster"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12832,6 +13228,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "показать значок в строке состояния"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durum çubuğu simgesini göster"
           }
         },
         "zh-Hans" : {
@@ -13521,6 +13923,12 @@
             "value" : "переключить в режим высокой производительности"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yüksek güç modunu değiştir"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13592,6 +14000,12 @@
             "value" : "переключить в режим низкого энергопотребления"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Düşük güç modunu değiştir"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13655,6 +14069,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sempre habilitado durante o Beta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всегда включено во время бета-тестирования"
           }
         },
         "tr" : {
@@ -14493,6 +14913,12 @@
             "value" : "90%"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90%"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14559,6 +14985,12 @@
           }
         },
         "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50%"
+          }
+        },
+        "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "50%"
@@ -14635,6 +15067,12 @@
             "value" : "Mostre seu apoio com uma gorjeta!\nSua contribuição me ajuda a continuar melhorando e tornando o BatFi ainda melhor para você.\nObrigado por ser uma parte incrível da nossa comunidade!"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержите нас чаевыми! Ваш вклад помогает мне продолжать улучшать BatFi и делать его еще лучше для вас. Спасибо, что являетесь частью нашего замечательного сообщества!"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14704,6 +15142,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O botão abrirá o site Gumroad com o preço já definido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта кнопка откроет сайт Gumroad с уже установленной ценой."
           }
         },
         "tr" : {
@@ -16149,6 +16593,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Teclas de Atalhos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Горячие клавиши"
           }
         },
         "tr" : {
