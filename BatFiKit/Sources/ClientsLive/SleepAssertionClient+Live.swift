@@ -16,7 +16,7 @@ extension SleepAssertionClient: DependencyKey {
     public static let liveValue: SleepAssertionClient = {
         let state = SleepState()
         return SleepAssertionClient(
-            preventSleepIfNeeded: { preventSleep in
+            preventAutomaticSleepIfNeeded: { preventSleep in
                 if preventSleep {
                     guard await state.sleepAssertion == nil else {
                         return
@@ -40,7 +40,7 @@ extension SleepAssertionClient: DependencyKey {
                     }
                 }
             },
-            preventsSleep: {
+            preventsAutomaticSleep: {
                 await state.sleepAssertion != nil
             },
             disableSleep: { disable in
