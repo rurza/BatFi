@@ -27,6 +27,7 @@ public class NotificationsManager: NSObject {
     @Dependency(\.date) private var date
     @Dependency(\.userNotificationsClient) var userNotificationsClient
     @Dependency(\.persistence) var persistence
+    @Dependency(\.licenseClient) private var licenseClient
     private lazy var center = UNUserNotificationCenter.current()
     private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
@@ -127,6 +128,7 @@ public class NotificationsManager: NSObject {
     }
 
     func showChargingStateModeDidChangeNotification(_ mode: AppChargingMode) async {
+        guard (try? await licenseClient.cachedLicense()) != nil else { return }
         if await userNotificationsClient.requestAuthorization() == true {
             do {
                 logger.debug("Adding notification request to the notification center")
