@@ -90,14 +90,26 @@ public struct ReceiptView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.gray)
                     Spacer(minLength: 16)
-                    ScrollView(.horizontal) {
-                        Text(license.key)
-                            .textSelection(.enabled)
-                            .font(.callout)
-                            .monospaced()
-                            .foregroundStyle(.black.opacity(0.7))
+                    if #available(macOS 14.0, *) {
+                        ScrollView(.horizontal) {
+                            Text(license.key)
+                                .textSelection(.enabled)
+                                .font(.callout)
+                                .monospaced()
+                                .foregroundStyle(.black.opacity(0.7))
+                        }
+                        .scrollIndicators(.hidden)
+                        .defaultScrollAnchor(.trailing)
+                    } else {
+                        ScrollView(.horizontal) {
+                            Text(license.key)
+                                .textSelection(.enabled)
+                                .font(.callout)
+                                .monospaced()
+                                .foregroundStyle(.black.opacity(0.7))
+                        }
+                        .scrollIndicators(.hidden)
                     }
-                    .scrollIndicators(.hidden)
                 }
             }
 
