@@ -131,6 +131,7 @@ public actor ChargingManager: ChargingModeManager {
 
     public func appWillQuit() async {
         try? await chargingClient.turnOnAutoChargingMode()
+        try? await sleepAssertionClient.disableSleep(false)
         await restoreSleepifNeeded()
     }
 
@@ -420,18 +421,18 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func delaySleepIfNeeded() async {
-        if await !sleepAssertionClient.preventsSleep() {
+        if await !sleepAssertionClient.preventsAutomaticSleep() {
             logger.notice("Preventing sleep")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Preventing sleep")
-            await sleepAssertionClient.preventSleepIfNeeded(preventSleep: true)
+            await sleepAssertionClient.preventAutomaticSleepIfNeeded(true)
         }
     }
 
     private func restoreSleepifNeeded() async {
-        if await sleepAssertionClient.preventsSleep() {
+        if await sleepAssertionClient.preventsAutomaticSleep() {
             logger.notice("Restoring sleep")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Restoring sleep")
-            await sleepAssertionClient.preventSleepIfNeeded(false)
+            await sleepAssertionClient.preventAutomaticSleepIfNeeded(false)
         }
     }
 

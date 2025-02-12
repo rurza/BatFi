@@ -11,8 +11,8 @@ import Foundation
 
 @DependencyClient
 public struct SleepAssertionClient {
-    public var preventSleepIfNeeded: @Sendable (_ preventSleep: Bool) async -> Void
-    public var preventsSleep: @Sendable () async -> Bool = { false }
+    public var preventAutomaticSleepIfNeeded: @Sendable (_ preventSleep: Bool) async -> Void
+    public var preventsAutomaticSleep: @Sendable () async -> Bool = { false }
     // newer method, uses pmset
     public var disableSleep: @Sendable (_: Bool) async throws -> Void
 }
