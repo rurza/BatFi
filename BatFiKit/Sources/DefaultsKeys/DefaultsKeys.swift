@@ -22,7 +22,7 @@ public extension Defaults.Keys {
     static let manageCharging = Key<Bool>("manageCharging", default: true)
     static let chargeLimit = Key<Int>("chargeLimit", default: 80)
     static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
-    static let disableSleepDuringDischarging = Key<Bool>("disableSleepDuringDischarging", default: false)
+    static let disableSleepDuringDischarging = Key<Bool>("disableSleepDuringDischarging", default: true)
 
     // Menu bar
     static let showMenuBarIcon = Key<Bool>("showMenuBarIcon", default: true)

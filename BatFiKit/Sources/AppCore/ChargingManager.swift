@@ -375,12 +375,12 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnDischarging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
-        if defaults.value(.disableSleepDuringDischarging) {
-            try? await sleepAssertionClient.disableSleep(true)
-        }
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
             return
+        }
+        if defaults.value(.disableSleepDuringDischarging) {
+            try? await sleepAssertionClient.disableSleep(true)
         }
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on discharging")
         logger.debug("Turning on discharging")
