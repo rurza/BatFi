@@ -8,6 +8,7 @@
 import Clients
 import L10n
 import CryptoKit
+import SharedUI
 import SwiftUI
 
 public struct ReceiptView: View {
