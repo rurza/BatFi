@@ -108,14 +108,20 @@ struct OnboardingLicenseView: View {
     var licenseActivated: some View {
         let l10n = L10n.License.self
         VStack(alignment: .leading, spacing: 10) {
-            Text(l10n.thankYou)
+            Text(l10n.activateLicense)
                 .font(.system(size: 24, weight: .bold))
             Spacer()
-            Image(systemName: "checkmark.seal")
-                .font(.system(size: 54, weight: .bold))
-                .foregroundStyle(.green)
-                .transition(.movingParts.pop(.green))
-                .frame(maxWidth: .infinity)
+            VStack {
+                Image(systemName: "checkmark.seal")
+                    .font(.system(size: 54, weight: .bold))
+                    .foregroundStyle(.green)
+                    .transition(.movingParts.pop(.green))
+                Text(l10n.thankYou)
+                    .font(.system(size: 20, weight: .semibold))
+                    .padding(.top)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity)
             Spacer()
         }
     }
