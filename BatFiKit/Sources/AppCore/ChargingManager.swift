@@ -289,6 +289,7 @@ public actor ChargingManager: ChargingModeManager {
             if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
+                    disableSleep: disableSleepDuringDischarge,
                     currentMode: currentMode
                 )
             } else if currentBatteryLevel < tempLimit {
@@ -308,6 +309,7 @@ public actor ChargingManager: ChargingModeManager {
                 if currentBatteryLevel > chargeLimit, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
+                        disableSleep: disableSleepDuringDischarge,
                         currentMode: currentMode
                     )
                     return
@@ -373,15 +375,13 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
-    private func turnOnDischarging(chargerConnected: Bool, currentMode: ChargingMode) async {
+    private func turnOnDischarging(chargerConnected: Bool, disableSleep: Bool, currentMode: ChargingMode) async {
+        try? await sleepAssertionClient.disableSleep(disableSleep)
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
             return
-        }
-        if defaults.value(.disableSleepDuringDischarging) {
-            try? await sleepAssertionClient.disableSleep(true)
         }
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on discharging")
         logger.debug("Turning on discharging")
