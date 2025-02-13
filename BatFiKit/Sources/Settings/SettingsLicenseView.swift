@@ -58,7 +58,7 @@ struct SettingsLicenseView: View {
             identifier: NSToolbarItem.Identifier("License"),
             title: L10n.Settings.Tab.Title.license,
             toolbarIcon: NSImage(
-                systemSymbolName: "person.text.rectangle.fill",
+                systemSymbolName: "doc.viewfinder",
                 accessibilityDescription: ""
             )!
         ) {

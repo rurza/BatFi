@@ -104,8 +104,6 @@ struct ChargingView: View {
                                 Toggle(isOn: $disableSleepDuringDischarging) {
                                     Text(l10n.Button.Label.disableSleepWhileDischarging)
                                 }
-                                .offset(x: 19)
-                                .disabled(!dischargeBatteryWhenFull)
                             }
                             .padding()
                         }
