@@ -343,10 +343,10 @@ public actor ChargingManager: ChargingModeManager {
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
         do {
+            try await chargingClient.turnOnAutoChargingMode()
             if defaults.value(.allowDischargingFullBattery) {
                 try? await sleepAssertionClient.disableSleep(false)
             }
-            try await chargingClient.turnOnAutoChargingMode()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Charging turned on")
             await appChargingState.updateChargingMode(.charging)
         } catch {
@@ -360,10 +360,10 @@ public actor ChargingManager: ChargingModeManager {
         logger.debug("Inhibiting charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibiting charging")
         do {
+            try await chargingClient.inhibitCharging()
             if defaults.value(.allowDischargingFullBattery) {
                 try? await sleepAssertionClient.disableSleep(false)
             }
-            try await chargingClient.inhibitCharging()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
             await appChargingState.updateChargingMode(.inhibit)
             await startPullingPowerStateIfNeeded()
