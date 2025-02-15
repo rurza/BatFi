@@ -57,10 +57,7 @@ struct SettingsLicenseView: View {
         Pane(
             identifier: NSToolbarItem.Identifier("License"),
             title: L10n.Settings.Tab.Title.license,
-            toolbarIcon: NSImage(
-                systemSymbolName: "doc.viewfinder",
-                accessibilityDescription: ""
-            )!
+            toolbarIcon: Bundle.module.image(forResource: "license")!
         ) {
             Self(licenseModel: licenseModel)
         }
