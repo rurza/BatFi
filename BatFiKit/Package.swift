@@ -3,33 +3,34 @@
 import PackageDescription
 
 extension Target.Dependency {
-    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
-    static let dependenciesMacros: Self = .product(name: "DependenciesMacros", package: "swift-dependencies")
-    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
-    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
-    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
+    static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
+    static let appShared: Self = "AppShared"
     static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
     static let asyncXPCConnection: Self = .product(name: "AsyncXPCConnection", package: "AsyncXPCConnection")
-    static let keyboardShortcuts: Self = .product(name: "KeyboardShortcuts", package: "KeyboardShortcuts")
-    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
-    static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
-    static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
-    static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
-    static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
-    static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
-    static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
-    static let sentry: Self = .product(name: "Sentry", package: "sentry-cocoa")
-    static let l10n: Self = "L10n"
-    static let appShared: Self = "AppShared"
     static let clients: Self = "Clients"
+    static let confetti: Self = .product(name: "ConfettiSwiftUI", package: "ConfettiSwiftUI")
+    static let defaults: Self = .product(name: "Defaults", package: "Defaults")
     static let defaultsKeys: Self = "DefaultsKeys"
+    static let dependencies: Self = .product(name: "Dependencies", package: "swift-dependencies")
+    static let dependenciesMacros: Self = .product(name: "DependenciesMacros", package: "swift-dependencies")
+    static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
+    static let highEnergyUsage: Self = "HighEnergyUsage"
+    static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
+    static let jwt: Self = .product(name: "SwiftJWT", package: "Swift-JWT")
+    static let keyboardShortcuts: Self = .product(name: "KeyboardShortcuts", package: "KeyboardShortcuts")
+    static let l10n: Self = "L10n"
+    static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let persistence: Self = "Persistence"
-    static let shared: Self = "Shared"
     static let powerCharts: Self = "PowerCharts"
     static let powerDistributionInfo: Self = "PowerDistributionInfo"
+    static let sentry: Self = .product(name: "Sentry", package: "sentry-cocoa")
     static let settings: Self = "Settings"
-    static let highEnergyUsage: Self = "HighEnergyUsage"
+    static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
+    static let shared: Self = "Shared"
     static let sharedUI: Self = "SharedUI"
+    static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
+    static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
+    static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
 }
 
 let package = Package(
@@ -67,6 +68,7 @@ let package = Package(
         .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.25.0"),
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
         .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
+        .package(url: "https://github.com/Kitura/Swift-JWT", from: "4.0.0")
     ],
     targets: [
         .target(
@@ -151,6 +153,7 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .dependencies,
+                .jwt,
                 .persistence,
                 .sentry,
                 .shared,
