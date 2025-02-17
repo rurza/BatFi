@@ -59,7 +59,7 @@ struct MenubarView: View {
                 Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
                     .disabled(!showMenuBarIcon)
                 Toggle(l10n.Button.Label.batteryPercentageNextToIcon, isOn: $showPercentageOnBatteryIcon)
-                    .offset(x: 16)
+                    .offset(x: 19)
                     .disabled(!batteryPercentage || !showMenuBarIcon)
                 Toggle(l10n.Button.Label.statusIconTimeLeft, isOn: $showTimeLeftNextToStatusIcon)
                     .disabled(!showMenuBarIcon)

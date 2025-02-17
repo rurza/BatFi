@@ -77,12 +77,14 @@ struct ChargingView: View {
                                     Text(l10n.Button.Label.pauseChargingOnSleep)
                                 }
                                 .disabled(enableSystemChargeLimitOnSleep || !manageCharging)
+                                .padding(.bottom, 4)
 
                                 if !systemVersion.currentSystemIsSequoiaOrNewer() {
                                     Toggle(isOn: $enableSystemChargeLimitOnSleep) {
                                         Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
                                     }
                                     .disabled(inhibitChargingOnSleep || !manageCharging)
+                                    .padding(.bottom, 4)
                                 }
                                 VStack(alignment: .leading, spacing: 2) {
                                     Toggle(isOn: $dischargeBatteryWhenFull) {
@@ -90,13 +92,14 @@ struct ChargingView: View {
                                     }
                                     .disabled(!manageCharging)
                                     Text(l10n.Button.Description.lidMustBeOpened)
+                                        .offset(x: 19)
                                         .settingDescription()
                                         .opacity(manageCharging ? 1 : 0.4)
                                 }
                                 Toggle(isOn: $disableSleepDuringDischarging) {
                                     Text(l10n.Button.Label.disableSleepWhileDischarging)
                                 }
-                                .offset(x: 16)
+                                .offset(x: 19)
                                 .disabled(!dischargeBatteryWhenFull)
                             }
                             .padding()

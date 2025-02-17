@@ -3784,23 +3784,6 @@
         }
       }
     },
-    "license.label.unlock_the_app" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Unlock the app"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Odblokuj BatFi"
-          }
-        }
-      }
-    },
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -9579,7 +9562,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Działa tylko, gdy pokrywa z ekranem jest otwarta.\nWyłącz usypianie by rozładowywać z zamknięta pokrywą"
+            "value" : "Działa tylko, gdy ekran jest otwarty.\nWyłącz usypianie by rozładowywać baterię z zamkniętym ekranem."
           }
         }
       }
@@ -15211,6 +15194,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "License"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licencja"
           }
         }
       }
