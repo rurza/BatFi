@@ -21,6 +21,7 @@ struct ChargingView: View {
     @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
     @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
     @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
+    @Default(.disableSleepDuringDischarging) private var disableSleepDuringDischarging
 
     @Dependency(\.systemVersionClient) var systemVersion
 
@@ -83,17 +84,20 @@ struct ChargingView: View {
                                     }
                                     .disabled(inhibitChargingOnSleep || !manageCharging)
                                 }
-
                                 VStack(alignment: .leading, spacing: 2) {
                                     Toggle(isOn: $dischargeBatteryWhenFull) {
                                         Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
-                                            .help(l10n.Button.Tooltip.dischargeBatterWhenOvercharged)
                                     }
                                     .disabled(!manageCharging)
                                     Text(l10n.Button.Description.lidMustBeOpened)
                                         .settingDescription()
                                         .opacity(manageCharging ? 1 : 0.4)
                                 }
+                                Toggle(isOn: $disableSleepDuringDischarging) {
+                                    Text(l10n.Button.Label.disableSleepWhileDischarging)
+                                }
+                                .offset(x: 16)
+                                .disabled(!dischargeBatteryWhenFull)
                             }
                             .padding()
                         }

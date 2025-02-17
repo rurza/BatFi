@@ -140,8 +140,8 @@ public enum L10n {
         /// Thank You
         public static let thankYou = String(localized: "license.label.thank_you", defaultValue: "Thank You", bundle: Bundle.module)
 
-        /// Unlock BatFi
-        public static let unlockBatFi = String(localized: "license.label.unlock_batfi", defaultValue: "Unlock BatFi", bundle: Bundle.module)
+        /// Activate BatFi
+        public static let activateBatFi = String(localized: "license.label.activate_batfi", defaultValue: "Activate BatFi", bundle: Bundle.module)
 
         /// The app requires a valid license key to work.
         /// Provide the email and license key you received when getting the app.
@@ -150,14 +150,11 @@ public enum L10n {
         /// Email
         public static let email = String(localized: "license.label.email", defaultValue: "Email", bundle: Bundle.module)
 
-        /// License
-        public static let license = String(localized: "license.label.license", defaultValue: "License", bundle: Bundle.module)
+        /// Key
+        public static let licenseKey = String(localized: "license.label.key", defaultValue: "Key", bundle: Bundle.module)
 
         /// I lost my license
         public static let lostLicense = String(localized: "license.label.lost_license", defaultValue: "I lost my license", bundle: Bundle.module)
-
-        /// Unlock
-        public static let unlock = String(localized: "license.label.unlock", defaultValue: "Unlock", bundle: Bundle.module)
 
         /// The app requires Internet connection to validate the license key.
         public static let requiresInternet = String(localized: "license.label.requires_internet", defaultValue: "The app requires Internet connection to validate the license key.", bundle: Bundle.module)
@@ -168,14 +165,14 @@ public enum L10n {
         /// Purchase BatFi
         public static let purchaseBatFi = String(localized: "license.label.purchase_batfi", defaultValue: "Purchase BatFi", bundle: Bundle.module)
 
-        /// Unlock the app
-        public static let unlockTheApp = String(localized: "license.label.unlock_the_app", defaultValue: "Unlock the app", bundle: Bundle.module)
-
         /// Activate the license key to use the app.
         public static let activateLicenseKeyToUse = String(localized: "license.label.activate_license_key_to_use", defaultValue: "Activate the license key to use the app.", bundle: Bundle.module)
 
         /// Unlock failed
         public static let unlockFailed = String(localized: "license.label.unlock_failed", defaultValue: "Unlock failed", bundle: Bundle.module)
+
+        /// Don't own BatFi yet? Buy it now!
+        public static let buyNow = String(localized: "license.label.buy_now", defaultValue: "Don't own BatFi yet? Buy it now!", bundle: Bundle.module)
 
         // MARK: Error messages
         
@@ -508,8 +505,8 @@ public enum L10n {
 
         public enum Button {
             public enum Description {
-                /// Works only with the lid opened.
-                public static let lidMustBeOpened = String(localized: "settings.button.description.lid_must_be_opened", defaultValue: "Works only with the lid opened.", bundle: Bundle.module)
+                /// Works only when the lid is open. Disable sleep mode to use it in clamshell mode.
+                public static let lidMustBeOpened = String(localized: "settings.button.description.lid_must_be_opened_disable_sleep", defaultValue: "Works only when the lid is open. Disable sleep to use it in clamshell mode.", bundle: Bundle.module)
             }
 
             public enum Label {
@@ -537,6 +534,8 @@ public enum L10n {
                 public static let disableAutomaticSleep = String(localized: "settings.button.label.disable_automatic_sleep", defaultValue: "Delay automatic sleep when charging and the limit's not reached", bundle: Bundle.module)
                 /// Discharge battery when charged over limit
                 public static let dischargeBatterWhenOvercharged = String(localized: "settings.button.label.discharge_batter_when_overcharged", defaultValue: "Discharge battery when charged over limit", bundle: Bundle.module)
+                /// Disable sleep while discharging
+                public static let disableSleepWhileDischarging = String(localized: "settings.button.label.disable_sleep_while_discharging", defaultValue: "Disable sleep while discharging", bundle: Bundle.module)
                 /// Open at login
                 public static let launchAtLogin = String(localized: "settings.button.label.launch_at_login", defaultValue: "Open at login", bundle: Bundle.module)
                 /// Use the green light on the MagSafe when charging is paused
@@ -602,8 +601,6 @@ public enum L10n {
             public enum Tooltip {
                 /// The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep
                 public static let disableAutomaticSleep = String(localized: "settings.button.tooltip.disable_automatic_sleep", defaultValue: "The app will delay sleep so the computer charge up to the limit and then it'll inhibit charging and put the Mac to sleep", bundle: Bundle.module)
-                /// When Macbook's lid is opened, the app can discharge battery until it will reach the limit
-                public static let dischargeBatterWhenOvercharged = String(localized: "settings.button.tooltip.discharge_battery_when_overcharged", defaultValue: "When Macbook's lid is opened, the app can discharge battery until it will reach the limit", bundle: Bundle.module)
                 /// Turns off charging when the battery is 40°C or more.
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.tooltip.turn_off_charging_when_battery_is_hot", defaultValue: "Turns off charging when the battery is 40°C or more.", bundle: Bundle.module)
             }
@@ -754,9 +751,10 @@ public enum L10n {
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
                 /// Hotkeys
                 public static let hotkeys = String(localized: "settings.tab.title.hotkeys", defaultValue: "Hotkeys", bundle: Bundle.module)
-
                 /// Tip jar
                 public static let tipJar = String(localized: "settings.tab.title.tip_jar", defaultValue: "Tip jar", bundle: Bundle.module)
+                /// License
+                public static let license = String(localized: "settings.tab.title.license", defaultValue: "License", bundle: Bundle.module)
             }
         }
     }
