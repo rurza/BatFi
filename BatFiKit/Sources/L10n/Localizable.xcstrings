@@ -3441,6 +3441,61 @@
         }
       }
     },
+    "license.error.deactivated_license" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "License is deactivated. Please purchase the app again."
+          }
+        }
+      }
+    },
+    "license.error.invalid_license_or_email" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Invalid license key or email"
+          }
+        }
+      }
+    },
+    "license.error.invalid_response" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Invalid response"
+          }
+        }
+      }
+    },
+    "license.error.system_identification" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Can't identify system"
+          }
+        }
+      }
+    },
+    "license.error.unexpected_response" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unexpected response. Contact the developer if you think this is an error and have a valid license key."
+          }
+        }
+      }
+    },
     "license.label.activate_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -3527,7 +3582,7 @@
       }
     },
     "license.label.provide_license_details" : {
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3583,12 +3638,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The app requires a valid license key to work."
+            "value" : "The app requires a valid license key to work.\nProvide the email and license key you received when getting the app."
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Aplikacja wymaga ważnego klucza licencyjnego"
           }
         }
