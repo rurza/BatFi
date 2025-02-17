@@ -65,13 +65,19 @@ public class NotificationsManager: NSObject {
                 defaults.observe(.showBatteryLowNotification),
                 powerSourceClient.powerSourceChanges(),
                 defaults.observe(.batteryLowNotificationThreshold)
-            ) {
-                guard showBatteryLowNotification, !powerSourceState.isCharging else {
-                    if powerSourceState.batteryLevel > threshold {
+            ).debounce(for: .seconds(5)) {
+                guard showBatteryLowNotification else {
+                    didShowLowBatteryNotification = false
+                    continue
+                }
+
+                guard !powerSourceState.isCharging else {
+                    if powerSourceState.batteryLevel > threshold || powerSourceState.isCharging {
                         didShowLowBatteryNotification = false
                     }
                     continue
                 }
+
                 if powerSourceState.batteryLevel <= threshold, !didShowLowBatteryNotification {
                     didShowLowBatteryNotification = true
                     await showBatteryIsLowNotification()
