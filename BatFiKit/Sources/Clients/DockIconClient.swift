@@ -11,7 +11,7 @@ import DependenciesMacros
 
 @DependencyClient
 public struct DockIconClient {
-    public var show: @Sendable (Bool) async -> Void
+    public var show: @Sendable (Bool) -> Void
 }
 
 extension DockIconClient: TestDependencyKey {

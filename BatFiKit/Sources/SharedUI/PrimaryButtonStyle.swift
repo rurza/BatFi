@@ -30,7 +30,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
     var derivedBackgroundColor: Color {
         guard !isLoading else { return .clear }
         if isEnabled {
-            return .accentColor
+            return Color.init("appGreen")
         } else {
             return Color(nsColor: .disabledControlTextColor)
         }

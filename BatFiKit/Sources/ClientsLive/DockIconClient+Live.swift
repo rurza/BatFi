@@ -13,11 +13,13 @@ extension DockIconClient: DependencyKey {
     public static var liveValue: DockIconClient = {
         .init(
             show: { show in
-                if show {
-                    await NSApp.setActivationPolicy(.regular)
-                    NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
-                } else {
-                    await NSApp.setActivationPolicy(.accessory)
+                MainActor.assumeIsolated {
+                    if show {
+                        NSApp.setActivationPolicy(.regular)
+                        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+                    } else {
+                        NSApp.setActivationPolicy(.accessory)
+                    }
                 }
             }
         )
