@@ -3441,6 +3441,238 @@
         }
       }
     },
+    "license.label.activate_license" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activate the License"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywuj licencję"
+          }
+        }
+      }
+    },
+    "license.label.activate_license_key_to_use" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activate the license key to use the app."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywuj klucz by korzystać z aplikacji"
+          }
+        }
+      }
+    },
+    "license.label.email" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Email"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        }
+      }
+    },
+    "license.label.license" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "License"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licencja"
+          }
+        }
+      }
+    },
+    "license.label.lost_license" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "I lost my license"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zgubiłem swoją licencję"
+          }
+        }
+      }
+    },
+    "license.label.provide_license_details" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Provide the email and license key you received when getting the app."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podaj użyty przez Ciebie adres email oraz klucz licencyjny który otrzymałeś wraz z apką"
+          }
+        }
+      }
+    },
+    "license.label.purchase_batfi" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Purchase BatFi"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kup BatFi"
+          }
+        }
+      }
+    },
+    "license.label.requires_internet" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The app requires Internet connection to validate the license key."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W celu aktywacji wymagane jest połączenie z Internetem"
+          }
+        }
+      }
+    },
+    "license.label.requires_license" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The app requires a valid license key to work."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja wymaga ważnego klucza licencyjnego"
+          }
+        }
+      }
+    },
+    "license.label.thank_you" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Thank You"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dziękuję"
+          }
+        }
+      }
+    },
+    "license.label.unlock" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywuj"
+          }
+        }
+      }
+    },
+    "license.label.unlock_batfi" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock BatFi"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywuj BatFi"
+          }
+        }
+      }
+    },
+    "license.label.unlock_failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock failed"
+          }
+        }
+      }
+    },
+    "license.label.unlock_the_app" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock the app"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odblokuj BatFi"
+          }
+        }
+      }
+    },
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -6899,6 +7131,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hoge-energiemodus wordt niet ondersteund"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryb Wysoka wydajność nie jest obsługiwany"
           }
         }
       }
