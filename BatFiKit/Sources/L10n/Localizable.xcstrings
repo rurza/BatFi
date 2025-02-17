@@ -6895,6 +6895,12 @@
             "value" : "High power mode is not supported"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "高性能モードに対応していません"
+          }
+        },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
