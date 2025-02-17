@@ -70,7 +70,16 @@ struct StatusItem: View {
         guard let timeLeft = model.powerState?.timeLeft else { return nil }
         let time = Time.timeLeft(time: timeLeft)
         guard case let .time(timeLeft) = time.info else { return nil }
-        return shortTimeFormatter.string(from: Double(timeLeft * 60))
+        if let formattedInterval = shortTimeFormatter.string(from: Double(timeLeft * 60)) {
+            let components = formattedInterval.split(separator: ":")
+            if components.count == 1 {
+                return "0:\(components[0])"
+            } else {
+                return formattedInterval
+            }
+        } else {
+            return nil
+        }
     }
 }
 
