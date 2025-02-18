@@ -51,7 +51,6 @@ final class HighEnergyUsageViewModel: ObservableObject {
         changesTask = Task { @MainActor [weak self] in
             guard let self else { return }
             for await info in energyStatsClient.topCoalitionInfoChanges(threshold, duration, capacity) {
-                print("new coalition: \(info)")
                 topCoalitionInfo = info
             }
         }
