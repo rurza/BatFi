@@ -15,6 +15,7 @@
 		5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
+		66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */; };
 		66558E972BC1CB5D00FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
 		66768FC92BE2814A002A7528 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66768FC82BE2814A002A7528 /* main.swift */; };
 		667BA0342BCDC83300369B79 /* DischargeBatteryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */; };
@@ -124,6 +125,7 @@
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BetaConfig.xcconfig; sourceTree = "<group>"; };
 		66558E952BC1C47300FC377A /* license.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = license.rtf; sourceTree = "<group>"; };
 		66768FC82BE2814A002A7528 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DischargeBatteryIntent.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				5B2836D82A05A6F000A42566 /* MainMenu.xib */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
+				66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
 				5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */,
 				66F50ABA2BD316970043C5DF /* Localizable.xcstrings */,
@@ -508,6 +511,7 @@
 			files = (
 				66558E972BC1CB5D00FC377A /* license.rtf in Resources */,
 				66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */,
+				66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
 			);
@@ -937,7 +941,7 @@
 		};
 		665BCFC62BBF486F00200F08 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B3C14C929EB431600746A53 /* AppConfig.xcconfig */;
+			baseConfigurationReference = 66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */;
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -965,7 +969,7 @@
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BETA";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
