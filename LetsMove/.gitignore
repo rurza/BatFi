@@ -1,9 +1,0 @@
-# Mac OS X
-*.DS_Store
-
-# Xcode
-build
-*.mode*
-*.pbxuser
-xcuserdata/
-project.xcworkspace/
