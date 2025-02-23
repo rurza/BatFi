@@ -78,7 +78,7 @@ public class NotificationsManager: NSObject {
                     continue
                 }
 
-                if powerSourceState.batteryLevel <= threshold, !didShowLowBatteryNotification {
+                if powerSourceState.batteryLevel <= threshold, !didShowLowBatteryNotification, powerSourceState.batteryLevel != 0 {
                     didShowLowBatteryNotification = true
                     await showBatteryIsLowNotification()
                 }
