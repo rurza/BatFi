@@ -255,6 +255,7 @@ public actor ChargingManager: ChargingModeManager {
         enableSystemChargeLimitOnSleep: Bool,
         disableSleepDuringDischarge: Bool
     ) async {
+
         let chargerConnected = powerState.chargerConnected
         let previousChargerConnectedState = self.lastChargerConnectedStatus
         updateLastChargerConnectedStateIfNeeded(chargerConnected)
@@ -312,7 +313,7 @@ public actor ChargingManager: ChargingModeManager {
                     currentMode: currentMode
                 )
             } else if currentBatteryLevel < tempLimit {
-                removeTempOverrideIfStatusHasChanged(previousStatus: previousChargerConnectedState)
+                scheduleRemovingTempOverrideIfNeeded(previousStatus: previousChargerConnectedState)
                 return await turnOnCharging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
@@ -398,6 +399,9 @@ public actor ChargingManager: ChargingModeManager {
         try? await sleepAssertionClient.disableSleep(disableSleep)
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        if defaults.value(.disableSleepDuringDischarging) {
+            try? await sleepAssertionClient.disableSleep(true)
+        }
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
             return
@@ -519,12 +523,22 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
-    private func removeTempOverrideIfStatusHasChanged(previousStatus: ChargerConnectedStatus?) {
+    private var removeTempOverrideTask: Task<Void, Never>?
+
+    private func scheduleRemovingTempOverrideIfNeeded(previousStatus: ChargerConnectedStatus?) {
         if let lastChargerConnectedStatus, let previousStatus,
-           !previousStatus.isConnected, lastChargerConnectedStatus.isConnected,
-           previousStatus.date.timeIntervalSince(date.now) < -15 {
-            logger.debug("Removing temp override because charger connection status has not changed for a while")
-            removeTempOverride()
+           previousStatus.isConnected, !lastChargerConnectedStatus.isConnected {
+            removeTempOverrideTask = Task {
+                try? await clock.sleep(for: .seconds(15), tolerance: .milliseconds(100))
+                if !Task.isCancelled {
+                    self.logger.debug("Removing temp override because charger connection status has not changed for a while")
+                    self.removeTempOverride()
+                    self.removeTempOverrideTask = nil
+                }
+            }
+        } else if removeTempOverrideTask != nil {
+            removeTempOverrideTask?.cancel()
+            removeTempOverrideTask = nil
         }
     }
 }

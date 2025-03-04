@@ -15,25 +15,14 @@
 		5B69E6EC29ECA18E0010AD63 /* software.micropixels.BatFi.Helper.plist in Copy Helper Property List */ = {isa = PBXBuildFile; fileRef = 5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */; };
 		5BEE218B29E607FB0012A4DD /* BatFiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEE218A29E607FB0012A4DD /* BatFiApp.swift */; };
 		5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BEE218E29E607FC0012A4DD /* Assets.xcassets */; };
-		66558E932BC1C24F00FC377A /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66558E922BC1C24F00FC377A /* LicenseView.swift */; };
-		66558E962BC1C47300FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
+		6615489D2D6B4CB000091523 /* LetsMove.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6615489B2D6B4CAB00091523 /* LetsMove.xcframework */; };
+		6615489E2D6B4CB000091523 /* LetsMove.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6615489B2D6B4CAB00091523 /* LetsMove.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */; };
 		66558E972BC1CB5D00FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
-		6666F3322BBCB8D400FFFC05 /* L10n in Frameworks */ = {isa = PBXBuildFile; productRef = 6666F3312BBCB8D400FFFC05 /* L10n */; };
-		6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3362BBCBC5B00FFFC05 /* Localizable.strings */; };
-		6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */; };
-		666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71A22BBB5C6F00A7E303 /* URL.swift */; };
 		66768FC92BE2814A002A7528 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66768FC82BE2814A002A7528 /* main.swift */; };
-		6679F9222BB96A780082C913 /* InstallationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9212BB96A780082C913 /* InstallationState.swift */; };
-		6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6679F9232BB96FDB0082C913 /* BarProgressView.swift */; };
-		6679F9262BBA16740082C913 /* SharedUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6679F9252BBA16740082C913 /* SharedUI */; };
 		667BA0342BCDC83300369B79 /* DischargeBatteryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */; };
 		667BA0352BCDC83300369B79 /* ChargeToFullIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0332BCDC83300369B79 /* ChargeToFullIntent.swift */; };
 		66939C242BD5A4E600A9B73A /* AppShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66939C232BD5A4E600A9B73A /* AppShortcuts.swift */; };
-		6694830C2BB8711F00BB704D /* InstallerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6694830B2BB8711F00BB704D /* InstallerApp.swift */; };
-		6694830E2BB8711F00BB704D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6694830D2BB8711F00BB704D /* ContentView.swift */; };
-		669483102BB8712000BB704D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6694830F2BB8712000BB704D /* Assets.xcassets */; };
-		669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 669483122BB8712000BB704D /* Preview Assets.xcassets */; };
-		6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669483192BB8724200BB704D /* AppInstaller.swift */; };
 		66B305D82BDBE9F4005182C0 /* TurnOffOverrideIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B305D72BDBE9F4005182C0 /* TurnOffOverrideIntent.swift */; };
 		66CA64BF2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CA64BE2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift */; };
 		66CF84312BC6D4A6003C51B8 /* PreviewsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84302BC6D4A6003C51B8 /* PreviewsApp.swift */; };
@@ -43,26 +32,7 @@
 		66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; };
 		66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 66F50ABA2BD316970043C5DF /* Localizable.xcstrings */; };
-		66FC398D2D50304200D2FEE1 /* LetsMove.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FC398C2D50303800D2FEE1 /* LetsMove.framework */; };
-		66FC398E2D50304200D2FEE1 /* LetsMove.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 66FC398C2D50303800D2FEE1 /* LetsMove.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		66FC39892D50303800D2FEE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 66FC395C2D50303800D2FEE1 /* LetsMove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D1107320486CEB800E47090;
-			remoteInfo = "LetsMove Test";
-		};
-		66FC398B2D50303800D2FEE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 66FC395C2D50303800D2FEE1 /* LetsMove.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F146F8271CE7094400233A9B;
-			remoteInfo = LetsMove;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		5B11DE0329EB6641007A993C /* CopyFiles */ = {
@@ -80,7 +50,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				66FC398E2D50304200D2FEE1 /* LetsMove.framework in Embed Frameworks */,
+				6615489E2D6B4CB000091523 /* LetsMove.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,35 +108,13 @@
 		5BEE218A29E607FB0012A4DD /* BatFiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatFiApp.swift; sourceTree = "<group>"; };
 		5BEE218E29E607FC0012A4DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BEE21B629E612C00012A4DD /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		6613B42C2C111AAF00CFF099 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6623A8BB2BF415B800855908 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		66558E922BC1C24F00FC377A /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
+		6615489B2D6B4CAB00091523 /* LetsMove.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = LetsMove.xcframework; sourceTree = "<group>"; };
+		66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BetaConfig.xcconfig; sourceTree = "<group>"; };
 		66558E952BC1C47300FC377A /* license.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = license.rtf; sourceTree = "<group>"; };
-		6666F3372BBCBC5B00FFFC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F3392BBCBC5E00FFFC05 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		6666F33A2BBCBC6100FFFC05 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F33B2BBCBC6200FFFC05 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F33C2BBCBC6300FFFC05 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F33D2BBCBC6400FFFC05 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F33E2BBCBC6500FFFC05 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F33F2BBCBC6500FFFC05 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
-		666A71A22BBB5C6F00A7E303 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
-		666F03CC2C07C70E0046CA15 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		66768FC82BE2814A002A7528 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		6679F9212BB96A780082C913 /* InstallationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallationState.swift; sourceTree = "<group>"; };
-		6679F9232BB96FDB0082C913 /* BarProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarProgressView.swift; sourceTree = "<group>"; };
 		667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DischargeBatteryIntent.swift; sourceTree = "<group>"; };
 		667BA0332BCDC83300369B79 /* ChargeToFullIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargeToFullIntent.swift; sourceTree = "<group>"; };
 		66939C232BD5A4E600A9B73A /* AppShortcuts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShortcuts.swift; sourceTree = "<group>"; };
-		669483092BB8711F00BB704D /* BatFi Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BatFi Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6694830B2BB8711F00BB704D /* InstallerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallerApp.swift; sourceTree = "<group>"; };
-		6694830D2BB8711F00BB704D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		6694830F2BB8712000BB704D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		669483122BB8712000BB704D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		669483142BB8712000BB704D /* Installer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Installer.entitlements; sourceTree = "<group>"; };
-		669483182BB8714E00BB704D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		669483192BB8724200BB704D /* AppInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInstaller.swift; sourceTree = "<group>"; };
 		66B305D72BDBE9F4005182C0 /* TurnOffOverrideIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnOffOverrideIntent.swift; sourceTree = "<group>"; };
 		66CA64BE2BD1BD01001164BF /* TempOverrideBatteryLevelIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempOverrideBatteryLevelIntent.swift; sourceTree = "<group>"; };
 		66CF842E2BC6D4A6003C51B8 /* Previews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Previews.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,49 +124,6 @@
 		66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66CF84392BC6D4A6003C51B8 /* Previews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Previews.entitlements; sourceTree = "<group>"; };
 		66F50ABA2BD316970043C5DF /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		66FC39562D50303800D2FEE1 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		66FC39572D50303800D2FEE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		66FC39592D50303800D2FEE1 /* LetsMove.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetsMove.h; sourceTree = "<group>"; };
-		66FC395A2D50303800D2FEE1 /* LetsMove.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = LetsMove.modulemap; sourceTree = "<group>"; };
-		66FC395B2D50303800D2FEE1 /* LetsMove.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = LetsMove.podspec; sourceTree = "<group>"; };
-		66FC395C2D50303800D2FEE1 /* LetsMove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = LetsMove.xcodeproj; sourceTree = "<group>"; };
-		66FC395D2D50303800D2FEE1 /* LetsMove_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetsMove_Prefix.pch; sourceTree = "<group>"; };
-		66FC395E2D50303800D2FEE1 /* LetsMove-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LetsMove-Info.plist"; sourceTree = "<group>"; };
-		66FC395F2D50303800D2FEE1 /* LetsMove-Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LetsMove-Test-Info.plist"; sourceTree = "<group>"; };
-		66FC39602D50303800D2FEE1 /* LetsMoveAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LetsMoveAppDelegate.h; sourceTree = "<group>"; };
-		66FC39612D50303800D2FEE1 /* LetsMoveAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LetsMoveAppDelegate.m; sourceTree = "<group>"; };
-		66FC39622D50303800D2FEE1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		66FC39632D50303800D2FEE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		66FC39642D50303800D2FEE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		66FC39662D50303800D2FEE1 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39672D50303800D2FEE1 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39682D50303800D2FEE1 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39692D50303800D2FEE1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC396A2D50303800D2FEE1 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC396B2D50303800D2FEE1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC396C2D50303800D2FEE1 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC396D2D50303800D2FEE1 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC396E2D50303800D2FEE1 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC396F2D50303800D2FEE1 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39702D50303800D2FEE1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39712D50303800D2FEE1 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39722D50303800D2FEE1 /* mk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mk; path = mk.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39732D50303800D2FEE1 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39742D50303800D2FEE1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39752D50303800D2FEE1 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39762D50303800D2FEE1 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39772D50303800D2FEE1 /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt_BR; path = pt_BR.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39782D50303800D2FEE1 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39792D50303800D2FEE1 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC397A2D50303800D2FEE1 /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC397B2D50303800D2FEE1 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC397C2D50303800D2FEE1 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC397D2D50303800D2FEE1 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/MoveApplication.strings"; sourceTree = "<group>"; };
-		66FC397E2D50303800D2FEE1 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC397F2D50303800D2FEE1 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/MoveApplication.strings; sourceTree = "<group>"; };
-		66FC39812D50303800D2FEE1 /* PFMoveApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PFMoveApplication.h; sourceTree = "<group>"; };
-		66FC39822D50303800D2FEE1 /* PFMoveApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PFMoveApplication.m; sourceTree = "<group>"; };
-		66FC39832D50303800D2FEE1 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,17 +139,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6615489D2D6B4CB000091523 /* LetsMove.xcframework in Frameworks */,
 				5B40B1322A01BBB800A79785 /* App in Frameworks */,
-				66FC398D2D50304200D2FEE1 /* LetsMove.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		669483062BB8711F00BB704D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6679F9262BBA16740082C913 /* SharedUI in Frameworks */,
-				6666F3322BBCB8D400FFFC05 /* L10n in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +168,7 @@
 		5BB80D4729E9EF6600186827 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6615489B2D6B4CAB00091523 /* LetsMove.xcframework */,
 				66558E952BC1C47300FC377A /* license.rtf */,
 				5BB80D4829E9EF6600186827 /* Config.xcconfig */,
 				5B11DDF829EB5A13007A993C /* PropertyListModifier.swift */,
@@ -282,13 +179,11 @@
 		5BEE217E29E607FB0012A4DD = {
 			isa = PBXGroup;
 			children = (
-				66FC39842D50303800D2FEE1 /* LetsMove */,
 				5BB5D8842B5C25BE0023CEBD /* .swiftformat */,
 				5B68B9DF29FC0F11008AF5FD /* BatFiKit */,
 				5BEE218929E607FB0012A4DD /* App */,
 				5B11DE0629EB6641007A993C /* Helper */,
 				5BB80D4729E9EF6600186827 /* Supporting Files */,
-				6694830A2BB8711F00BB704D /* Installer */,
 				66CF842F2BC6D4A6003C51B8 /* Previews */,
 				5BEE218829E607FB0012A4DD /* Products */,
 				5BEE21B529E612C00012A4DD /* Frameworks */,
@@ -300,7 +195,6 @@
 			children = (
 				5BEE218729E607FB0012A4DD /* BatFi.app */,
 				5B11DE0529EB6641007A993C /* BatFiHelper */,
-				669483092BB8711F00BB704D /* BatFi Installer.app */,
 				66CF842E2BC6D4A6003C51B8 /* Previews.app */,
 			);
 			name = Products;
@@ -318,6 +212,7 @@
 				5B2836D82A05A6F000A42566 /* MainMenu.xib */,
 				5BEE218E29E607FC0012A4DD /* Assets.xcassets */,
 				5B3C14C929EB431600746A53 /* AppConfig.xcconfig */,
+				66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */,
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
 				5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */,
 				66F50ABA2BD316970043C5DF /* Localizable.xcstrings */,
@@ -333,34 +228,6 @@
 				5BEE21B629E612C00012A4DD /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6694830A2BB8711F00BB704D /* Installer */ = {
-			isa = PBXGroup;
-			children = (
-				669483182BB8714E00BB704D /* Info.plist */,
-				6666F3402BBCBD2A00FFFC05 /* InfoPlist.xcstrings */,
-				6694830B2BB8711F00BB704D /* InstallerApp.swift */,
-				6694830D2BB8711F00BB704D /* ContentView.swift */,
-				66558E922BC1C24F00FC377A /* LicenseView.swift */,
-				669483192BB8724200BB704D /* AppInstaller.swift */,
-				6679F9212BB96A780082C913 /* InstallationState.swift */,
-				6679F9232BB96FDB0082C913 /* BarProgressView.swift */,
-				666A71A22BBB5C6F00A7E303 /* URL.swift */,
-				6694830F2BB8712000BB704D /* Assets.xcassets */,
-				669483142BB8712000BB704D /* Installer.entitlements */,
-				669483112BB8712000BB704D /* Preview Content */,
-				6666F3362BBCBC5B00FFFC05 /* Localizable.strings */,
-			);
-			path = Installer;
-			sourceTree = "<group>";
-		};
-		669483112BB8712000BB704D /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				669483122BB8712000BB704D /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		66CF842F2BC6D4A6003C51B8 /* Previews */ = {
@@ -381,39 +248,6 @@
 				66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		66FC39842D50303800D2FEE1 /* LetsMove */ = {
-			isa = PBXGroup;
-			children = (
-				66FC39562D50303800D2FEE1 /* .gitignore */,
-				66FC39582D50303800D2FEE1 /* InfoPlist.strings */,
-				66FC39592D50303800D2FEE1 /* LetsMove.h */,
-				66FC395A2D50303800D2FEE1 /* LetsMove.modulemap */,
-				66FC395B2D50303800D2FEE1 /* LetsMove.podspec */,
-				66FC395C2D50303800D2FEE1 /* LetsMove.xcodeproj */,
-				66FC395D2D50303800D2FEE1 /* LetsMove_Prefix.pch */,
-				66FC395E2D50303800D2FEE1 /* LetsMove-Info.plist */,
-				66FC395F2D50303800D2FEE1 /* LetsMove-Test-Info.plist */,
-				66FC39602D50303800D2FEE1 /* LetsMoveAppDelegate.h */,
-				66FC39612D50303800D2FEE1 /* LetsMoveAppDelegate.m */,
-				66FC39622D50303800D2FEE1 /* main.m */,
-				66FC39652D50303800D2FEE1 /* MainMenu.xib */,
-				66FC39802D50303800D2FEE1 /* MoveApplication.strings */,
-				66FC39812D50303800D2FEE1 /* PFMoveApplication.h */,
-				66FC39822D50303800D2FEE1 /* PFMoveApplication.m */,
-				66FC39832D50303800D2FEE1 /* README.md */,
-			);
-			path = LetsMove;
-			sourceTree = "<group>";
-		};
-		66FC39852D50303800D2FEE1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				66FC398A2D50303800D2FEE1 /* LetsMove Test.app */,
-				66FC398C2D50303800D2FEE1 /* LetsMove.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,27 +298,6 @@
 			productReference = 5BEE218729E607FB0012A4DD /* BatFi.app */;
 			productType = "com.apple.product-type.application";
 		};
-		669483082BB8711F00BB704D /* Installer */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 669483152BB8712000BB704D /* Build configuration list for PBXNativeTarget "Installer" */;
-			buildPhases = (
-				669483052BB8711F00BB704D /* Sources */,
-				669483062BB8711F00BB704D /* Frameworks */,
-				669483072BB8711F00BB704D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Installer;
-			packageProductDependencies = (
-				6679F9252BBA16740082C913 /* SharedUI */,
-				6666F3312BBCB8D400FFFC05 /* L10n */,
-			);
-			productName = Installer;
-			productReference = 669483092BB8711F00BB704D /* BatFi Installer.app */;
-			productType = "com.apple.product-type.application";
-		};
 		66CF842D2BC6D4A6003C51B8 /* Previews */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 66CF843A2BC6D4A6003C51B8 /* Build configuration list for PBXNativeTarget "Previews" */;
@@ -521,9 +334,6 @@
 					};
 					5BEE218629E607FB0012A4DD = {
 						CreatedOnToolsVersion = 14.3;
-					};
-					669483082BB8711F00BB704D = {
-						CreatedOnToolsVersion = 15.3;
 					};
 					66CF842D2BC6D4A6003C51B8 = {
 						CreatedOnToolsVersion = 15.3;
@@ -570,38 +380,14 @@
 			);
 			productRefGroup = 5BEE218829E607FB0012A4DD /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 66FC39852D50303800D2FEE1 /* Products */;
-					ProjectRef = 66FC395C2D50303800D2FEE1 /* LetsMove.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				5BEE218629E607FB0012A4DD /* BatFi */,
 				5B11DE0429EB6641007A993C /* Helper */,
-				669483082BB8711F00BB704D /* Installer */,
 				66CF842D2BC6D4A6003C51B8 /* Previews */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		66FC398A2D50303800D2FEE1 /* LetsMove Test.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "LetsMove Test.app";
-			remoteRef = 66FC39892D50303800D2FEE1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		66FC398C2D50303800D2FEE1 /* LetsMove.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LetsMove.framework;
-			remoteRef = 66FC398B2D50303800D2FEE1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5BEE218529E607FB0012A4DD /* Resources */ = {
@@ -610,20 +396,9 @@
 			files = (
 				66558E972BC1CB5D00FC377A /* license.rtf in Resources */,
 				66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */,
+				66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		669483072BB8711F00BB704D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				66558E962BC1C47300FC377A /* license.rtf in Resources */,
-				669483132BB8712000BB704D /* Preview Assets.xcassets in Resources */,
-				6666F3382BBCBC5B00FFFC05 /* Localizable.strings in Resources */,
-				6666F3412BBCBD2A00FFFC05 /* InfoPlist.xcstrings in Resources */,
-				669483102BB8712000BB704D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,20 +476,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		669483052BB8711F00BB704D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6694831A2BB8724200BB704D /* AppInstaller.swift in Sources */,
-				6679F9222BB96A780082C913 /* InstallationState.swift in Sources */,
-				6679F9242BB96FDB0082C913 /* BarProgressView.swift in Sources */,
-				66558E932BC1C24F00FC377A /* LicenseView.swift in Sources */,
-				6694830E2BB8711F00BB704D /* ContentView.swift in Sources */,
-				6694830C2BB8711F00BB704D /* InstallerApp.swift in Sources */,
-				666A71A32BBB5C6F00A7E303 /* URL.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		66CF842A2BC6D4A6003C51B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -725,77 +486,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		6666F3362BBCBC5B00FFFC05 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6666F3372BBCBC5B00FFFC05 /* en */,
-				6666F3392BBCBC5E00FFFC05 /* zh-Hans */,
-				6666F33A2BBCBC6100FFFC05 /* fr */,
-				6666F33B2BBCBC6200FFFC05 /* de */,
-				6666F33C2BBCBC6300FFFC05 /* ja */,
-				6666F33D2BBCBC6400FFFC05 /* ko */,
-				6666F33E2BBCBC6500FFFC05 /* pl */,
-				6666F33F2BBCBC6500FFFC05 /* ru */,
-				6623A8BB2BF415B800855908 /* pt-BR */,
-				666F03CC2C07C70E0046CA15 /* nl */,
-				6613B42C2C111AAF00CFF099 /* tr */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		66FC39582D50303800D2FEE1 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				66FC39572D50303800D2FEE1 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		66FC39652D50303800D2FEE1 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				66FC39632D50303800D2FEE1 /* Base */,
-				66FC39642D50303800D2FEE1 /* en */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-		66FC39802D50303800D2FEE1 /* MoveApplication.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				66FC39662D50303800D2FEE1 /* ca */,
-				66FC39672D50303800D2FEE1 /* cs */,
-				66FC39682D50303800D2FEE1 /* da */,
-				66FC39692D50303800D2FEE1 /* de */,
-				66FC396A2D50303800D2FEE1 /* el */,
-				66FC396B2D50303800D2FEE1 /* en */,
-				66FC396C2D50303800D2FEE1 /* es */,
-				66FC396D2D50303800D2FEE1 /* fr */,
-				66FC396E2D50303800D2FEE1 /* hu */,
-				66FC396F2D50303800D2FEE1 /* it */,
-				66FC39702D50303800D2FEE1 /* ja */,
-				66FC39712D50303800D2FEE1 /* ko */,
-				66FC39722D50303800D2FEE1 /* mk */,
-				66FC39732D50303800D2FEE1 /* nb */,
-				66FC39742D50303800D2FEE1 /* nl */,
-				66FC39752D50303800D2FEE1 /* pl */,
-				66FC39762D50303800D2FEE1 /* pt */,
-				66FC39772D50303800D2FEE1 /* pt_BR */,
-				66FC39782D50303800D2FEE1 /* ru */,
-				66FC39792D50303800D2FEE1 /* sk */,
-				66FC397A2D50303800D2FEE1 /* sr */,
-				66FC397B2D50303800D2FEE1 /* sv */,
-				66FC397C2D50303800D2FEE1 /* tr */,
-				66FC397D2D50303800D2FEE1 /* vi-VN */,
-				66FC397E2D50303800D2FEE1 /* zh_CN */,
-				66FC397F2D50303800D2FEE1 /* zh_TW */,
-			);
-			name = MoveApplication.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5B11DE0A29EB6641007A993C /* Debug */ = {
@@ -1083,7 +773,7 @@
 		};
 		665BCFC62BBF486F00200F08 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B3C14C929EB431600746A53 /* AppConfig.xcconfig */;
+			baseConfigurationReference = 66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */;
 			buildSettings = {
 				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1111,7 +801,7 @@
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) BETA";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1134,112 +824,6 @@
 				SWIFT_VERSION = 5.0;
 			};
 			name = Beta;
-		};
-		665BCFC82BBF486F00200F08 /* Beta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Installer/Installer.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Installer/Preview Content\"";
-				DEVELOPMENT_TEAM = YL78V8PY6H;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Installer/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "micropixels software";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Installer;
-				PRODUCT_NAME = "BatFi Installer";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Beta;
-		};
-		669483162BB8712000BB704D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Installer/Installer.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Installer/Preview Content\"";
-				DEVELOPMENT_TEAM = YL78V8PY6H;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Installer/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "micropixels software";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Installer;
-				PRODUCT_NAME = "BatFi Installer";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		669483172BB8712000BB704D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = arm64;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Installer/Installer.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Installer/Preview Content\"";
-				DEVELOPMENT_TEAM = YL78V8PY6H;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Installer/Info.plist;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "micropixels software";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.3;
-				PRODUCT_BUNDLE_IDENTIFIER = software.micropixels.BatFi.Installer;
-				PRODUCT_NAME = "BatFi Installer";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
 		};
 		66CF843B2BC6D4A6003C51B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1371,16 +955,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		669483152BB8712000BB704D /* Build configuration list for PBXNativeTarget "Installer" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				669483162BB8712000BB704D /* Debug */,
-				669483172BB8712000BB704D /* Release */,
-				665BCFC82BBF486F00200F08 /* Beta */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		66CF843A2BC6D4A6003C51B8 /* Build configuration list for PBXNativeTarget "Previews" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1401,14 +975,6 @@
 		5B40B1312A01BBB800A79785 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
-		};
-		6666F3312BBCB8D400FFFC05 /* L10n */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = L10n;
-		};
-		6679F9252BBA16740082C913 /* SharedUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SharedUI;
 		};
 		66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */ = {
 			isa = XCSwiftPackageProductDependency;
