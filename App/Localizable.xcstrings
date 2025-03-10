@@ -4,6 +4,12 @@
     "app_shortcut.charge_to_full.short_title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabít baterii"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -51,6 +57,12 @@
     "Charge or run on battery power (when the lid is opened) until the limit of ${limit} is reached." : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabít nebo provozovat na baterii (při otevřeném víku), dokud není dosaženo limitu ${limit} %."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
@@ -98,6 +110,12 @@
     "Charge the battery with ${applicationName}" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabít baterii pomocí ${applicationName}"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -139,6 +157,12 @@
     "Charge to 100% with ${applicationName}" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabít na 100 % pomocí ${applicationName}"
+          }
+        },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -180,6 +204,12 @@
     "intent.charge_to_full.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabít na 100 %"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -227,6 +257,12 @@
     "intent.discharge.description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funguje pouze s otevřeným víkem."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -274,6 +310,12 @@
     "intent.discharge.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provoz na baterii"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -321,6 +363,12 @@
     "intent.override.description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybíjení funguje pouze při otevřeném víku."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -368,6 +416,12 @@
     "intent.override.parameter.description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procento baterie"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -415,6 +469,12 @@
     "intent.override.parameter.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -486,6 +546,12 @@
     "intent.override.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dočasně přepsat úroveň nabití baterie"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
@@ -533,6 +599,12 @@
     "intent.stop_override.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastavit přepsání nabíjení"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",

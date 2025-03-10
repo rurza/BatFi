@@ -4,6 +4,12 @@
     "about.button.label.license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -81,6 +87,12 @@
     "about.button.label.twitter" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twitter"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -158,6 +170,12 @@
     "about.button.label.website" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webové stránky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -235,6 +253,12 @@
     "about.label.about_description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyrobeno s ❤️ a 🔋 od"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -312,6 +336,12 @@
     "app_charging_mode.state.description.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit je %@."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -389,6 +419,12 @@
     "app_charging_mode.state.description.force_charge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjí se na 100 %"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -466,6 +502,12 @@
     "app_charging_mode.state.description.force_discharge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používání baterie."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -543,6 +585,12 @@
     "app_charging_mode.state.description.inhibit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit nabíjení je nastaven na %@."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -620,6 +668,12 @@
     "app_charging_mode.state.description.temp_charging_to" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit nabíjení byl dočasně nastaven na %@."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -697,6 +751,12 @@
     "app_charging_mode.state.title.charger_not_connected" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíječka není připojena"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -774,6 +834,12 @@
     "app_charging_mode.state.title.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjení na limit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -851,6 +917,12 @@
     "app_charging_mode.state.title.disabled" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnuto"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -928,6 +1000,12 @@
     "app_charging_mode.state.title.force_charge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1005,6 +1083,12 @@
     "app_charging_mode.state.title.force_discharge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1082,6 +1166,12 @@
     "app_charging_mode.state.title.inhibit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blokování nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1159,6 +1249,12 @@
     "app_charging_mode.state.title.initial" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicializace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1236,6 +1332,12 @@
     "app_charging_mode.state.title.override" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepsání nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1313,6 +1415,12 @@
     "app_charging_mode.state.title.temp_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dočasné nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1390,6 +1498,12 @@
     "app_charging_mode.state.title.temp_discharging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dočasné vybíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1467,6 +1581,12 @@
     "battery_info.label.additional.app_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Režim aplikace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1544,6 +1664,12 @@
     "battery_info.label.additional.battery_capacity" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kondice baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1621,6 +1747,12 @@
     "battery_info.label.additional.cycle_count" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Počet cyklů"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1698,6 +1830,12 @@
     "battery_info.label.additional.last_discharge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poslední vybití"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1775,6 +1913,12 @@
     "battery_info.label.additional.last_full_charge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poslední plné nabití"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1852,6 +1996,12 @@
     "battery_info.label.additional.power_source" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdroj napájení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1929,6 +2079,12 @@
     "battery_info.label.additional.temperature" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teplota"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2006,6 +2162,12 @@
     "battery_info.label.additional.unknown_health" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není známo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2077,6 +2239,12 @@
     "battery_info.label.info_missing" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chybí informace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2154,6 +2322,12 @@
     "battery_info.label.main.battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2231,6 +2405,12 @@
     "battery_info.label.main.elapsed_time" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uplynulý čas"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2308,6 +2488,12 @@
     "battery_info.label.main.time.calculating" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výpočet..."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2385,6 +2571,12 @@
     "battery_info.label.main.time.time_left" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zbývající čas"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2462,6 +2654,12 @@
     "battery_info.label.main.time.time_to_charge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čas do nabití"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2539,6 +2737,12 @@
     "battery_info.label.top_coalition.none" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádné aplikace nespotřebovávají velké množství energie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2616,6 +2820,12 @@
     "installer.button.label.accept" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přijmout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2687,6 +2897,12 @@
     "installer.button.label.decline" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odmítnout"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2758,6 +2974,12 @@
     "installer.button.label.install" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstalovat"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2829,6 +3051,12 @@
     "installer.name" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalátor BatFi"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2900,6 +3128,12 @@
     "installer.status.done" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotovo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2971,6 +3205,12 @@
     "installer.status.download_error" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chyba stahování. %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3042,6 +3282,12 @@
     "installer.status.downloading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stahování…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3113,6 +3359,12 @@
     "installer.status.installation_error" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chyba instalace. %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3184,6 +3436,12 @@
     "installer.status.installing" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalace…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3255,6 +3513,12 @@
     "installer.status.ready" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Připraveno k instalaci"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3326,6 +3590,12 @@
     "installer.status.unzipping" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozbalování..."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3397,6 +3667,12 @@
     "installer.status.unzipping_error" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chyba rozbalování. %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3468,6 +3744,12 @@
     "license.error.deactivated_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence je deaktivována. Zakupte si prosím aplikaci znovu."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3545,6 +3827,12 @@
     "license.error.invalid_license_or_email" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neplatný licenční klíč nebo e-mail"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3622,6 +3910,12 @@
     "license.error.invalid_response" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neplatná odezva"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3699,6 +3993,12 @@
     "license.error.system_identification" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nelze identifikovat systém"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3776,6 +4076,12 @@
     "license.error.unexpected_response" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nečekaná odpověď. Pokud se domníváte, že se jedná o chybu, a máte platný licenční klíč, kontaktujte vývojáře."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3853,6 +4159,12 @@
     "license.label.activate_batfi" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivovat BatFi"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3930,6 +4242,12 @@
     "license.label.activate_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivovat licenci"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4007,6 +4325,12 @@
     "license.label.activate_license_key_to_use" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivujte licenční klíč, abyste mohli aplikaci používat."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4084,6 +4408,12 @@
     "license.label.buy_now" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ještě nevlastníte BatFi? Zakupte si jej nyní!"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4161,6 +4491,12 @@
     "license.label.email" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E‑mail"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4238,6 +4574,12 @@
     "license.label.key" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klíč"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4315,6 +4657,12 @@
     "license.label.lost_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ztratil jsem licenci"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4392,6 +4740,12 @@
     "license.label.purchase_batfi" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zakoupit BatFi"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4469,6 +4823,12 @@
     "license.label.requires_internet" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace vyžaduje připojení k internetu pro ověření licenčního klíče."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4546,6 +4906,12 @@
     "license.label.requires_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace vyžaduje platný licenční klíč, aby mohla fungovat.\nUveďte e-mail a licenční klíč, který jste obdrželi při pořízení aplikace."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4623,6 +4989,12 @@
     "license.label.thank_you" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Děkuji"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4700,6 +5072,12 @@
     "license.label.unlock_failed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odemknutí selhalo"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4777,6 +5155,12 @@
     "menu.charts.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posledních 12 hodin"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4854,6 +5238,12 @@
     "menu.charts.legend.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4931,6 +5321,12 @@
     "menu.charts.legend.inhibiting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blokování nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5008,6 +5404,12 @@
     "menu.charts.waitingForData" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čekáme na (další) data..."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5085,6 +5487,12 @@
     "menu.high_energy_usage.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace s vysokou spotřebou energie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5162,6 +5570,12 @@
     "menu.high_energy_usage.loading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čekání na data…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5239,6 +5653,12 @@
     "menu.label.automatic_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatický režim výkonu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5316,6 +5736,12 @@
     "menu.label.batfi" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5393,6 +5819,12 @@
     "menu.label.charge_to_hundred" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabít na 100 %"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5470,6 +5902,12 @@
     "menu.label.charger_not_connected_disclaimer" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepsání je aktivní pouze když je připojena nabíječka"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5547,6 +5985,12 @@
     "menu.label.check_for_updates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyhledat aktualizace…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5624,6 +6068,12 @@
     "menu.label.debug" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ladění"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5701,6 +6151,12 @@
     "menu.label.discharge_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provoz na baterii"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5778,6 +6234,12 @@
     "menu.label.discharging_override_but_lid_closed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blokování nabíjení; otevřete víko pro vybití baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5855,6 +6317,12 @@
     "menu.label.high_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Režim vysokého výkonu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5932,6 +6400,12 @@
     "menu.label.inhibit_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blokovat nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6009,6 +6483,12 @@
     "menu.label.install_helper" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalovat pomocný nástroj"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6086,6 +6566,12 @@
     "menu.label.low_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Režim nízké spotřeby"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6163,6 +6649,12 @@
     "menu.label.more" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Více"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6240,6 +6732,12 @@
     "menu.label.onboarding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Úvodní nastavení…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6317,6 +6815,12 @@
     "menu.label.quit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ukončit BatFi"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6394,6 +6898,12 @@
     "menu.label.remove_helper" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odstranit pomocný nástroj"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6471,6 +6981,12 @@
     "menu.label.reset_settings" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovit nastavení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6548,6 +7064,12 @@
     "menu.label.settings" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6625,6 +7147,12 @@
     "menu.label.stop_charging_to_hundred" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastavení nabíjení na 100 %"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6702,6 +7230,12 @@
     "menu.label.stop_discharging_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přestat používat baterii"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6779,6 +7313,12 @@
     "menu.label.stop_override" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastavit přepsání"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6856,6 +7396,12 @@
     "menu.power_info.header" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distribuce energie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6933,6 +7479,12 @@
     "menu.power_info.loading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čekání na data…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7010,6 +7562,12 @@
     "menu.tooltip.charge_to_hundred.charger_not_connected" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnuto, protože není připojena nabíječka"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7087,6 +7645,12 @@
     "menu.tooltip.charge_to_hundred.discharge_turned_on" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnuto, protože je zapnuta funkce „Vybití baterie při překročení limitu“"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7164,6 +7728,12 @@
     "notifications.alert.button.label.open_onboarding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Úvodní nastavení…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7241,6 +7811,12 @@
     "notifications.alert.button.label.open_system_settings" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Nastavení systému…"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7318,6 +7894,12 @@
     "notifications.alert.button.label.restore_status_bar_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obnovení ikony ve stavovém řádku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7395,6 +7977,12 @@
     "notifications.alert.informative_text.install_helper_troubleshooting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace bez tohoto nástroje nebude fungovat.\nOtevřete a dokončete proces Úvodního nastavení v nabídce Více.\nZkontrolujte, zda je aplikace v seznamu „Povolit na pozadí“ se zapnutým přepínačem v Nastavení systému → Obecné → Aktivace položek a rozšíření při přihlášení."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7472,6 +8060,12 @@
     "notifications.alert.informative_text.not_laptop" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdá se, že aplikace není spuštěna na notebooku. \nSpusťte prosím BatFi na notebooku Apple."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7549,6 +8143,12 @@
     "notifications.alert.informative_text.status_bar_icon_hidden" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chcete-li znovu otevřít nastavení aplikace BatFi, klikněte na její oznámení, vyberte její ikonu v Launchpadu nebo na ni dvakrát klikněte ve Finderu."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7626,6 +8226,12 @@
     "notifications.alert.title.install_helper_troubleshooting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj aplikace BatFi není nainstalovaný"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7703,6 +8309,12 @@
     "notifications.alert.title.not_laptop" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spusťte aplikaci BatFi na MacBooku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7780,6 +8392,12 @@
     "notifications.alert.title.optimized_charging_turned_on" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optimalizované nabíjení baterie je zapnuté"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7857,6 +8475,12 @@
     "notifications.alert.title.status_bar_icon_hidden" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona ve stavovém řádku je skryta"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -7934,6 +8558,12 @@
     "notifications.notification.body.battery_calibration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpojte počítač od sítě a nechte baterii zcela vybít. Poté ji připojte a nabijte na 100 %, v případě potřeby pomocí příkazu „Nabít na 100 %“ v nabídce."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8011,6 +8641,12 @@
     "notifications.notification.body.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Potřebuju víc šťávy!"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8088,6 +8724,12 @@
     "notifications.notification.subtitle.new_mode" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nový režim: %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8165,6 +8807,12 @@
     "notifications.notification.title.automatic_power_mode_on" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatický režim výkonu je zapnutý"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8242,6 +8890,12 @@
     "notifications.notification.title.battery_calibration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je čas na kalibraci baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8319,6 +8973,12 @@
     "notifications.notification.title.high_power_mode_on" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Režim vysokého výkonu je zapnutý"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8396,6 +9056,12 @@
     "notifications.notification.title.high_power_mode_unsupported" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Režim vysokého výkonu není podporován"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8473,6 +9139,12 @@
     "notifications.notification.title.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slabá baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8550,6 +9222,12 @@
     "notifications.notification.title.low_power_mode_on" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Režim nízké spotřeby je zapnutý"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8627,6 +9305,12 @@
     "onboarding.alert.button.label.open_system_settings" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Nastavení systému"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8704,6 +9388,12 @@
     "onboarding.alert.message.helper_not_installed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdá se, že jste pomocníkovi neudělili oprávnění. Pokud se neobjevila výzva k zadání hesla/Touch ID, je to v pořádku - je to chyba systému macOS a někdy se to stává.\nOprávnění můžete vždy změnit v Nastavení systému.\nMějte prosím na paměti, že aplikace nebude bez pomocného nástroje fungovat."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8781,6 +9471,12 @@
     "onboarding.alert.title.helper_not_installed" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj (stále) není nainstalován"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8858,6 +9554,12 @@
     "onboarding.button.label.complete" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokončit"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -8935,6 +9637,12 @@
     "onboarding.button.label.get_started" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začít"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9012,6 +9720,12 @@
     "onboarding.button.label.install_helper" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalovat pomocný nástroj"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9089,6 +9803,12 @@
     "onboarding.button.label.launch_at_login" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít BatFi při přihlášení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9166,6 +9886,12 @@
     "onboarding.button.label.next" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Další"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9243,6 +9969,12 @@
     "onboarding.button.label.previous" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Předchozí"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9320,6 +10052,12 @@
     "onboarding.button.label.tip_jar.tip" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dát spropitné %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9397,6 +10135,12 @@
     "onboarding.label.almost_done" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Už to bude."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9474,6 +10218,12 @@
     "onboarding.label.app_description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi pomáhá optimalizovat výkon baterie systému macOS tím, že inteligentně řídí úrovně nabíjení a zároveň vám dává plnou kontrolu - nabíjení na 100 %, jen když je to potřeba."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9551,6 +10301,12 @@
     "onboarding.label.app_is_ready" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace je připravena k použití!"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9628,6 +10384,12 @@
     "onboarding.label.done" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hotovo."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9705,6 +10467,12 @@
     "onboarding.label.extend_life" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prodlužte životnost svého Macu."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9782,6 +10550,12 @@
     "onboarding.label.helper_description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi nainstaluje pomocný nástroj, který bude pracovat na pozadí a bude schopen změnit režim nabíjení počítače."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9859,6 +10633,12 @@
     "onboarding.label.helper_requires_admin" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalace pomocného nástroje vyžaduje oprávnění správce a je nezbytná pro funkčnost BatFi."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -9936,6 +10716,12 @@
     "onboarding.label.launch_at_login_recommendation" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doporučeno. Můžete to změnit později v nastavení aplikace."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10013,6 +10799,12 @@
     "onboarding.label.set_limit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavit limit nabíjení."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10090,6 +10882,12 @@
     "onboarding.label.set_limit_description" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavte maximální procento nabíjení, abyste zabránili udržování úrovně nabití na 100 % a zlepšili životnost baterie."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10167,6 +10965,12 @@
     "onboarding.label.set_limit_set_up_later" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto nastavení můžete později upravit v nastavení aplikace."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10244,6 +11048,12 @@
     "onboarding.slider.label.set_limit" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnout nabíjení, jakmile baterie dosáhne %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10321,6 +11131,12 @@
     "settings.accessibility.title.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokročilý panel"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10398,6 +11214,12 @@
     "settings.accessibility.title.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjecí panel"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10475,6 +11297,12 @@
     "settings.accessibility.title.general" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obecný panel"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10552,6 +11380,12 @@
     "settings.accessibility.title.hotkeys" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel klávesových zkratek"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10629,6 +11463,12 @@
     "settings.accessibility.title.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel oznámení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10706,6 +11546,12 @@
     "settings.accessibility.title.statusBar" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panel nabídky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10783,6 +11629,12 @@
     "settings.button.description.lid_must_be_opened_disable_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funguje pouze s vyklopeným displejem. Chcete-li funkci používat se zaklopeným displejem, vypněte režim spánku."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10860,6 +11712,12 @@
     "settings.button.label.automatically_check_updates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky kontrolovat aktualizace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -10937,6 +11795,12 @@
     "settings.button.label.automatically_download_updates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky stahovat aktualizace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11014,6 +11878,12 @@
     "settings.button.label.automatically_manage_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky spravovat nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11091,6 +11961,12 @@
     "settings.button.label.battery_calibration_recommended" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je doporučena kalibrace baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11168,6 +12044,12 @@
     "settings.button.label.battery_percentage" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazovat stav baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11245,6 +12127,12 @@
     "settings.button.label.battery_percentage_next_to_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit procenta vedle ikony"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11322,6 +12210,12 @@
     "settings.button.label.blink_magSafe_when_discharging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Několikrát bliknout kontrolkou LED na zařízení MagSafe, když aplikace začne vybíjet baterii"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11399,6 +12293,12 @@
     "settings.button.label.charging_status_did_change" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Změnil se stav nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11476,6 +12376,12 @@
     "settings.button.label.check_for_beta_updates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Povolit betaverzi aplikace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11553,6 +12459,12 @@
     "settings.button.label.debug_menu" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit Nabídku ladění"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11630,6 +12542,12 @@
     "settings.button.label.disable_automatic_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zpozdit automatické uspání při nabíjení a nedosažení limitu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11707,6 +12625,12 @@
     "settings.button.label.disable_sleep_while_discharging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnout režim spánku při vybíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11784,6 +12708,12 @@
     "settings.button.label.discharge_batter_when_overcharged" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybití baterie při překročení limitu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11861,6 +12791,12 @@
     "settings.button.label.enable_system_charge_limit_on_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky povolit omezení nabití systému (80 %), když Mac přejde do režimu spánku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -11938,6 +12874,12 @@
     "settings.button.label.high_energy_impact_processes_show" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit aplikace s vysokou spotřebou energie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12015,6 +12957,12 @@
     "settings.button.label.launch_at_login" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít při přihlášení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12092,6 +13040,12 @@
     "settings.button.label.magsafe_use_green_light" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použít zelenou kontrolku na zařízení MagSafe, když je nabíjení pozastaveno"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12169,6 +13123,12 @@
     "settings.button.label.monochrome_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit černobílou ikonu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12246,6 +13206,12 @@
     "settings.button.label.pause_charging_on_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky pozastavit nabíjení, když Mac přejde do režimu spánku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12323,6 +13289,12 @@
     "settings.button.label.send_analytics" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odesílat zprávy o haváriích"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12400,6 +13372,12 @@
     "settings.button.label.show_alerts_when_optimized_charging_is_engaged" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit upozornění, když je zapnuto optimalizované nabíjení baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12477,6 +13455,12 @@
     "settings.button.label.show_battery_chart_in_menu" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit v nabídce graf procentuálního stavu baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12554,6 +13538,12 @@
     "settings.button.label.show_battery_cycles" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit počet cyklů baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12631,6 +13621,12 @@
     "settings.button.label.show_battery_health" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit kondici baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12708,6 +13704,12 @@
     "settings.button.label.show_battery_temperature" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit teplotu baterie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12785,6 +13787,12 @@
     "settings.button.label.show_last_discharge_date" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit datum posledního vybití"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12862,6 +13870,12 @@
     "settings.button.label.show_last_full_charge_date" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit datum posledního úplného nabití"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -12939,6 +13953,12 @@
     "settings.button.label.show_power_diagram" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit distribuci energie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13016,6 +14036,12 @@
     "settings.button.label.show_power_mode_options" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit možnosti režimu napájení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13093,6 +14119,12 @@
     "settings.button.label.show_power_source" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit zdroj napájení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13170,6 +14202,12 @@
     "settings.button.label.show_status_bar_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit ikonu ve stavovém řádku"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13247,6 +14285,12 @@
     "settings.button.label.show_time_left_status_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit zbývající čas"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13324,6 +14368,12 @@
     "settings.button.label.turn_off_charging_when_battery_is_hot" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automaticky vypnout nabíjení, když se baterie zahřeje"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13401,6 +14451,12 @@
     "settings.button.tooltip.disable_automatic_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace odloží uspání, takže se počítač nabije až do limitu, a pak zablokuje nabíjení a uspí Mac"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13478,6 +14534,12 @@
     "settings.button.tooltip.turn_off_charging_when_battery_is_hot" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypne nabíjení, když je teplota baterie 40 °C nebo vyšší."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13555,6 +14617,12 @@
     "settings.hotkey.label.charge_to_full" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepnout na nabíjení na 100 %"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13632,6 +14700,12 @@
     "settings.hotkey.label.discharge" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepnout na provoz na baterii"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13709,6 +14783,12 @@
     "settings.hotkey.label.inhibit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepnout na blokování nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13786,6 +14866,12 @@
     "settings.hotkey.label.stop_override" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastavit přepsání nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13863,6 +14949,12 @@
     "settings.hotkey.label.toggle_high_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepnout na režim vysokého výkonu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13940,6 +15032,12 @@
     "settings.hotkey.label.toggle_low_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepnout na režim nízké spotřeby"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14017,6 +15115,12 @@
     "settings.label.analytics_are_always_on_during_beta" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Během betaverze vždy zapnuto"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14094,6 +15198,12 @@
     "settings.label.battery_low_threshold" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baterie je slabá na %lld%%"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14171,6 +15281,12 @@
     "settings.label.charging_recommendation_part1" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doporučená hodnota pro každodenní používání je 80 %."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14248,6 +15364,12 @@
     "settings.label.charging_recommendation_part2" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto nastavení můžete ručně přepsat pomocí příkazu „Nabít na 100 %“ v nabídce"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14324,6 +15446,36 @@
     },
     "settings.label.high_energy_impact_processes_capacity" : {
       "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zobrazit až %d procesy"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zobrazit až %d procesů"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zobrazit až %d proces"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zobrazit až %d procesů"
+                }
+              }
+            }
+          }
+        },
         "de" : {
           "variations" : {
             "plural" : {
@@ -14551,6 +15703,12 @@
     "settings.label.high_energy_impact_processes_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doba trvání vzorku: %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14628,6 +15786,12 @@
     "settings.label.high_energy_impact_processes_max_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 minut"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14705,6 +15869,12 @@
     "settings.label.high_energy_impact_processes_min_duration" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 s"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14782,6 +15952,12 @@
     "settings.label.high_energy_impact_processes_threshold" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prahová hodnota energetického dopadu: %lld"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14859,6 +16035,12 @@
     "settings.label.highest_limit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "90 %"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14936,6 +16118,12 @@
     "settings.label.lowest_limit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50 %"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15013,6 +16201,12 @@
     "settings.label.tip_jar.body" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyjádřete svou podporu zasláním spropitného!\nVaše příspěvky mi pomáhají se neustále zlepšovat a dělají pro vás BatFi ještě lepší.\nDěkuji, že jste úžasnou součástí naší komunity!"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15090,6 +16284,12 @@
     "settings.label.tip_jar.button_description_1" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tlačítko otevře webové stránky Gumroad s již nastavenou cenou."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15167,6 +16367,12 @@
     "settings.label.tip_jar.button_description_2" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Před pokračováním můžete částku změnit."
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15238,6 +16444,12 @@
     "settings.label.tip_jar.title" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Užíváte si BatFi?"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15309,6 +16521,12 @@
     "settings.section.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokročilé"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15386,6 +16604,12 @@
     "settings.section.alerts" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upozornění"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15463,6 +16687,12 @@
     "settings.section.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15540,6 +16770,12 @@
     "settings.section.debug" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ladění"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15617,6 +16853,12 @@
     "settings.section.general" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obecné"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15694,6 +16936,12 @@
     "settings.section.high_energy_impact_processes" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace s vysokou spotřebou energie"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15771,6 +17019,12 @@
     "settings.section.magSafe" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15848,6 +17102,12 @@
     "settings.section.menu" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabídka"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15925,6 +17185,12 @@
     "settings.section.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oznámení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16002,6 +17268,12 @@
     "settings.section.other" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Další"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16079,6 +17351,12 @@
     "settings.section.status_icon" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikonka stavu"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16156,6 +17434,12 @@
     "settings.section.updates" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktualizace"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16233,6 +17517,12 @@
     "settings.slider.label.turn_off_charging_at" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnout nabíjení, když baterie dosáhne %@"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16310,6 +17600,12 @@
     "settings.tab.title.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokročilé"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16387,6 +17683,12 @@
     "settings.tab.title.charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nabíjení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16464,6 +17766,12 @@
     "settings.tab.title.general" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obecné"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16541,6 +17849,12 @@
     "settings.tab.title.hotkeys" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klávesové zkratky"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16618,6 +17932,12 @@
     "settings.tab.title.license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16695,6 +18015,12 @@
     "settings.tab.title.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oznámení"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16772,6 +18098,12 @@
     "settings.tab.title.statusbar" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Řádek nabídek"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16849,6 +18181,12 @@
     "settings.tab.title.tip_jar" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sklenice na spropitné"
+          }
+        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
