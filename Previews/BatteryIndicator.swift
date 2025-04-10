@@ -9,12 +9,7 @@ import BatteryIndicator
 import SwiftUI
 
 struct BatteryIndicatorPreview: View {
-    @StateObject var model = BatteryIndicatorView.Model(
-        chargingMode: .inhibited,
-        batteryLevel: 10,
-        monochrome: false,
-        showPercentage: false
-    )
+    @StateObject var model = BatteryIndicatorViewModel.init()
     @State private var percentage: Double = 55
 
     var body: some View {
@@ -47,10 +42,10 @@ struct BatteryIndicatorPreview: View {
                     }
                 }
                 Picker(selection: $model.chargingMode) {
-                    Text("Charging").tag(BatteryIndicatorView.Model.ChargingMode.charging)
-                    Text("Discharging").tag(BatteryIndicatorView.Model.ChargingMode.discharging)
-                    Text("Inhibited").tag(BatteryIndicatorView.Model.ChargingMode.inhibited)
-                    Text("Error").tag(BatteryIndicatorView.Model.ChargingMode.error)
+                    Text("Charging").tag(BatteryIndicatorViewModel.ChargingMode.charging)
+                    Text("Discharging").tag(BatteryIndicatorViewModel.ChargingMode.discharging)
+                    Text("Inhibited").tag(BatteryIndicatorViewModel.ChargingMode.inhibited)
+                    Text("Error").tag(BatteryIndicatorViewModel.ChargingMode.error)
                 } label: {
                     Text("Choose mode:")
                 }

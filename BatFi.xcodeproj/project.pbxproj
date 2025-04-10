@@ -19,6 +19,7 @@
 		6615489E2D6B4CB000091523 /* LetsMove.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6615489B2D6B4CAB00091523 /* LetsMove.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */; };
 		66558E972BC1CB5D00FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
+		6661E9A52DA5BDE9007285C6 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 6661E9A42DA5BDE9007285C6 /* App */; };
 		66768FC92BE2814A002A7528 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66768FC82BE2814A002A7528 /* main.swift */; };
 		667BA0342BCDC83300369B79 /* DischargeBatteryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */; };
 		667BA0352BCDC83300369B79 /* ChargeToFullIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0332BCDC83300369B79 /* ChargeToFullIntent.swift */; };
@@ -29,8 +30,6 @@
 		66CF84332BC6D4A6003C51B8 /* BatteryIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84322BC6D4A6003C51B8 /* BatteryIndicator.swift */; };
 		66CF84352BC6D4A6003C51B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84342BC6D4A6003C51B8 /* Assets.xcassets */; };
 		66CF84382BC6D4A6003C51B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */; };
-		66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; };
-		66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 66F50ABA2BD316970043C5DF /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
@@ -83,7 +82,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,7 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */,
+				6661E9A52DA5BDE9007285C6 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +311,7 @@
 			);
 			name = Previews;
 			packageProductDependencies = (
-				66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */,
+				6661E9A42DA5BDE9007285C6 /* App */,
 			);
 			productName = Previews;
 			productReference = 66CF842E2BC6D4A6003C51B8 /* Previews.app */;
@@ -976,9 +974,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
 		};
-		66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */ = {
+		6661E9A42DA5BDE9007285C6 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = BatteryIndicator;
+			productName = App;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
