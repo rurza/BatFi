@@ -129,6 +129,7 @@ let package = Package(
                 .appShared,
                 .asyncAlgorithms,
                 .clients,
+                .defaultsKeys,
             ]
         ),
         .target(name: "BatteryInfo", dependencies: [
