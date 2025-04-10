@@ -14,7 +14,7 @@ struct BasicBatteryIndicatorView: View {
     var body: some View {
         HStack(spacing: 1) {
             if model.chargingMode == .error {
-                ChargingModeSymbol(model: model, height: height, heightFraction: 0.9)
+                ChargingModeSymbol.error(height: height, heightFraction: 0.9)
             }
             ZStack {
                 RoundedRectangle(
@@ -23,7 +23,7 @@ struct BasicBatteryIndicatorView: View {
                 .stroke(lineWidth: 1)
                 .padding(1)
                 .foregroundStyle(.primary)
-                .opacity(0.5)
+                .opacity(1.0)
                 GeometryReader { innerProxy in
                     let width = (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
                     RoundedRectangle(cornerRadius: 1)
@@ -40,31 +40,31 @@ struct BasicBatteryIndicatorView: View {
             .reverseMask {
                 ZStack {
                     if model.chargingMode == .charging {
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -0.9, y: 0.1)
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 0.9, y: -0.1)
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: -1.2, y: 0.7)
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.9).offset(x: 1.2, y: -0.7)
-                    } else if model.chargingMode == .inhibited, model.monochrome, model.batteryLevel > 45 {
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
+                        ChargingModeSymbol.charging(height: height, heightFraction: 0.9).offset(x: -0.9, y: 0.1)
+                        ChargingModeSymbol.charging(height: height, heightFraction: 0.9).offset(x: 0.9, y: -0.1)
+                        ChargingModeSymbol.charging(height: height, heightFraction: 0.9).offset(x: -1.2, y: 0.7)
+                        ChargingModeSymbol.charging(height: height, heightFraction: 0.9).offset(x: -1.2, y: 0.4)
+                        ChargingModeSymbol.charging(height: height, heightFraction: 0.9).offset(x: 1.2, y: -0.7)
+                    } else if model.chargingMode == .inhibited {
+                        ChargingModeSymbol.inhitbitedMask(height: height, heightFraction: 0.9)
                     }
                 }
             }
             .overlay {
                 switch model.chargingMode {
                 case .charging:
-                    ChargingModeSymbol(model: model, height: height, heightFraction: 0.9)
+                    ChargingModeSymbol.charging(height: height, heightFraction: 0.9)
                         .foregroundStyle(symbolColor)
                 case .discharging:
                     EmptyView()
                 case .inhibited:
-                    if !model.monochrome || (model.monochrome && model.batteryLevel <= 45) {
-                        ChargingModeSymbol(model: model, height: height, heightFraction: 0.6)
-                            .foregroundStyle(symbolColor)
-                    }
+                    ChargingModeSymbol.inhibited(height: height, heightFraction: 0.8)
+                        .foregroundStyle(symbolColor)
                 case .error:
                     EmptyView()
                 }
             }
+            .clipped()
         }
     }
 
@@ -93,31 +93,51 @@ struct BasicBatteryIndicatorView: View {
 }
 
 private struct ChargingModeSymbol: View {
-    @ObservedObject var model: BatteryIndicatorViewModel
     let height: Double
     let heightFraction: Double
+    let name: ImageName
+
+    enum ImageName {
+        case system(String)
+        case bundle(String)
+    }
 
     var body: some View {
         let size = fontSize(height: height, fraction: heightFraction)
         Group {
-            switch model.chargingMode {
-            case .charging:
-                Image(systemName: "bolt.fill")
-            case .discharging:
-                EmptyView()
-            case .inhibited:
-                Image(systemName: "pause.fill")
-            case .error:
-                Image(systemName: "exclamationmark")
-                    .font(
-                        .system(
-                            size: fontSize(height: height, fraction: 0.8),
-                            weight: .heavy
-                        )
-                    )
+            switch name {
+            case .system(let name):
+                Image(systemName: name)
+            case .bundle(let name):
+                Image(name, bundle: .module)
             }
         }
         .transition(.opacity)
         .font(.system(size: size, weight: .medium))
+    }
+}
+
+extension ChargingModeSymbol {
+    @ViewBuilder
+    static func error(height: Double, heightFraction: Double) -> some View {
+        ChargingModeSymbol(height: height, heightFraction: heightFraction, name: .system("exclamationmark"))
+            .font(
+            .system(
+                size: fontSize(height: height, fraction: 0.8),
+                weight: .heavy
+            )
+        )
+    }
+
+    static func charging(height: Double, heightFraction: Double) -> some View {
+        ChargingModeSymbol(height: height, heightFraction: heightFraction, name: .system("bolt.fill"))
+    }
+
+    static func inhitbitedMask(height: Double, heightFraction: Double) -> some View {
+        ChargingModeSymbol(height: height, heightFraction: heightFraction, name: .bundle("reversemask.powerplug.portrait.fill"))
+    }
+
+    static func inhibited(height: Double, heightFraction: Double) -> some View {
+        ChargingModeSymbol(height: height, heightFraction: heightFraction, name: .system("powerplug.portrait.fill"))
     }
 }
