@@ -11460,6 +11460,17 @@
         }
       }
     },
+    "settings.accessibility.title.menu" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Menu pane"
+          }
+        }
+      }
+    },
     "settings.accessibility.title.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -11544,7 +11555,7 @@
       }
     },
     "settings.accessibility.title.statusBar" : {
-      "extractionState" : "extracted_with_value",
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -14195,6 +14206,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "显示电源"
+          }
+        }
+      }
+    },
+    "settings.button.label.show_static_bar_icon" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show static bar icon"
           }
         }
       }
@@ -18012,6 +18034,17 @@
         }
       }
     },
+    "settings.tab.title.menu" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Menu"
+          }
+        }
+      }
+    },
     "settings.tab.title.notifications" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -18095,8 +18128,19 @@
         }
       }
     },
-    "settings.tab.title.statusbar" : {
+    "settings.tab.title.status_icon" : {
       "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Status Icon"
+          }
+        }
+      }
+    },
+    "settings.tab.title.statusbar" : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

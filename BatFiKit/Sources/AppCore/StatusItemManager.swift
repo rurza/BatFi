@@ -86,6 +86,11 @@ public final class StatusItemManager {
                 self.statusItem.isVisible = showMenuBarIcon
             }
         }
+        Task {
+            for await showStaticMenuBarIcon in defaults.observe(.showStaticMenuBarIcon).removeDuplicates() {
+                setupStatusItemIcon(showStaticIcon: showStaticMenuBarIcon)
+            }
+        }
     }
 
     private func observeMenuState() {
@@ -342,26 +347,7 @@ public final class StatusItemManager {
 
     private func setUpStatusItem() {
         statusItem.isVisible = true
-        guard let button = statusItem.button else { fatalError() }
-        let hostingView = NSHostingView(
-            rootView: StatusItem(
-                sizePassthrough: sizePassthrough,
-                batteryIndicatorModel: batteryIndicatorModel,
-                model: statusItemModel
-            )
-        )
-        hostingView.frame = NSRect(x: 0, y: 0, width: 38, height: 13)
-        button.frame = hostingView.frame
-        button.image = NSImage()
-        hostingView.wantsLayer = true
-        button.subviews.forEach { $0.removeFromSuperview() }
-        button.addSubview(hostingView)
-        self.batteryIndicatorView = hostingView
-        sizeCancellable = sizePassthrough.sink { [weak self] size in
-            let frame = NSRect(origin: .zero, size: .init(width: size.width, height: 24))
-            self?.batteryIndicatorView?.frame = frame
-            self?.statusItem.button?.frame = frame
-        }
+        setupStatusItemIcon(showStaticIcon: defaults.value(.showStaticMenuBarIcon))
         observeMenuState()
         menuOpenedTask = Task { [weak self] in
             guard let self else { return }
@@ -372,6 +358,36 @@ public final class StatusItemManager {
                     powerModeTask?.cancel()
                     powerModeTask = nil
                 }
+            }
+        }
+    }
+
+    private func setupStatusItemIcon(showStaticIcon: Bool) {
+        guard let button = statusItem.button else { fatalError() }
+        button.subviews.forEach { $0.removeFromSuperview() }
+        if showStaticIcon {
+            let image = NSImage(resource: .statusBarIcon)
+            button.image = image
+            self.batteryIndicatorView = nil
+            sizeCancellable?.cancel()
+        } else {
+            let hostingView = NSHostingView(
+                rootView: StatusItem(
+                    sizePassthrough: sizePassthrough,
+                    batteryIndicatorModel: batteryIndicatorModel,
+                    model: statusItemModel
+                )
+            )
+            hostingView.frame = NSRect(x: 0, y: 0, width: 38, height: 13)
+            button.frame = hostingView.frame
+            button.image = NSImage()
+            hostingView.wantsLayer = true
+            button.addSubview(hostingView)
+            self.batteryIndicatorView = hostingView
+            sizeCancellable = sizePassthrough.sink { [weak self] size in
+                let frame = NSRect(origin: .zero, size: .init(width: size.width, height: 24))
+                self?.batteryIndicatorView?.frame = frame
+                self?.statusItem.button?.frame = frame
             }
         }
     }
