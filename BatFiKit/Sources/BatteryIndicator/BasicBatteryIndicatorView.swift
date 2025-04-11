@@ -85,7 +85,7 @@ struct BasicBatteryIndicatorView: View {
         if !model.monochrome, model.batteryLevel <= 10 {
             return .red
         } else {
-            return .primary.opacity(0.9)
+            return .primary.opacity(0.8)
         }
     }
 
