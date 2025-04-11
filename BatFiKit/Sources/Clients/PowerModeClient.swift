@@ -18,13 +18,16 @@ public enum PowerModeClientError: Error {
 public struct PowerModeClient: TestDependencyKey {
     public var getCurrentPowerMode: () async throws -> (PowerMode, Bool)
     public var setPowerMode: (PowerMode, _ lowPowerModeOnly: Bool) async throws -> Void
+    public var observePowerMode: () -> AsyncStream<PowerMode>
 
     public init(
         getCurrentPowerMode: @escaping () async throws -> (PowerMode, Bool),
-        setPowerMode: @escaping (PowerMode, Bool) async throws -> Void
+        setPowerMode: @escaping (PowerMode, Bool) async throws -> Void,
+        observePowerMode: @escaping () -> AsyncStream<PowerMode>
     ) {
         self.getCurrentPowerMode = getCurrentPowerMode
         self.setPowerMode = setPowerMode
+        self.observePowerMode = observePowerMode
     }
 
     public static var testValue: PowerModeClient = unimplemented()

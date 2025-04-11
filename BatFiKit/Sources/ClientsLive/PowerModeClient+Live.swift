@@ -5,6 +5,7 @@
 //  Created by Adam Różyński on 20.11.2024.
 //
 
+import AsyncAlgorithms
 import Foundation
 import Clients
 import Dependencies
@@ -22,10 +23,43 @@ extension PowerModeClient: DependencyKey {
                 }
             },
             setPowerMode: { powerMode, lowPowerModeOnly in
-                try await xpcClient.setPowerMode(powerMode.uint, lowPowerModeOnly: lowPowerModeOnly)
+                do {
+                    try await xpcClient.setPowerMode(powerMode.uint, lowPowerModeOnly: lowPowerModeOnly)
+                    NotificationCenter.default.post(name: .powerModeDidChange, object: nil, userInfo: ["powerMode": powerMode.uint])
+                } catch {
+                    throw error
+                }
+            },
+            observePowerMode: {
+                merge(
+                    AsyncStream<PowerMode> { continuation in
+                        let task = Task {
+                            while Task.isCancelled {
+                                try await Task.sleep(for: .seconds(60), tolerance: .milliseconds(50))
+                                let (uint, _) = try await xpcClient.getPowerMode()
+                                if let mode = PowerMode(uint: uint) {
+                                    continuation.yield(mode)
+                                }
+                            }
+                        }
+                        continuation.onTermination = { _ in
+                            task.cancel()
+                        }
+                    },
+                    NotificationCenter.default.notifications(named: .powerModeDidChange).compactMap { note in
+                        guard let userInfo = note.userInfo, let uintValue = userInfo["powerMode"] as? UInt8, let mode = PowerMode(uint: uintValue) else {
+                            return nil
+                        }
+                        return mode
+                    }
+                ).eraseToStream()
             }
         )
     }
+}
+
+extension Notification.Name {
+    static let powerModeDidChange = Notification.Name("BatFiKit.PowerModeClient.PowerModeDidChange")
 }
 
 extension PowerMode {
