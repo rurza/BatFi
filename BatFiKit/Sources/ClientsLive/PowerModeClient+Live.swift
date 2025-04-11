@@ -34,12 +34,12 @@ extension PowerModeClient: DependencyKey {
                 merge(
                     AsyncStream<PowerMode> { continuation in
                         let task = Task {
-                            while Task.isCancelled {
-                                try await Task.sleep(for: .seconds(60), tolerance: .milliseconds(50))
+                            while !Task.isCancelled {
                                 let (uint, _) = try await xpcClient.getPowerMode()
                                 if let mode = PowerMode(uint: uint) {
                                     continuation.yield(mode)
                                 }
+                                try await Task.sleep(for: .seconds(60), tolerance: .milliseconds(50))
                             }
                         }
                         continuation.onTermination = { _ in
