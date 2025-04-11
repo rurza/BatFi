@@ -5,10 +5,15 @@
 //  Created by Adam on 18/05/2023.
 //
 
+import Clients
+import Dependencies
 import SwiftUI
 
 struct BasicBatteryIndicatorView: View {
     @ObservedObject var model: BatteryIndicatorViewModel
+    @Dependency(\.powerModeClient) private var powerModeClient
+    @State private var lowPowerMode = false
+
     let height: Double
 
     var body: some View {
@@ -64,11 +69,19 @@ struct BasicBatteryIndicatorView: View {
                     EmptyView()
                 }
             }
-            .clipped()
+            .task {
+                for await powerMode in powerModeClient.observePowerMode() {
+                    print("Power mode did change")
+                    lowPowerMode = powerMode == .low
+                }
+            }
         }
     }
 
     var fillColor: Color {
+        guard !lowPowerMode else {
+            return .yellow
+        }
         if !model.monochrome, model.batteryLevel <= 10 {
             return .red
         } else {
