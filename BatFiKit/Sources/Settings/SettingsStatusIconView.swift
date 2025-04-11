@@ -25,11 +25,11 @@ struct SettingsStatusIconView: View {
         Container(contentWidth: settingsContentWidth) {
             Section(title: "", bottomDivider: true) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Select Icon Type:")
+                    Text(l10n.Button.Label.chooseStatusIconStyle)
                     Picker("", selection: $statusIconOption) {
-                        Text("Dynamic (default)").tag(StatusIconOption.dynamic)
-                        Text("Static").tag(StatusIconOption.static)
-                        Text("Hidden").tag(StatusIconOption.hidden)
+                        Text(l10n.Button.Label.statusIconStyleDynamic).tag(StatusIconOption.dynamic)
+                        Text(l10n.Button.Label.statusIconStyleStatic).tag(StatusIconOption.static)
+                        Text(l10n.Button.Label.statusIconStyleHidden).tag(StatusIconOption.hidden)
                     }
                     .pickerStyle(.radioGroup)
                 }
