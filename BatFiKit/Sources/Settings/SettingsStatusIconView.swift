@@ -23,18 +23,20 @@ struct SettingsStatusIconView: View {
     var body: some View {
         let l10n = L10n.Settings.self
         Container(contentWidth: settingsContentWidth) {
-            Section(title: "", bottomDivider: true) {
+            Section(title: "", bottomDivider: false) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(l10n.Button.Label.chooseStatusIconStyle)
-                    Picker("", selection: $statusIconOption) {
+                    Picker(selection: $statusIconOption) {
                         Text(l10n.Button.Label.statusIconStyleDynamic).tag(StatusIconOption.dynamic)
                         Text(l10n.Button.Label.statusIconStyleStatic).tag(StatusIconOption.static)
                         Text(l10n.Button.Label.statusIconStyleHidden).tag(StatusIconOption.hidden)
+                    } label: {
+                       EmptyView()
                     }
-                    .pickerStyle(.radioGroup)
+                    .pickerStyle(.menu)
                 }
-            }
-            Section(title: "", bottomDivider: false) {
+                .frame(width: 200, alignment: .leading)
+                .padding(.bottom, 2)
                 Group {
                     Toggle(l10n.Button.Label.monochromeIcon, isOn: $monochrom)
                     Toggle(l10n.Button.Label.batteryPercentage, isOn: $batteryPercentage)
