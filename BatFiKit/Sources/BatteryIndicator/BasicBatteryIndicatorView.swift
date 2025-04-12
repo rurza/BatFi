@@ -71,7 +71,6 @@ struct BasicBatteryIndicatorView: View {
             }
             .task {
                 for await powerMode in powerModeClient.observePowerMode() {
-                    print("Power mode did change")
                     lowPowerMode = powerMode == .low
                 }
             }
