@@ -18,6 +18,7 @@ public final class SettingsController {
             GeneralView.pane,
             ChargingView.pane,
             MenubarView.pane,
+            SettingsStatusIconView.pane,
             NotificationsView.pane,
             HotkeysView.pane,
             AdvancedView.pane,

@@ -11,7 +11,7 @@ import SwiftUI
 struct PreviewsApp: App {
     var body: some Scene {
         WindowGroup {
-            EmptyView()
+            BatteryIndicatorPreview()
         }
     }
 }

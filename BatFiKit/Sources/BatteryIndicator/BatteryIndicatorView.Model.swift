@@ -15,18 +15,19 @@ import Foundation
 import os.log
 import SwiftUI
 
+// a lot of properties is public because I want to easily test it from the Previews app
 @MainActor
 public final class BatteryIndicatorViewModel: ObservableObject {
     @Published
-    private(set) public var chargingMode: ChargingMode = .discharging
+    public var chargingMode: ChargingMode = .discharging
     @Published
-    private(set) public var batteryLevel: Int = 0
+    public var batteryLevel: Int = 0
     @Published
-    private(set) public var monochrome: Bool = Defaults[.monochromeStatusIcon]
+    public var monochrome: Bool = Defaults[.monochromeStatusIcon]
     @Published
-    private(set) public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
+    public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
     @Published
-    private(set) public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
+    public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
 
     @Dependency(\.powerSourceClient.powerSourceChanges)
     private var powerSourceChanges

@@ -65,6 +65,6 @@ extension Double {
 }
 
 func fontSize(height: Double, fraction: Double) -> Double {
-    let proportion = round(height * fraction)
-    return proportion.isEven ? proportion : proportion + 1
+    let newValue = round(height * fraction)
+    return newValue.isEven ? newValue : newValue + 1
 }

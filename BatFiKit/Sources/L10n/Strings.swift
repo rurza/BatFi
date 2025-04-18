@@ -472,8 +472,8 @@ public enum L10n {
                 public static let general = String(localized: "settings.accessibility.title.general", defaultValue: "General pane", bundle: Bundle.module)
                 /// Notifications pane
                 public static let notifications = String(localized: "settings.accessibility.title.notifications", defaultValue: "Notifications pane", bundle: Bundle.module)
-                /// Menu bar pane
-                public static let statusBar = String(localized: "settings.accessibility.title.statusBar", defaultValue: "Menu bar pane", bundle: Bundle.module)
+                /// Menu pane
+                public static let menu = String(localized: "settings.accessibility.title.menu", defaultValue: "Menu pane", bundle: Bundle.module)
                 /// Advanced pane
                 public static let advanced = String(localized: "settings.accessibility.title.advanced", defaultValue: "Advanced pane", bundle: Bundle.module)
                 /// Hotkeys pane
@@ -512,6 +512,8 @@ public enum L10n {
             public enum Label {
                 /// Show status bar icon
                 public static let showStatusBarIcon = String(localized: "settings.button.label.show_status_bar_icon", defaultValue: "Show status bar icon", bundle: Bundle.module)
+                /// Show static status icon
+                public static let showStaticBarIcon = String(localized: "settings.button.label.show_static_bar_icon", defaultValue: "Show static status icon", bundle: Bundle.module)
                 /// Automatically check for updates
                 public static let automaticallyCheckUpdates = String(localized: "settings.button.label.automatically_check_updates", defaultValue: "Automatically check for updates", bundle: Bundle.module)
                 /// Automatically download updates
@@ -583,6 +585,18 @@ public enum L10n {
 
                 /// Show power mode options
                 public static let showPowerModeOptions = String(localized: "settings.button.label.show_power_mode_options", defaultValue: "Show power mode options", bundle: Bundle.module)
+
+                /// Choose status icon style
+                public static let chooseStatusIconStyle = String(localized: "settings.button.label.choose_status_icon_style", defaultValue: "Choose status icon style", bundle: Bundle.module)
+
+                /// Dynamic (Default)
+                public static let statusIconStyleDynamic = String(localized: "settings.button.label.status_icon_style_dynamic", defaultValue: "Dynamic (Default)", bundle: Bundle.module)
+
+                /// Static
+                public static let statusIconStyleStatic = String(localized: "settings.button.label.status_icon_style_static", defaultValue: "Static", bundle: Bundle.module)
+
+                /// Hidden
+                public static let statusIconStyleHidden = String(localized: "settings.button.label.status_icon_style_hidden", defaultValue: "Hidden", bundle: Bundle.module)
 
                 /// Tip %@
                 public static func tipJarTip(_ p1: Any) -> String {
@@ -745,8 +759,10 @@ public enum L10n {
                 public static let general = String(localized: "settings.tab.title.general", defaultValue: "General", bundle: Bundle.module)
                 /// Notifications
                 public static let notifications = String(localized: "settings.tab.title.notifications", defaultValue: "Notifications", bundle: Bundle.module)
-                /// Status bar
-                public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu Bar", bundle: Bundle.module)
+                /// Menu
+                public static let menu = String(localized: "settings.tab.title.menu", defaultValue: "Menu", bundle: Bundle.module)
+                /// Status Icon
+                public static let statusIcon = String(localized: "settings.tab.title.status_icon", defaultValue: "Status Icon", bundle: Bundle.module)
                 /// Advanced
                 public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
                 /// Hotkeys
