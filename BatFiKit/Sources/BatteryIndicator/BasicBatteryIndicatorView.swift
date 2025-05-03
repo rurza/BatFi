@@ -150,6 +150,6 @@ extension ChargingModeSymbol {
     }
 
     static func inhibited(height: Double, heightFraction: Double) -> some View {
-        ChargingModeSymbol(height: height, heightFraction: heightFraction, name: .system("powerplug.portrait.fill"))
+        ChargingModeSymbol(height: height, heightFraction: heightFraction, name: .bundle("powerplug.portrait.fill"))
     }
 }
