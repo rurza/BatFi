@@ -99,9 +99,8 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     public func handleOpeningURL(_ url: URL) {
         do {
-            let (email, license) = try URLParser.parseURL(url)
-            licenseModel.email = email
-            licenseModel.license = license
+            let key = try URLParser.parseURL(url)
+            licenseModel.license = key
             licenseModel.verifyLicenseButtonClicked()
         } catch {
             let alert = NSAlert()

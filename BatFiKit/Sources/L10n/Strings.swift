@@ -144,8 +144,8 @@ public enum L10n {
         public static let activateBatFi = String(localized: "license.label.activate_batfi", defaultValue: "Activate BatFi", bundle: Bundle.module)
 
         /// The app requires a valid license key to work.
-        /// Provide the email and license key you received when getting the app.
-        public static let requiresLicense = String(localized: "license.label.requires_license", defaultValue: "The app requires a valid license key to work.\nProvide the email and license key you received when getting the app.", bundle: Bundle.module)
+        /// Provide the key you received when getting the app.
+        public static let requiresLicense = String(localized: "license.label.requires_license", defaultValue: "The app requires a valid license key to work.\nProvide the key you received when getting the app.", bundle: Bundle.module)
 
         /// Email
         public static let email = String(localized: "license.label.email", defaultValue: "Email", bundle: Bundle.module)
@@ -180,8 +180,8 @@ public enum L10n {
         public static let errorSystemIdentification = String(localized: "license.error.system_identification", defaultValue: "Can't identify system", bundle: Bundle.module)
         /// Invalid response
         public static let errorInvalidResponse = String(localized: "license.error.invalid_response", defaultValue: "Invalid response", bundle: Bundle.module)
-        /// Invalid license key or email
-        public static let errorInvalidLicenseOrEmail = String(localized: "license.error.invalid_license_or_email", defaultValue: "Invalid license key or email", bundle: Bundle.module)
+        /// Invalid license key
+        public static let errorInvalidLicenseOrEmail = String(localized: "license.error.invalid_license_or_email", defaultValue: "Invalid license key", bundle: Bundle.module)
         /// License is deactivated. Please purchase the app again.
         public static let errorDeactivatedLicense = String(localized: "license.error.deactivated_license", defaultValue: "License is deactivated. Please purchase the app again.", bundle: Bundle.module)
         /// Unexpected response. Contact the developer if you think this is an error and have a valid license key.

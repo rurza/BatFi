@@ -13,7 +13,6 @@ import SwiftUI
 
 struct OnboardingLicenseView: View {
     enum Focus {
-        case email
         case license
     }
 
@@ -50,14 +49,6 @@ struct OnboardingLicenseView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom, 20)
             Form {
-                TextField(text: $licenseModel.email) {
-                    Text(l10n.email)
-                }
-                .focused($focus, equals: Focus.email)
-                .onSubmit {
-                    focus = .license
-                }
-                .disabled(licenseModel.state.isLoading)
                 TextField(text: $licenseModel.license) {
                     Text(l10n.licenseKey)
                 }

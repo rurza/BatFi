@@ -20,7 +20,7 @@ extension LicenseClient: DependencyKey {
 
         @inline(never)
         func url() -> URL {
-            URL(string: "https://" + "license" + "." + "batfi" + "." + "micropixels" + "." + "software" + "/" + "verify")!
+            URL(string: "https://" + "license" + "." + "batfi" + "." + "micropixels" + "." + "software" + "/" + "v2" + "/" + "verify")!
         }
 
         let config = URLSessionConfiguration.default
@@ -34,13 +34,13 @@ extension LicenseClient: DependencyKey {
         let publicKeyData = loadPublicKey()
 
         return LicenseClient(
-            checkLicense: { email, key in
+            checkLicense: { key in
                 let l10n = L10n.License.self
 
                 guard let serialNumber = getSystemSerialNumber() else {
                     throw l10n.errorSystemIdentification
                 }
-                let licenseRequest = LicenseRequest(email: email, key: key, id: serialNumber)
+                let licenseRequest = LicenseRequest(key: key, id: serialNumber)
 
                 var request = URLRequest(
                     url: url(),
@@ -175,12 +175,11 @@ extension License: Decodable {
 }
 
 struct LicenseRequest: Encodable {
-    let email: String
     let key: String
     let id: String
 
     private enum CodingKeys: String, CodingKey {
-        case email, key
+        case key
         case id = "computer_id"
     }
 }

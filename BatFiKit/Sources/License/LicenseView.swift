@@ -11,7 +11,6 @@ import SwiftUI
 
 struct LicenseView: View {
     enum Focus {
-        case email
         case license
     }
 
@@ -88,13 +87,6 @@ struct LicenseView: View {
                     Text(l10n.requiresLicense)
                         .padding(.bottom, 10)
                     Form {
-                        TextField(text: $model.email) {
-                            Text(l10n.email)
-                        }
-                        .focused($focus, equals: LicenseView.Focus.email)
-                        .onSubmit {
-                            focus = .license
-                        }
                         TextField(text: $model.license) {
                             Text(l10n.licenseKey)
                         }

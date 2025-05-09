@@ -14,8 +14,6 @@ import Shared
 @MainActor
 public final class LicenseModel: ObservableObject {
     @Published
-    public var email: String = ""
-    @Published
     public var license: String = ""
 
     @Published
@@ -35,9 +33,7 @@ public final class LicenseModel: ObservableObject {
         state.license != nil
     }
 
-    public var canVerifyLicense: Bool {
-        !email.isEmpty && !license.isEmpty
-    }
+    public var canVerifyLicense: Bool { !license.isEmpty }
 
     public init() {
         Task {
@@ -65,7 +61,7 @@ public final class LicenseModel: ObservableObject {
         openLicenseWindowIfNotOpened()
         state = .loading
         do {
-            let license = try await licenseClient.checkLicense(email: email, key: license)
+            let license = try await licenseClient.checkLicense(key: license)
             state = .loaded(license)
         } catch {
             state = .error(error as NSError)
@@ -84,8 +80,8 @@ public final class LicenseModel: ObservableObject {
                 return true
             }
             do {
-                let fetchedLicense = try await licenseClient.checkLicense(email: license.email, key: license.key)
-                if fetchedLicense.key == license.key && fetchedLicense.email == license.email {
+                let fetchedLicense = try await licenseClient.checkLicense(key: license.key)
+                if fetchedLicense.key == license.key  {
                     state = .loaded(license)
                     return true
                 } else {

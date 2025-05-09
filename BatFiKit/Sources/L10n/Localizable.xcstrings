@@ -3830,79 +3830,79 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neplatný licenční klíč nebo e-mail"
+            "value" : "Neplatný licenční klíč"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ungültiger Lizenzschlüssel oder E-Mail"
+            "value" : "Ungültiger Lizenzschlüssel"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Invalid license key or email"
+            "value" : "Invalid license key"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clé de licence ou e-mail invalide"
+            "value" : "Clé de licence invalide"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chiave di licenza o e-mail non valida"
+            "value" : "Chiave di licenza non valida"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "無効なライセンスキーまたはメールアドレス"
+            "value" : "無効なライセンスキーです"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "잘못된 라이선스 키 또는 이메일"
+            "value" : "유효하지 않은 라이선스 키입니다"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ongeldige licentiesleutel of e-mail"
+            "value" : "Ongeldige licentiesleutel"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nieprawidłowy klucz lub email"
+            "value" : "Nieprawidłowy klucz licencyjny"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chave de licença ou e-mail inválido"
+            "value" : "Chave de licença inválida"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Недействительный лицензионный ключ или e-mail"
+            "value" : "Недействительный лицензионный ключ"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geçersiz lisans anahtarı veya e-posta"
+            "value" : "Geçersiz lisans anahtarı"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无效的许可证密钥或电子邮件"
+            "value" : "无效的许可证密钥"
           }
         }
       }
@@ -4909,79 +4909,79 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikace vyžaduje platný licenční klíč, aby mohla fungovat.\nUveďte e-mail a licenční klíč, který jste obdrželi při pořízení aplikace."
+            "value" : "Aplikace vyžaduje platný licenční klíč pro správnou funkci. \nZadejte klíč, který jste obdrželi při získání aplikace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die App erfordert einen gültigen Lizenzschlüssel. \nGeben Sie die E-Mail-Adresse und den Lizenzschlüssel an, die Sie beim Kauf erhalten haben."
+            "value" : "Die App benötigt einen gültigen Lizenzschlüssel, um zu funktionieren. \nBitte geben Sie den Schlüssel ein, den Sie beim Erhalt der App erhalten haben."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The app requires a valid license key to work.\nProvide the email and license key you received when getting the app."
+            "value" : "The app requires a valid license key to work.\nProvide the key you received when getting the app."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'application nécessite une clé de licence valide pour fonctionner. \nFournissez l'e-mail et la clé de licence que vous avez reçus lors de l'achat de l'application."
+            "value" : "L’application nécessite une clé de licence valide pour fonctionner. \nVeuillez entrer la clé que vous avez reçue lors de l’obtention de l’application."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'applicazione richiede una chiave di licenza valida per funzionare. \nFornisci l'e-mail e la chiave di licenza ricevute all'acquisto."
+            "value" : "L’app richiede una chiave di licenza valida per funzionare. \nInserisci la chiave ricevuta al momento dell’acquisto dell’app."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "このアプリを使用するには、有効なライセンスキーが必要です。\nアプリを購入した際に受け取ったメールとライセンスキーを入力してください。"
+            "value" : "このアプリを使用するには有効なライセンスキーが必要です。\nアプリ取得時に受け取ったキーを入力してください。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "앱을 사용하려면 유효한 라이선스 키가 필요합니다. \n구매 시 받은 이메일과 라이선스 키를 입력하세요."
+            "value" : "이 앱은 작동하려면 유효한 라이선스 키가 필요합니다. \n앱을 받을 때 제공받은 키를 입력하세요."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De app vereist een geldige licentiesleutel om te werken. \nGeef het e-mailadres en de licentiesleutel op die u bij de aankoop hebt ontvangen."
+            "value" : "De app vereist een geldige licentiesleutel om te werken. \nVoer de sleutel in die je hebt ontvangen bij het verkrijgen van de app."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aplikacja wymaga ważnego klucza licencyjnego.\nPodaj adres email oraz klucz który otrzymałeś z aplikacją."
+            "value" : "Aplikacja wymaga ważnego klucza licencyjnego.\nPodaj klucz który otrzymałeś z aplikacją."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplicativo requer uma chave de licença válida para funcionar. Forneça o e-mail e a chave de licença recebidos na compra."
+            "value" : "O aplicativo requer uma chave de licença válida para funcionar. \nInsira a chave que você recebeu ao obter o aplicativo."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Для работы приложения требуется действующий лицензионный ключ. \nУкажите e-mail и ключ, полученные при покупке."
+            "value" : "Для работы приложения необходим действующий лицензионный ключ. \nВведите ключ, который вы получили при получении приложения."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamanın çalışması için geçerli bir lisans anahtarı gereklidir. Satın alma sırasında aldığınız e-posta ve lisans anahtarını girin."
+            "value" : "Uygulamanın çalışması için geçerli bir lisans anahtarı gereklidir. \nUygulamayı alırken aldığınız anahtarı girin."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "该应用程序需要有效的许可证密钥才能运行。\n请提供您获取应用时收到的电子邮件和许可证密钥。"
+            "value" : "此应用需要有效的许可证密钥才能运行。\n请输入您获取应用时收到的密钥。"
           }
         }
       }

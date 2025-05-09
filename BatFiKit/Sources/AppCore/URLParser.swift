@@ -8,7 +8,7 @@
 import Foundation
 
 public struct URLParser {
-    static public func parseURL(_ url: URL) throws -> (String, String) {
+    static public func parseURL(_ url: URL) throws -> String {
         guard url.scheme == "batfi" else { throw "Wrong schema" }
 
         let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
@@ -16,9 +16,9 @@ public struct URLParser {
 
         let queryItems = components?.queryItems
 
-        guard let email = queryItems?.first(where: { $0.name == "email" })?.value,
+        guard let _ = queryItems?.first(where: { $0.name == "email" })?.value,
               let licenseKey = queryItems?.first(where: { $0.name == "license" })?.value else { throw "Wrong query" }
 
-        return (email, licenseKey)
+        return licenseKey
     }
 }
