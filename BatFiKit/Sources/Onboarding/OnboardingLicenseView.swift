@@ -93,6 +93,9 @@ struct OnboardingLicenseView: View {
         } message: {
             Text(licenseModel.state.error?.localizedDescription ?? "Unknown Error")
         }
+        .onAppear {
+            focus = .license
+        }
     }
 
     @ViewBuilder
