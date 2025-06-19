@@ -136,6 +136,7 @@ let package = Package(
             .appShared,
             .asyncAlgorithms,
             .clients,
+            .defaultsKeys,
             .dependencies,
             .l10n,
         ]),
