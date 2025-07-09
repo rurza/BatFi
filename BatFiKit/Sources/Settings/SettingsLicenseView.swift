@@ -16,7 +16,6 @@ struct SettingsLicenseView: View {
     @ObservedObject var licenseModel: LicenseModel
     @Environment(\.openURL) private var openURL
 
-
     var body: some View {
         Container(contentWidth: settingsContentWidth) {
             Section { EmptyView() } content: {
@@ -24,13 +23,19 @@ struct SettingsLicenseView: View {
                     if let license = licenseModel.state.license {
                         ReceiptView(license: license)
                             .frame(width: 300)
-                        HStack {
+                        VStack(spacing: 30) {
                             Button(action: {
                                 openURL(URL(string: "https://micropixels.gumroad.com/l/tipjar?price=10")!)
                             }, label: {
                                 Text(L10n.Settings.Label.tipJarTitle)
                             })
                             .buttonStyle(.link)
+                            Button(role: .destructive, action: {
+                                licenseModel.removeLicense()
+                            }, label: {
+                                Text(L10n.Settings.Label.removeLicense)
+                            })
+                            .buttonStyle(.glass)
                         }
                     } else {
                         GroupBackground {

@@ -102,6 +102,13 @@ public final class LicenseModel: ObservableObject {
         }
         return false
     }
+    
+    public func removeLicense() {
+        Task {
+            try await keychainClient.saveLicense(nil)
+            state = .initial
+        }
+    }
 
     private func openLicenseWindowIfNotOpened() {
         guard existingLicenseWindow == nil && !onboardingLicenseViewVisible else { return }

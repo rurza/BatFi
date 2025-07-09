@@ -706,6 +706,10 @@ public enum L10n {
 
             /// 90%
             public static let highestLimit = String(localized: "settings.label.highest_limit", defaultValue: "90%", bundle: Bundle.module)
+            
+            
+            /// Remove License from this Mac
+            public static let removeLicense = String(localized: "settings.label.remove_license", defaultValue: "Remove License from this Mac", bundle: Bundle.module)
         }
 
         public enum Section {
