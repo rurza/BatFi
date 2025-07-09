@@ -227,7 +227,7 @@ extension Onboarding {
 
         @MainActor
         func changeScreenToOneWithIndex(_ index: Int) {
-            if let screen = OnboardingScreen(rawValue: index) {
+            if let screen = OnboardingScreen(rawValue: index), licenseModel.hasValidLicense {
                 changeScreenTo(screen)
             }
         }
