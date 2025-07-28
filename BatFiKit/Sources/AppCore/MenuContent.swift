@@ -7,6 +7,7 @@
 
 import AppShared
 import BatteryInfo
+import Combine
 import Defaults
 import DefaultsKeys
 import HighEnergyUsage
@@ -17,6 +18,7 @@ import SharedUI
 import SwiftUI
 
 struct MenuContent: View {
+    var sizePassthrough: PassthroughSubject<CGSize, Never>
     @ObservedObject var licenseModel: LicenseModel
 
     var body: some View {
@@ -42,5 +44,22 @@ struct MenuContent: View {
                 SeparatorView()
             }
         }
+        .overlay(
+            GeometryReader { geometryProxy in
+                Color.clear
+                    .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
+            }
+        )
+        .onPreferenceChange(
+            SizePreferenceKey.self,
+            perform: { size in
+                sizePassthrough.send(size)
+            }
+        )
     }
+}
+
+private struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) { value = nextValue() }
 }
