@@ -284,7 +284,7 @@ actor SMCService {
         } catch {
             logger.error("Force discharge state change failed with new firmware. Using old as fallback")
             do {
-                try SMCKit.writeData(.disableCharging1, uint8: enableByte)
+                try? SMCKit.writeData(.disableCharging1, uint8: enableByte)
                 try SMCKit.writeData(.disableCharging2, uint8: enableByte)
                 logger.notice("Force discharge changed using old firmware")
             } catch {
