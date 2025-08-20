@@ -245,7 +245,7 @@ public actor ChargingManager: ChargingModeManager {
         inhibitChargingOnSleep: Bool,
         disableSleepDuringDischarge: Bool
     ) async {
-
+        logger.debug("Update status")
         let chargerConnected = powerState.chargerConnected
         let previousChargerConnectedState = self.lastChargerConnectedStatus
         updateLastChargerConnectedStateIfNeeded(chargerConnected)
@@ -323,6 +323,8 @@ public actor ChargingManager: ChargingModeManager {
                         currentMode: currentMode
                     )
                     return
+                } else {
+                    await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
                 }
             } else if inhibitChargingOnSleep, computerIsAsleep {
                 return await inhibitCharging(

@@ -57,6 +57,7 @@ actor SMCService {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
             smcIsOpened = false
+            throw error
         }
     }
 
@@ -270,9 +271,9 @@ actor SMCService {
 
     func enableForceDischarge(_ enable: Bool) async throws {
         if enable {
-            logger.notice("Enabling charging")
+            logger.notice("Force discharge")
         } else {
-            logger.notice("Inhibit charging")
+            logger.notice("Turn off force discharge")
         }
         await openSMCIfNeeded()
         let enableByte: UInt8 = enable ? 1 : 0
@@ -281,11 +282,13 @@ actor SMCService {
             try SMCKit.writeData(.disableCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
             logger.notice("Force discharge changed using new firmware")
         } catch {
+            logger.error("Force discharge state change failed with new firmware. Using old as fallback")
             do {
                 try SMCKit.writeData(.disableCharging1, uint8: enableByte)
                 try SMCKit.writeData(.disableCharging2, uint8: enableByte)
                 logger.notice("Force discharge changed using old firmware")
             } catch {
+                logger.error("Force discharge failed with old firmware")
                 throw error
             }
         }
