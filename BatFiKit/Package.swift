@@ -39,7 +39,7 @@ extension Target.Dependency {
 let package = Package(
     name: "BatFiKit",
     defaultLocalization: "en",
-    platforms: [.macOS(.v13)],
+    platforms: [.macOS(.v15)],
     products: [
         .library(name: "App", targets: ["App"]),
         .library(name: "AppCore", targets: ["AppCore"]),
