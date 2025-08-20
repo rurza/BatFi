@@ -48,7 +48,7 @@ public actor ChargingManager: ChargingModeManager {
                     (userTempChargingMode, powerState)
                 ),
                 (
-                    (inhibitOnSleep, enableSystemChargeLimitOnSleep, disableSleepDuringDischarge),
+                    (inhibitOnSleep, disableSleepDuringDischarge),
                     (preventAutomaticSleep, temperature),
                     (chargeLimit, manageCharging, allowDischarging)
                 )
@@ -60,7 +60,6 @@ public actor ChargingManager: ChargingModeManager {
                 combineLatest(
                     combineLatest(
                         defaults.observe(.turnOnInhibitingChargingWhenGoingToSleep),
-                        defaults.observe(.turnOnSystemChargeLimitingWhenGoingToSleep),
                         defaults.observe(.disableSleepDuringDischarging)
                     ),
                     combineLatest(
@@ -83,7 +82,6 @@ public actor ChargingManager: ChargingModeManager {
                     preventAutomaticSleep: preventAutomaticSleep,
                     turnOffChargingWithHotBattery: temperature,
                     inhibitChargingOnSleep: inhibitOnSleep,
-                    enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep,
                     disableSleepDuringDischarge: disableSleepDuringDischarge
                 )
             }
@@ -102,17 +100,12 @@ public actor ChargingManager: ChargingModeManager {
                     let powerState = try? await powerSourceClient.currentPowerSourceState()
                     let currentLimit = appChargingMode.userTempOverride?.limit ?? defaults.value(.chargeLimit)
                     let tempOverride = appChargingMode.userTempOverride != nil
-                    let inhibitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
-                    let systemChargingLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
+                    let inhibitOnSleep = defaults.value(.turnOnInhibitingChargingWhenGoingToSleep)
 
                     if powerState?.batteryLevel ?? 0 < currentLimit,
-                        (inhibitOnSleep && !systemChargingLimitOnSleep), !tempOverride {
+                        inhibitOnSleep, !tempOverride {
                         logger.notice("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
                         await inhibitCharging(chargerConnected: true, currentMode: currentMode)
-                    } else if systemChargingLimitOnSleep, !inhibitOnSleep, !tempOverride {
-                        logger.notice("current mode: \(appChargingMode), enable system charging limit on sleep")
-                        logger.notice("I will enable system charge limit, because user chose the option and there is no temp override")
-                        try? await chargingClient.enableSystemChargeLimit()
                     }
                 case .didWake:
                     logger.notice("Mac did wake up")
@@ -225,7 +218,6 @@ public actor ChargingManager: ChargingModeManager {
             let preventAutomaticSleep = defaults.value(.disableSleep)
             let batteryTemperature = defaults.value(.temperatureSwitch)
             let inhibitChargingOnSleep = defaults.value(.turnOnInhibitingChargingWhenGoingToSleep)
-            let enableSystemChargeLimitOnSleep = defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep)
             let disableSleepDuringDischarge = defaults.value(.disableSleepDuringDischarging)
 
             await updateStatus(
@@ -237,7 +229,6 @@ public actor ChargingManager: ChargingModeManager {
                 preventAutomaticSleep: preventAutomaticSleep,
                 turnOffChargingWithHotBattery: batteryTemperature,
                 inhibitChargingOnSleep: inhibitChargingOnSleep,
-                enableSystemChargeLimitOnSleep: enableSystemChargeLimitOnSleep,
                 disableSleepDuringDischarge: disableSleepDuringDischarge
             )
         }
@@ -252,7 +243,6 @@ public actor ChargingManager: ChargingModeManager {
         preventAutomaticSleep: Bool,
         turnOffChargingWithHotBattery: Bool,
         inhibitChargingOnSleep: Bool,
-        enableSystemChargeLimitOnSleep: Bool,
         disableSleepDuringDischarge: Bool
     ) async {
 
@@ -333,23 +323,12 @@ public actor ChargingManager: ChargingModeManager {
                         currentMode: currentMode
                     )
                     return
-                } else if enableSystemChargeLimitOnSleep, !inhibitChargingOnSleep, computerIsAsleep {
-                    await turnOnSystemChargingLimit()
-                    return
-                } else {
-                    await inhibitCharging(
-                        chargerConnected: chargerConnected,
-                        currentMode: currentMode
-                    )
-                    return
                 }
-            } else if inhibitChargingOnSleep, !enableSystemChargeLimitOnSleep, computerIsAsleep {
+            } else if inhibitChargingOnSleep, computerIsAsleep {
                 return await inhibitCharging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
                 )
-            } else if enableSystemChargeLimitOnSleep, !inhibitChargingOnSleep, computerIsAsleep {
-                return await turnOnSystemChargingLimit()
             } else {
                 return await turnOnCharging(
                     chargerConnected: chargerConnected,
@@ -416,22 +395,6 @@ public actor ChargingManager: ChargingModeManager {
         } catch {
             logger.warning("Failed to turn on discharging: \(error, privacy: .public)")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to turn on discharging. Error: \(error.localizedDescription)")
-        }
-    }
-
-    private func turnOnSystemChargingLimit() async {
-        await cancelPullingPowerStateTaskIfNeeded()
-        logger.notice("Turning on system charging limit")
-        await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on system charging limit")
-        do {
-            if defaults.value(.allowDischargingFullBattery) {
-                try? await sleepAssertionClient.disableSleep(false)
-            }
-            try await chargingClient.enableSystemChargeLimit()
-            await analytics.addBreadcrumb(category: .chargingManager, message: "System charging limit turned on")
-        } catch {
-            logger.warning("Failed to turn on system charging limit: \(error, privacy: .public)")
-            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to turn on system charging limit. Error: \(error.localizedDescription)")
         }
     }
 

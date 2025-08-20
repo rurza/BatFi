@@ -15,7 +15,6 @@ public struct ChargingClient {
     public var inhibitCharging: @Sendable () async throws -> Void
     public var forceDischarge: @Sendable () async throws -> Void
     public var chargingStatus: @Sendable () async throws -> SMCChargingStatus
-    public var enableSystemChargeLimit: @Sendable () async throws -> Void
 }
 
 extension ChargingClient: TestDependencyKey {

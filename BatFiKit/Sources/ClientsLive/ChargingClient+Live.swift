@@ -24,9 +24,6 @@ extension ChargingClient: DependencyKey {
             }, 
             chargingStatus: {
                 return try await XPCClient.shared.getSMCChargingStatus()
-            }, 
-            enableSystemChargeLimit: {
-                try await XPCClient.shared.changeChargingMode(.enableSystemChargeLimit)
             }
         )
     }()

@@ -14,36 +14,31 @@ public class SMCChargingStatus: NSObject, Codable, NSSecureCoding {
         coder.encode(forceDischarging, forKey: "forceDischarging")
         coder.encode(inhitbitCharging, forKey: "inhitbitCharging")
         coder.encode(lidClosed, forKey: "lidClosed")
-        coder.encode(systemChargeLimit, forKey: "systemChargeLimit")
     }
 
     public required init?(coder: NSCoder) {
         forceDischarging = coder.decodeBool(forKey: "forceDischarging")
         inhitbitCharging = coder.decodeBool(forKey: "inhitbitCharging")
         lidClosed = coder.decodeBool(forKey: "lidClosed")
-        systemChargeLimit = coder.decodeBool(forKey: "systemChargeLimit")
         super.init()
     }
 
     public let forceDischarging: Bool
     public let inhitbitCharging: Bool
     public let lidClosed: Bool
-    public let systemChargeLimit: Bool
 
     public var isCharging: Bool {
-        !forceDischarging && !inhitbitCharging && !systemChargeLimit
+        !forceDischarging && !inhitbitCharging
     }
 
     public init(
         forceDischarging: Bool,
         inhitbitCharging: Bool,
-        lidClosed: Bool,
-        systemChargeLimit: Bool
+        lidClosed: Bool
     ) {
         self.forceDischarging = forceDischarging
         self.inhitbitCharging = inhitbitCharging
         self.lidClosed = lidClosed
-        self.systemChargeLimit = systemChargeLimit
         super.init()
     }
 
@@ -53,7 +48,6 @@ public class SMCChargingStatus: NSObject, Codable, NSSecureCoding {
         forceDischarging: \(forceDischarging)
         inhitbitCharging: \(inhitbitCharging)
         lidClosed: \(lidClosed)
-        systemChargeLimit: \(systemChargeLimit)
         """
     }
 }

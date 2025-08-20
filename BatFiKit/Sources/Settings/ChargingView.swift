@@ -20,7 +20,6 @@ struct ChargingView: View {
     @Default(.manageCharging) private var manageCharging
     @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
     @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
-    @Default(.turnOnSystemChargeLimitingWhenGoingToSleep) private var enableSystemChargeLimitOnSleep
     @Default(.disableSleepDuringDischarging) private var disableSleepDuringDischarging
 
     @Dependency(\.systemVersionClient) var systemVersion
@@ -76,16 +75,9 @@ struct ChargingView: View {
                                 Toggle(isOn: $inhibitChargingOnSleep) {
                                     Text(l10n.Button.Label.pauseChargingOnSleep)
                                 }
-                                .disabled(enableSystemChargeLimitOnSleep || !manageCharging)
+                                .disabled(!manageCharging)
                                 .padding(.bottom, 4)
 
-                                if !systemVersion.currentSystemIsSequoiaOrNewer() {
-                                    Toggle(isOn: $enableSystemChargeLimitOnSleep) {
-                                        Text(l10n.Button.Label.enableSystemChargeLimitOnSleep)
-                                    }
-                                    .disabled(inhibitChargingOnSleep || !manageCharging)
-                                    .padding(.bottom, 4)
-                                }
                                 VStack(alignment: .leading, spacing: 2) {
                                     Toggle(isOn: $dischargeBatteryWhenFull) {
                                         Text(l10n.Button.Label.dischargeBatterWhenOvercharged)

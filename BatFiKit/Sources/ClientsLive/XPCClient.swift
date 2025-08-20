@@ -30,8 +30,6 @@ actor XPCClient {
             try await setChargingMode(XPCService.setAutocharge)
         case .inhibitCharging:
             try await setChargingMode(XPCService.setInhibitCharge)
-        case .enableSystemChargeLimit:
-            try await setChargingMode(XPCService.setEnableSystemChargeLimit)
         }
     }
     

@@ -11,5 +11,4 @@ public enum SMCChargingCommand: String, Codable {
     case forceDischarging
     case auto
     case inhibitCharging
-    case enableSystemChargeLimit
 }

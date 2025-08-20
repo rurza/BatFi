@@ -29,41 +29,30 @@ actor SMCService {
     }
 
     func setChargingMode(_ message: SMCChargingCommand) async throws {
-        let disableChargingByte: UInt8
-        let inhibitChargingByte: UInt8
-        let enableSystemChargeLimitByte: UInt8
+        let inhibitCharging: Bool
+        let forceDischarge: Bool
 
         switch message {
         case .forceDischarging:
-            disableChargingByte = 1
-            inhibitChargingByte = 0
-            enableSystemChargeLimitByte = 0
+            forceDischarge = true
+            inhibitCharging = false
             logger.notice("Handling force discharge")
         case .auto:
-            disableChargingByte = 0
-            inhibitChargingByte = 0
-            enableSystemChargeLimitByte = 0
+            forceDischarge = false
+            inhibitCharging = false
             logger.notice("Handling enable charge")
         case .inhibitCharging:
-            disableChargingByte = 0
-            inhibitChargingByte = 02
-            enableSystemChargeLimitByte = 0
+            forceDischarge = false
+            inhibitCharging = true
             logger.notice("Handling inhibit charging")
-        case .enableSystemChargeLimit:
-            disableChargingByte = 0
-            inhibitChargingByte = 0
-            enableSystemChargeLimitByte = 1
-            logger.notice("Handling enable system charge limit")
         }
 
         logger.notice("Setting SMC charging status")
         await openSMCIfNeeded()
 
         do {
-            try SMCKit.writeData(.disableCharging, uint8: disableChargingByte)
-            try SMCKit.writeData(.inhibitChargingC, uint8: inhibitChargingByte)
-            try SMCKit.writeData(.inhibitChargingB, uint8: inhibitChargingByte)
-            try? SMCKit.writeData(.enableSystemChargeLimit, uint8: enableSystemChargeLimitByte)
+            try await enableCharging(!inhibitCharging)
+            try await enableForceDischarge(forceDischarge)
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
@@ -72,43 +61,41 @@ actor SMCService {
     }
 
     func resetIfPossible() {
-        do {
-            try SMCKit.writeData(.disableCharging, uint8: 0)
-            try SMCKit.writeData(.inhibitChargingC, uint8: 0)
-            try SMCKit.writeData(.inhibitChargingB, uint8: 0)
-            try? SMCKit.writeData(.enableSystemChargeLimit, uint8: 0)
-        } catch {
-            smcIsOpened = false
-            logger.critical("Resetting charging state failed. \(error)")
-        }
+        // Try to reset new firmware keys first
+        try? SMCKit.writeData(.inhibitCharging3, byte0: 0, byte1: 0, byte2: 0, byte3: 0)
+
+        // Also reset old firmware keys
+        try? SMCKit.writeData(.disableCharging1, uint8: 0)
+        try? SMCKit.writeData(.disableCharging2, uint8: 0)
+        try? SMCKit.writeData(.inhibitCharging1, uint8: 0)
+        try? SMCKit.writeData(.inhibitCharging2, uint8: 0)
     }
 
     func smcChargingStatus() async throws -> SMCChargingStatus {
         logger.notice("Checking SMC status")
         await openSMCIfNeeded()
         do {
-            logger.notice("Getting disbale charging status")
-            let forceDischarging = try SMCKit.readData(SMCKey.disableCharging)
-            logger.notice("Getting inhibit charging C status")
-            let inhibitChargingC = try SMCKit.readData(SMCKey.inhibitChargingC)
-            logger.notice("Getting inhibit charging B status")
-            let inhibitChargingB = try SMCKit.readData(SMCKey.inhibitChargingB)
-            logger.notice("Getting system charge limit status")
-            var systemChargeLimit: SMCBytes?
-            do {
-                systemChargeLimit = try SMCKit.readData(SMCKey.enableSystemChargeLimit)
-            } catch {
-                logger.warning("System charge limit can't be read")
+            logger.notice("Getting disable charging status")
+            let forceDischarging: Bool
+            if let forceDischarging2 = try? SMCKit.readData(.disableCharging3) {
+                forceDischarging = forceDischarging2.0 == 1
+            } else if let forceDischarging1 = try? SMCKit.readData(.disableCharging1) {
+                forceDischarging = forceDischarging1.0 == 1
+            } else {
+                forceDischarging = false
+                logger.error("Failed to read disable charging status")
             }
+
+            logger.notice("Getting charging enabled status")
+            let chargingEnabled = try await isChargingEnabled()
+            
             logger.notice("Getting lid closed status")
             let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
 
             return SMCChargingStatus(
-                forceDischarging: forceDischarging.0 == 01,
-                inhitbitCharging: (inhibitChargingC.0 == 02 && inhibitChargingB.0 == 02)
-                || (inhibitChargingC.0 == 03 && inhibitChargingB.0 == 03),
-                lidClosed: lidClosed.0 == 01,
-                systemChargeLimit: (systemChargeLimit?.0 ?? 00) == 01
+                forceDischarging: forceDischarging,
+                inhitbitCharging: !chargingEnabled,
+                lidClosed: lidClosed.0 == 01
             )
         } catch {
             smcIsOpened = false
@@ -208,5 +195,99 @@ actor SMCService {
         logger.notice("Attempting to open SMC...")
         try SMCKit.open()
         logger.notice("SMC successfully opened!")
+    }
+    
+    func isChargingControlCapable() async -> Bool {
+        logger.notice("Checking charging control capability")
+        await openSMCIfNeeded()
+        
+        // Check for new firmware keys first
+        do {
+            _ = try SMCKit.readData(.inhibitCharging3)
+            logger.notice("New firmware detected")
+            return true
+        } catch {
+            // Try old firmware keys
+            do {
+                _ = try SMCKit.readData(.inhibitCharging1)
+                _ = try SMCKit.readData(.inhibitCharging2)
+                logger.notice("Old firmware detected")
+                return true
+            } catch {
+                logger.warning("No charging control keys found")
+                return false
+            }
+        }
+    }
+    
+    func isChargingEnabled() async throws -> Bool {
+        logger.notice("Checking if charging is enabled")
+        await openSMCIfNeeded()
+        
+        // Check for new firmware first
+        do {
+            let data = try SMCKit.readData(.inhibitCharging3)
+            let isEnabled = data.0 == 0
+            logger.notice("New firmware: charging enabled = \(isEnabled)")
+            return isEnabled
+        } catch {
+            // Try old firmware
+            do {
+                let data1 = try SMCKit.readData(.inhibitCharging1)
+                let isEnabled = data1.0 == 0
+                logger.notice("Old firmware: charging enabled = \(isEnabled)")
+                return isEnabled
+            } catch {
+                throw error
+            }
+        }
+    }
+    
+    func enableCharging(_ enable: Bool) async throws {
+        if enable {
+            logger.notice("Enabling charging")
+        } else {
+            logger.notice("Inhibit charging")
+        }
+        await openSMCIfNeeded()
+        let enableByte: UInt8 = enable ? 0 : 1
+
+        // Try new firmware first
+        do {
+            try SMCKit.writeData(.inhibitCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
+            logger.notice("Inhibit charging changed using new firmware")
+        } catch {
+            // Fallback to old firmware
+            do {
+                try SMCKit.writeData(.inhibitCharging1, uint8: enableByte)
+                try SMCKit.writeData(.inhibitCharging2, uint8: enableByte)
+                logger.notice("Inhibit charging changed using old firmware")
+            } catch {
+                throw error
+            }
+        }
+    }
+
+    func enableForceDischarge(_ enable: Bool) async throws {
+        if enable {
+            logger.notice("Enabling charging")
+        } else {
+            logger.notice("Inhibit charging")
+        }
+        await openSMCIfNeeded()
+        let enableByte: UInt8 = enable ? 1 : 0
+
+        do {
+            try SMCKit.writeData(.disableCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
+            logger.notice("Force discharge changed using new firmware")
+        } catch {
+            do {
+                try SMCKit.writeData(.disableCharging1, uint8: enableByte)
+                try SMCKit.writeData(.disableCharging2, uint8: enableByte)
+                logger.notice("Force discharge changed using old firmware")
+            } catch {
+                throw error
+            }
+        }
     }
 }

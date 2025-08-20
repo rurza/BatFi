@@ -34,10 +34,6 @@ final class XPCServiceHandler: XPCService {
         changeChargingMode(.auto, reply: reply)
     }
 
-    func setEnableSystemChargeLimit(_ handler: @escaping ((any Error)?) -> Void) {
-        changeChargingMode(.enableSystemChargeLimit, reply: handler)
-    }
-
     func getCurrentChargingStatus(_ reply: @escaping (Shared.SMCChargingStatus?, (any Error)?) -> Void) {
         Task {
             do {
