@@ -272,6 +272,18 @@ public enum L10n {
 
             /// No apps with high energy impact
             public static let none = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
+
+            /// Medium
+            public static let medium = String(localized: "battery_info.label.top_coalition.medium", defaultValue: "Medium", bundle: Bundle.module)
+
+            /// High
+            public static let high = String(localized: "battery_info.label.top_coalition.high", defaultValue: "High", bundle: Bundle.module)
+
+            /// Very High
+            public static let veryHigh = String(localized: "battery_info.label.top_coalition.very_high", defaultValue: "Very High", bundle: Bundle.module)
+
+            /// Severe
+            public static let batteryDraining = String(localized: "battery_info.label.top_coalition.battery_draining", defaultValue: "Severe", bundle: Bundle.module)
         }
 
         public enum Tooltip {

@@ -73,7 +73,25 @@ struct BatteryTopCoalitionInfoItem: View {
                 .frame(width: 24, height: 24)
             Text(coalition.displayName ?? coalition.bundleIdentifier)
             Spacer()
-            Text(energyImpactFormatter.string(from: NSNumber(floatLiteral: coalition.energyImpact))!)
+            HStack {
+                Group {
+                    switch coalition.energyImpact {
+                    case 0..<300:
+                        Text(L10n.Menu.HighEnergyUsage.medium)
+                        Image(systemName: "gauge.with.dots.needle.33percent")
+                    case 300..<900:
+                        Text(L10n.Menu.HighEnergyUsage.high)
+                        Image(systemName: "gauge.with.dots.needle.50percent")
+                    case 900..<2000:
+                        Text(L10n.Menu.HighEnergyUsage.veryHigh)
+                        Image(systemName: "gauge.with.dots.needle.67percent")
+                    default:
+                        Text(L10n.Menu.HighEnergyUsage.batteryDraining)
+                        Image(systemName: "gauge.with.dots.needle.100percent")
+                    }
+                }
+                .font(.body)
+            }
         }
     }
 }
