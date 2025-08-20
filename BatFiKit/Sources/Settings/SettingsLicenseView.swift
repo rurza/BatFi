@@ -35,7 +35,7 @@ struct SettingsLicenseView: View {
                             }, label: {
                                 Text(L10n.Settings.Label.removeLicense)
                             })
-                            .buttonStyle(.glass)
+                            .buttonStyle(.bordered)
                         }
                     } else {
                         GroupBackground {
