@@ -2222,6 +2222,12 @@
             "value" : "Desconhecido"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестно"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3212,6 +3218,12 @@
             "value" : "Aceitar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Принять"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3287,6 +3299,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recusar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отклонить"
           }
         },
         "tr" : {
@@ -3366,6 +3384,12 @@
             "value" : "Instalar"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3441,6 +3465,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Instalador BatFi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установщик BatFi"
           }
         },
         "tr" : {
@@ -3520,6 +3550,12 @@
             "value" : "Concluído"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3595,6 +3631,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro de download. %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка загрузки. %@"
           }
         },
         "tr" : {
@@ -3674,6 +3716,12 @@
             "value" : "Baixando…"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузка…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3749,6 +3797,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro de instalação. %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка установки. %@"
           }
         },
         "tr" : {
@@ -3828,6 +3882,12 @@
             "value" : "Instalando…"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установка…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3903,6 +3963,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pronto para instalar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готов к установке"
           }
         },
         "tr" : {
@@ -3982,6 +4048,12 @@
             "value" : "Descompactando…"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Распаковка…"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4057,6 +4129,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao descompactar. %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка распаковки. %@"
           }
         },
         "tr" : {
@@ -17259,6 +17337,12 @@
             "value" : "Você pode alterar o valor antes de prosseguir."
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете изменить сумму перед продолжением."
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -17334,6 +17418,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Está gostando do BatFi?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нравится BatFi?"
           }
         },
         "tr" : {
@@ -19154,6 +19244,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gorjeta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чаевые"
           }
         },
         "tr" : {
