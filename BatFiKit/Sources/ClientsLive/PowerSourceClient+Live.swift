@@ -88,8 +88,7 @@ extension PowerSourceClient: DependencyKey {
                 let isCharging,
                 let powerSource,
                 let timeLeft,
-                let timeToCharge,
-                let optimizedBatteryCharging
+                let timeToCharge
             else {
                 throw PowerSourceError.infoMissing
             }
