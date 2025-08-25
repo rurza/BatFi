@@ -23,7 +23,7 @@ extension SMCKey {
     // New firmware
     static let disableCharging3 = Self(
         code: .init(fromStaticString: "CHIE"),
-        info: DataTypes.UInt32
+        info: DataTypes.UInt8
     )
 
     // Old firmware

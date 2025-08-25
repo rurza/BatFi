@@ -279,7 +279,7 @@ actor SMCService {
         let enableByte: UInt8 = enable ? 1 : 0
 
         do {
-            try SMCKit.writeData(.disableCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
+            try SMCKit.writeData(.disableCharging3, uint8: enableByte)
             logger.notice("Force discharge changed using new firmware")
         } catch {
             logger.error("Force discharge state change failed with new firmware. Using old as fallback")
