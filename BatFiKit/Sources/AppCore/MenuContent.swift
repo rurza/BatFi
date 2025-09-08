@@ -24,8 +24,10 @@ struct MenuContent: View {
             if !licenseModel.hasValidLicense {
                 MenuLicenseView(licenseModel: licenseModel)
                     .padding(.top, 4) // for equal visual padding with default horizontal padding
+                    .fixedSize(horizontal: false, vertical: true)
             }
             BatteryInfoView()
+                .fixedSize(horizontal: false, vertical: true)
             SeparatorView()
             if Defaults[.showChart] {
                 ChartsView()
@@ -35,12 +37,15 @@ struct MenuContent: View {
             }
             if Defaults[.showPowerDiagram] {
                 PowerInfoView()
+                    .fixedSize(horizontal: false, vertical: true)
                 SeparatorView()
             }
             if Defaults[.showHighEnergyImpactProcesses] {
                 HighEnergyUsageView()
+                    .fixedSize(horizontal: false, vertical: true)
                 SeparatorView()
             }
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
