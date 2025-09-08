@@ -15,12 +15,11 @@ public struct PowerInfoView: View {
     public init() {}
 
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(L10n.Menu.PowerInfo.header)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(.secondary)
-                .padding(.bottom, 6)
-                .border(.blue)
+                .padding(.bottom, 10)
             if let powerInfo = model.powerInfo {
                 PowerGraph(powerInfo: powerInfo)
             } else {
