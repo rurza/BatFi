@@ -52,9 +52,7 @@ public final class StatusItemManager {
     private lazy var batteryIndicatorModel = BatteryIndicatorViewModel()
     private lazy var statusItemModel = StatusItemModel()
     private var sizePassthrough = PassthroughSubject<CGSize, Never>()
-    private var menuSizePassthrough = PassthroughSubject<CGSize, Never>()
     private var sizeCancellable: AnyCancellable?
-    private var menuSizeCancellable: AnyCancellable?
     private var menuStateTask: Task<Void, Never>?
     private var menuOpenedTask: Task<Void, Never>?
     private var powerModeTask: Task<Void, Never>?
@@ -164,7 +162,7 @@ public final class StatusItemManager {
         statusItem.menu?.replaceItems {
             MenuItem("")
                 .view {
-                    MenuContent(sizePassthrough: menuSizePassthrough, licenseModel: licenseModel)
+                    MenuContent(licenseModel: licenseModel)
                         .environmentObject(batteryInfoModel)
                         .frame(width: 220)
                         .frame(maxHeight: .infinity)
@@ -268,12 +266,6 @@ public final class StatusItemManager {
 
         statusItem.menu?.items.forEach { $0.view?.needsLayout = true }
         statusItem.menu?.update()
-        
-        menuSizeCancellable?.cancel()
-        menuSizeCancellable = menuSizePassthrough.sink { [weak self] size in
-            self?.statusItem.menu?.update()
-            print("updating menu...")
-        }
     }
 
     private let menuItemCheckMarkPadding: CGFloat = 25

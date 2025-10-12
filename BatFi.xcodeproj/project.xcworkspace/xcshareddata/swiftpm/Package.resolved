@@ -1,4 +1,5 @@
 {
+  "originHash" : "1785426f702f3d2ea256d6b932fde208fbb42f7bdd6d96bb92c06309fabc4d32",
   "pins" : [
     {
       "identity" : "aboutkit",
@@ -87,7 +88,7 @@
       "location" : "https://github.com/rurza/KeyboardShortcuts",
       "state" : {
         "branch" : "main",
-        "revision" : "010d5900f7eed37c834eb9d39d7b59b0d4a03911"
+        "revision" : "216ecd1033a6171d029e2c678a35a6366c682545"
       }
     },
     {
@@ -262,5 +263,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

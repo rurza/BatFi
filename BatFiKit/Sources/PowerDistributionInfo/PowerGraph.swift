@@ -15,11 +15,10 @@ public struct PowerInfoView: View {
     public init() {}
 
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(L10n.Menu.PowerInfo.header)
                 .multilineTextAlignment(.leading)
                 .foregroundColor(.secondary)
-                .font(.callout)
                 .padding(.bottom, 10)
             if let powerInfo = model.powerInfo {
                 PowerGraph(powerInfo: powerInfo)
@@ -30,10 +29,10 @@ public struct PowerInfoView: View {
                     Text(L10n.Menu.PowerInfo.loading)
                 }
                 .foregroundColor(.secondary)
-                .font(.callout)
                 .frame(maxWidth: .infinity)
             }
         }
+        .font(.callout)
     }
 }
 
@@ -43,7 +42,7 @@ private enum PowerGraphItemType: String {
     case system = "laptopcomputer"
 }
 
-private struct PowerGraphItem: View {
+private struct PowerGraphItemModel {
     let type: PowerGraphItemType
     let power: Float
 
@@ -51,13 +50,21 @@ private struct PowerGraphItem: View {
         self.type = type
         self.power = power
     }
+}
+
+private struct PowerGraphItem: View {
+    let model: PowerGraphItemModel
+
+    init(model: PowerGraphItemModel) {
+        self.model = model
+    }
 
     var body: some View {
         GroupBox {
             HStack(spacing: 5) {
-                Image(systemName: type.rawValue)
+                Image(systemName: model.type.rawValue)
                     .frame(width: 20, height: 20)
-                Text(powerFormatter.string(from: Measurement(value: Double(power), unit: UnitPower.watts)))
+                Text(powerFormatter.string(from: Measurement(value: Double(model.power), unit: UnitPower.watts)))
                     .monospacedDigit()
             }
             .frame(width: 80, height: 20)
@@ -71,42 +78,41 @@ struct PowerGraph: View {
     init(powerInfo: PowerDistributionInfo) {
         self.powerInfo = powerInfo
     }
-
-    private func sourceItems() -> [PowerGraphItem] {
-        var items = [PowerGraphItem]()
+    
+    private func sourceItems() -> [PowerGraphItemModel] {
+        var items = [PowerGraphItemModel]()
         if powerInfo.batteryPower > 0 {
-            items.append(PowerGraphItem(type: .battery, power: powerInfo.batteryPower))
+            items.append(PowerGraphItemModel(type: .battery, power: powerInfo.batteryPower))
         }
         if powerInfo.externalPower > 0 {
-            items.append(PowerGraphItem(type: .external, power: powerInfo.externalPower))
+            items.append(PowerGraphItemModel(type: .external, power: powerInfo.externalPower))
         }
         items.sort { $0.power > $1.power }
         return items
     }
-
-    private func targetItems() -> [PowerGraphItem] {
-        var items = [PowerGraphItem]()
+    
+    private func targetItems() -> [PowerGraphItemModel] {
+        var items = [PowerGraphItemModel]()
         if powerInfo.batteryPower < 0 {
-            items.append(PowerGraphItem(type: .battery, power: abs(powerInfo.batteryPower)))
+            items.append(PowerGraphItemModel(type: .battery, power: abs(powerInfo.batteryPower)))
         }
-        items.append(PowerGraphItem(type: .system, power: powerInfo.systemPower))
+        items.append(PowerGraphItemModel(type: .system, power: powerInfo.systemPower))
         items.sort { $0.power > $1.power }
         return items
     }
 
     var body: some View {
         HStack {
-            VStack {
-                ForEach(sourceItems(), id: \.type) {
-                    $0
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(sourceItems(), id: \.type) { model in
+                    PowerGraphItem(model: model)
                 }
             }
-            Spacer()
             Image(systemName: "arrow.forward")
-            Spacer()
-            VStack {
-                ForEach(targetItems(), id: \.type) {
-                    $0
+                .foregroundColor(.secondary)
+            VStack(alignment: .trailing, spacing: 4) {
+                ForEach(targetItems(), id: \.type) { model in
+                    PowerGraphItem(model: model)
                 }
             }
         }
