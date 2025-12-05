@@ -81,23 +81,30 @@ extension PowerSourceClient: DependencyKey {
             let powerSource = info[kIOPSPowerSourceStateKey] as? String
             let timeLeft = info[kIOPSTimeToEmptyKey] as? Int
             let timeToCharge = info[kIOPSTimeToFullChargeKey] as? Int
-            let optimizedBatteryCharging = info["Optimized Battery Charging Engaged"] as? Bool
+            // Note: "Optimized Battery Charging Engaged" key may not exist on macOS 26+
+            let optimizedBatteryCharging = info["Optimized Battery Charging Engaged"] as? Bool ?? false
 
             guard
                 let batteryLevel,
                 let isCharging,
                 let powerSource,
                 let timeLeft,
-                let timeToCharge,
-                let optimizedBatteryCharging
+                let timeToCharge
             else {
                 throw PowerSourceError.infoMissing
             }
 
             let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
             defer {
-                IOServiceClose(service)
-                IOObjectRelease(service)
+                // Only call IOObjectRelease for services from IOServiceGetMatchingService
+                // IOServiceClose is for connections opened with IOServiceOpen, not for service objects
+                if service != IO_OBJECT_NULL {
+                    IOObjectRelease(service)
+                }
+            }
+
+            guard service != IO_OBJECT_NULL else {
+                throw PowerSourceError.infoMissing
             }
 
             guard let cycleCount: Int = getValue(kIOPMPSCycleCountKey, from: service) else {

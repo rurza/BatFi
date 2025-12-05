@@ -7,4 +7,4 @@
 
 import Foundation
 
-public let xpcEntitlement = "anchor apple generic and identifier \"software.micropixels.BatFi.Helper\" and certificate leaf[subject.OU] = \"YL78V8PY6H\""
+public let xpcEntitlement = "anchor apple generic and identifier \"software.micropixels.BatFi.Helper\" and certificate leaf[subject.OU] = \"N663U5MUHB\""

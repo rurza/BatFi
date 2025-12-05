@@ -45,17 +45,17 @@ public final class Server {
         listener.resume()
 
         if AppDefaults.userAllowsAnalytics {
-            SentrySDK.start { options in
+            SentrySDK.start(configureOptions: { options in
                 options.dsn = "https://858e7a160cc0add058de86a8fcd489c8@o4506988322357248.ingest.us.sentry.io/4506988323799040"
                 #if DEBUG
                 options.debug = true
                 #endif
 
                 options.tracesSampleRate = 1.0
-                options.diagnosticLevel = .warning
+                options.diagnosticLevel = .error
 
                 options.releaseName = "BatFiHelper@\(plist.version)@\(plist.build)"
-            }
+            })
         }
 
         logger.notice("Server launched!")

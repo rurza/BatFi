@@ -10,7 +10,7 @@
 	<string>99999</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "99999" and certificate leaf[subject.OU] = "YL78V8PY6H"</string>
+		<string>anchor apple generic and identifier "software.micropixels.BatFi" and info[CFBundleVersion] &gt;= "99999" and certificate leaf[subject.OU] = "N663U5MUHB"</string>
 	</array>
 </dict>
 </plist>

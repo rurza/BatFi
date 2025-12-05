@@ -17,8 +17,7 @@ public final class SettingsController {
             MenubarView.pane,
             NotificationsView.pane,
             HotkeysView.pane,
-            AdvancedView.pane,
-            TipJarView.pane
+            AdvancedView.pane
         ]
     )
 
