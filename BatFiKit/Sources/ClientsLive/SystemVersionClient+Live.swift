@@ -11,9 +11,17 @@ import Dependencies
 
 extension SystemVersionClient: DependencyKey {
     public static let liveValue: Self = {
-        Self(
+        let version = ProcessInfo.processInfo.operatingSystemVersion
+        return Self(
             currentSystemIsSequoiaOrNewer: {
-                ProcessInfo.processInfo.operatingSystemVersion.majorVersion >= 15
+                version.majorVersion >= 15
+            },
+            currentSystemIsTahoeOrNewer: {
+                // macOS 26 (Tahoe) introduced SMC key lockdown
+                version.majorVersion >= 26
+            },
+            majorVersion: {
+                version.majorVersion
             }
         )
     }()
