@@ -186,7 +186,10 @@ let package = Package(
             ]
         ),
         .target(
-            name: "L10n"
+            name: "L10n",
+            resources: [
+                .process("Localizable.xcstrings")
+            ]
         ),
         .target(
             name: "Onboarding",

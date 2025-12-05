@@ -289,47 +289,43 @@ actor SMCService {
     private func smcChargingStatusModern() async throws -> SMCChargingStatus {
         logger.notice("Checking SMC status (modern)")
         await openSMCIfNeeded()
+
+        // Read CHLS key (2 bytes: percentage, enabled flag)
+        var chargeLimitEnabled = false
+        var chargeInhibited = false
+
         do {
-            // Read CHLS key (2 bytes: percentage, enabled flag)
-            var chargeLimitEnabled = false
-            var chargeInhibited = false
-
-            do {
-                let chargeLimitData = try SMCKit.readData(SMCKey.chargeLimitSetting)
-                // Second byte is the enable flag
-                chargeLimitEnabled = chargeLimitData.1 == 01
-                logger.notice("Charge limit: \(chargeLimitData.0)%, enabled: \(chargeLimitEnabled)")
-            } catch {
-                logger.warning("CHLS key can't be read: \(error)")
-            }
-
-            // Read charge inhibit status
-            do {
-                let chargeInhibitData = try SMCKit.readData(SMCKey.chargeInhibit)
-                chargeInhibited = chargeInhibitData.0 == 01
-            } catch {
-                logger.warning("CHIn key can't be read")
-            }
-
-            // Read lid status (should work on all versions)
-            var lidIsClosed = false
-            do {
-                let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
-                lidIsClosed = lidClosed.0 == 01
-            } catch {
-                logger.warning("Lid status can't be read")
-            }
-
-            return SMCChargingStatus(
-                forceDischarging: chargeInhibited && !chargeLimitEnabled,
-                inhitbitCharging: chargeInhibited || chargeLimitEnabled,
-                lidClosed: lidIsClosed,
-                systemChargeLimit: chargeLimitEnabled
-            )
+            let chargeLimitData = try SMCKit.readData(SMCKey.chargeLimitSetting)
+            // Second byte is the enable flag
+            chargeLimitEnabled = chargeLimitData.1 == 01
+            logger.notice("Charge limit: \(chargeLimitData.0)%, enabled: \(chargeLimitEnabled)")
         } catch {
-            smcIsOpened = false
-            throw error
+            logger.warning("CHLS key can't be read: \(error)")
         }
+
+        // Read charge inhibit status
+        do {
+            let chargeInhibitData = try SMCKit.readData(SMCKey.chargeInhibit)
+            chargeInhibited = chargeInhibitData.0 == 01
+        } catch {
+            logger.warning("CHIn key can't be read")
+        }
+
+        // Read lid status (should work on all versions)
+        var lidIsClosed = false
+        do {
+            let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
+            lidIsClosed = lidClosed.0 == 01
+        } catch {
+            logger.warning("Lid status can't be read")
+        }
+
+        return SMCChargingStatus(
+            forceDischarging: chargeInhibited && !chargeLimitEnabled,
+            inhitbitCharging: chargeInhibited || chargeLimitEnabled,
+            lidClosed: lidIsClosed,
+            systemChargeLimit: chargeLimitEnabled
+        )
     }
 
     /// Get charging status using pmset fallback
