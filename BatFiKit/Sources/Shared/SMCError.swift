@@ -30,4 +30,15 @@ public enum SMCError: Error, Codable {
     case unknown(kIOReturn: kern_return_t, SMCResult: UInt8)
 
     case canNotCreateMagSafeLEDOption
+
+    // MARK: - macOS 26+ Errors
+
+    /// SMC key access blocked by entitlement requirement (macOS 26+)
+    case entitlementRequired
+
+    /// No accessible SMC keys found - using fallback mode
+    case usingFallbackMode
+
+    /// Feature not supported in current mode
+    case featureNotSupported(feature: String)
 }
