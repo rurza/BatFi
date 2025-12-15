@@ -91,28 +91,4 @@ final class ChargingManagerTests: XCTestCase {
     }
 }
 
-// MARK: - Mock Defaults
-class MockDefaults: DefaultsProtocol {
-    private var storage: [String: Any] = [:]
-    
-    func observe<Value>(_ key: Defaults.Key<Value>) -> AsyncStream<Value> where Value : Defaults.Serializable, Value : CustomStringConvertible, Value : Equatable {
-        let value = storage[key.name] as? Value ?? key.defaultValue
-        return AsyncStream { continuation in
-            continuation.yield(value)
-            // In a real mock, we might want to observe changes, but for now just yielding current is enough for initial setup
-            // continuation.finish() // Don't finish, or the loop might exit
-        }
-    }
-    
-    func setValue<Value>(_ key: Defaults.Key<Value>, value: Value) where Value : Defaults.Serializable {
-        storage[key.name] = value
-    }
-    
-    func value<Value>(_ key: Defaults.Key<Value>) -> Value where Value : Defaults.Serializable {
-        return storage[key.name] as? Value ?? key.defaultValue
-    }
-    
-    func resetSettings() {
-        storage.removeAll()
-    }
-}
+
