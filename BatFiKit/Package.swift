@@ -251,5 +251,14 @@ let package = Package(
             ]
         ),
         .target(name: "SharedUI"),
+        .testTarget(
+            name: "BatFiKitTests",
+            dependencies: [
+                "AppCore",
+                .clients,
+                .dependencies,
+                .shared,
+            ]
+        ),
     ]
 )

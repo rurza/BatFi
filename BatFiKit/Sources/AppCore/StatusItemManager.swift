@@ -50,6 +50,8 @@ public final class StatusItemManager {
     weak var batteryIndicatorView: NSView?
     private lazy var batteryIndicatorModel = BatteryIndicatorViewModel()
     private lazy var statusItemModel = StatusItemModel()
+    private lazy var chartsModel = ChartsViewModel()
+    private lazy var highEnergyUsageModel = HighEnergyUsageViewModel()
     private var sizePassthrough = PassthroughSubject<CGSize, Never>()
     private var sizeCancellable: AnyCancellable?
     private var menuStateTask: Task<Void, Never>?
@@ -156,6 +158,8 @@ public final class StatusItemManager {
                 .view {
                     MenuContent()
                         .environmentObject(batteryInfoModel)
+                        .environmentObject(chartsModel)
+                        .environmentObject(highEnergyUsageModel)
                         .frame(width: 220)
                         .frame(maxHeight: .infinity)
                         .modifier(MenuViewModifier())

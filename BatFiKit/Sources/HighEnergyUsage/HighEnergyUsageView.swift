@@ -10,7 +10,7 @@ import L10n
 import SwiftUI
 
 public struct HighEnergyUsageView: View {
-    @StateObject private var model = HighEnergyUsageViewModel()
+    @EnvironmentObject var model: HighEnergyUsageViewModel
 
     public init() {}
 

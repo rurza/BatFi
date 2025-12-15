@@ -15,15 +15,17 @@ import Dependencies
 import Foundation
 
 @MainActor
-final class HighEnergyUsageViewModel: ObservableObject {
+public final class HighEnergyUsageViewModel: ObservableObject {
     @Dependency(\.energyStatsClient) private var energyStatsClient
     @Dependency(\.defaults) private var defaults
 
-    @Published private(set) var topCoalitionInfo: TopCoalitionInfo?
+    @Published public private(set) var topCoalitionInfo: TopCoalitionInfo?
     private var changesTask: Task<Void, Never>?
     private var defaultsTask: Task<Void, Never>?
 
-    func startObserving() {
+    public init() {}
+
+    public func startObserving() {
         defaultsTask?.cancel()
         defaultsTask = Task { [weak self] in
             guard let self else { return }
@@ -37,7 +39,7 @@ final class HighEnergyUsageViewModel: ObservableObject {
         }
     }
 
-    func cancelObserving() {
+    public func cancelObserving() {
         defaultsTask?.cancel()
         changesTask?.cancel()
     }

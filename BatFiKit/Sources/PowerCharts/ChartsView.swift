@@ -14,7 +14,7 @@ import Persistence
 import SwiftUI
 
 public struct ChartsView: View {
-    @StateObject private var model = ChartsViewModel()
+    @EnvironmentObject var model: ChartsViewModel
     @Dependency(\.calendar) private var calendar
 
     public init() {}
@@ -94,8 +94,5 @@ public struct ChartsView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .task {
-            await model.fetchPowerStatePoints()
-        }
     }
 }

@@ -464,6 +464,12 @@ public actor ChargingManager: ChargingModeManager {
         } catch {
             logger.error("Error fetching charging state: \(error)")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Error fetching charging state: \(error.localizedDescription)")
+            let currentMode = await appChargingState.currentAppChargingMode().mode
+            if currentMode == .initial {
+                logger.debug("Retrying fetching charging state in 5 seconds")
+                try? await clock.sleep(for: .seconds(5))
+                await fetchAndUpdateAppChargingState()
+            }
         }
     }
 
