@@ -23,7 +23,7 @@ public struct AnalyticsClient: Sendable {
 }
 
 extension AnalyticsClient: TestDependencyKey {
-    public static var testValue: AnalyticsClient = .init()
+    nonisolated(unsafe) public static var testValue: AnalyticsClient = .init()
 }
 
 extension DependencyValues {

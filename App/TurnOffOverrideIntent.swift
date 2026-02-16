@@ -9,7 +9,7 @@ import App
 import AppIntents
 
 struct TurnOffOverrideIntent: AppIntent {
-    static var title: LocalizedStringResource = .init("intent.stop_override.title", defaultValue: "Stop charge override")
+    nonisolated(unsafe) static var title: LocalizedStringResource = .init("intent.stop_override.title", defaultValue: "Stop charge override")
 
     @AppDependency
     var app: BatFi

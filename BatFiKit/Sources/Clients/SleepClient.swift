@@ -8,24 +8,24 @@
 import Cocoa
 import Dependencies
 
-public enum SleepNotification {
+public enum SleepNotification: Sendable {
     case willSleep
     case didWake
 }
 
-public struct SleepClient: TestDependencyKey {
-    public var macWillSleep: () -> AsyncStream<Void>
-    public var macDidWake: () -> AsyncStream<Void>
-    public var screenDidSleep: () -> AsyncStream<Void>
-    public var screenDidWake: () -> AsyncStream<Void>
-    public var observeMacSleepStatus: () -> AsyncStream<SleepNotification>
+public struct SleepClient: TestDependencyKey, Sendable {
+    public var macWillSleep: @Sendable () -> AsyncStream<Void>
+    public var macDidWake: @Sendable () -> AsyncStream<Void>
+    public var screenDidSleep: @Sendable () -> AsyncStream<Void>
+    public var screenDidWake: @Sendable () -> AsyncStream<Void>
+    public var observeMacSleepStatus: @Sendable () -> AsyncStream<SleepNotification>
 
     public init(
-        macWillSleep: @escaping () -> AsyncStream<Void>,
-        macDidWake: @escaping () -> AsyncStream<Void>,
-        screenDidSleep: @escaping () -> AsyncStream<Void>,
-        screenDidWake: @escaping () -> AsyncStream<Void>,
-        observeMacSleepStatus: @escaping () -> AsyncStream<SleepNotification>
+        macWillSleep: @escaping @Sendable () -> AsyncStream<Void>,
+        macDidWake: @escaping @Sendable () -> AsyncStream<Void>,
+        screenDidSleep: @escaping @Sendable () -> AsyncStream<Void>,
+        screenDidWake: @escaping @Sendable () -> AsyncStream<Void>,
+        observeMacSleepStatus: @escaping @Sendable () -> AsyncStream<SleepNotification>
     ) {
         self.macWillSleep = macWillSleep
         self.macDidWake = macDidWake
@@ -34,7 +34,7 @@ public struct SleepClient: TestDependencyKey {
         self.observeMacSleepStatus = observeMacSleepStatus
     }
 
-    public static var testValue: SleepClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: SleepClient = unimplemented()
 }
 
 public extension DependencyValues {

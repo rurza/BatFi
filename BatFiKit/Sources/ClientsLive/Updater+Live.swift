@@ -17,7 +17,7 @@ extension Updater: DependencyKey {
     public static let liveValue: Updater = {
         let updaterDelegate = UpdaterDelegate.instance
 
-        let updaterController = SPUStandardUpdaterController(
+        nonisolated(unsafe) let updaterController = SPUStandardUpdaterController(
             startingUpdater: true,
             updaterDelegate: updaterDelegate,
             userDriverDelegate: updaterDelegate
@@ -25,7 +25,9 @@ extension Updater: DependencyKey {
 
         let client = Updater(
             checkForUpdates: {
-                updaterController.checkForUpdates(nil)
+                DispatchQueue.main.async {
+                    updaterController.checkForUpdates(nil)
+                }
             },
             automaticallyChecksForUpdates: {
                 updaterController.updater.automaticallyChecksForUpdates
@@ -44,7 +46,7 @@ extension Updater: DependencyKey {
     }()
 }
 
-private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
+private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate, @unchecked Sendable {
     static let instance = UpdaterDelegate()
 
     var supportsGentleScheduledUpdateReminders: Bool {

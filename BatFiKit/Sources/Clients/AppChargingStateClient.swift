@@ -11,7 +11,7 @@ import DependenciesMacros
 import Foundation
 
 @DependencyClient
-public struct AppChargingStateClient {
+public struct AppChargingStateClient: Sendable {
     public var updateLidOpenedStatus: @Sendable (_ opened: Bool) async -> Void
     public var lidOpened: @Sendable () async -> Bool?
     public var appChargingModeDidChage: @Sendable () -> AsyncStream<AppChargingMode> = { AsyncStream { _ in } }
@@ -25,7 +25,7 @@ public struct AppChargingStateClient {
 }
 
 extension AppChargingStateClient: TestDependencyKey {
-    public static var testValue: AppChargingStateClient = .init()
+    nonisolated(unsafe) public static var testValue: AppChargingStateClient = .init()
 }
 
 public extension DependencyValues {

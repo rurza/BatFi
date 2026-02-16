@@ -15,10 +15,10 @@ import Shared
 import SwiftJWT
 
 extension LicenseClient: DependencyKey {
-    public static var liveValue: LicenseClient = {
+    nonisolated(unsafe) public static var liveValue: LicenseClient = {
         let logger = Logger(category: "LicenseClient")
 
-        @inline(never)
+        @Sendable @inline(never)
         func url() -> URL {
             URL(string: "https://" + "license" + "." + "batfi" + "." + "micropixels" + "." + "software" + "/" + "v2" + "/" + "verify")!
         }

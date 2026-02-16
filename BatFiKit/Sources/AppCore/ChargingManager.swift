@@ -125,7 +125,7 @@ public actor ChargingManager: ChargingModeManager {
         }
 
         Task {
-            for await _ in await licenseModel!.$state.values {
+            for await _ in await licenseModel!.stateChanges() {
                 await updateStatusWithCurrentState()
             }
         }

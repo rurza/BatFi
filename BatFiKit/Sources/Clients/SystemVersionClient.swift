@@ -7,14 +7,14 @@
 
 import Dependencies
 
-public struct SystemVersionClient: TestDependencyKey {
-    public var currentSystemIsSequoiaOrNewer: () -> Bool
+public struct SystemVersionClient: TestDependencyKey, Sendable {
+    public var currentSystemIsSequoiaOrNewer: @Sendable () -> Bool
 
-    public init(currentSystemIsSequoiaOrNewer: @escaping () -> Bool) {
+    public init(currentSystemIsSequoiaOrNewer: @escaping @Sendable () -> Bool) {
         self.currentSystemIsSequoiaOrNewer = currentSystemIsSequoiaOrNewer
     }
 
-    public static var testValue: SystemVersionClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: SystemVersionClient = unimplemented()
 }
 
 public extension DependencyValues {

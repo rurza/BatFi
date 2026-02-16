@@ -7,7 +7,7 @@
 
 import Dependencies
 
-public enum PowerMode {
+public enum PowerMode: Sendable {
     case low, normal, high
 }
 
@@ -15,22 +15,22 @@ public enum PowerModeClientError: Error {
     case unsupportedMode
 }
 
-public struct PowerModeClient: TestDependencyKey {
-    public var getCurrentPowerMode: () async throws -> (PowerMode, Bool)
-    public var setPowerMode: (PowerMode, _ lowPowerModeOnly: Bool) async throws -> Void
-    public var observePowerMode: () -> AsyncStream<PowerMode>
+public struct PowerModeClient: TestDependencyKey, Sendable {
+    public var getCurrentPowerMode: @Sendable () async throws -> (PowerMode, Bool)
+    public var setPowerMode: @Sendable (PowerMode, _ lowPowerModeOnly: Bool) async throws -> Void
+    public var observePowerMode: @Sendable () -> AsyncStream<PowerMode>
 
     public init(
-        getCurrentPowerMode: @escaping () async throws -> (PowerMode, Bool),
-        setPowerMode: @escaping (PowerMode, Bool) async throws -> Void,
-        observePowerMode: @escaping () -> AsyncStream<PowerMode>
+        getCurrentPowerMode: @escaping @Sendable () async throws -> (PowerMode, Bool),
+        setPowerMode: @escaping @Sendable (PowerMode, Bool) async throws -> Void,
+        observePowerMode: @escaping @Sendable () -> AsyncStream<PowerMode>
     ) {
         self.getCurrentPowerMode = getCurrentPowerMode
         self.setPowerMode = setPowerMode
         self.observePowerMode = observePowerMode
     }
 
-    public static var testValue: PowerModeClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: PowerModeClient = unimplemented()
 }
 
 extension DependencyValues {

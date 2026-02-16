@@ -7,19 +7,19 @@
 
 import Dependencies
 
-public struct Updater: TestDependencyKey {
-    public var checkForUpdates: () -> Void
-    public var automaticallyChecksForUpdates: () -> Bool
-    public var automaticallyDownloadsUpdates: () -> Bool
-    public var setAutomaticallyChecksForUpdates: (Bool) -> Void
-    public var setAutomaticallyDownloadsUpdates: (Bool) -> Void
+public struct Updater: TestDependencyKey, Sendable {
+    public var checkForUpdates: @Sendable () -> Void
+    public var automaticallyChecksForUpdates: @Sendable () -> Bool
+    public var automaticallyDownloadsUpdates: @Sendable () -> Bool
+    public var setAutomaticallyChecksForUpdates: @Sendable (Bool) -> Void
+    public var setAutomaticallyDownloadsUpdates: @Sendable (Bool) -> Void
 
     public init(
-        checkForUpdates: @escaping () -> Void,
-        automaticallyChecksForUpdates: @escaping () -> Bool,
-        automaticallyDownloadsUpdates: @escaping () -> Bool,
-        setAutomaticallyChecksForUpdates: @escaping (Bool) -> Void,
-        setAutomaticallyDownloadsUpdates: @escaping (Bool) -> Void
+        checkForUpdates: @escaping @Sendable () -> Void,
+        automaticallyChecksForUpdates: @escaping @Sendable () -> Bool,
+        automaticallyDownloadsUpdates: @escaping @Sendable () -> Bool,
+        setAutomaticallyChecksForUpdates: @escaping @Sendable (Bool) -> Void,
+        setAutomaticallyDownloadsUpdates: @escaping @Sendable (Bool) -> Void
     ) {
         self.checkForUpdates = checkForUpdates
         self.automaticallyChecksForUpdates = automaticallyChecksForUpdates
@@ -28,7 +28,7 @@ public struct Updater: TestDependencyKey {
         self.setAutomaticallyDownloadsUpdates = setAutomaticallyDownloadsUpdates
     }
 
-    public static var testValue: Updater = unimplemented()
+    nonisolated(unsafe) public static var testValue: Updater = unimplemented()
 }
 
 public extension DependencyValues {

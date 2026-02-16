@@ -13,7 +13,7 @@ import Foundation
 import os
 import Shared
 
-public final class PersistenceManager {
+public final class PersistenceManager: @unchecked Sendable {
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.sleepClient) private var sleepClient

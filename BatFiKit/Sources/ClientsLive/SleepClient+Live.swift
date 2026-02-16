@@ -15,7 +15,7 @@ import Shared
 extension SleepClient: DependencyKey {
     public static let liveValue: SleepClient = {
         let logger = Logger(category: "😴")
-        func asyncStreamForNotificationName(_ notificationName: Notification.Name) -> AsyncStream<Void> {
+        @Sendable func asyncStreamForNotificationName(_ notificationName: Notification.Name) -> AsyncStream<Void> {
             AsyncStream(
                 NSWorkspace
                     .shared

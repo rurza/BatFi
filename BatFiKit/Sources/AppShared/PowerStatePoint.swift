@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PowerStatePoint: Identifiable {
+public struct PowerStatePoint: Identifiable, Sendable {
     public let batteryLevel: Int16
     public let appChargingMode: AppChargingMode
     public let isCharging: Bool

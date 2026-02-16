@@ -10,9 +10,9 @@ import AppIntents
 import L10n
 
 struct DischargeBatteryIntent: AppIntent {
-    static var title: LocalizedStringResource = .init("intent.discharge.title", defaultValue: "Run on Battery")
+    nonisolated(unsafe) static var title: LocalizedStringResource = .init("intent.discharge.title", defaultValue: "Run on Battery")
 
-    static var description =
+    nonisolated(unsafe) static var description =
     IntentDescription(.init("intent.discharge.description", defaultValue: "Works only with the lid opened."))
 
     @AppDependency

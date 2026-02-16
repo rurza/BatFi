@@ -16,7 +16,7 @@ extension SleepAssertionClient: DependencyKey {
     public static let liveValue: SleepAssertionClient = {
         let state = SleepState()
 
-        func preventAutomaticSleep(_ preventSleep: Bool) async {
+        @Sendable func preventAutomaticSleep(_ preventSleep: Bool) async {
             if preventSleep {
                 guard await state.sleepAssertion == nil else {
                     return

@@ -8,14 +8,14 @@
 import AppKit
 import Dependencies
 
-public struct MenuDelegate: TestDependencyKey {
-    public var observeMenu: () async -> AsyncStream<Bool>
+public struct MenuDelegate: TestDependencyKey, Sendable {
+    public var observeMenu: @Sendable () async -> AsyncStream<Bool>
 
-    public init(observeMenu: @escaping () async -> AsyncStream<Bool>) {
+    public init(observeMenu: @escaping @Sendable () async -> AsyncStream<Bool>) {
         self.observeMenu = observeMenu
     }
 
-    public static var testValue: MenuDelegate = unimplemented()
+    nonisolated(unsafe) public static var testValue: MenuDelegate = unimplemented()
 }
 
 public extension DependencyValues {
@@ -25,6 +25,7 @@ public extension DependencyValues {
     }
 }
 
+@MainActor
 public final class MenuObserver: NSObject, NSMenuDelegate {
     @Published
     public private(set) var menuIsOpened: Bool = false

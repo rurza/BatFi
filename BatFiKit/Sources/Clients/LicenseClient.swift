@@ -3,10 +3,10 @@ import Foundation
 import DependenciesMacros
 
 @DependencyClient
-public struct LicenseClient: TestDependencyKey {
-    public var checkLicense: (_ key: String) async throws -> License
-    public var cachedLicense: () async throws -> License?
-    public static var testValue: LicenseClient = unimplemented()
+public struct LicenseClient: TestDependencyKey, Sendable {
+    public var checkLicense: @Sendable (_ key: String) async throws -> License
+    public var cachedLicense: @Sendable () async throws -> License?
+    nonisolated(unsafe) public static var testValue: LicenseClient = unimplemented()
 }
 
 public struct License: Equatable, Sendable {

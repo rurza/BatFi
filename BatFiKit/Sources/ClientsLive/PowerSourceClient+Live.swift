@@ -142,7 +142,7 @@ extension PowerSourceClient: DependencyKey {
                         }
                     }
 
-                    let cancellable = observer.subject
+                    nonisolated(unsafe) let cancellable = observer.subject
                         .sink { powerState in
                             Task {
                                 continuation.yield(powerState)
@@ -176,7 +176,7 @@ extension PowerSourceClient: DependencyKey {
         return client
     }()
 
-    private class Observer {
+    private class Observer: @unchecked Sendable {
         let getPowerSourceInfo: () async throws -> PowerState
         let subject = PassthroughSubject<PowerState, Never>()
         private lazy var logger = Logger(category: "PowerSourceClienty.Observer")

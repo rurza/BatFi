@@ -7,7 +7,7 @@
 
 import AppKit
 import Clients
-import Combine
+@preconcurrency import Combine
 import Dependencies
 import Shared
 
@@ -138,6 +138,17 @@ public final class LicenseModel: ObservableObject {
 
     public func licenseViewOnOnboardingVisibilityDidChange(isVisible: Bool) {
         onboardingLicenseViewVisible = isVisible
+    }
+
+    public func stateChanges() -> AsyncStream<AsyncResource<License?>> {
+        AsyncStream { continuation in
+            let cancellable = $state.sink { value in
+                continuation.yield(value)
+            }
+            continuation.onTermination = { _ in
+                cancellable.cancel()
+            }
+        }
     }
 }
 

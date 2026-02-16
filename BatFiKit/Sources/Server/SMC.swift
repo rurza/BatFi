@@ -278,7 +278,7 @@ func == (lhs: DataType, rhs: DataType) -> Bool {
 /// source driver for the SMC.
 enum SMCKit {
     /// Connection to the SMC driver
-    fileprivate static var connection: io_connect_t = 0
+    nonisolated(unsafe) fileprivate static var connection: io_connect_t = 0
 
     /// Open connection to the SMC driver. This must be done first before any
     /// other calls

@@ -8,7 +8,7 @@
 import Dependencies
 import Clients
 
-final class AnalyticsManager {
+final class AnalyticsManager: @unchecked Sendable {
     @Dependency(\.defaults) private var defaults
     @Dependency(\.analyticsClient) private var analyticsClient
     private var analyticsEnabled = false

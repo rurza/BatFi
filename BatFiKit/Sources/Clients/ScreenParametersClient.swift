@@ -8,14 +8,14 @@
 import Dependencies
 import Foundation
 
-public struct ScreenParametersClient: TestDependencyKey {
-    public var screenDidChangeParameters: () -> AsyncStream<Void>
+public struct ScreenParametersClient: TestDependencyKey, Sendable {
+    public var screenDidChangeParameters: @Sendable () -> AsyncStream<Void>
 
-    public init(screenDidChangeParameters: @escaping () -> AsyncStream<Void>) {
+    public init(screenDidChangeParameters: @escaping @Sendable () -> AsyncStream<Void>) {
         self.screenDidChangeParameters = screenDidChangeParameters
     }
 
-    public static var testValue: ScreenParametersClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: ScreenParametersClient = unimplemented()
 }
 
 public extension DependencyValues {

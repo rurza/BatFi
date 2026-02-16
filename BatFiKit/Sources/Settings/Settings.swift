@@ -10,6 +10,7 @@ import KeyboardShortcuts
 import License
 import SettingsKit
 
+@MainActor
 public final class SettingsController {
     private let licenseModel: LicenseModel
 

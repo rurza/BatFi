@@ -1,14 +1,14 @@
 import Dependencies
 import Shared
 
-public struct PowerDistributionClient: TestDependencyKey {
-    public var powerInfoChanges: () -> AsyncStream<PowerDistributionInfo>
+public struct PowerDistributionClient: TestDependencyKey, Sendable {
+    public var powerInfoChanges: @Sendable () -> AsyncStream<PowerDistributionInfo>
 
-    public init(powerInfoChanges: @escaping () -> AsyncStream<PowerDistributionInfo>) {
+    public init(powerInfoChanges: @escaping @Sendable () -> AsyncStream<PowerDistributionInfo>) {
         self.powerInfoChanges = powerInfoChanges
     }
 
-    public static var testValue: PowerDistributionClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: PowerDistributionClient = unimplemented()
 }
 
 public extension DependencyValues {

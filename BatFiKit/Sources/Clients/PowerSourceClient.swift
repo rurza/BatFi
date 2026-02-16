@@ -13,17 +13,17 @@ public enum PowerSourceError: Error {
     case infoMissing
 }
 
-public struct PowerSourceClient: TestDependencyKey {
-    public var powerSourceChanges: () -> AsyncStream<PowerState>
-    public var currentPowerSourceState: () async throws -> PowerState
-    public var isRunningOnLaptop: () -> Bool
+public struct PowerSourceClient: TestDependencyKey, Sendable {
+    public var powerSourceChanges: @Sendable () -> AsyncStream<PowerState>
+    public var currentPowerSourceState: @Sendable () async throws -> PowerState
+    public var isRunningOnLaptop: @Sendable () -> Bool
 
-    public static var testValue: PowerSourceClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: PowerSourceClient = unimplemented()
 
     public init(
-        powerSourceChanges: @escaping () -> AsyncStream<PowerState>,
-        currentPowerSourceState: @escaping () async throws -> PowerState,
-        isRunningOnLaptop: @escaping () -> Bool
+        powerSourceChanges: @escaping @Sendable () -> AsyncStream<PowerState>,
+        currentPowerSourceState: @escaping @Sendable () async throws -> PowerState,
+        isRunningOnLaptop: @escaping @Sendable () -> Bool
     ) {
         self.powerSourceChanges = powerSourceChanges
         self.currentPowerSourceState = currentPowerSourceState

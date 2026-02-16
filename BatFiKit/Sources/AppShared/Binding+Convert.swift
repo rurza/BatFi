@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 public extension Binding {
     static func convert<TInt, TFloat>(from intBinding: Binding<TInt>) -> Binding<TFloat>
         where TInt: BinaryInteger,

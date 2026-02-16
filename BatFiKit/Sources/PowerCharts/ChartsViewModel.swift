@@ -12,11 +12,11 @@ import Foundation
 import IdentifiedCollections
 import os
 
+@MainActor
 final class ChartsViewModel: ObservableObject {
     @Dependency(\.persistence) private var persistence
     @Dependency(\.date) private var date
     @Dependency(\.calendar) private var calendar
-    @MainActor
     @Published var powerStatePoints: IdentifiedArrayOf<PowerStatePoint> = []
     private lazy var logger = Logger(category: "ChartsView.Model")
     private var observingTask: Task<Void, Never>?
@@ -54,7 +54,6 @@ final class ChartsViewModel: ObservableObject {
         observingTask?.cancel()
     }
 
-    @MainActor
     func fetchPowerStatePoints() async {
         do {
             let results = try await persistence.fetchPowerStatePoint(fromDate, toDate)
@@ -81,7 +80,6 @@ final class ChartsViewModel: ObservableObject {
         }
     }
 
-    @MainActor
     func offsetDateFor(_ point: PowerStatePoint) -> Date {
         guard let index = powerStatePoints.index(id: point.id) else {
             // this timestamp can be used in upper bound

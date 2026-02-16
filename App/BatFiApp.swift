@@ -10,7 +10,7 @@ import AppIntents
 import LetsMove
 import SwiftUI
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     var app: BatFi?
 
     func applicationWillFinishLaunching(_ notification: Notification) {

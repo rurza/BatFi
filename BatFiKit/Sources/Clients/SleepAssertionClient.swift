@@ -10,7 +10,7 @@ import DependenciesMacros
 import Foundation
 
 @DependencyClient
-public struct SleepAssertionClient {
+public struct SleepAssertionClient: Sendable {
     public var preventAutomaticSleepIfNeeded: @Sendable (_ preventSleep: Bool) async -> Void
     public var preventsAutomaticSleep: @Sendable () async -> Bool = { false }
     // newer method, uses pmset
@@ -18,7 +18,7 @@ public struct SleepAssertionClient {
 }
 
 extension SleepAssertionClient: TestDependencyKey {
-    public static var testValue: SleepAssertionClient = .init()
+    nonisolated(unsafe) public static var testValue: SleepAssertionClient = .init()
 }
 
 public extension DependencyValues {

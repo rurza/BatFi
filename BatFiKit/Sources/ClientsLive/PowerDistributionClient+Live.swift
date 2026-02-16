@@ -5,7 +5,7 @@ import os
 import Shared
 
 extension PowerDistributionClient: DependencyKey {
-    public static var liveValue: PowerDistributionClient = {
+    nonisolated(unsafe) public static var liveValue: PowerDistributionClient = {
 
         @Sendable func powerInfo() async throws -> PowerDistributionInfo {
             return try await XPCClient.shared.getPowerDistribution()

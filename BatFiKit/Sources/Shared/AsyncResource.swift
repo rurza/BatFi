@@ -38,3 +38,5 @@ public enum AsyncResource<Resource> {
 extension AsyncResource: Equatable where Resource: Equatable { }
 
 extension AsyncResource: Hashable where Resource: Hashable { }
+
+extension AsyncResource: Sendable where Resource: Sendable { }

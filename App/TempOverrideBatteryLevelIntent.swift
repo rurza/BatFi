@@ -11,9 +11,9 @@ import App
 import AppIntents
 
 struct TempOverrideBatteryLevelIntent: AppIntent {
-    static var title: LocalizedStringResource = .init("intent.override.title", defaultValue: "Temporarily Override Battery Level")
+    nonisolated(unsafe) static var title: LocalizedStringResource = .init("intent.override.title", defaultValue: "Temporarily Override Battery Level")
 
-    static var description =
+    nonisolated(unsafe) static var description =
     IntentDescription(.init("intent.override.description", defaultValue: "Discharging works only with the lid opened."))
 
     @AppDependency

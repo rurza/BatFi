@@ -14,8 +14,8 @@ import Shared
 import UserNotifications
 
 extension UserNotificationsClient: DependencyKey {
-    public static var liveValue: UserNotificationsClient = {
-        let center = UNUserNotificationCenter.current()
+    nonisolated(unsafe) public static var liveValue: UserNotificationsClient = {
+        nonisolated(unsafe) let center = UNUserNotificationCenter.current()
         let logger = Logger(category: "User Notifications Client")
 
         return UserNotificationsClient(

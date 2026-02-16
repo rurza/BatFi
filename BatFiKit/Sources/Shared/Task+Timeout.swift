@@ -11,7 +11,7 @@ public enum TaskError: Error {
     case timedOut
 }
 
-public func withTimeout<R>(
+public func withTimeout<R: Sendable>(
     seconds: TimeInterval,
     operation: @escaping @Sendable () async throws -> R
 ) async throws -> R {

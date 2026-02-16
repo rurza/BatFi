@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 
 import PackageDescription
 
@@ -83,7 +83,7 @@ let package = Package(
                 .l10n,
                 .sharedUI,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "App",
@@ -104,7 +104,7 @@ let package = Package(
                 .settings,
                 .statusItemArrowKit,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "AppCore", dependencies: [
             .appShared,
@@ -122,9 +122,9 @@ let package = Package(
             .settings,
             .shared,
             .snapKit,
-        ], swiftSettings: swiftV5LanguageMode()),
-        .target(name: "AppShared", dependencies: [.l10n], swiftSettings: swiftV5LanguageMode()),
-        .target(name: "Shared", swiftSettings: swiftV5LanguageMode()),
+        ], swiftSettings: swiftV6LanguageMode()),
+        .target(name: "AppShared", dependencies: [.l10n], swiftSettings: swiftV6LanguageMode()),
+        .target(name: "Shared", swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "BatteryIndicator",
             dependencies: [
@@ -133,7 +133,7 @@ let package = Package(
                 .clients,
                 .defaultsKeys,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "BatteryInfo", dependencies: [
             .appShared,
@@ -142,7 +142,7 @@ let package = Package(
             .defaultsKeys,
             .dependencies,
             .l10n,
-        ], swiftSettings: swiftV5LanguageMode()),
+        ], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "Clients",
             dependencies: [
@@ -152,7 +152,7 @@ let package = Package(
                 .dependenciesMacros,
                 .shared,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "ClientsLive",
@@ -173,9 +173,9 @@ let package = Package(
             resources: [
                 .copy("key.der")
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
-        .target(name: "DefaultsKeys", dependencies: [.defaults], swiftSettings: swiftV5LanguageMode()),
+        .target(name: "DefaultsKeys", dependencies: [.defaults], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "HighEnergyUsage",
             dependencies: [
@@ -188,7 +188,7 @@ let package = Package(
                 .l10n,
                 .shared,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "Notifications",
@@ -200,11 +200,11 @@ let package = Package(
                 .dependencies,
                 .l10n,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "L10n",
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "License",
@@ -212,7 +212,7 @@ let package = Package(
                 .clients,
                 .shared
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "Onboarding",
@@ -228,7 +228,7 @@ let package = Package(
                 .pow,
                 .sharedUI,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "Persistence",
@@ -237,7 +237,7 @@ let package = Package(
                 .dependencies,
                 .shared,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "PowerCharts",
@@ -249,7 +249,7 @@ let package = Package(
                 .persistence,
                 .identifiedCollections,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "PowerDistributionInfo", dependencies: [
             .appShared,
@@ -257,7 +257,7 @@ let package = Package(
             .dependencies,
             .l10n,
             .shared,
-        ], swiftSettings: swiftV5LanguageMode()),
+        ], swiftSettings: swiftV6LanguageMode()),
         .target(name: "Server", dependencies: [
             .asyncXPCConnection,
             .defaults,
@@ -265,7 +265,7 @@ let package = Package(
             .embeddedPropertyList,
             .sentry,
             .shared,
-        ], swiftSettings: swiftV5LanguageMode()),
+        ], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "Settings",
             dependencies: [
@@ -279,14 +279,23 @@ let package = Package(
                 .settingsKit,
                 .sharedUI,
             ],
-            swiftSettings: swiftV5LanguageMode()
+            swiftSettings: swiftV6LanguageMode()
         ),
-        .target(name: "SharedUI", swiftSettings: swiftV5LanguageMode()),
+        .target(name: "SharedUI", swiftSettings: swiftV6LanguageMode()),
     ]
 )
 
 func swiftV5LanguageMode() -> [SwiftSetting] {
     return [
         .swiftLanguageMode(.v5)
+    ]
+}
+
+func swiftV6LanguageMode() -> [SwiftSetting] {
+    return [
+        .swiftLanguageMode(.v6),
+//        .defaultIsolation(MainActor.self),
+//        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+//        .enableUpcomingFeature("InferIsolatedConformances")
     ]
 }

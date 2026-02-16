@@ -1,6 +1,6 @@
 import AppKit
 
-public struct TopCoalitionInfo: Equatable, CustomStringConvertible {
+public struct TopCoalitionInfo: Equatable, CustomStringConvertible, Sendable {
     public let topCoalitions: [Coalition]
 
     public init(topCoalitions: [Coalition]) {
@@ -10,7 +10,7 @@ public struct TopCoalitionInfo: Equatable, CustomStringConvertible {
     public var description: String { "\(topCoalitions)" }
 }
 
-public struct Coalition: Equatable, CustomStringConvertible {
+public struct Coalition: Equatable, CustomStringConvertible, @unchecked Sendable {
     public let bundleIdentifier: String
     public let energyImpact: Double
     public let icon: NSImage?

@@ -9,13 +9,13 @@ import Dependencies
 import DependenciesMacros
 
 @DependencyClient
-public struct KeychainClient {
-    public var saveLicense: (String?) async throws -> Void
-    public var getLicense: () async throws -> String?
+public struct KeychainClient: Sendable {
+    public var saveLicense: @Sendable (String?) async throws -> Void
+    public var getLicense: @Sendable () async throws -> String?
 }
 
 extension KeychainClient: TestDependencyKey {
-    public static var testValue: KeychainClient = unimplemented()
+    nonisolated(unsafe) public static var testValue: KeychainClient = unimplemented()
 }
 
 extension DependencyValues {

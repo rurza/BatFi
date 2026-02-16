@@ -11,9 +11,9 @@ import Security
 import Foundation
 
 extension KeychainClient: DependencyKey {
-    public static var liveValue: Self = {
+    nonisolated(unsafe) public static var liveValue: Self = {
         let licenseKey = "BatFi License"
-        let keychain = KeychainSwift()
+        nonisolated(unsafe) let keychain = KeychainSwift()
         return Self(
             saveLicense: { license in
                 if let license {

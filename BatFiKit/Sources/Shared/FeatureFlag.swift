@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum FeatureFlag {
+public enum FeatureFlag: Sendable {
     case beta
 }
 

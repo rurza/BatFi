@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible {
+public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible, Sendable {
     public let mode: ChargingMode
     public let userTempOverride: UserTempChargingMode?
     public let chargerConnected: Bool
@@ -30,7 +30,7 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible 
 
 }
 
-public struct UserTempChargingMode: Equatable, Identifiable, RawRepresentable {
+public struct UserTempChargingMode: Equatable, Identifiable, RawRepresentable, Sendable {
     public let limit: Int
 
     public var id: Int { limit }
@@ -48,7 +48,7 @@ public struct UserTempChargingMode: Equatable, Identifiable, RawRepresentable {
 }
 
 
-public enum ChargingMode: String, Equatable, Identifiable {
+public enum ChargingMode: String, Equatable, Identifiable, Sendable {
     case initial
     case charging
     case inhibit

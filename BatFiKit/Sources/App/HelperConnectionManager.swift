@@ -11,12 +11,12 @@ import Dependencies
 import Foundation
 import L10n
 
-protocol HelperConnectionManagerDelegate: AnyObject {
+protocol HelperConnectionManagerDelegate: AnyObject, Sendable {
     @MainActor
     func showHelperIsNotInstalled()
 }
 
-final class HelperConnectionManager {
+final class HelperConnectionManager: @unchecked Sendable {
     @Dependency(\.helperClient) private var helperClient
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.userNotificationsClient) private var userNotificationsClient

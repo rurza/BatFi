@@ -18,6 +18,7 @@ import UserNotifications
 private let optimizedBatteryChargingCategoryIdentifier = "OPTIMIZED_BATTERY_CHARGING"
 private let settingsActionIdentifier = "SETTINGS_ACTION"
 
+@MainActor
 public class NotificationsManager: NSObject {
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.powerSourceClient) private var powerSourceClient
@@ -232,7 +233,7 @@ public class NotificationsManager: NSObject {
     }
 }
 
-extension NotificationsManager: UNUserNotificationCenterDelegate {
+extension NotificationsManager: @preconcurrency UNUserNotificationCenterDelegate {
     public func userNotificationCenter(_: UNUserNotificationCenter, willPresent _: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner])
     }

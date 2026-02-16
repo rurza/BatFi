@@ -10,7 +10,7 @@ import DependenciesMacros
 import Shared
 
 @DependencyClient
-public struct ChargingClient {
+public struct ChargingClient: Sendable {
     public var turnOnAutoChargingMode: @Sendable () async throws -> Void
     public var inhibitCharging: @Sendable () async throws -> Void
     public var forceDischarge: @Sendable () async throws -> Void
@@ -18,7 +18,7 @@ public struct ChargingClient {
 }
 
 extension ChargingClient: TestDependencyKey {
-    public static var testValue: ChargingClient = .init()
+    nonisolated(unsafe) public static var testValue: ChargingClient = .init()
 }
 
 public extension DependencyValues {

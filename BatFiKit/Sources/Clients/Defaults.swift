@@ -11,7 +11,7 @@ import Foundation
 
 public typealias DefaultsValue = CustomStringConvertible & Defaults.Serializable & Equatable
 
-public protocol DefaultsProtocol {
+public protocol DefaultsProtocol: Sendable {
     func observe<Value: DefaultsValue>(_ key: Defaults.Key<Value>) -> AsyncStream<Value>
     func setValue<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>, value: Value)
     func value<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>) -> Value

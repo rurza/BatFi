@@ -9,21 +9,21 @@ import AppShared
 import Dependencies
 import Foundation
 
-public struct Persistence: TestDependencyKey {
-    public var savePowerState: (_ powerState: PowerState, _ mode: AppChargingMode) async throws -> Void
-    public var fetchPowerStatePoint: (_ fromDate: Date, _ toDate: Date) async throws -> [PowerStatePoint]
-    public var powerStateDidChange: () async -> AsyncStream<Void>
-    public var fetchLastDischargeDate: () async throws -> Date?
-    public var fetchLastFullChargeDate: () async throws -> Date?
-    public var fullChargeAndDischargeWasInLast30Days: () async throws -> (charge: Bool, discharge: Bool)?
+public struct Persistence: TestDependencyKey, Sendable {
+    public var savePowerState: @Sendable (_ powerState: PowerState, _ mode: AppChargingMode) async throws -> Void
+    public var fetchPowerStatePoint: @Sendable (_ fromDate: Date, _ toDate: Date) async throws -> [PowerStatePoint]
+    public var powerStateDidChange: @Sendable () async -> AsyncStream<Void>
+    public var fetchLastDischargeDate: @Sendable () async throws -> Date?
+    public var fetchLastFullChargeDate: @Sendable () async throws -> Date?
+    public var fullChargeAndDischargeWasInLast30Days: @Sendable () async throws -> (charge: Bool, discharge: Bool)?
 
     public init(
-        savePowerState: @escaping (PowerState, AppChargingMode) async throws -> Void,
-        fetchPowerStatePoint: @escaping (Date, Date) async throws -> [PowerStatePoint],
-        observePowerStatePoints: @escaping () async -> AsyncStream<Void>,
-        fetchLastDischargeDate: @escaping () async throws -> Date?,
-        fetchLastFullChargeDate: @escaping () async throws -> Date?,
-        fullChargeAndDischargeWasInLast30Days: @escaping () async throws -> (charge: Bool, discharge: Bool)?
+        savePowerState: @escaping @Sendable (PowerState, AppChargingMode) async throws -> Void,
+        fetchPowerStatePoint: @escaping @Sendable (Date, Date) async throws -> [PowerStatePoint],
+        observePowerStatePoints: @escaping @Sendable () async -> AsyncStream<Void>,
+        fetchLastDischargeDate: @escaping @Sendable () async throws -> Date?,
+        fetchLastFullChargeDate: @escaping @Sendable () async throws -> Date?,
+        fullChargeAndDischargeWasInLast30Days: @escaping @Sendable () async throws -> (charge: Bool, discharge: Bool)?
     ) {
         self.savePowerState = savePowerState
         self.fetchPowerStatePoint = fetchPowerStatePoint
@@ -33,7 +33,7 @@ public struct Persistence: TestDependencyKey {
         self.fullChargeAndDischargeWasInLast30Days = fullChargeAndDischargeWasInLast30Days
     }
 
-    public static var testValue: Persistence = unimplemented()
+    nonisolated(unsafe) public static var testValue: Persistence = unimplemented()
 }
 
 public extension DependencyValues {

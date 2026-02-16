@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BatteryChargeGraphInfo: Equatable {
+public struct BatteryChargeGraphInfo: Equatable, Sendable {
     public let batteryStates: [BatteryState]
     public let chargeLevels: [ChargeLevel]
 
@@ -10,7 +10,7 @@ public struct BatteryChargeGraphInfo: Equatable {
     }
 }
 
-public struct BatteryState: Equatable {
+public struct BatteryState: Equatable, Sendable {
     public let state: Bool
     public let time: UInt
 
@@ -20,7 +20,7 @@ public struct BatteryState: Equatable {
     }
 }
 
-public struct ChargeLevel: Equatable {
+public struct ChargeLevel: Equatable, Sendable {
     public let level: UInt8
     public let time: UInt
 

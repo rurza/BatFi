@@ -10,13 +10,13 @@ import DependenciesMacros
 import Foundation
 
 @DependencyClient
-public struct UserNotificationsClient {
+public struct UserNotificationsClient: Sendable {
     public var requestAuthorization: @Sendable () async -> Bool? = { nil }
     public var showUserNotification: @Sendable (_ title: String, _ body: String, _ identifier: String, _ threadIdentifier: String?, _ delay: TimeInterval?) async throws -> Void
 }
 
 extension UserNotificationsClient: TestDependencyKey {
-    public static var testValue: UserNotificationsClient = UserNotificationsClient()
+    nonisolated(unsafe) public static var testValue: UserNotificationsClient = UserNotificationsClient()
 }
 
 public extension DependencyValues {

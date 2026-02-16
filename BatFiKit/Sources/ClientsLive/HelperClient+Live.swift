@@ -9,12 +9,12 @@ import Clients
 import Dependencies
 import Foundation
 import os
-import ServiceManagement
+@preconcurrency import ServiceManagement
 import Shared
 
 extension HelperClient: DependencyKey {
     public static let liveValue: HelperClient = {
-        let service = SMAppService.daemon(plistName: Constant.helperPlistName)
+        nonisolated(unsafe) let service = SMAppService.daemon(plistName: Constant.helperPlistName)
         let installer = HelperInstaller(service: service)
         let logger = Logger(category: "Helper Client")
         let manager = HelperClient(
@@ -40,7 +40,7 @@ extension HelperClient: DependencyKey {
             },
             helperStatus: {
                 logger.notice("Checking helper status...")
-                let status = installer.service.status
+                let status = await installer.service.status
                 logger.notice("Helper status: \(status, privacy: .public)")
                 return status
             },

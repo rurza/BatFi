@@ -10,8 +10,8 @@ import Dependencies
 import Shared
 
 extension FeatureFlagsClient: DependencyKey {
-    public static var liveValue: FeatureFlagsClient = {
-        let enabledFeatureFlags = EnabledFeatureFlags()
+    nonisolated(unsafe) public static var liveValue: FeatureFlagsClient = {
+        nonisolated(unsafe) let enabledFeatureFlags = EnabledFeatureFlags()
         return Self(
             enableFeatureFlag: { flag in
                 enabledFeatureFlags.enableFeature(flag)

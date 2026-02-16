@@ -5,7 +5,6 @@
 //  Created by Adam Różyński on 20.11.2024.
 //
 
-import AsyncAlgorithms
 import Foundation
 import Clients
 import Dependencies
@@ -31,28 +30,32 @@ extension PowerModeClient: DependencyKey {
                 }
             },
             observePowerMode: {
-                merge(
-                    AsyncStream<PowerMode> { continuation in
-                        let task = Task {
-                            while !Task.isCancelled {
-                                let (uint, _) = try await xpcClient.getPowerMode()
-                                if let mode = PowerMode(uint: uint) {
-                                    continuation.yield(mode)
-                                }
-                                try await Task.sleep(for: .seconds(60), tolerance: .milliseconds(50))
+                AsyncStream<PowerMode> { continuation in
+                    let pollingTask = Task {
+                        while !Task.isCancelled {
+                            let (uint, _) = try await xpcClient.getPowerMode()
+                            if let mode = PowerMode(uint: uint) {
+                                continuation.yield(mode)
                             }
+                            try await Task.sleep(for: .seconds(60), tolerance: .milliseconds(50))
                         }
-                        continuation.onTermination = { _ in
-                            task.cancel()
-                        }
-                    },
-                    NotificationCenter.default.notifications(named: .powerModeDidChange).compactMap { note in
-                        guard let userInfo = note.userInfo, let uintValue = userInfo["powerMode"] as? UInt8, let mode = PowerMode(uint: uintValue) else {
-                            return nil
-                        }
-                        return mode
                     }
-                ).eraseToStream()
+
+                    let notificationTask = Task {
+                        for await note in NotificationCenter.default.notifications(named: .powerModeDidChange) {
+                            guard let userInfo = note.userInfo,
+                                  let uintValue = userInfo["powerMode"] as? UInt8,
+                                  let mode = PowerMode(uint: uintValue)
+                            else { continue }
+                            continuation.yield(mode)
+                        }
+                    }
+
+                    continuation.onTermination = { _ in
+                        pollingTask.cancel()
+                        notificationTask.cancel()
+                    }
+                }
             }
         )
     }
