@@ -303,7 +303,13 @@ public final class StatusItemManager {
         statusItem.menu?.update()
     }
 
-    private let menuItemCheckMarkPadding: CGFloat = 25
+        private var menuItemCheckMarkPadding: CGFloat {
+            if #available(macOS 26.0, *) {
+                return 17
+            } else {
+                return 25
+            }
+        }
 
     @MenuBuilder
     func chargerNotConnectedTempOverrideDisclaimer(limit: Int) -> [NSMenuItem] {
@@ -314,7 +320,7 @@ public final class StatusItemManager {
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
                     .frame(width: 220, alignment: .leading)
-                    .padding(.horizontal, horizontalPadding(for: limit))
+                    .padding(.leading, horizontalPadding(for: limit))
                     .padding(.top, 6)
                     .padding(.bottom, 6)
             }
@@ -329,14 +335,14 @@ public final class StatusItemManager {
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
                     .frame(width: 220, alignment: .leading)
-                    .padding(.horizontal, menuItemCheckMarkPadding)
+                    .padding(.leading, menuItemCheckMarkPadding)
                     .padding(.top, 2)
                     .padding(.bottom, 6)
             }
     }
 
     func horizontalPadding(for limit: Int?) -> CGFloat {
-        if (limit == 100 || limit == 0) {
+        if (limit == 100 || limit == 0 || defaults.value(.showPowerModeOptions)) {
             return menuItemCheckMarkPadding
         } else {
             return 15
