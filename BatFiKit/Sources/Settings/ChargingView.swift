@@ -84,6 +84,7 @@ struct ChargingView: View {
                                     }
                                     Text(l10n.Button.Description.lidMustBeOpened)
                                         .offset(x: 19)
+                                        .fixedSize(horizontal: false, vertical: true)
                                         .settingDescription()
                                         .opacity(manageCharging ? 1 : 0.4)
                                 }
