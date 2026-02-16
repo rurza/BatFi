@@ -51,7 +51,7 @@ struct HotkeysView: View {
         identifier: NSToolbarItem.Identifier("Hotkeys"),
         title: L10n.Settings.Tab.Title.hotkeys,
         toolbarIcon: NSImage(
-            systemSymbolName: "command.square",
+            systemSymbolName: "keyboard",
             accessibilityDescription: L10n.Settings.Accessibility.Title.hotkeys
         )!
     ) {
