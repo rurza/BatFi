@@ -307,15 +307,14 @@ public final class StatusItemManager {
 
     @MenuBuilder
     func chargerNotConnectedTempOverrideDisclaimer(limit: Int) -> [NSMenuItem] {
-        let padding = horizontalPadding(for: limit)
         MenuItem("")
             .view {
                 Text(L10n.Menu.Label.chargerNotConnectedDisclaimer)
                     .font(.callout)
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
-                    .frame(width: 220 - padding * 2, alignment: .leading)
-                    .padding(.horizontal, padding)
+                    .frame(width: 220, alignment: .leading)
+                    .padding(.horizontal, horizontalPadding(for: limit))
                     .padding(.top, 6)
                     .padding(.bottom, 6)
             }
@@ -329,7 +328,7 @@ public final class StatusItemManager {
                     .font(.callout)
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
-                    .frame(width: 220 - menuItemCheckMarkPadding * 2, alignment: .leading)
+                    .frame(width: 220, alignment: .leading)
                     .padding(.horizontal, menuItemCheckMarkPadding)
                     .padding(.top, 2)
                     .padding(.bottom, 6)
