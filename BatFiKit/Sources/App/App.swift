@@ -115,7 +115,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     // MARK: - MenuControllerDelegate
 
     public func openSettings() {
-        NSRunningApplication.current.activate()
+        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
         settingsController.openSettings()
     }
 
@@ -171,7 +171,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             } else {
                 onboardingWindow?.makeKeyAndOrderFront(nil)
             }
-            NSRunningApplication.current.activate()
+            NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
         }
     }
 

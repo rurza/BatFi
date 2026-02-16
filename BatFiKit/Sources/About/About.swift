@@ -18,6 +18,6 @@ public func presentAboutWindow() -> NSWindow {
         }
     )
     about.orderFrontRegardless()
-    NSRunningApplication.current.activate()
+    NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
     return about
 }

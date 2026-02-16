@@ -117,7 +117,7 @@ public final class LicenseModel: ObservableObject {
 
     @MainActor
     public func openLicenseWindow() {
-        NSRunningApplication.current.activate()
+        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
         if let existingLicenseWindow {
             existingLicenseWindow.makeKeyAndOrderFront(nil)
         } else {
