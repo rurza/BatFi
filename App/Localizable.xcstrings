@@ -1,654 +1,726 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "app_shortcut.charge_to_full.short_title" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nabít baterii"
+  "sourceLanguage": "en",
+  "strings": {
+    "app_shortcut.charge_to_full.short_title": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nabít baterii"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Charge the battery"
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Charge the battery"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charger la batterie"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger la batterie"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バッテリーを充電"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バッテリーを充電"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laad de batterij op"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laad de batterij op"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naładuj baterię"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naładuj baterię"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carregue a bateria"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregue a bateria"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pili şarj et"
-          }
-        }
-      }
-    },
-    "Charge or run on battery power (when the lid is opened) until the limit of ${limit} is reached." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nabít nebo provozovat na baterii (při otevřeném víku), dokud není dosaženo limitu ${limit} %."
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pili şarj et"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charge or run on battery power (when the lid is opened) until the limit of ${limit}% is reached."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charger ou utiliser la batterie (quand l'écran est ouvert) jusqu'a ${limit}%"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " ${limit} の制限に達するまでバッテリーを充電するかバッテリー駆動にする(Macの蓋が開いているとき)"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laad op of gebruik batterij (als de MacBook is opengeklapt) totdat de limiet van ${limit}% is bereikt."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naładuj/rozładuj baterię (gdy pokrywa z ekranem jest otwarta) dopóki limit ${limit}% nie zostanie osiągnięty."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carregue ou utilize na bateria (com a tampa aberta) até que o limite de ${limit}% seja atingido."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%${limit} sınırına ulaşana kadar pili şarj et ya da pil gücüyle (kapak açıkken) çalıştır."
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядити батарею"
           }
         }
       }
     },
-    "Charge the battery with ${applicationName}" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nabít baterii pomocí ${applicationName}"
+    "Charge or run on battery power (when the lid is opened) until the limit of ${limit} is reached.": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nabít nebo provozovat na baterii (při otevřeném víku), dokud není dosaženo limitu ${limit} %."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charger la batterie avec ${applicationName}"
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charge or run on battery power (when the lid is opened) until the limit of ${limit}% is reached."
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バッテリーを ${applicationName} で充電する"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger ou utiliser la batterie (quand l'écran est ouvert) jusqu'a ${limit}%"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laad de batterij op met ${applicationName}"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " ${limit} の制限に達するまでバッテリーを充電するかバッテリー駆動にする(Macの蓋が開いているとき)"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naładuj baterię z ${BatFi}"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laad op of gebruik batterij (als de MacBook is opengeklapt) totdat de limiet van ${limit}% is bereikt."
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carregue a bateria com ${applicationName}"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naładuj/rozładuj baterię (gdy pokrywa z ekranem jest otwarta) dopóki limit ${limit}% nie zostanie osiągnięty."
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pili ${applicationName} ile Şarj Et"
-          }
-        }
-      }
-    },
-    "Charge to 100% with ${applicationName}" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nabít na 100 % pomocí ${applicationName}"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregue ou utilize na bateria (com a tampa aberta) até que o limite de ${limit}% seja atingido."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charger à 100% avec ${applicationName}"
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%${limit} sınırına ulaşana kadar pili şarj et ya da pil gücüyle (kapak açıkken) çalıştır."
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "100%まで ${applicationName} で充電する"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laad tot 100% op met ${applicationName}"
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naładuj do 100% z ${applicationName}"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carregue até 100% com ${applicationName}"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "${applicationName} ile %100 Şarj Et"
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заряджати або працювати від батареї (при відкритій кришці), доки не буде досягнуто ліміту ${limit}%."
           }
         }
       }
     },
-    "intent.charge_to_full.title" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nabít na 100 %"
+    "Charge the battery with ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nabít baterii pomocí ${applicationName}"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Charge to 100%"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger la batterie avec ${applicationName}"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charger à 100%"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バッテリーを ${applicationName} で充電する"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "100%まで充電する"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laad de batterij op met ${applicationName}"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Laad op tot 100%"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naładuj baterię z ${BatFi}"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naładuj do 100%"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregue a bateria com ${applicationName}"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Carregue até 100%"
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pili ${applicationName} ile Şarj Et"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%100 Şarj Et"
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядити батарею за допомогою ${applicationName}"
           }
         }
       }
     },
-    "intent.discharge.description" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Funguje pouze s otevřeným víkem."
+    "Charge to 100% with ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nabít na 100 % pomocí ${applicationName}"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Works only with the lid opened."
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger à 100% avec ${applicationName}"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ne fonctionne que si l'écran est ouvert."
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100%まで ${applicationName} で充電する"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Macの蓋が開いている時のみ動作します。"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laad tot 100% op met ${applicationName}"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Werkt alleen als de MacBook is opengeklapt."
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naładuj do 100% z ${applicationName}"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Działa tylko gdy pokrywa z ekranem jest otwarta."
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregue até 100% com ${applicationName}"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Funciona somente com a tampa aberta."
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName} ile %100 Şarj Et"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sadece kapak açıkken çalışır."
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядити до 100% за допомогою ${applicationName}"
           }
         }
       }
     },
-    "intent.discharge.title" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Provoz na baterii"
+    "intent.charge_to_full.title": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nabít na 100 %"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Run on Battery"
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Charge to 100%"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utiliser la batterie"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charger à 100%"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バッテリーで動作"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100%まで充電する"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gebruik Batterij"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Laad op tot 100%"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zasilaj z baterii"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naładuj do 100%"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utilize na Bateria"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregue até 100%"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pil ile Çalıştır"
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%100 Şarj Et"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядити до 100%"
           }
         }
       }
     },
-    "intent.override.description" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vybíjení funguje pouze při otevřeném víku."
+    "intent.discharge.description": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funguje pouze s otevřeným víkem."
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Discharging works only with the lid opened."
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Works only with the lid opened."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le déchargement ne fonctionne que si l'écran est ouvert"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ne fonctionne que si l'écran est ouvert."
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "放電はMacが開いている時のみ動作します。"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Macの蓋が開いている時のみ動作します。"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ontladen werkt alleen als de MacBook is opengeklapt."
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Werkt alleen als de MacBook is opengeklapt."
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rozładowywanie działa tylko gdy pokrywa z ekranem jest otwarta."
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Działa tylko gdy pokrywa z ekranem jest otwarta."
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O descargamento só funciona com a tampa aberta."
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funciona somente com a tampa aberta."
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pili boşaltma sadece kapak açıkken çalışır."
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sadece kapak açıkken çalışır."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Працює тільки при відкритій кришці."
           }
         }
       }
     },
-    "intent.override.parameter.description" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Procento baterie"
+    "intent.discharge.title": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provoz na baterii"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Battery percent"
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Run on Battery"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pourcentage de la batterie"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser la batterie"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バッテリー残量"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バッテリーで動作"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Batterijpercentage"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gebruik Batterij"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Procent baterii"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zasilaj z baterii"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Porcentagem da bateria"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilize na Bateria"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pil yüzdesi"
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil ile Çalıştır"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Працювати від батареї"
           }
         }
       }
     },
-    "intent.override.parameter.title" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
+    "intent.override.description": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vybíjení funguje pouze při otevřeném víku."
           }
         },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Discharging works only with the lid opened."
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Limit"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le déchargement ne fonctionne que si l'écran est ouvert"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limite"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放電はMacが開いている時のみ動作します。"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ontladen werkt alleen als de MacBook is opengeklapt."
           }
         },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rozładowywanie działa tylko gdy pokrywa z ekranem jest otwarta."
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limiet"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O descargamento só funciona com a tampa aberta."
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pili boşaltma sadece kapak açıkken çalışır."
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limite"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sınır"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limit"
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Розряджання працює тільки при відкритій кришці."
           }
         }
       }
     },
-    "intent.override.title" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dočasně přepsat úroveň nabití baterie"
+    "intent.override.parameter.description": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Procento baterie"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Temporarily Override Battery Level"
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Battery percent"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporairement charger la batterie au dela de la limite"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pourcentage de la batterie"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一時的にバッテリー残量を上書きする"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バッテリー残量"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tijdelijke Instelling Batterijniveau"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batterijpercentage"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tymczasowo zmień limit ładowania"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Procent baterii"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sobrepor Temporariamente o Nível da Bateria"
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Porcentagem da bateria"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pil Seviyesini Geçici Olarak Geçersiz Kıl"
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil yüzdesi"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Відсоток заряду"
           }
         }
       }
     },
-    "intent.stop_override.title" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zastavit přepsání nabíjení"
+    "intent.override.parameter.title": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
           }
         },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Stop charge override"
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arrêter la charge"
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Limit"
           }
         },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "充電オーバーライドを停止する"
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limite"
           }
         },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop tijdelijke oplaadinstelling"
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
           }
         },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wyłącz własne ustawienia"
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parar sobreposição da bateria"
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limiet"
           }
         },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Şarjı geçersiz kılmayı durdur"
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limite"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sınır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ліміт"
+          }
+        }
+      }
+    },
+    "intent.override.title": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dočasně přepsat úroveň nabití baterie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Temporarily Override Battery Level"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temporairement charger la batterie au dela de la limite"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一時的にバッテリー残量を上書きする"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tijdelijke Instelling Batterijniveau"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tymczasowo zmień limit ładowania"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sobrepor Temporariamente o Nível da Bateria"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil Seviyesini Geçici Olarak Geçersiz Kıl"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тимчасово перевизначити рівень заряду"
+          }
+        }
+      }
+    },
+    "intent.stop_override.title": {
+      "extractionState": "extracted_with_value",
+      "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zastavit přepsání nabíjení"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "Stop charge override"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter la charge"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充電オーバーライドを停止する"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop tijdelijke oplaadinstelling"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wyłącz własne ustawienia"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parar sobreposição da bateria"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarjı geçersiz kılmayı durdur"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зупинити перевизначення заряду"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

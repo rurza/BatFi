@@ -372,6 +372,7 @@
 				zh_TW,
 				pt,
 				ca,
+				uk,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
