@@ -26,13 +26,14 @@ final class HighEnergyUsageViewModel: ObservableObject {
     func startObserving() {
         defaultsTask?.cancel()
         defaultsTask = Task { [weak self] in
-            guard let self else { return }
+            guard let defaults = self?.defaults else { return }
             for await (capacity, threshold, duration) in combineLatest(
                 defaults.observe(.highEnergyImpactProcessesCapacity),
                 defaults.observe(.highEnergyImpactProcessesThreshold),
                 defaults.observe(.highEnergyImpactProcessesDuration)
             ) {
-                startObservingHighEnergyUsage(capacity: capacity, threshold: threshold, duration: duration)
+                guard let self else { break }
+                self.startObservingHighEnergyUsage(capacity: capacity, threshold: threshold, duration: duration)
             }
         }
     }
@@ -49,9 +50,10 @@ final class HighEnergyUsageViewModel: ObservableObject {
     ) {
         changesTask?.cancel()
         changesTask = Task { @MainActor [weak self] in
-            guard let self else { return }
+            guard let energyStatsClient = self?.energyStatsClient else { return }
             for await info in energyStatsClient.topCoalitionInfoChanges(threshold, duration, capacity) {
-                topCoalitionInfo = info
+                guard let self else { break }
+                self.topCoalitionInfo = info
             }
         }
     }

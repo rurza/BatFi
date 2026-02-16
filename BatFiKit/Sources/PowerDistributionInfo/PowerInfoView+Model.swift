@@ -22,8 +22,9 @@ final class PowerInfoViewModel: ObservableObject {
 
     init() {
         menuChanges = Task { [weak self] in
-            guard let self else { return }
-            for await menuIsVisible in await self.menuDelegate.observeMenu() {
+            guard let menuDelegate = self?.menuDelegate else { return }
+            for await menuIsVisible in await menuDelegate.observeMenu() {
+                guard let self else { break }
                 if menuIsVisible {
                     self.startObserving()
                 } else {
@@ -35,9 +36,10 @@ final class PowerInfoViewModel: ObservableObject {
 
     private func startObserving() {
         powerInfoChanges = Task { [weak self] in
-            guard let self else { return }
+            guard let powerInfoClient = self?.powerInfoClient else { return }
             for await info in powerInfoClient.powerInfoChanges() {
-                powerInfo = info
+                guard let self else { break }
+                self.powerInfo = info
             }
         }
     }

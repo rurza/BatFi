@@ -65,11 +65,6 @@ public final class BatteryIndicatorViewModel: ObservableObject {
                 self.showPercentageNextToIndicator = showPercentageOnBatteryIcon
             }
         }
-        Task {
-            for await powerState in powerSourceChanges() {
-                logger.debug("Power state did change, I should update the battery indicator")
-            }
-        }
     }
 }
 

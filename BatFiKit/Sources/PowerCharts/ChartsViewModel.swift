@@ -19,6 +19,7 @@ final class ChartsViewModel: ObservableObject {
     @MainActor
     @Published var powerStatePoints: IdentifiedArrayOf<PowerStatePoint> = []
     private lazy var logger = Logger(category: "ChartsView.Model")
+    private var observingTask: Task<Void, Never>?
 
     var fromDate: Date {
         let components = calendar.dateComponents([.minute, .second], from: toDate)
@@ -39,12 +40,18 @@ final class ChartsViewModel: ObservableObject {
     }
 
     private func setUpObserving() {
-        Task {
-            await fetchPowerStatePoints()
+        observingTask = Task { [weak self] in
+            await self?.fetchPowerStatePoints()
+            guard let persistence = self?.persistence else { return }
             for await _ in await persistence.powerStateDidChange() {
-                await fetchPowerStatePoints()
+                guard let self else { break }
+                await self.fetchPowerStatePoints()
             }
         }
+    }
+
+    deinit {
+        observingTask?.cancel()
     }
 
     @MainActor
