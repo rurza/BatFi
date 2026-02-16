@@ -150,6 +150,36 @@ public final class StatusItemManager {
         }
     }
 
+    /// macOS 26 workaround: NSHostingView reports incorrect intrinsicContentSize inside NSMenu.
+    /// Use SwiftUI's onGeometryChange to measure actual content height and feed it back to AppKit.
+    @available(macOS 26, *)
+    @MainActor
+    private func makeMenuContentView() -> NSView {
+        let contentWidth: CGFloat = 220
+        let coordinator = MenuContentSizeCoordinator()
+
+        let content = MenuContent(licenseModel: licenseModel)
+            .environmentObject(batteryInfoModel)
+            .frame(width: contentWidth)
+            .fixedSize(horizontal: false, vertical: true)
+            .modifier(MenuViewModifier())
+            .onGeometryChange(for: CGFloat.self) { proxy in
+                proxy.size.height
+            } action: { height in
+                coordinator.reportHeight(height)
+            }
+
+        let hostingView = MenuContentHostingView(rootView: content)
+        coordinator.onHeightChange = { [weak hostingView] height in
+            hostingView?.updateFromSwiftUI(height: height)
+        }
+
+        let totalWidth = contentWidth + 30
+        hostingView.frame = NSRect(x: 0, y: 0, width: totalWidth, height: 1)
+
+        return hostingView
+    }
+
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
         let tempChargingMode = dependencies.appChargingState.userTempOverride
@@ -160,14 +190,19 @@ public final class StatusItemManager {
             statusItem.menu = menu
         }
         statusItem.menu?.replaceItems {
-            MenuItem("")
-                .view {
-                    MenuContent(licenseModel: licenseModel)
-                        .environmentObject(batteryInfoModel)
-                        .frame(width: 220)
-                        .frame(maxHeight: .infinity)
-                        .modifier(MenuViewModifier())
-                }
+            if #available(macOS 26, *) {
+                MenuItem("")
+                    .view(makeMenuContentView())
+            } else {
+                MenuItem("")
+                    .view {
+                        MenuContent(licenseModel: licenseModel)
+                            .environmentObject(batteryInfoModel)
+                            .frame(width: 220)
+                            .frame(maxHeight: .infinity)
+                            .modifier(MenuViewModifier())
+                    }
+            }
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
@@ -412,3 +447,42 @@ private struct MenuViewModifier: ViewModifier {
             .padding(.bottom, 6)
     }
 }
+
+// MARK: - macOS 26 menu sizing workaround
+//
+// NSMenu on macOS 26 clips custom NSMenuItem views because NSHostingView.fittingSize
+// and intrinsicContentSize return incorrect values in the NSMenu context.
+// Solution: Use SwiftUI's onGeometryChange to measure the actual rendered content height,
+// then feed it back to the hosting view's frame and intrinsicContentSize.
+
+@available(macOS 26, *)
+private class MenuContentSizeCoordinator {
+    var onHeightChange: ((CGFloat) -> Void)?
+    private var currentHeight: CGFloat = 0
+
+    func reportHeight(_ height: CGFloat) {
+        guard height > 0, abs(height - currentHeight) > 0.5 else { return }
+        currentHeight = height
+        onHeightChange?(height)
+    }
+}
+
+@available(macOS 26, *)
+private class MenuContentHostingView<Content: View>: NSHostingView<Content> {
+    private var reportedHeight: CGFloat = 0
+
+    override var intrinsicContentSize: NSSize {
+        if reportedHeight > 0 {
+            return NSSize(width: frame.width, height: reportedHeight)
+        }
+        return super.intrinsicContentSize
+    }
+
+    func updateFromSwiftUI(height: CGFloat) {
+        reportedHeight = height
+        let newSize = NSSize(width: frame.width, height: height)
+        setFrameSize(newSize)
+        invalidateIntrinsicContentSize()
+    }
+}
+
