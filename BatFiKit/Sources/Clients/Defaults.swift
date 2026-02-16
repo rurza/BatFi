@@ -9,7 +9,7 @@ import Defaults
 import Dependencies
 import Foundation
 
-public typealias DefaultsValue = CustomStringConvertible & Defaults.Serializable & Equatable
+public typealias DefaultsValue = CustomStringConvertible & Defaults.Serializable & Equatable & Sendable
 
 public protocol DefaultsProtocol: Sendable {
     func observe<Value: DefaultsValue>(_ key: Defaults.Key<Value>) -> AsyncStream<Value>

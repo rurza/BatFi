@@ -74,7 +74,7 @@ extension HelperClient: DependencyKey {
     }()
 }
 
-extension SMAppService.Status: CustomStringConvertible {
+extension SMAppService.Status: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .enabled:

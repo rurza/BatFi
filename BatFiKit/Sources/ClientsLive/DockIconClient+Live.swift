@@ -16,7 +16,7 @@ extension DockIconClient: DependencyKey {
                 DispatchQueue.main.async {
                     if show {
                         NSApp.setActivationPolicy(.regular)
-                        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+                        NSRunningApplication.current.activate()
                     } else {
                         NSApp.setActivationPolicy(.accessory)
                     }

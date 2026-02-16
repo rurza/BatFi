@@ -112,6 +112,7 @@ let package = Package(
             "BatteryInfo",
             "BatteryIndicator",
             .clients,
+            .confetti,
             .defaultsKeys,
             .dependencies,
             .highEnergyUsage,
@@ -142,6 +143,7 @@ let package = Package(
             .defaultsKeys,
             .dependencies,
             .l10n,
+            .sharedUI,
         ], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "Clients",
@@ -210,7 +212,9 @@ let package = Package(
             name: "License",
             dependencies: [
                 .clients,
-                .shared
+                .confetti,
+                .shared,
+                .sharedUI,
             ],
             swiftSettings: swiftV6LanguageMode()
         ),
@@ -271,6 +275,7 @@ let package = Package(
             dependencies: [
                 .appShared,
                 .clients,
+                .confetti,
                 .defaultsKeys,
                 .dependencies,
                 .keyboardShortcuts,

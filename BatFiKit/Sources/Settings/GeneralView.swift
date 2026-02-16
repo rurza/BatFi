@@ -31,7 +31,7 @@ struct GeneralView: View {
         Container(contentWidth: settingsContentWidth) {
             Section(title: l10n.Section.general) {
                 Toggle(l10n.Button.Label.launchAtLogin, isOn: $launchAtLogin)
-                    .onChange(of: launchAtLogin) { newValue in
+                    .onChange(of: launchAtLogin) { _, newValue in
                         if newValue {
                             try? SMAppService.mainApp.register()
                         } else {
@@ -41,11 +41,11 @@ struct GeneralView: View {
             }
             Section(title: l10n.Section.updates, bottomDivider: true) {
                 Toggle(l10n.Button.Label.automaticallyDownloadUpdates, isOn: $automaticallyDownloadsUpdates)
-                    .onChange(of: automaticallyDownloadsUpdates) { newValue in
+                    .onChange(of: automaticallyDownloadsUpdates) { _, newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
                 Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
-                    .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
+                    .onChange(of: checkForBetaUpdates) { _, checkForBetaUpdates in
                         if checkForBetaUpdates {
                             updater.checkForUpdates()
                         }

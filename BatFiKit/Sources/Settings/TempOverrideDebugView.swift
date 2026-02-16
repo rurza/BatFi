@@ -44,7 +44,7 @@ struct TempOverrideDebugView: View {
                 }
 
             }
-            .onChange(of: overrideLimit) { limit in
+            .onChange(of: overrideLimit) { _, limit in
                 Task {
                     if let limit {
                         await chargingState.setTempOverride(.init(limit: Int(limit)))

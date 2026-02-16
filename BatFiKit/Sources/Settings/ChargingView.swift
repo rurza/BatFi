@@ -77,7 +77,7 @@ struct ChargingView: View {
                                         Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
                                     }
                                     .disabled(!manageCharging)
-                                    .onChange(of: dischargeBatteryWhenFull) { newValue in
+                                    .onChange(of: dischargeBatteryWhenFull) { _, newValue in
                                         if newValue {
                                             disableSleepDuringDischarging = true
                                         }

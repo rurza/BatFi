@@ -115,7 +115,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     // MARK: - MenuControllerDelegate
 
     public func openSettings() {
-        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        NSRunningApplication.current.activate()
         settingsController.openSettings()
     }
 
@@ -151,7 +151,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     public func openOnboarding() {
         Task { [weak self] in
             guard let self else { return }
-            await dockIcon.show(true)
+            dockIcon.show(true)
 
             if onboardingWindow == nil {
                 let window = OnboardingWindow(licenseModel: licenseModel) { [weak self] in
@@ -171,7 +171,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             } else {
                 onboardingWindow?.makeKeyAndOrderFront(nil)
             }
-            NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+            NSRunningApplication.current.activate()
         }
     }
 
@@ -242,7 +242,6 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             guard let self else { return }
             Task {
                 guard let result = try? await self.powerModeClient.getCurrentPowerMode() else { return }
-                let mode = result.0
                 let highPowerIsAvailable = result.1
                 if result.0 != .low {
                     do {
@@ -335,7 +334,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         alert.messageText = L10n.Notifications.Alert.Title.notLaptop
         alert.informativeText = L10n.Notifications.Alert.InformativeText.notLaptop
         alert.addButton(withTitle: L10n.Menu.Label.quit)
-        let response = alert.runModal()
+        _ = alert.runModal()
         NSApp.terminate(nil)
     }
 }

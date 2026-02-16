@@ -87,7 +87,7 @@ public class NotificationsManager: NSObject {
             }
         }
         Task {
-            for await (lastChargingReminderDate, showRemindersToDischargeAndChargeBattery, powerState) in combineLatest(
+            for await (lastChargingReminderDate, showRemindersToDischargeAndChargeBattery, _) in combineLatest(
                     defaults.observe(.lastChargingReminderDate),
                     defaults.observe(.showRemindersToDischargeAndChargeBattery),
                     powerSourceClient.powerSourceChanges()
@@ -194,7 +194,7 @@ public class NotificationsManager: NSObject {
                 guard manageCharging, lastAlertDate.timeIntervalSinceNow < -60 * 60 * 8 else { continue }
                 if let optimizedBatteryChargingEngaged = powerState.optimizedBatteryChargingEngaged, optimizedBatteryChargingEngaged {
                     lastAlertDate = date.now
-                    await showOptimizedBatteryChargingIsTurnedOn()
+                    showOptimizedBatteryChargingIsTurnedOn()
                 }
             }
         }

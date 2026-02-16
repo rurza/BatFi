@@ -54,7 +54,7 @@ struct SettingsStatusIconView: View {
                 statusIconOption = .dynamic
             }
         }
-        .onChange(of: statusIconOption) { newValue in
+        .onChange(of: statusIconOption) { _, newValue in
             switch newValue {
             case .dynamic:
                 showMenuBarIcon = true

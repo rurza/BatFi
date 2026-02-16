@@ -29,7 +29,7 @@ struct PageView<Content: View>: View {
                                 .frame(width: proxy.size.width)
                         }
                         .frame(maxHeight: .infinity)
-                        .onChange(of: index) { newValue in
+                        .onChange(of: index) { _, newValue in
                             withAnimation {
                                 scrollView.scrollTo(newValue)
                             }
