@@ -45,8 +45,6 @@ extension Persistence: DependencyKey {
                     _ = PowerStateModel(powerState: state, appChargingMode: chargingMode, context: context)
                     do {
                         try context.save()
-                        let viewCtx = persistenceContainer.viewContext
-                        print("📦 CoreData save — viewContext registeredObjects: \(viewCtx.registeredObjects.count)")
                     } catch {
                         logger.error("Error when saving the new power state. \(error.localizedDescription, privacy: .public)")
                         throw error

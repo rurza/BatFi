@@ -14,6 +14,7 @@ extension Clients.AnalyticsClient: DependencyKey {
         let state = AnalyticsState()
         return Clients.AnalyticsClient(
             startSDK: {
+                return // disabled for memory leak testing
                 guard await !state.isEnabled else { return }
                 SentrySDK.start { options in
                     options.dsn = analyticsDSN
