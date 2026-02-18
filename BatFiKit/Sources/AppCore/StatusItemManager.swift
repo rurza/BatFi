@@ -61,6 +61,7 @@ public final class StatusItemManager {
     private var showHighPowerMode = false
     private let menuDelegate = MenuObserver.shared
     private let batteryInfoModel = BatteryInfoViewModel()
+    private var menuContentView: NSView?
     private let licenseModel: LicenseModel
 
     @Dependency(\.defaults) private var defaults
@@ -182,6 +183,8 @@ public final class StatusItemManager {
 
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
+        print("📊 updateMenu — memory: \(Self.memoryFootprint())")
+
         let tempChargingMode = dependencies.appChargingState.userTempOverride
 
         if statusItem.menu == nil {
@@ -189,20 +192,22 @@ public final class StatusItemManager {
             menu.delegate = menuDelegate
             statusItem.menu = menu
         }
-        statusItem.menu?.replaceItems {
+        if menuContentView == nil {
             if #available(macOS 26, *) {
-                MenuItem("")
-                    .view(makeMenuContentView())
+                menuContentView = makeMenuContentView()
             } else {
-                MenuItem("")
-                    .view {
-                        MenuContent(licenseModel: licenseModel)
-                            .environmentObject(batteryInfoModel)
-                            .frame(width: 220)
-                            .frame(maxHeight: .infinity)
-                            .modifier(MenuViewModifier())
-                    }
+                menuContentView = NSHostingView(
+                    rootView: MenuContent(licenseModel: licenseModel)
+                        .environmentObject(batteryInfoModel)
+                        .frame(width: 220)
+                        .frame(maxHeight: .infinity)
+                        .modifier(MenuViewModifier())
+                )
             }
+        }
+        statusItem.menu?.replaceItems {
+            MenuItem("")
+                .view(menuContentView!)
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
@@ -434,6 +439,23 @@ public final class StatusItemManager {
     }
 }
 
+extension StatusItemManager {
+    static func memoryFootprint() -> String {
+        var info = mach_task_basic_info()
+        var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size) / 4
+        let result = withUnsafeMutablePointer(to: &info) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
+                task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+            }
+        }
+        if result == KERN_SUCCESS {
+            let mb = Double(info.resident_size) / 1_048_576
+            return String(format: "%.1f MB", mb)
+        }
+        return "N/A"
+    }
+}
+
 struct MenuDependencies {
     let appChargingState: AppChargingMode
     let showChart: Bool
@@ -476,6 +498,18 @@ private class MenuContentSizeCoordinator {
 @available(macOS 26, *)
 private class MenuContentHostingView<Content: View>: NSHostingView<Content> {
     private var reportedHeight: CGFloat = 0
+
+    required init(rootView: Content) {
+        super.init(rootView: rootView)
+        print("🟢 MenuContentHostingView init")
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) { fatalError() }
+
+    deinit {
+        print("🔴 MenuContentHostingView deinit")
+    }
 
     override var intrinsicContentSize: NSSize {
         if reportedHeight > 0 {
