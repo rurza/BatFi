@@ -107,13 +107,13 @@ public final class StatusItemManager {
             for await ((state, showDebugMenu, showPowerModeOptions), (showChart, showPowerDiagram, showHighEnergyImpactProcesses), powerMode) in combineLatest(
                 combineLatest(
                     appChargingState.appChargingModeDidChage(),
-                    defaults.observe(.showDebugMenu).removeDuplicates(),
-                    defaults.observe(.showPowerModeOptions).removeDuplicates()
+                    defaults.observe(.showDebugMenu),
+                    defaults.observe(.showPowerModeOptions)
                 ),
                 combineLatest(
-                    defaults.observe(.showChart).removeDuplicates(),
-                    defaults.observe(.showPowerDiagram).removeDuplicates(),
-                    defaults.observe(.showHighEnergyImpactProcesses).removeDuplicates()
+                    defaults.observe(.showChart),
+                    defaults.observe(.showPowerDiagram),
+                    defaults.observe(.showHighEnergyImpactProcesses)
                 ),
                 self.$lastPowerMode.values.eraseToStream()
             ) {

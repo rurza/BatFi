@@ -18,6 +18,9 @@ import SwiftUI
 
 struct MenuContent: View {
     @ObservedObject var licenseModel: LicenseModel
+    @Default(.showChart) private var showChart
+    @Default(.showPowerDiagram) private var showPowerDiagram
+    @Default(.showHighEnergyImpactProcesses) private var showHighEnergyImpactProcesses
 
     var body: some View {
         VStack(spacing: 12) {
@@ -29,18 +32,18 @@ struct MenuContent: View {
             BatteryInfoView()
                 .fixedSize(horizontal: false, vertical: true)
             SeparatorView()
-            if Defaults[.showChart] {
+            if showChart {
                 ChartsView()
                     .frame(height: 120)
                     .clipped()
                 SeparatorView()
             }
-            if Defaults[.showPowerDiagram] {
+            if showPowerDiagram {
                 PowerInfoView()
                     .fixedSize(horizontal: false, vertical: true)
                 SeparatorView()
             }
-            if Defaults[.showHighEnergyImpactProcesses] {
+            if showHighEnergyImpactProcesses {
                 HighEnergyUsageView()
                     .fixedSize(horizontal: false, vertical: true)
                 SeparatorView()
