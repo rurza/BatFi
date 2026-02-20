@@ -17,11 +17,12 @@ enum XPCClientError: Error {
 
 actor XPCClient {
     private lazy var logger = Logger(category: "XPC Client")
-    
+    private var _connection: NSXPCConnection?
+
     private init() { }
-    
+
     static let shared = XPCClient()
-    
+
     func changeChargingMode(_ newMode: SMCChargingCommand) async throws {
         switch newMode {
         case .forceDischarging:
@@ -32,9 +33,9 @@ actor XPCClient {
             try await setChargingMode(XPCService.setInhibitCharge)
         }
     }
-    
+
     func getPowerDistribution() async throws -> PowerDistributionInfo {
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.getPowerDistribution { powerInfo, error in
                 if let powerInfo {
@@ -47,9 +48,9 @@ actor XPCClient {
             }
         }
     }
-    
+
     func getSMCChargingStatus() async throws -> SMCChargingStatus {
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.getCurrentChargingStatus { status, error in
                 if let status {
@@ -62,9 +63,9 @@ actor XPCClient {
             }
         }
     }
-    
+
     func changeMagSafeLEDColor(_ color: MagSafeLEDOption) async throws -> MagSafeLEDOption {
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.setMagSafeLEDColor(color: color.rawValue) { rawValue, error in
                 if let option = MagSafeLEDOption(rawValue: rawValue) {
@@ -80,7 +81,7 @@ actor XPCClient {
     }
 
     func currentMagSafeLEDOption() async throws -> MagSafeLEDOption {
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.getMagSafeLEDOption { rawValue, error in
                 if let option = MagSafeLEDOption(rawValue: rawValue) {
@@ -97,7 +98,7 @@ actor XPCClient {
 
     func pingHelper() async throws -> Bool {
         logger.debug("Pinging helper")
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.ping { success, error in
                 if let error {
@@ -108,10 +109,10 @@ actor XPCClient {
             }
         }
     }
-    
+
     func quitHelper() async throws -> Bool {
         logger.debug("Quitting helper")
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.quit { success, error in
                 if let error {
@@ -125,7 +126,7 @@ actor XPCClient {
 
     func setPowerMode(_ mode: UInt8, lowPowerModeOnly: Bool) async throws {
         logger.debug("Setting power mode: \(mode)")
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.turnPowerMode(mode, lowPowerModeOnly: lowPowerModeOnly) { error in
                 if let error {
@@ -139,7 +140,7 @@ actor XPCClient {
 
     func getPowerMode() async throws -> (UInt8, Bool) {
         logger.debug("Getting power mode")
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.currentPowerMode { mode, highPowerModeIsAvailable in
                 if let uint = mode?.uint8Value {
@@ -153,7 +154,7 @@ actor XPCClient {
 
     func setDisableAutosleep(_ disable: Bool) async throws {
         logger.debug("Setting disable autosleep: \(disable)")
-        let remote = newRemoteService()
+        let remote = remoteService()
         return try await remote.withContinuation { service, continuation in
             service.disableAutosleep(disable, { error in
                 if let error {
@@ -171,7 +172,7 @@ actor XPCClient {
     private func setChargingMode(
         _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
     ) async throws {
-        let service = newRemoteService()
+        let service = remoteService()
         try await service.withContinuation { (service, continuation: CheckedContinuation<Void, Error>) in
             handler(service)() { error in
                 if let error {
@@ -182,24 +183,33 @@ actor XPCClient {
             }
         }
     }
-    
-    private func newRemoteService() -> RemoteXPCService<XPCService> {
-        RemoteXPCService(connection: newConnection(), remoteInterface: XPCService.self)
+
+    private func remoteService() -> RemoteXPCService<XPCService> {
+        RemoteXPCService(connection: connection())
     }
-    
-    private func newConnection() -> NSXPCConnection {
+
+    private func connection() -> NSXPCConnection {
+        if let existing = _connection {
+            return existing
+        }
         let connection = NSXPCConnection(
             machServiceName: Constant.helperBundleIdentifier,
             options: .privileged
         )
         connection.setCodeSigningRequirement(xpcEntitlement)
+        connection.remoteObjectInterface = NSXPCInterface(with: XPCService.self)
+        connection.invalidationHandler = {
+            Task { [weak self] in await self?.connectionDidInvalidate() }
+        }
+        connection.interruptionHandler = {
+            Task { [weak self] in await self?.connectionDidInvalidate() }
+        }
         connection.resume()
+        _connection = connection
         return connection
     }
-    
-    private func newConnectionWithInterface() -> NSXPCConnection {
-        let connection = newConnection()
-        connection.remoteObjectInterface = NSXPCInterface(with: XPCService.self)
-        return connection
+
+    private func connectionDidInvalidate() {
+        _connection = nil
     }
 }
