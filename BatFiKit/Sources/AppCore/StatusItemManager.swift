@@ -193,24 +193,27 @@ public final class StatusItemManager {
             statusItem.menu = menu
         }
         // On macOS 26, reuse cached view for performance (handles dynamic sizing).
-        // On macOS 15, recreate view each time so @Default property wrappers update properly.
         if #available(macOS 26, *) {
             if menuContentView == nil {
                 menuContentView = makeMenuContentView()
             }
-        } else {
-            // Always recreate on macOS 15 to reflect settings changes
-            menuContentView = NSHostingView(
-                rootView: MenuContent(licenseModel: licenseModel)
-                    .environmentObject(batteryInfoModel)
-                    .frame(width: 220)
-                    .frame(maxHeight: .infinity)
-                    .modifier(MenuViewModifier())
-            )
         }
+
         statusItem.menu?.replaceItems {
-            MenuItem("")
-                .view(menuContentView!)
+            // On macOS 26: use cached custom NSView for dynamic sizing
+            // On macOS 15: use inline SwiftUI view so @Default property wrappers update
+            if #available(macOS 26, *), let cachedView = menuContentView {
+                MenuItem("").view(cachedView)
+            } else {
+                MenuItem("")
+                    .view {
+                        MenuContent(licenseModel: licenseModel)
+                            .environmentObject(batteryInfoModel)
+                            .frame(width: 220)
+                            .frame(maxHeight: .infinity)
+                            .modifier(MenuViewModifier())
+                    }
+            }
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
