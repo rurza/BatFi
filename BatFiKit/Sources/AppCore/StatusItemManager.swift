@@ -192,18 +192,21 @@ public final class StatusItemManager {
             menu.delegate = menuDelegate
             statusItem.menu = menu
         }
-        if menuContentView == nil {
-            if #available(macOS 26, *) {
+        // On macOS 26, reuse cached view for performance (handles dynamic sizing).
+        // On macOS 15, recreate view each time so @Default property wrappers update properly.
+        if #available(macOS 26, *) {
+            if menuContentView == nil {
                 menuContentView = makeMenuContentView()
-            } else {
-                menuContentView = NSHostingView(
-                    rootView: MenuContent(licenseModel: licenseModel)
-                        .environmentObject(batteryInfoModel)
-                        .frame(width: 220)
-                        .frame(maxHeight: .infinity)
-                        .modifier(MenuViewModifier())
-                )
             }
+        } else {
+            // Always recreate on macOS 15 to reflect settings changes
+            menuContentView = NSHostingView(
+                rootView: MenuContent(licenseModel: licenseModel)
+                    .environmentObject(batteryInfoModel)
+                    .frame(width: 220)
+                    .frame(maxHeight: .infinity)
+                    .modifier(MenuViewModifier())
+            )
         }
         statusItem.menu?.replaceItems {
             MenuItem("")
