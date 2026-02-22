@@ -395,6 +395,13 @@ public final class StatusItemManager {
     }
 
     private func setUpStatusItem() {
+        // Set autosave name and default position
+        statusItem.autosaveName = "BatFiStatusItem"
+        let positionKey = "NSStatusItem Preferred Position BatFiStatusItem"
+        if UserDefaults.standard.object(forKey: positionKey) == nil {
+            UserDefaults.standard.set(50, forKey: positionKey)
+        }
+
         statusItem.isVisible = true
         setupStatusItemIcon(showStaticIcon: defaults.value(.showStaticMenuBarIcon))
         observeMenuState()
