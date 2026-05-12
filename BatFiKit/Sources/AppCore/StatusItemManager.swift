@@ -62,6 +62,7 @@ public final class StatusItemManager {
     private let menuDelegate = MenuObserver.shared
     private let batteryInfoModel = BatteryInfoViewModel()
     private var menuContentView: NSView?
+    private var pendingMenuDependencies: MenuDependencies?
     private let licenseModel: LicenseModel
 
     @Dependency(\.defaults) private var defaults
@@ -184,6 +185,15 @@ public final class StatusItemManager {
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
         print("📊 updateMenu — memory: \(Self.memoryFootprint())")
+
+        // macOS 26 workaround: replaceItems detaches the cached MenuContentHostingView
+        // from the menu's display window. While the menu is open the SwiftUI render
+        // context doesn't recover after reattachment, leaving the top of the menu
+        // visually empty. Defer the rebuild until the menu closes.
+        if #available(macOS 26, *), menuDelegate.menuIsOpened, menuContentView != nil {
+            pendingMenuDependencies = dependencies
+            return
+        }
 
         let tempChargingMode = dependencies.appChargingState.userTempOverride
 
@@ -416,6 +426,10 @@ public final class StatusItemManager {
                 } else {
                     powerModeTask?.cancel()
                     powerModeTask = nil
+                    if let pending = pendingMenuDependencies {
+                        pendingMenuDependencies = nil
+                        updateMenu(dependencies: pending)
+                    }
                 }
             }
         }
