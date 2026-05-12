@@ -72,7 +72,7 @@ let package = Package(
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
         .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
         .package(url: "https://github.com/Kitura/Swift-JWT", from: "4.0.0"),
-        .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.5")
+        .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.6")
     ],
     targets: [
         .target(
