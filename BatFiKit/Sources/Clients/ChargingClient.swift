@@ -14,7 +14,9 @@ public struct ChargingClient: Sendable {
     public var turnOnAutoChargingMode: @Sendable () async throws -> Void
     public var inhibitCharging: @Sendable () async throws -> Void
     public var forceDischarge: @Sendable () async throws -> Void
+    public var restoreSystemDefaults: @Sendable () async throws -> Void
     public var chargingStatus: @Sendable () async throws -> SMCChargingStatus
+    public var mclStatus: @Sendable () async throws -> MCLStatus?
 }
 
 extension ChargingClient: TestDependencyKey {

@@ -136,7 +136,7 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     public func appWillQuit() async {
-        try? await chargingClient.turnOnAutoChargingMode()
+        try? await chargingClient.restoreSystemDefaults()
         try? await sleepAssertionClient.disableSleep(false)
         await restoreSleepifNeeded()
     }
@@ -261,7 +261,7 @@ public actor ChargingManager: ChargingModeManager {
 
         guard await licenseModel?.hasValidLicense == true else {
             logger.notice("License not activated")
-            await turnOnCharging(chargerConnected: chargerConnected, currentMode: currentMode)
+            await disengage(chargerConnected: chargerConnected)
             return
         }
 
@@ -273,7 +273,7 @@ public actor ChargingManager: ChargingModeManager {
 
         guard manageCharging else {
             logger.debug("Manage charging is turned off")
-            await turnOnCharging(chargerConnected: chargerConnected, currentMode: currentMode)
+            await disengage(chargerConnected: chargerConnected)
             return
         }
         
@@ -337,6 +337,24 @@ public actor ChargingManager: ChargingModeManager {
                     currentMode: currentMode
                 )
             }
+        }
+    }
+
+    private func disengage(chargerConnected: Bool) async {
+        await cancelPullingPowerStateTaskIfNeeded()
+        await updateChargerConnected(chargerConnected)
+        logger.debug("Disengaging — restoring system defaults")
+        await analytics.addBreadcrumb(category: .chargingManager, message: "Disengaging — restoring system defaults")
+        do {
+            try await chargingClient.restoreSystemDefaults()
+            if defaults.value(.allowDischargingFullBattery) {
+                try? await sleepAssertionClient.disableSleep(false)
+            }
+            await analytics.addBreadcrumb(category: .chargingManager, message: "System defaults restored")
+            await appChargingState.updateChargingMode(.charging)
+        } catch {
+            logger.warning("Failed to restore system defaults: \(error, privacy: .public)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to restore system defaults. Error: \(error.localizedDescription)")
         }
     }
 

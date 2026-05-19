@@ -49,6 +49,32 @@ actor XPCClient {
         }
     }
 
+    func restoreSystemDefaults() async throws {
+        let remote = remoteService()
+        try await remote.withContinuation { (service, continuation: CheckedContinuation<Void, Error>) in
+            service.restoreSystemDefaults { error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
+        }
+    }
+
+    func getMCLStatus() async throws -> MCLStatus? {
+        let remote = remoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.getMCLStatus { status, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: status)
+                }
+            }
+        }
+    }
+
     func getSMCChargingStatus() async throws -> SMCChargingStatus {
         let remote = remoteService()
         return try await remote.withContinuation { service, continuation in

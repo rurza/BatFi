@@ -38,6 +38,27 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         changeChargingMode(.auto, reply: reply)
     }
 
+    func restoreSystemDefaults(_ reply: @escaping ((any Error)?) -> Void) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            do {
+                try await smcService.restoreSystemDefaults()
+                reply.value(nil)
+            } catch {
+                logger.error("Error restoring system defaults: \(error, privacy: .public)")
+                reply.value(error)
+            }
+        }
+    }
+
+    func getMCLStatus(_ reply: @escaping (Shared.MCLStatus?, (any Error)?) -> Void) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            let status = await smcService.mclStatus()
+            reply.value(status, nil)
+        }
+    }
+
     func getCurrentChargingStatus(_ reply: @escaping (Shared.SMCChargingStatus?, (any Error)?) -> Void) {
         let reply = UnsafeSendableBox(value: reply)
         Task {

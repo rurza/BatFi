@@ -15,15 +15,21 @@ extension ChargingClient: DependencyKey {
         return Self(
             turnOnAutoChargingMode: {
                 try await XPCClient.shared.changeChargingMode(.auto)
-            }, 
+            },
             inhibitCharging: {
                 try await XPCClient.shared.changeChargingMode(.inhibitCharging)
-            }, 
+            },
             forceDischarge: {
                 try await XPCClient.shared.changeChargingMode(.forceDischarging)
-            }, 
+            },
+            restoreSystemDefaults: {
+                try await XPCClient.shared.restoreSystemDefaults()
+            },
             chargingStatus: {
                 return try await XPCClient.shared.getSMCChargingStatus()
+            },
+            mclStatus: {
+                return try await XPCClient.shared.getMCLStatus()
             }
         )
     }()

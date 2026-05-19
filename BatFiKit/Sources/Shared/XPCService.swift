@@ -12,6 +12,8 @@ public protocol XPCService {
     func setForceDischarge(_ handler: @escaping (Error?) -> Void)
     func setInhibitCharge(_ handler: @escaping (Error?) -> Void)
     func setAutocharge(_ handler: @escaping (Error?) -> Void)
+    func restoreSystemDefaults(_ handler: @escaping (Error?) -> Void)
+    func getMCLStatus(_ handler: @escaping (MCLStatus?, Error?) -> Void)
     func getCurrentChargingStatus(_ handler: @escaping (SMCChargingStatus?, Error?) -> Void)
     func getPowerDistribution(_ handler: @escaping (PowerDistributionInfo?, Error?) -> Void)
     func setMagSafeLEDColor(color: UInt8, _ handler: @escaping (UInt8, Error?) -> Void)

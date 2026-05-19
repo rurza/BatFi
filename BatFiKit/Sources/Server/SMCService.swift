@@ -53,12 +53,48 @@ actor SMCService {
         do {
             try await enableCharging(!inhibitCharging)
             try await enableForceDischarge(forceDischarge)
+            if #available(macOS 26.4, *), message == .auto {
+                do {
+                    try await PowerUICharging.shared.overrideMCLTarget(100)
+                } catch {
+                    logger.error("PowerUI MCL override failed: \(error, privacy: .public)")
+                }
+            }
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
             smcIsOpened = false
             throw error
         }
+    }
+
+    /// Clears the PowerUI MCL override (so the user's saved System Settings limit comes back)
+    /// and sets SMC back to auto-charge. Used on app quit and when the user disables BatFi's
+    /// charge management.
+    func restoreSystemDefaults() async throws {
+        if #available(macOS 26.4, *) {
+            await PowerUICharging.shared.clearMCLOverride()
+        }
+
+        logger.notice("Restoring SMC defaults (auto charge, force discharge off)")
+        await openSMCIfNeeded()
+
+        do {
+            try await enableCharging(true)
+            try await enableForceDischarge(false)
+        } catch {
+            logger.critical("SMC writing error while restoring defaults: \(error)")
+            resetIfPossible()
+            smcIsOpened = false
+            throw error
+        }
+    }
+
+    func mclStatus() async -> MCLStatus {
+        if #available(macOS 26.4, *) {
+            return await PowerUICharging.shared.mclStatus()
+        }
+        return MCLStatus(supported: false, batFiHasActiveOverride: false, lastOverrideValue: nil)
     }
 
     func resetIfPossible() {

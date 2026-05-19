@@ -1,0 +1,162 @@
+//
+//  PowerUICharging.swift
+//
+//
+//  Created by Adam Różyński on 12/05/2026.
+//
+
+import Foundation
+import os
+import Shared
+
+actor PowerUICharging {
+    static let shared = PowerUICharging()
+
+    private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "PowerUI Charging")
+    private let client: AnyObject?
+    private let clientClass: AnyClass?
+
+    private var renewalTask: Task<Void, Never>?
+    private var lastOverrideValue: UInt8 = 0
+
+    private static let renewalInterval: Duration = .seconds(60)
+
+    private init() {
+        let frameworkPath = "/System/Library/PrivateFrameworks/PowerUI.framework/PowerUI"
+        guard dlopen(frameworkPath, RTLD_NOW | RTLD_GLOBAL) != nil else {
+            self.client = nil
+            self.clientClass = nil
+            return
+        }
+
+        guard let cls = NSClassFromString("PowerUISmartChargeClient") as? NSObject.Type,
+              let allocated = cls.perform(NSSelectorFromString("alloc"))?.takeUnretainedValue(),
+              let initialized = allocated.perform(
+                NSSelectorFromString("initWithClientName:"),
+                with: "BatFi" as NSString
+              )?.takeUnretainedValue() else {
+            self.client = nil
+            self.clientClass = nil
+            return
+        }
+
+        self.client = initialized
+        self.clientClass = cls
+    }
+
+    var isAvailable: Bool { client != nil && clientClass != nil }
+
+    var hasActiveOverride: Bool { lastOverrideValue != 0 }
+
+    /// Temporarily overrides the system Manual Charge Limit (System Settings → Battery → Charging).
+    /// Apple stores the user's MCL in `MCLSavedTargetSoC` and restores it once the override expires.
+    /// Use 100 to fully release the system limit so BatFi's SMC inhibit can act unimpeded.
+    func overrideMCLTarget(_ targetSoC: UInt8) throws {
+        try invokeOverride(targetSoC)
+        lastOverrideValue = targetSoC
+        startRenewalTask()
+    }
+
+    /// Cancels the renewal task and attempts to clear the active override so the system snaps
+    /// back to the user's saved MCL value. Client-side selector may not exist on every build —
+    /// if it doesn't, the override still self-expires via `MCLOverridenUntilDate`.
+    func clearMCLOverride() {
+        cancelRenewalTask()
+        lastOverrideValue = 0
+
+        guard let client, let clientClass else { return }
+
+        let selector = NSSelectorFromString("clearMCLOverride")
+        guard class_getInstanceMethod(clientClass, selector) != nil else {
+            logger.notice("clearMCLOverride selector not exposed on client; relying on natural expiry")
+            return
+        }
+
+        typealias Clearer = @convention(c) (AnyObject, Selector) -> Void
+        let method = class_getInstanceMethod(clientClass, selector)!
+        let clearer = unsafeBitCast(method_getImplementation(method), to: Clearer.self)
+        clearer(client, selector)
+        logger.notice("PowerUI MCL override cleared")
+    }
+
+    func mclStatus() -> MCLStatus {
+        MCLStatus(
+            supported: isAvailable,
+            batFiHasActiveOverride: hasActiveOverride,
+            lastOverrideValue: hasActiveOverride ? Int(lastOverrideValue) : nil
+        )
+    }
+
+    // MARK: - Private
+
+    private func invokeOverride(_ targetSoC: UInt8) throws {
+        guard let client, let clientClass else {
+            throw PowerUIChargingError.frameworkUnavailable
+        }
+
+        let selector = NSSelectorFromString("temporarilyOverrideMCLTargetSoC:error:")
+        guard let method = class_getInstanceMethod(clientClass, selector) else {
+            throw PowerUIChargingError.selectorUnavailable("temporarilyOverrideMCLTargetSoC:error:")
+        }
+
+        typealias Setter = @convention(c) (AnyObject, Selector, UInt8, AutoreleasingUnsafeMutablePointer<NSError?>?) -> ObjCBool
+        let setter = unsafeBitCast(method_getImplementation(method), to: Setter.self)
+
+        var error: NSError?
+        let success = setter(client, selector, targetSoC, &error).boolValue
+
+        if let error {
+            logger.error("temporarilyOverrideMCLTargetSoC returned error: \(error, privacy: .public)")
+            throw PowerUIChargingError.apiCallFailed(error)
+        }
+
+        if !success {
+            logger.error("temporarilyOverrideMCLTargetSoC returned false without error")
+            throw PowerUIChargingError.apiCallReturnedFalse
+        }
+
+        logger.notice("PowerUI MCL target overridden to \(targetSoC, privacy: .public)%")
+    }
+
+    private func startRenewalTask() {
+        renewalTask?.cancel()
+        renewalTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: Self.renewalInterval)
+                guard !Task.isCancelled, let self else { return }
+                await self.renewOverrideIfNeeded()
+            }
+        }
+    }
+
+    private func cancelRenewalTask() {
+        renewalTask?.cancel()
+        renewalTask = nil
+    }
+
+    private func renewOverrideIfNeeded() {
+        let value = lastOverrideValue
+        guard value != 0 else { return }
+        do {
+            try invokeOverride(value)
+        } catch {
+            logger.warning("MCL override renewal failed: \(error, privacy: .public)")
+        }
+    }
+}
+
+enum PowerUIChargingError: Error, CustomStringConvertible {
+    case frameworkUnavailable
+    case selectorUnavailable(String)
+    case apiCallFailed(Error)
+    case apiCallReturnedFalse
+
+    var description: String {
+        switch self {
+        case .frameworkUnavailable: return "PowerUI framework unavailable"
+        case .selectorUnavailable(let name): return "PowerUI selector unavailable: \(name)"
+        case .apiCallFailed(let err): return "PowerUI API failed: \(err)"
+        case .apiCallReturnedFalse: return "PowerUI API returned false"
+        }
+    }
+}
