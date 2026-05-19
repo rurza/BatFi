@@ -10,3 +10,8 @@ Installer/URL.swift
 BatFiKit/Sources/ClientsLive/AnalyticsDSN.swift
 BatFiKit/.build
 BatFiKit/.vscode
+.claude/
+.tldr/
+.tldrignore
+ruvector.db
+BatFiKit/ruvector.db
