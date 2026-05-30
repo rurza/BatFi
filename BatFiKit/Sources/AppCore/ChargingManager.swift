@@ -296,6 +296,12 @@ public actor ChargingManager: ChargingModeManager {
         let currentBatteryLevel = powerState.batteryLevel
         if let tempLimit = userTempChargingMode?.limit {
             logger.debug("User set temp limit to \(tempLimit)")
+            if tempLimit >= 100, currentBatteryLevel >= 100 {
+                logger.notice("Battery reached 100%, removing charge-to-full override")
+                await analytics.addBreadcrumb(category: .chargingManager, message: "Battery reached 100%, removing charge-to-full override")
+                removeTempOverride()
+                return await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
+            }
             if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
