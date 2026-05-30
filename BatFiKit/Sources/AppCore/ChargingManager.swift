@@ -247,7 +247,6 @@ public actor ChargingManager: ChargingModeManager {
     ) async {
         logger.debug("Update status")
         let chargerConnected = powerState.chargerConnected
-        let previousChargerConnectedState = self.lastChargerConnectedStatus
         updateLastChargerConnectedStateIfNeeded(chargerConnected)
         let appChargingMode = await appChargingState.currentAppChargingMode()
         let currentMode = appChargingMode.mode
@@ -302,6 +301,7 @@ public actor ChargingManager: ChargingModeManager {
                 removeTempOverride()
                 return await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             }
+            handleRemovingTempOverrideOnDisconnect(chargerConnected: chargerConnected)
             if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
@@ -309,7 +309,6 @@ public actor ChargingManager: ChargingModeManager {
                     currentMode: currentMode
                 )
             } else if currentBatteryLevel < tempLimit {
-                scheduleRemovingTempOverrideIfNeeded(previousStatus: previousChargerConnectedState)
                 return await turnOnCharging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
@@ -513,21 +512,39 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private var removeTempOverrideTask: Task<Void, Never>?
+    private let prolongedDisconnectTimeout: TimeInterval = 120
 
-    private func scheduleRemovingTempOverrideIfNeeded(previousStatus: ChargerConnectedStatus?) {
-        if let lastChargerConnectedStatus, let previousStatus,
-           previousStatus.isConnected, !lastChargerConnectedStatus.isConnected {
-            removeTempOverrideTask = Task {
-                try? await clock.sleep(for: .seconds(15), tolerance: .milliseconds(100))
-                if !Task.isCancelled {
-                    self.logger.debug("Removing temp override because charger connection status has not changed for a while")
-                    self.removeTempOverride()
-                    self.removeTempOverrideTask = nil
-                }
+    private func handleRemovingTempOverrideOnDisconnect(chargerConnected: Bool) {
+        guard !chargerConnected else {
+            if removeTempOverrideTask != nil {
+                logger.debug("Charger reconnected, cancelling pending temp override removal")
+                removeTempOverrideTask?.cancel()
+                removeTempOverrideTask = nil
             }
-        } else if removeTempOverrideTask != nil {
+            return
+        }
+        guard let disconnectStatus = lastChargerConnectedStatus,
+              !disconnectStatus.isConnected else {
+            return
+        }
+        let elapsed = date.now.timeIntervalSince(disconnectStatus.date)
+        let remaining = prolongedDisconnectTimeout - elapsed
+        if remaining <= 0 {
+            logger.notice("Charger disconnected for \(Int(elapsed))s, removing temp override")
+            removeTempOverride()
             removeTempOverrideTask?.cancel()
             removeTempOverrideTask = nil
+            return
+        }
+        guard removeTempOverrideTask == nil else { return }
+        logger.debug("Charger disconnected, scheduling temp override removal in \(Int(remaining))s")
+        removeTempOverrideTask = Task {
+            try? await clock.sleep(for: .seconds(remaining), tolerance: .seconds(1))
+            if !Task.isCancelled {
+                self.logger.notice("Removing temp override after prolonged charger disconnect")
+                self.removeTempOverride()
+                self.removeTempOverrideTask = nil
+            }
         }
     }
 }
