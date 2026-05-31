@@ -28,6 +28,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     private lazy var helperConnectionManager = HelperConnectionManager(delegate: self)
 
     private var chargingManager = ChargingManager()
+    private var automationManager = AutomationManager()
     private var notificationsManager: NotificationsManager?
     private var statusItemManager: StatusItemManager?
     private var appDidLaunch: Bool = false
@@ -119,6 +120,11 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         settingsController.openSettings()
     }
 
+    public func openAutomationSettings() {
+        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        settingsController.openAutomationSettings()
+    }
+
     public func quitApp() {
         NSApp.terminate(nil)
     }
@@ -179,6 +185,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     private func setUpTheApp() async {
         await chargingManager.setUpObserving()
+        await automationManager.setUpObserving()
         persistenceManager.setUpObserving()
         await magSafeColorManager.setUpObserving()
 

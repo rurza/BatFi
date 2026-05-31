@@ -10,16 +10,16 @@ import AppShared
 import Foundation
 import L10n
 
-enum AutomationFormatting {
+public enum AutomationFormatting {
     /// "60% · Weekdays 9:00–18:00 · @ Office"
-    static func summary(for rule: AutomationRule) -> String {
+    public static func summary(for rule: AutomationRule) -> String {
         var parts: [String] = [L10n.Automation.limitFragment(rule.limit)]
         parts.append(scheduleSummary(rule.schedule))
         parts.append(locationSummary(rule.location))
         return parts.joined(separator: " · ")
     }
 
-    static func scheduleSummary(_ schedule: Schedule?) -> String {
+    public static func scheduleSummary(_ schedule: Schedule?) -> String {
         guard let schedule else { return L10n.Automation.anyTime }
         switch schedule {
         case let .recurring(days, time):
@@ -29,13 +29,13 @@ enum AutomationFormatting {
         }
     }
 
-    static func locationSummary(_ fence: GeoFence?) -> String {
+    public static func locationSummary(_ fence: GeoFence?) -> String {
         guard let fence else { return L10n.Automation.anywhere }
         let label = fence.label.isEmpty ? L10n.Automation.locationLabelPlaceholder : fence.label
         return "@ \(label)"
     }
 
-    static func daysSummary(_ days: Set<Weekday>) -> String {
+    public static func daysSummary(_ days: Set<Weekday>) -> String {
         if days.count == 7 { return "Every day" }
         let weekdays: Set<Weekday> = [.monday, .tuesday, .wednesday, .thursday, .friday]
         let weekend: Set<Weekday> = [.saturday, .sunday]
@@ -45,15 +45,15 @@ enum AutomationFormatting {
         return ordered.map(shortName).joined(separator: ", ")
     }
 
-    static func timeRange(_ range: TimeRange) -> String {
+    public static func timeRange(_ range: TimeRange) -> String {
         "\(time(range.start))–\(time(range.end))"
     }
 
-    static func time(_ tod: TimeOfDay) -> String {
+    public static func time(_ tod: TimeOfDay) -> String {
         String(format: "%d:%02d", tod.hour, tod.minute)
     }
 
-    static func shortName(_ weekday: Weekday) -> String {
+    public static func shortName(_ weekday: Weekday) -> String {
         switch weekday {
         case .monday: return "Mon"
         case .tuesday: return "Tue"
@@ -65,7 +65,7 @@ enum AutomationFormatting {
         }
     }
 
-    static func singleLetter(_ weekday: Weekday) -> String {
+    public static func singleLetter(_ weekday: Weekday) -> String {
         switch weekday {
         case .monday: return "M"
         case .tuesday: return "T"
@@ -84,7 +84,7 @@ enum AutomationFormatting {
         return f
     }()
 
-    static func dateString(_ date: Date) -> String {
+    public static func dateString(_ date: Date) -> String {
         dateFormatter.string(from: date)
     }
 }

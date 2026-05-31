@@ -35,6 +35,10 @@ public final class SettingsController {
     public func openSettings() {
         settingsWindowController.show(pane: ChargingView.identifier)
     }
+
+    public func openAutomationSettings() {
+        settingsWindowController.show(pane: AutomationView.identifier)
+    }
 }
 
 // MARK: -

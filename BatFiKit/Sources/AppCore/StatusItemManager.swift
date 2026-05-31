@@ -20,6 +20,7 @@ import License
 import MenuBuilder
 import PowerCharts
 import PowerDistributionInfo
+import Settings
 import SharedUI
 import SnapKit
 import SwiftUI
@@ -40,6 +41,7 @@ public protocol StatusItemManagerDelegate: AnyObject {
     func openAbout()
     func checkForUpdates()
     func openOnboarding()
+    func openAutomationSettings()
 
     var chargingModeManager: ChargingModeManager { get }
 }
@@ -63,6 +65,7 @@ public final class StatusItemManager {
     private let batteryInfoModel = BatteryInfoViewModel()
     private var menuContentView: NSView?
     private var pendingMenuDependencies: MenuDependencies?
+    private var lastMenuDependencies: MenuDependencies?
     private let licenseModel: LicenseModel
 
     @Dependency(\.defaults) private var defaults
@@ -91,6 +94,18 @@ public final class StatusItemManager {
         Task {
             for await showStaticMenuBarIcon in defaults.observe(.showStaticMenuBarIcon).removeDuplicates() {
                 setupStatusItemIcon(showStaticIcon: showStaticMenuBarIcon)
+            }
+        }
+        // Re-render the menu when automation state changes so the status row stays accurate.
+        Task { [weak self] in
+            guard let self else { return }
+            for await _ in combineLatest(
+                defaults.observe(.automationEnabled),
+                defaults.observe(.automationActiveRuleID)
+            ) {
+                if let dependencies = self.lastMenuDependencies {
+                    self.updateMenu(dependencies: dependencies)
+                }
             }
         }
     }
@@ -185,6 +200,7 @@ public final class StatusItemManager {
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
         print("📊 updateMenu — memory: \(Self.memoryFootprint())")
+        lastMenuDependencies = dependencies
 
         // macOS 26 workaround: replaceItems detaches the cached MenuContentHostingView
         // from the menu's display window. While the menu is open the SwiftUI render
@@ -224,6 +240,7 @@ public final class StatusItemManager {
                             .modifier(MenuViewModifier())
                     }
             }
+            automationMenuItems()
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
@@ -360,6 +377,56 @@ public final class StatusItemManager {
                     .padding(.top, 2)
                     .padding(.bottom, 6)
             }
+    }
+
+    @MenuBuilder
+    func automationMenuItems() -> [NSMenuItem] {
+        if defaults.value(.automationEnabled) {
+            let rules = defaults.value(.automationRules)
+            let activeID = defaults.value(.automationActiveRuleID)
+            if let active = rules.first(where: { $0.id.uuidString == activeID && $0.isEnabled }) {
+                let name = active.name.isEmpty ? L10n.Automation.untitledRule : active.name
+                MenuItem(L10n.Automation.menuActive(limit: active.limit, name: name))
+                    .onSelect { [weak self] in self?.delegate?.openAutomationSettings() }
+                let detail = automationActiveDetail(active)
+                if !detail.isEmpty {
+                    MenuItem(detail).disabled(true)
+                }
+            } else {
+                MenuItem(L10n.Automation.menuIdle)
+                    .onSelect { [weak self] in self?.delegate?.openAutomationSettings() }
+                if let next = AutomationEngine.nextScheduled(in: rules, enabled: true, after: Date()) {
+                    let name = next.rule.name.isEmpty ? L10n.Automation.untitledRule : next.rule.name
+                    MenuItem(L10n.Automation.menuNext(name: name, when: relativeDateTime(next.start)))
+                        .disabled(true)
+                }
+            }
+            SeparatorItem()
+        }
+    }
+
+    private func automationActiveDetail(_ rule: AutomationRule) -> String {
+        var parts: [String] = []
+        switch rule.schedule {
+        case let .recurring(_, time):
+            parts.append(L10n.Automation.menuActiveUntil(AutomationFormatting.time(time.end)))
+        case let .oneOff(_, time):
+            parts.append(L10n.Automation.menuActiveUntil(AutomationFormatting.time(time.end)))
+        case nil:
+            break
+        }
+        if rule.location != nil {
+            parts.append(AutomationFormatting.locationSummary(rule.location))
+        }
+        return parts.joined(separator: " · ")
+    }
+
+    private func relativeDateTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.doesRelativeDateFormatting = true
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
 
     func horizontalPadding(for limit: Int?) -> CGFloat {

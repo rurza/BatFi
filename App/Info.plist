@@ -15,6 +15,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSLocationUsageDescription</key>
+	<string>BatFi uses your location to run charging automation rules that depend on where your Mac is.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>BatFi uses your location to run charging automation rules that depend on where your Mac is.</string>
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>software.micropixels.BatFi.Helper</key>

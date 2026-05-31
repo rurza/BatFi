@@ -55,7 +55,7 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
     func requestAuthorization() {
         onMain { [self] in
             if manager.authorizationStatus == .notDetermined {
-                manager.requestWhenInUseAuthorization()
+                manager.requestAlwaysAuthorization()
             }
         }
     }
@@ -65,7 +65,7 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
             onMain { [self] in
                 lock.withLock { oneShotContinuations.append(continuation) }
                 if manager.authorizationStatus == .notDetermined {
-                    manager.requestWhenInUseAuthorization()
+                    manager.requestAlwaysAuthorization()
                 }
                 manager.requestLocation()
             }
@@ -126,9 +126,9 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
     private func startUpdatingIfNeeded() {
         let hasSubscribers = lock.withLock { !streamContinuations.isEmpty }
         guard hasSubscribers, !isUpdating else { return }
-        guard manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse else {
+        guard manager.authorizationStatus == .authorizedAlways else {
             if manager.authorizationStatus == .notDetermined {
-                manager.requestWhenInUseAuthorization()
+                manager.requestAlwaysAuthorization()
             }
             return
         }
@@ -167,7 +167,7 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
         switch status {
         case .notDetermined: return .notDetermined
         case .restricted, .denied: return .denied
-        case .authorizedAlways, .authorizedWhenInUse: return .authorized
+        case .authorizedAlways: return .authorized
         @unknown default: return .denied
         }
     }
