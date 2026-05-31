@@ -287,6 +287,11 @@ let package = Package(
             swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "SharedUI", swiftSettings: swiftV6LanguageMode()),
+        .testTarget(
+            name: "AppSharedTests",
+            dependencies: [.appShared],
+            swiftSettings: swiftV6LanguageMode()
+        ),
     ]
 )
 
