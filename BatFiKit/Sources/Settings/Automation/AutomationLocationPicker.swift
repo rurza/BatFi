@@ -85,6 +85,9 @@ struct AutomationLocationPicker: View {
             }
         }
         .onAppear {
+            // Ask for permission as soon as the location section is shown, so the prompt
+            // appears when the user opts into a location condition (no-op once determined).
+            locationClient.requestAuthorization()
             if let coordinate {
                 recenter(on: coordinate.clCoordinate)
             }
