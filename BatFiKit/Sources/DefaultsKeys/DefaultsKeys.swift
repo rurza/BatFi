@@ -5,8 +5,13 @@
 //  Created by Adam on 26/04/2023.
 //
 
+import AppShared
 import Defaults
 import Foundation
+
+// AutomationRule is a Codable value type in AppShared; Defaults bridges Codable types
+// automatically, so a conformance declaration is all that's needed to persist them.
+extension AutomationRule: Defaults.Serializable {}
 
 #if DEBUG
     private let showDebugMenuByDefault = true
@@ -74,4 +79,8 @@ public extension Defaults.Keys {
 
     // charging reminder
     static let lastChargingReminderDate = Key<Date>("lastChargingReminderDate", default: Date.distantPast)
+
+    // Calendar / automation
+    static let automationEnabled = Key<Bool>("automationEnabled", default: false)
+    static let automationRules = Key<[AutomationRule]>("automationRules", default: [])
 }

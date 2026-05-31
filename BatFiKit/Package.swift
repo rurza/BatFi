@@ -177,7 +177,7 @@ let package = Package(
             ],
             swiftSettings: swiftV6LanguageMode()
         ),
-        .target(name: "DefaultsKeys", dependencies: [.defaults], swiftSettings: swiftV6LanguageMode()),
+        .target(name: "DefaultsKeys", dependencies: [.appShared, .defaults], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "HighEnergyUsage",
             dependencies: [
