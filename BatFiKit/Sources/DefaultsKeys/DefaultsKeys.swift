@@ -83,4 +83,7 @@ public extension Defaults.Keys {
     // Calendar / automation
     static let automationEnabled = Key<Bool>("automationEnabled", default: false)
     static let automationRules = Key<[AutomationRule]>("automationRules", default: [])
+    /// Written by the automation engine: the id of the rule currently driving charging
+    /// (empty when none). Read by the settings pane and menu to show an ACTIVE badge.
+    static let automationActiveRuleID = Key<String>("automationActiveRuleID", default: "")
 }
