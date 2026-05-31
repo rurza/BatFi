@@ -72,6 +72,26 @@ extension AppChargingStateClient: DependencyKey {
             },
             setChargerConnected: { connected in
                 await state.updateChargerConnected(connected)
+            },
+            setAutomationLimit: { limit in
+                await state.updateAutomationLimit(limit)
+            },
+            currentAutomationLimit: {
+                await state.automationLimit
+            },
+            automationLimitDidChange: {
+                AsyncStream<Int?> { continuation in
+                    let streamTask = Task {
+                        await continuation.yield(state.automationLimit)
+                        for await note in NotificationCenter.default.notifications(named: AutomationLimitDidChangeNotificationName) {
+                            continuation.yield(note.object as? Int)
+                        }
+                    }
+                    continuation.onTermination = { _ in
+                        streamTask.cancel()
+                    }
+                }
+                .eraseToStream()
             }
         )
         return client
@@ -80,11 +100,13 @@ extension AppChargingStateClient: DependencyKey {
 
 private let ChargingModeDidChangeNotificationName = Notification.Name("ChargingModeDidChangeNotificationName")
 private let UserTempChargingModeDidChangeNotificationName = Notification.Name("UserTempChargingModeDidChangeNotificationName")
+private let AutomationLimitDidChangeNotificationName = Notification.Name("AutomationLimitDidChangeNotificationName")
 
 private actor AppChargingState {
     private(set) var mode: AppChargingMode = .init(mode: .initial, userTempOverride: nil, chargerConnected: false)
     private(set) var userTempChargingMode: UserTempChargingMode? = nil
     private(set) var lidOpened: Bool?
+    private(set) var automationLimit: Int?
 
     static let initialState = AppChargingState(lidOpened: nil)
 
@@ -124,6 +146,12 @@ private actor AppChargingState {
     func updateLidOpened(_ lidOpened: Bool) {
         guard lidOpened != self.lidOpened else { return }
         self.lidOpened = lidOpened
+    }
+
+    func updateAutomationLimit(_ limit: Int?) {
+        guard limit != automationLimit else { return }
+        automationLimit = limit
+        NotificationCenter.default.post(name: AutomationLimitDidChangeNotificationName, object: limit)
     }
 
 }

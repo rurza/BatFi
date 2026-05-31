@@ -22,6 +22,11 @@ public struct AppChargingStateClient: Sendable {
     public var updateChargingMode: @Sendable (ChargingMode) async -> Void
     public var setTempOverride: @Sendable (UserTempChargingMode?) async -> Void
     public var setChargerConnected: @Sendable (Bool) async -> Void
+    /// Base charge limit requested by the automation engine; nil falls back to the user's
+    /// configured `chargeLimit`. Lower precedence than a manual temp override.
+    public var setAutomationLimit: @Sendable (Int?) async -> Void
+    public var currentAutomationLimit: @Sendable () async -> Int?
+    public var automationLimitDidChange: @Sendable () -> AsyncStream<Int?> = { AsyncStream { _ in } }
 }
 
 extension AppChargingStateClient: TestDependencyKey {

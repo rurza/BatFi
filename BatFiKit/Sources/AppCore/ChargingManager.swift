@@ -129,6 +129,13 @@ public actor ChargingManager: ChargingModeManager {
                 await updateStatusWithCurrentState()
             }
         }
+
+        Task {
+            for await _ in appChargingState.automationLimitDidChange() {
+                logger.debug("Automation limit changed, re-evaluating charging")
+                await updateStatusWithCurrentState()
+            }
+        }
     }
 
     public func setLicenseModel(_ licenseModel: LicenseModel) {
@@ -251,6 +258,11 @@ public actor ChargingManager: ChargingModeManager {
         let appChargingMode = await appChargingState.currentAppChargingMode()
         let currentMode = appChargingMode.mode
 
+        // The automation engine can request a base charge limit. It overrides the user's
+        // configured limit only when there's no manual temp override (which still wins).
+        let automationLimit = await appChargingState.currentAutomationLimit()
+        let effectiveChargeLimit = automationLimit ?? chargeLimit
+
         guard currentMode != .initial else {
             logger.debug("We don't have a mode yet")
             await analytics.addBreadcrumb(category: .chargingManager, message: "App mode is still set to initial")
@@ -266,7 +278,7 @@ public actor ChargingManager: ChargingModeManager {
 
         await setUpDelaySleep(
             preventAutomaticSleep &&
-            powerState.batteryLevel < userTempChargingMode?.limit ?? chargeLimit &&
+            powerState.batteryLevel < userTempChargingMode?.limit ?? effectiveChargeLimit &&
             powerState.chargerConnected
         )
 
@@ -320,8 +332,8 @@ public actor ChargingManager: ChargingModeManager {
                 )
             }
         } else {
-            if currentBatteryLevel >= chargeLimit {
-                if currentBatteryLevel > chargeLimit, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
+            if currentBatteryLevel >= effectiveChargeLimit {
+                if currentBatteryLevel > effectiveChargeLimit, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
                         disableSleep: disableSleepDuringDischarge,
