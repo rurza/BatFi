@@ -3,9 +3,13 @@
 //  BatFi
 //
 //  CoreLocation-backed implementation. CLLocationManager is created and used exclusively on
-//  the main run loop — Apple requires the manager to live on a thread with an active run
+//  the main run loop (Apple requires the manager to live on a thread with an active run
 //  loop, otherwise the authorization prompt may not appear and delegate callbacks never
-//  fire. The synchronously-readable authorization snapshot is guarded by a lock.
+//  fire). The synchronously-readable authorization snapshot is guarded by a lock.
+//
+//  One-shot requests use `startUpdatingLocation` (which keeps trying until a fix arrives)
+//  with a hard timeout, rather than `requestLocation` (which gives up almost immediately on
+//  Macs that rely on Wi-Fi positioning). Every step is logged so failures are diagnosable.
 //
 
 import AppShared
@@ -27,25 +31,32 @@ extension LocationClient: DependencyKey {
     }()
 }
 
+private let oneShotTimeout: TimeInterval = 12
+
 private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @unchecked Sendable {
     private let logger = Logger(category: "LocationClient")
     private let lock = NSLock()
 
-    /// Created lazily, always on the main thread (see `manager()`), so its delegate callbacks
-    /// are delivered on the main run loop. Only touched on the main thread.
+    /// Created lazily, always on the main thread (see `manager()`), so delegate callbacks are
+    /// delivered on the main run loop. Only touched on the main thread.
     private var _manager: CLLocationManager?
 
     // Guarded by `lock`.
     private var authorization: LocationAuthorization = .notDetermined
     private var oneShotContinuations: [CheckedContinuation<Coordinate?, Never>] = []
     private var streamContinuations: [UUID: AsyncStream<Coordinate>.Continuation] = [:]
-    private var isUpdating = false
     private var wantsOneShotAfterAuthorization = false
+
+    // Main-thread only.
+    private var oneShotActive = false
+    private var isUpdating = false
 
     override init() {
         super.init()
-        // Warm up the manager on main so we have an authorization snapshot early.
-        onMain { [self] in _ = manager() }
+        onMain { [self] in
+            let manager = manager()
+            logger.notice("LocationClient initialized. auth=\(self.describe(manager.authorizationStatus), privacy: .public)")
+        }
     }
 
     /// Returns the manager, creating it on first use. MUST be called on the main thread.
@@ -69,6 +80,7 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
         onMain { [self] in
             let manager = manager()
             if manager.authorizationStatus == .notDetermined {
+                logger.notice("Requesting location authorization")
                 manager.requestAlwaysAuthorization()
             }
         }
@@ -79,13 +91,18 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
             onMain { [self] in
                 let manager = manager()
                 lock.withLock { oneShotContinuations.append(continuation) }
+                logger.notice("One-shot location requested. auth=\(self.describe(manager.authorizationStatus), privacy: .public)")
                 switch manager.authorizationStatus {
                 case .authorizedAlways:
-                    manager.requestLocation()
+                    oneShotActive = true
+                    reconcileUpdating()
+                    scheduleOneShotTimeout()
                 case .notDetermined:
                     lock.withLock { wantsOneShotAfterAuthorization = true }
                     manager.requestAlwaysAuthorization()
-                default: // denied / restricted
+                    scheduleOneShotTimeout()
+                default:
+                    logger.notice("Location not authorized; returning nil")
                     resolveOneShots(with: nil)
                 }
             }
@@ -97,16 +114,13 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
         return AsyncStream { continuation in
             onMain { [self] in
                 lock.withLock { streamContinuations[id] = continuation }
-                startUpdatingIfNeeded()
+                reconcileUpdating()
             }
             continuation.onTermination = { [weak self] _ in
                 guard let self else { return }
                 onMain { [self] in
-                    let remaining = lock.withLock { () -> Int in
-                        streamContinuations[id] = nil
-                        return streamContinuations.count
-                    }
-                    if remaining == 0 { stopUpdating() }
+                    lock.withLock { _ = streamContinuations.removeValue(forKey: id) }
+                    reconcileUpdating()
                 }
             }
         }
@@ -117,6 +131,7 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let mapped = Self.map(manager.authorizationStatus)
         store(authorization: mapped)
+        logger.notice("Authorization changed: \(self.describe(manager.authorizationStatus), privacy: .public)")
         switch mapped {
         case .authorized:
             let wantsOneShot = lock.withLock { () -> Bool in
@@ -124,11 +139,13 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
                 wantsOneShotAfterAuthorization = false
                 return value
             }
-            if wantsOneShot { manager.requestLocation() }
-            startUpdatingIfNeeded()
+            if wantsOneShot { oneShotActive = true }
+            reconcileUpdating()
         case .denied:
             lock.withLock { wantsOneShotAfterAuthorization = false }
+            oneShotActive = false
             resolveOneShots(with: nil)
+            reconcileUpdating()
         case .notDetermined:
             break
         }
@@ -140,36 +157,57 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude
         )
+        logger.notice("Received location \(coordinate.latitude, privacy: .public),\(coordinate.longitude, privacy: .public)")
         resolveOneShots(with: coordinate)
+        oneShotActive = false
         let streams = lock.withLock { Array(streamContinuations.values) }
         for stream in streams { stream.yield(coordinate) }
+        reconcileUpdating()
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        logger.warning("Location update failed: \(error.localizedDescription, privacy: .public)")
-        resolveOneShots(with: nil)
+        // With startUpdatingLocation, transient "location unknown" errors keep retrying, so
+        // only a hard denial aborts the request; everything else waits for the timeout.
+        logger.warning("Location error: \(error.localizedDescription, privacy: .public)")
+        if (error as? CLError)?.code == .denied {
+            oneShotActive = false
+            resolveOneShots(with: nil)
+            reconcileUpdating()
+        }
     }
 
     // MARK: - Helpers (main thread)
 
-    private func startUpdatingIfNeeded() {
-        let hasSubscribers = lock.withLock { !streamContinuations.isEmpty }
-        guard hasSubscribers, !isUpdating else { return }
+    private func reconcileUpdating() {
+        let needed = oneShotActive || lock.withLock { !streamContinuations.isEmpty }
         let manager = manager()
-        guard manager.authorizationStatus == .authorizedAlways else {
-            if manager.authorizationStatus == .notDetermined {
-                manager.requestAlwaysAuthorization()
+        if needed, !isUpdating {
+            guard manager.authorizationStatus == .authorizedAlways else {
+                if manager.authorizationStatus == .notDetermined {
+                    manager.requestAlwaysAuthorization()
+                }
+                return
             }
-            return
+            isUpdating = true
+            logger.notice("Starting location updates")
+            manager.startUpdatingLocation()
+        } else if !needed, isUpdating {
+            isUpdating = false
+            logger.notice("Stopping location updates")
+            manager.stopUpdatingLocation()
         }
-        isUpdating = true
-        manager.startUpdatingLocation()
     }
 
-    private func stopUpdating() {
-        guard isUpdating else { return }
-        isUpdating = false
-        _manager?.stopUpdatingLocation()
+    private func scheduleOneShotTimeout() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + oneShotTimeout) { [weak self] in
+            guard let self else { return }
+            let stillPending = self.lock.withLock { !self.oneShotContinuations.isEmpty }
+            guard stillPending else { return }
+            self.logger.warning("One-shot location timed out after \(Int(oneShotTimeout))s")
+            self.oneShotActive = false
+            self.resolveOneShots(with: nil)
+            self.reconcileUpdating()
+        }
     }
 
     private func resolveOneShots(with coordinate: Coordinate?) {
@@ -183,6 +221,16 @@ private final class LocationCoordinator: NSObject, CLLocationManagerDelegate, @u
 
     private func store(authorization newValue: LocationAuthorization) {
         lock.withLock { authorization = newValue }
+    }
+
+    private func describe(_ status: CLAuthorizationStatus) -> String {
+        switch status {
+        case .notDetermined: return "notDetermined"
+        case .restricted: return "restricted"
+        case .denied: return "denied"
+        case .authorizedAlways: return "authorizedAlways"
+        @unknown default: return "unknown(\(status.rawValue))"
+        }
     }
 
     private func onMain(_ work: @escaping @Sendable () -> Void) {

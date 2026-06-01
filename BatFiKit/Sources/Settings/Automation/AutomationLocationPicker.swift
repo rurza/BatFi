@@ -28,6 +28,8 @@ struct AutomationLocationPicker: View {
     )
     @State private var searchText = ""
     @State private var permissionDenied = false
+    @State private var isLocating = false
+    @State private var locationMessage: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -37,10 +39,16 @@ struct AutomationLocationPicker: View {
                 TextField(L10n.Automation.locationSearchPlaceholder, text: $searchText)
                     .textFieldStyle(.plain)
                     .onSubmit { Task { await search() } }
+                if isLocating {
+                    ProgressView()
+                        .controlSize(.small)
+                        .padding(.trailing, 4)
+                }
                 Button(L10n.Automation.useCurrentLocation) {
                     Task { await useCurrentLocation() }
                 }
                 .controlSize(.small)
+                .disabled(isLocating)
             }
 
             MapReader { proxy in
@@ -82,6 +90,10 @@ struct AutomationLocationPicker: View {
                 Text(L10n.Automation.locationPermissionDenied)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            } else if let locationMessage {
+                Text(locationMessage)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
         .onAppear {
@@ -112,13 +124,20 @@ struct AutomationLocationPicker: View {
             permissionDenied = true
             return
         }
-        if let coordinate = await locationClient.currentCoordinate() {
+        isLocating = true
+        locationMessage = nil
+        defer { isLocating = false }
+        let coordinate = await locationClient.currentCoordinate()
+        if let coordinate {
             permissionDenied = false
+            locationMessage = nil
             self.coordinate = coordinate
             recenter(on: coordinate.clCoordinate)
             if label.isEmpty { label = "Current location" }
         } else if locationClient.authorizationStatus() == .denied {
             permissionDenied = true
+        } else {
+            locationMessage = "Couldn't determine your location. Make sure Wi-Fi is on and Location Services is enabled for BatFi."
         }
     }
 
