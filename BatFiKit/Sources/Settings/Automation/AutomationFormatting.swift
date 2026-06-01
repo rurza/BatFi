@@ -36,12 +36,12 @@ public enum AutomationFormatting {
     }
 
     public static func daysSummary(_ days: Set<Weekday>) -> String {
-        if days.count == 7 { return "Every day" }
+        if days.count == 7 { return L10n.Automation.daysEveryDay }
         let weekdays: Set<Weekday> = [.monday, .tuesday, .wednesday, .thursday, .friday]
         let weekend: Set<Weekday> = [.saturday, .sunday]
-        if days == weekdays { return "Weekdays" }
-        if days == weekend { return "Weekends" }
-        let ordered = Weekday.displayOrder.filter { days.contains($0) }
+        if days == weekdays { return L10n.Automation.daysWeekdays }
+        if days == weekend { return L10n.Automation.daysWeekends }
+        let ordered = Weekday.localizedOrder().filter { days.contains($0) }
         return ordered.map(shortName).joined(separator: ", ")
     }
 
@@ -53,28 +53,17 @@ public enum AutomationFormatting {
         String(format: "%d:%02d", tod.hour, tod.minute)
     }
 
+    // Weekday enum is numbered to match Calendar (1 = Sunday), and the symbol arrays are
+    // also Sunday-first, so `rawValue - 1` indexes them directly. Using the calendar's
+    // localized symbols means day names/letters localize for free.
     public static func shortName(_ weekday: Weekday) -> String {
-        switch weekday {
-        case .monday: return "Mon"
-        case .tuesday: return "Tue"
-        case .wednesday: return "Wed"
-        case .thursday: return "Thu"
-        case .friday: return "Fri"
-        case .saturday: return "Sat"
-        case .sunday: return "Sun"
-        }
+        let symbols = Calendar.current.shortWeekdaySymbols
+        return symbols[weekday.rawValue - 1]
     }
 
     public static func singleLetter(_ weekday: Weekday) -> String {
-        switch weekday {
-        case .monday: return "M"
-        case .tuesday: return "T"
-        case .wednesday: return "W"
-        case .thursday: return "T"
-        case .friday: return "F"
-        case .saturday: return "S"
-        case .sunday: return "S"
-        }
+        let symbols = Calendar.current.veryShortWeekdaySymbols
+        return symbols[weekday.rawValue - 1]
     }
 
     private static let dateFormatter: DateFormatter = {

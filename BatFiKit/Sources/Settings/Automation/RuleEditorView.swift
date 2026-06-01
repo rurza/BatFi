@@ -168,7 +168,7 @@ struct RuleEditorView: View {
 
     private var weekdayChips: some View {
         HStack(spacing: 6) {
-            ForEach(Weekday.displayOrder) { day in
+            ForEach(Weekday.localizedOrder()) { day in
                 let isOn = selectedDays.contains(day)
                 Button {
                     if isOn { selectedDays.remove(day) } else { selectedDays.insert(day) }

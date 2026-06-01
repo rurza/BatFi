@@ -60,10 +60,19 @@ public enum Weekday: Int, Codable, CaseIterable, Identifiable, Sendable {
 
     public var id: Int { rawValue }
 
-    /// Monday-first ordering, useful for display.
+    /// Monday-first ordering.
     public static let displayOrder: [Weekday] = [
         .monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday,
     ]
+
+    /// Weekdays ordered by the locale's first day of the week (Sunday-first in the US,
+    /// Monday-first across most of Europe, etc.).
+    public static func localizedOrder(using calendar: Calendar = .current) -> [Weekday] {
+        let first = calendar.firstWeekday // 1...7, matching our rawValue numbering
+        return (0..<7).compactMap { offset in
+            Weekday(rawValue: ((first - 1 + offset) % 7) + 1)
+        }
+    }
 }
 
 /// When a rule's time condition is satisfied.

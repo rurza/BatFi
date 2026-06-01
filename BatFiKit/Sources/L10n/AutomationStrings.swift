@@ -50,9 +50,15 @@ public extension L10n {
         public static let save = String(localized: "automation.editor.save", defaultValue: "Save", bundle: Bundle.module)
         public static let delete = String(localized: "automation.editor.delete", defaultValue: "Delete Rule", bundle: Bundle.module)
 
+        public static let currentLocationLabel = String(localized: "automation.editor.current_location_label", defaultValue: "Current location", bundle: Bundle.module)
+        public static let locationCouldNotDetermine = String(localized: "automation.editor.location_could_not_determine", defaultValue: "Couldn’t determine your location. Make sure Wi-Fi is on and Location Services is enabled for BatFi.", bundle: Bundle.module)
+
         // Summaries / menu
         public static let anyTime = String(localized: "automation.summary.any_time", defaultValue: "Any time", bundle: Bundle.module)
         public static let anywhere = String(localized: "automation.summary.anywhere", defaultValue: "Anywhere", bundle: Bundle.module)
+        public static let daysEveryDay = String(localized: "automation.summary.every_day", defaultValue: "Every day", bundle: Bundle.module)
+        public static let daysWeekdays = String(localized: "automation.summary.weekdays", defaultValue: "Weekdays", bundle: Bundle.module)
+        public static let daysWeekends = String(localized: "automation.summary.weekends", defaultValue: "Weekends", bundle: Bundle.module)
 
         /// "60%" charge-limit fragment.
         public static func limitFragment(_ limit: Int) -> String {

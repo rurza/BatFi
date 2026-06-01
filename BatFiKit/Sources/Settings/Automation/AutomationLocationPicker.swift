@@ -133,11 +133,11 @@ struct AutomationLocationPicker: View {
             locationMessage = nil
             self.coordinate = coordinate
             recenter(on: coordinate.clCoordinate)
-            if label.isEmpty { label = "Current location" }
+            if label.isEmpty { label = L10n.Automation.currentLocationLabel }
         } else if locationClient.authorizationStatus() == .denied {
             permissionDenied = true
         } else {
-            locationMessage = "Couldn't determine your location. Make sure Wi-Fi is on and Location Services is enabled for BatFi."
+            locationMessage = L10n.Automation.locationCouldNotDetermine
         }
     }
 
