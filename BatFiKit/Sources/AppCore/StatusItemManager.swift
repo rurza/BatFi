@@ -382,17 +382,20 @@ public final class StatusItemManager {
     @MenuBuilder
     func automationMenuItems() -> [NSMenuItem] {
         if let status = automationStatusText() {
-            // Render as a width-constrained, single-line view so a long rule name can't
-            // stretch the whole menu (a plain NSMenuItem sizes to its title).
-            MenuItem("").view {
-                AutomationMenuLabel(
-                    primary: status.primary,
-                    secondary: status.secondary,
-                    leadingInset: menuItemCheckMarkPadding
-                )
+            // Native menu items (so they match the surrounding rows); the dynamic text is
+            // length-capped so a long rule name can't stretch the whole menu.
+            MenuItem(clampMenuText(status.primary))
+                .onSelect { [weak self] in self?.delegate?.openAutomationSettings() }
+            if let secondary = status.secondary {
+                MenuItem(clampMenuText(secondary)).disabled(true)
             }
             SeparatorItem()
         }
+    }
+
+    /// Caps a menu line so it stays within the menu's natural (battery-info) width.
+    private func clampMenuText(_ string: String, max: Int = 36) -> String {
+        string.count <= max ? string : String(string.prefix(max - 1)) + "…"
     }
 
     private func automationStatusText() -> (primary: String, secondary: String?)? {
@@ -565,39 +568,6 @@ struct MenuDependencies {
     let lidOpened: Bool
     let showPowerModeOptions: Bool
     let powerMode: PowerMode?
-}
-
-/// The automation status row. Width-constrained and single-line so a long rule name can't
-/// widen the whole menu; mirrors the 220pt width used by the battery info and disclaimers.
-private struct AutomationMenuLabel: View {
-    let primary: String
-    let secondary: String?
-    let leadingInset: CGFloat
-
-    var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
-            Image(systemName: "calendar.badge.clock")
-                .font(.callout)
-                .foregroundStyle(.secondary)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(primary)
-                    .font(.callout)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-                if let secondary {
-                    Text(secondary)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                }
-            }
-            Spacer(minLength: 0)
-        }
-        .frame(width: 220, alignment: .leading)
-        .padding(.leading, leadingInset)
-        .padding(.vertical, 3)
-    }
 }
 
 private struct MenuViewModifier: ViewModifier {
