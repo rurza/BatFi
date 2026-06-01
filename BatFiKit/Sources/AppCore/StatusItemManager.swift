@@ -381,28 +381,34 @@ public final class StatusItemManager {
 
     @MenuBuilder
     func automationMenuItems() -> [NSMenuItem] {
-        if defaults.value(.automationEnabled) {
-            let rules = defaults.value(.automationRules)
-            let activeID = defaults.value(.automationActiveRuleID)
-            if let active = rules.first(where: { $0.id.uuidString == activeID && $0.isEnabled }) {
-                let name = active.name.isEmpty ? L10n.Automation.untitledRule : active.name
-                MenuItem(L10n.Automation.menuActive(limit: active.limit, name: name))
-                    .onSelect { [weak self] in self?.delegate?.openAutomationSettings() }
-                let detail = automationActiveDetail(active)
-                if !detail.isEmpty {
-                    MenuItem(detail).disabled(true)
-                }
-            } else {
-                MenuItem(L10n.Automation.menuIdle)
-                    .onSelect { [weak self] in self?.delegate?.openAutomationSettings() }
-                if let next = AutomationEngine.nextScheduled(in: rules, enabled: true, after: Date()) {
-                    let name = next.rule.name.isEmpty ? L10n.Automation.untitledRule : next.rule.name
-                    MenuItem(L10n.Automation.menuNext(name: name, when: relativeDateTime(next.start)))
-                        .disabled(true)
-                }
+        if let status = automationStatusText() {
+            // Render as a width-constrained, single-line view so a long rule name can't
+            // stretch the whole menu (a plain NSMenuItem sizes to its title).
+            MenuItem("").view {
+                AutomationMenuLabel(
+                    primary: status.primary,
+                    secondary: status.secondary,
+                    leadingInset: menuItemCheckMarkPadding
+                )
             }
             SeparatorItem()
         }
+    }
+
+    private func automationStatusText() -> (primary: String, secondary: String?)? {
+        guard defaults.value(.automationEnabled) else { return nil }
+        let rules = defaults.value(.automationRules)
+        let activeID = defaults.value(.automationActiveRuleID)
+        if let active = rules.first(where: { $0.id.uuidString == activeID && $0.isEnabled }) {
+            let name = active.name.isEmpty ? L10n.Automation.untitledRule : active.name
+            let detail = automationActiveDetail(active)
+            return (L10n.Automation.menuActive(limit: active.limit, name: name), detail.isEmpty ? nil : detail)
+        }
+        if let next = AutomationEngine.nextScheduled(in: rules, enabled: true, after: Date()) {
+            let name = next.rule.name.isEmpty ? L10n.Automation.untitledRule : next.rule.name
+            return (L10n.Automation.menuIdle, L10n.Automation.menuNext(name: name, when: relativeDateTime(next.start)))
+        }
+        return (L10n.Automation.menuIdle, nil)
     }
 
     private func automationActiveDetail(_ rule: AutomationRule) -> String {
@@ -559,6 +565,39 @@ struct MenuDependencies {
     let lidOpened: Bool
     let showPowerModeOptions: Bool
     let powerMode: PowerMode?
+}
+
+/// The automation status row. Width-constrained and single-line so a long rule name can't
+/// widen the whole menu; mirrors the 220pt width used by the battery info and disclaimers.
+private struct AutomationMenuLabel: View {
+    let primary: String
+    let secondary: String?
+    let leadingInset: CGFloat
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 6) {
+            Image(systemName: "calendar.badge.clock")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(primary)
+                    .font(.callout)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                if let secondary {
+                    Text(secondary)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+            }
+            Spacer(minLength: 0)
+        }
+        .frame(width: 220, alignment: .leading)
+        .padding(.leading, leadingInset)
+        .padding(.vertical, 3)
+    }
 }
 
 private struct MenuViewModifier: ViewModifier {
