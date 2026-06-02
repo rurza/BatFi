@@ -72,9 +72,18 @@ public extension L10n {
         public static func menuActiveUntil(_ time: String) -> String {
             String(localized: "automation.menu.active_until", defaultValue: "until \(time)", bundle: Bundle.module)
         }
-        public static let menuIdle = String(localized: "automation.menu.idle", defaultValue: "Automation · idle", bundle: Bundle.module)
+        public static let menuIdle = String(localized: "automation.menu.idle", defaultValue: "Idle", bundle: Bundle.module)
         public static func menuNext(name: String, when: String) -> String {
             String(localized: "automation.menu.next", defaultValue: "next: “\(name)” \(when)", bundle: Bundle.module)
         }
+
+        // Help popover
+        public static let helpButtonAccessibility = String(localized: "automation.help.button_accessibility", defaultValue: "About automation", bundle: Bundle.module)
+        public static let helpHeading = String(localized: "automation.help.heading", defaultValue: "How automation works", bundle: Bundle.module)
+        public static let helpRules = String(localized: "automation.help.rules", defaultValue: "Each rule sets a charge limit that applies while its conditions are met.", bundle: Bundle.module)
+        public static let helpConditions = String(localized: "automation.help.conditions", defaultValue: "Conditions are optional. Restrict a rule to a schedule (a one-off date or repeating days and times) and/or a location. When you set both, both must match.", bundle: Bundle.module)
+        public static let helpPriority = String(localized: "automation.help.priority", defaultValue: "Rules are checked from top to bottom — the first rule whose conditions match right now wins. Drag to reorder them.", bundle: Bundle.module)
+        public static let helpMenu = String(localized: "automation.help.menu", defaultValue: "While a rule is active, the menu bar shows which rule and limit are in effect.", bundle: Bundle.module)
+        public static let helpLocation = String(localized: "automation.help.location", defaultValue: "Location rules need Location Services permission and Wi-Fi, which your Mac uses to determine where it is.", bundle: Bundle.module)
     }
 }

@@ -24407,6 +24407,629 @@
           }
         }
       }
+    },
+    "automation.help.button_accessibility": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About automation"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O automatyzacji"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "O automatizaci"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Über die Automatisierung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "À propos de l’automatisation"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Informazioni sull’automazione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "自動化について"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "자동화 정보"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Over automatisering"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sobre a automação"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Об автоматизации"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Otomasyon hakkında"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Про автоматизацію"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关于自动化"
+          }
+        }
+      }
+    },
+    "automation.help.heading": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How automation works"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jak działa automatyzacja"
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jak funguje automatizace"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "So funktioniert die Automatisierung"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Comment fonctionne l’automatisation"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Come funziona l’automazione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "自動化の仕組み"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "자동화 작동 방식"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hoe automatisering werkt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Como a automação funciona"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Как работает автоматизация"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Otomasyon nasıl çalışır"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Як працює автоматизація"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "自动化的工作原理"
+          }
+        }
+      }
+    },
+    "automation.help.rules": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each rule sets a charge limit that applies while its conditions are met."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Każda reguła ustawia limit ładowania, który obowiązuje, gdy spełnione są jej warunki."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Každé pravidlo nastaví limit nabíjení, který platí, dokud jsou splněny jeho podmínky."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jede Regel legt ein Ladelimit fest, das gilt, solange ihre Bedingungen erfüllt sind."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Chaque règle définit une limite de charge qui s’applique tant que ses conditions sont remplies."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ogni regola imposta un limite di ricarica che si applica quando le sue condizioni sono soddisfatte."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "各ルールは、条件が満たされている間に適用される充電上限を設定します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "각 규칙은 조건이 충족되는 동안 적용되는 충전 한도를 설정합니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Elke regel stelt een oplaadlimiet in die geldt zolang aan de voorwaarden wordt voldaan."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cada regra define um limite de carga que se aplica enquanto suas condições são atendidas."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Каждое правило задаёт лимит заряда, который действует, пока выполняются его условия."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Her kural, koşulları sağlandığı sürece geçerli olan bir şarj sınırı belirler."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Кожне правило задає ліміт заряду, який діє, поки виконуються його умови."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "每条规则设置一个充电上限，在其条件满足时生效。"
+          }
+        }
+      }
+    },
+    "automation.help.conditions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conditions are optional. Restrict a rule to a schedule (a one-off date or repeating days and times) and/or a location. When you set both, both must match."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warunki są opcjonalne. Ogranicz regułę do harmonogramu (jednorazowej daty lub powtarzających się dni i godzin) i/lub lokalizacji. Gdy ustawisz oba, oba muszą być spełnione."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podmínky jsou volitelné. Omezte pravidlo na rozvrh (jednorázové datum nebo opakující se dny a časy) a/nebo polohu. Když nastavíte obojí, musí platit obojí."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bedingungen sind optional. Beschränke eine Regel auf einen Zeitplan (ein einmaliges Datum oder wiederkehrende Tage und Zeiten) und/oder einen Ort. Wenn du beides festlegst, muss beides zutreffen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Les conditions sont facultatives. Limitez une règle à un horaire (une date unique ou des jours et heures récurrents) et/ou à un lieu. Si vous définissez les deux, les deux doivent correspondre."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Le condizioni sono facoltative. Limita una regola a una pianificazione (una data singola o giorni e orari ricorrenti) e/o a un luogo. Se imposti entrambe, devono corrispondere entrambe."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "条件は任意です。ルールをスケジュール（1回限りの日付、または繰り返す曜日と時間帯）や場所に限定できます。両方を設定した場合は、両方が一致する必要があります。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "조건은 선택 사항입니다. 규칙을 일정(일회성 날짜 또는 반복되는 요일 및 시간)과/또는 위치로 제한하세요. 둘 다 설정하면 둘 다 일치해야 합니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voorwaarden zijn optioneel. Beperk een regel tot een schema (een eenmalige datum of terugkerende dagen en tijden) en/of een locatie. Als je beide instelt, moeten beide kloppen."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "As condições são opcionais. Restrinja uma regra a uma programação (uma data única ou dias e horários recorrentes) e/ou a um local. Se você definir ambos, ambos precisam corresponder."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Условия необязательны. Ограничьте правило расписанием (разовой датой либо повторяющимися днями и временем) и/или местоположением. Если задать оба, должны совпадать оба."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Koşullar isteğe bağlıdır. Bir kuralı bir zamanlamayla (tek seferlik tarih ya da yinelenen gün ve saatler) ve/veya bir konumla sınırlayın. İkisini de ayarlarsanız ikisinin de eşleşmesi gerekir."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Умови необов’язкові. Обмежте правило розкладом (одноразовою датою або повторюваними днями й часом) та/або місцезнаходженням. Якщо задати обидва, мають збігатися обидва."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "条件是可选的。可将规则限制为某个时间安排（单次日期或重复的星期和时间）和/或某个位置。如果同时设置，两者都必须匹配。"
+          }
+        }
+      }
+    },
+    "automation.help.priority": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rules are checked from top to bottom — the first rule whose conditions match right now wins. Drag to reorder them."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reguły są sprawdzane od góry do dołu — wygrywa pierwsza, której warunki są teraz spełnione. Przeciągnij, aby zmienić kolejność."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pravidla se kontrolují shora dolů — vyhrává první, jehož podmínky jsou právě splněny. Pořadí změníte přetažením."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Regeln werden von oben nach unten geprüft – es gewinnt die erste, deren Bedingungen gerade zutreffen. Zum Umsortieren ziehen."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Les règles sont évaluées de haut en bas — la première dont les conditions correspondent l’emporte. Faites glisser pour les réorganiser."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Le regole vengono controllate dall’alto verso il basso — vince la prima le cui condizioni corrispondono ora. Trascina per riordinarle."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ルールは上から順に確認され、条件が現在一致する最初のルールが適用されます。ドラッグして並べ替えできます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "규칙은 위에서 아래로 확인되며, 지금 조건이 맞는 첫 번째 규칙이 적용됩니다. 드래그하여 순서를 바꿀 수 있습니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Regels worden van boven naar beneden gecontroleerd — de eerste waarvan de voorwaarden nu kloppen, wint. Sleep om de volgorde te wijzigen."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "As regras são verificadas de cima para baixo — vence a primeira cujas condições correspondem agora. Arraste para reordenar."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Правила проверяются сверху вниз — побеждает первое, чьи условия сейчас совпадают. Перетащите, чтобы изменить порядок."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kurallar yukarıdan aşağıya kontrol edilir — koşulları şu anda eşleşen ilk kural geçerli olur. Sıralamak için sürükleyin."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Правила перевіряються згори донизу — перемагає перше, чиї умови зараз збігаються. Перетягніть, щоб змінити порядок."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "规则从上到下检查——当前条件匹配的第一条规则生效。拖动可重新排序。"
+          }
+        }
+      }
+    },
+    "automation.help.menu": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "While a rule is active, the menu bar shows which rule and limit are in effect."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gdy reguła jest aktywna, pasek menu pokazuje, która reguła i limit obowiązują."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Když je pravidlo aktivní, řádek nabídek ukazuje, které pravidlo a limit platí."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wenn eine Regel aktiv ist, zeigt die Menüleiste, welche Regel und welches Limit gelten."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quand une règle est active, la barre des menus indique quelle règle et quelle limite s’appliquent."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quando una regola è attiva, la barra dei menu mostra quale regola e quale limite sono in vigore."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ルールが有効なときは、メニューバーにどのルールと上限が適用されているかが表示されます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "규칙이 활성화되면 메뉴 막대에 어떤 규칙과 한도가 적용 중인지 표시됩니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wanneer een regel actief is, toont de menubalk welke regel en limiet van kracht zijn."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quando uma regra está ativa, a barra de menus mostra qual regra e limite estão em vigor."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Когда правило активно, строка меню показывает, какое правило и лимит действуют."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bir kural etkinken menü çubuğu hangi kuralın ve sınırın geçerli olduğunu gösterir."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Коли правило активне, рядок меню показує, яке правило та ліміт діють."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "当某条规则生效时，菜单栏会显示当前生效的规则和上限。"
+          }
+        }
+      }
+    },
+    "automation.help.location": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location rules need Location Services permission and Wi-Fi, which your Mac uses to determine where it is."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reguły lokalizacji wymagają zgody na usługi lokalizacji oraz Wi-Fi, którego Mac używa do ustalenia swojego położenia."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pravidla podle polohy vyžadují oprávnění k polohovým službám a Wi-Fi, kterou Mac používá ke zjištění své polohy."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Standortregeln benötigen die Berechtigung für Ortungsdienste und WLAN, mit dem dein Mac seinen Standort bestimmt."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Les règles de localisation nécessitent l’autorisation du service de localisation et le Wi-Fi, que votre Mac utilise pour déterminer où il se trouve."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Le regole basate sulla posizione richiedono l’autorizzazione alla localizzazione e il Wi-Fi, che il Mac usa per determinare dove si trova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "場所のルールには、位置情報サービスの許可と、Mac が現在地を特定するために使う Wi-Fi が必要です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "위치 규칙에는 위치 서비스 권한과, Mac이 위치를 파악하는 데 사용하는 Wi-Fi가 필요합니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Locatieregels hebben toestemming voor locatievoorzieningen en wifi nodig, die je Mac gebruikt om te bepalen waar hij is."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Regras de local precisam de permissão dos Serviços de Localização e de Wi-Fi, que o seu Mac usa para determinar onde está."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Правилам по местоположению нужны разрешение на службы геолокации и Wi-Fi, по которому Mac определяет своё местоположение."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Konum kuralları, Konum Servisleri izni ve Mac’inizin yerini belirlemek için kullandığı Wi-Fi gerektirir."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Правила за місцезнаходженням потребують дозволу на служби геолокації та Wi-Fi, за яким Mac визначає своє розташування."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "位置规则需要定位服务权限和 Wi-Fi，Mac 用它来确定自己的位置。"
+          }
+        }
+      }
     }
   },
   "version": "1.1"

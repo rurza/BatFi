@@ -21,6 +21,7 @@ struct AutomationView: View {
     @Default(.automationActiveRuleID) private var activeRuleID
 
     @State private var editing: EditingContext?
+    @State private var showHelp = false
 
     private struct EditingContext: Identifiable {
         let id: UUID
@@ -60,6 +61,21 @@ struct AutomationView: View {
                     if let status = statusLine {
                         Text(status)
                             .settingDescription()
+                    }
+
+                    HStack {
+                        Spacer()
+                        Button {
+                            showHelp.toggle()
+                        } label: {
+                            Image(systemName: "questionmark.circle")
+                                .font(.title3)
+                        }
+                        .buttonStyle(.borderless)
+                        .help(L10n.Automation.helpButtonAccessibility)
+                        .popover(isPresented: $showHelp, arrowEdge: .bottom) {
+                            AutomationHelpView()
+                        }
                     }
                 }
                 .padding(.bottom, 8)
