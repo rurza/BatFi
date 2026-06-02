@@ -24058,85 +24058,85 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Automation · %lld%% — “%@”"
+            "value": "%lld%% — “%@”"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Automatyzacja · %lld%% — „%@”"
+            "value": "%lld%% — „%@”"
           }
         },
         "cs": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatizace · %lld%% — „%@“"
+            "value": "%lld%% — „%@“"
           }
         },
         "de": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatisierung · %lld%% – „%@“"
+            "value": "%lld%% – „%@“"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatisation · %lld%% — « %@ »"
+            "value": "%lld%% — « %@ »"
           }
         },
         "it": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automazione · %lld%% — “%@”"
+            "value": "%lld%% — “%@”"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "自動化 · %lld%% — 「%@」"
+            "value": "%lld%% — 「%@」"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "자동화 · %lld%% — “%@”"
+            "value": "%lld%% — “%@”"
           }
         },
         "nl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatisering · %lld%% — ‘%@’"
+            "value": "%lld%% — ‘%@’"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automação · %lld%% — “%@”"
+            "value": "%lld%% — “%@”"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Автоматизация · %lld%% — «%@»"
+            "value": "%lld%% — «%@»"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Otomasyon · %lld%% — “%@”"
+            "value": "%lld%% — “%@”"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Автоматизація · %lld%% — «%@»"
+            "value": "%lld%% — «%@»"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "自动化 · %lld%% — “%@”"
+            "value": "%lld%% — “%@”"
           }
         }
       }
@@ -24236,85 +24236,85 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Automation · idle"
+            "value": "Idle"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Automatyzacja · bezczynna"
+            "value": "Bezczynna"
           }
         },
         "cs": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatizace · nečinná"
+            "value": "Nečinná"
           }
         },
         "de": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatisierung · inaktiv"
+            "value": "Inaktiv"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatisation · inactive"
+            "value": "Inactive"
           }
         },
         "it": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automazione · inattiva"
+            "value": "Inattiva"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "自動化 · 待機中"
+            "value": "待機中"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "자동화 · 대기 중"
+            "value": "대기 중"
           }
         },
         "nl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automatisering · inactief"
+            "value": "Inactief"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Automação · inativa"
+            "value": "Inativa"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Автоматизация · ожидание"
+            "value": "Ожидание"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Otomasyon · boşta"
+            "value": "Boşta"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Автоматизація · очікування"
+            "value": "Очікування"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "自动化 · 空闲"
+            "value": "空闲"
           }
         }
       }

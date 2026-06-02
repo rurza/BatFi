@@ -20,7 +20,6 @@ import License
 import MenuBuilder
 import PowerCharts
 import PowerDistributionInfo
-import Settings
 import SharedUI
 import SnapKit
 import SwiftUI
@@ -65,7 +64,6 @@ public final class StatusItemManager {
     private let batteryInfoModel = BatteryInfoViewModel()
     private var menuContentView: NSView?
     private var pendingMenuDependencies: MenuDependencies?
-    private var lastMenuDependencies: MenuDependencies?
     private let licenseModel: LicenseModel
 
     @Dependency(\.defaults) private var defaults
@@ -94,18 +92,6 @@ public final class StatusItemManager {
         Task {
             for await showStaticMenuBarIcon in defaults.observe(.showStaticMenuBarIcon).removeDuplicates() {
                 setupStatusItemIcon(showStaticIcon: showStaticMenuBarIcon)
-            }
-        }
-        // Re-render the menu when automation state changes so the status row stays accurate.
-        Task { [weak self] in
-            guard let self else { return }
-            for await _ in combineLatest(
-                defaults.observe(.automationEnabled),
-                defaults.observe(.automationActiveRuleID)
-            ) {
-                if let dependencies = self.lastMenuDependencies {
-                    self.updateMenu(dependencies: dependencies)
-                }
             }
         }
     }
@@ -200,7 +186,6 @@ public final class StatusItemManager {
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
         print("📊 updateMenu — memory: \(Self.memoryFootprint())")
-        lastMenuDependencies = dependencies
 
         // macOS 26 workaround: replaceItems detaches the cached MenuContentHostingView
         // from the menu's display window. While the menu is open the SwiftUI render
@@ -240,7 +225,6 @@ public final class StatusItemManager {
                             .modifier(MenuViewModifier())
                     }
             }
-            automationMenuItems()
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
@@ -377,65 +361,6 @@ public final class StatusItemManager {
                     .padding(.top, 2)
                     .padding(.bottom, 6)
             }
-    }
-
-    @MenuBuilder
-    func automationMenuItems() -> [NSMenuItem] {
-        if let status = automationStatusText() {
-            // Native menu items (so they match the surrounding rows); the dynamic text is
-            // length-capped so a long rule name can't stretch the whole menu.
-            MenuItem(clampMenuText(status.primary))
-                .onSelect { [weak self] in self?.delegate?.openAutomationSettings() }
-            if let secondary = status.secondary {
-                MenuItem(clampMenuText(secondary)).disabled(true)
-            }
-            SeparatorItem()
-        }
-    }
-
-    /// Caps a menu line so it stays within the menu's natural (battery-info) width.
-    private func clampMenuText(_ string: String, max: Int = 36) -> String {
-        string.count <= max ? string : String(string.prefix(max - 1)) + "…"
-    }
-
-    private func automationStatusText() -> (primary: String, secondary: String?)? {
-        guard defaults.value(.automationEnabled) else { return nil }
-        let rules = defaults.value(.automationRules)
-        let activeID = defaults.value(.automationActiveRuleID)
-        if let active = rules.first(where: { $0.id.uuidString == activeID && $0.isEnabled }) {
-            let name = active.name.isEmpty ? L10n.Automation.untitledRule : active.name
-            let detail = automationActiveDetail(active)
-            return (L10n.Automation.menuActive(limit: active.limit, name: name), detail.isEmpty ? nil : detail)
-        }
-        if let next = AutomationEngine.nextScheduled(in: rules, enabled: true, after: Date()) {
-            let name = next.rule.name.isEmpty ? L10n.Automation.untitledRule : next.rule.name
-            return (L10n.Automation.menuIdle, L10n.Automation.menuNext(name: name, when: relativeDateTime(next.start)))
-        }
-        return (L10n.Automation.menuIdle, nil)
-    }
-
-    private func automationActiveDetail(_ rule: AutomationRule) -> String {
-        var parts: [String] = []
-        switch rule.schedule {
-        case let .recurring(_, time):
-            parts.append(L10n.Automation.menuActiveUntil(AutomationFormatting.time(time.end)))
-        case let .oneOff(_, time):
-            parts.append(L10n.Automation.menuActiveUntil(AutomationFormatting.time(time.end)))
-        case nil:
-            break
-        }
-        if rule.location != nil {
-            parts.append(AutomationFormatting.locationSummary(rule.location))
-        }
-        return parts.joined(separator: " · ")
-    }
-
-    private func relativeDateTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.doesRelativeDateFormatting = true
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
     }
 
     func horizontalPadding(for limit: Int?) -> CGFloat {

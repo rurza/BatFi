@@ -21,6 +21,7 @@ struct MenuContent: View {
     @Default(.showChart) private var showChart
     @Default(.showPowerDiagram) private var showPowerDiagram
     @Default(.showHighEnergyImpactProcesses) private var showHighEnergyImpactProcesses
+    @Default(.automationEnabled) private var automationEnabled
 
     var body: some View {
         VStack(spacing: 12) {
@@ -45,6 +46,11 @@ struct MenuContent: View {
             }
             if showHighEnergyImpactProcesses {
                 HighEnergyUsageView()
+                    .fixedSize(horizontal: false, vertical: true)
+                SeparatorView()
+            }
+            if automationEnabled {
+                AutomationMenuInfoView()
                     .fixedSize(horizontal: false, vertical: true)
                 SeparatorView()
             }
