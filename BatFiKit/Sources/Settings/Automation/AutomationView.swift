@@ -35,7 +35,11 @@ struct AutomationView: View {
                 EmptyView()
             } content: {
                 VStack(alignment: .leading, spacing: 14) {
-                    Toggle(isOn: $automationEnabled) {
+                    HStack {
+                        Toggle(isOn: $automationEnabled) {
+                            EmptyView()
+                        }
+                        .controlSize(.regular)
                         Text(L10n.Automation.enableToggle)
                     }
                     .toggleStyle(.switch)
