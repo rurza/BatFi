@@ -31,7 +31,8 @@ extension LicenseClient: DependencyKey {
         decoder.dateDecodingStrategy = .iso8601
 
         @Dependency(\.keychainClient) var keychainClient
-        let publicKeyData = loadPublicKey()
+        let publicKeyData = loadPublicKey(apiVersion: .v2)
+        let oldPublicKeyData = loadPublicKey(apiVersion: .v1)
 
         return LicenseClient(
             checkLicense: { key in
@@ -90,7 +91,11 @@ extension LicenseClient: DependencyKey {
             },
             cachedLicense: {
                 guard let jwtString = try await keychainClient.getLicense() else { return nil }
-                return try licenseFrom(jwtString, publicKeyData: publicKeyData, decoder: decoder)
+                do {
+                    return try licenseFrom(jwtString, publicKeyData: publicKeyData, decoder: decoder)
+                } catch {
+                    return try licenseFrom(jwtString, publicKeyData: oldPublicKeyData, decoder: decoder)
+                }
             }
         )
     }()
@@ -200,9 +205,14 @@ private func getSystemSerialNumber() -> String? {
     return serialNumber
 }
 
-private func loadPublicKey() -> Data {
-    guard let publicKeyURL = Bundle.module.url(forResource: "key", withExtension: "der") else {
-        fatalError("Couldn't find public key file at \(String(describing: Bundle.module.resourceURL)).key.der")
+private enum APIVersion: String {
+    case v1
+    case v2
+}
+
+private func loadPublicKey(apiVersion: APIVersion) -> Data {
+    guard let publicKeyURL = Bundle.module.url(forResource: "key_" + apiVersion.rawValue, withExtension: "der") else {
+        fatalError("Couldn't find public key file at \(String(describing: Bundle.module.resourceURL)).key_\(apiVersion.rawValue).der")
     }
     return try! Data(contentsOf: publicKeyURL)
 }

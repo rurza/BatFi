@@ -173,7 +173,8 @@ let package = Package(
                 .sparkle,
             ],
             resources: [
-                .copy("key.der")
+                .copy("key_v1.der"),
+                .copy("key_v2.der")
             ],
             swiftSettings: swiftV6LanguageMode()
         ),
