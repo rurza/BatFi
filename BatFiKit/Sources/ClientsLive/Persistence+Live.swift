@@ -77,32 +77,30 @@ extension Persistence: DependencyKey {
                 }
             },
             observePowerStatePoints: {
-                await MainActor.run {
-                    AsyncStream { continuation in
-                        let delegate = FetchedResultsControllerDelegate {
-                            continuation.yield()
-                        }
-                        let fetchRequest = PowerStateModel.fetchRequest()
-                        fetchRequest.fetchLimit = 1
-                        fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
+                AsyncStream { continuation in
+                    let delegate = FetchedResultsControllerDelegate {
+                        continuation.yield()
+                    }
+                    let fetchRequest = PowerStateModel.fetchRequest()
+                    fetchRequest.fetchLimit = 1
+                    fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
 
-                        nonisolated(unsafe) let controller = NSFetchedResultsController(
-                            fetchRequest: fetchRequest,
-                            managedObjectContext: persistenceContainer.viewContext,
-                            sectionNameKeyPath: nil,
-                            cacheName: nil
-                        )
-                        controller.delegate = delegate
-                        do {
-                            try controller.performFetch()
-                        } catch {
-                            logger.error("Failed to observe power state. \(error.localizedDescription, privacy: .public)")
-                        }
+                    nonisolated(unsafe) let controller = NSFetchedResultsController(
+                        fetchRequest: fetchRequest,
+                        managedObjectContext: persistenceContainer.viewContext,
+                        sectionNameKeyPath: nil,
+                        cacheName: nil
+                    )
+                    controller.delegate = delegate
+                    do {
+                        try controller.performFetch()
+                    } catch {
+                        logger.error("Failed to observe power state. \(error.localizedDescription, privacy: .public)")
+                    }
 
-                        continuation.onTermination = { _ in
-                            _ = delegate
-                            _ = controller
-                        }
+                    continuation.onTermination = { _ in
+                        _ = delegate
+                        _ = controller
                     }
                 }
             },
