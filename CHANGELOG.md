@@ -4,6 +4,15 @@ All notable changes to BatFi are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2026-06-19
+
+### Fixed
+- **"Run on Battery" no longer turns itself off.** The automatic cleanup that clears a
+  leftover charge override after the charger has been unplugged for a couple of minutes was
+  also clearing the *Run on Battery* (discharge) override — so deliberately running on
+  battery would silently stop after a short while. The cleanup is now limited to charge/hold
+  overrides; *Run on Battery* stays on until you turn it off.
+
 ## [3.1.0] - 2026-06-03
 
 ### Added
@@ -31,5 +40,6 @@ All notable changes to BatFi are documented here. The format is based on
 - Defer the menu rebuild on macOS 26 while the menu is open, fixing a blank area at the top
   of the dropdown.
 
+[3.1.1]: https://github.com/rurza/BatFi-Priv/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.1.0
 [3.0.5]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.0.5
