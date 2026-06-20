@@ -45,6 +45,7 @@ struct ChargingView: View {
 
                         GroupBackground {
                             VStack(alignment: .leading, spacing: 6) {
+                                AutomationOverrideBanner()
                                 VStack(alignment: .leading, spacing: 14) {
                                     let label = l10n.Slider.Label.turnOffChargingAt(
                                         percentageFormatter.string(from: NSNumber(value: Double(chargeLimit) / 100))!

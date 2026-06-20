@@ -85,5 +85,25 @@ public extension L10n {
         public static let helpPriority = String(localized: "automation.help.priority", defaultValue: "Rules are checked from top to bottom — the first rule whose conditions match right now wins. Drag to reorder them.", bundle: Bundle.module)
         public static let helpMenu = String(localized: "automation.help.menu", defaultValue: "While a rule is active, the menu bar shows which rule and limit are in effect.", bundle: Bundle.module)
         public static let helpLocation = String(localized: "automation.help.location", defaultValue: "Location rules need Location Services permission and Wi-Fi, which your Mac uses to determine where it is.", bundle: Bundle.module)
+
+        // Charging-state attribution (notifications). Full sentences — no runtime concatenation.
+        /// "The limit is 85% (set by automation “Work”)."
+        public static func chargingByAutomation(_ limit: String, name: String) -> String {
+            String(localized: "automation.charging_state.charging", defaultValue: "The limit is \(limit) (set by automation “\(name)”).", bundle: Bundle.module)
+        }
+        /// "The charging limit is set to 85% (set by automation “Work”)."
+        public static func inhibitByAutomation(_ limit: String, name: String) -> String {
+            String(localized: "automation.charging_state.inhibit", defaultValue: "The charging limit is set to \(limit) (set by automation “\(name)”).", bundle: Bundle.module)
+        }
+        /// "Using the battery (set by automation “Work”)."
+        public static func forceDischargeByAutomation(name: String) -> String {
+            String(localized: "automation.charging_state.force_discharge", defaultValue: "Using the battery (set by automation “\(name)”).", bundle: Bundle.module)
+        }
+
+        // Charging settings pane override banner.
+        /// "Automation “Work” is overriding the charge limit to 85% right now."
+        public static func overrideBannerActive(limit: Int, name: String) -> String {
+            String(localized: "automation.charging_override.active", defaultValue: "Automation “\(name)” is overriding the charge limit to \(limit)% right now.", bundle: Bundle.module)
+        }
     }
 }

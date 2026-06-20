@@ -36,7 +36,11 @@ public extension AppChargingMode {
         }
     }
 
-    func stateDescription(chargeLimitFraction limit: Double) -> String? {
+    /// - Parameter automationRuleName: When non-nil, the effective limit comes from an active
+    ///   automation rule, so the description names it (e.g. "set by automation “Work”").
+    ///   A manual temp override takes precedence over automation, so attribution is suppressed
+    ///   whenever an override is present.
+    func stateDescription(chargeLimitFraction limit: Double, automationRuleName: String? = nil) -> String? {
         let limit = percentageFormatter.string(from: limit as NSNumber)!
         let label = L10n.AppChargingMode.State.Description.self
 
@@ -54,10 +58,19 @@ public extension AppChargingMode {
         case .initial:
             return nil
         case .charging:
+            if let automationRuleName {
+                return L10n.Automation.chargingByAutomation(limit, name: automationRuleName)
+            }
             return label.charging(limit)
         case .forceDischarge:
+            if let automationRuleName {
+                return L10n.Automation.forceDischargeByAutomation(name: automationRuleName)
+            }
             return label.forceDischarge
         case .inhibit:
+            if let automationRuleName {
+                return L10n.Automation.inhibitByAutomation(limit, name: automationRuleName)
+            }
             return label.inhibit(limit)
         }
     }

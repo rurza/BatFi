@@ -21115,6 +21115,50 @@
         }
       }
     },
+    "automation.charging_override.active": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automation “%@” is overriding the charge limit to %lld%% right now."
+          }
+        }
+      }
+    },
+    "automation.charging_state.charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The limit is %@ (set by automation “%@”)."
+          }
+        }
+      }
+    },
+    "automation.charging_state.force_discharge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using the battery (set by automation “%@”)."
+          }
+        }
+      }
+    },
+    "automation.charging_state.inhibit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The charging limit is set to %@ (set by automation “%@”)."
+          }
+        }
+      }
+    },
     "automation.no_rules": {
       "extractionState": "manual",
       "localizations": {

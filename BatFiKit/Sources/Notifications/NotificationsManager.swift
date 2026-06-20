@@ -133,11 +133,21 @@ public class NotificationsManager: NSObject {
         if await userNotificationsClient.requestAuthorization() == true {
             do {
                 logger.debug("Adding notification request to the notification center")
-                let chargeLimitFraction = Double(defaults.value(.chargeLimit)) / 100
+                // Automation can override the configured limit. When it's active, show the
+                // limit it actually applies and name the responsible rule.
+                let automationLimit = await appChargingState.currentAutomationLimit()
+                let effectiveLimit = automationLimit ?? defaults.value(.chargeLimit)
+                let chargeLimitFraction = Double(effectiveLimit) / 100
+                let automationRuleName = automationLimit != nil
+                    ? (activeAutomationRuleName() ?? L10n.Automation.untitledRule)
+                    : nil
 
                 try await userNotificationsClient.showUserNotification(
                     title: L10n.Notifications.Notification.Subtitle.newMode(mode.stateDescription),
-                    body: mode.stateDescription(chargeLimitFraction: chargeLimitFraction) ?? "",
+                    body: mode.stateDescription(
+                        chargeLimitFraction: chargeLimitFraction,
+                        automationRuleName: automationRuleName
+                    ) ?? "",
                     identifier: "software.micropixels.BatFi.notifications.mode",
                     threadIdentifier: "Charging mode",
                     delay: 1.5
@@ -146,6 +156,17 @@ public class NotificationsManager: NSObject {
                 logger.error("Notification request error: \(error.localizedDescription, privacy: .public)")
             }
         }
+    }
+
+    /// Name of the automation rule the engine currently considers active, or nil if none can
+    /// be resolved. Empty names fall back to a generic label.
+    private func activeAutomationRuleName() -> String? {
+        let activeRuleID = defaults.value(.automationActiveRuleID)
+        guard !activeRuleID.isEmpty else { return nil }
+        guard let rule = defaults.value(.automationRules)
+            .first(where: { $0.id.uuidString == activeRuleID && $0.isEnabled })
+        else { return nil }
+        return rule.name.isEmpty ? L10n.Automation.untitledRule : rule.name
     }
 
     func showBatteryIsLowNotification() async {
