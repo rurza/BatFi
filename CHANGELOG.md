@@ -6,6 +6,14 @@ All notable changes to BatFi are documented here. The format is based on
 
 ## [3.1.1] - 2026-06-19
 
+### Added
+- **Automation overrides are now visible where they take effect.** When an automation rule
+  overrides your configured charge limit, the charging notification now reports the
+  *effective* limit and names the rule responsible (e.g. "The limit is 85% (set by
+  automation "Work").") instead of showing the configured value, and the Charging settings
+  pane shows a live banner while a rule is actively in control. A manual temporary override
+  still takes precedence and suppresses the automation attribution.
+
 ### Fixed
 - **"Run on Battery" no longer turns itself off.** The automatic cleanup that clears a
   leftover charge override after the charger has been unplugged for a couple of minutes was
