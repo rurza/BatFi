@@ -68,6 +68,16 @@ extension SMCKey {
         code: .init(fromStaticString: "PSTR"),
         info: DataTypes.Float
     )
+
+    /// Byte that engages adapter isolation for this key.
+    ///
+    /// CHIE is asymmetric: it takes 0x08, while the legacy CH0I/CH0J take 0x01.
+    /// Verified against charlie0129/batt (`pkg/smc/adapter.go` writes 0x1 for
+    /// AdapterKey1/2 and 0x8 for AdapterKey3), mhaeuser/Battery-Toolkit and
+    /// actuallymentor/battery. Writing 0x01 to CHIE is accepted but inert.
+    var forceDischargeEngagedValue: UInt8 {
+        code == SMCKey.disableCharging3.code ? 0x08 : 0x01
+    }
 }
 
 extension SMCKit {
