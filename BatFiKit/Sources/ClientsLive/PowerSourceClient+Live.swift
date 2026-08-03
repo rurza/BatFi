@@ -59,72 +59,45 @@ extension PowerSourceClient: DependencyKey {
         @Sendable
         func getPowerSourceInfo() async throws -> PowerState {
             func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
+                guard service != IO_OBJECT_NULL else { return nil }
                 if let valueRef = IORegistryEntryCreateCFProperty(service, identifier as CFString, kCFAllocatorDefault, 0) {
                     let value = valueRef.takeUnretainedValue() as? DataType
                     valueRef.release()
                     return value
                 }
-
                 return nil
             }
+
+            var readings = PowerSourceReadings()
 
             let snapshotRef = IOPSCopyPowerSourcesInfo()
             defer { snapshotRef?.release() }
             let snapshot = snapshotRef?.takeUnretainedValue()
             let sourcesRef = IOPSCopyPowerSourcesList(snapshot)
             defer { sourcesRef?.release() }
-            let sources = sourcesRef!.takeUnretainedValue() as Array
-            let info = IOPSGetPowerSourceDescription(snapshot, sources[0]).takeUnretainedValue() as! [String: AnyObject]
 
-            let batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
-            let isCharging = info[kIOPSIsChargingKey] as? Bool
-            let powerSource = info[kIOPSPowerSourceStateKey] as? String
-            let timeLeft = info[kIOPSTimeToEmptyKey] as? Int
-            let timeToCharge = info[kIOPSTimeToFullChargeKey] as? Int
-            let optimizedBatteryCharging = info["Optimized Battery Charging Engaged"] as? Bool
-
-            guard
-                let batteryLevel,
-                let isCharging,
-                let powerSource,
-                let timeLeft,
-                let timeToCharge
-            else {
-                throw PowerSourceError.infoMissing
+            if let sources = sourcesRef?.takeUnretainedValue() as? [CFTypeRef], let first = sources.first,
+               let info = IOPSGetPowerSourceDescription(snapshot, first)?.takeUnretainedValue() as? [String: AnyObject] {
+                readings.batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
+                readings.isCharging = info[kIOPSIsChargingKey] as? Bool
+                readings.powerSource = info[kIOPSPowerSourceStateKey] as? String
+                readings.timeLeft = info[kIOPSTimeToEmptyKey] as? Int
+                readings.timeToCharge = info[kIOPSTimeToFullChargeKey] as? Int
+                readings.optimizedBatteryChargingEngaged = info["Optimized Battery Charging Engaged"] as? Bool
             }
 
-            let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("AppleSmartBattery"))
-            defer {
-                IOServiceClose(service)
-                IOObjectRelease(service)
-            }
+            // Match IOPMPowerSource, the stable superclass, rather than the concrete
+            // AppleSmartBattery: the concrete class has been renamed across firmware
+            // generations before, and these properties are firmware-sourced.
+            let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMPowerSource"))
+            defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
 
-            guard let cycleCount: Int = getValue(kIOPMPSCycleCountKey, from: service) else {
-                throw PowerSourceError.infoMissing
-            }
+            readings.cycleCount = getValue(kIOPMPSCycleCountKey, from: service)
+            readings.temperatureRaw = getValue("VirtualTemperature", from: service)
+            readings.chargerConnected = getValue(kIOPMPSExternalConnectedKey, from: service)
+            readings.batteryHealth = await batteryHealthState.currentHealth()
 
-            guard let temperature: Double = getValue("VirtualTemperature", from: service) else {
-                throw PowerSourceError.infoMissing
-            }
-            let batteryTemperature = temperature / 100
-
-            guard let chargerConnected: Bool = getValue(kIOPMPSExternalConnectedKey, from: service) else {
-                throw PowerSourceError.infoMissing
-            }
-
-            let powerState = PowerState(
-                batteryLevel: batteryLevel,
-                isCharging: isCharging,
-                powerSource: powerSource,
-                timeLeft: timeLeft,
-                timeToCharge: timeToCharge,
-                batteryCycleCount: cycleCount,
-                batteryHealth: await getBatteryHealthIfNeeded(),
-                batteryTemperature: batteryTemperature,
-                chargerConnected: chargerConnected,
-                optimizedBatteryChargingEngaged: optimizedBatteryCharging
-            )
-            return powerState
+            return try PowerStateAssembler.assemble(readings)
         }
 
         let observer = Observer(getPowerSourceInfo: getPowerSourceInfo)
@@ -218,6 +191,8 @@ private actor BatteryHealthState {
     func setBatteryHealth(_ batteryHealth: BatteryHealth) {
         lastBatteryHealth = batteryHealth
     }
+
+    func currentHealth() -> Int? { lastBatteryHealth?.health }
 }
 
 private struct BatteryHealth {
