@@ -11,11 +11,11 @@ public struct PowerState: CustomStringConvertible, Equatable, Sendable {
     public let batteryLevel: Int
     public let isCharging: Bool
     public let powerSource: String
-    public let timeLeft: Int
-    public let timeToCharge: Int
-    public let batteryCycleCount: Int
+    public let timeLeft: Int?
+    public let timeToCharge: Int?
+    public let batteryCycleCount: Int?
     public let batteryHealth: Int?
-    public let batteryTemperature: Double
+    public let batteryTemperature: Double?
     public let chargerConnected: Bool
     public let optimizedBatteryChargingEngaged: Bool?
 
@@ -23,11 +23,11 @@ public struct PowerState: CustomStringConvertible, Equatable, Sendable {
         batteryLevel: Int,
         isCharging: Bool,
         powerSource: String,
-        timeLeft: Int,
-        timeToCharge: Int,
-        batteryCycleCount: Int,
+        timeLeft: Int?,
+        timeToCharge: Int?,
+        batteryCycleCount: Int?,
         batteryHealth: Int?,
-        batteryTemperature: Double,
+        batteryTemperature: Double?,
         chargerConnected: Bool,
         optimizedBatteryChargingEngaged: Bool?
     ) {
@@ -45,7 +45,7 @@ public struct PowerState: CustomStringConvertible, Equatable, Sendable {
 
     public var description: String {
         """
-        PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft), time to charge: \(timeToCharge), cycle count: \(batteryCycleCount), battery health: \(batteryHealth?.description ?? "unknown"), battery temperature: \(batteryTemperature)°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(String(describing: optimizedBatteryChargingEngaged))
+        PowerState |==> is charging: \(isCharging), battery level: \(batteryLevel), power source: \(powerSource), time left: \(timeLeft?.description ?? "unknown"), time to charge: \(timeToCharge?.description ?? "unknown"), cycle count: \(batteryCycleCount?.description ?? "unknown"), battery health: \(batteryHealth?.description ?? "unknown"), battery temperature: \(batteryTemperature?.description ?? "unknown")°C, charger connected: \(chargerConnected), optimized battery charging engaged: \(String(describing: optimizedBatteryChargingEngaged))
         """
     }
 }

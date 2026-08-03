@@ -67,7 +67,7 @@ struct StatusItem: View {
     }
 
     var timeLeftDescription: String? {
-        guard let timeLeft = model.powerState?.timeLeft else { return nil }
+        guard let powerState = model.powerState, let timeLeft = powerState.timeLeft else { return nil }
         let time = Time.timeLeft(time: timeLeft)
         guard case let .time(timeLeft) = time.info else { return nil }
         if let formattedInterval = shortTimeFormatter.string(from: Double(timeLeft * 60)) {

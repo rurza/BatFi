@@ -288,9 +288,11 @@ public actor ChargingManager: ChargingModeManager {
             return
         }
         
-        if turnOffChargingWithHotBattery, powerState.batteryTemperature > Constant.batteryTemperatureWarning {
+        if turnOffChargingWithHotBattery,
+           let batteryTemperature = powerState.batteryTemperature,
+           batteryTemperature > Constant.batteryTemperatureWarning {
             logger.notice("Battery is hot")
-            await analytics.addBreadcrumb(category: .chargingManager, message: "Battery is hot, \(powerState.batteryTemperature)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Battery is hot, \(batteryTemperature)")
             await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             return
         }
