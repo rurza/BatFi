@@ -153,7 +153,7 @@ Line 77 — flatten the double optional:
 
 - [ ] **Step 8: Build and confirm no remaining call sites break**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds. If the compiler flags a site not listed above, fix it the same way (bind the optional, or supply a display fallback) — do not force-unwrap.
 
 - [ ] **Step 9: Commit**
@@ -302,7 +302,7 @@ import Testing
 
 - [ ] **Step 2: Run the tests to verify they fail**
 
-Run: `swift test --package-path BatFiKit --filter PowerStateAssemblerTests`
+Run: `xcodebuild test -project BatFi.xcodeproj -scheme AppSharedTests -destination 'platform=macOS' -only-testing:AppSharedTests/PowerStateAssemblerTests`
 Expected: FAIL — `cannot find 'PowerSourceReadings' in scope`, `cannot find 'PowerStateAssembler' in scope`.
 
 - [ ] **Step 3: Write the implementation**
@@ -419,7 +419,7 @@ public enum PowerStateAssembler {
 
 - [ ] **Step 4: Run the tests to verify they pass**
 
-Run: `swift test --package-path BatFiKit --filter PowerStateAssemblerTests`
+Run: `xcodebuild test -project BatFi.xcodeproj -scheme AppSharedTests -destination 'platform=macOS' -only-testing:AppSharedTests/PowerStateAssemblerTests`
 Expected: PASS — 6 tests.
 
 - [ ] **Step 5: Commit**
@@ -511,7 +511,7 @@ Check `BatFiKit/Package.swift` for the `ClientsLive` target's `dependencies` arr
 
 - [ ] **Step 4: Build**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds. `PowerSourceError.infoMissing` may now be unreferenced — leave the type in place; Task 5 removes it if it is genuinely dead.
 
 - [ ] **Step 5: Commit**
@@ -639,7 +639,7 @@ renaming `setUpObserving()` to `startObserving()`.
 
 - [ ] **Step 4: Build**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds with no concurrency diagnostics. If the `Unmanaged` context bridging fights the actor conversion, keep `Observer` a `final class` and guard `inFlight` with an `NSLock` instead — the coalescing behaviour is what matters, not the isolation mechanism.
 
 - [ ] **Step 5: Commit**
@@ -752,7 +752,7 @@ If the only hit is its own declaration, delete it. If anything still references 
 
 - [ ] **Step 7: Build**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds.
 
 - [ ] **Step 8: Commit**
@@ -875,7 +875,7 @@ Expected: `1`
 
 - [ ] **Step 5: Build**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds.
 
 - [ ] **Step 6: Commit**
@@ -950,7 +950,7 @@ In `SMCService.swift`, replace the body of `enableForceDischarge(_:)` from `let 
 
 - [ ] **Step 4: Build**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds.
 
 - [ ] **Step 5: Manual verification on this Mac**
@@ -1057,7 +1057,7 @@ healthy — which is precisely the case where "restart your Mac" was wrong advic
 
 - [ ] **Step 5: Build**
 
-Run: `swift build --package-path BatFiKit`
+Run: `xcodebuild build -project BatFi.xcodeproj -scheme BatFi -destination 'platform=macOS'`
 Expected: build succeeds.
 
 - [ ] **Step 6: Commit**
@@ -1130,7 +1130,7 @@ git commit -m "Bump version to 3.1.2"
 
 - [ ] **Step 1: Run the whole test suite**
 
-Run: `swift test --package-path BatFiKit`
+Run: `xcodebuild test -project BatFi.xcodeproj -scheme AppSharedTests -destination 'platform=macOS'`
 Expected: PASS — the three pre-existing suites plus `PowerStateAssemblerTests`.
 
 - [ ] **Step 2: Build the app target**
