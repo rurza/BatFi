@@ -9,10 +9,6 @@ import AppShared
 import Dependencies
 import Foundation
 
-public enum PowerSourceError: Error {
-    case infoMissing
-}
-
 public struct PowerSourceClient: TestDependencyKey, Sendable {
     public var powerSourceChanges: @Sendable () -> AsyncStream<PowerState>
     public var currentPowerSourceState: @Sendable () async throws -> PowerState

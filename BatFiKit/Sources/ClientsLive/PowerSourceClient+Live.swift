@@ -18,6 +18,28 @@ import Shared
 extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "Power Source")
+
+        /// Opaque identity token, e.g. "mBoot-18000.161.9". Never parsed or compared —
+        /// SMC behaviour tracks firmware, not macOS, so this is what belongs in a bug report.
+        /// Note the prefix changed from "iBoot-" to "mBoot-" in macOS 26.4.
+        @Sendable
+        func systemFirmwareVersion() -> String? {
+            let entry = IORegistryEntryFromPath(kIOMainPortDefault, "IODeviceTree:/chosen")
+            guard entry != IO_OBJECT_NULL else { return nil }
+            defer { IOObjectRelease(entry) }
+            for key in ["system-firmware-version", "firmware-version"] {
+                guard let value = IORegistryEntryCreateCFProperty(entry, key as CFString, kCFAllocatorDefault, 0)?
+                    .takeRetainedValue() else { continue }
+                if let string = value as? String, !string.isEmpty { return string }
+                if let data = value as? Data {
+                    // Fixed-size NUL-padded buffer; truncate at the first NUL.
+                    let bytes = data.prefix(while: { $0 != 0 })
+                    if let string = String(data: bytes, encoding: .utf8), !string.isEmpty { return string }
+                }
+            }
+            return nil
+        }
+
         let batteryHealthState = BatteryHealthState()
 
         @Sendable
@@ -105,9 +127,34 @@ extension PowerSourceClient: DependencyKey {
         /// Safety net so recovery never depends on an IOPS notification arriving.
         let failureRepollInterval: Duration = .seconds(60)
 
+        // `powerSourceChanges()` is subscribed to independently by ~6-8 call sites, each
+        // with its own retry ladder, so a single sustained failure would otherwise dump
+        // the full IOPMPowerSource property list 6-8 times per attempt and again every
+        // 60s. `dumpGate` limits the expensive dump to once per distinct missing field
+        // for the life of the process, so the log names the field without flooding.
+        let dumpGate = DumpGate()
+
+        /// One report should be enough to identify a renamed property on new firmware.
+        @Sendable
+        func logAvailableBatteryProperties(missing: PowerSourceField) {
+            guard dumpGate.shouldDump(missing) else { return }
+            let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMPowerSource"))
+            defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
+            guard service != IO_OBJECT_NULL else {
+                logger.error("Missing \(missing.rawValue, privacy: .public); IOPMPowerSource service not found")
+                return
+            }
+            var properties: Unmanaged<CFMutableDictionary>?
+            guard IORegistryEntryCreateCFProperties(service, &properties, kCFAllocatorDefault, 0) == KERN_SUCCESS,
+                  let dictionary = properties?.takeRetainedValue() as? [String: Any] else { return }
+            let keys = dictionary.keys.sorted().joined(separator: ", ")
+            logger.error("Missing \(missing.rawValue, privacy: .public). Firmware \(systemFirmwareVersion() ?? "unknown", privacy: .public). IOPMPowerSource keys: \(keys, privacy: .public)")
+        }
+
         @Sendable
         func fetchWithRetry() async -> PowerState? {
             for (attempt, delay) in initialRetryDelays.enumerated() {
+                guard !Task.isCancelled else { return nil }
                 do {
                     return try await getPowerSourceInfo()
                 } catch {
@@ -119,12 +166,17 @@ extension PowerSourceClient: DependencyKey {
                 return try await getPowerSourceInfo()
             } catch {
                 logger.error("Power source read failed after retries: \(error, privacy: .public)")
+                if let assemblyError = error as? PowerSourceAssemblyError {
+                    logAvailableBatteryProperties(missing: assemblyError.missingField)
+                }
                 return nil
             }
         }
 
         let observer = Observer(getPowerSourceInfo: getPowerSourceInfo)
         observer.startObserving()
+
+        logger.notice("System firmware: \(systemFirmwareVersion() ?? "unknown", privacy: .public)")
 
         let client = PowerSourceClient(
             powerSourceChanges: {
@@ -226,6 +278,21 @@ extension PowerSourceClient: DependencyKey {
             ).takeRetainedValue() as CFRunLoopSource
             CFRunLoopAddSource(CFRunLoopGetMain(), loop, CFRunLoopMode.commonModes)
         }
+    }
+}
+
+/// Backs `logAvailableBatteryProperties`'s once-per-field firing policy. A plain
+/// lock-protected class rather than an actor: the call site is synchronous
+/// (inside a `catch`), and the set is tiny, so a lock is simpler than adding
+/// `await` through `fetchWithRetry`'s error path.
+private final class DumpGate: @unchecked Sendable {
+    private let lock = NSLock()
+    private var dumped: Set<PowerSourceField> = []
+
+    /// Returns `true` the first time `field` is seen; `false` on every
+    /// subsequent call, for the lifetime of the process.
+    func shouldDump(_ field: PowerSourceField) -> Bool {
+        lock.withLock { dumped.insert(field).inserted }
     }
 }
 
