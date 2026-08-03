@@ -267,6 +267,7 @@ private actor BatteryHealthState {
 
     private static let maxAge: TimeInterval = 60 * 60
     private static let timeout: Duration = .seconds(10)
+    private static let logger = Logger(category: "Battery Health")
 
     /// Non-blocking: whatever we last computed, possibly nil. Never awaits a subprocess.
     func currentHealth() -> Int? { lastBatteryHealth?.health }
@@ -289,36 +290,55 @@ private actor BatteryHealthState {
     /// Apple's reported "Maximum Capacity" is not a simple IORegistry ratio — on a test
     /// machine NominalChargeCapacity/DesignCapacity gave 82% and AppleRawMaxCapacity/
     /// DesignCapacity gave 80% where system_profiler reported 85%. Do not substitute one.
+    ///
+    /// `static` (hence nonisolated) is deliberate, not incidental: this function blocks on
+    /// subprocess I/O and must run on the cooperative thread pool, never on this actor's
+    /// executor. If `NonisolatedNonsendingByDefault` is ever enabled for this target
+    /// (BatFiKit/Package.swift:308, currently commented out), nonisolated async functions
+    /// stop hopping off their actor by default, and these blocking calls would run on
+    /// `BatteryHealthState`'s executor instead — serializing with, and blocking, every
+    /// other actor method, including the non-blocking `currentHealth()` read on the hot path.
     private static func readMaximumCapacity() async -> Int? {
-        await withTaskGroup(of: Int?.self) { group in
-            group.addTask {
-                let process = Process()
-                process.executableURL = URL(fileURLWithPath: "/usr/sbin/system_profiler")
-                process.arguments = ["SPPowerDataType"]
-                let pipe = Pipe()
-                process.standardOutput = pipe
-                process.standardError = FileHandle.nullDevice
-                do { try process.run() } catch { return nil }
-                let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                process.waitUntilExit()
-                guard let output = String(data: data, encoding: .utf8) else { return nil }
-                for line in output.split(separator: "\n") where line.contains("Maximum Capacity") {
-                    let components = line.components(separatedBy: ":")
-                    guard components.count == 2 else { return nil }
-                    let trimmed = components[1].trimmingCharacters(in: .whitespaces.union(.decimalDigits.inverted))
-                    return Int(trimmed)
-                }
-                return nil
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/sbin/system_profiler")
+        process.arguments = ["SPPowerDataType"]
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.standardError = FileHandle.nullDevice
+        do { try process.run() } catch { return nil }
+
+        // Cancelling a task cannot interrupt the blocking reads below, so the only
+        // real timeout is signalling the child. SIGTERM closes the pipe's write end,
+        // which unblocks readDataToEndOfFile() and lets waitUntilExit() reap.
+        let box = ProcessBox(process)
+        let watchdog = Task {
+            try await Task.sleep(for: Self.timeout)
+            if box.process.isRunning {
+                logger.error("system_profiler did not exit before the timeout; terminating it and reporting no health reading")
+                box.process.terminate()
             }
-            group.addTask {
-                try? await Task.sleep(for: Self.timeout)
-                return nil
-            }
-            let first = await group.next() ?? nil
-            group.cancelAll()
-            return first
         }
+        defer { watchdog.cancel() }
+
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        process.waitUntilExit()
+        guard process.terminationStatus == 0,
+              let output = String(data: data, encoding: .utf8) else { return nil }
+        for line in output.split(separator: "\n") where line.contains("Maximum Capacity") {
+            let components = line.components(separatedBy: ":")
+            guard components.count == 2 else { return nil }
+            let trimmed = components[1].trimmingCharacters(in: .whitespaces.union(.decimalDigits.inverted))
+            return Int(trimmed)
+        }
+        return nil
     }
+}
+
+/// `Process` is not `Sendable`. The watchdog touches only `isRunning` and
+/// `terminate()` while the owning task blocks in `waitUntilExit()`.
+private final class ProcessBox: @unchecked Sendable {
+    let process: Process
+    init(_ process: Process) { self.process = process }
 }
 
 private struct BatteryHealth {
