@@ -43,42 +43,6 @@ extension PowerSourceClient: DependencyKey {
         let batteryHealthState = BatteryHealthState()
 
         @Sendable
-        func getBatteryHealthIfNeeded() async -> Int? {
-            if let batteryHealth = await batteryHealthState.lastBatteryHealth,
-                batteryHealth.date.timeIntervalSinceNow > -60 * 60 {
-                return batteryHealth.health
-            }
-            let task = Process()
-            task.launchPath = "/usr/sbin/system_profiler"
-            task.arguments = ["SPPowerDataType"]
-
-            let pipe = Pipe()
-            task.standardOutput = pipe
-            task.launch()
-
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            task.waitUntilExit()
-
-            if let output = String(data: data, encoding: .utf8) {
-                let lines = output.split(separator: "\n")
-                for line in lines {
-                    if line.contains("Maximum Capacity") {
-                        let components = line.components(separatedBy: ":")
-                        if components.count == 2 {
-                            let maximumCapacity = components[1].trimmingCharacters(in: .whitespaces.union(.decimalDigits.inverted))
-                            guard let capacityInteger = Int(maximumCapacity) else { return nil }
-                            await batteryHealthState.setBatteryHealth(.init(health: capacityInteger, date: .now))
-                            return capacityInteger
-                        }
-                        return nil
-                    }
-                }
-            }
-
-            return nil
-        }
-
-        @Sendable
         func getPowerSourceInfo() async throws -> PowerState {
             func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
                 guard service != IO_OBJECT_NULL else { return nil }
@@ -117,6 +81,7 @@ extension PowerSourceClient: DependencyKey {
             readings.cycleCount = getValue(kIOPMPSCycleCountKey, from: service)
             readings.temperatureRaw = getValue("VirtualTemperature", from: service)
             readings.chargerConnected = getValue(kIOPMPSExternalConnectedKey, from: service)
+            await batteryHealthState.refreshIfStale()
             readings.batteryHealth = await batteryHealthState.currentHealth()
 
             return try PowerStateAssembler.assemble(readings)
@@ -297,13 +262,63 @@ private final class DumpGate: @unchecked Sendable {
 }
 
 private actor BatteryHealthState {
-    var lastBatteryHealth: BatteryHealth?
+    private var lastBatteryHealth: BatteryHealth?
+    private var refreshTask: Task<Void, Never>?
 
-    func setBatteryHealth(_ batteryHealth: BatteryHealth) {
-        lastBatteryHealth = batteryHealth
+    private static let maxAge: TimeInterval = 60 * 60
+    private static let timeout: Duration = .seconds(10)
+
+    /// Non-blocking: whatever we last computed, possibly nil. Never awaits a subprocess.
+    func currentHealth() -> Int? { lastBatteryHealth?.health }
+
+    /// Kicks off a refresh when the cache is cold or stale. Returns immediately.
+    func refreshIfStale() {
+        if let lastBatteryHealth, lastBatteryHealth.date.timeIntervalSinceNow > -Self.maxAge { return }
+        guard refreshTask == nil else { return }
+        refreshTask = Task { [weak self] in
+            let health = await Self.readMaximumCapacity()
+            await self?.store(health)
+        }
     }
 
-    func currentHealth() -> Int? { lastBatteryHealth?.health }
+    private func store(_ health: Int?) {
+        if let health { lastBatteryHealth = BatteryHealth(health: health, date: .now) }
+        refreshTask = nil
+    }
+
+    /// Apple's reported "Maximum Capacity" is not a simple IORegistry ratio — on a test
+    /// machine NominalChargeCapacity/DesignCapacity gave 82% and AppleRawMaxCapacity/
+    /// DesignCapacity gave 80% where system_profiler reported 85%. Do not substitute one.
+    private static func readMaximumCapacity() async -> Int? {
+        await withTaskGroup(of: Int?.self) { group in
+            group.addTask {
+                let process = Process()
+                process.executableURL = URL(fileURLWithPath: "/usr/sbin/system_profiler")
+                process.arguments = ["SPPowerDataType"]
+                let pipe = Pipe()
+                process.standardOutput = pipe
+                process.standardError = FileHandle.nullDevice
+                do { try process.run() } catch { return nil }
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                process.waitUntilExit()
+                guard let output = String(data: data, encoding: .utf8) else { return nil }
+                for line in output.split(separator: "\n") where line.contains("Maximum Capacity") {
+                    let components = line.components(separatedBy: ":")
+                    guard components.count == 2 else { return nil }
+                    let trimmed = components[1].trimmingCharacters(in: .whitespaces.union(.decimalDigits.inverted))
+                    return Int(trimmed)
+                }
+                return nil
+            }
+            group.addTask {
+                try? await Task.sleep(for: Self.timeout)
+                return nil
+            }
+            let first = await group.next() ?? nil
+            group.cancelAll()
+            return first
+        }
+    }
 }
 
 private struct BatteryHealth {
