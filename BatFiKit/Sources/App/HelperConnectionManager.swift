@@ -58,8 +58,8 @@ final class HelperConnectionManager: @unchecked Sendable {
                 let status = await helperClient.helperStatus()
                 guard status == .enabled else { continue }
                 try await userNotificationsClient.showUserNotification(
-                    title: "⚠️ Houston, we have a problem.",
-                    body: "The app is stuck in the initial mode. Restarting your Mac may help.",
+                    title: "⚠️ BatFi can't read battery information",
+                    body: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.",
                     identifier: "software.micropixels.BatFi.notifications.initial_mode",
                     threadIdentifier: nil,
                     delay: nil

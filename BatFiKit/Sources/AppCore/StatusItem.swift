@@ -42,10 +42,16 @@ struct StatusItem: View {
             BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 30, height: 13)
             if batteryIndicatorModel.showPercentageNextToIndicator && batteryIndicatorModel.showPercentage {
-                Text(batteryIndicatorModel.batteryLevel, format: .percent)
-                    .font(.system(size: 11, weight: .medium))
-                    .monospacedDigit()
-                    .id("batteryLevel")
+                Group {
+                    if batteryIndicatorModel.hasReading {
+                        Text(batteryIndicatorModel.batteryLevel, format: .percent)
+                    } else {
+                        Text(verbatim: "–")
+                    }
+                }
+                .font(.system(size: 11, weight: .medium))
+                .monospacedDigit()
+                .id("batteryLevel")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
