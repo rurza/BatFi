@@ -85,9 +85,13 @@ public enum PowerStateAssembler {
         guard let powerSource = readings.powerSource else {
             throw PowerSourceAssemblyError(missingField: .powerSource)
         }
-        guard let chargerConnected = readings.chargerConnected else {
-            throw PowerSourceAssemblyError(missingField: .chargerConnected)
-        }
+
+        // ExternalConnected is the precise signal and takes priority: while the adapter is
+        // isolated to force-discharge, the charger is still connected even though the power
+        // source reads battery. Fall back to the power source only when the IORegistry value
+        // is unavailable, so a renamed or missing property degrades instead of taking down
+        // the whole power state stream.
+        let resolvedChargerConnected = readings.chargerConnected ?? (powerSource == "AC Power")
 
         return PowerState(
             batteryLevel: batteryLevel,
@@ -98,7 +102,7 @@ public enum PowerStateAssembler {
             batteryCycleCount: readings.cycleCount,
             batteryHealth: readings.batteryHealth,
             batteryTemperature: readings.temperatureRaw.map { $0 / 100 },
-            chargerConnected: chargerConnected,
+            chargerConnected: resolvedChargerConnected,
             optimizedBatteryChargingEngaged: readings.optimizedBatteryChargingEngaged
         )
     }

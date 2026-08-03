@@ -83,17 +83,19 @@ import Testing
         }
     }
 
+    // Note: chargerConnected is deliberately absent from this table. Since it now falls back
+    // to the power source (see the derivation tests below), a missing ExternalConnected alone
+    // no longer throws — .chargerConnected can only ever be constructed directly, for the
+    // description test below, never observed from `assemble`.
     @Test func missingRequiredFieldNamesTheField() {
         var noLevel = minimal;   noLevel.batteryLevel = nil
         var noCharging = minimal; noCharging.isCharging = nil
         var noSource = minimal;  noSource.powerSource = nil
-        var noCharger = minimal; noCharger.chargerConnected = nil
 
         let expectations: [(PowerSourceReadings, PowerSourceField)] = [
             (noLevel, .batteryLevel),
             (noCharging, .isCharging),
             (noSource, .powerSource),
-            (noCharger, .chargerConnected),
         ]
 
         for (readings, expectedField) in expectations {
@@ -106,5 +108,41 @@ import Testing
     @Test func errorDescriptionNamesTheIOKitKey() {
         let error = PowerSourceAssemblyError(missingField: .chargerConnected)
         #expect(error.description.contains("ExternalConnected"))
+    }
+
+    /// ExternalConnected is the precise signal and must win: while BatFi force-discharges,
+    /// the adapter is isolated, so the charger is connected while IOPS reports battery power.
+    @Test func explicitChargerConnectedWinsOverPowerSource() throws {
+        var readings = minimal
+        readings.chargerConnected = true
+        readings.powerSource = "Battery Power"
+        let state = try PowerStateAssembler.assemble(readings)
+        #expect(state.chargerConnected == true)
+    }
+
+    @Test func derivesChargerConnectedFromACPowerWhenIORegistryUnavailable() throws {
+        var readings = minimal
+        readings.chargerConnected = nil
+        readings.powerSource = "AC Power"
+        let state = try PowerStateAssembler.assemble(readings)
+        #expect(state.chargerConnected == true)
+    }
+
+    @Test func derivesChargerDisconnectedFromBatteryPowerWhenIORegistryUnavailable() throws {
+        var readings = minimal
+        readings.chargerConnected = nil
+        readings.powerSource = "Battery Power"
+        let state = try PowerStateAssembler.assemble(readings)
+        #expect(state.chargerConnected == false)
+    }
+
+    /// Only when BOTH sources are gone is this genuinely unknowable.
+    @Test func missingBothChargerSourcesThrows() {
+        var readings = minimal
+        readings.chargerConnected = nil
+        readings.powerSource = nil
+        #expect(throws: PowerSourceAssemblyError(missingField: .powerSource)) {
+            try PowerStateAssembler.assemble(readings)
+        }
     }
 }
