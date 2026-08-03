@@ -100,18 +100,44 @@ extension PowerSourceClient: DependencyKey {
             return try PowerStateAssembler.assemble(readings)
         }
 
-        let observer = Observer(getPowerSourceInfo: getPowerSourceInfo)
+        /// Launch-time transients (IOKit still settling) resolve within a couple of seconds.
+        let initialRetryDelays: [Duration] = [.milliseconds(200), .milliseconds(400), .milliseconds(800), .milliseconds(1600)]
+        /// Safety net so recovery never depends on an IOPS notification arriving.
+        let failureRepollInterval: Duration = .seconds(60)
 
+        @Sendable
+        func fetchWithRetry() async -> PowerState? {
+            for (attempt, delay) in initialRetryDelays.enumerated() {
+                do {
+                    return try await getPowerSourceInfo()
+                } catch {
+                    logger.error("Power source read failed (attempt \(attempt + 1)): \(error, privacy: .public)")
+                    try? await Task.sleep(for: delay)
+                }
+            }
+            do {
+                return try await getPowerSourceInfo()
+            } catch {
+                logger.error("Power source read failed after retries: \(error, privacy: .public)")
+                return nil
+            }
+        }
+
+        let observer = Observer(getPowerSourceInfo: getPowerSourceInfo)
+        observer.startObserving()
 
         let client = PowerSourceClient(
             powerSourceChanges: {
                 AsyncStream { continuation in
-                    Task {
-                        do {
-                            let initialState = try await getPowerSourceInfo()
-                            continuation.yield(initialState)
-                        } catch {
-                            logger.error("Can't get the current power source info")
+                    let pollTask = Task {
+                        // Retry, then keep re-polling only while failing. Stops on first success;
+                        // the IOPS notification drives updates from then on.
+                        while !Task.isCancelled {
+                            if let state = await fetchWithRetry() {
+                                continuation.yield(state)
+                                return
+                            }
+                            try? await Task.sleep(for: failureRepollInterval)
                         }
                     }
 
@@ -124,6 +150,7 @@ extension PowerSourceClient: DependencyKey {
 
                     continuation.onTermination = { _ in
                         cancellable.cancel()
+                        pollTask.cancel()
                     }
                 }
             },
@@ -149,17 +176,42 @@ extension PowerSourceClient: DependencyKey {
         return client
     }()
 
-    private class Observer: @unchecked Sendable {
+    private final class Observer: @unchecked Sendable {
         let getPowerSourceInfo: () async throws -> PowerState
         let subject = PassthroughSubject<PowerState, Never>()
-        private lazy var logger = Logger(category: "PowerSourceClienty.Observer")
+        private let logger = Logger(category: "PowerSourceClienty.Observer")
+        private let inFlightLock = NSLock()
+        private var inFlight: Task<Void, Never>?
 
         init(getPowerSourceInfo: @escaping () async throws -> PowerState) {
             self.getPowerSourceInfo = getPowerSourceInfo
-            setUpObserving()
         }
 
-        func setUpObserving() {
+        /// macOS 27 raises a full system power-source change per charge-inhibit toggle,
+        /// so callbacks arrive in bursts. Collapse them into one read.
+        func refresh() async {
+            let task = inFlightLock.withLock { () -> Task<Void, Never> in
+                if let inFlight, !inFlight.isCancelled { return inFlight }
+                let task = Task { [weak self] in
+                    guard let self else { return }
+                    do {
+                        let powerState = try await self.getPowerSourceInfo()
+                        self.logger.debug("New power state: \(powerState)")
+                        self.subject.send(powerState)
+                    } catch {
+                        self.logger.error("Power source read failed on notification: \(error, privacy: .public)")
+                    }
+                }
+                inFlight = task
+                return task
+            }
+            await task.value
+            inFlightLock.withLock {
+                if inFlight == task { inFlight = nil }
+            }
+        }
+
+        func startObserving() {
             let context = Unmanaged.passUnretained(self).toOpaque()
             let loop: CFRunLoopSource = IOPSNotificationCreateRunLoopSource(
                 {
@@ -167,15 +219,7 @@ extension PowerSourceClient: DependencyKey {
                     if let context {
                         let observer = Unmanaged<Observer>.fromOpaque(context).takeUnretainedValue()
                         observer.logger.debug("Power state did change.")
-                        Task {
-                            do {
-                                let powerState = try await observer.getPowerSourceInfo()
-                                observer.logger.debug("New power state: \(powerState)")
-                                observer.subject.send(powerState)
-                            } catch {
-                                observer.logger.error("")
-                            }
-                        }
+                        Task { await observer.refresh() }
                     }
                 },
                 context
