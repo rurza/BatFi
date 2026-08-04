@@ -60,10 +60,14 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// back to `.systemChargeLimit`. Answered by probing the keys, never inferred from
     /// the resolved backend.
     public let forceDischargeAvailable: Bool
-    /// Whether `ACLC`, the MagSafe LED key, is present. Independent of `backend` for the
-    /// same reason: the key survives on macOS 27 firmware, and under
-    /// `.systemChargeLimit` BatFi still knows when charge is being held back, so the LED
-    /// can still mirror it.
+    /// Whether BatFi can drive the MagSafe LED on this Mac: `ACLC` is present **and** the
+    /// resolved backend leaves BatFi knowing what the LED would show.
+    ///
+    /// Not a pure key probe, and the one exception is deliberate. The key survives on
+    /// macOS 27 firmware and is still unusable there, because under `.firmwareRange` the
+    /// firmware owns the charging decision and BatFi cannot tell when charge is being held
+    /// back — so the light would be on permanently, including while the Mac charges. The
+    /// reasoning is stated once, in `ChargeBackend.canMirrorChargingStateOnMagSafeLED`.
     public let magSafeLEDAvailable: Bool
     /// The limit BatFi last applied through Apple's Manual Charge Limit. Nil under the
     /// SMC backends, which apply the user's value exactly and so have nothing to report.

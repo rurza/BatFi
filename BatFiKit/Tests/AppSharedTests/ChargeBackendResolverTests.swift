@@ -196,4 +196,47 @@ import Testing
     @Test func firmwareRangeHonoursLimitsBelow80() {
         #expect(ChargeBackend.firmwareRange.honoursLimitsBelow80)
     }
+
+    // MARK: - What firmware-owned charging costs the user
+
+    /// Honouring a limit and being able to pause on demand are different capabilities, and
+    /// `.firmwareRange` is the case that proves it: it applies the user's own value exactly,
+    /// below 80% included, and still cannot stop charging at 43% because the battery is
+    /// hot. A band has no "stop now" in it.
+    ///
+    /// Pinned as behaviour, not as a mirror: `ChargingManager` skips the sleep hook where
+    /// this is false and `ChargeControlFacts.disclosures` tells the user why, so flipping
+    /// an answer here changes both at once.
+    @Test func onlyTheInhibitBackendsCanPauseChargingOnDemand() {
+        #expect(ChargeBackend.chte.canPauseChargingOnDemand)
+        #expect(ChargeBackend.legacyCH0BC.canPauseChargingOnDemand)
+        #expect(!ChargeBackend.firmwareRange.canPauseChargingOnDemand)
+        #expect(!ChargeBackend.systemChargeLimit.canPauseChargingOnDemand)
+        #expect(!ChargeBackend.unsupported.canPauseChargingOnDemand)
+    }
+
+    /// The two properties are independent, and this is the pair that shows it: one backend
+    /// honours sub-80% limits and cannot pause, the other pauses and cannot honour them.
+    /// Collapsing either into the other would mislabel one of these Macs.
+    @Test func honouringLimitsAndPausingAreIndependent() {
+        #expect(ChargeBackend.firmwareRange.honoursLimitsBelow80)
+        #expect(!ChargeBackend.firmwareRange.canPauseChargingOnDemand)
+        #expect(!ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
+        #expect(ChargeBackend.chte.canPauseChargingOnDemand)
+    }
+
+    /// The MagSafe LED goes on exactly one backend, and not because the key went with it.
+    ///
+    /// `.systemChargeLimit` keeps it: the firmware attributes the hold itself in `CHNC`
+    /// bit 24, so BatFi still knows what the light would mean. `.unsupported` keeps it:
+    /// nothing holds charge back there, so the green light never fires, but force
+    /// discharge can still work and its blink is driven by BatFi's own mode. Only
+    /// `.firmwareRange` loses it, and only because the fact the LED displays is missing.
+    @Test func onlyTheFirmwareRangeLosesTheMagSafeLED() {
+        #expect(!ChargeBackend.firmwareRange.canMirrorChargingStateOnMagSafeLED)
+        #expect(ChargeBackend.chte.canMirrorChargingStateOnMagSafeLED)
+        #expect(ChargeBackend.legacyCH0BC.canMirrorChargingStateOnMagSafeLED)
+        #expect(ChargeBackend.systemChargeLimit.canMirrorChargingStateOnMagSafeLED)
+        #expect(ChargeBackend.unsupported.canMirrorChargingStateOnMagSafeLED)
+    }
 }

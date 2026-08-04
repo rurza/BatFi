@@ -60,7 +60,31 @@ public actor ChargingManager: ChargingModeManager {
     /// event again.
     private var hasReportedUnknownLid = false
 
+    /// The resolved charge backend, cached for the life of the process.
+    ///
+    /// Safe to cache and not merely convenient: a backend is a property of the firmware,
+    /// and firmware is reflashed only by a macOS install — which restarts this process —
+    /// and is never rolled back by a downgrade. It cannot change while BatFi runs. Stays
+    /// nil while unresolved, so a helper that was not reachable yet is asked again on the
+    /// next pass rather than answered by guessing.
+    private var cachedChargeBackend: ChargeBackend?
+
     public init() {}
+
+    /// Whether asking the helper to pause charging would actually pause it on this Mac.
+    ///
+    /// `true` while the backend is still unknown. Every Mac that works today can pause,
+    /// and the honest failure here is to attempt it and have the helper report what
+    /// happened — not to withhold a pause from a machine that supports one because the
+    /// first diagnostics call had not landed yet.
+    private func backendCanPauseChargingOnDemand() async -> Bool {
+        if let cachedChargeBackend { return cachedChargeBackend.canPauseChargingOnDemand }
+        // `try?` over a throwing call that already returns an optional nests two levels.
+        guard let diagnostics = (try? await chargingClient.chargingDiagnostics()) ?? nil,
+              let backend = ChargeBackend(rawValue: diagnostics.backend) else { return true }
+        cachedChargeBackend = backend
+        return backend.canPauseChargingOnDemand
+    }
 
     public func setUpObserving() {
         assert(licenseModel != nil)
@@ -126,8 +150,18 @@ public actor ChargingManager: ChargingModeManager {
 
                     if powerState?.batteryLevel ?? 0 < currentLimit,
                         inhibitOnSleep, !tempOverride {
-                        logger.notice("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
-                        await inhibitCharging(chargerConnected: true, currentMode: currentMode)
+                        // Not attempted where a pause is not expressible. Under the
+                        // firmware range the limit is already in the firmware's hands and
+                        // stays in force for the whole sleep with no BatFi process
+                        // running, so there is nothing this hook can add — and asking
+                        // anyway would succeed without doing anything and leave the app
+                        // reporting `.inhibit` on a Mac that carries on charging.
+                        if await backendCanPauseChargingOnDemand() {
+                            logger.notice("current mode: \(appChargingMode), turn inhibit on sleep: \(inhibitOnSleep)")
+                            await inhibitCharging(chargerConnected: true, currentMode: currentMode)
+                        } else {
+                            logger.notice("Sleeping without a pause: this Mac's charge mechanism holds the limit itself")
+                        }
                     }
                 case .didWake:
                     logger.notice("Mac did wake up")
@@ -378,7 +412,11 @@ public actor ChargingManager: ChargingModeManager {
                 } else {
                     await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
                 }
-            } else if inhibitChargingOnSleep, computerIsAsleep {
+            } else if inhibitChargingOnSleep, computerIsAsleep, await backendCanPauseChargingOnDemand() {
+                // Same gate as the `willSleep` hook, and it has to be here too: a poll can
+                // land while the Mac is asleep, and this branch is the one that would pin
+                // the app to `.inhibit` for the rest of the sleep on a mechanism that
+                // never paused anything.
                 return await inhibitCharging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode

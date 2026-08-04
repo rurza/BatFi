@@ -74,6 +74,63 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
         case .firmwareRange, .systemChargeLimit, .unsupported: return false
         }
     }
+
+    /// Whether BatFi can stop charging **on demand** under this backend — at whatever
+    /// level the battery happens to be at, rather than at the limit.
+    ///
+    /// Strictly stronger than "can hold the battery at a limit", and the two come apart.
+    /// `.firmwareRange` and `.systemChargeLimit` both honour a limit and are both false
+    /// here, for the same reason: the *mechanism* owns the charging decision. Apple's
+    /// Manual Charge Limit holds charge at a percentage and has no "stop now"; the
+    /// firmware's hysteresis band has none either, and `enableCharging(_:)` is a no-op
+    /// that succeeds under both. `.unsupported` is false because nothing works there.
+    ///
+    /// Exactly two features ask for this and silently do nothing where it is false:
+    /// hot-battery protection and pause-charging-on-sleep. It cannot be fixed — there is
+    /// no write to invent — so it is disclosed
+    /// (`ChargeControlDisclosure.pausingChargingUnavailable`), and the sleep hook does not
+    /// attempt it (`ChargingManager`).
+    ///
+    /// **Force discharge is not governed by this.** "Run on Battery" runs off `CHIE`,
+    /// probed for its own sake, and survives on firmware where every charge-limit key is
+    /// gone. `ChargingDiagnostics.forceDischargeAvailable` carries that answer separately
+    /// and the copy says so in the same breath, so that a user whose Run on Battery still
+    /// works is never told it is gone.
+    public var canPauseChargingOnDemand: Bool {
+        switch self {
+        case .chte, .legacyCH0BC: return true
+        case .firmwareRange, .systemChargeLimit, .unsupported: return false
+        }
+    }
+
+    /// Whether BatFi knows its own charging state well enough to mirror it on the MagSafe
+    /// LED.
+    ///
+    /// **False for `.firmwareRange` even where `ACLC` probes fine.** The next reader will
+    /// see a working key reported as unavailable and want to "fix" it, so: the limitation
+    /// is knowledge, not the key. The LED shows *charging is being held back*, and under
+    /// the firmware range BatFi cannot know that. It hands the firmware a band once and
+    /// steps back; the firmware then decides moment to moment, and the only thing BatFi
+    /// can read — `bfF0` — says a limit is *in force*, which stays true the whole time the
+    /// battery is charging from 40% toward it. A green light driven off that is on
+    /// permanently, including while the Mac is actively charging. Probing `ACLC` harder
+    /// cannot supply the missing fact.
+    ///
+    /// True under `.systemChargeLimit`, which looks similar and is not: there the firmware
+    /// attributes the hold itself, in `CHNC` bit 24, and
+    /// `ChargingDiagnostics.systemChargeLimitIsHoldingCharge` reads it. The macOS 27
+    /// firmware offers no equivalent attribution for its band.
+    ///
+    /// True under `.unsupported`, where nothing holds charge back so the green light
+    /// simply never fires — but force discharge can still work there, and the
+    /// blink-on-discharge setting is driven by BatFi's own `.forceDischarge` mode, which
+    /// BatFi does know. Taking the LED away there would break a feature that works.
+    public var canMirrorChargingStateOnMagSafeLED: Bool {
+        switch self {
+        case .chte, .legacyCH0BC, .systemChargeLimit, .unsupported: return true
+        case .firmwareRange: return false
+        }
+    }
 }
 
 /// One key as the firmware describes it. `type` is the raw four-character type

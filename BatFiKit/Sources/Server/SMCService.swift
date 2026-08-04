@@ -363,11 +363,13 @@ actor SMCService {
     /// firmware can still do. Decoded and reported only — no control flow branches on
     /// `CHNC`, since which bit a `CHTE` inhibit raises has not been confirmed on hardware.
     ///
-    /// The two availability flags are answered from the key table, never from `backend`.
-    /// That is the point of them: `CHIE` and `ACLC` both survive on firmware that has
-    /// dropped `CHTE`, so a machine on `.systemChargeLimit` can still run on battery and
-    /// still drive its LED, and blanket-disabling either from the backend would take
-    /// working features down with the one that broke.
+    /// `forceDischargeAvailable` is answered from the key table and from nothing else.
+    /// That is the point of it: `CHIE` survives on firmware that has dropped `CHTE`, so a
+    /// machine on `.systemChargeLimit` can still run on battery, and inferring it from the
+    /// backend would take a working feature down with the one that broke.
+    ///
+    /// `magSafeLEDAvailable` starts from the key table too and is then withheld on the one
+    /// backend where the key works and the *fact it would display* is missing. See below.
     func chargingDiagnostics() async -> ChargingDiagnostics {
         let backend = await currentBackend()
         let firmwareVersion = SystemFirmware.version()
@@ -391,11 +393,19 @@ actor SMCService {
         // precisely "there is a mechanism that write path would use".
         let forceDischargeAvailable = forceDischargeMechanism() != nil
         // Presence, not shape, and unlike force discharge that is the right test. No ACLC
-        // encoding has been measured across the fleet, this flag gates nothing — it is
-        // reported — and the LED write path already fails loudly on its own: it reads the
-        // key back and throws when the value does not decode. A guessed shape here could
-        // only claim a working LED is missing.
+        // encoding has been measured across the fleet, and the LED write path already
+        // fails loudly on its own: it reads the key back and throws when the value does
+        // not decode. A guessed shape here could only claim a working LED is missing.
+        //
+        // The second term is not a second probe. Under `.firmwareRange` the key is present
+        // and writable and the LED is still unavailable, because what the LED mirrors is
+        // *charging is being held back* and that is a fact BatFi no longer has: the
+        // firmware owns the decision and exposes only "a band is armed", which stays true
+        // while the battery charges toward the limit. The limitation is knowledge, not the
+        // key — see `ChargeBackend.canMirrorChargingStateOnMagSafeLED`, where the reasoning
+        // is stated once. Do not "fix" this by dropping the term because ACLC probes fine.
         let magSafeLEDAvailable = SMCKit.probeCapability(for: .magSafeLED) != nil
+            && backend.canMirrorChargingStateOnMagSafeLED
 
         return ChargingDiagnostics(
             backend: backend.rawValue,
