@@ -204,7 +204,7 @@ git commit -m "Localize the reworked automation picker strings"
 ## Final Verification
 
 - [ ] Tests pass; app builds.
-- [ ] `grep -rn "searchText\|mapItems.first" BatFiKit/Sources/Settings/Automation/` returns nothing.
+- [ ] `grep -rn "searchText" BatFiKit/Sources/Settings/Automation/` returns nothing. (Do NOT grep for `mapItems.first` — `LocationSearchModel.resolve(_:)` legitimately uses it to resolve a completion the user explicitly chose. The defect was blind free-text search taking `.first`, not the call itself.)
 - [ ] Nothing under CLMonitor's ownership was modified: `git diff develop --name-only` must not list `LocationClient.swift`, `LocationClient+Live.swift`, `AutomationManager.swift`, `LocationSnapshot.swift`, or `FenceReconciliation.swift`.
 - [ ] **Runtime verification, still entirely owed** — no automated step covers it: the four banner states; first-run permission prompt on a clean machine; "Use current location" answering rather than stalling; MapKit completions appearing and being region-biased; the sheet with the location section expanded, checking the place-name row is not clipped; rapid map-tap-then-search-select not leaving a stale place name.
 - [ ] Translations for the 12 non-en/pl locales are machine-produced and want a native pass before a release build.
