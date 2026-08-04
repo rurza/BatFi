@@ -241,7 +241,29 @@ import Testing
 
     @Test func unsupportedFirmwareSaysSoAndNothingElse() {
         let value = facts(backend: .unsupported, hotBatteryProtectionEnabled: true)
-        #expect(value.disclosures == [.chargingControlUnavailable])
+        #expect(value.disclosures == [.chargingControlUnavailable(forceDischargeStillAvailable: false)])
+    }
+
+    /// The same precision `.pausingChargingUnavailable` already carried, applied to the
+    /// case that needed it more. `CHIE` is probed independently of the backend precisely so
+    /// "Run on Battery" survives where charge limiting is gone, and `.unsupported` is
+    /// reachable with it working — so the flat "BatFi can't control charging" told a user
+    /// whose Run on Battery works perfectly that the app does nothing on their Mac.
+    @Test func unsupportedFirmwareStillNamesForceDischargeWhereItWorks() {
+        let value = facts(
+            backend: .unsupported,
+            forceDischargeAvailable: true,
+            hotBatteryProtectionEnabled: true
+        )
+        #expect(value.disclosures == [.chargingControlUnavailable(forceDischargeStillAvailable: true)])
+    }
+
+    /// Said with management off too, unlike every other arm: this is a statement about what
+    /// the Mac can do, not about what BatFi is doing, and turning management off does not
+    /// give the firmware a charge-limit key back.
+    @Test func unsupportedFirmwareSaysSoWithManagementOff() {
+        let value = facts(backend: .unsupported, manageCharging: false)
+        #expect(value.disclosures == [.chargingControlUnavailable(forceDischargeStillAvailable: false)])
     }
 
     // MARK: - .systemChargeLimit
@@ -428,8 +450,11 @@ import Testing
         #expect(without.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false)))
     }
 
-    /// With management off neither setting runs, so there is no gap to disclose.
-    @Test func managementOffMeansNoPauseDisclosure() {
+    /// With management off BatFi holds nothing at all, so it discloses nothing — the same
+    /// guard `.firmwareRange` carries. It used to seed `.usingSystemChargeLimit`
+    /// unconditionally, so the pane read "BatFi is using the macOS charge limit" on a Mac
+    /// where `restoreSystemDefaults()` had already released the adopted limit.
+    @Test func managementOffMeansNoSystemChargeLimitDisclosureAtAll() {
         let value = facts(
             backend: .systemChargeLimit,
             manageCharging: false,
@@ -437,7 +462,18 @@ import Testing
             pauseChargingOnSleepEnabled: true
         )
         #expect(value.pausingChargingIsExpected == false)
-        #expect(value.disclosures == [.usingSystemChargeLimit])
+        #expect(value.disclosures.isEmpty)
+    }
+
+    /// And in particular it does not claim BatFi is managing a System Settings value it
+    /// has handed back.
+    @Test func managementOffNeverClaimsToBeManagingSystemSettings() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            manageCharging: false,
+            appliedChargeLimit: 80
+        )
+        #expect(value.disclosures.isEmpty)
     }
 
     // MARK: - Ordering

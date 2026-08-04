@@ -823,7 +823,13 @@ public enum L10n {
             /// Deliberately a sentence of its own rather than a clause inside the one above:
             /// force discharge is probed from its own key and survives on firmware that lost
             /// charge limiting, so it is shown only where it is genuinely available.
-            public static let systemChargeLimitForceDischargeStillWorks = String(localized: "settings.label.system_charge_limit_force_discharge_still_works", defaultValue: "Running on battery still works — it uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
+            ///
+            /// Not named for the system charge limit, in either the symbol or the key.
+            /// It is rendered under `.pausingChargingUnavailable` on both non-pausing
+            /// backends and under `.chargingControlUnavailable`, and a key that names one
+            /// mechanism while three cases use it is a key that mis-briefs every
+            /// translator who reads it.
+            public static let forceDischargeStillWorks = String(localized: "settings.label.force_discharge_still_works", defaultValue: "Running on battery still works — it uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
 
             // MARK: The firmware-managed charge range
             //

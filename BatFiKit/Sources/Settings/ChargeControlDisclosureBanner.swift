@@ -70,8 +70,8 @@ struct ChargeControlDisclosureBanner: View {
                 // Force discharge is probed from its own key and outlives charge limiting,
                 // so where it still works the user is told that in the same breath rather
                 // than left to assume everything went down together.
-                if case .pausingChargingUnavailable(_, forceDischargeStillAvailable: true) = disclosure {
-                    Text(L10n.Settings.Label.systemChargeLimitForceDischargeStillWorks)
+                if showsForceDischargeStillWorks(disclosure) {
+                    Text(L10n.Settings.Label.forceDischargeStillWorks)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -118,6 +118,23 @@ struct ChargeControlDisclosureBanner: View {
             case .macFirmware:
                 return l10n.firmwareRangeCannotPauseCharging
             }
+        }
+    }
+
+    /// Whether the secondary "Run on Battery still works" line belongs under this row.
+    ///
+    /// Two cases carry the same flag for the same reason: force discharge is probed from
+    /// its own key and outlives both charge limiting and the ability to pause, so a user
+    /// whose Run on Battery works must never be told it went down with them.
+    private func showsForceDischargeStillWorks(_ disclosure: ChargeControlDisclosure) -> Bool {
+        switch disclosure {
+        case .pausingChargingUnavailable(_, let stillAvailable),
+             .chargingControlUnavailable(let stillAvailable):
+            return stillAvailable
+        case .usingSystemChargeLimit, .limitRaisedToSystemMinimum, .limitRoundedUp,
+             .managingSystemSettingsLimit, .limitNotAppliedWithoutSnapshot,
+             .firmwareEnforcedLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred:
+            return false
         }
     }
 

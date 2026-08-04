@@ -23,8 +23,16 @@ import Foundation
 /// Values rather than strings: the wording lives in `L10n` and the rendering in
 /// `Settings`, while the decision of *which* statements are true lives here.
 public enum ChargeControlDisclosure: Equatable, Sendable {
-    /// No usable mechanism at all — BatFi cannot control charging on this firmware.
-    case chargingControlUnavailable
+    /// No usable mechanism at all — BatFi cannot *limit* charging on this firmware.
+    ///
+    /// `forceDischargeStillAvailable` is carried for exactly the reason
+    /// `pausingChargingUnavailable` carries it, and this case needed it just as much:
+    /// `CHIE` is probed independently of the backend, precisely so "Run on Battery"
+    /// survives where charge limiting is gone, and `.unsupported` is reachable with it
+    /// working. Without the flag this Mac was told BatFi "can't control charging" full
+    /// stop, which reads as "the app does nothing here" to a user whose Run on Battery
+    /// works perfectly.
+    case chargingControlUnavailable(forceDischargeStillAvailable: Bool)
 
     /// BatFi is driving Apple's Manual Charge Limit, which only accepts 80–100%.
     case usingSystemChargeLimit
@@ -316,9 +324,21 @@ public extension ChargeControlFacts {
             return disclosures
 
         case .unsupported:
-            return [.chargingControlUnavailable]
+            // Said with management on or off, unlike every other arm. This is not a
+            // description of what BatFi is doing, it is a statement about what this Mac
+            // can do — turning charge management off does not give the firmware a charge
+            // limit key back.
+            return [.chargingControlUnavailable(forceDischargeStillAvailable: forceDischargeAvailable)]
 
         case .systemChargeLimit:
+            // Nothing at all with management off, the same guard `.firmwareRange` carries
+            // above. `restoreSystemDefaults()` has released the adopted limit and cleared
+            // `appliedChargeLimit` by then, so "BatFi is using the macOS charge limit"
+            // describes a limit BatFi is not holding. If a statement is ever wanted here
+            // with management off it has to be in the capability voice, not the present
+            // progressive.
+            guard manageCharging else { return [] }
+
             // **Deliberately no `.chargingStatusIsInferred` here**, and not by reflex — the
             // question was asked directly, because this backend looks like it has the same
             // problem and the answer is that it does not have the same *cause*.

@@ -18455,6 +18455,28 @@
         }
       }
     },
+    "settings.label.force_discharge_still_works": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
+          }
+        }
+      }
+    },
+    "settings.label.magsafe_green_light_no_led": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not available on this Mac, which doesn't have a MagSafe indicator light."
+          }
+        }
+      }
+    },
     "settings.label.firmware_range_battery_may_dip_below_limit": {
       "extractionState": "manual",
       "localizations": {
@@ -18572,17 +18594,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Charging can’t be paused on this Mac. The macOS charge limit holds charging at a percentage instead of stopping it, so pausing on sleep and stopping when the battery gets hot won’t take effect."
-          }
-        }
-      }
-    },
-    "settings.label.system_charge_limit_force_discharge_still_works": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
           }
         }
       }
