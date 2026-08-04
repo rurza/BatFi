@@ -17,6 +17,7 @@ public struct ChargingClient: Sendable {
     public var restoreSystemDefaults: @Sendable () async throws -> Void
     public var chargingStatus: @Sendable () async throws -> SMCChargingStatus
     public var mclStatus: @Sendable () async throws -> MCLStatus?
+    public var chargingDiagnostics: @Sendable () async throws -> ChargingDiagnostics?
 }
 
 extension ChargingClient: TestDependencyKey {

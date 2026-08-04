@@ -23,6 +23,14 @@ struct ChargingView: View {
     @Default(.disableSleepDuringDischarging) private var disableSleepDuringDischarging
 
     @Dependency(\.systemVersionClient) var systemVersion
+    @Dependency(\.chargingClient) private var chargingClient
+
+    // Fetched once from the helper and shown read-only for bug reports. Kept as plain
+    // values rather than storing `ChargingDiagnostics` itself — this target doesn't
+    // depend on Shared, and `backend`/`mcl` are only ever inspected here, not named.
+    @State private var chargeBackend: String?
+    @State private var firmwareVersion: String?
+    @State private var systemChargeLimitMayConflict = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -109,8 +117,74 @@ struct ChargingView: View {
                         .settingDescription()
                     }
                 }
+                Section(title: L10n.Settings.Section.diagnostics) {
+                    diagnosticsContent
+                }
             }
         }
+        .task {
+            await loadDiagnostics()
+        }
+    }
+
+    @ViewBuilder
+    private var diagnosticsContent: some View {
+        let l10n = L10n.Settings.Label.self
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(l10n.diagnosticsChargingControl)
+                Spacer(minLength: 20)
+                Text(chargingControlDescription)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.trailing)
+            }
+            if chargeBackend == "unsupported" {
+                Text(l10n.diagnosticsChargingControlUnsupportedExplanation)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .settingDescription()
+            }
+
+            HStack(alignment: .firstTextBaseline) {
+                Text(l10n.diagnosticsFirmware)
+                Spacer(minLength: 20)
+                Text(firmwareVersion ?? l10n.diagnosticsFirmwareUnknown)
+                    .foregroundColor(.secondary)
+                    .textSelection(.enabled)
+            }
+
+            if systemChargeLimitMayConflict {
+                Label(l10n.diagnosticsSystemChargeLimitWarning, systemImage: "exclamationmark.triangle.fill")
+                    .font(.callout)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 4)
+            }
+        }
+    }
+
+    /// User-facing summary of the resolved `ChargeBackend.rawValue`. `chte` and
+    /// `legacyCH0BC` both read as "Active" — the mechanism only matters for a bug
+    /// report, and the firmware token below already disambiguates that unambiguously.
+    private var chargingControlDescription: String {
+        switch chargeBackend {
+        case "unsupported"?:
+            return L10n.Settings.Label.diagnosticsChargingControlUnavailable
+        case .some:
+            return L10n.Settings.Label.diagnosticsChargingControlActive
+        case nil:
+            return L10n.Settings.Label.diagnosticsFirmwareUnknown
+        }
+    }
+
+    private func loadDiagnostics() async {
+        guard let diagnostics = try? await chargingClient.chargingDiagnostics() else { return }
+        chargeBackend = diagnostics.backend
+        firmwareVersion = diagnostics.firmwareVersion
+        // BatFi neutralizes the system's own Charge Limit by overriding it to 100% whenever
+        // it's actively managing charging. No active override means whatever the user set
+        // natively in System Settings is the one in effect — which can silently cap charging
+        // below the limit configured above.
+        systemChargeLimitMayConflict = diagnostics.mcl?.supported == true && diagnostics.mcl?.batFiHasActiveOverride == false
     }
 
     static let pane: Pane<Self> = Pane(

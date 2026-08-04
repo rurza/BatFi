@@ -30,6 +30,9 @@ extension ChargingClient: DependencyKey {
             },
             mclStatus: {
                 return try await XPCClient.shared.getMCLStatus()
+            },
+            chargingDiagnostics: {
+                return try await XPCClient.shared.getChargingDiagnostics()
             }
         )
     }()

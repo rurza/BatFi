@@ -722,6 +722,23 @@ public enum L10n {
             
             /// Remove License from this Mac
             public static let removeLicense = String(localized: "settings.label.remove_license", defaultValue: "Remove License from this Mac", bundle: Bundle.module)
+
+            // MARK: Charging diagnostics
+
+            /// Charging control
+            public static let diagnosticsChargingControl = String(localized: "settings.label.diagnostics_charging_control", defaultValue: "Charging control", bundle: Bundle.module)
+            /// Firmware
+            public static let diagnosticsFirmware = String(localized: "settings.label.diagnostics_firmware", defaultValue: "Firmware", bundle: Bundle.module)
+            /// Unknown
+            public static let diagnosticsFirmwareUnknown = String(localized: "settings.label.diagnostics_firmware_unknown", defaultValue: "Unknown", bundle: Bundle.module)
+            /// Active
+            public static let diagnosticsChargingControlActive = String(localized: "settings.label.diagnostics_charging_control_active", defaultValue: "Active", bundle: Bundle.module)
+            /// Not available
+            public static let diagnosticsChargingControlUnavailable = String(localized: "settings.label.diagnostics_charging_control_unavailable", defaultValue: "Not available", bundle: Bundle.module)
+            /// BatFi can't control charging on this Mac — its firmware doesn't support it.
+            public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can't control charging on this Mac — its firmware doesn't support it.", bundle: Bundle.module)
+            /// Your Mac also has its own Charge Limit, in System Settings › Battery. If it's set below 100%, it can cap charging below the limit set above. Set it to 100% there so BatFi is the only thing in control.
+            public static let diagnosticsSystemChargeLimitWarning = String(localized: "settings.label.diagnostics_system_charge_limit_warning", defaultValue: "Your Mac also has its own Charge Limit, in System Settings › Battery. If it's set below 100%, it can cap charging below the limit set above. Set it to 100% there so BatFi is the only thing in control.", bundle: Bundle.module)
         }
 
         public enum Section {
@@ -749,6 +766,8 @@ public enum L10n {
             public static let highEnergyImpactProcesses = String(localized: "settings.section.high_energy_impact_processes", defaultValue: "Apps with high energy usage", bundle: .module)
             /// Other
             public static let other = String(localized: "settings.section.other", defaultValue: "Other", bundle: .module)
+            /// Diagnostics
+            public static let diagnostics = String(localized: "settings.section.diagnostics", defaultValue: "Diagnostics", bundle: .module)
         }
 
         public enum Slider {

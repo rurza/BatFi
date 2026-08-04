@@ -18356,6 +18356,83 @@
         }
       }
     },
+    "settings.label.diagnostics_charging_control": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging control"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_firmware": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Firmware"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_firmware_unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_active": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not available"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_unsupported_explanation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_system_charge_limit_warning": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your Mac also has its own Charge Limit, in System Settings › Battery. If it’s set below 100%, it can cap charging below the limit set above. Set it to 100% there so BatFi is the only thing in control."
+          }
+        }
+      }
+    },
     "settings.label.tip_jar.body": {
       "extractionState": "extracted_with_value",
       "localizations": {
@@ -19598,6 +19675,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Інше"
+          }
+        }
+      }
+    },
+    "settings.section.diagnostics": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics"
           }
         }
       }
