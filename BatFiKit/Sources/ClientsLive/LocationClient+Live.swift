@@ -77,6 +77,11 @@ private final class SnapshotCoordinator: NSObject, CLLocationManagerDelegate {
                 let coordinator = SnapshotCoordinator.shared
                 coordinator.continuations[id] = continuation
                 continuation.yield(coordinator.snapshot)
+                // Toggling the system-wide Location Services switch does not change this app's
+                // authorization, so no delegate callback fires and the cached value can be a
+                // stale `true`. Subscribing is the moment the picker is about to render the
+                // `.servicesOff` banner, so re-read it here.
+                coordinator.refreshServicesEnabled()
                 coordinator.reconcileUpdating()
             }
             continuation.onTermination = { _ in
@@ -186,6 +191,8 @@ private actor FenceMonitor {
     private var satisfied: Set<UUID> = []
     private var continuations: [UUID: AsyncStream<Set<UUID>>.Continuation] = [:]
     private var eventTask: Task<Void, Never>?
+    private var isReconciling = false
+    private var reconcilePending = false
 
     nonisolated func makeStream() -> AsyncStream<Set<UUID>> {
         let id = UUID()
@@ -221,7 +228,29 @@ private actor FenceMonitor {
         return created
     }
 
+    /// Serialises reconciliation against itself. `setMonitoredFences` is public and `async`, and
+    /// `performReconcile` suspends at every `CLMonitor` call, so two overlapping calls would
+    /// otherwise interleave: the first builds `current` from the pre-existing store, suspends,
+    /// and resumes to evaluate a plan against a fresh `desired` but a stale `current` — re-adding
+    /// a condition the second call already added, with `assuming: .unknown`, discarding state
+    /// CoreLocation had resolved and flickering the rule off.
+    ///
+    /// Overlapping runs coalesce into a single trailing pass, which recomputes `current` from
+    /// scratch. That is the point: the pending run must never reuse a snapshot taken earlier.
     private func reconcile() async {
+        if isReconciling {
+            reconcilePending = true
+            return
+        }
+        isReconciling = true
+        defer { isReconciling = false }
+        repeat {
+            reconcilePending = false
+            await performReconcile()
+        } while reconcilePending
+    }
+
+    private func performReconcile() async {
         let monitor = await monitorIfNeeded()
 
         var current: [UUID: MonitoredRegion] = [:]
@@ -283,6 +312,9 @@ private actor FenceMonitor {
         publish(next)
     }
 
+    private static let minimumRestartDelay: Duration = .seconds(5)
+    private static let maximumRestartDelay: Duration = .seconds(60)
+
     /// Retries forever, because a stream that ends or throws must not leave fence events dead
     /// for the rest of the process lifetime — automation would silently stop responding to
     /// location with nothing but a log line to show for it.
@@ -292,25 +324,54 @@ private actor FenceMonitor {
     /// assigns `eventTask` from inside its own body, since `reconcile()` may have just stored
     /// a newer task and self-nilling could null out the wrong one.
     private func consumeEvents() async {
+        var restartDelay = Self.minimumRestartDelay
+        var lastReason: String?
+
         while !Task.isCancelled, !desired.isEmpty {
             guard let monitor else { return }
+            var deliveredEvent = false
+            let reason: String
             do {
                 for try await event in await monitor.events {
                     guard let id = UUID(uuidString: event.identifier) else { continue }
+                    deliveredEvent = true
                     var next = satisfied
                     if event.state == .satisfied { next.insert(id) } else { next.remove(id) }
                     logger.notice("Fence event. state=\(String(describing: event.state), privacy: .public)")
                     publish(next)
                 }
-                logger.warning("Fence event stream ended; restarting")
+                reason = "stream ended"
             } catch {
-                logger.warning("Fence event stream failed: \(error.localizedDescription, privacy: .public); restarting")
+                reason = "stream failed: \(error.localizedDescription)"
             }
+
+            // A stream that did deliver before ending was interrupted, not wedged, so the next
+            // backoff starts from the floor again.
+            if deliveredEvent {
+                restartDelay = Self.minimumRestartDelay
+                lastReason = nil
+            }
+
+            // A permanently wedged stream must not write a warning to disk every cycle. The
+            // first failure — and any change of failure — is a warning; identical repeats drop
+            // to debug, which is not persisted.
+            let seconds = restartDelay.components.seconds
+            if reason != lastReason {
+                logger.warning("Fence event \(reason, privacy: .public); restarting in \(seconds, privacy: .public)s")
+                lastReason = reason
+            } else {
+                logger.debug("Fence event \(reason, privacy: .public); restarting in \(seconds, privacy: .public)s")
+            }
+
             // Transitions may have been missed while the stream was down, so re-read the
             // authoritative per-condition state before resuming.
             await reseedSatisfied(from: monitor)
-            // Hot-loop guard: without this, a stream that fails immediately would spin.
-            try? await Task.sleep(for: .seconds(5))
+
+            // Hot-loop guard. A fixed cadence would be a permanent 12-wakeups-per-minute floor
+            // in the exact app whose point here is removing a background wakeup, so it backs
+            // off to a one-minute ceiling while the stream stays wedged.
+            try? await Task.sleep(for: restartDelay)
+            restartDelay = min(restartDelay * 2, Self.maximumRestartDelay)
         }
     }
 
