@@ -132,4 +132,17 @@ import Testing
         #expect(!ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
         #expect(!ChargeBackend.unsupported.honoursLimitsBelow80)
     }
+
+    /// Mirrors the arms of `SMCService.reconcileMCLOwnership`, which is the only place an
+    /// MCL override is written: its SMC arm writes one, its `.systemChargeLimit` /
+    /// `.unsupported` arm clears instead. Pinned here because
+    /// `SystemLimitSnapshot.readIsTrustworthy` reads this to decide whether a limit read
+    /// could be BatFi's own write — flip an answer without flipping that switch and BatFi
+    /// records its own number as the user's saved limit.
+    @Test func onlySMCBackendsWriteAnMCLOverride() {
+        #expect(ChargeBackend.chte.writesMCLOverride)
+        #expect(ChargeBackend.legacyCH0BC.writesMCLOverride)
+        #expect(!ChargeBackend.systemChargeLimit.writesMCLOverride)
+        #expect(!ChargeBackend.unsupported.writesMCLOverride)
+    }
 }

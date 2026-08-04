@@ -58,12 +58,21 @@ public struct AppliedChargeLimit: Equatable, Sendable {
 /// user's saved limit is gone for good.
 public enum SystemLimitSnapshot {
     /// - Parameters:
-    ///   - hasActiveOverride: whether *this* process is holding an override.
+    ///   - hasUnretiredOverride: whether *this* process has written an override that has
+    ///     not been verifiably retired since. Not "is the renewal task running": a clear
+    ///     that found no selector to call stops the renewals but retires nothing, and the
+    ///     override stands until its own expiry. Only a clear that actually ran ends this.
     ///   - canWriteOverride: whether this build of PowerUI exposes the selector BatFi's
     ///     override is written with. When it does not, BatFi has never been able to put
     ///     an override in front of the read — not in this process and not in any earlier
     ///     one — so there is nothing for a clear to retire and the read is the user's
     ///     value by construction.
+    ///   - backendWritesOverrides: whether BatFi writes an override under the backend in
+    ///     force on this machine — `ChargeBackend.writesMCLOverride`. The second, weaker
+    ///     way of establishing the same fact as `canWriteOverride`: BatFi may be *able* to
+    ///     write an override and still never do so here, because only the SMC backends
+    ///     write one and the backend follows the firmware, which no BatFi process on this
+    ///     Mac can have seen differently.
     ///   - overrideRetired: whether PowerUI's clear selector has actually been invoked
     ///     since the process started. That is the only thing that can retire an override
     ///     left behind by an earlier BatFi that crashed while holding one; without it,
@@ -71,18 +80,29 @@ public enum SystemLimitSnapshot {
     ///
     /// The rule is "nothing BatFi wrote can be standing in front of this read", and it is
     /// deliberately no broader than that. Requiring an invoked clear unconditionally would
-    /// refuse forever on a build that exposes no clear selector — including one that
-    /// exposes no *override* selector either, where the refusal protects against nothing
-    /// and costs the whole feature. Refusing is the safe answer only where a BatFi write
-    /// is genuinely possible: a missing snapshot is retried on the next pass, but a wrong
-    /// one is written into a setting the user can see and cannot get back.
+    /// refuse forever on a build that exposes no clear selector — and PowerUI on shipping
+    /// macOS exposes `temporarilyOverrideMCLTargetSoC:error:` with no clear counterpart of
+    /// any spelling, so that is not a hypothetical build but the normal one. On a machine
+    /// that resolves `.systemChargeLimit` the refusal then protects against nothing and
+    /// costs the entire feature: no override is ever written there, so no read can be
+    /// poisoned, yet every limit would be refused for the life of the process.
+    ///
+    /// Refusing stays the answer wherever a BatFi write is genuinely possible — chiefly
+    /// the mixed machine that resolves an SMC backend *and* has a Manual Charge Limit,
+    /// where BatFi really does write an override and really cannot clear one. A missing
+    /// snapshot is retried on the next pass; a wrong one is written into a setting the
+    /// user can see and cannot get back.
     public static func readIsTrustworthy(
-        hasActiveOverride: Bool,
+        hasUnretiredOverride: Bool,
         canWriteOverride: Bool,
+        backendWritesOverrides: Bool,
         overrideRetired: Bool
     ) -> Bool {
-        guard !hasActiveOverride else { return false }
-        guard canWriteOverride else { return true }
+        guard !hasUnretiredOverride else { return false }
+        // Two independent ways for a BatFi override to be impossible here: the selector to
+        // write one does not exist, or the backend in force never asks for one. Either is
+        // enough, and neither depends on a clear that may not exist.
+        guard canWriteOverride, backendWritesOverrides else { return true }
         return overrideRetired
     }
 }

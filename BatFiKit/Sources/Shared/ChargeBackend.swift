@@ -34,6 +34,32 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
         case .systemChargeLimit, .unsupported: return false
         }
     }
+
+    /// Whether BatFi ever writes a temporary Manual Charge Limit override while this
+    /// backend is the one in force.
+    ///
+    /// Only the SMC backends do, and only to push Apple's limit to 100% so their own
+    /// inhibit is the single thing holding charge back. Under `.systemChargeLimit` BatFi
+    /// *sets* the limit instead and must not also hold an override; under `.unsupported`
+    /// it writes nothing at all.
+    ///
+    /// **This mirrors the arms of `SMCService.reconcileMCLOwnership`, which is the one
+    /// switch that decides MCL ownership. If an arm there ever starts or stops writing an
+    /// override, this must move with it** — the snapshot rule below reads this to decide
+    /// whether a limit read could be BatFi's own write, and a stale answer here is how
+    /// BatFi would record its own number as the user's.
+    ///
+    /// It is a property of the *backend*, and a backend is a property of the firmware,
+    /// which is stable across processes on a given Mac: installing macOS 27 on any volume
+    /// reflashes firmware for the whole machine and downgrading macOS does not roll it
+    /// back. So "false" here says something stronger than "this process wrote no
+    /// override" — it says no BatFi process on this Mac ever had reason to.
+    public var writesMCLOverride: Bool {
+        switch self {
+        case .chte, .legacyCH0BC: return true
+        case .systemChargeLimit, .unsupported: return false
+        }
+    }
 }
 
 /// One key as the firmware describes it. `type` is the raw four-character type

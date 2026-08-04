@@ -168,12 +168,16 @@ actor SMCService {
     private func reconcileMCLOwnership(for message: SMCChargingCommand) async {
         guard await PowerUICharging.shared.isMCLSupported else { return }
 
-        switch await currentBackend() {
+        // Bound rather than switched on inline so the resolved value can be handed to
+        // `PowerUICharging`, which decides whether a limit read could be BatFi's own
+        // override and must answer that from the machine's real backend, not an assumption.
+        let backend = await currentBackend()
+        switch backend {
         case .chte, .legacyCH0BC:
             // An SMC backend owns charging; get Apple's limit out of the way.
             guard message == .auto else { return }
             do {
-                try await PowerUICharging.shared.overrideMCLTarget(100)
+                try await PowerUICharging.shared.overrideMCLTarget(100, under: backend)
             } catch {
                 logger.error("PowerUI MCL override failed: \(error, privacy: .public)")
             }
@@ -194,7 +198,11 @@ actor SMCService {
     /// as an inhibit rather than a number, and apply the requested value exactly, so
     /// under those this only reports the request back.
     func applyChargeLimit(_ percentage: Int) async throws -> Int {
-        switch await currentBackend() {
+        // Bound for the same reason as in `reconcileMCLOwnership`: the `.systemChargeLimit`
+        // arm hands the resolved backend to `adoptSystemLimit`, which needs it to decide
+        // whether BatFi could be reading back its own MCL override.
+        let backend = await currentBackend()
+        switch backend {
         case .chte, .legacyCH0BC:
             // Handled by the existing inhibit path, which applies the requested value
             // exactly. Anything the system-limit backend left behind is handed back first:
@@ -234,7 +242,7 @@ actor SMCService {
             // value set below, and while it is live the user's own saved limit reads
             // back as the overridden one.
             await PowerUICharging.shared.clearMCLOverride()
-            try await PowerUICharging.shared.adoptSystemLimit(applied)
+            try await PowerUICharging.shared.adoptSystemLimit(applied, under: backend)
             if applied > percentage {
                 logger.notice("Requested \(percentage, privacy: .public)% raised to \(applied, privacy: .public)% — the system limit cannot go lower")
             } else if applied < percentage {

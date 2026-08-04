@@ -112,56 +112,103 @@ import Testing
 
     // MARK: - SystemLimitSnapshot
 
-    /// The normal case: no override held here, and PowerUI's clear has been invoked, so
-    /// nothing BatFi wrote can still be standing in front of the read.
-    @Test func aReadIsTrustworthyWithNoOverrideAndAnInvokedClear() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(
-            hasActiveOverride: false,
-            canWriteOverride: true,
-            overrideRetired: true
-        ))
+    private func trusts(
+        unretiredOverride: Bool,
+        canWrite: Bool,
+        backendWrites: Bool,
+        retired: Bool
+    ) -> Bool {
+        SystemLimitSnapshot.readIsTrustworthy(
+            hasUnretiredOverride: unretiredOverride,
+            canWriteOverride: canWrite,
+            backendWritesOverrides: backendWrites,
+            overrideRetired: retired
+        )
     }
 
-    /// This process is holding an override, so the limit reads back as BatFi's 100. The
-    /// dominant condition: it refuses whatever the build can or cannot do.
-    @Test func anOverrideThisProcessHoldsBlocksTheRead() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(
-            hasActiveOverride: true,
-            canWriteOverride: true,
-            overrideRetired: true
-        ) == false)
-        #expect(SystemLimitSnapshot.readIsTrustworthy(
-            hasActiveOverride: true,
-            canWriteOverride: false,
-            overrideRetired: true
-        ) == false)
+    /// All sixteen combinations, spelled out as literals rather than recomputed from the
+    /// rule — a test that derives its expectation from the expression under test pins
+    /// nothing. Exactly two shapes refuse: an override this process wrote and could not
+    /// retire, and a machine where BatFi both can and does write overrides with no clear
+    /// selector to retire them.
+    @Test func theTrustworthinessTruthTableIsPinnedInFull() {
+        // An unretired BatFi write dominates: the limit reads back as BatFi's number, and
+        // nothing the build or the backend can do changes that.
+        #expect(trusts(unretiredOverride: true, canWrite: true, backendWrites: true, retired: true) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: true, backendWrites: true, retired: false) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: true, backendWrites: false, retired: true) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: true, backendWrites: false, retired: false) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: false, backendWrites: true, retired: true) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: false, backendWrites: true, retired: false) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: false, backendWrites: false, retired: true) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: false, backendWrites: false, retired: false) == false)
+
+        // Nothing outstanding from this process. The single refusal left is the machine
+        // that can write an override, does write one under the backend in force, and has
+        // no clear selector to retire one an earlier BatFi may have left behind.
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: true, retired: false) == false)
+
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: true, retired: true))
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: false, retired: true))
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: false, retired: false))
+        #expect(trusts(unretiredOverride: false, canWrite: false, backendWrites: true, retired: true))
+        #expect(trusts(unretiredOverride: false, canWrite: false, backendWrites: true, retired: false))
+        #expect(trusts(unretiredOverride: false, canWrite: false, backendWrites: false, retired: true))
+        #expect(trusts(unretiredOverride: false, canWrite: false, backendWrites: false, retired: false))
+    }
+
+    /// The normal case: nothing outstanding here, and PowerUI's clear has been invoked, so
+    /// nothing BatFi wrote can still be standing in front of the read.
+    @Test func aReadIsTrustworthyWithNoOverrideAndAnInvokedClear() {
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: true, retired: true))
+    }
+
+    /// This process wrote an override and nothing retired it, so the limit reads back as
+    /// BatFi's 100. The dominant condition: it refuses whatever the build or the backend
+    /// can do — including under a backend that writes no overrides, which is reachable when
+    /// a re-probe flips a machine that had already written one.
+    @Test func anUnretiredOverrideThisProcessWroteBlocksTheRead() {
+        #expect(trusts(unretiredOverride: true, canWrite: true, backendWrites: true, retired: true) == false)
+        #expect(trusts(unretiredOverride: true, canWrite: false, backendWrites: true, retired: true) == false)
+        // The flip: BatFi wrote an override under an SMC backend, a re-probe then resolved
+        // `.systemChargeLimit`, and the clear that ran in between found no selector. The
+        // override still stands, so the backend disjunct must not rescue this read.
+        #expect(trusts(unretiredOverride: true, canWrite: true, backendWrites: false, retired: false) == false)
     }
 
     /// The scenario that makes this worth a guard at all: an override outlives the process
     /// that set it, so a BatFi that crashed while holding one leaves the limit reading 100.
-    /// A fresh process has no memory of it — `hasActiveOverride` is false — and only an
-    /// actually-invoked `clearMCLOverride` can retire it. Without that, refusing is the
-    /// only safe answer: a missing snapshot is retried, a wrong one is restored on quit
-    /// and the user's saved limit is gone.
+    /// A fresh process has no memory of it, and only an actually-invoked `clearMCLOverride`
+    /// can retire it. Without that, refusing is the only safe answer: a missing snapshot is
+    /// retried, a wrong one is restored on quit and the user's saved limit is gone.
+    ///
+    /// This is the mixed machine — an SMC backend resolved *and* a Manual Charge Limit
+    /// present — and it is the cell the narrowing below must not touch.
     @Test func aReadIsRefusedWhileAnUnretiredBatFiOverrideIsPossible() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(
-            hasActiveOverride: false,
-            canWriteOverride: true,
-            overrideRetired: false
-        ) == false)
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: true, retired: false) == false)
     }
 
-    /// The narrowing. On a build that exposes no override selector, BatFi has never been
-    /// able to write an override here — in this process or in one that died holding one —
-    /// so the read is the user's value by construction and there is nothing for a clear to
-    /// retire. Refusing anyway would protect against nothing and would leave
-    /// `.systemChargeLimit` unable to apply any limit at all for the life of the process.
+    /// The first narrowing. On a build that exposes no override selector, BatFi has never
+    /// been able to write an override here — in this process or in one that died holding
+    /// one — so the read is the user's value by construction and there is nothing for a
+    /// clear to retire.
     @Test func aReadIsTrustworthyWhenBatFiCannotWriteAnOverrideAtAll() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(
-            hasActiveOverride: false,
-            canWriteOverride: false,
-            overrideRetired: false
-        ))
+        #expect(trusts(unretiredOverride: false, canWrite: false, backendWrites: true, retired: false))
+    }
+
+    /// The second narrowing, and the one that keeps the feature alive on macOS 27 firmware.
+    /// Shipping PowerUI exposes `temporarilyOverrideMCLTargetSoC:error:` and no clear
+    /// selector of any spelling, so `canWrite` is true and `retired` is false on every Mac
+    /// — which refused every limit forever on exactly the machines where
+    /// `.systemChargeLimit` is the only mechanism there is.
+    ///
+    /// BatFi writes an override only under an SMC backend, and the backend follows the
+    /// firmware, which is stable across processes on a given Mac. So on a machine that
+    /// resolves `.systemChargeLimit`, no BatFi process past or present wrote one, nothing
+    /// can have poisoned the read, and refusing protects against nothing while costing the
+    /// whole feature.
+    @Test func aReadIsTrustworthyUnderABackendBatFiWritesNoOverridesFor() {
+        #expect(trusts(unretiredOverride: false, canWrite: true, backendWrites: false, retired: false))
     }
 
     // MARK: - ChargeLimitFailure
