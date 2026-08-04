@@ -19,8 +19,27 @@ actor PowerUICharging {
     private var renewalTask: Task<Void, Never>?
     private var lastOverrideValue: UInt8 = 0
 
-    /// The user's System Settings value, captured before BatFi first changed it.
+    /// The user's System Settings value, captured before BatFi first changed the limit
+    /// by **any** route — the override path as well as the adopt path. Written in exactly
+    /// one place, `captureUserLimitIfNeeded()`, and cleared in exactly one, a successful
+    /// restore in `releaseSystemLimit()`.
     private var userSystemLimitSnapshot: Int?
+
+    /// Whether BatFi has written its own value with `setMCLLimit:` and therefore owes the
+    /// user a restore. Deliberately separate from the snapshot: the snapshot is now taken
+    /// on the override path too, and an override must not make `releaseSystemLimit()`
+    /// write — Apple restores the saved value when the override expires, and a write there
+    /// would put an SMC-backend BatFi in the business of setting the limit it is supposed
+    /// to be getting out of the way of.
+    private var hasAdoptedSystemLimit = false
+
+    /// Whether PowerUI's `clearMCLOverride` has actually been invoked in this process.
+    ///
+    /// An override outlives the process that set it, so a fresh BatFi cannot know from its
+    /// own state whether one is outstanding. Invoking the clear is the only thing that
+    /// retires one; until that has happened, a limit read back from PowerUI may be an
+    /// earlier BatFi's write rather than the user's value, and must not be snapshotted.
+    private var overrideClearInvoked = false
 
     private static let renewalInterval: Duration = .seconds(60)
 
@@ -93,6 +112,12 @@ actor PowerUICharging {
     /// Apple stores the user's MCL in `MCLSavedTargetSoC` and restores it once the override expires.
     /// Use 100 to fully release the system limit so BatFi's SMC inhibit can act unimpeded.
     func overrideMCLTarget(_ targetSoC: UInt8) throws {
+        // Before the write, never after. This is BatFi's earliest touch of the MCL under
+        // an SMC backend, and once the override is in place every read of the limit is
+        // BatFi's own number. Best-effort: a failed capture must not stop the override,
+        // because releasing Apple's limit is what lets the SMC inhibit act at all — and a
+        // capture that did not happen is simply retried the next time anything needs one.
+        captureUserLimitIfNeeded()
         try invokeOverride(targetSoC)
         lastOverrideValue = targetSoC
         startRenewalTask()
@@ -108,15 +133,20 @@ actor PowerUICharging {
         guard let client, let clientClass else { return }
 
         let selector = NSSelectorFromString("clearMCLOverride")
-        guard class_getInstanceMethod(clientClass, selector) != nil else {
+        guard let method = class_getInstanceMethod(clientClass, selector) else {
+            // `overrideClearInvoked` deliberately stays false: nothing retired an override that
+            // an earlier BatFi may have left behind, so a limit read now cannot be told
+            // apart from that process's write and must not be snapshotted as the user's.
             logger.notice("clearMCLOverride selector not exposed on client; relying on natural expiry")
             return
         }
 
         typealias Clearer = @convention(c) (AnyObject, Selector) -> Void
-        let method = class_getInstanceMethod(clientClass, selector)!
         let clearer = unsafeBitCast(method_getImplementation(method), to: Clearer.self)
         clearer(client, selector)
+        // The one fact a snapshot capture needs: any override outstanding on this machine,
+        // including one from a BatFi that crashed while holding it, has now been told to go.
+        overrideClearInvoked = true
         logger.notice("PowerUI MCL override cleared")
     }
 
@@ -144,28 +174,30 @@ actor PowerUICharging {
 
         // Gate the write on a confirmed read: if we cannot learn the user's current value,
         // we must not overwrite it, because we would then have no correct value to restore.
-        // Leaving the snapshot `nil` here means "never captured and never written" — the
-        // next call retries the capture cleanly, with no risk of later grabbing BatFi's own
-        // already-written value instead of the user's original.
-        if userSystemLimitSnapshot == nil {
-            guard let current = currentSystemLimit() else {
-                throw PowerUIChargingError.snapshotUnavailable
-            }
-            userSystemLimitSnapshot = current
-            logger.notice("Captured user's system charge limit: \(current, privacy: .public)%")
+        // Leaving the snapshot `nil` means "never captured and never written" — the next
+        // call retries the capture cleanly.
+        guard captureUserLimitIfNeeded() else {
+            throw PowerUIChargingError.snapshotUnavailable
         }
 
         try adoptSystemLimitWithoutSnapshotting(percentage)
+        hasAdoptedSystemLimit = true
     }
 
-    /// Puts the user's own value back. Safe to call when nothing was ever adopted. The
-    /// snapshot is only cleared once the restore write actually succeeds, so a failed
+    /// Puts the user's own value back. Safe to call when nothing was ever adopted — and a
+    /// no-op in that case *by design*: a snapshot taken on the override path records the
+    /// user's value without BatFi ever having written one, and writing it back would make
+    /// an SMC-backend BatFi a setter of the very limit it exists to get out of the way of.
+    /// Only an adoption owes a restore.
+    ///
+    /// The snapshot is only cleared once the restore write actually succeeds, so a failed
     /// attempt (transient shutdown/backend-switch hiccup) can be retried later instead of
     /// silently forgetting the value there was to restore.
     func releaseSystemLimit() {
-        guard let snapshot = userSystemLimitSnapshot else { return }
+        guard hasAdoptedSystemLimit, let snapshot = userSystemLimitSnapshot else { return }
         do {
             try adoptSystemLimitWithoutSnapshotting(snapshot)
+            hasAdoptedSystemLimit = false
             userSystemLimitSnapshot = nil
             logger.notice("Restored user's system charge limit to \(snapshot, privacy: .public)%")
         } catch {
@@ -174,6 +206,46 @@ actor PowerUICharging {
     }
 
     // MARK: - Private
+
+    /// Records the user's own limit, once, at the earliest point BatFi touches the MCL by
+    /// any route. Returns whether a snapshot is now held.
+    ///
+    /// The whole point is that the read below can never observe a BatFi write:
+    ///
+    /// * It runs before the write on both writing paths — ahead of
+    ///   `temporarilyOverrideMCLTargetSoC:` in `overrideMCLTarget(_:)`, and ahead of
+    ///   `setMCLLimit:` in `adoptSystemLimit(_:)`.
+    /// * It clears any outstanding override first, so an override left behind by an
+    ///   earlier BatFi that crashed while holding one is retired before the read.
+    /// * It refuses outright unless both of those are established —
+    ///   `SystemLimitSnapshot.readIsTrustworthy` — because a missing snapshot is retried
+    ///   next pass, while a wrong one is written into a setting the user can see and then
+    ///   cannot get back.
+    @discardableResult
+    private func captureUserLimitIfNeeded() -> Bool {
+        if userSystemLimitSnapshot != nil { return true }
+
+        // Idempotent, and only reached while no snapshot is held — so this costs one
+        // selector call on the first touch, not one per status update.
+        clearMCLOverride()
+
+        guard SystemLimitSnapshot.readIsTrustworthy(
+            hasActiveOverride: hasActiveOverride,
+            overrideRetired: overrideClearInvoked
+        ) else {
+            logger.error("Refusing to record the user's system charge limit: an MCL override may still be outstanding")
+            return false
+        }
+
+        guard let current = currentSystemLimit() else {
+            logger.error("Could not read the user's system charge limit; not recording one")
+            return false
+        }
+
+        userSystemLimitSnapshot = current
+        logger.notice("Captured user's system charge limit: \(current, privacy: .public)%")
+        return true
+    }
 
     /// Raw `setMCLLimit:error:` call with no snapshotting. `adoptSystemLimit` and
     /// `releaseSystemLimit` both funnel through here so restoring the user's value can
@@ -283,7 +355,7 @@ enum PowerUIChargingError: Error, CustomStringConvertible {
         case .availableLimitsUnavailable:
             return "Could not read the accepted system charge limit values from PowerUI, so the requested value could not be validated"
         case .snapshotUnavailable:
-            return "BatFi will not change the system charge limit because it could not read the user's current value to restore later"
+            return "BatFi will not change the system charge limit because it has no trustworthy record of the user's current value to restore later"
         }
     }
 }
