@@ -289,7 +289,7 @@ let package = Package(
         .target(name: "SharedUI", swiftSettings: swiftV6LanguageMode()),
         .testTarget(
             name: "AppSharedTests",
-            dependencies: [.appShared],
+            dependencies: [.appShared, .shared],
             swiftSettings: swiftV6LanguageMode()
         ),
     ]
