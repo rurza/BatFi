@@ -4,7 +4,23 @@ All notable changes to BatFi are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.2] - 2026-08-04
+## [3.2.0] - 2026-08-04
+
+### Added
+- **BatFi keeps working on Macs whose firmware has dropped the charge-limit mechanism BatFi
+  has always used.** Rather than assuming what a given version of macOS supports, BatFi now
+  asks the Mac itself which charging mechanisms its firmware offers and uses the best one
+  available. On Macs that still have the familiar mechanism, nothing changes.
+- **On the newest firmware, the charge limit is held by the Mac itself.** Where the firmware
+  offers its own charge range, BatFi hands it your limit and steps back — so the limit keeps
+  being enforced even while the Mac is asleep or BatFi isn't running. Because the firmware
+  manages the range on its own terms, the battery may sit a few points below your limit before
+  it tops back up; the Charging pane says so.
+- **Where only Apple's own charge limit is available, BatFi drives that instead.** Apple's
+  limit cannot be set below 80%, so if you have chosen a lower one BatFi now says plainly that
+  it could not be applied and which limit is actually in force.
+- **The Charging pane reports which mechanism is in use** on your Mac, along with its firmware
+  version, and lists the features that mechanism does and doesn't support.
 
 ### Fixed
 - **BatFi no longer gets stuck on "Initializing" with an empty battery reading.** A single
@@ -18,12 +34,26 @@ All notable changes to BatFi are documented here. The format is based on
 - **"Run on Battery" now actually discharges on recent firmware.** BatFi was writing the wrong
   value to the charging controller key used by macOS 26-era firmware and newer, so the request
   was accepted but had no effect.
+- **"Run on Battery" and the MagSafe light no longer depend on the charge limit working.** Both
+  used to be switched off together with the charge limit whenever BatFi couldn't use its usual
+  mechanism. They are now checked on their own, so on firmware that has dropped that mechanism
+  they keep working.
 
 ### Changed
 - Battery health is no longer measured during the battery read, removing a blocking system
   call from a path that runs on every power change.
 - When a battery value is missing, BatFi now records which one and the Mac's firmware version,
   so a single report is enough to diagnose the next firmware change.
+
+### Known issues
+- **Pausing charging on demand doesn't take effect on Macs that fall back to Apple's charge
+  limit.** Apple's limit only sets a ceiling — it has no way to stop charging right now — so on
+  those Macs the pause when the battery gets too hot and the pause while the Mac sleeps have no
+  effect. Your charge limit is still enforced, and "Run on Battery" is unaffected.
+- **After quitting BatFi, the charge limit in System Settings can read 100% for a while.** When
+  BatFi raises Apple's charge limit temporarily, current versions of macOS give it no way to
+  hand that back early, so System Settings can keep showing 100% until the temporary change
+  lapses on its own. This isn't new in this release — it was simply diagnosed during this work.
 
 ## [3.1.1] - 2026-06-19
 
@@ -69,6 +99,7 @@ All notable changes to BatFi are documented here. The format is based on
 - Defer the menu rebuild on macOS 26 while the menu is open, fixing a blank area at the top
   of the dropdown.
 
+[3.2.0]: https://github.com/rurza/BatFi-Priv/compare/3.1.1...3.2.0
 [3.1.1]: https://github.com/rurza/BatFi-Priv/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.1.0
 [3.0.5]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.0.5
