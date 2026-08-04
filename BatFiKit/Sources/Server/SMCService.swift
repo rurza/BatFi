@@ -313,10 +313,16 @@ actor SMCService {
     }
 
     /// Snapshot for bug reports: resolved backend, firmware token, the firmware's own
-    /// `CHNC` reason for not charging, MCL status, and the limit actually applied —
-    /// which is not always the one asked for. Decoded and reported only — no
-    /// control flow branches on `CHNC`, since which bit a `CHTE` inhibit raises has not
-    /// been confirmed on hardware.
+    /// `CHNC` reason for not charging, MCL status, the limit actually applied — which is
+    /// not always the one asked for — and which of the two key-independent features this
+    /// firmware can still do. Decoded and reported only — no control flow branches on
+    /// `CHNC`, since which bit a `CHTE` inhibit raises has not been confirmed on hardware.
+    ///
+    /// The two availability flags are answered from the key table, never from `backend`.
+    /// That is the point of them: `CHIE` and `ACLC` both survive on firmware that has
+    /// dropped `CHTE`, so a machine on `.systemChargeLimit` can still run on battery and
+    /// still drive its LED, and blanket-disabling either from the backend would take
+    /// working features down with the one that broke.
     func chargingDiagnostics() async -> ChargingDiagnostics {
         let backend = await currentBackend()
         let firmwareVersion = SystemFirmware.version()
@@ -336,11 +342,23 @@ actor SMCService {
 
         let mcl = await mclStatus()
 
+        // The same function `enableForceDischarge` switches on, so "available" here means
+        // precisely "there is a mechanism that write path would use".
+        let forceDischargeAvailable = forceDischargeMechanism() != nil
+        // Presence, not shape, and unlike force discharge that is the right test. No ACLC
+        // encoding has been measured across the fleet, this flag gates nothing — it is
+        // reported — and the LED write path already fails loudly on its own: it reads the
+        // key back and throws when the value does not decode. A guessed shape here could
+        // only claim a working LED is missing.
+        let magSafeLEDAvailable = SMCKit.probeCapability(for: .magSafeLED) != nil
+
         return ChargingDiagnostics(
             backend: backend.rawValue,
             firmwareVersion: firmwareVersion,
             notChargingReasons: reasons,
             mcl: mcl,
+            forceDischargeAvailable: forceDischargeAvailable,
+            magSafeLEDAvailable: magSafeLEDAvailable,
             appliedChargeLimit: appliedSystemLimit?.applied,
             chargeLimitWasRaised: appliedSystemLimit?.wasRaised ?? false
         )
@@ -626,6 +644,54 @@ actor SMCService {
         return ForceDischargeKeyShape.isUsable(capability, writable: writable)
     }
 
+    /// The write mechanisms "Run on Battery" can be driven through, in preference order.
+    private enum ForceDischargeMechanism {
+        /// `CHIE`. Current firmware, *including* firmware that has dropped `CHTE` — which
+        /// is the whole reason this is resolved separately from `ChargeBackend`.
+        case chie
+        /// `CH0I` + `CH0J`, the Intel-era pair.
+        case legacyCH0IJ
+    }
+
+    /// Which force-discharge mechanism this firmware exposes, or nil for none.
+    ///
+    /// The single place that answer is worked out. `enableForceDischarge` switches on it
+    /// to pick the keys to write, and `chargingDiagnostics()` asks the same function
+    /// whether the feature exists at all — so the flag the UI renders and the write path
+    /// it describes cannot disagree. Encoding "is force discharge available" a second
+    /// time, next to a write path that decides it independently, is exactly the failure
+    /// this shape rules out.
+    ///
+    /// Probed independently of the charge backend, and shape-checked through
+    /// `ForceDischargeKeyShape` rather than on key presence: a same-named key of another
+    /// shape, or a read-only one, accepts the write and ignores it, so "Run on Battery"
+    /// would report success while the battery never discharged.
+    private func forceDischargeMechanism() -> ForceDischargeMechanism? {
+        if forceDischargeKeyIsUsable(.disableCharging3, writable: true) { return .chie }
+        // Gated on CH0I, the same key smcChargingStatus() gates its legacy read on, so
+        // both paths agree on which key backs this mechanism and on the shape it has to
+        // have. They are not the same test, and must not be: the read gate asks for
+        // `writable: false`, this one for `writable: true`, so a readable-but-not-writable
+        // CH0I still backs a status read while being refused as a write target. That is
+        // the intended asymmetry — a write the firmware accepts and ignores is exactly
+        // the silent failure this gate exists to prevent. CH0I and CH0J ship as a pair;
+        // if CH0J were somehow absent its write throws loudly rather than reporting a
+        // discharge that never engaged.
+        if forceDischargeKeyIsUsable(.disableCharging1, writable: true) { return .legacyCH0IJ }
+        return nil
+    }
+
+    /// Engages or releases force discharge.
+    ///
+    /// **Asymmetric where no mechanism exists, on purpose.** Engaging is something the
+    /// user asked for, so a machine that cannot do it must fail loudly rather than
+    /// pretend. Releasing is not a request, it is a safety write — and on firmware with
+    /// no usable `CHIE`/`CH0I` there is no engaged state to clear, so there is nothing to
+    /// fail at. Throwing there was actively harmful: `enableForceDischarge(false)` is
+    /// called unconditionally from both `setChargingMode` and `restoreSystemDefaults()`,
+    /// so a throw would propagate out of both on every mode change — undoing, on exactly
+    /// the `.systemChargeLimit` firmware this whole backend exists for, the work that
+    /// stopped those two functions failing.
     func enableForceDischarge(_ enable: Bool) async throws {
         if enable {
             logger.notice("Force discharge")
@@ -635,30 +701,23 @@ actor SMCService {
         await openSMCIfNeeded()
         func engageByte(for key: SMCKey) -> UInt8 { enable ? key.forceDischargeEngagedValue : 0 }
 
-        // Probed independently of the charge backend: CHIE survives on firmware that
-        // has dropped CHTE, so deriving this from the backend would disable a feature
-        // that still works.
-        if forceDischargeKeyIsUsable(.disableCharging3, writable: true) {
+        switch forceDischargeMechanism() {
+        case .chie:
             try SMCKit.writeData(.disableCharging3, uint8: engageByte(for: .disableCharging3))
             logger.notice("Force discharge changed using CHIE")
-            return
-        }
-        // Gated on CH0I, the same key smcChargingStatus() gates its legacy read on, so
-        // both paths agree on which key backs this mechanism and on the shape it has to
-        // have. They are not the same test, and must not be: the read gate asks for
-        // `writable: false`, this one for `writable: true`, so a readable-but-not-writable
-        // CH0I still backs a status read while being refused as a write target. That is
-        // the intended asymmetry — a write the firmware accepts and ignores is exactly
-        // the silent failure this gate exists to prevent. CH0I and CH0J ship as a pair;
-        // if CH0J were somehow absent its write below throws loudly rather than
-        // reporting a discharge that never engaged.
-        if forceDischargeKeyIsUsable(.disableCharging1, writable: true) {
+        case .legacyCH0IJ:
             try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
             try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
             logger.notice("Force discharge changed using CH0I/CH0J")
-            return
+        case nil:
+            guard enable else {
+                // Release with nothing to release. Not a failure, and saying so is what
+                // keeps the callers above working on this firmware.
+                logger.notice("No force discharge mechanism on this firmware; nothing to release")
+                return
+            }
+            logger.error("No usable force discharge mechanism on this firmware")
+            throw SMCError.keyNotFound(code: "CHIE")
         }
-        logger.error("No usable force discharge mechanism on this firmware")
-        throw SMCError.keyNotFound(code: "CHIE")
     }
 }

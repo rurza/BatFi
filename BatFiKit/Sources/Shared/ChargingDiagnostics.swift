@@ -53,6 +53,18 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// Decoded `CHNC` reasons, as `NotChargingReason.rawValue`.
     public let notChargingReasons: [String]
     public let mcl: MCLStatus?
+    /// Whether this firmware exposes a force-discharge mechanism BatFi can engage.
+    ///
+    /// Deliberately independent of `backend`: `CHIE` outlives `CHTE` on newer firmware,
+    /// so "Run on Battery" can still work on a machine whose charge limiting has fallen
+    /// back to `.systemChargeLimit`. Answered by probing the keys, never inferred from
+    /// the resolved backend.
+    public let forceDischargeAvailable: Bool
+    /// Whether `ACLC`, the MagSafe LED key, is present. Independent of `backend` for the
+    /// same reason: the key survives on macOS 27 firmware, and under
+    /// `.systemChargeLimit` BatFi still knows when charge is being held back, so the LED
+    /// can still mirror it.
+    public let magSafeLEDAvailable: Bool
     /// The limit BatFi last applied through Apple's Manual Charge Limit. Nil under the
     /// SMC backends, which apply the user's value exactly and so have nothing to report.
     public let appliedChargeLimit: Int?
@@ -66,6 +78,8 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         firmwareVersion: String?,
         notChargingReasons: [String],
         mcl: MCLStatus?,
+        forceDischargeAvailable: Bool,
+        magSafeLEDAvailable: Bool,
         appliedChargeLimit: Int? = nil,
         chargeLimitWasRaised: Bool = false
     ) {
@@ -73,9 +87,24 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         self.firmwareVersion = firmwareVersion
         self.notChargingReasons = notChargingReasons
         self.mcl = mcl
+        self.forceDischargeAvailable = forceDischargeAvailable
+        self.magSafeLEDAvailable = magSafeLEDAvailable
         self.appliedChargeLimit = appliedChargeLimit
         self.chargeLimitWasRaised = chargeLimitWasRaised
         super.init()
+    }
+
+    /// Whether Apple's own Manual Charge Limit is what is holding charge back right now.
+    ///
+    /// Both halves are load-bearing. The backend check keeps this false on every SMC
+    /// machine, where BatFi's own inhibit is the signal and nothing here may change that.
+    /// The `CHNC` bit is the firmware's own attribution, and under `.systemChargeLimit`
+    /// it is the only honest answer available: BatFi's charging *mode* can read
+    /// `.inhibit` while the hardware is still charging, because a limit below 80% gets
+    /// raised to one the system limit can express.
+    public var systemChargeLimitIsHoldingCharge: Bool {
+        ChargeBackend(rawValue: backend) == .systemChargeLimit
+            && notChargingReasons.contains(NotChargingReason.systemChargeLimit.rawValue)
     }
 
     public func encode(with coder: NSCoder) {
@@ -83,6 +112,8 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         coder.encode(firmwareVersion, forKey: "firmwareVersion")
         coder.encode(notChargingReasons, forKey: "notChargingReasons")
         coder.encode(mcl, forKey: "mcl")
+        coder.encode(forceDischargeAvailable, forKey: "forceDischargeAvailable")
+        coder.encode(magSafeLEDAvailable, forKey: "magSafeLEDAvailable")
         // Same flag-plus-value shape MCLStatus uses for its optional Int: decodeInteger
         // cannot tell an absent key from a stored zero.
         if let appliedChargeLimit {
@@ -100,6 +131,8 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         let reasons = coder.decodeObject(of: [NSArray.self, NSString.self], forKey: "notChargingReasons")
         notChargingReasons = (reasons as? [String]) ?? []
         mcl = coder.decodeObject(of: MCLStatus.self, forKey: "mcl")
+        forceDischargeAvailable = coder.decodeBool(forKey: "forceDischargeAvailable")
+        magSafeLEDAvailable = coder.decodeBool(forKey: "magSafeLEDAvailable")
         if coder.decodeBool(forKey: "hasAppliedChargeLimit") {
             appliedChargeLimit = coder.decodeInteger(forKey: "appliedChargeLimit")
         } else {
@@ -113,7 +146,8 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         let applied = appliedChargeLimit.map { "\($0)%\(chargeLimitWasRaised ? " (raised)" : "")" } ?? "—"
         return """
         ChargingDiagnostics(backend: \(backend), firmware: \(firmwareVersion ?? "unknown"), \
-        reasons: \(notChargingReasons), appliedLimit: \(applied))
+        reasons: \(notChargingReasons), appliedLimit: \(applied), \
+        forceDischarge: \(forceDischargeAvailable), magSafeLED: \(magSafeLEDAvailable))
         """
     }
 }
