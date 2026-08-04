@@ -1126,7 +1126,12 @@ actor SMCService {
             try SMCKit.writeData(.disableCharging3, uint8: engageByte(for: .disableCharging3))
             logger.notice("Force discharge changed using CHIE")
         case .legacyCH0IJ:
-            try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
+            // `try`, not `try?`. The status read trusts `CH0I` alone, so a silently failed
+            // `CH0I` write beside a successful `CH0J` one reports "not discharging" while
+            // the adapter is isolated. It is safe to be loud here because
+            // `forceDischargeMechanism()` selected this arm by shape-matching `CH0I` as
+            // *writable*, so a throw is a real failure rather than an absent key.
+            try SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
             try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
             logger.notice("Force discharge changed using CH0I/CH0J")
         case nil:

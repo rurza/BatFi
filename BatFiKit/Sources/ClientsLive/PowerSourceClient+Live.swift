@@ -47,8 +47,19 @@ extension PowerSourceClient: DependencyKey {
             let sourcesRef = IOPSCopyPowerSourcesList(snapshot)
             defer { sourcesRef?.release() }
 
-            if let sources = sourcesRef?.takeUnretainedValue() as? [CFTypeRef], let first = sources.first,
-               let info = IOPSGetPowerSourceDescription(snapshot, first)?.takeUnretainedValue() as? [String: AnyObject] {
+            // The *internal battery*, not whichever source happens to be first. With a UPS
+            // attached `first` may be the UPS, and every field below would then describe
+            // it. `isRunningOnLaptop` already demonstrates the correct filter; this is the
+            // same one. Falls back to `first` so a firmware that stops publishing
+            // `kIOPSTypeKey` degrades to today's behaviour rather than to no reading.
+            let sources = sourcesRef?.takeUnretainedValue() as? [CFTypeRef] ?? []
+            let descriptions = sources.compactMap {
+                IOPSGetPowerSourceDescription(snapshot, $0)?.takeUnretainedValue() as? [String: AnyObject]
+            }
+            let internalBattery = descriptions.first {
+                ($0[kIOPSTypeKey] as? String) == kIOPSInternalBatteryType
+            }
+            if let info = internalBattery ?? descriptions.first {
                 readings.batteryLevel = info[kIOPSCurrentCapacityKey] as? Int
                 readings.isCharging = info[kIOPSIsChargingKey] as? Bool
                 readings.powerSource = info[kIOPSPowerSourceStateKey] as? String
@@ -60,7 +71,15 @@ extension PowerSourceClient: DependencyKey {
             // Match IOPMPowerSource, the stable superclass, rather than the concrete
             // AppleSmartBattery: the concrete class has been renamed across firmware
             // generations before, and these properties are firmware-sourced.
-            let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMPowerSource"))
+            //
+            // Enumerated rather than taken as one arbitrary match. `IOServiceGetMatchingService`
+            // returns whichever conformer the registry hands back first, which is correct on
+            // the one Mac available to measure — exactly one node conforms — but broadening
+            // the match class to the superclass is what makes a second conformer possible.
+            // And because every field read below is now optional, the wrong node would not
+            // error: cycle count, temperature and the charger connection would all silently
+            // degrade to nil.
+            let service = matchingBatteryService()
             defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
 
             readings.cycleCount = getValue(kIOPMPSCycleCountKey, from: service)
@@ -91,6 +110,39 @@ extension PowerSourceClient: DependencyKey {
             return try PowerStateAssembler.assemble(readings)
         }
 
+        /// The `IOPMPowerSource` node that is the Mac's own battery.
+        ///
+        /// Prefers a node reporting `BatteryInstalled == true`, and falls back to the first
+        /// match — which is what the single-service call always returned — so a firmware
+        /// that stops publishing that property degrades to today's behaviour.
+        @Sendable
+        func matchingBatteryService() -> io_service_t {
+            var iterator: io_iterator_t = 0
+            guard IOServiceGetMatchingServices(
+                kIOMainPortDefault,
+                IOServiceMatching("IOPMPowerSource"),
+                &iterator
+            ) == KERN_SUCCESS else { return IO_OBJECT_NULL }
+            defer { IOObjectRelease(iterator) }
+
+            var fallback: io_service_t = IO_OBJECT_NULL
+            while case let candidate = IOIteratorNext(iterator), candidate != IO_OBJECT_NULL {
+                let installed = IORegistryEntryCreateCFProperty(
+                    candidate, "BatteryInstalled" as CFString, kCFAllocatorDefault, 0
+                )?.takeRetainedValue() as? Bool
+                if installed == true {
+                    if fallback != IO_OBJECT_NULL { IOObjectRelease(fallback) }
+                    return candidate
+                }
+                if fallback == IO_OBJECT_NULL {
+                    fallback = candidate
+                } else {
+                    IOObjectRelease(candidate)
+                }
+            }
+            return fallback
+        }
+
         /// Launch-time transients (IOKit still settling) resolve within a couple of seconds.
         let initialRetryDelays: [Duration] = [.milliseconds(200), .milliseconds(400), .milliseconds(800), .milliseconds(1600)]
         /// Safety net so recovery never depends on an IOPS notification arriving. Runs for
@@ -109,7 +161,7 @@ extension PowerSourceClient: DependencyKey {
         func logAvailableBatteryProperties(missing: PowerSourceField) {
             guard dumpGate.shouldDump(missing) else { return }
             let firmware = SystemFirmware.version() ?? "unknown"
-            let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMPowerSource"))
+            let service = matchingBatteryService()
             defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
             guard service != IO_OBJECT_NULL else {
                 dumpGate.releaseDump(missing)
