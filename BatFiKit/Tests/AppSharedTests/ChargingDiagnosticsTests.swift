@@ -23,8 +23,8 @@ import Testing
     private func diagnostics(
         backend: String = ChargeBackend.chte.rawValue,
         reasons: [String] = [],
-        forceDischargeAvailable: Bool = false,
-        magSafeLEDAvailable: Bool = false,
+        forceDischargeAvailable: Bool? = false,
+        magSafeLEDAvailable: Bool? = false,
         firmwareRangeIsArmed: Bool? = nil,
         appliedChargeLimit: Int? = nil,
         chargeLimitWasRaised: Bool = false,
@@ -56,20 +56,35 @@ import Testing
     /// is the direction that catches a half-wired field.
     @Test func availabilityFlagsSurviveTheXPCRoundTripWhenTrue() throws {
         let decoded = try roundTrip(diagnostics(forceDischargeAvailable: true, magSafeLEDAvailable: true))
-        #expect(decoded.forceDischargeAvailable)
-        #expect(decoded.magSafeLEDAvailable)
+        #expect(decoded.forceDischargeAvailable == true)
+        #expect(decoded.magSafeLEDAvailable == true)
     }
 
     /// The flags are independent of each other. Firmware that kept CHIE but reports no
     /// ACLC — or the reverse — must not have one answer stand in for the other.
     @Test func availabilityFlagsAreCarriedIndependently() throws {
         let forceOnly = try roundTrip(diagnostics(forceDischargeAvailable: true, magSafeLEDAvailable: false))
-        #expect(forceOnly.forceDischargeAvailable)
-        #expect(!forceOnly.magSafeLEDAvailable)
+        #expect(forceOnly.forceDischargeAvailable == true)
+        #expect(forceOnly.magSafeLEDAvailable == false)
 
         let ledOnly = try roundTrip(diagnostics(forceDischargeAvailable: false, magSafeLEDAvailable: true))
-        #expect(!ledOnly.forceDischargeAvailable)
-        #expect(ledOnly.magSafeLEDAvailable)
+        #expect(ledOnly.forceDischargeAvailable == false)
+        #expect(ledOnly.magSafeLEDAvailable == true)
+    }
+
+    /// Three-valued, like `firmwareRangeIsArmed`, and for a sharper reason: `false` on
+    /// either of these is *acted on* — one of them writes a persisted user setting off —
+    /// while nil means only that the helper could not probe. Collapsing them is how a
+    /// two-second driver hiccup destroyed a working Mac's green-light setting.
+    @Test func anUnaskedProbeRoundTripsAsUnknownRatherThanAsAbsent() throws {
+        let decoded = try roundTrip(diagnostics(
+            forceDischargeAvailable: nil,
+            magSafeLEDAvailable: nil
+        ))
+        #expect(decoded.forceDischargeAvailable == nil)
+        #expect(decoded.magSafeLEDAvailable == nil)
+        // And it does not leak into the derived answer either.
+        #expect(decoded.magSafeGreenLightAvailable == nil)
     }
 
     /// The fields that were already there still round trip beside the new ones.
@@ -178,16 +193,16 @@ import Testing
             forceDischargeAvailable: true,
             magSafeLEDAvailable: true
         )
-        #expect(value.magSafeLEDAvailable)
-        #expect(value.forceDischargeAvailable)
-        #expect(!value.magSafeGreenLightAvailable)
+        #expect(value.magSafeLEDAvailable == true)
+        #expect(value.forceDischargeAvailable == true)
+        #expect(value.magSafeGreenLightAvailable == false)
     }
 
     /// No key, no light — on any backend. The narrowing only ever removes.
     @Test func noLEDKeyMeansNoGreenLightOnAnyBackend() {
         for backend in ChargeBackend.allCases {
             let value = diagnostics(backend: backend.rawValue, magSafeLEDAvailable: false)
-            #expect(!value.magSafeGreenLightAvailable, "\(backend.rawValue)")
+            #expect(value.magSafeGreenLightAvailable == false, "\(backend.rawValue)")
         }
     }
 
@@ -199,7 +214,7 @@ import Testing
         let unknownBackend = "aBackendNoBuildHasEverShipped"
         #expect(ChargeBackend(rawValue: unknownBackend) == nil)
         let value = diagnostics(backend: unknownBackend, magSafeLEDAvailable: true)
-        #expect(value.magSafeGreenLightAvailable)
+        #expect(value.magSafeGreenLightAvailable == true)
     }
 
     /// Read app-side off a decoded instance, so it has to hold across the boundary.
@@ -208,8 +223,8 @@ import Testing
             backend: ChargeBackend.firmwareRange.rawValue,
             magSafeLEDAvailable: true
         ))
-        #expect(decoded.magSafeLEDAvailable)
-        #expect(!decoded.magSafeGreenLightAvailable)
+        #expect(decoded.magSafeLEDAvailable == true)
+        #expect(decoded.magSafeGreenLightAvailable == false)
     }
 
     // MARK: - systemChargeLimitIsHoldingCharge

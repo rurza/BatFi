@@ -225,7 +225,10 @@ public struct ChargeControlFacts: Equatable, Sendable {
         let mclSupported: Bool = mcl?.supported ?? false
         let currentSystemLimit: Int? = mcl?.systemLimit
         let holdsOverride: Bool = mcl?.batFiHasActiveOverride ?? false
-        let forceDischarge: Bool = diagnostics?.forceDischargeAvailable ?? false
+        // Two levels of optional collapse to one answer, and `false` is the right default
+        // for both: "the helper has not answered yet" and "the helper could not probe" are
+        // equally poor grounds for telling a user that a feature still works.
+        let forceDischarge: Bool = (diagnostics?.forceDischargeAvailable ?? nil) ?? false
 
         self.init(
             backend: resolvedBackend,

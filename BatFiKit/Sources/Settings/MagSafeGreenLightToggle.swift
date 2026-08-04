@@ -32,8 +32,10 @@ import SwiftUI
 /// same treatment the Charging pane gives every other capability this firmware lost.
 ///
 /// The setting is *also* turned off in `Defaults` by `MagSafeColorManager`, independently of
-/// anything shown here. Greying out a control is no protection on its own: the setting syncs
-/// between Macs, so the stored value has to be cleared where it is stored.
+/// anything shown here — but only where the reason is durable, see
+/// `MagSafeGreenLightSetting`. Greying out a control is no protection on its own: the stored
+/// value outlives this view and every other reader looks at it directly, so where the answer
+/// is permanent it has to be cleared where it is stored.
 struct MagSafeGreenLightToggle: View {
     @Default(.showGreenLightMagSafeWhenInhibiting) private var greenLight
 
@@ -44,6 +46,13 @@ struct MagSafeGreenLightToggle: View {
     /// flicker on all of them to be accurate about none.
     @State private var isAvailable = true
 
+    /// Which of the two reasons to give. `true` — the Mac has a MagSafe LED — means the
+    /// unavailability is the firmware's charge reporting; `false` means there is no
+    /// indicator light to drive at all, and the firmware sentence would describe a machine
+    /// this user does not have. Optimistic before the fetch, like `isAvailable`, so the
+    /// pair never renders "no light" on a Mac that has one.
+    @State private var hasMagSafeLED = true
+
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Toggle(isOn: $greenLight) {
@@ -51,18 +60,25 @@ struct MagSafeGreenLightToggle: View {
             }
             .disabled(!isAvailable)
             if !isAvailable {
-                Text(L10n.Settings.Label.magSafeGreenLightUnavailable)
-                    .offset(x: 19)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .settingDescription()
+                Text(
+                    hasMagSafeLED
+                        ? L10n.Settings.Label.magSafeGreenLightUnavailable
+                        : L10n.Settings.Label.magSafeGreenLightNoLED
+                )
+                .offset(x: 19)
+                .fixedSize(horizontal: false, vertical: true)
+                .settingDescription()
             }
         }
         .task {
             // A failed fetch leaves the setting enabled rather than disabling it: the same
             // fail-open rule the pane's other diagnostics reads follow, since a dropped
             // connection is not evidence about the firmware.
+            // `?? true` for the same reason, one level down: the helper answers nil when
+            // it could not probe at all, and "could not ask" is not "not there".
             if let diagnostics = try? await chargingClient.chargingDiagnostics() {
-                isAvailable = diagnostics.magSafeGreenLightAvailable
+                isAvailable = diagnostics.magSafeGreenLightAvailable ?? true
+                hasMagSafeLED = diagnostics.magSafeLEDAvailable ?? true
             }
         }
     }

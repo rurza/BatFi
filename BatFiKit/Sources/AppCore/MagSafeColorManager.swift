@@ -64,11 +64,18 @@ public actor MagSafeColorManager {
     /// Turns the green-light setting off **in `Defaults`** on a Mac where BatFi cannot tell
     /// when charge is being held back, rather than merely declining to act on it.
     ///
-    /// Persisted because a stored `true` is a loaded gun. The setting syncs between a
-    /// user's Macs and outlives a firmware update, so one left on is one that re-arms the
-    /// feature for any reader that does not independently ask the same question — and the
-    /// settings pane is a reader too. Writing the answer where every reader already looks
-    /// means it is stated once and cannot drift back on.
+    /// Persisted because a stored `true` is a loaded gun: it outlives a firmware update, so
+    /// one left on is one that re-arms the feature for any reader that does not
+    /// independently ask the same question — and the settings pane is a reader too. Writing
+    /// the answer where every reader already looks means it is stated once and cannot drift
+    /// back on.
+    ///
+    /// **Which answers are durable enough to persist is not decided here.**
+    /// `MagSafeGreenLightSetting.action` decides it, and the rule is that only the resolved
+    /// backend justifies a write: a key probe that came back "absent" can have come back
+    /// that way because the driver connection was briefly unavailable, and this write is
+    /// not reversible from the UI. That arm suppresses the light for the session and asks
+    /// again next launch instead.
     ///
     /// **Touches exactly one key.** `blinkMagSafeWhenDischarging` is not this function's to
     /// disable: it fires on BatFi's own `.forceDischarge` mode, written through `CHIE`,
@@ -91,11 +98,27 @@ public actor MagSafeColorManager {
         // question open, which is the safe direction — the alternative is switching a
         // user's setting off because the helper was slow to start.
         guard let diagnostics = (try? await chargingClient.chargingDiagnostics()) ?? nil else { return false }
-        magSafeGreenLightIsAvailable = diagnostics.magSafeGreenLightAvailable
-        guard !diagnostics.magSafeGreenLightAvailable else { return false }
-        logger.notice("The green light can't be driven on this Mac; turning that setting off for good")
-        defaults.setValue(.showGreenLightMagSafeWhenInhibiting, value: false)
-        return true
+        switch MagSafeGreenLightSetting.action(
+            magSafeLEDAvailable: diagnostics.magSafeLEDAvailable,
+            backend: ChargeBackend(rawValue: diagnostics.backend)
+        ) {
+        case .leaveAlone:
+            // Records `true` only when the answer really was "it works". An unknown stays
+            // nil, so the next pass asks again rather than caching a non-answer.
+            if diagnostics.magSafeGreenLightAvailable == true {
+                magSafeGreenLightIsAvailable = true
+            }
+            return false
+        case .suppressForThisSession:
+            magSafeGreenLightIsAvailable = false
+            logger.notice("The MagSafe LED key did not answer; not driving the green light this session")
+            return false
+        case .disablePermanently:
+            magSafeGreenLightIsAvailable = false
+            logger.notice("The green light can't be driven on this Mac; turning that setting off for good")
+            defaults.setValue(.showGreenLightMagSafeWhenInhibiting, value: false)
+            return true
+        }
     }
 
     private func updateMagsafeLEDIndicator(
@@ -113,6 +136,11 @@ public actor MagSafeColorManager {
         // the discharge blink, untouched, keeps working on the very next pass.
         let justDisarmed = await disarmGreenLightSettingIfUnavailable()
         guard !justDisarmed else { return }
+        // The setting can still read `true` while the light is known not to work: the
+        // suppress arm above deliberately leaves the user's value alone when the reason is
+        // a probe that may simply not have run. Fold that in here rather than there, so
+        // every green-light test below asks the same question.
+        let showGreenLightWhenInhibiting = showGreenLightWhenInhibiting && magSafeGreenLightIsAvailable != false
         let appMode = chargingMode.mode
         let currentMagSafeLEDOption = try? await magSafeLEDColor.currentMagSafeLEDOption()
         if let currentMagSafeLEDOption = currentMagSafeLEDOption {

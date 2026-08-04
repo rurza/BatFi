@@ -893,6 +893,16 @@ public enum L10n {
             /// battery level, so the light would be dark for most of the time it should be
             /// lit.
             public static let magSafeGreenLightUnavailable = String(localized: "settings.label.magsafe_green_light_unavailable", defaultValue: "Not available on this Mac. Its firmware decides when to charge and doesn't report when it's holding, so BatFi can't tell the light when to come on.", bundle: Bundle.module)
+
+            /// Not available on this Mac, which doesn't have a MagSafe indicator light.
+            ///
+            /// The *other* reason the green-light setting is unavailable, and it needs its
+            /// own words. The string above explains a firmware that will not report when it
+            /// is holding charge, which is true only under `.firmwareRange`; on a
+            /// USB-C-only MacBook Air there is no indicator light at all, and telling that
+            /// user about their firmware's charge reporting describes a machine they do not
+            /// have. Chosen on `ChargingDiagnostics.magSafeLEDAvailable`.
+            public static let magSafeGreenLightNoLED = String(localized: "settings.label.magsafe_green_light_no_led", defaultValue: "Not available on this Mac, which doesn't have a MagSafe indicator light.", bundle: Bundle.module)
         }
 
         public enum Section {

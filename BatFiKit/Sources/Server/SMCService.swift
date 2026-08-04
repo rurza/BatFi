@@ -372,11 +372,36 @@ actor SMCService {
     /// It means "the LED can be driven", which is what the discharge blink needs and which
     /// no backend takes away. Whether the *green light* can be driven is a narrower
     /// question, and it is asked where it belongs: `ChargingDiagnostics.magSafeGreenLightAvailable`.
+    ///
+    /// Both of those, and the `bfF0` read, are reported as **nil when the driver connection
+    /// never opened** — the same rule `currentBackend()` states and enforces twelve lines
+    /// above, applied here because this function probes too. `openSMCIfNeeded()` cannot
+    /// fail loudly; it exhausts its retries and returns with `smcIsOpened` still false, and
+    /// probing over a dead connection makes every key look absent. Two of these flags are
+    /// *acted on* rather than merely reported — `MagSafeColorManager` writes the user's
+    /// green-light setting off on one of them — so a two-second driver hiccup answering
+    /// `false` is a permanently destroyed setting on a perfectly healthy Mac.
     func chargingDiagnostics() async -> ChargingDiagnostics {
         let backend = await currentBackend()
         let firmwareVersion = SystemFirmware.version()
 
         await openSMCIfNeeded()
+        guard smcIsOpened else {
+            logger.error("SMC is not open; reporting the probed capabilities as unknown")
+            return ChargingDiagnostics(
+                backend: backend.rawValue,
+                firmwareVersion: firmwareVersion,
+                notChargingReasons: [],
+                mcl: await mclStatus(),
+                forceDischargeAvailable: nil,
+                magSafeLEDAvailable: nil,
+                firmwareRangeIsArmed: nil,
+                appliedChargeLimit: appliedSystemLimit?.applied,
+                chargeLimitWasRaised: appliedSystemLimit?.wasRaised ?? false,
+                requestedChargeLimit: appliedSystemLimit?.requested
+            )
+        }
+
         // Read defensively: CHNC may be absent on some firmware, and a diagnostics call
         // that throws is worse than useless. Absent or unreadable reports no reasons.
         let reasons: [String]

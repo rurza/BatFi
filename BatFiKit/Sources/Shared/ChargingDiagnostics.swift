@@ -53,22 +53,30 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// Decoded `CHNC` reasons, as `NotChargingReason.rawValue`.
     public let notChargingReasons: [String]
     public let mcl: MCLStatus?
-    /// Whether this firmware exposes a force-discharge mechanism BatFi can engage.
+    /// Whether this firmware exposes a force-discharge mechanism BatFi can engage, or
+    /// **nil where the helper could not ask** — the driver connection never opened, so
+    /// every key looks absent.
+    ///
+    /// Optional for the same reason `currentBackend()` refuses to cache a resolution over
+    /// a closed connection: a probe that could not run is not evidence that a key is
+    /// missing, and a `false` here is acted on. Nil means "unknown", which every reader
+    /// must render as "leave it alone" rather than as "gone".
     ///
     /// Deliberately independent of `backend`: `CHIE` outlives `CHTE` on newer firmware,
     /// so "Run on Battery" can still work on a machine whose charge limiting has fallen
     /// back to `.systemChargeLimit`. Answered by probing the keys, never inferred from
     /// the resolved backend.
-    public let forceDischargeAvailable: Bool
+    public let forceDischargeAvailable: Bool?
     /// Whether `ACLC`, the MagSafe LED key, is present — that is, whether the LED can be
-    /// driven at all. Independent of `backend`, and it must stay that way: the key survives
+    /// driven at all — or nil where the helper could not ask, exactly as above.
+    /// Independent of `backend`, and it must stay that way: the key survives
     /// on macOS 27 firmware, and the discharge blink runs off BatFi's own `.forceDischarge`
     /// mode, which BatFi writes itself and therefore knows on every firmware.
     ///
     /// Whether the *green light* can be driven is a narrower question with a different
     /// answer on one backend — see `magSafeGreenLightAvailable`. Answering both with this
     /// one flag took a working feature down with a broken one.
-    public let magSafeLEDAvailable: Bool
+    public let magSafeLEDAvailable: Bool?
 
     /// Whether the macOS 27 firmware charge range is armed right now, or nil where the
     /// question does not apply — every other backend — or where `bfF0` could not be read.
@@ -106,8 +114,8 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         firmwareVersion: String?,
         notChargingReasons: [String],
         mcl: MCLStatus?,
-        forceDischargeAvailable: Bool,
-        magSafeLEDAvailable: Bool,
+        forceDischargeAvailable: Bool?,
+        magSafeLEDAvailable: Bool?,
         firmwareRangeIsArmed: Bool? = nil,
         appliedChargeLimit: Int? = nil,
         chargeLimitWasRaised: Bool = false,
@@ -141,6 +149,7 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
 
     /// Whether the "green light on the MagSafe when charging is paused" setting can work on
     /// this Mac: the LED can be driven **and** BatFi knows when charge is being held back.
+    /// Nil when the helper could not ask — see `magSafeLEDAvailable`.
     ///
     /// The narrower of the two MagSafe questions, and the only one any backend takes away.
     /// The discharge blink deliberately does not consult it: that runs off BatFi's own
@@ -153,10 +162,20 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// runs. There, guessing wrong invents a claim about the hardware; here, guessing wrong
     /// switches off a feature that works. An older app talking to a newer helper should
     /// keep its LED.
-    public var magSafeGreenLightAvailable: Bool {
+    /// A backend that cannot mirror the charging state answers `false` even where the LED
+    /// probe could not run: that answer is a property of the firmware, not of the probe,
+    /// and it is the one cause of unavailability that is durable enough to act on.
+    public var magSafeGreenLightAvailable: Bool? {
+        if let resolved = ChargeBackend(rawValue: backend), !resolved.canMirrorChargingStateOnMagSafeLED {
+            return false
+        }
+        guard let magSafeLEDAvailable else { return nil }
         guard magSafeLEDAvailable else { return false }
-        guard let resolved = ChargeBackend(rawValue: backend) else { return true }
-        return resolved.canMirrorChargingStateOnMagSafeLED
+        // An unrecognized backend string leaves this open, unlike
+        // `systemChargeLimitIsHoldingCharge` above, and the difference is which way the
+        // damage runs. There, guessing wrong invents a claim about the hardware; here,
+        // guessing wrong switches off a feature that works.
+        return true
     }
 
     public func encode(with coder: NSCoder) {
@@ -164,8 +183,23 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         coder.encode(firmwareVersion, forKey: "firmwareVersion")
         coder.encode(notChargingReasons, forKey: "notChargingReasons")
         coder.encode(mcl, forKey: "mcl")
-        coder.encode(forceDischargeAvailable, forKey: "forceDischargeAvailable")
-        coder.encode(magSafeLEDAvailable, forKey: "magSafeLEDAvailable")
+        // Flag-plus-value, like everything else optional here: `decodeBool` cannot tell an
+        // absent key from a stored `false`, and here those are different answers — "the
+        // helper could not ask" versus "the key is not there". A newer app talking to an
+        // older daemon, which wrote a bare `Bool` under the same key, decodes the absent
+        // flag as nil and treats it as unknown, which is the fail-open direction.
+        if let forceDischargeAvailable {
+            coder.encode(true, forKey: "hasForceDischargeAvailable")
+            coder.encode(forceDischargeAvailable, forKey: "forceDischargeAvailable")
+        } else {
+            coder.encode(false, forKey: "hasForceDischargeAvailable")
+        }
+        if let magSafeLEDAvailable {
+            coder.encode(true, forKey: "hasMagSafeLEDAvailable")
+            coder.encode(magSafeLEDAvailable, forKey: "magSafeLEDAvailable")
+        } else {
+            coder.encode(false, forKey: "hasMagSafeLEDAvailable")
+        }
         // Same flag-plus-value shape the optional Ints below use, and needed for the same
         // reason: `decodeBool` cannot tell an absent key from a stored `false`, and here
         // those are different answers — "this Mac has no band" versus "the band is off".
@@ -198,8 +232,16 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         let reasons = coder.decodeObject(of: [NSArray.self, NSString.self], forKey: "notChargingReasons")
         notChargingReasons = (reasons as? [String]) ?? []
         mcl = coder.decodeObject(of: MCLStatus.self, forKey: "mcl")
-        forceDischargeAvailable = coder.decodeBool(forKey: "forceDischargeAvailable")
-        magSafeLEDAvailable = coder.decodeBool(forKey: "magSafeLEDAvailable")
+        if coder.decodeBool(forKey: "hasForceDischargeAvailable") {
+            forceDischargeAvailable = coder.decodeBool(forKey: "forceDischargeAvailable")
+        } else {
+            forceDischargeAvailable = nil
+        }
+        if coder.decodeBool(forKey: "hasMagSafeLEDAvailable") {
+            magSafeLEDAvailable = coder.decodeBool(forKey: "magSafeLEDAvailable")
+        } else {
+            magSafeLEDAvailable = nil
+        }
         if coder.decodeBool(forKey: "hasFirmwareRangeIsArmed") {
             firmwareRangeIsArmed = coder.decodeBool(forKey: "firmwareRangeIsArmed")
         } else {
@@ -226,10 +268,14 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         // apply, and a bug report that says the band is off would send the reader hunting
         // for a write that was never owed.
         let band = firmwareRangeIsArmed.map { $0 ? "armed" : "released" } ?? "—"
+        // "—" rather than "false" for the same reason: a probe that could not run is not
+        // the same report as a key that is not there, and a bug report must not conflate
+        // them.
+        func flag(_ value: Bool?) -> String { value.map(String.init(describing:)) ?? "—" }
         return """
         ChargingDiagnostics(backend: \(backend), firmware: \(firmwareVersion ?? "unknown"), \
         reasons: \(notChargingReasons), appliedLimit: \(applied), firmwareRange: \(band), \
-        forceDischarge: \(forceDischargeAvailable), magSafeLED: \(magSafeLEDAvailable))
+        forceDischarge: \(flag(forceDischargeAvailable)), magSafeLED: \(flag(magSafeLEDAvailable)))
         """
     }
 }
