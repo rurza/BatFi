@@ -31,6 +31,9 @@ struct AutomationLocationPicker: View {
     @State private var snapshot = LocationSnapshot()
     @State private var isLocating = false
 
+    /// A fix older than this is not good enough to answer "Use current location".
+    private static let currentLocationMaxAge: TimeInterval = 300
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -100,7 +103,7 @@ struct AutomationLocationPicker: View {
             if let coordinate { recenter(on: coordinate.clCoordinate) }
             for await snapshot in locationClient.snapshotUpdates() {
                 self.snapshot = snapshot
-                if isLocating, let fix = snapshot.lastFix {
+                if isLocating, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
                     apply(fix)
                     isLocating = false
                 }
@@ -171,7 +174,7 @@ struct AutomationLocationPicker: View {
     /// locationd's push cadence, not detecting a real failure. A fresh-enough fix fills the
     /// field immediately; otherwise the button shows "Locating…" until a fix arrives.
     private func useCurrentLocation() {
-        if snapshot.hasFix(fresherThan: 300), let fix = snapshot.lastFix {
+        if snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
             apply(fix)
         } else {
             isLocating = true
