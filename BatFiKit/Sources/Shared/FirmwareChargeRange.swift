@@ -13,6 +13,25 @@
 
 import Foundation
 
+/// One write in a firmware-range sequence: the key it targets and the exact bytes for it.
+///
+/// The key is a `FirmwareRangeKeyShape.Key` rather than a code of its own, so a sequence
+/// can only ever name a key the resolver already probed and matched, and the four-character
+/// codes stay stated exactly once.
+public struct FirmwareRangeWrite: Sendable, Equatable {
+    public let key: FirmwareRangeKeyShape.Key
+    /// `key.size` bytes, already in the byte order the firmware expects — little-endian
+    /// for the two bounds. Shorter than `key.size` is never produced by the sequences
+    /// below; a writer that pads is padding into bytes the driver ignores, because the
+    /// write length comes from the key's own size.
+    public let bytes: [UInt8]
+
+    public init(key: FirmwareRangeKeyShape.Key, bytes: [UInt8]) {
+        self.key = key
+        self.bytes = bytes
+    }
+}
+
 /// Encoding for the macOS 27 firmware-managed charge range.
 public enum FirmwareChargeRange {
     /// Hysteresis in percentage points between the upper and lower bounds. Matches
@@ -63,4 +82,61 @@ public enum FirmwareChargeRange {
         // upper one, i.e. an inverted band, which is not something to hand to firmware.
         return (upper, min(lower, upper))
     }
+
+    /// `bfF0` at this value: the range is not in force and the firmware charges freely.
+    public static let activationOff: UInt8 = 0x00
+    /// `bfF0` at this value: the range is in force and the firmware enforces the band,
+    /// including while the Mac is asleep.
+    public static let activationOn: UInt8 = 0x02
+
+    /// Whether a `bfF0` reading says the range is armed.
+    ///
+    /// Tested against "off" rather than for `activationOn` exactly, the same way
+    /// `smcChargingStatus` tests the force-discharge keys for "not connected": only the
+    /// released value has been pinned down, and a firmware that used some other non-zero
+    /// byte for an armed state must not read back as released. Erring toward "armed" is
+    /// the safe direction — it reports charge control as in force, which is what the
+    /// engage path just asked for.
+    public static func rangeIsEngaged(activation: UInt8) -> Bool {
+        activation != activationOff
+    }
+
+    /// The writes that put a band in force, **in the order the firmware requires**:
+    /// deactivate, upper bound, lower bound, activate.
+    ///
+    /// A value rather than four `writeData` calls in an actor method on purpose. The order
+    /// is a firmware requirement and nobody has the hardware to observe it being violated,
+    /// so it has to be something a test can read — and reordering it silently produces a
+    /// Mac that charges past the user's limit, which is precisely the failure that goes
+    /// unnoticed. The caller performs this list; it does not decide it.
+    ///
+    /// Note that the sequence both opens and closes on the activation key. That is what
+    /// makes `releaseSequence` a complete undo: nothing is armed before the final write,
+    /// so clearing that one key disarms everything this sequence did.
+    public static func engageSequence(forLimit limit: Int) -> [FirmwareRangeWrite] {
+        let bounds = band(forLimit: limit)
+        let upper = encodePercentage(bounds.upper)
+        let lower = encodePercentage(bounds.lower)
+        return [
+            FirmwareRangeWrite(key: FirmwareRangeKeyShape.activation, bytes: [activationOff]),
+            FirmwareRangeWrite(
+                key: FirmwareRangeKeyShape.upperBound,
+                bytes: [upper.0, upper.1, upper.2, upper.3]
+            ),
+            FirmwareRangeWrite(
+                key: FirmwareRangeKeyShape.lowerBound,
+                bytes: [lower.0, lower.1, lower.2, lower.3]
+            ),
+            FirmwareRangeWrite(key: FirmwareRangeKeyShape.activation, bytes: [activationOn]),
+        ]
+    }
+
+    /// The writes that take the band back out of force — a single one, because the bounds
+    /// mean nothing while the activation key is off.
+    ///
+    /// The same list serves `releaseFirmwareRange` and the reset path, so the safety net
+    /// cannot come to clear less than the engage path arms.
+    public static let releaseSequence: [FirmwareRangeWrite] = [
+        FirmwareRangeWrite(key: FirmwareRangeKeyShape.activation, bytes: [activationOff])
+    ]
 }

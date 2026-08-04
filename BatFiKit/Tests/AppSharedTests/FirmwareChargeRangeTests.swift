@@ -54,4 +54,113 @@ import Testing
             #expect(FirmwareChargeRange.band(forLimit: limit).upper == limit)
         }
     }
+
+    /// The order is mandated by the firmware: deactivate, upper, lower, activate.
+    /// Nobody has macOS 27 hardware, so this test is the only thing that can catch a
+    /// reordering — and a reordering produces a Mac that charges past the user's limit
+    /// while reporting success.
+    @Test func engageSequenceFollowsTheMandatoryOrder() {
+        let steps = FirmwareChargeRange.engageSequence(forLimit: 80)
+        #expect(steps.map(\.key.code) == ["bfF0", "bfD0", "bfE0", "bfF0"])
+        #expect(steps.map(\.bytes) == [
+            [0x00],
+            [0x50, 0x00, 0x00, 0x00],
+            [0x4B, 0x00, 0x00, 0x00],
+            [0x02],
+        ])
+    }
+
+    /// The order holds for every limit, not just the one spelled out above.
+    @Test func engageSequenceOrderHoldsForEveryLimit() {
+        for limit in 0 ... 100 {
+            let steps = FirmwareChargeRange.engageSequence(forLimit: limit)
+            #expect(steps.map(\.key) == [
+                FirmwareRangeKeyShape.activation,
+                FirmwareRangeKeyShape.upperBound,
+                FirmwareRangeKeyShape.lowerBound,
+                FirmwareRangeKeyShape.activation,
+            ])
+            #expect(steps.first?.bytes == [FirmwareChargeRange.activationOff])
+            #expect(steps.last?.bytes == [FirmwareChargeRange.activationOn])
+        }
+    }
+
+    /// Arming is the last thing the sequence does, which is what makes clearing the one
+    /// activation key a complete undo.
+    @Test func nothingIsArmedBeforeTheFinalWrite() {
+        let steps = FirmwareChargeRange.engageSequence(forLimit: 65)
+        let armingWrites = steps.filter {
+            $0.key == FirmwareRangeKeyShape.activation && $0.bytes != [FirmwareChargeRange.activationOff]
+        }
+        #expect(armingWrites.count == 1)
+        #expect(steps.last.map { $0.key == FirmwareRangeKeyShape.activation } == true)
+    }
+
+    /// The bounds carry the little-endian percentages the encoder produces — no second
+    /// encoding crept into the sequence builder.
+    @Test func engageSequenceUsesTheLittleEndianEncoder() {
+        for limit in 0 ... 100 {
+            let bounds = FirmwareChargeRange.band(forLimit: limit)
+            let upper = FirmwareChargeRange.encodePercentage(bounds.upper)
+            let lower = FirmwareChargeRange.encodePercentage(bounds.lower)
+            let steps = FirmwareChargeRange.engageSequence(forLimit: limit)
+            #expect(steps[1].bytes == [upper.0, upper.1, upper.2, upper.3])
+            #expect(steps[2].bytes == [lower.0, lower.1, lower.2, lower.3])
+        }
+    }
+
+    /// Every write is exactly as long as the key the resolver verified, so the driver
+    /// never sends a truncated or over-long value.
+    @Test func everyWriteMatchesItsKeySize() {
+        let sequences = [FirmwareChargeRange.engageSequence(forLimit: 80), FirmwareChargeRange.releaseSequence]
+        for steps in sequences {
+            for step in steps {
+                #expect(UInt32(step.bytes.count) == step.key.size)
+            }
+        }
+    }
+
+    /// Releasing is one write of the activation key, and it is `off`.
+    @Test func releaseSequenceClearsActivation() {
+        #expect(FirmwareChargeRange.releaseSequence == [
+            FirmwareRangeWrite(key: FirmwareRangeKeyShape.activation, bytes: [FirmwareChargeRange.activationOff])
+        ])
+    }
+
+    /// **The reset invariant, as a value.** Every key the engage path writes must be
+    /// cleared by the release path — either directly, or because it is inert once the
+    /// activation key is off. The bounds are in the second category, so the check is that
+    /// the release path covers the activation key and that nothing else the engage path
+    /// touches survives it.
+    @Test func releaseCoversEveryKeyEngageArms() {
+        let engaged = Set(FirmwareChargeRange.engageSequence(forLimit: 80).map(\.key.code))
+        let released = Set(FirmwareChargeRange.releaseSequence.map(\.key.code))
+        #expect(released.contains(FirmwareRangeKeyShape.activation.code))
+        // Anything engage writes that release does not must be a bound, which the firmware
+        // ignores while the activation key is off. A new key here is a new thing to clear.
+        let uncleared = engaged.subtracting(released)
+        #expect(uncleared == [FirmwareRangeKeyShape.upperBound.code, FirmwareRangeKeyShape.lowerBound.code])
+    }
+
+    /// Every key either sequence names is one the helper actually probes, so a write can
+    /// never target a key the resolver never verified.
+    @Test func everySequenceKeyIsProbed() {
+        let sequences = [FirmwareChargeRange.engageSequence(forLimit: 80), FirmwareChargeRange.releaseSequence]
+        for steps in sequences {
+            for step in steps {
+                #expect(FirmwareRangeKeyShape.all.contains(step.key))
+                #expect(ChargeBackendResolver.probedKeys.contains(step.key.code))
+            }
+        }
+    }
+
+    /// `off` is the only value read as "not armed". A firmware using some other non-zero
+    /// byte for an armed state must not read back as released.
+    @Test func activationStatusTreatsAnyNonZeroAsEngaged() {
+        #expect(FirmwareChargeRange.rangeIsEngaged(activation: FirmwareChargeRange.activationOff) == false)
+        #expect(FirmwareChargeRange.rangeIsEngaged(activation: FirmwareChargeRange.activationOn))
+        for value in UInt8(1) ... UInt8(255) {
+            #expect(FirmwareChargeRange.rangeIsEngaged(activation: value))
+        }
+    }
 }

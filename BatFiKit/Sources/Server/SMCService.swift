@@ -209,13 +209,19 @@ actor SMCService {
         let backend = await currentBackend()
         switch backend {
         case .firmwareRange:
-            // Resolved, but not yet driven: the band writer is the next commit on this
-            // branch. Failing is the fail-closed answer — `ChargingManager.applyChargeLimit`
-            // catches it, logs once and applies nothing — where returning the request
-            // would record a limit in `AppliedChargeLimit` that nothing put in force, and
-            // the pane would show a limit this Mac is not holding.
-            logger.error("Firmware charge range resolved but the band writer is not wired up yet")
-            throw SMCError.keyNotFound(code: FirmwareRangeKeyShape.upperBound.code)
+            // Handed back for the same reason as the inhibit backends below: a re-probe can
+            // flip this machine from `.systemChargeLimit` to here — a firmware token change,
+            // or a `bf**` probe that failed transiently and then succeeded — and forgetting
+            // an adopted limit without releasing it would strand Apple's Manual Charge Limit
+            // at BatFi's value. Done before the band write, so a throwing write cannot be
+            // what strands it. `releaseSystemLimit` self-guards on the snapshot.
+            await PowerUICharging.shared.releaseSystemLimit()
+            appliedSystemLimit = nil
+            try applyFirmwareRange(percentage)
+            // The band's upper bound is the user's number exactly — see
+            // `FirmwareChargeRange.band(forLimit:)`, which derives only the lower bound —
+            // so the request is what is in force, including below 80%.
+            return percentage
         case .chte, .legacyCH0BC:
             // Handled by the existing inhibit path, which applies the requested value
             // exactly. Anything the system-limit backend left behind is handed back first:
@@ -591,15 +597,25 @@ actor SMCService {
         
         switch await currentBackend() {
         case .firmwareRange:
-            // BatFi holds no inhibit here — charge control is a band the firmware
-            // enforces — and nothing on this branch writes the activation key yet, so
-            // charging really is enabled. Answered rather than thrown for the reason
-            // spelled out in the `.systemChargeLimit` arm below: a throw here drops the
-            // backend cache, closes the driver connection and pins the app in
-            // `ChargingMode.initial` for the life of the process. Reads the activation
-            // key once the range writer lands.
-            logger.notice("Firmware charge range backend: BatFi holds no inhibit, charging is enabled")
-            return true
+            // Read, not inferred: BatFi's own writes are not the only thing that can arm
+            // this key, and the firmware owns the charging decision under this backend.
+            //
+            // Read failure degrades to "enabled" instead of throwing, and the asymmetry
+            // with the write path is deliberate. A failed *write* is a limit the user
+            // asked for that is not in force, and must be reported. A failed *read* is
+            // one unknown status — but throwing it here drops the backend cache, closes
+            // the driver connection, and pins the app in `ChargingMode.initial` for the
+            // life of the process, because `smcChargingStatus()` is the only thing that
+            // moves it off `.initial` and its catch tears both down. That trap has been
+            // walked into twice on this branch already; the honest report of an unknown
+            // status is not worth taking charge management down for.
+            guard let data = try? SMCKit.readData(.firmwareRangeActivation) else {
+                logger.error("Failed to read the firmware charge range status; reporting charging as enabled")
+                return true
+            }
+            let isEnabled = !FirmwareChargeRange.rangeIsEngaged(activation: data.0)
+            logger.notice("Firmware charge range: charging enabled = \(isEnabled)")
+            return isEnabled
         case .chte:
             let data = try SMCKit.readData(.inhibitCharging3)
             let isEnabled = data.0 == 0
@@ -647,12 +663,21 @@ actor SMCService {
 
         switch await currentBackend() {
         case .firmwareRange:
-            // Same shape as `.systemChargeLimit` below and for the same reason: there is
-            // no inhibit key to write, control is expressed as a band, and a throw here
-            // propagates into `setChargingMode` and `restoreSystemDefaults()` where it is
-            // read as a failed write that was never owed. The band write is
-            // `applyChargeLimit`'s, and lands with the range writer.
-            logger.notice("Charging mode is governed by the firmware charge range; no inhibit write to make")
+            if enable {
+                // The one path that hands the machine back unlimited. `restoreSystemDefaults()`
+                // reaches it — that is how quitting BatFi, or turning charge management off,
+                // stops the firmware holding a band the user can no longer see or change.
+                // A failure here is a real one and is reported: unlike the inhibit-free
+                // backends below, there genuinely was a write owed.
+                try releaseFirmwareRange()
+            } else {
+                // No inhibit key exists on this firmware and none is wanted: charge control
+                // is a band, already put in force by `applyChargeLimit`, which
+                // `ChargingManager.updateStatus` calls ahead of every mode decision. Writing
+                // an inhibit as well would be a second mechanism holding charge back, which
+                // is the arrangement `reconcileMCLOwnership` exists to prevent elsewhere.
+                logger.notice("Charging mode is governed by the firmware charge range; the band is the inhibit")
+            }
         case .chte:
             try SMCKit.writeData(.inhibitCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
             logger.notice("Inhibit charging changed using CHTE")
@@ -682,6 +707,53 @@ actor SMCService {
             logger.error("No usable charge control mechanism on this firmware")
             throw SMCError.keyNotFound(code: "CHTE")
         }
+    }
+
+    /// Performs one step of a firmware-range sequence.
+    ///
+    /// The `SMCKey` comes from the step's own shape key, so a sequence physically cannot
+    /// name one key and write another, and the write length comes from the size the
+    /// resolver verified against this firmware.
+    ///
+    /// Short byte arrays are padded out because `SMCKit.writeData` takes four; the driver
+    /// only sends `info.size` of them, so the padding lands nowhere — that is what lets the
+    /// one-byte activation write and the four-byte bound writes share a path.
+    private func perform(_ step: FirmwareRangeWrite) throws {
+        func byte(_ index: Int) -> UInt8 { index < step.bytes.count ? step.bytes[index] : 0 }
+        try SMCKit.writeData(
+            SMCKey(step.key),
+            byte0: byte(0),
+            byte1: byte(1),
+            byte2: byte(2),
+            byte3: byte(3)
+        )
+    }
+
+    /// Hands the firmware a charge band.
+    ///
+    /// The steps, their order and their bytes are decided by
+    /// `FirmwareChargeRange.engageSequence` — deactivate, upper, lower, activate, with the
+    /// percentages little-endian against the house convention. This performs them and does
+    /// not decide them: the order is a firmware requirement nobody here has the hardware to
+    /// observe being violated, so it lives where a test can read it.
+    private func applyFirmwareRange(_ limit: Int) throws {
+        for step in FirmwareChargeRange.engageSequence(forLimit: limit) {
+            try perform(step)
+        }
+        let band = FirmwareChargeRange.band(forLimit: limit)
+        logger.notice("""
+        Firmware charge range set to \(band.lower, privacy: .public)-\(band.upper, privacy: .public)%
+        """)
+    }
+
+    /// Takes the band out of force. A single write — the bounds mean nothing while the
+    /// activation key is off — driven by the same list `resetIfPossible()` replays, so the
+    /// release and the safety net cannot come to clear different keys.
+    private func releaseFirmwareRange() throws {
+        for step in FirmwareChargeRange.releaseSequence {
+            try perform(step)
+        }
+        logger.notice("Firmware charge range released")
     }
 
     /// Whether the firmware exposes a force-discharge key in the shape this code needs.
