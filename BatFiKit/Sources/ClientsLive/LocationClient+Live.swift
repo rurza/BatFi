@@ -283,18 +283,34 @@ private actor FenceMonitor {
         publish(next)
     }
 
+    /// Retries forever, because a stream that ends or throws must not leave fence events dead
+    /// for the rest of the process lifetime — automation would silently stop responding to
+    /// location with nothing but a log line to show for it.
+    ///
+    /// The only exits are cancellation and an empty desired set. Both are already driven by
+    /// `reconcile()`, which cancels and nils `eventTask` itself; this task deliberately never
+    /// assigns `eventTask` from inside its own body, since `reconcile()` may have just stored
+    /// a newer task and self-nilling could null out the wrong one.
     private func consumeEvents() async {
-        guard let monitor else { return }
-        do {
-            for try await event in await monitor.events {
-                guard let id = UUID(uuidString: event.identifier) else { continue }
-                var next = satisfied
-                if event.state == .satisfied { next.insert(id) } else { next.remove(id) }
-                logger.notice("Fence event. state=\(String(describing: event.state), privacy: .public)")
-                publish(next)
+        while !Task.isCancelled, !desired.isEmpty {
+            guard let monitor else { return }
+            do {
+                for try await event in await monitor.events {
+                    guard let id = UUID(uuidString: event.identifier) else { continue }
+                    var next = satisfied
+                    if event.state == .satisfied { next.insert(id) } else { next.remove(id) }
+                    logger.notice("Fence event. state=\(String(describing: event.state), privacy: .public)")
+                    publish(next)
+                }
+                logger.warning("Fence event stream ended; restarting")
+            } catch {
+                logger.warning("Fence event stream failed: \(error.localizedDescription, privacy: .public); restarting")
             }
-        } catch {
-            logger.warning("Fence event stream ended: \(error.localizedDescription, privacy: .public)")
+            // Transitions may have been missed while the stream was down, so re-read the
+            // authoritative per-condition state before resuming.
+            await reseedSatisfied(from: monitor)
+            // Hot-loop guard: without this, a stream that fails immediately would spin.
+            try? await Task.sleep(for: .seconds(5))
         }
     }
 
