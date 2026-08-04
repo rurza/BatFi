@@ -46,6 +46,17 @@ actor PowerUICharging {
 
     var isAvailable: Bool { client != nil && clientClass != nil }
 
+    /// Whether this machine's PowerUI reports Manual Charge Limit support. Asking the
+    /// framework is strictly better than inferring it from the macOS version.
+    var isMCLSupported: Bool {
+        guard let client, let clientClass else { return false }
+        let selector = NSSelectorFromString("isMCLSupported")
+        guard let method = class_getInstanceMethod(clientClass, selector) else { return false }
+        typealias Query = @convention(c) (AnyObject, Selector) -> ObjCBool
+        let query = unsafeBitCast(method_getImplementation(method), to: Query.self)
+        return query(client, selector).boolValue
+    }
+
     var hasActiveOverride: Bool { lastOverrideValue != 0 }
 
     /// Temporarily overrides the system Manual Charge Limit (System Settings → Battery → Charging).

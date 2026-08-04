@@ -83,7 +83,7 @@ actor SMCService {
         do {
             try await enableCharging(!inhibitCharging)
             try await enableForceDischarge(forceDischarge)
-            if #available(macOS 26.4, *), message == .auto {
+            if await PowerUICharging.shared.isMCLSupported, message == .auto {
                 do {
                     try await PowerUICharging.shared.overrideMCLTarget(100)
                 } catch {
@@ -102,7 +102,7 @@ actor SMCService {
     /// and sets SMC back to auto-charge. Used on app quit and when the user disables BatFi's
     /// charge management.
     func restoreSystemDefaults() async throws {
-        if #available(macOS 26.4, *) {
+        if await PowerUICharging.shared.isMCLSupported {
             await PowerUICharging.shared.clearMCLOverride()
         }
 
@@ -121,7 +121,7 @@ actor SMCService {
     }
 
     func mclStatus() async -> MCLStatus {
-        if #available(macOS 26.4, *) {
+        if await PowerUICharging.shared.isMCLSupported {
             return await PowerUICharging.shared.mclStatus()
         }
         return MCLStatus(supported: false, batFiHasActiveOverride: false, lastOverrideValue: nil)
