@@ -287,7 +287,14 @@ public actor ChargingManager: ChargingModeManager {
             await disengage(chargerConnected: chargerConnected)
             return
         }
-        
+
+        // Past both guards, so this only runs where BatFi is actually managing charging,
+        // and ahead of the mode decision, so whichever branch is taken below the limit is
+        // already in force. The value follows the same precedence used everywhere else a
+        // target limit is worked out: a manual temp override beats the automation limit,
+        // which beats the user's configured one.
+        await applyChargeLimit(userTempChargingMode?.limit ?? effectiveChargeLimit)
+
         if turnOffChargingWithHotBattery,
            let batteryTemperature = powerState.batteryTemperature,
            batteryTemperature > Constant.batteryTemperatureWarning {
@@ -360,6 +367,34 @@ public actor ChargingManager: ChargingModeManager {
                     currentMode: currentMode
                 )
             }
+        }
+    }
+
+    /// Puts the target limit in force through whichever mechanism the helper resolved.
+    ///
+    /// Under the SMC backends this costs almost nothing — they express a limit as an
+    /// inhibit, so the helper reads its cached backend and hands the requested value
+    /// straight back — which is why one call site serves every backend. Under the system
+    /// charge limit it is the only thing holding charge back at all: there is no inhibit
+    /// write on that firmware, so without this the mode decision below would decide a
+    /// mode nothing could enforce.
+    ///
+    /// A failure is logged and swallowed deliberately. The mode decision that follows is
+    /// what every currently working Mac relies on and it does not depend on this call, so
+    /// aborting it because Apple's limit could not be set would regress machines that
+    /// never needed the limit in the first place.
+    private func applyChargeLimit(_ limit: Int) async {
+        do {
+            let applied = try await chargingClient.applyChargeLimit(limit)
+            // Only worth saying when the mechanism could not honour the request — the SMC
+            // backends always can, and this runs on every status update.
+            if applied != limit {
+                logger.notice("Charge limit \(limit, privacy: .public)% applied as \(applied, privacy: .public)%")
+                await analytics.addBreadcrumb(category: .chargingManager, message: "Charge limit \(limit)% applied as \(applied)%")
+            }
+        } catch {
+            logger.warning("Failed to apply charge limit \(limit, privacy: .public)%: \(error, privacy: .public)")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to apply charge limit. Error: \(error.localizedDescription)")
         }
     }
 
