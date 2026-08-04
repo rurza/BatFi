@@ -6,6 +6,7 @@
 //  "use current location", and a radius slider drawn as a circle overlay.
 //
 
+import AppKit
 import AppShared
 import Clients
 import Dependencies
@@ -27,9 +28,8 @@ struct AutomationLocationPicker: View {
         )
     )
     @State private var searchText = ""
-    @State private var permissionDenied = false
+    @State private var snapshot = LocationSnapshot()
     @State private var isLocating = false
-    @State private var locationMessage: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -43,13 +43,20 @@ struct AutomationLocationPicker: View {
                     ProgressView()
                         .controlSize(.small)
                         .padding(.trailing, 4)
+                    Text(L10n.Automation.locating)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
-                Button(L10n.Automation.useCurrentLocation) {
-                    Task { await useCurrentLocation() }
+                if isLocating {
+                    Button(L10n.Automation.cancel) { isLocating = false }
+                        .controlSize(.small)
+                } else {
+                    Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
+                        .controlSize(.small)
                 }
-                .controlSize(.small)
-                .disabled(isLocating)
             }
+
+            banner
 
             MapReader { proxy in
                 Map(position: $cameraPosition, interactionModes: .all) {
@@ -76,7 +83,7 @@ struct AutomationLocationPicker: View {
 
             HStack {
                 Text(L10n.Automation.locationRadius)
-                Slider(value: $radiusMeters, in: 50...2000, step: 50)
+                Slider(value: $radiusMeters, in: 100...2000, step: 50)
                 Text("\(Int(radiusMeters)) m")
                     .monospacedDigit()
                     .foregroundStyle(.secondary)
@@ -86,24 +93,64 @@ struct AutomationLocationPicker: View {
             TextField(L10n.Automation.locationLabelPlaceholder, text: $label)
                 .textFieldStyle(.roundedBorder)
 
-            if permissionDenied {
-                Text(L10n.Automation.locationPermissionDenied)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            } else if let locationMessage {
-                Text(locationMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+        }
+        .task {
+            // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
+            // picker closes. This is the only place in the app that runs continuous updates.
+            if let coordinate { recenter(on: coordinate.clCoordinate) }
+            for await snapshot in locationClient.snapshotUpdates() {
+                self.snapshot = snapshot
+                if isLocating, let fix = snapshot.lastFix {
+                    apply(fix)
+                    isLocating = false
+                }
             }
         }
-        .onAppear {
-            // Ask for permission as soon as the location section is shown, so the prompt
-            // appears when the user opts into a location condition (no-op once determined).
-            locationClient.requestAuthorization()
-            if let coordinate {
-                recenter(on: coordinate.clCoordinate)
+    }
+
+    /// Rendered above the map on purpose: the previous copy sat at the bottom of scrollable
+    /// content, where a user who needed it had no indication it existed.
+    @ViewBuilder private var banner: some View {
+        switch PermissionBannerState(snapshot) {
+        case .none:
+            EmptyView()
+        case .servicesOff:
+            bannerRow(L10n.Automation.locationServicesOff, action: .openSettings)
+        case .notDetermined:
+            bannerRow(L10n.Automation.locationNotDetermined, action: .allowAccess)
+        case .denied:
+            bannerRow(L10n.Automation.locationPermissionDenied, action: .openSettings)
+        case .restricted:
+            bannerRow(L10n.Automation.locationRestricted, action: .none)
+        }
+    }
+
+    private enum BannerAction { case allowAccess, openSettings, none }
+
+    @ViewBuilder private func bannerRow(_ message: String, action: BannerAction) -> some View {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+            switch action {
+            case .allowAccess:
+                Button(L10n.Automation.locationAllowAccess) { locationClient.requestAuthorization() }
+                    .controlSize(.small)
+            case .openSettings:
+                Button(L10n.Automation.locationOpenSettings) { openLocationSettings() }
+                    .controlSize(.small)
+            case .none:
+                EmptyView()
             }
         }
+    }
+
+    private func openLocationSettings() {
+        // Same pattern as Onboarding.swift:104.
+        guard let url = URL(string: "x-apple.systempreferences:com.apple.settings.PrivacySecurity.extension?Privacy_LocationServices") else { return }
+        NSWorkspace.shared.open(url)
     }
 
     private func set(_ clCoordinate: CLLocationCoordinate2D) {
@@ -119,26 +166,22 @@ struct AutomationLocationPicker: View {
         )
     }
 
-    private func useCurrentLocation() async {
-        if locationClient.authorizationStatus() == .denied {
-            permissionDenied = true
-            return
-        }
-        isLocating = true
-        locationMessage = nil
-        defer { isLocating = false }
-        let coordinate = await locationClient.currentCoordinate()
-        if let coordinate {
-            permissionDenied = false
-            locationMessage = nil
-            self.coordinate = coordinate
-            recenter(on: coordinate.clCoordinate)
-            if label.isEmpty { label = L10n.Automation.currentLocationLabel }
-        } else if locationClient.authorizationStatus() == .denied {
-            permissionDenied = true
+    /// No timeout. The old 12-second timer reported "couldn't determine your location" while
+    /// authorization was authorizedAlways and fixes were arriving normally — it was racing
+    /// locationd's push cadence, not detecting a real failure. A fresh-enough fix fills the
+    /// field immediately; otherwise the button shows "Locating…" until a fix arrives.
+    private func useCurrentLocation() {
+        if snapshot.hasFix(fresherThan: 300), let fix = snapshot.lastFix {
+            apply(fix)
         } else {
-            locationMessage = L10n.Automation.locationCouldNotDetermine
+            isLocating = true
         }
+    }
+
+    private func apply(_ fix: Coordinate) {
+        coordinate = fix
+        recenter(on: fix.clCoordinate)
+        if label.isEmpty { label = L10n.Automation.currentLocationLabel }
     }
 
     private func search() async {

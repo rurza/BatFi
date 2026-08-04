@@ -43,6 +43,12 @@ public extension L10n {
         public static let useCurrentLocation = String(localized: "automation.editor.use_current_location", defaultValue: "Use current location", bundle: Bundle.module)
         public static let locationLabelPlaceholder = String(localized: "automation.editor.location_label", defaultValue: "Place name", bundle: Bundle.module)
         public static let locationPermissionDenied = String(localized: "automation.editor.location_denied", defaultValue: "Location access is denied. Enable it in System Settings › Privacy & Security › Location Services.", bundle: Bundle.module)
+        public static let locationServicesOff = String(localized: "automation.editor.location_services_off", defaultValue: "Location Services is turned off for this Mac.", bundle: Bundle.module)
+        public static let locationNotDetermined = String(localized: "automation.editor.location_not_determined", defaultValue: "BatFi needs location access to match rules to where your Mac is.", bundle: Bundle.module)
+        public static let locationRestricted = String(localized: "automation.editor.location_restricted", defaultValue: "Location access is managed by your organization.", bundle: Bundle.module)
+        public static let locationAllowAccess = String(localized: "automation.editor.location_allow_access", defaultValue: "Allow Access", bundle: Bundle.module)
+        public static let locationOpenSettings = String(localized: "automation.editor.location_open_settings", defaultValue: "Open System Settings", bundle: Bundle.module)
+        public static let locating = String(localized: "automation.editor.locating", defaultValue: "Locating…", bundle: Bundle.module)
 
         public static let unconditionalWarning = String(localized: "automation.editor.unconditional_warning", defaultValue: "This rule has no conditions — it will always be active while enabled.", bundle: Bundle.module)
 
@@ -51,7 +57,6 @@ public extension L10n {
         public static let delete = String(localized: "automation.editor.delete", defaultValue: "Delete Rule", bundle: Bundle.module)
 
         public static let currentLocationLabel = String(localized: "automation.editor.current_location_label", defaultValue: "Current location", bundle: Bundle.module)
-        public static let locationCouldNotDetermine = String(localized: "automation.editor.location_could_not_determine", defaultValue: "Couldn’t determine your location. Make sure Wi-Fi is on and Location Services is enabled for BatFi.", bundle: Bundle.module)
 
         // Summaries / menu
         public static let anyTime = String(localized: "automation.summary.any_time", defaultValue: "Any time", bundle: Bundle.module)
