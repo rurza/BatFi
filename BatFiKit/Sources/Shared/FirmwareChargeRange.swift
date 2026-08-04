@@ -131,6 +131,33 @@ public enum FirmwareChargeRange {
         ]
     }
 
+    /// Whether the band has to be handed back, given what the process knows.
+    ///
+    /// Stated here, as a value, because getting it wrong is not recoverable by the user:
+    /// the firmware enforces the band on its own, including while the Mac is asleep with no
+    /// BatFi process running, and nothing in System Settings shows it. A band left armed by
+    /// a quit is a Mac permanently capped by a limit its owner can neither see nor remove.
+    ///
+    /// - Parameters:
+    ///   - armedByThisProcess: whether this process performed `engageSequence` and has not
+    ///     released it since.
+    ///   - resolvedBackend: the backend, or **nil for "not asked"**. Callers may skip the
+    ///     resolution when the first argument already settles it — on the quit path that
+    ///     resolution is a nine-key re-probe racing a watchdog.
+    ///
+    /// The two are an `||`, and that is the whole point. Gating on the backend alone was
+    /// the defect: the resolution is cached against the firmware token but dropped on every
+    /// SMC write failure, and a re-probe over a degrading connection can answer for some
+    /// keys and not others — resolving `.systemChargeLimit` or `.unsupported` on a machine
+    /// whose band is armed right now. Gating on the flag alone is not sufficient either: it
+    /// is process-local, and a helper that was restarted has no memory of a band the
+    /// firmware is still enforcing. Neither input can be trusted to be complete, so either
+    /// one asserting the obligation is enough.
+    public static func releaseIsOwed(armedByThisProcess: Bool, resolvedBackend: ChargeBackend?) -> Bool {
+        if armedByThisProcess { return true }
+        return resolvedBackend == .firmwareRange
+    }
+
     /// The writes that take the band back out of force — a single one, because the bounds
     /// mean nothing while the activation key is off.
     ///

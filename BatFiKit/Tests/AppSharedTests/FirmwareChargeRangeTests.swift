@@ -209,4 +209,44 @@ import Testing
             #expect(FirmwareChargeRange.rangeIsEngaged(activation: value))
         }
     }
+
+    // MARK: - The release obligation
+
+    /// The C1 case, as a value. A band armed under `.firmwareRange` must still be handed
+    /// back after a transient SMC failure drops the backend cache and the re-probe answers
+    /// something else. Gating the release on the backend alone left the Mac permanently
+    /// capped by a firmware limit that nothing in System Settings shows.
+    @Test func aBandThisProcessArmedIsReleasedWhateverTheBackendNowSays() {
+        for backend in ChargeBackend.allCases {
+            #expect(
+                FirmwareChargeRange.releaseIsOwed(armedByThisProcess: true, resolvedBackend: backend),
+                "\(backend.rawValue)"
+            )
+        }
+        // Including where the backend was deliberately not asked, which is what the quit
+        // path does so an armed band never pays for a nine-key re-probe against a watchdog.
+        #expect(FirmwareChargeRange.releaseIsOwed(armedByThisProcess: true, resolvedBackend: nil))
+    }
+
+    /// The other half, and it is not redundant: the flag is process-local, so a helper that
+    /// was restarted — jetsam, a crash, a launchd relaunch — has no memory of a band the
+    /// firmware is still enforcing. The resolved backend is the only thing left that knows.
+    @Test func aBandThisProcessDoesNotRememberIsStillReleasedUnderTheFirmwareRange() {
+        #expect(
+            FirmwareChargeRange.releaseIsOwed(armedByThisProcess: false, resolvedBackend: .firmwareRange)
+        )
+    }
+
+    /// And nothing is owed where neither input says so — writing `bfF0` on firmware that has
+    /// no such key throws, and `restoreSystemDefaults()` would report a failed restore to
+    /// the entire existing fleet.
+    @Test func nothingIsOwedOnFirmwareThatNeverHadABand() {
+        for backend in ChargeBackend.allCases where backend != .firmwareRange {
+            #expect(
+                !FirmwareChargeRange.releaseIsOwed(armedByThisProcess: false, resolvedBackend: backend),
+                "\(backend.rawValue)"
+            )
+        }
+        #expect(!FirmwareChargeRange.releaseIsOwed(armedByThisProcess: false, resolvedBackend: nil))
+    }
 }

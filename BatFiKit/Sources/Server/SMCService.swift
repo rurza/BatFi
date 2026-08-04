@@ -45,6 +45,47 @@ actor SMCService {
     /// records is still in force.
     private var appliedSystemLimit: AppliedChargeLimit?
 
+    /// Whether this process has written the firmware band and still owes a release.
+    ///
+    /// **The obligation, and it must not need the backend to say so.** The band is the one
+    /// piece of charge control that lives in hardware between calls: the firmware enforces
+    /// it with no BatFi process running, and nothing in System Settings shows it. The
+    /// release used to be gated on `currentBackend() == .firmwareRange` alone, but that
+    /// cache is dropped on every SMC write failure and every `smcChargingStatus()` throw,
+    /// and the re-probe can answer for some keys and not others over a degrading connection
+    /// — resolving `.systemChargeLimit` or `.unsupported` on a machine whose band is armed
+    /// at 80%. `restoreSystemDefaults()` would then complete with no failures, take its
+    /// early return past `resetIfPossible()` — the only unconditional `bfF0 = 0` — and
+    /// leave the user's Mac permanently capped by a limit they can neither see nor remove.
+    ///
+    /// Same shape as `PowerUICharging.hasAdoptedSystemLimit`: only the thing that armed it
+    /// owes a release, and it owes it whatever the backend later says.
+    ///
+    /// Set *before* the engage sequence runs, not after, so a sequence that throws part-way
+    /// still records the obligation — the first write in it is `bfF0 = 0x00`, but a throw
+    /// on that very write leaves an earlier band untouched and armed. Cleared only where
+    /// the release actually landed. Deliberately **not** cleared by
+    /// `invalidateBackendCache()`, unlike the short-circuit below: that runs on failure
+    /// paths, and forgetting an obligation there is the exact hole this closes.
+    private var firmwareRangeArmed = false
+
+    /// The percentage the band was last armed at, or nil when the next pass should write
+    /// again. The `.firmwareRange` equivalent of `AppliedChargeLimit.needsWrite`, and it is
+    /// a short-circuit only — never the release obligation, which is the flag above.
+    ///
+    /// `applyChargeLimit` runs on every status update, and `engageSequence` *begins* by
+    /// writing `bfF0 = 0x00` — so re-running it when nothing changed opens a real
+    /// unrestricted window on every pass, forever, on hardware nobody can test, and a
+    /// helper killed between the first and last write leaves the band off with nothing
+    /// reporting it. It is also the one plausible brake on a write → `IOPSNotification` →
+    /// `powerSourceChanges` → `applyChargeLimit` → write feedback loop on firmware that
+    /// raises a power-source change per SMC charge write.
+    ///
+    /// Cleared by every route that casts doubt on the band being in force, in the same
+    /// places `appliedSystemLimit` is cleared. Clearing only ever causes an extra write,
+    /// never a suppressed one.
+    private var appliedFirmwareRange: Int?
+
     /// Closes the driver connection through the flag rather than behind its back:
     /// `Listener`'s quit handler calls this directly, and a request racing that
     /// handler has to see `smcIsOpened == false`. Closing is the `didSet`'s job.
@@ -217,7 +258,30 @@ actor SMCService {
             // what strands it. `releaseSystemLimit` self-guards on the snapshot.
             await PowerUICharging.shared.releaseSystemLimit()
             appliedSystemLimit = nil
-            try applyFirmwareRange(percentage)
+            // The needs-write short-circuit, and it matters more here than it does under
+            // `.systemChargeLimit`, where the same guard is applied and explained.
+            // `engageSequence` opens with `bfF0 = 0x00`, so an unguarded re-run disarms the
+            // band and re-arms it several times a minute for the life of the process — a
+            // genuine unrestricted window on every pass, and a helper killed between the
+            // first and last write leaves the band **off** with nothing reporting it. It is
+            // also the one plausible brake on a write → `IOPSNotification` →
+            // `powerSourceChanges` → `applyChargeLimit` → write feedback loop on firmware
+            // that raises a power-source change per SMC charge write.
+            guard appliedFirmwareRange != percentage else { return percentage }
+            // Recorded before the writes, so a sequence that throws part-way still leaves
+            // the release owed. Erring toward "BatFi owes a release" costs one write that
+            // fails harmlessly; erring the other way is C1.
+            firmwareRangeArmed = true
+            do {
+                try applyFirmwareRange(percentage)
+            } catch {
+                // The short-circuit, unlike the obligation, is cleared. "Write again next
+                // pass" is the safe direction; "suppress the write that would restore the
+                // limit" is not.
+                appliedFirmwareRange = nil
+                throw error
+            }
+            appliedFirmwareRange = percentage
             // The band's upper bound is the user's number exactly — see
             // `FirmwareChargeRange.band(forLimit:)`, which derives only the lower bound —
             // so the request is what is in force, including below 80%.
@@ -235,8 +299,15 @@ actor SMCService {
             // Any note from an earlier resolution goes with it, so diagnostics cannot claim
             // a raised limit under a backend that never raises one.
             appliedSystemLimit = nil
+            // And the band goes back the same way, for the mirror-image reason. The
+            // `.firmwareRange` arm above releases the *system limit* precisely so a backend
+            // flip cannot strand it; nothing released the *band* on a flip in the other
+            // direction, so both mechanisms could be in force at once — the "one owner"
+            // invariant broken in the one direction nobody guarded.
+            releaseFirmwareRangeIfStranded()
             return percentage
         case .systemChargeLimit:
+            releaseFirmwareRangeIfStranded()
             let available = await PowerUICharging.shared.availableLimits()
             guard let applied = SystemChargeLimit.applicableLimit(for: percentage, from: available) else {
                 logger.error("PowerUI reported no accepted charge limit values; refusing to guess one")
@@ -270,8 +341,12 @@ actor SMCService {
             appliedSystemLimit = outcome
             return applied
         case .unsupported:
+            // Before the throw, not after it: a band armed by this process while the probe
+            // still resolved `.firmwareRange` is exactly what a degrading connection can
+            // strand, and this arm is where that flip lands.
+            releaseFirmwareRangeIfStranded()
             logger.error("No usable charge control mechanism on this firmware")
-            throw SMCError.keyNotFound(code: "CHTE")
+            throw SMCError.noChargeControlMechanism
         }
     }
 
@@ -332,6 +407,23 @@ actor SMCService {
             logger.critical("SMC writing error while releasing the firmware charge range: \(error)")
             failures.append(error)
         }
+
+        // Then again, unconditionally and unreported. `appliedFirmwareRange` is
+        // process-local, so a helper that was restarted — killed by jetsam, crashed, or
+        // simply relaunched by launchd — has no memory of a band that is still armed in the
+        // firmware, and the backend re-probe is exactly the thing that can answer wrongly
+        // over a degrading connection. This is the same bargain `resetIfPossible()` already
+        // makes for the same guarantee: one throwing write per quit on firmware with no
+        // `bfF0`, in exchange for never leaving a Mac capped by a limit nothing can see.
+        //
+        // Swallowed rather than added to `failures` deliberately: on every Mac shipping
+        // today this write throws because the key is absent, and reporting that as a failed
+        // restore would tell the entire existing fleet the restore did not complete.
+        for step in FirmwareChargeRange.releaseSequence {
+            try? perform(step)
+        }
+        firmwareRangeArmed = false
+        appliedFirmwareRange = nil
 
         do {
             try await enableCharging(true)
@@ -521,6 +613,16 @@ actor SMCService {
         // re-establishes the limit. Clearing here also fails safe: every path that gets
         // here is a failure path, and the safe direction is always "write again".
         appliedSystemLimit = nil
+        // The band's short-circuit is dropped for the same reason — the next
+        // `applyChargeLimit` may land on a different mechanism, and suppressing the write
+        // that re-establishes the band across that boundary is the one direction that
+        // fails unsafely.
+        //
+        // Note this does **not** drop the release obligation. `firmwareRangeArmed` is
+        // untouched here, deliberately: this function runs on failure paths, and a failure
+        // path is exactly where forgetting that a band is armed in hardware turns into a
+        // Mac left permanently capped.
+        appliedFirmwareRange = nil
     }
 
     func smcChargingStatus() async throws -> SMCChargingStatus {
@@ -863,12 +965,39 @@ actor SMCService {
     /// `clearMCLOverride()` upstream, and `.unsupported` never armed anything. Writing
     /// `bfF0` on firmware that has no such key would throw, and `restoreSystemDefaults()`
     /// would report a failed restore on machines where the restore was complete.
+    ///
+    /// **`appliedFirmwareRange` is the second half of the condition, and it is the half
+    /// that must not be removed.** The backend answer alone was not sufficient: the cache
+    /// is dropped on every SMC write failure, and one flaky `kSMCGetKeyInfo` during the
+    /// re-probe resolves this machine to something else while its band is still armed in
+    /// hardware. Asking the process that armed it is the only question a degrading
+    /// connection cannot answer wrongly.
     private func releaseFirmwareRangeIfHeld() async throws {
-        switch await currentBackend() {
-        case .firmwareRange:
+        // The backend is left unasked when the flag already settles it, which is not only
+        // a saving: `currentBackend()` is a nine-key re-probe whenever the cache was
+        // invalidated, and this runs on the quit path against a watchdog.
+        let owed = FirmwareChargeRange.releaseIsOwed(
+            armedByThisProcess: firmwareRangeArmed,
+            resolvedBackend: firmwareRangeArmed ? nil : await currentBackend()
+        )
+        guard owed else { return }
+        try releaseFirmwareRange()
+    }
+
+    /// Hands back a band this process armed while a different backend is now in force.
+    ///
+    /// Best-effort and non-throwing: it runs from the non-`.firmwareRange` arms of
+    /// `applyChargeLimit`, where the caller's job is to put a limit in place and where a
+    /// failure to tidy up an older mechanism must not abort that. A failure leaves
+    /// `appliedFirmwareRange` set, so the next pass — and `restoreSystemDefaults()` — try
+    /// again.
+    private func releaseFirmwareRangeIfStranded() {
+        guard firmwareRangeArmed else { return }
+        logger.notice("Backend no longer resolves to the firmware charge range; releasing the band BatFi armed")
+        do {
             try releaseFirmwareRange()
-        case .chte, .legacyCH0BC, .systemChargeLimit, .unsupported:
-            break
+        } catch {
+            logger.critical("Failed to release a stranded firmware charge range: \(error)")
         }
     }
 
@@ -879,6 +1008,10 @@ actor SMCService {
         for step in FirmwareChargeRange.releaseSequence {
             try perform(step)
         }
+        // Only after the write landed. A throw leaves the obligation recorded, which is
+        // what makes the next attempt happen at all.
+        firmwareRangeArmed = false
+        appliedFirmwareRange = nil
         logger.notice("Firmware charge range released")
     }
 
