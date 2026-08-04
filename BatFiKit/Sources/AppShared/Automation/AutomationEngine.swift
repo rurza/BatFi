@@ -16,11 +16,11 @@ public enum AutomationEngine {
         in rules: [AutomationRule],
         enabled: Bool,
         at date: Date,
-        location: Coordinate?,
+        satisfiedFenceIDs: Set<UUID>,
         calendar: Calendar = .current
     ) -> AutomationRule? {
         guard enabled else { return nil }
-        return rules.first { $0.matches(at: date, location: location, calendar: calendar) }
+        return rules.first { $0.matches(at: date, satisfiedFenceIDs: satisfiedFenceIDs, calendar: calendar) }
     }
 
     /// The soonest upcoming schedule start across all enabled, scheduled rules, paired with

@@ -101,7 +101,7 @@ private func range(_ sh: Int, _ sm: Int, _ eh: Int, _ em: Int) -> TimeRange {
 
     @Test func disabledFeatureYieldsNil() {
         let rules = [rule("always", limit: 60)]
-        #expect(AutomationEngine.activeRule(in: rules, enabled: false, at: date(2026, 6, 1, 10, 0), location: nil, calendar: utc) == nil)
+        #expect(AutomationEngine.activeRule(in: rules, enabled: false, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [], calendar: utc) == nil)
     }
 
     @Test func topMostMatchingRuleWins() {
@@ -109,7 +109,7 @@ private func range(_ sh: Int, _ sm: Int, _ eh: Int, _ em: Int) -> TimeRange {
             rule("first", limit: 100, schedule: .recurring(days: [.monday], time: range(0, 0, 23, 59))),
             rule("second", limit: 60, schedule: .recurring(days: [.monday], time: range(0, 0, 23, 59))),
         ]
-        let active = AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), location: nil, calendar: utc)
+        let active = AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [], calendar: utc)
         #expect(active?.name == "first")
     }
 
@@ -118,34 +118,46 @@ private func range(_ sh: Int, _ sm: Int, _ eh: Int, _ em: Int) -> TimeRange {
             rule("disabled", limit: 100, enabled: false),
             rule("enabled", limit: 60),
         ]
-        let active = AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), location: nil, calendar: utc)
+        let active = AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [], calendar: utc)
         #expect(active?.name == "enabled")
     }
 
-    @Test func locationRuleFailsWithoutKnownLocation() {
+    @Test func locationRuleFailsWhenFenceUnsatisfied() {
         let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
         let rules = [rule("office", limit: 60, location: fence)]
-        #expect(AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), location: nil, calendar: utc) == nil)
+        // Empty set models both "not yet resolved" (.unknown) and "outside".
+        #expect(AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [], calendar: utc) == nil)
+    }
+
+    @Test func locationRuleMatchesWhenItsOwnFenceIsSatisfied() {
+        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
+        let r = rule("office", limit: 60, location: fence)
+        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [r.id], calendar: utc)?.name == "office")
+    }
+
+    @Test func anotherRulesSatisfiedFenceDoesNotMatch() {
+        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
+        let r = rule("office", limit: 60, location: fence)
+        let unrelated = UUID()
+        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [unrelated], calendar: utc) == nil)
     }
 
     @Test func scheduleAndLocationCombineWithAnd() {
         let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
-        let inside = Coordinate(latitude: 52.2298, longitude: 21.0123)
-        let outside = Coordinate(latitude: 52.5000, longitude: 21.0122)
-        let rules = [rule("office hours", limit: 60,
-                          schedule: .recurring(days: [.monday], time: range(9, 0, 17, 0)),
-                          location: fence)]
+        let r = rule("office hours", limit: 60,
+                     schedule: .recurring(days: [.monday], time: range(9, 0, 17, 0)),
+                     location: fence)
         // Right time + right place → active.
-        #expect(AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), location: inside, calendar: utc)?.name == "office hours")
+        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [r.id], calendar: utc)?.name == "office hours")
         // Right time, wrong place → inactive.
-        #expect(AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), location: outside, calendar: utc) == nil)
+        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [], calendar: utc) == nil)
         // Wrong time, right place → inactive.
-        #expect(AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 20, 0), location: inside, calendar: utc) == nil)
+        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 20, 0), satisfiedFenceIDs: [r.id], calendar: utc) == nil)
     }
 
     @Test func unconditionalRuleIsAlwaysActiveWhenEnabled() {
         let r = rule("fallback", limit: 50)
         #expect(r.isUnconditional)
-        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 3, 0), location: nil, calendar: utc)?.name == "fallback")
+        #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 3, 0), satisfiedFenceIDs: [], calendar: utc)?.name == "fallback")
     }
 }

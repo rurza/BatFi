@@ -40,14 +40,13 @@ public struct AutomationRule: Codable, Equatable, Identifiable, Sendable {
         schedule == nil && location == nil
     }
 
-    /// Whether this rule's conditions are satisfied. A location condition cannot be
-    /// confirmed without a known `location`, so it fails when `location` is nil.
-    public func matches(at date: Date, location: Coordinate?, calendar: Calendar = .current) -> Bool {
+    /// Whether this rule's conditions are satisfied. A location condition is confirmed by
+    /// CoreLocation reporting this rule's own fence as satisfied; an absent ID means either
+    /// "outside" or "not yet resolved", and both fail closed.
+    public func matches(at date: Date, satisfiedFenceIDs: Set<UUID>, calendar: Calendar = .current) -> Bool {
         guard isEnabled else { return false }
         if let schedule, !schedule.matches(date, calendar: calendar) { return false }
-        if let fence = self.location {
-            guard let location, fence.contains(location) else { return false }
-        }
+        if location != nil, !satisfiedFenceIDs.contains(id) { return false }
         return true
     }
 }
