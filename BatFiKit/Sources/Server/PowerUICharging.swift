@@ -63,8 +63,17 @@ actor PowerUICharging {
     /// the limit in that window returns BatFi's number, so it is this flag — not the
     /// renewal state — that the snapshot rule has to consult.
     ///
-    /// Set by every successful override write, cleared only where the clear selector
-    /// actually ran.
+    /// Set by every **attempted** override write — before the selector is called, and not
+    /// rolled back when the call reports failure — and cleared only where the clear
+    /// selector actually ran.
+    ///
+    /// Attempted rather than succeeded on purpose. The flag's only job is to block a
+    /// snapshot that might be reading BatFi's own number, and `temporarilyOverrideMCLTargetSoC:`
+    /// is a private API whose failure semantics nobody has measured: a call that applied the
+    /// override but returned an error or `false` would, if the flag were set afterwards,
+    /// leave BatFi believing no override stands and free to record one as the user's saved
+    /// limit. "We may have written one" is the only safe reading, and its cost is a refused
+    /// snapshot that the next pass retries.
     private var overrideWriteUnretired = false
 
     /// Whether the snapshot refusal has already been surfaced.

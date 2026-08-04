@@ -17,7 +17,9 @@ public class SMCChargingStatus: NSObject, Codable, NSSecureCoding, @unchecked Se
         // absence of a value is itself a value here, and the primitive encoding invents
         // the *permissive* one. `decodeBool` answers a missing key with `false`, i.e.
         // `lidClosed == false`, i.e. **lid open** — and an open lid is what enables force
-        // discharge (`ChargingManager` gates `turnOnDischarging` on `lidOpened`). So the
+        // discharge (`ChargingManager` gates `turnOnDischarging` on
+        // `lidOpened || disableSleepDuringDischarge`, so an open lid is sufficient on its
+        // own; a closed one leaves the user's sleep setting to decide). So the
         // obvious encoding would let BatFi discharge on AC on a Mac whose lid it never
         // read. `nil` instead reaches the app as "not known" and routes it to
         // `fetchLidStatus()`, which answers "closed" and holds discharge back.

@@ -124,8 +124,10 @@ public enum SystemLimitSnapshot {
         // write one does not exist, or the backend in force never asks for one. Either is
         // enough, and neither depends on a clear that may not exist. Neither implies the
         // other, either — they are properties of different things (this build of PowerUI,
-        // and this machine's firmware), and all four combinations occur: shipping macOS on
-        // SMC firmware is `can && writes`, macOS 27 firmware is `can && !writes`.
+        // and this machine's firmware). The combinations measured in the field are both
+        // `canWriteOverride`: shipping macOS on SMC firmware is `can && writes`, macOS 27
+        // firmware is `can && !writes`. A build exposing no override selector has never
+        // been seen, which is why `canWriteOverride` alone cannot carry this decision.
         guard canWriteOverride, backendWritesOverrides else { return true }
         return overrideRetired
     }
