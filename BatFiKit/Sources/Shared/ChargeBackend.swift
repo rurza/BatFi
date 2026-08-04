@@ -43,11 +43,14 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
     /// *sets* the limit instead and must not also hold an override; under `.unsupported`
     /// it writes nothing at all.
     ///
-    /// **This mirrors the arms of `SMCService.reconcileMCLOwnership`, which is the one
-    /// switch that decides MCL ownership. If an arm there ever starts or stops writing an
-    /// override, this must move with it** — the snapshot rule below reads this to decide
-    /// whether a limit read could be BatFi's own write, and a stale answer here is how
-    /// BatFi would record its own number as the user's.
+    /// **This is the decision, not a description of one.** `SMCService.reconcileMCLOwnership`
+    /// branches on this property directly — writing an override where it is true, clearing
+    /// one where it is false — and `SystemLimitSnapshot.readIsTrustworthy` reads the same
+    /// property to decide whether a limit read could be BatFi's own write. Deliberately not
+    /// a second copy of the reconcile's arms: the two facts disagreeing is how BatFi records
+    /// its own number as the user's saved limit, and a copy is something an edit to one side
+    /// can put out of step. To change which backends BatFi holds an override under, change
+    /// this switch; both readers follow.
     ///
     /// It is a property of the *backend*, and a backend is a property of the firmware,
     /// which is stable across processes on a given Mac: installing macOS 27 on any volume

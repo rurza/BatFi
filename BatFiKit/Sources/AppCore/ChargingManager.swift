@@ -52,6 +52,14 @@ public actor ChargingManager: ChargingModeManager {
     /// status update forever on precisely the machines whose reports are worth having.
     private var lastReportedChargeLimitFailure: ChargeLimitFailure?
 
+    /// Whether "we don't know if the lid is opened" has already been said since the lid was
+    /// last known. Same reason as the two above: a Mac whose firmware exposes no lid key
+    /// never leaves that state, and `fetchLidStatus()` runs on every status update, so
+    /// without this it emits a notice and a Sentry breadcrumb once a minute forever.
+    /// Cleared as soon as a lid value is read, so a transient unknown that returns is an
+    /// event again.
+    private var hasReportedUnknownLid = false
+
     public init() {}
 
     public func setUpObserving() {
@@ -575,18 +583,31 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func fetchLidStatus() async -> Bool {
-        logger.notice("We don't know if the lid is opened")
-        await analytics.addBreadcrumb(category: .chargingManager, message: "We don't know if the lid is opened")
+        // Reported on change, not per pass. On a Mac whose firmware has no lid key the
+        // stored state stays `nil` forever, so this runs on every status update — roughly
+        // once a minute — and "unknown" is that machine's steady state rather than an
+        // event. The re-ask itself is deliberate and stays: a key that failed transiently
+        // has to be asked again. Only the noise is bounded.
+        let reportUnknown = !hasReportedUnknownLid
+        if reportUnknown {
+            hasReportedUnknownLid = true
+            logger.notice("We don't know if the lid is opened")
+            await analytics.addBreadcrumb(category: .chargingManager, message: "We don't know if the lid is opened")
+        }
         do {
             let chargingStatus = try await chargingClient.chargingStatus()
             guard let lidOpened = chargingStatus.lidOpened else {
                 // Same answer this function's `catch` has always given when it could not
                 // find out, and for the same reason: the caller needs a `Bool`, and the
                 // stored state stays `nil` so the next pass asks again.
-                logger.notice("The helper could not read the lid state")
+                if reportUnknown {
+                    logger.notice("The helper could not read the lid state")
+                }
                 return false
             }
             await appChargingState.updateLidOpenedStatus(lidOpened)
+            // Known again, so a later unknown is a change and is worth saying once more.
+            hasReportedUnknownLid = false
             return lidOpened
         } catch {
             logger.notice("Failed to fetch lid status: \(error)")

@@ -56,6 +56,26 @@ public struct AppliedChargeLimit: Equatable, Sendable {
 /// as BatFi's value rather than the user's, and an override outlives the process that
 /// set it. Snapshotting under one means BatFi restores its own number on quit and the
 /// user's saved limit is gone for good.
+///
+/// ## What this rule covers, exactly
+///
+/// **MCL overrides only** — the `temporarilyOverrideMCLTargetSoC:` write. It does *not*
+/// cover BatFi's other write of the same user-visible value, `setMCLLimit:` on the adopt
+/// path, which is the write `.systemChargeLimit` machines actually make and which, unlike
+/// an override, never expires. A process that adopted 80% and then died without restoring
+/// leaves 80% in force, and the next process — writing no override, so trusted by the
+/// rule below — records that 80% as the user's own value.
+///
+/// That is sound **only because the snapshot does not outlive the process that took it**.
+/// The crash already lost the user's real value irrecoverably (nothing durable recorded
+/// it), and the new process restoring 80% later writes back exactly what is already in
+/// force, so trusting the read loses nothing further.
+///
+/// **If the snapshot is ever persisted across processes, that argument fails and this rule
+/// must be widened to cover adopts** — a persisted snapshot would have the user's real
+/// value to lose, and the new process would overwrite it with BatFi's. Widening it needs a
+/// durable "an adopt is outstanding" marker, i.e. the same cross-process state that
+/// persisting the resolved backend needs; do not persist one without the other.
 public enum SystemLimitSnapshot {
     /// - Parameters:
     ///   - hasUnretiredOverride: whether *this* process has written an override that has
@@ -78,8 +98,9 @@ public enum SystemLimitSnapshot {
     ///     left behind by an earlier BatFi that crashed while holding one; without it,
     ///     a read cannot be told apart from that earlier process's write.
     ///
-    /// The rule is "nothing BatFi wrote can be standing in front of this read", and it is
-    /// deliberately no broader than that. Requiring an invoked clear unconditionally would
+    /// The rule is "no BatFi *override* can be standing in front of this read" — see the
+    /// scope note on the type for the one BatFi write it deliberately does not cover — and
+    /// it is no broader than that. Requiring an invoked clear unconditionally would
     /// refuse forever on a build that exposes no clear selector — and PowerUI on shipping
     /// macOS exposes `temporarilyOverrideMCLTargetSoC:error:` with no clear counterpart of
     /// any spelling, so that is not a hypothetical build but the normal one. On a machine
@@ -101,7 +122,10 @@ public enum SystemLimitSnapshot {
         guard !hasUnretiredOverride else { return false }
         // Two independent ways for a BatFi override to be impossible here: the selector to
         // write one does not exist, or the backend in force never asks for one. Either is
-        // enough, and neither depends on a clear that may not exist.
+        // enough, and neither depends on a clear that may not exist. Neither implies the
+        // other, either — they are properties of different things (this build of PowerUI,
+        // and this machine's firmware), and all four combinations occur: shipping macOS on
+        // SMC firmware is `can && writes`, macOS 27 firmware is `can && !writes`.
         guard canWriteOverride, backendWritesOverrides else { return true }
         return overrideRetired
     }

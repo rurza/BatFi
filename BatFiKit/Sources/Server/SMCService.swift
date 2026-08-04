@@ -148,8 +148,14 @@ actor SMCService {
     /// `.systemChargeLimit` BatFi **sets** it instead, via `applyChargeLimit`, and must
     /// not also hold a temporary override: the 60-second renewal task behind that
     /// override would keep writing 100 over the adopted value and the user's limit
-    /// would oscillate. One `switch` over one backend, rather than two independent
+    /// would oscillate. One branch on one backend, rather than two independent
     /// conditionals, is what makes holding both states unrepresentable.
+    ///
+    /// That branch is `ChargeBackend.writesMCLOverride` itself, not a restatement of
+    /// which backends it covers. `SystemLimitSnapshot.readIsTrustworthy` reads the same
+    /// property to decide whether a limit read could be BatFi's own write, and the two
+    /// answers disagreeing is how BatFi would record its own number as the user's saved
+    /// limit. There is one answer, so they cannot.
     ///
     /// Runs *before* the SMC writes in `setChargingMode`, not after, and must stay there.
     ///
@@ -172,8 +178,7 @@ actor SMCService {
         // `PowerUICharging`, which decides whether a limit read could be BatFi's own
         // override and must answer that from the machine's real backend, not an assumption.
         let backend = await currentBackend()
-        switch backend {
-        case .chte, .legacyCH0BC:
+        if backend.writesMCLOverride {
             // An SMC backend owns charging; get Apple's limit out of the way.
             guard message == .auto else { return }
             do {
@@ -181,12 +186,12 @@ actor SMCService {
             } catch {
                 logger.error("PowerUI MCL override failed: \(error, privacy: .public)")
             }
-        case .systemChargeLimit, .unsupported:
-            // BatFi either owns the system limit or has no mechanism at all. Either way
-            // it must not hold a temporary override. Cleared unconditionally rather than
-            // only when this process knows it set one: an override outlives the process
-            // that started it, so a BatFi that restarted onto a different backend has to
-            // clear one it has no memory of.
+        } else {
+            // BatFi either owns the system limit (`.systemChargeLimit`) or has no
+            // mechanism at all (`.unsupported`). Either way it must not hold a temporary
+            // override. Cleared unconditionally rather than only when this process knows
+            // it set one: an override outlives the process that started it, so a BatFi
+            // that restarted onto a different backend has to clear one it has no memory of.
             await PowerUICharging.shared.clearMCLOverride()
         }
     }
