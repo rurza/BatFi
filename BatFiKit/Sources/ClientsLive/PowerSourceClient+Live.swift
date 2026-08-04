@@ -103,17 +103,27 @@ extension PowerSourceClient: DependencyKey {
         @Sendable
         func logAvailableBatteryProperties(missing: PowerSourceField) {
             guard dumpGate.shouldDump(missing) else { return }
+            let firmware = systemFirmwareVersion() ?? "unknown"
             let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMPowerSource"))
             defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
             guard service != IO_OBJECT_NULL else {
-                logger.error("Missing \(missing.rawValue, privacy: .public); IOPMPowerSource service not found")
+                dumpGate.releaseDump(missing)
+                logger.error("Missing \(missing.rawValue, privacy: .public); IOPMPowerSource service not found. Firmware \(firmware, privacy: .public).")
                 return
             }
             var properties: Unmanaged<CFMutableDictionary>?
-            guard IORegistryEntryCreateCFProperties(service, &properties, kCFAllocatorDefault, 0) == KERN_SUCCESS,
-                  let dictionary = properties?.takeRetainedValue() as? [String: Any] else { return }
+            guard IORegistryEntryCreateCFProperties(service, &properties, kCFAllocatorDefault, 0) == KERN_SUCCESS else {
+                dumpGate.releaseDump(missing)
+                logger.error("Missing \(missing.rawValue, privacy: .public); IORegistryEntryCreateCFProperties failed. Firmware \(firmware, privacy: .public).")
+                return
+            }
+            guard let dictionary = properties?.takeRetainedValue() as? [String: Any] else {
+                dumpGate.releaseDump(missing)
+                logger.error("Missing \(missing.rawValue, privacy: .public); IOPMPowerSource properties cast failed. Firmware \(firmware, privacy: .public).")
+                return
+            }
             let keys = dictionary.keys.sorted().joined(separator: ", ")
-            logger.error("Missing \(missing.rawValue, privacy: .public). Firmware \(systemFirmwareVersion() ?? "unknown", privacy: .public). IOPMPowerSource keys: \(keys, privacy: .public)")
+            logger.error("Missing \(missing.rawValue, privacy: .public). Firmware \(firmware, privacy: .public). IOPMPowerSource keys: \(keys, privacy: .public)")
         }
 
         @Sendable
@@ -258,6 +268,13 @@ private final class DumpGate: @unchecked Sendable {
     /// subsequent call, for the lifetime of the process.
     func shouldDump(_ field: PowerSourceField) -> Bool {
         lock.withLock { dumped.insert(field).inserted }
+    }
+
+    /// Hands `field`'s one-shot budget back after a failed dump attempt (service not
+    /// found, properties call failed, cast failed) so a later attempt can still
+    /// produce the full key list instead of the budget being spent on nothing.
+    func releaseDump(_ field: PowerSourceField) {
+        lock.withLock { _ = dumped.remove(field) }
     }
 }
 
