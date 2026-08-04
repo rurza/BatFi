@@ -13,6 +13,16 @@ public protocol XPCService {
     func setInhibitCharge(_ handler: @escaping (Error?) -> Void)
     func setAutocharge(_ handler: @escaping (Error?) -> Void)
     func restoreSystemDefaults(_ handler: @escaping (Error?) -> Void)
+    /// Applies a charge limit and answers with the limit **actually** applied, which can
+    /// differ from the one requested: under Apple's Manual Charge Limit the mechanism
+    /// cannot go below 80%, so a lower request comes back raised.
+    ///
+    /// `UInt8` on both sides for the reason `setMagSafeLEDColor` uses it — an `@objc`
+    /// reply cannot carry a Swift `Int`. A percentage fits a byte with room to spare,
+    /// which leaves `UInt8.max` free to serve as the failure sentinel here exactly as it
+    /// does there: it is not a value this reply can otherwise hold, so it can never be
+    /// mistaken for a real answer. The error is still passed alongside it.
+    func applyChargeLimit(_ percentage: UInt8, _ handler: @escaping (UInt8, Error?) -> Void)
     func getMCLStatus(_ handler: @escaping (MCLStatus?, Error?) -> Void)
     func getChargingDiagnostics(_ handler: @escaping (ChargingDiagnostics?, Error?) -> Void)
     func getCurrentChargingStatus(_ handler: @escaping (SMCChargingStatus?, Error?) -> Void)

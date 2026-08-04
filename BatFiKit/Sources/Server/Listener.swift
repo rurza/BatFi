@@ -51,6 +51,29 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         }
     }
 
+    func applyChargeLimit(_ percentage: UInt8, _ reply: @escaping (UInt8, (any Error)?) -> Void) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            do {
+                let applied = try await smcService.applyChargeLimit(Int(percentage))
+                // The reply's failure sentinel is UInt8.max, so anything that is not a
+                // percentage has to fail loudly here rather than travel as one. Nothing
+                // downstream can produce such a value today; this is what keeps that true.
+                guard let appliedByte = UInt8(exactly: applied), appliedByte <= 100 else {
+                    throw NSError(
+                        domain: Constant.helperBundleIdentifier,
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "Applied charge limit \(applied) is not a percentage"]
+                    )
+                }
+                reply.value(appliedByte, nil)
+            } catch {
+                logger.error("Error applying charge limit \(percentage, privacy: .public)%: \(error, privacy: .public)")
+                reply.value(UInt8.max, error)
+            }
+        }
+    }
+
     func getMCLStatus(_ reply: @escaping (Shared.MCLStatus?, (any Error)?) -> Void) {
         let reply = UnsafeSendableBox(value: reply)
         Task {

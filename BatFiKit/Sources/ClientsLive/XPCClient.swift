@@ -13,6 +13,10 @@ import Shared
 
 enum XPCClientError: Error {
     case canNotGetPowerMode
+    /// The helper answered with a byte that is not a percentage and did not report an
+    /// error. Surfaced rather than clamped: the value's whole purpose is to say which
+    /// limit is really in force, and a made-up one would be reported to the user as fact.
+    case invalidChargeLimitReply(UInt8)
 }
 
 actor XPCClient {
@@ -57,6 +61,31 @@ actor XPCClient {
                     continuation.resume(throwing: error)
                 } else {
                     continuation.resume()
+                }
+            }
+        }
+    }
+
+    /// Returns the limit the helper actually put in force, which can be higher than the
+    /// one asked for — Apple's Manual Charge Limit cannot go below 80%.
+    func applyChargeLimit(_ percentage: Int) async throws -> Int {
+        logger.debug("Applying charge limit: \(percentage)")
+        let remote = remoteService()
+        return try await remote.withContinuation { service, continuation in
+            // Clamped rather than trusted: `percentage` reaches here from settings and
+            // from automation rules, and a value outside 0...100 would wrap on the way
+            // into a byte and ask the helper for a limit nobody chose.
+            service.applyChargeLimit(UInt8(clamping: percentage)) { applied, error in
+                // Error checked first, unlike the MagSafe pair above. Their sentinel is
+                // not a representable option so it fails the value test anyway; a
+                // percentage byte has no such luck — UInt8.max would read as a 255%
+                // limit if the value arm went first.
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if applied <= 100 {
+                    continuation.resume(returning: Int(applied))
+                } else {
+                    continuation.resume(throwing: XPCClientError.invalidChargeLimitReply(applied))
                 }
             }
         }
