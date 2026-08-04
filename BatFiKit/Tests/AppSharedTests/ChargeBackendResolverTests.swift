@@ -147,4 +147,53 @@ import Testing
         #expect(!ChargeBackend.systemChargeLimit.writesMCLOverride)
         #expect(!ChargeBackend.unsupported.writesMCLOverride)
     }
+
+    private var goldenGateTable: [String: SMCKeyCapability] {
+        table([cap("bfF0", "ui8 ", 1), cap("bfD0", "ui32", 4), cap("bfE0", "ui32", 4)])
+    }
+
+    @Test func selectsFirmwareRangeWhenAllThreeKeysPresent() {
+        #expect(ChargeBackendResolver.resolve(goldenGateTable) == .firmwareRange)
+    }
+
+    /// Ranked first on purpose: an old macOS can be running new firmware, so the
+    /// presence of the newer mechanism must win over anything older.
+    @Test func firmwareRangeOutranksCHTE() {
+        var caps = goldenGateTable
+        caps["CHTE"] = cap("CHTE", "ui32", 4)
+        #expect(ChargeBackendResolver.resolve(caps) == .firmwareRange)
+    }
+
+    /// All three keys are required — a partial set is not a usable mechanism.
+    @Test func firmwareRangeRequiresAllThreeKeys() {
+        for missing in ["bfF0", "bfD0", "bfE0"] {
+            var caps = goldenGateTable
+            caps.removeValue(forKey: missing)
+            #expect(ChargeBackendResolver.resolve(caps) == .unsupported,
+                    "removing \(missing) should not leave a usable firmware range backend")
+        }
+    }
+
+    /// The decoy in its natural habitat: Tahoe-era firmware has bfD0 as a read-only
+    /// hex_/2 key and no bfE0 or bfF0 at all. It must resolve to CHTE, not to the
+    /// macOS 27 mechanism.
+    @Test func tahoeFirmwareWithDecoyBFD0StillSelectsCHTE() {
+        let caps = table([
+            cap("CHTE", "ui32", 4),
+            cap("bfD0", "hex_", 2, writable: false),
+        ])
+        #expect(ChargeBackendResolver.resolve(caps) == .chte)
+    }
+
+    /// Beta 4 moved the key set again. A firmware exposing bfF0 at the wrong shape
+    /// must not select this backend — it should fall through, with no version check.
+    @Test func rejectsFirmwareRangeWhenBFF0HasWrongShape() {
+        var caps = goldenGateTable
+        caps["bfF0"] = cap("bfF0", "ui32", 4)
+        #expect(ChargeBackendResolver.resolve(caps) == .unsupported)
+    }
+
+    @Test func firmwareRangeHonoursLimitsBelow80() {
+        #expect(ChargeBackend.firmwareRange.honoursLimitsBelow80)
+    }
 }

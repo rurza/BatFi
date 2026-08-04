@@ -208,6 +208,14 @@ actor SMCService {
         // whether BatFi could be reading back its own MCL override.
         let backend = await currentBackend()
         switch backend {
+        case .firmwareRange:
+            // Resolved, but not yet driven: the band writer is the next commit on this
+            // branch. Failing is the fail-closed answer — `ChargingManager.applyChargeLimit`
+            // catches it, logs once and applies nothing — where returning the request
+            // would record a limit in `AppliedChargeLimit` that nothing put in force, and
+            // the pane would show a limit this Mac is not holding.
+            logger.error("Firmware charge range resolved but the band writer is not wired up yet")
+            throw SMCError.keyNotFound(code: FirmwareRangeKeyShape.upperBound.code)
         case .chte, .legacyCH0BC:
             // Handled by the existing inhibit path, which applies the requested value
             // exactly. Anything the system-limit backend left behind is handed back first:
@@ -582,6 +590,16 @@ actor SMCService {
         await openSMCIfNeeded()
         
         switch await currentBackend() {
+        case .firmwareRange:
+            // BatFi holds no inhibit here — charge control is a band the firmware
+            // enforces — and nothing on this branch writes the activation key yet, so
+            // charging really is enabled. Answered rather than thrown for the reason
+            // spelled out in the `.systemChargeLimit` arm below: a throw here drops the
+            // backend cache, closes the driver connection and pins the app in
+            // `ChargingMode.initial` for the life of the process. Reads the activation
+            // key once the range writer lands.
+            logger.notice("Firmware charge range backend: BatFi holds no inhibit, charging is enabled")
+            return true
         case .chte:
             let data = try SMCKit.readData(.inhibitCharging3)
             let isEnabled = data.0 == 0
@@ -628,6 +646,13 @@ actor SMCService {
         let enableByte: UInt8 = enable ? 0 : 1
 
         switch await currentBackend() {
+        case .firmwareRange:
+            // Same shape as `.systemChargeLimit` below and for the same reason: there is
+            // no inhibit key to write, control is expressed as a band, and a throw here
+            // propagates into `setChargingMode` and `restoreSystemDefaults()` where it is
+            // read as a failed write that was never owed. The band write is
+            // `applyChargeLimit`'s, and lands with the range writer.
+            logger.notice("Charging mode is governed by the firmware charge range; no inhibit write to make")
         case .chte:
             try SMCKit.writeData(.inhibitCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
             logger.notice("Inhibit charging changed using CHTE")

@@ -224,6 +224,16 @@ public extension ChargeControlFacts {
             // every working Mac about a problem it does not have.
             return []
 
+        case .firmwareRange:
+            // The firmware enforces the user's own value, below 80% included, and BatFi
+            // does not touch System Settings to do it — so none of the system-limit
+            // statements apply and there is nothing to disclose. Kept as its own arm
+            // rather than folded in above because the mechanism is different in kind:
+            // charge control is a band the firmware holds, not an inhibit BatFi toggles.
+            // If that turns out to cost the user something they can see — pausing
+            // charging being the candidate — this is the arm that owes them a sentence.
+            return []
+
         case .unsupported:
             return [.chargingControlUnavailable]
 
@@ -303,7 +313,13 @@ public extension ChargeControlFacts {
         switch backend {
         case .systemChargeLimit, .unsupported:
             return nil
-        case .chte, .legacyCH0BC:
+        case .firmwareRange, .chte, .legacyCH0BC:
+            // `.firmwareRange` belongs here, not with the arm above: BatFi applies its
+            // limit through the firmware and leaves Apple's Manual Charge Limit alone, so
+            // a limit the user left below 100 there really is a second cap acting behind
+            // BatFi's back — the exact situation this warning exists for. The override
+            // guard is inert under it (`writesMCLOverride` is false, so BatFi never holds
+            // one) and costs nothing.
             guard !batFiHoldsSystemLimitOverride else { return nil }
             // An unreadable limit is not evidence of a conflict. Warning on `nil` would
             // put a permanent orange label on every Mac whose PowerUI declines the read.
@@ -341,7 +357,10 @@ public enum ChargeLimitRange {
     public static func lowestSelectable(for backend: ChargeBackend?) -> Int {
         guard let backend else { return lowest }
         switch backend {
-        case .chte, .legacyCH0BC: return lowest
+        // `.firmwareRange` is here because the whole reason it exists is that it can
+        // express a limit below 80% on firmware where `CHTE` is gone. Constraining the
+        // slider there would give that back away.
+        case .firmwareRange, .chte, .legacyCH0BC: return lowest
         case .systemChargeLimit: return systemChargeLimitLowest
         case .unsupported: return lowest
         }

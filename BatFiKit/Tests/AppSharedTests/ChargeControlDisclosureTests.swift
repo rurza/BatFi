@@ -482,9 +482,16 @@ import Testing
 
     /// A raw backend string this build does not recognize fails closed, the same rule
     /// `systemChargeLimitIsHoldingCharge` follows.
+    ///
+    /// The placeholder used to be `"firmwareRange"`, which stopped being unrecognized the
+    /// day that case shipped — the scenario is a *newer helper* talking to an older app,
+    /// so it needs a string no build has ever meant. Assert that directly rather than
+    /// trusting the literal, so the next case added cannot quietly empty this test out.
     @Test func anUnrecognizedBackendStringDisclosesNothing() {
+        let unknownBackend = "aBackendNoBuildHasEverShipped"
+        #expect(ChargeBackend(rawValue: unknownBackend) == nil)
         let diagnostics = ChargingDiagnostics(
-            backend: "firmwareRange",
+            backend: unknownBackend,
             firmwareVersion: nil,
             notChargingReasons: [],
             mcl: MCLStatus(supported: true, batFiHasActiveOverride: false, lastOverrideValue: nil, systemLimit: 80),

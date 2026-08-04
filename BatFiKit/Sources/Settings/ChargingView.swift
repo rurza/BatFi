@@ -243,11 +243,14 @@ struct ChargingView: View {
         )
     }
 
-    /// User-facing summary of the resolved backend. `.chte` and `.legacyCH0BC` both read
-    /// as "Active" — the mechanism only matters for a bug report, and the firmware token
-    /// below already disambiguates that unambiguously. Exhaustive over `ChargeBackend` so
-    /// a future case (`.firmwareRange`) fails to compile here rather than silently falling
-    /// into the wrong branch.
+    /// User-facing summary of the resolved backend. `.chte`, `.legacyCH0BC` and
+    /// `.firmwareRange` all read as "Active" — the mechanism only matters for a bug
+    /// report, and the firmware token below already disambiguates that unambiguously.
+    /// What the user needs from this line is whether their own limit is being honoured,
+    /// and all three honour it exactly, below 80% included; `.systemChargeLimit` is
+    /// called out separately because it is the one that cannot. Exhaustive over
+    /// `ChargeBackend` so a future case fails to compile here rather than silently
+    /// falling into the wrong branch.
     private var chargingControlDescription: String {
         guard let chargeBackend else {
             return L10n.Settings.Label.diagnosticsChargingControlUnknown
@@ -255,7 +258,7 @@ struct ChargingView: View {
         switch chargeBackend {
         case .unsupported:
             return L10n.Settings.Label.diagnosticsChargingControlUnavailable
-        case .chte, .legacyCH0BC:
+        case .firmwareRange, .chte, .legacyCH0BC:
             return L10n.Settings.Label.diagnosticsChargingControlActive
         case .systemChargeLimit:
             return L10n.Settings.Label.diagnosticsChargingControlSystemChargeLimit

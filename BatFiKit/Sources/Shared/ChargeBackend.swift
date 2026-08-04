@@ -13,6 +13,11 @@
 import Foundation
 
 public enum ChargeBackend: String, Sendable, CaseIterable {
+    /// `bfD0`/`bfE0`/`bfF0` — macOS 27-era firmware, which removed `CHTE`. The
+    /// firmware enforces a hysteresis band rather than BatFi toggling an inhibit,
+    /// so the limit holds while the Mac is asleep — and the battery percentage may
+    /// fall below the limit, because the firmware can run the Mac off the battery.
+    case firmwareRange
     /// `CHTE` (ui32) — Tahoe-era firmware, first shipped in macOS 15.7.
     case chte
     /// `CH0B` + `CH0C` (ui8 pair) — pre-Tahoe firmware.
@@ -30,7 +35,7 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
     /// which is the single most important thing to tell the user when it is active.
     public var honoursLimitsBelow80: Bool {
         switch self {
-        case .chte, .legacyCH0BC: return true
+        case .firmwareRange, .chte, .legacyCH0BC: return true
         case .systemChargeLimit, .unsupported: return false
         }
     }
@@ -38,10 +43,16 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
     /// Whether BatFi ever writes a temporary Manual Charge Limit override while this
     /// backend is the one in force.
     ///
-    /// Only the SMC backends do, and only to push Apple's limit to 100% so their own
+    /// Only the *inhibit* backends do, and only to push Apple's limit to 100% so their own
     /// inhibit is the single thing holding charge back. Under `.systemChargeLimit` BatFi
     /// *sets* the limit instead and must not also hold an override; under `.unsupported`
-    /// it writes nothing at all.
+    /// it writes nothing at all. `.firmwareRange` is an SMC backend that is nonetheless
+    /// **false**: it does not inhibit charging, it hands the firmware a band and the
+    /// firmware enforces it, so there is no inhibit for Apple's limit to interfere with
+    /// and nothing to push out of the way. Writing an override there would be a change to
+    /// a setting the user can see, made for no mechanism at all — and, through
+    /// `SystemLimitSnapshot.readIsTrustworthy`, it would poison BatFi's own read of that
+    /// setting on exactly the firmware where the read is clean.
     ///
     /// **This is the decision, not a description of one.** `SMCService.reconcileMCLOwnership`
     /// branches on this property directly — writing an override where it is true, clearing
@@ -60,7 +71,7 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
     public var writesMCLOverride: Bool {
         switch self {
         case .chte, .legacyCH0BC: return true
-        case .systemChargeLimit, .unsupported: return false
+        case .firmwareRange, .systemChargeLimit, .unsupported: return false
         }
     }
 }
@@ -108,6 +119,14 @@ public enum ChargeBackendResolver {
         _ capabilities: [String: SMCKeyCapability],
         systemChargeLimitSupported: Bool = false
     ) -> ChargeBackend {
+        // Checked first: an older macOS can be carrying newer firmware, so the
+        // presence of this key set outranks anything older regardless of the OS.
+        // Installing macOS 27 on any volume reflashes firmware for the whole Mac and
+        // downgrading macOS does not roll it back, so `bf**` keys on a Mac running
+        // macOS 26 is a normal machine, not a contradiction.
+        if FirmwareRangeKeyShape.isSupported(by: capabilities) {
+            return .firmwareRange
+        }
         if capabilities["CHTE"]?.matches(type: "ui32", size: 4, writable: true) == true {
             return .chte
         }
@@ -121,7 +140,62 @@ public enum ChargeBackendResolver {
     }
 
     /// Keys the helper must probe to resolve a backend.
-    public static let probedKeys: [String] = ["CHTE", "CH0B", "CH0C", "CHIE", "CH0I", "CH0J"]
+    ///
+    /// The `bf**` codes are taken from `FirmwareRangeKeyShape` rather than written out
+    /// again: a key the helper never probes is absent from the table `resolve` is handed,
+    /// so it can never match, and the mechanism would silently never be selected.
+    public static let probedKeys: [String] =
+        ["CHTE", "CH0B", "CH0C", "CHIE", "CH0I", "CH0J"] + FirmwareRangeKeyShape.all.map(\.code)
+}
+
+/// The shapes the macOS 27-era firmware-managed charge range keys must have, stated
+/// once.
+///
+/// Here for the same reason as `ForceDischargeKeyShape`: this is the value that decides
+/// whether charge control works at all on macOS 27 firmware, and only `Shared` is
+/// reachable from the test target. It is also the only statement of these shapes —
+/// `ChargeBackendResolver.resolve` reads it to select the backend and
+/// `ChargeBackendResolver.probedKeys` reads it to decide what gets probed, so the two
+/// cannot drift apart.
+///
+/// Every one of the three is required, at its exact type and size, writable. Name-only
+/// probing is unsafe here in a way it is not for `CHTE`: `bfD0` exists on Tahoe-era
+/// firmware as a **read-only `hex_`/2 key with an unrelated meaning** — measured on a
+/// Mac15,8 / M3 Max, firmware mBoot-18000.161.9 — and matching it would select a
+/// mechanism that machine does not have. Requiring all three at these shapes is what
+/// makes that impossible, so neither the shapes nor the all-three rule may be relaxed
+/// to "be more tolerant of firmware variation". A firmware that moved the key set is a
+/// firmware this mechanism does not run on, and falling through to `CHTE` or to Apple's
+/// limit is the correct outcome.
+public enum FirmwareRangeKeyShape {
+    /// One key as the firmware must report it.
+    public struct Key: Sendable, Equatable {
+        public let code: String
+        public let type: String
+        public let size: UInt32
+
+        /// Whether the probed table reports this key at exactly this shape, writable.
+        /// Zero-size placeholders and unreadable keys are rejected by `matches`.
+        public func isPresent(in capabilities: [String: SMCKeyCapability]) -> Bool {
+            capabilities[code]?.matches(type: type, size: size, writable: true) == true
+        }
+    }
+
+    /// `bfF0` — activation. Whether the firmware range is in force.
+    public static let activation = Key(code: "bfF0", type: "ui8 ", size: 1)
+    /// `bfD0` — the upper bound of the band, a little-endian `ui32` percentage.
+    public static let upperBound = Key(code: "bfD0", type: "ui32", size: 4)
+    /// `bfE0` — the lower bound of the band, same encoding.
+    public static let lowerBound = Key(code: "bfE0", type: "ui32", size: 4)
+
+    public static let all: [Key] = [activation, upperBound, lowerBound]
+
+    /// Whether this firmware exposes the whole mechanism. A partial set is not a usable
+    /// mechanism: without the bounds there is no band to write, and without the
+    /// activation key nothing puts it in force.
+    public static func isSupported(by capabilities: [String: SMCKeyCapability]) -> Bool {
+        all.allSatisfy { $0.isPresent(in: capabilities) }
+    }
 }
 
 /// The shapes a force-discharge key must have before BatFi will write it.
