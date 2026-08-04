@@ -38,8 +38,17 @@ actor PowerUICharging {
     /// An override outlives the process that set it, so a fresh BatFi cannot know from its
     /// own state whether one is outstanding. Invoking the clear is the only thing that
     /// retires one; until that has happened, a limit read back from PowerUI may be an
-    /// earlier BatFi's write rather than the user's value, and must not be snapshotted.
+    /// earlier BatFi's write rather than the user's value, and must not be snapshotted —
+    /// but only on a build where BatFi could have written one at all, see `canWriteOverride`.
     private var overrideClearInvoked = false
+
+    /// Whether the snapshot refusal has already been surfaced.
+    ///
+    /// By the time the refusal is decided, both of its inputs are properties of this build
+    /// of PowerUI rather than of the moment, so the answer cannot change while the process
+    /// lives. Logging it per call would repeat one unchanging sentence on every status
+    /// update, forever, which is exactly the noise it is warning about.
+    private var hasReportedSnapshotRefusal = false
 
     private static let renewalInterval: Duration = .seconds(60)
 
@@ -108,6 +117,20 @@ actor PowerUICharging {
 
     var hasActiveOverride: Bool { lastOverrideValue != 0 }
 
+    /// Whether BatFi is able to write an MCL override on this machine at all — that is,
+    /// whether this build of PowerUI exposes the selector `overrideMCLTarget(_:)` writes
+    /// through. It is a property of the framework, so it is the same answer for every
+    /// BatFi process that has ever run here.
+    ///
+    /// Load-bearing for the snapshot rule: if BatFi cannot write an override, no override
+    /// of BatFi's can be standing in front of a limit read, in this process or in one that
+    /// died holding one, and there is nothing for `clearMCLOverride` to retire.
+    private var canWriteOverride: Bool {
+        guard client != nil, let clientClass else { return false }
+        let selector = NSSelectorFromString("temporarilyOverrideMCLTargetSoC:error:")
+        return class_getInstanceMethod(clientClass, selector) != nil
+    }
+
     /// Temporarily overrides the system Manual Charge Limit (System Settings → Battery → Charging).
     /// Apple stores the user's MCL in `MCLSavedTargetSoC` and restores it once the override expires.
     /// Use 100 to fully release the system limit so BatFi's SMC inhibit can act unimpeded.
@@ -135,8 +158,9 @@ actor PowerUICharging {
         let selector = NSSelectorFromString("clearMCLOverride")
         guard let method = class_getInstanceMethod(clientClass, selector) else {
             // `overrideClearInvoked` deliberately stays false: nothing retired an override that
-            // an earlier BatFi may have left behind, so a limit read now cannot be told
-            // apart from that process's write and must not be snapshotted as the user's.
+            // an earlier BatFi may have left behind. That only blocks a snapshot on a build
+            // that also exposes the *override* selector — where such a write is possible in
+            // the first place — which is what `canWriteOverride` decides.
             logger.notice("clearMCLOverride selector not exposed on client; relying on natural expiry")
             return
         }
@@ -217,10 +241,16 @@ actor PowerUICharging {
     ///   `setMCLLimit:` in `adoptSystemLimit(_:)`.
     /// * It clears any outstanding override first, so an override left behind by an
     ///   earlier BatFi that crashed while holding one is retired before the read.
-    /// * It refuses outright unless both of those are established —
+    /// * Where neither of those can be established it refuses —
     ///   `SystemLimitSnapshot.readIsTrustworthy` — because a missing snapshot is retried
     ///   next pass, while a wrong one is written into a setting the user can see and then
     ///   cannot get back.
+    ///
+    /// The refusal is narrowed to the one build shape where a BatFi override is actually
+    /// possible and cannot be retired on demand: override selector present, clear selector
+    /// absent. On a build with no override selector at all there is nothing that could
+    /// have poisoned the read, so refusing would protect nothing and would disable the
+    /// whole `.systemChargeLimit` backend for the life of the process.
     @discardableResult
     private func captureUserLimitIfNeeded() -> Bool {
         if userSystemLimitSnapshot != nil { return true }
@@ -231,9 +261,22 @@ actor PowerUICharging {
 
         guard SystemLimitSnapshot.readIsTrustworthy(
             hasActiveOverride: hasActiveOverride,
+            canWriteOverride: canWriteOverride,
             overrideRetired: overrideClearInvoked
         ) else {
-            logger.error("Refusing to record the user's system charge limit: an MCL override may still be outstanding")
+            // Said once, not per poll: both inputs are fixed for the life of the process by
+            // the time we get here — `clearMCLOverride()` above has already zeroed this
+            // process's override, so what is left is which selectors this build exposes.
+            if !hasReportedSnapshotRefusal {
+                hasReportedSnapshotRefusal = true
+                logger.error("""
+                BatFi will not set a system charge limit on this Mac: it cannot first record the \
+                user's own value. This build of PowerUI can set an MCL override but exposes no way \
+                to clear one, so an override left behind by an earlier BatFi cannot be retired and \
+                a limit read now could be that write rather than the user's setting. Restoring it \
+                on quit would overwrite a value the user cannot get back, so the limit is left alone.
+                """)
+            }
             return false
         }
 

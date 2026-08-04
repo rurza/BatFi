@@ -113,13 +113,27 @@ import Testing
 
     /// The normal case: no override held here, and PowerUI's clear has been invoked, so
     /// nothing BatFi wrote can still be standing in front of the read.
-    @Test func aReadIsTrustworthyOnlyWithNoOverrideAndAnInvokedClear() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(hasActiveOverride: false, overrideRetired: true))
+    @Test func aReadIsTrustworthyWithNoOverrideAndAnInvokedClear() {
+        #expect(SystemLimitSnapshot.readIsTrustworthy(
+            hasActiveOverride: false,
+            canWriteOverride: true,
+            overrideRetired: true
+        ))
     }
 
-    /// This process is holding an override, so the limit reads back as BatFi's 100.
+    /// This process is holding an override, so the limit reads back as BatFi's 100. The
+    /// dominant condition: it refuses whatever the build can or cannot do.
     @Test func anOverrideThisProcessHoldsBlocksTheRead() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(hasActiveOverride: true, overrideRetired: true) == false)
+        #expect(SystemLimitSnapshot.readIsTrustworthy(
+            hasActiveOverride: true,
+            canWriteOverride: true,
+            overrideRetired: true
+        ) == false)
+        #expect(SystemLimitSnapshot.readIsTrustworthy(
+            hasActiveOverride: true,
+            canWriteOverride: false,
+            overrideRetired: true
+        ) == false)
     }
 
     /// The scenario that makes this worth a guard at all: an override outlives the process
@@ -128,8 +142,24 @@ import Testing
     /// actually-invoked `clearMCLOverride` can retire it. Without that, refusing is the
     /// only safe answer: a missing snapshot is retried, a wrong one is restored on quit
     /// and the user's saved limit is gone.
-    @Test func aReadIsRefusedUntilAnOverrideCouldHaveBeenRetired() {
-        #expect(SystemLimitSnapshot.readIsTrustworthy(hasActiveOverride: false, overrideRetired: false) == false)
-        #expect(SystemLimitSnapshot.readIsTrustworthy(hasActiveOverride: true, overrideRetired: false) == false)
+    @Test func aReadIsRefusedWhileAnUnretiredBatFiOverrideIsPossible() {
+        #expect(SystemLimitSnapshot.readIsTrustworthy(
+            hasActiveOverride: false,
+            canWriteOverride: true,
+            overrideRetired: false
+        ) == false)
+    }
+
+    /// The narrowing. On a build that exposes no override selector, BatFi has never been
+    /// able to write an override here — in this process or in one that died holding one —
+    /// so the read is the user's value by construction and there is nothing for a clear to
+    /// retire. Refusing anyway would protect against nothing and would leave
+    /// `.systemChargeLimit` unable to apply any limit at all for the life of the process.
+    @Test func aReadIsTrustworthyWhenBatFiCannotWriteAnOverrideAtAll() {
+        #expect(SystemLimitSnapshot.readIsTrustworthy(
+            hasActiveOverride: false,
+            canWriteOverride: false,
+            overrideRetired: false
+        ))
     }
 }

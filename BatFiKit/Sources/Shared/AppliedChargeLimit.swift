@@ -2,7 +2,7 @@
 //  AppliedChargeLimit.swift
 //
 //
-//  What a charge-limit request resolved to, and the two decisions that hang off it.
+//  What a charge-limit request resolved to, and the decisions that hang off it.
 //
 
 import Foundation
@@ -58,15 +58,30 @@ public struct AppliedChargeLimit: Equatable, Sendable {
 public enum SystemLimitSnapshot {
     /// - Parameters:
     ///   - hasActiveOverride: whether *this* process is holding an override.
+    ///   - canWriteOverride: whether this build of PowerUI exposes the selector BatFi's
+    ///     override is written with. When it does not, BatFi has never been able to put
+    ///     an override in front of the read — not in this process and not in any earlier
+    ///     one — so there is nothing for a clear to retire and the read is the user's
+    ///     value by construction.
     ///   - overrideRetired: whether PowerUI's clear selector has actually been invoked
     ///     since the process started. That is the only thing that can retire an override
     ///     left behind by an earlier BatFi that crashed while holding one; without it,
     ///     a read cannot be told apart from that earlier process's write.
     ///
-    /// Both conditions are required. Refusing is always the safe answer: a missing
-    /// snapshot is retried on the next pass, a wrong one is written into a setting the
-    /// user can see and cannot get back.
-    public static func readIsTrustworthy(hasActiveOverride: Bool, overrideRetired: Bool) -> Bool {
-        !hasActiveOverride && overrideRetired
+    /// The rule is "nothing BatFi wrote can be standing in front of this read", and it is
+    /// deliberately no broader than that. Requiring an invoked clear unconditionally would
+    /// refuse forever on a build that exposes no clear selector — including one that
+    /// exposes no *override* selector either, where the refusal protects against nothing
+    /// and costs the whole feature. Refusing is the safe answer only where a BatFi write
+    /// is genuinely possible: a missing snapshot is retried on the next pass, but a wrong
+    /// one is written into a setting the user can see and cannot get back.
+    public static func readIsTrustworthy(
+        hasActiveOverride: Bool,
+        canWriteOverride: Bool,
+        overrideRetired: Bool
+    ) -> Bool {
+        guard !hasActiveOverride else { return false }
+        guard canWriteOverride else { return true }
+        return overrideRetired
     }
 }
