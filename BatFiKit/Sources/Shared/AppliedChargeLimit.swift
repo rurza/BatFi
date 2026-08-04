@@ -2,7 +2,8 @@
 //  AppliedChargeLimit.swift
 //
 //
-//  What a charge-limit request resolved to, and the decisions that hang off it.
+//  What a charge-limit request resolved to, what it does when it resolves to nothing at
+//  all, and the decisions that hang off both.
 //
 
 import Foundation
@@ -83,5 +84,32 @@ public enum SystemLimitSnapshot {
         guard !hasActiveOverride else { return false }
         guard canWriteOverride else { return true }
         return overrideRetired
+    }
+}
+
+/// A charge-limit request the mechanism could not put in force at all.
+///
+/// Separate from `AppliedChargeLimit` because there is no applied value to speak of, but
+/// it needs the same treatment for the same reason: nearly everything that makes this
+/// fail is fixed for the life of the process — a PowerUI selector this build does not
+/// expose, no trustworthy record of the user's own value, the wrong firmware — so the
+/// failure is a *state*, while the call site runs on every status update.
+public struct ChargeLimitFailure: Equatable, Sendable {
+    public let requested: Int
+
+    /// A stable description of what went wrong, used only to tell one failure from
+    /// another. Two passes that fail the same way produce the same string.
+    public let reason: String
+
+    public init(requested: Int, reason: String) {
+        self.requested = requested
+        self.reason = reason
+    }
+
+    /// Whether this failure is worth a log line and a breadcrumb: only when the failure
+    /// state changed. `lastReported` is cleared by a success and by disengaging, so a
+    /// failure that returns after the limit worked is an event again and is reported.
+    public static func shouldReport(_ failure: ChargeLimitFailure, lastReported: ChargeLimitFailure?) -> Bool {
+        lastReported != failure
     }
 }

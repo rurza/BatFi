@@ -2,10 +2,11 @@
 //  AppliedChargeLimitTests.swift
 //  BatFi
 //
-//  Two decisions that both hang off "has anything actually changed?", and one that
-//  decides whether a read of the system charge limit may be trusted as the user's own.
-//  All three used to be inequality checks or unguarded reads, and all three misbehaved
-//  in the steady state of the `.systemChargeLimit` backend rather than at its edges.
+//  Three decisions that hang off "has anything actually changed?", and one that decides
+//  whether a read of the system charge limit may be trusted as the user's own. All four
+//  used to be inequality checks, unguarded reads or unbounded logging, and all four
+//  misbehaved in the steady state of the `.systemChargeLimit` backend rather than at its
+//  edges — which is why the steady state is what they are pinned against here.
 //
 
 import Foundation
@@ -161,5 +162,44 @@ import Testing
             canWriteOverride: false,
             overrideRetired: false
         ))
+    }
+
+    // MARK: - ChargeLimitFailure
+
+    @Test func theFirstFailureIsReported() {
+        let failure = ChargeLimitFailure(requested: 80, reason: "snapshotUnavailable")
+        #expect(ChargeLimitFailure.shouldReport(failure, lastReported: nil))
+    }
+
+    /// The finding: the reasons a limit cannot be applied — the wrong firmware, a missing
+    /// PowerUI selector, no trustworthy snapshot — last as long as the process, while the
+    /// call runs on every status update. Repeating it is a warning and a burnt Sentry
+    /// breadcrumb a minute, forever.
+    @Test func anUnchangedFailureIsReportedOnlyOnce() {
+        let failure = ChargeLimitFailure(requested: 80, reason: "snapshotUnavailable")
+        #expect(ChargeLimitFailure.shouldReport(failure, lastReported: failure) == false)
+    }
+
+    @Test func aDifferentReasonForTheSameLimitIsReported() {
+        let last = ChargeLimitFailure(requested: 80, reason: "snapshotUnavailable")
+        let next = ChargeLimitFailure(requested: 80, reason: "frameworkUnavailable")
+        #expect(ChargeLimitFailure.shouldReport(next, lastReported: last))
+    }
+
+    /// The user moved the slider and it still fails — worth saying, because which value
+    /// was refused is half the diagnosis.
+    @Test func theSameReasonForADifferentLimitIsReported() {
+        let last = ChargeLimitFailure(requested: 80, reason: "snapshotUnavailable")
+        let next = ChargeLimitFailure(requested: 90, reason: "snapshotUnavailable")
+        #expect(ChargeLimitFailure.shouldReport(next, lastReported: last))
+    }
+
+    /// Clearing the memory — what a success and what `disengage()` both do — makes the
+    /// same failure an event again, so a failure that returns after the limit worked is
+    /// not swallowed.
+    @Test func clearingTheFailureMemoryReportsOnceMore() {
+        let failure = ChargeLimitFailure(requested: 80, reason: "snapshotUnavailable")
+        #expect(ChargeLimitFailure.shouldReport(failure, lastReported: failure) == false)
+        #expect(ChargeLimitFailure.shouldReport(failure, lastReported: nil))
     }
 }

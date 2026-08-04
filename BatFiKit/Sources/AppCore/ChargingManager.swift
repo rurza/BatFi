@@ -45,6 +45,13 @@ public actor ChargingManager: ChargingModeManager {
     /// once again.
     private var lastReportedChargeLimit: AppliedChargeLimit?
 
+    /// The last failure `applyChargeLimit(_:)` reported, for the same reason and with the
+    /// same lifetime. A limit that cannot be applied usually cannot be applied for a reason
+    /// that lasts as long as the process — the wrong firmware, a PowerUI selector this build
+    /// does not expose — so without this the warning and its breadcrumb repeat on every
+    /// status update forever on precisely the machines whose reports are worth having.
+    private var lastReportedChargeLimitFailure: ChargeLimitFailure?
+
     public init() {}
 
     public func setUpObserving() {
@@ -390,9 +397,17 @@ public actor ChargingManager: ChargingModeManager {
     /// what every currently working Mac relies on and it does not depend on this call, so
     /// aborting it because Apple's limit could not be set would regress machines that
     /// never needed the limit in the first place.
+    ///
+    /// Both arms report a *change* rather than a condition. The limit is applied on every
+    /// status update, and both the mismatch and the failure it can report are steady states
+    /// rather than events, so an unguarded log here is one line and one Sentry breadcrumb a
+    /// minute for the life of the process. Each arm clears the other's memory, so a failure
+    /// after a run of successes — or a mismatch after a run of failures — is a change and is
+    /// said once more.
     private func applyChargeLimit(_ limit: Int) async {
         do {
             let applied = try await chargingClient.applyChargeLimit(limit)
+            lastReportedChargeLimitFailure = nil
             // On change, not on inequality. Under the system charge limit a request the
             // mechanism cannot express — anything below 80%, which is most of the slider —
             // resolves to a raised value on *every* pass, so reporting the inequality would
@@ -406,8 +421,13 @@ public actor ChargingManager: ChargingModeManager {
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Charge limit \(limit)% applied as \(applied)%")
             }
         } catch {
-            logger.warning("Failed to apply charge limit \(limit, privacy: .public)%: \(error, privacy: .public)")
-            await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to apply charge limit. Error: \(error.localizedDescription)")
+            let failure = ChargeLimitFailure(requested: limit, reason: String(describing: error))
+            if ChargeLimitFailure.shouldReport(failure, lastReported: lastReportedChargeLimitFailure) {
+                lastReportedChargeLimitFailure = failure
+                lastReportedChargeLimit = nil
+                logger.warning("Failed to apply charge limit \(limit, privacy: .public)%: \(error, privacy: .public)")
+                await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to apply charge limit. Error: \(error.localizedDescription)")
+            }
         }
     }
 
@@ -415,8 +435,9 @@ public actor ChargingManager: ChargingModeManager {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
         // BatFi is handing charging back, so the next limit it applies starts a new
-        // episode and is worth reporting again even if it resolves the same way.
+        // episode and is worth reporting again even if it resolves — or fails — the same way.
         lastReportedChargeLimit = nil
+        lastReportedChargeLimitFailure = nil
         logger.debug("Disengaging — restoring system defaults")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Disengaging — restoring system defaults")
         do {
