@@ -80,7 +80,14 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     public func willQuit() {
         Task {
-            try? await Task.sleep(for: .seconds(1))
+            // Five seconds, not one. The work this races now does materially more than it
+            // did: `restoreSystemDefaults()` makes several PowerUI round trips, can spend
+            // up to ~2 s reopening a dropped SMC connection, and may re-probe the whole
+            // nine-key table to decide whether a firmware charge band is held. Losing that
+            // race under `.firmwareRange` leaves the band armed in hardware with nothing
+            // running that knows about it. Still well inside launchd's terminate window,
+            // and `ListenerDelegate` now restores on connection loss as a second net.
+            try? await Task.sleep(for: .seconds(5))
             await analyticsClient.addBreadcrumb(category: .lifecycle, message: "XRPC hangs, timeout, the app should terminate")
             NSApp.reply(toApplicationShouldTerminate: true)
         }
