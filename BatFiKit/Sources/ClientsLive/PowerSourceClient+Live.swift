@@ -93,8 +93,9 @@ extension PowerSourceClient: DependencyKey {
 
         /// Launch-time transients (IOKit still settling) resolve within a couple of seconds.
         let initialRetryDelays: [Duration] = [.milliseconds(200), .milliseconds(400), .milliseconds(800), .milliseconds(1600)]
-        /// Safety net so recovery never depends on an IOPS notification arriving.
-        let failureRepollInterval: Duration = .seconds(60)
+        /// Safety net so recovery never depends on an IOPS notification arriving. Runs for
+        /// the life of the stream, not only while failing — see the poll task below.
+        let repollInterval: Duration = .seconds(60)
 
         // `powerSourceChanges()` is subscribed to independently by ~6-8 call sites, each
         // with its own retry ladder, so a single sustained failure would otherwise dump
@@ -161,14 +162,21 @@ extension PowerSourceClient: DependencyKey {
             powerSourceChanges: {
                 AsyncStream { continuation in
                     let pollTask = Task {
-                        // Retry, then keep re-polling only while failing. Stops on first success;
-                        // the IOPS notification drives updates from then on.
+                        // Retries hard at first, then keeps polling at a low rate **for the
+                        // life of the stream**. It used to return on the first success,
+                        // which made the comment above it ("so recovery never depends on an
+                        // IOPS notification arriving") true only up to that point: a Mac
+                        // that read fine at launch and then lost a key had no recovery path
+                        // but a notification — and read failures correlate with
+                        // notifications not arriving.
+                        //
+                        // The cost of keeping it is one IOKit read a minute, and the yield
+                        // is what `powerSourceChanges` consumers already debounce.
                         while !Task.isCancelled {
                             if let state = await fetchWithRetry() {
                                 continuation.yield(state)
-                                return
                             }
-                            try? await Task.sleep(for: failureRepollInterval)
+                            try? await Task.sleep(for: repollInterval)
                         }
                     }
 
@@ -186,7 +194,16 @@ extension PowerSourceClient: DependencyKey {
                 }
             },
             currentPowerSourceState: {
-                try await getPowerSourceInfo()
+                // The retry ladder, not a bare read. Its consumer —
+                // `ChargingManager.fetchAndUpdateAppChargingState` — throws out of the
+                // whole function on a single bad read, leaving the app's mode at `.initial`,
+                // which `BatteryIndicatorViewModel.ChargingMode.init` renders as the
+                // exclamation-mark error icon. That is the reported symptom, reached from a
+                // transient the stream path already knows how to ride out.
+                guard let state = await fetchWithRetry() else {
+                    return try await getPowerSourceInfo()
+                }
+                return state
             },
             isRunningOnLaptop: {
                 if let powerSourceInfo = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
@@ -213,25 +230,48 @@ extension PowerSourceClient: DependencyKey {
         private let logger = Logger(category: "PowerSourceClienty.Observer")
         private let inFlightLock = NSLock()
         private var inFlight: Task<Void, Never>?
+        /// Set when a notification arrives while a read is already running, so that read
+        /// loops once more rather than the notification being answered with the older
+        /// sample. See `refresh()`.
+        private var needsRerun = false
 
         init(getPowerSourceInfo: @escaping () async throws -> PowerState) {
             self.getPowerSourceInfo = getPowerSourceInfo
         }
 
         /// macOS 27 raises a full system power-source change per charge-inhibit toggle,
-        /// so callbacks arrive in bursts. Collapse them into one read.
+        /// so callbacks arrive in bursts. Collapse them — into **two** reads, never into
+        /// one stale one.
+        ///
+        /// Joining an in-flight task was not enough, and `Task` is why: it has no "is
+        /// finished" property, so `!inFlight.isCancelled` is true both for a running task
+        /// and for a completed one. A notification arriving mid-read joined that read and
+        /// was answered with a sample taken *before* the change it was reporting; one
+        /// arriving in the window between the task finishing and `inFlight` being cleared
+        /// joined an already-finished task, so no IOKit read happened at all — the read the
+        /// notification existed to trigger was dropped.
+        ///
+        /// `needsRerun` makes the running task loop instead. Any number of notifications
+        /// during a read collapse into exactly one more read afterwards, which is the
+        /// coalescing that was wanted and is the guarantee the design doc's untested
+        /// "a burst of notifications coalesces" case asks for.
         func refresh() async {
             let task = inFlightLock.withLock { () -> Task<Void, Never> in
-                if let inFlight, !inFlight.isCancelled { return inFlight }
+                if let inFlight, !inFlight.isCancelled {
+                    needsRerun = true
+                    return inFlight
+                }
                 let task = Task { [weak self] in
                     guard let self else { return }
-                    do {
-                        let powerState = try await self.getPowerSourceInfo()
-                        self.logger.debug("New power state: \(powerState)")
-                        self.subject.send(powerState)
-                    } catch {
-                        self.logger.error("Power source read failed on notification: \(error, privacy: .public)")
-                    }
+                    repeat {
+                        do {
+                            let powerState = try await self.getPowerSourceInfo()
+                            self.logger.debug("New power state: \(powerState)")
+                            self.subject.send(powerState)
+                        } catch {
+                            self.logger.error("Power source read failed on notification: \(error, privacy: .public)")
+                        }
+                    } while self.takeNeedsRerun()
                 }
                 inFlight = task
                 return task
@@ -239,6 +279,14 @@ extension PowerSourceClient: DependencyKey {
             await task.value
             inFlightLock.withLock {
                 if inFlight == task { inFlight = nil }
+            }
+        }
+
+        /// Consumes the re-run request, so the flag cannot make the loop spin forever.
+        private func takeNeedsRerun() -> Bool {
+            inFlightLock.withLock {
+                defer { needsRerun = false }
+                return needsRerun
             }
         }
 
@@ -285,8 +333,18 @@ private final class DumpGate: @unchecked Sendable {
 private actor BatteryHealthState {
     private var lastBatteryHealth: BatteryHealth?
     private var refreshTask: Task<Void, Never>?
+    /// When the last attempt failed, so a permanently unreadable health does not fork a
+    /// `system_profiler` on every read. `store(_:)` clears `refreshTask` on every
+    /// completion but only records a value on success, so without this `refreshIfStale()`
+    /// became eligible again immediately — and with ~6-8 subscribers to
+    /// `powerSourceChanges()` and macOS 27 raising a power-source change per inhibit
+    /// toggle, that is a lot of subprocesses.
+    private var lastFailureDate: Date?
 
     private static let maxAge: TimeInterval = 60 * 60
+    /// How long to wait before retrying after a failed read. Shorter than `maxAge`: a
+    /// failure is more likely to be transient than a successful reading is to be stale.
+    private static let failureBackoff: TimeInterval = 10 * 60
     private static let timeout: Duration = .seconds(10)
     private static let logger = Logger(category: "Battery Health")
 
@@ -296,6 +354,7 @@ private actor BatteryHealthState {
     /// Kicks off a refresh when the cache is cold or stale. Returns immediately.
     func refreshIfStale() {
         if let lastBatteryHealth, lastBatteryHealth.date.timeIntervalSinceNow > -Self.maxAge { return }
+        if let lastFailureDate, lastFailureDate.timeIntervalSinceNow > -Self.failureBackoff { return }
         guard refreshTask == nil else { return }
         refreshTask = Task { [weak self] in
             let health = await Self.readMaximumCapacity()
@@ -304,7 +363,12 @@ private actor BatteryHealthState {
     }
 
     private func store(_ health: Int?) {
-        if let health { lastBatteryHealth = BatteryHealth(health: health, date: .now) }
+        if let health {
+            lastBatteryHealth = BatteryHealth(health: health, date: .now)
+            lastFailureDate = nil
+        } else {
+            lastFailureDate = .now
+        }
         refreshTask = nil
     }
 

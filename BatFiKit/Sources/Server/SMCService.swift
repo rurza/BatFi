@@ -578,21 +578,6 @@ actor SMCService {
     /// this list while `enableForceDischarge` wrote it, which is exactly how a Mac
     /// could be left draining on AC after a failed restore.
     func resetIfPossible() {
-        // The macOS 27-era firmware-managed range. It matters more here than the keys
-        // below, not less: the firmware enforces the band by itself, including while the
-        // Mac is asleep, so a band left armed by a crashed helper is not a stale write
-        // waiting to be overwritten — it is a limit that keeps working with nothing left
-        // running that knows about it or can clear it.
-        //
-        // Replayed from `FirmwareChargeRange.releaseSequence`, the same list
-        // `releaseFirmwareRange()` performs, so this cannot come to clear less than the
-        // release path does. Written unconditionally, like everything else here: reset runs
-        // from failure paths where the resolved backend is exactly what is in doubt, and a
-        // write to an absent key throws into the `try?` and costs nothing.
-        for step in FirmwareChargeRange.releaseSequence {
-            try? perform(step)
-        }
-
         // Try to reset new firmware keys first
         try? SMCKit.writeData(.inhibitCharging3, byte0: 0, byte1: 0, byte2: 0, byte3: 0)
         try? SMCKit.writeData(.disableCharging3, uint8: 0)
@@ -602,6 +587,27 @@ actor SMCService {
         try? SMCKit.writeData(.disableCharging2, uint8: 0)
         try? SMCKit.writeData(.inhibitCharging1, uint8: 0)
         try? SMCKit.writeData(.inhibitCharging2, uint8: 0)
+
+        // The macOS 27-era firmware-managed range, and it belongs here rather than at the
+        // top even though it is the one piece of state that outlives the process. Ordering
+        // inside a safety net matters: `CHIE`/`CH0I` are the keys whose stale state can
+        // leave a Mac *discharging on AC*, so they must not be queued behind a write to a
+        // key this code has deliberately not probed.
+        //
+        // Unprobed is the operative word. The rule everywhere else on this branch is "never
+        // touch a `bf**` key you have not shape-matched", because `bfD0` exists on Tahoe
+        // firmware as a read-only `hex_`/2 key with an unrelated meaning. This is the one
+        // place that escapes it, on purpose: reset runs from failure paths where the
+        // resolved backend is exactly what is in doubt, a band left armed by a crashed
+        // helper keeps being enforced with nothing running that can clear it, and a write
+        // to an absent key throws into the `try?` and costs nothing.
+        //
+        // Replayed from `FirmwareChargeRange.releaseSequence`, the same list
+        // `releaseFirmwareRange()` performs, so this cannot come to clear less than the
+        // release path does.
+        for step in FirmwareChargeRange.releaseSequence {
+            try? perform(step)
+        }
     }
 
     /// Drops the resolved backend so the next call re-probes.

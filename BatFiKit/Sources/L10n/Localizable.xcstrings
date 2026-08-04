@@ -18560,7 +18560,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The macOS charge limit only accepts certain values, so BatFi is holding charging at %@ instead of the %@ it was asked for."
+            "value": "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
           }
         }
       }
@@ -18571,7 +18571,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved and is put back when BatFi quits."
+            "value": "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
           }
         }
       }

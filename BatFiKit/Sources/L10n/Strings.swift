@@ -564,8 +564,6 @@ public enum L10n {
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.label.turn_off_charging_when_battery_is_hot", defaultValue: "Automatically turn off charging when the battery gets hot", bundle: Bundle.module)
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
-                /// Automatically enable system charge limit (80%) when the Mac goes to sleep
-                public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
                 /// Show power distribution
                 public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power distribution", bundle: Bundle.module)
                 /// Show apps with high energy usage
@@ -787,7 +785,7 @@ public enum L10n {
                 )
             }
 
-            /// The macOS charge limit only accepts certain values, so BatFi is holding charging at %@ instead of the %@ it was asked for.
+            /// The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for.
             ///
             /// The round-up, reached by clicking stop-charging at any battery level that is
             /// not a multiple of 5. Names both numbers and claims nothing about a floor:
@@ -801,7 +799,11 @@ public enum L10n {
                 String(
                     format: String(
                         localized: "settings.label.system_charge_limit_rounded_up",
-                        defaultValue: "The macOS charge limit only accepts certain values, so BatFi is holding charging at %@ instead of the %@ it was asked for.",
+                        // Positional specifiers, not two bare `%@`. The clause order is
+                        // natural in English and not in every language, and a translator
+                        // who reorders it would swap the applied limit with the requested
+                        // one — undetectably, since both are percentages.
+                        defaultValue: "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for.",
                         bundle: .module
                     ),
                     String(describing: p1),
@@ -809,8 +811,14 @@ public enum L10n {
                 )
             }
 
-            /// To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved and is put back when BatFi quits.
-            public static let systemChargeLimitManagesSystemSettings = String(localized: "settings.label.system_charge_limit_manages_system_settings", defaultValue: "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved and is put back when BatFi quits.", bundle: Bundle.module)
+            /// To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits.
+            ///
+            /// "Puts it back" rather than "is put back". The branch's own Known Issues say
+            /// the value can keep reading 100% for a while after BatFi quits, because
+            /// current macOS gives no way to hand a temporary override back early — so an
+            /// unqualified promise about what System Settings will show is one this release
+            /// knows it cannot keep. This says what BatFi does, which is true.
+            public static let systemChargeLimitManagesSystemSettings = String(localized: "settings.label.system_charge_limit_manages_system_settings", defaultValue: "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits.", bundle: Bundle.module)
 
             /// BatFi isn't applying a charge limit on this Mac. It couldn't record the limit you have in System Settings › Battery, and it won't change a value it might not be able to put back.
             public static let systemChargeLimitNoSnapshot = String(localized: "settings.label.system_charge_limit_no_snapshot", defaultValue: "BatFi isn't applying a charge limit on this Mac. It couldn't record the limit you have in System Settings › Battery, and it won't change a value it might not be able to put back.", bundle: Bundle.module)

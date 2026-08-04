@@ -27,6 +27,14 @@ public class SMCChargingStatus: NSObject, Codable, NSSecureCoding, @unchecked Se
         // Note that the two `false`s in this path mean opposite things: `lidClosed ==
         // false` is permissive (lid open), while `fetchLidStatus() -> false` is the
         // conservative answer (treat as closed).
+        //
+        // **Not skew-tolerant, and that is a bounded, deliberate choice.** This key used to
+        // carry a plain `Bool`, so a new app decoding an old daemon's payload gets `nil`
+        // here, `fetchLidStatus()` answers "closed", and force discharge is silently
+        // blocked. It fails in the conservative direction, and it cannot last: `App.swift`
+        // calls `quitHelper()` on every app quit, so a mismatched daemon survives at most
+        // one session. A version tag would be the alternative and is not worth a new field
+        // for a window that short.
         coder.encode(lidClosed.map(NSNumber.init(value:)), forKey: "lidClosed")
     }
 
