@@ -50,3 +50,53 @@ public struct GeoFence: Codable, Equatable, Sendable {
         center.distance(to: coordinate) <= radiusMeters
     }
 }
+
+public extension GeoFence {
+    /// Smallest radius CoreLocation can monitor meaningfully. The location manager requests
+    /// `kCLLocationAccuracyHundredMeters`, so anything tighter cannot behave as labelled.
+    static let minimumMonitoredRadiusMeters: Double = 100
+
+    /// Radius actually submitted to CoreLocation. Never below the accuracy floor.
+    ///
+    /// Clamping lives here, not at the CoreLocation boundary, so that the value used to build
+    /// a condition and the value used to compare against an existing condition are the same.
+    /// Clamping only on the way in would make every reconciliation pass see a difference and
+    /// churn the condition, resetting its monitoring state.
+    var monitoredRadiusMeters: Double { max(radiusMeters, Self.minimumMonitoredRadiusMeters) }
+}
+
+/// Centre and radius alone. `CLMonitor` persists no label, so a condition read back from it
+/// cannot reconstruct a `GeoFence`; this is what both sides of a comparison reduce to.
+public struct MonitoredRegion: Sendable, Equatable {
+    public var center: Coordinate
+    public var radiusMeters: Double
+
+    public init(center: Coordinate, radiusMeters: Double) {
+        self.center = center
+        self.radiusMeters = radiusMeters
+    }
+
+    /// Equality within the tolerance of a round trip through CoreLocation's persisted store.
+    /// Exact `Double` equality would churn conditions on every launch.
+    public func matches(_ other: MonitoredRegion) -> Bool {
+        abs(center.latitude - other.center.latitude) < 1e-6
+            && abs(center.longitude - other.center.longitude) < 1e-6
+            && abs(radiusMeters - other.radiusMeters) < 0.5
+    }
+}
+
+/// A geofence submitted for monitoring, identified by the rule that owns it.
+public struct MonitoredFence: Sendable, Equatable, Identifiable {
+    public var id: UUID          // == AutomationRule.id
+    public var fence: GeoFence
+
+    public init(id: UUID, fence: GeoFence) {
+        self.id = id
+        self.fence = fence
+    }
+
+    /// The part CoreLocation actually stores, and the only part reconciliation compares.
+    public var region: MonitoredRegion {
+        MonitoredRegion(center: fence.center, radiusMeters: fence.monitoredRadiusMeters)
+    }
+}
