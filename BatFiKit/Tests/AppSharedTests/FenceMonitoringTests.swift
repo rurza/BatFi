@@ -69,4 +69,14 @@ private func fence(_ radius: Double, _ label: String = "Home", at center: Coordi
         let a = MonitoredRegion(center: warsaw, radiusMeters: 300)
         #expect(!a.matches(MonitoredRegion(center: warsaw, radiusMeters: 350)))
     }
+
+    @Test func subFloorFenceMatchesItsClampedReadBack() {
+        // The property the AppShared-side clamp exists for: a stored 50 m fence and the 100 m
+        // region CoreLocation reports back must compare equal, or reconciliation would remove
+        // and re-add the condition on every pass and reset its monitoring state.
+        let desired = MonitoredFence(id: UUID(), fence: fence(50)).region
+        let readBack = MonitoredRegion(center: warsaw, radiusMeters: 100)
+        #expect(desired.matches(readBack))
+        #expect(readBack.matches(desired))
+    }
 }
