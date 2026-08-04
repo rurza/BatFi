@@ -81,3 +81,25 @@ struct AutomationLabeledRow<Content: View>: View {
             )
     }
 }
+
+extension View {
+    /// Positions a `.bottomLeading` overlay just below its parent row and gives it an opaque
+    /// surface to sit on.
+    ///
+    /// The alignment guide, rather than a fixed `.offset(y:)`: setting the content's bottom guide
+    /// to 4pt above its own top places its top 4pt below the parent's bottom edge, whatever height
+    /// that row turns out to be. The search row's height changes when "Locating…" and its
+    /// progress spinner appear, so a hard-coded offset would drift.
+    ///
+    /// `.regularMaterial` because this floats over a map — the old `Color.secondary.opacity(0.10)`
+    /// let streets and labels show straight through the text.
+    func floatingUnderSearchField() -> some View {
+        self
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6))
+            .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(.separator))
+            .shadow(radius: 8, y: 4)
+            .alignmentGuide(.bottom) { $0[.top] - 4 }
+    }
+}

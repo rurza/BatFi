@@ -96,71 +96,44 @@ struct AutomationLocationPicker: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    TextField(L10n.Automation.locationSearchPlaceholder, text: $search.query)
-                        .textFieldStyle(.roundedBorder)
-                        .onSubmit {
-                            // A field that is only whitespace (or empty) has nothing to search
-                            // for — leave Return a no-op rather than showing "No places found."
-                            // for text the user never really typed.
-                            guard !search.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                            if let first = search.completions.first {
-                                Task { await select(first) }
-                            }
-                            // Else: the completer hasn't answered this query yet, or answered
-                            // with nothing. Either way `search.hasSearched` drives the "No places
-                            // found." message below reactively, so it surfaces on its own as soon
-                            // as the completer responds — nothing further to do here.
+            HStack {
+                TextField(L10n.Automation.locationSearchPlaceholder, text: $search.query)
+                    .textFieldStyle(.roundedBorder)
+                    .onSubmit {
+                        // A field that is only whitespace (or empty) has nothing to search
+                        // for — leave Return a no-op rather than showing "No places found."
+                        // for text the user never really typed.
+                        guard !search.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                        if let first = search.completions.first {
+                            Task { await select(first) }
                         }
-                    if isLocating {
-                        ProgressView()
-                            .controlSize(.small)
-                            .padding(.trailing, 4)
-                        Text(L10n.Automation.locating)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        // Else: the completer hasn't answered this query yet, or answered
+                        // with nothing. Either way `search.hasSearched` drives the "No places
+                        // found." message below reactively, so it surfaces on its own as soon
+                        // as the completer responds — nothing further to do here.
                     }
-                    if isLocating {
-                        Button(L10n.Automation.cancel) { isLocating = false }
-                            .controlSize(.small)
-                    } else {
-                        Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
-                            .controlSize(.small)
-                            .disabled(!canUseCurrentLocation)
-                    }
-                }
-
-                if !search.completions.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(search.completions, id: \.self) { completion in
-                            Button {
-                                Task { await select(completion) }
-                            } label: {
-                                VStack(alignment: .leading, spacing: 1) {
-                                    Text(completion.title)
-                                    if !completion.subtitle.isEmpty {
-                                        Text(completion.subtitle)
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .contentShape(Rectangle())
-                                .padding(.vertical, 4)
-                                .padding(.horizontal, 8)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .background(Color.secondary.opacity(0.10))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
-                } else if search.hasSearched {
-                    Text(L10n.Automation.locationNoResults)
+                if isLocating {
+                    ProgressView()
+                        .controlSize(.small)
+                        .padding(.trailing, 4)
+                    Text(L10n.Automation.locating)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
+                if isLocating {
+                    Button(L10n.Automation.cancel) { isLocating = false }
+                        .controlSize(.small)
+                } else {
+                    Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
+                        .controlSize(.small)
+                        .disabled(!canUseCurrentLocation)
+                }
             }
+            .overlay(alignment: .bottomLeading) { completions }
+            // SwiftUI paints stack siblings in order, so the map — which comes after this row —
+            // would otherwise draw over the dropdown and swallow its clicks. Raising this row
+            // puts the dropdown above the map for both drawing and hit-testing.
+            .zIndex(1)
 
             banner
 
@@ -246,6 +219,45 @@ struct AutomationLocationPicker: View {
                     isLocating = false
                 }
             }
+        }
+    }
+
+    /// The completion list, floating over the map rather than sitting in the layout.
+    ///
+    /// It used to be a stack sibling, which meant up to ~170pt of content appearing and
+    /// disappearing *while the user typed* — displacing the banner and map on every keystroke, and
+    /// resizing the whole sheet along with them.
+    @ViewBuilder private var completions: some View {
+        if !search.completions.isEmpty {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(search.completions, id: \.self) { completion in
+                    Button {
+                        Task { await select(completion) }
+                    } label: {
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(completion.title)
+                            if !completion.subtitle.isEmpty {
+                                Text(completion.subtitle)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .contentShape(Rectangle())
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 8)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .floatingUnderSearchField()
+        } else if search.hasSearched {
+            Text(L10n.Automation.locationNoResults)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 8)
+                .floatingUnderSearchField()
         }
     }
 
