@@ -145,11 +145,16 @@ actor SMCService {
             logger.notice("Getting disable charging status")
             // Probed rather than read-and-catch, and independently of the charge
             // backend — CHIE outlives CHTE on newer firmware.
+            // CHIE/CH0I are asymmetric: the engaged value written by enableForceDischarge(_:)
+            // differs per key (0x08 for CHIE, 0x01 for the legacy keys). The read here must
+            // compare against that same per-key engage value, not a shared literal, or the
+            // two sides drift apart again. An exact match, not a "nonzero" test, since these
+            // keys can carry other bit values.
             let forceDischarging: Bool
             if SMCKit.probeCapability("CHIE") != nil, let data = try? SMCKit.readData(.disableCharging3) {
-                forceDischarging = data.0 == 1
+                forceDischarging = data.0 == SMCKey.disableCharging3.forceDischargeEngagedValue
             } else if SMCKit.probeCapability("CH0I") != nil, let data = try? SMCKit.readData(.disableCharging1) {
-                forceDischarging = data.0 == 1
+                forceDischarging = data.0 == SMCKey.disableCharging1.forceDischargeEngagedValue
             } else {
                 forceDischarging = false
                 logger.error("Failed to read disable charging status")
