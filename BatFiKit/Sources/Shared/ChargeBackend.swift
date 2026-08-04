@@ -103,28 +103,42 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
         }
     }
 
-    /// Whether BatFi knows its own charging state well enough to mirror it on the MagSafe
-    /// LED.
+    /// Whether BatFi knows *charging is being held back right now* well enough to put the
+    /// green light on the MagSafe LED. Read through
+    /// `ChargingDiagnostics.magSafeGreenLightAvailable`, which also requires the key.
+    ///
+    /// Narrow on purpose. It governs the green light and **nothing else** — in particular
+    /// not the discharge blink, which fires on BatFi's own `.forceDischarge` mode, written
+    /// through `CHIE` and known exactly on every firmware, including this one.
     ///
     /// **False for `.firmwareRange` even where `ACLC` probes fine.** The next reader will
-    /// see a working key reported as unavailable and want to "fix" it, so: the limitation
-    /// is knowledge, not the key. The LED shows *charging is being held back*, and under
-    /// the firmware range BatFi cannot know that. It hands the firmware a band once and
-    /// steps back; the firmware then decides moment to moment, and the only thing BatFi
-    /// can read — `bfF0` — says a limit is *in force*, which stays true the whole time the
-    /// battery is charging from 40% toward it. A green light driven off that is on
-    /// permanently, including while the Mac is actively charging. Probing `ACLC` harder
-    /// cannot supply the missing fact.
+    /// see a working key reported as unavailable and want to "fix" it, so the reasoning is
+    /// here in full — and note it is *not* the `bfF0` argument, which was wrong and is
+    /// gone. `isChargingEnabled` now correctly reports `true` under this backend, so the
+    /// app's mode is no longer pinned to `.inhibit`; it is BatFi's own decision, taken by
+    /// comparing the battery level against the limit.
+    ///
+    /// That decision is a **prediction of what the firmware is doing, not an observation
+    /// of it**, and the hysteresis band makes the prediction wrong in the common case. The
+    /// firmware charges to the upper bound, then holds until the battery falls to the
+    /// lower one. So on a Mac plugged in at an 80% limit, the steady state is a slow drift
+    /// from 80% down to 75% with the firmware holding charge the whole way — and BatFi,
+    /// seeing 79 < 80, calls that `.charging`. The green light would be dark for most of
+    /// the time it is supposed to be lit, and lit only for the brief climb back up. An
+    /// indicator that is wrong the majority of the time is worse than no indicator.
+    ///
+    /// Nothing available fixes it. `bfF0` reports whether a limit is *in force*, which is
+    /// permanently true; `CHNC` might carry an attribution bit for the band, but which bit
+    /// is unconfirmed on hardware nobody has, and guessing one is how a "working" feature
+    /// ships broken. If a `CHNC` bit is ever confirmed for this firmware, this is the arm
+    /// to revisit — the same way bit 24 is what keeps the light for `.systemChargeLimit`.
     ///
     /// True under `.systemChargeLimit`, which looks similar and is not: there the firmware
     /// attributes the hold itself, in `CHNC` bit 24, and
-    /// `ChargingDiagnostics.systemChargeLimitIsHoldingCharge` reads it. The macOS 27
-    /// firmware offers no equivalent attribution for its band.
+    /// `ChargingDiagnostics.systemChargeLimitIsHoldingCharge` reads it.
     ///
-    /// True under `.unsupported`, where nothing holds charge back so the green light
-    /// simply never fires — but force discharge can still work there, and the
-    /// blink-on-discharge setting is driven by BatFi's own `.forceDischarge` mode, which
-    /// BatFi does know. Taking the LED away there would break a feature that works.
+    /// True under `.unsupported`, where BatFi holds no inhibit, so the green light simply
+    /// never fires. Never firing is honest; firing at the wrong times is not.
     public var canMirrorChargingStateOnMagSafeLED: Bool {
         switch self {
         case .chte, .legacyCH0BC, .systemChargeLimit, .unsupported: return true

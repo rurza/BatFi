@@ -18488,13 +18488,13 @@
         }
       }
     },
-    "settings.label.magsafe_led_unavailable": {
+    "settings.label.magsafe_green_light_unavailable": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The MagSafe LED can’t be driven on this Mac. Its firmware manages charging itself, so BatFi doesn’t know the charging state the light would show."
+            "value": "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
           }
         }
       }

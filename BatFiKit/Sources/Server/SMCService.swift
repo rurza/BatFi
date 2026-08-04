@@ -368,8 +368,10 @@ actor SMCService {
     /// machine on `.systemChargeLimit` can still run on battery, and inferring it from the
     /// backend would take a working feature down with the one that broke.
     ///
-    /// `magSafeLEDAvailable` starts from the key table too and is then withheld on the one
-    /// backend where the key works and the *fact it would display* is missing. See below.
+    /// `magSafeLEDAvailable` is answered from the key table and from nothing else either.
+    /// It means "the LED can be driven", which is what the discharge blink needs and which
+    /// no backend takes away. Whether the *green light* can be driven is a narrower
+    /// question, and it is asked where it belongs: `ChargingDiagnostics.magSafeGreenLightAvailable`.
     func chargingDiagnostics() async -> ChargingDiagnostics {
         let backend = await currentBackend()
         let firmwareVersion = SystemFirmware.version()
@@ -393,19 +395,35 @@ actor SMCService {
         // precisely "there is a mechanism that write path would use".
         let forceDischargeAvailable = forceDischargeMechanism() != nil
         // Presence, not shape, and unlike force discharge that is the right test. No ACLC
-        // encoding has been measured across the fleet, and the LED write path already
-        // fails loudly on its own: it reads the key back and throws when the value does
-        // not decode. A guessed shape here could only claim a working LED is missing.
+        // encoding has been measured across the fleet, this flag gates nothing on its own —
+        // it is reported — and the LED write path already fails loudly: it reads the key
+        // back and throws when the value does not decode. A guessed shape here could only
+        // claim a working LED is missing.
         //
-        // The second term is not a second probe. Under `.firmwareRange` the key is present
-        // and writable and the LED is still unavailable, because what the LED mirrors is
-        // *charging is being held back* and that is a fact BatFi no longer has: the
-        // firmware owns the decision and exposes only "a band is armed", which stays true
-        // while the battery charges toward the limit. The limitation is knowledge, not the
-        // key — see `ChargeBackend.canMirrorChargingStateOnMagSafeLED`, where the reasoning
-        // is stated once. Do not "fix" this by dropping the term because ACLC probes fine.
+        // Deliberately *not* narrowed by the backend. "Can the LED be driven" is one
+        // question and "can BatFi tell it when charging is held back" is another, and only
+        // the second is lost under `.firmwareRange`. Answering them with one flag took the
+        // discharge blink — which runs off BatFi's own `.forceDischarge` mode, written
+        // through `CHIE` and fully known on this firmware — down with the green light.
         let magSafeLEDAvailable = SMCKit.probeCapability(for: .magSafeLED) != nil
-            && backend.canMirrorChargingStateOnMagSafeLED
+
+        // The `bfF0` read, moved here out of `isChargingEnabled`, where it was answering
+        // the wrong question. "Is the band armed" is a fact about the *limit*, not about
+        // whether charging is being held back this second, and this is where facts about
+        // the limit are reported. Nil on every other backend, and on a read failure —
+        // absent is not the same as off, and a diagnostics call must not throw.
+        let firmwareRangeIsArmed: Bool?
+        switch backend {
+        case .firmwareRange:
+            if let data = try? SMCKit.readData(.firmwareRangeActivation) {
+                firmwareRangeIsArmed = FirmwareChargeRange.rangeIsEngaged(activation: data.0)
+            } else {
+                logger.error("Failed to read the firmware charge range activation key")
+                firmwareRangeIsArmed = nil
+            }
+        case .chte, .legacyCH0BC, .systemChargeLimit, .unsupported:
+            firmwareRangeIsArmed = nil
+        }
 
         return ChargingDiagnostics(
             backend: backend.rawValue,
@@ -414,6 +432,7 @@ actor SMCService {
             mcl: mcl,
             forceDischargeAvailable: forceDischargeAvailable,
             magSafeLEDAvailable: magSafeLEDAvailable,
+            firmwareRangeIsArmed: firmwareRangeIsArmed,
             appliedChargeLimit: appliedSystemLimit?.applied,
             chargeLimitWasRaised: appliedSystemLimit?.wasRaised ?? false,
             // Sent beside the applied value because a raise alone does not say which kind
@@ -640,25 +659,26 @@ actor SMCService {
         
         switch await currentBackend() {
         case .firmwareRange:
-            // Read, not inferred: BatFi's own writes are not the only thing that can arm
-            // this key, and the firmware owns the charging decision under this backend.
+            // The question this answers is "is BatFi holding charge back with an inhibit",
+            // and here — exactly as under `.systemChargeLimit` below — the answer is a flat
+            // no. BatFi writes no inhibit under this backend at all: it hands the firmware
+            // a band and steps back, and `enableCharging(_:)` is a no-op in both
+            // directions. `true` is the accurate report.
             //
-            // Read failure degrades to "enabled" instead of throwing, and the asymmetry
-            // with the write path is deliberate. A failed *write* is a limit the user
-            // asked for that is not in force, and must be reported. A failed *read* is
-            // one unknown status — but throwing it here drops the backend cache, closes
-            // the driver connection, and pins the app in `ChargingMode.initial` for the
-            // life of the process, because `smcChargingStatus()` is the only thing that
-            // moves it off `.initial` and its catch tears both down. That trap has been
-            // walked into twice on this branch already; the honest report of an unknown
-            // status is not worth taking charge management down for.
-            guard let data = try? SMCKit.readData(.firmwareRangeActivation) else {
-                logger.error("Failed to read the firmware charge range status; reporting charging as enabled")
-                return true
-            }
-            let isEnabled = !FirmwareChargeRange.rangeIsEngaged(activation: data.0)
-            logger.notice("Firmware charge range: charging enabled = \(isEnabled)")
-            return isEnabled
+            // Reading `bfF0` here was the mistake, and it is worth naming precisely because
+            // it looks so reasonable. `bfF0 == 0x02` means **a limit is in force**, which
+            // is a different fact from **charging is being held back right now** — and once
+            // the band became permanently armed the two stopped even correlating. The read
+            // made this return `false` for the life of the process, which flows into
+            // `SMCChargingStatus.inhitbitCharging` and is the *first* thing
+            // `ChargingManager.fetchAndUpdateAppChargingState` branches on, so the app
+            // resolved its mode to `.inhibit` unconditionally on this firmware — including
+            // while the battery charged from 40% toward an 80% limit.
+            //
+            // The `bfF0` read is not lost: `chargingDiagnostics()` performs it and reports
+            // it as `firmwareRangeIsArmed`, which is where a fact about the *band* belongs.
+            logger.notice("Firmware charge range: BatFi holds no inhibit, charging is enabled")
+            return true
         case .chte:
             let data = try SMCKit.readData(.inhibitCharging3)
             let isEnabled = data.0 == 0

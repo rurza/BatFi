@@ -60,15 +60,26 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// back to `.systemChargeLimit`. Answered by probing the keys, never inferred from
     /// the resolved backend.
     public let forceDischargeAvailable: Bool
-    /// Whether BatFi can drive the MagSafe LED on this Mac: `ACLC` is present **and** the
-    /// resolved backend leaves BatFi knowing what the LED would show.
+    /// Whether `ACLC`, the MagSafe LED key, is present — that is, whether the LED can be
+    /// driven at all. Independent of `backend`, and it must stay that way: the key survives
+    /// on macOS 27 firmware, and the discharge blink runs off BatFi's own `.forceDischarge`
+    /// mode, which BatFi writes itself and therefore knows on every firmware.
     ///
-    /// Not a pure key probe, and the one exception is deliberate. The key survives on
-    /// macOS 27 firmware and is still unusable there, because under `.firmwareRange` the
-    /// firmware owns the charging decision and BatFi cannot tell when charge is being held
-    /// back — so the light would be on permanently, including while the Mac charges. The
-    /// reasoning is stated once, in `ChargeBackend.canMirrorChargingStateOnMagSafeLED`.
+    /// Whether the *green light* can be driven is a narrower question with a different
+    /// answer on one backend — see `magSafeGreenLightAvailable`. Answering both with this
+    /// one flag took a working feature down with a broken one.
     public let magSafeLEDAvailable: Bool
+
+    /// Whether the macOS 27 firmware charge range is armed right now, or nil where the
+    /// question does not apply — every other backend — or where `bfF0` could not be read.
+    ///
+    /// Reported, never branched on. It was briefly the answer `isChargingEnabled` returned
+    /// under `.firmwareRange`, which was a category error: "a limit is in force" is not
+    /// "charging is being held back this second", and since the band is now armed
+    /// permanently the two do not even correlate. As a diagnostic it is the only window
+    /// onto whether the band BatFi asked for actually took, which is worth having in a bug
+    /// report from firmware nobody can test against.
+    public let firmwareRangeIsArmed: Bool?
     /// The limit BatFi last applied through Apple's Manual Charge Limit. Nil under the
     /// SMC backends, which apply the user's value exactly and so have nothing to report.
     public let appliedChargeLimit: Int?
@@ -97,6 +108,7 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         mcl: MCLStatus?,
         forceDischargeAvailable: Bool,
         magSafeLEDAvailable: Bool,
+        firmwareRangeIsArmed: Bool? = nil,
         appliedChargeLimit: Int? = nil,
         chargeLimitWasRaised: Bool = false,
         requestedChargeLimit: Int? = nil
@@ -107,6 +119,7 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         self.mcl = mcl
         self.forceDischargeAvailable = forceDischargeAvailable
         self.magSafeLEDAvailable = magSafeLEDAvailable
+        self.firmwareRangeIsArmed = firmwareRangeIsArmed
         self.appliedChargeLimit = appliedChargeLimit
         self.chargeLimitWasRaised = chargeLimitWasRaised
         self.requestedChargeLimit = requestedChargeLimit
@@ -126,6 +139,26 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
             && notChargingReasons.contains(NotChargingReason.systemChargeLimit.rawValue)
     }
 
+    /// Whether the "green light on the MagSafe when charging is paused" setting can work on
+    /// this Mac: the LED can be driven **and** BatFi knows when charge is being held back.
+    ///
+    /// The narrower of the two MagSafe questions, and the only one any backend takes away.
+    /// The discharge blink deliberately does not consult it: that runs off BatFi's own
+    /// `.forceDischarge` mode, which BatFi writes through `CHIE` and knows exactly, on
+    /// firmware where charge limiting is long gone. A user whose "Run on Battery" still
+    /// works — and whose LED still blinks for it — must not be told either is gone.
+    ///
+    /// Fails *open* on a backend string this build does not recognize, unlike
+    /// `systemChargeLimitIsHoldingCharge` above, and the difference is which way the damage
+    /// runs. There, guessing wrong invents a claim about the hardware; here, guessing wrong
+    /// switches off a feature that works. An older app talking to a newer helper should
+    /// keep its LED.
+    public var magSafeGreenLightAvailable: Bool {
+        guard magSafeLEDAvailable else { return false }
+        guard let resolved = ChargeBackend(rawValue: backend) else { return true }
+        return resolved.canMirrorChargingStateOnMagSafeLED
+    }
+
     public func encode(with coder: NSCoder) {
         coder.encode(backend, forKey: "backend")
         coder.encode(firmwareVersion, forKey: "firmwareVersion")
@@ -133,6 +166,15 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         coder.encode(mcl, forKey: "mcl")
         coder.encode(forceDischargeAvailable, forKey: "forceDischargeAvailable")
         coder.encode(magSafeLEDAvailable, forKey: "magSafeLEDAvailable")
+        // Same flag-plus-value shape the optional Ints below use, and needed for the same
+        // reason: `decodeBool` cannot tell an absent key from a stored `false`, and here
+        // those are different answers — "this Mac has no band" versus "the band is off".
+        if let firmwareRangeIsArmed {
+            coder.encode(true, forKey: "hasFirmwareRangeIsArmed")
+            coder.encode(firmwareRangeIsArmed, forKey: "firmwareRangeIsArmed")
+        } else {
+            coder.encode(false, forKey: "hasFirmwareRangeIsArmed")
+        }
         // Same flag-plus-value shape MCLStatus uses for its optional Int: decodeInteger
         // cannot tell an absent key from a stored zero.
         if let appliedChargeLimit {
@@ -158,6 +200,11 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         mcl = coder.decodeObject(of: MCLStatus.self, forKey: "mcl")
         forceDischargeAvailable = coder.decodeBool(forKey: "forceDischargeAvailable")
         magSafeLEDAvailable = coder.decodeBool(forKey: "magSafeLEDAvailable")
+        if coder.decodeBool(forKey: "hasFirmwareRangeIsArmed") {
+            firmwareRangeIsArmed = coder.decodeBool(forKey: "firmwareRangeIsArmed")
+        } else {
+            firmwareRangeIsArmed = nil
+        }
         if coder.decodeBool(forKey: "hasAppliedChargeLimit") {
             appliedChargeLimit = coder.decodeInteger(forKey: "appliedChargeLimit")
         } else {
@@ -175,9 +222,13 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     public override var description: String {
         let requested = requestedChargeLimit.map { "\($0)% → " } ?? ""
         let applied = appliedChargeLimit.map { "\(requested)\($0)%\(chargeLimitWasRaised ? " (raised)" : "")" } ?? "—"
+        // "—" for nil rather than "false": on firmware with no band the question does not
+        // apply, and a bug report that says the band is off would send the reader hunting
+        // for a write that was never owed.
+        let band = firmwareRangeIsArmed.map { $0 ? "armed" : "released" } ?? "—"
         return """
         ChargingDiagnostics(backend: \(backend), firmware: \(firmwareVersion ?? "unknown"), \
-        reasons: \(notChargingReasons), appliedLimit: \(applied), \
+        reasons: \(notChargingReasons), appliedLimit: \(applied), firmwareRange: \(band), \
         forceDischarge: \(forceDischargeAvailable), magSafeLED: \(magSafeLEDAvailable))
         """
     }

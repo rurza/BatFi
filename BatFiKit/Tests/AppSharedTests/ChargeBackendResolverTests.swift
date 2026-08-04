@@ -225,14 +225,17 @@ import Testing
         #expect(ChargeBackend.chte.canPauseChargingOnDemand)
     }
 
-    /// The MagSafe LED goes on exactly one backend, and not because the key went with it.
+    /// The MagSafe *green light* goes on exactly one backend, and not because the key went
+    /// with it. It governs the green light alone — the discharge blink runs off BatFi's own
+    /// `.forceDischarge` mode and is never asked this question.
     ///
     /// `.systemChargeLimit` keeps it: the firmware attributes the hold itself in `CHNC`
     /// bit 24, so BatFi still knows what the light would mean. `.unsupported` keeps it:
-    /// nothing holds charge back there, so the green light never fires, but force
-    /// discharge can still work and its blink is driven by BatFi's own mode. Only
-    /// `.firmwareRange` loses it, and only because the fact the LED displays is missing.
-    @Test func onlyTheFirmwareRangeLosesTheMagSafeLED() {
+    /// BatFi holds no inhibit there, so the light simply never fires, which is honest.
+    /// Only `.firmwareRange` loses it, because there BatFi's mode is a *prediction* of the
+    /// firmware's hold and the hysteresis band makes the prediction wrong for most of the
+    /// time the hold is on.
+    @Test func onlyTheFirmwareRangeLosesTheMagSafeGreenLight() {
         #expect(!ChargeBackend.firmwareRange.canMirrorChargingStateOnMagSafeLED)
         #expect(ChargeBackend.chte.canMirrorChargingStateOnMagSafeLED)
         #expect(ChargeBackend.legacyCH0BC.canMirrorChargingStateOnMagSafeLED)

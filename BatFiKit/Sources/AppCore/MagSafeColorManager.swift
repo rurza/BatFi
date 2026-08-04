@@ -56,41 +56,45 @@ public actor MagSafeColorManager {
         await resetMagSafeColor()
     }
 
-    /// Whether the helper has answered "can this Mac's LED be driven at all", and what it
-    /// said. Nil until it has answered once; a failed or unreachable helper leaves it nil
-    /// so the question is asked again rather than answered by guessing.
-    private var magSafeLEDIsAvailable: Bool?
+    /// Whether the helper has answered "can the green light be driven on this Mac", and
+    /// what it said. Nil until it has answered once; a failed or unreachable helper leaves
+    /// it nil so the question is asked again rather than answered by guessing.
+    private var magSafeGreenLightIsAvailable: Bool?
 
-    /// Turns both MagSafe LED settings off **in `Defaults`** on a Mac whose charging state
-    /// BatFi cannot mirror, rather than merely declining to act on them.
+    /// Turns the green-light setting off **in `Defaults`** on a Mac where BatFi cannot tell
+    /// when charge is being held back, rather than merely declining to act on it.
     ///
-    /// Persisted because a stored `true` is a loaded gun. These settings sync between a
-    /// user's Macs and outlive a firmware update, so one left on is one that re-arms the
+    /// Persisted because a stored `true` is a loaded gun. The setting syncs between a
+    /// user's Macs and outlives a firmware update, so one left on is one that re-arms the
     /// feature for any reader that does not independently ask the same question — and the
-    /// settings panes are readers too. Writing the answer where every reader already looks
+    /// settings pane is a reader too. Writing the answer where every reader already looks
     /// means it is stated once and cannot drift back on.
     ///
-    /// Asked at most once per launch, and only while there is something to disarm: after
-    /// the write both defaults are false, so the guard below short-circuits with no XPC
-    /// call for the life of the process. On a Mac where the LED works the answer is cached
-    /// on the first pass and never asked again either.
+    /// **Touches exactly one key.** `blinkMagSafeWhenDischarging` is not this function's to
+    /// disable: it fires on BatFi's own `.forceDischarge` mode, written through `CHIE`,
+    /// which works on this firmware and is known exactly. Sweeping it in here would switch
+    /// off a working indicator for a feature that still works, on the same argument the
+    /// disclosure copy is careful never to make.
     ///
-    /// - Returns: whether it just turned the settings off, so the caller can leave the
-    ///   rest of this pass alone.
-    private func disarmMagSafeSettingsIfLEDIsUnavailable() async -> Bool {
-        guard magSafeLEDIsAvailable == nil else { return false }
-        guard defaults.value(.showGreenLightMagSafeWhenInhibiting)
-            || defaults.value(.blinkMagSafeWhenDischarging) else { return false }
+    /// Asked at most once per launch, and only while there is something to disarm: after
+    /// the write the default is false, so the guard below short-circuits with no XPC call
+    /// for the life of the process. On a Mac where the green light works the answer is
+    /// cached on the first pass and never asked again either.
+    ///
+    /// - Returns: whether it just turned the setting off, so the caller can leave the rest
+    ///   of this pass alone.
+    private func disarmGreenLightSettingIfUnavailable() async -> Bool {
+        guard magSafeGreenLightIsAvailable == nil else { return false }
+        guard defaults.value(.showGreenLightMagSafeWhenInhibiting) else { return false }
         // `try?` over a throwing call that already returns an optional nests two levels;
         // flattened so a helper that is unreachable leaves the answer unknown and the
         // question open, which is the safe direction — the alternative is switching a
-        // user's settings off because the helper was slow to start.
+        // user's setting off because the helper was slow to start.
         guard let diagnostics = (try? await chargingClient.chargingDiagnostics()) ?? nil else { return false }
-        magSafeLEDIsAvailable = diagnostics.magSafeLEDAvailable
-        guard !diagnostics.magSafeLEDAvailable else { return false }
-        logger.notice("MagSafe LED can't be driven on this Mac; turning both LED settings off for good")
+        magSafeGreenLightIsAvailable = diagnostics.magSafeGreenLightAvailable
+        guard !diagnostics.magSafeGreenLightAvailable else { return false }
+        logger.notice("The green light can't be driven on this Mac; turning that setting off for good")
         defaults.setValue(.showGreenLightMagSafeWhenInhibiting, value: false)
-        defaults.setValue(.blinkMagSafeWhenDischarging, value: false)
         return true
     }
 
@@ -101,12 +105,13 @@ public actor MagSafeColorManager {
         chargingMode: AppChargingMode,
         limit: Int
     ) async {
-        // Ahead of everything else. On a Mac that cannot drive the LED this clears both
-        // settings and this pass stops here: the values it was handed are the old ones,
-        // and acting on them would light the LED one last time on a machine whose charging
-        // state BatFi cannot mirror. Writing the defaults is itself a change the observing
-        // loop is watching, so it re-runs immediately with both settings off.
-        let justDisarmed = await disarmMagSafeSettingsIfLEDIsUnavailable()
+        // Ahead of everything else. On a Mac where the green light cannot be driven this
+        // clears that one setting and the pass stops here: the values it was handed are the
+        // old ones, and acting on them would light the LED once more on a machine whose
+        // charging state BatFi cannot mirror. Writing the default is itself a change the
+        // observing loop is watching, so it re-runs immediately with the setting off — and
+        // the discharge blink, untouched, keeps working on the very next pass.
+        let justDisarmed = await disarmGreenLightSettingIfUnavailable()
         guard !justDisarmed else { return }
         let appMode = chargingMode.mode
         let currentMagSafeLEDOption = try? await magSafeLEDColor.currentMagSafeLEDOption()

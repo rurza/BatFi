@@ -865,13 +865,20 @@ public enum L10n {
             /// are read together: what goes is pausing *below* the limit.
             public static let firmwareRangeCannotPauseCharging = String(localized: "settings.label.firmware_range_cannot_pause_charging", defaultValue: "Charging can't be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won't take effect.", bundle: Bundle.module)
 
-            /// The MagSafe LED can't be driven on this Mac. Its firmware manages charging itself, so BatFi doesn't know the charging state the light would show.
+            /// Not available on this Mac. Its firmware decides when to charge and doesn't report when it's holding, so BatFi can't tell the light when to come on.
             ///
-            /// Shown under the two MagSafe LED settings, which are switched off and
-            /// disabled where `ChargingDiagnostics.magSafeLEDAvailable` is false. Says why
-            /// rather than only that: the key is present and writable here, and a user who
-            /// knows their Mac has a MagSafe LED deserves the actual reason.
-            public static let magSafeLEDUnavailable = String(localized: "settings.label.magsafe_led_unavailable", defaultValue: "The MagSafe LED can't be driven on this Mac. Its firmware manages charging itself, so BatFi doesn't know the charging state the light would show.", bundle: Bundle.module)
+            /// Shown under the green-light setting only, which is switched off and disabled
+            /// where `ChargingDiagnostics.magSafeGreenLightAvailable` is false. The blink
+            /// when BatFi discharges the battery is a separate setting with a separate
+            /// answer, and it keeps working here.
+            ///
+            /// Says why rather than only that: the LED key is present and writable on this
+            /// firmware, and a user who knows their Mac has a MagSafe LED deserves the
+            /// actual reason. "Doesn't report when it's holding" is the honest one — the
+            /// firmware holds charge inside a band that BatFi can only guess at from the
+            /// battery level, so the light would be dark for most of the time it should be
+            /// lit.
+            public static let magSafeGreenLightUnavailable = String(localized: "settings.label.magsafe_green_light_unavailable", defaultValue: "Not available on this Mac. Its firmware decides when to charge and doesn't report when it's holding, so BatFi can't tell the light when to come on.", bundle: Bundle.module)
         }
 
         public enum Section {

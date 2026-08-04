@@ -53,10 +53,12 @@ struct NotificationsView: View {
             }
 
             Section(title: l10n.Section.magSafe, bottomDivider: false) {
-                MagSafeLEDSettingToggle(
-                    title: l10n.Button.Label.blinkMagSafeWhenDischarging,
-                    isOn: $blinkMagSafeWhenDischarging
-                )
+                // A plain toggle, and it stays one. This fires on BatFi's own
+                // `.forceDischarge` mode, written through `CHIE` — a key that survives on
+                // firmware where charge limiting is gone — so no backend takes it away.
+                Toggle(isOn: $blinkMagSafeWhenDischarging) {
+                    Text(l10n.Button.Label.blinkMagSafeWhenDischarging)
+                }
             }
         }
     }

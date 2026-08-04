@@ -25,6 +25,7 @@ import Testing
         reasons: [String] = [],
         forceDischargeAvailable: Bool = false,
         magSafeLEDAvailable: Bool = false,
+        firmwareRangeIsArmed: Bool? = nil,
         appliedChargeLimit: Int? = nil,
         chargeLimitWasRaised: Bool = false,
         requestedChargeLimit: Int? = nil
@@ -36,6 +37,7 @@ import Testing
             mcl: MCLStatus(supported: true, batFiHasActiveOverride: false, lastOverrideValue: nil),
             forceDischargeAvailable: forceDischargeAvailable,
             magSafeLEDAvailable: magSafeLEDAvailable,
+            firmwareRangeIsArmed: firmwareRangeIsArmed,
             appliedChargeLimit: appliedChargeLimit,
             chargeLimitWasRaised: chargeLimitWasRaised,
             requestedChargeLimit: requestedChargeLimit
@@ -113,6 +115,101 @@ import Testing
     @Test func aZeroRequestedLimitRoundTripsAsZeroNotAsAbsent() throws {
         let decoded = try roundTrip(diagnostics(appliedChargeLimit: 80, requestedChargeLimit: 0))
         #expect(decoded.requestedChargeLimit == 0)
+    }
+
+    // MARK: - firmwareRangeIsArmed
+
+    /// Three-valued on purpose, and the coder has to keep all three apart. "The band is
+    /// released" and "this Mac has no band" are different answers to a bug report, and a
+    /// plain `decodeBool` would collapse them — which is why the flag-plus-value shape is
+    /// here for a `Bool?` and not only for the optional `Int`s.
+    @Test func theFirmwareRangeArmedFlagKeepsItsThreeValuesAcrossXPC() throws {
+        let armed = try roundTrip(diagnostics(
+            backend: ChargeBackend.firmwareRange.rawValue,
+            firmwareRangeIsArmed: true
+        ))
+        #expect(armed.firmwareRangeIsArmed == true)
+
+        let released = try roundTrip(diagnostics(
+            backend: ChargeBackend.firmwareRange.rawValue,
+            firmwareRangeIsArmed: false
+        ))
+        #expect(released.firmwareRangeIsArmed == false)
+
+        let notApplicable = try roundTrip(diagnostics(firmwareRangeIsArmed: nil))
+        #expect(notApplicable.firmwareRangeIsArmed == nil)
+    }
+
+    /// Reported, never branched on — and in particular it is not what tells the app whether
+    /// charging is being held back. It was, briefly, through `isChargingEnabled`, and since
+    /// the band is armed for as long as a limit is set that made the app read `.inhibit`
+    /// while the battery charged. Nothing in `ChargingDiagnostics` reads it.
+    @Test func anArmedBandSaysNothingAboutChargingBeingHeldBack() {
+        let value = diagnostics(
+            backend: ChargeBackend.firmwareRange.rawValue,
+            magSafeLEDAvailable: true,
+            firmwareRangeIsArmed: true
+        )
+        #expect(!value.systemChargeLimitIsHoldingCharge)
+    }
+
+    // MARK: - magSafeGreenLightAvailable, and what it does not take with it
+
+    /// The narrow question. `.firmwareRange` is the one backend that loses the green light,
+    /// because BatFi predicts the firmware's hold from the battery level and the hysteresis
+    /// band makes that prediction wrong for most of the time the hold is on.
+    @Test func onlyTheFirmwareRangeLosesTheGreenLight() {
+        for backend in ChargeBackend.allCases {
+            let value = diagnostics(backend: backend.rawValue, magSafeLEDAvailable: true)
+            #expect(
+                value.magSafeGreenLightAvailable == (backend != .firmwareRange),
+                "\(backend.rawValue)"
+            )
+        }
+    }
+
+    /// The ruling this pair exists to enforce: losing the green light must not take the
+    /// discharge blink with it. The blink runs off `magSafeLEDAvailable`, which stays true
+    /// on this firmware, because it fires on BatFi's own `.forceDischarge` mode rather than
+    /// on any knowledge of what the firmware is doing.
+    @Test func theDischargeBlinkSurvivesOnFirmwareThatLosesTheGreenLight() {
+        let value = diagnostics(
+            backend: ChargeBackend.firmwareRange.rawValue,
+            forceDischargeAvailable: true,
+            magSafeLEDAvailable: true
+        )
+        #expect(value.magSafeLEDAvailable)
+        #expect(value.forceDischargeAvailable)
+        #expect(!value.magSafeGreenLightAvailable)
+    }
+
+    /// No key, no light — on any backend. The narrowing only ever removes.
+    @Test func noLEDKeyMeansNoGreenLightOnAnyBackend() {
+        for backend in ChargeBackend.allCases {
+            let value = diagnostics(backend: backend.rawValue, magSafeLEDAvailable: false)
+            #expect(!value.magSafeGreenLightAvailable, "\(backend.rawValue)")
+        }
+    }
+
+    /// Fails *open* on a backend string this build does not recognize, unlike
+    /// `systemChargeLimitIsHoldingCharge` below. Guessing wrong there invents a claim about
+    /// the hardware; guessing wrong here switches off a feature that works, so an older app
+    /// talking to a newer helper keeps its light.
+    @Test func anUnrecognizedBackendKeepsTheGreenLight() {
+        let unknownBackend = "aBackendNoBuildHasEverShipped"
+        #expect(ChargeBackend(rawValue: unknownBackend) == nil)
+        let value = diagnostics(backend: unknownBackend, magSafeLEDAvailable: true)
+        #expect(value.magSafeGreenLightAvailable)
+    }
+
+    /// Read app-side off a decoded instance, so it has to hold across the boundary.
+    @Test func theGreenLightAnswerSurvivesTheXPCRoundTrip() throws {
+        let decoded = try roundTrip(diagnostics(
+            backend: ChargeBackend.firmwareRange.rawValue,
+            magSafeLEDAvailable: true
+        ))
+        #expect(decoded.magSafeLEDAvailable)
+        #expect(!decoded.magSafeGreenLightAvailable)
     }
 
     // MARK: - systemChargeLimitIsHoldingCharge
