@@ -27,7 +27,7 @@ struct AutomationLocationPicker: View {
             span: MKCoordinateSpan(latitudeDelta: 60, longitudeDelta: 60)
         )
     )
-    @State private var searchText = ""
+    @State private var search = LocationSearchModel()
     /// Nil until the first real value arrives. A default-constructed `LocationSnapshot` is
     /// `.notDetermined`, so seeding one would flash the "BatFi needs location access…" banner and
     /// an **Allow Access** button at every user, including already-authorized ones.
@@ -58,27 +58,61 @@ struct AutomationLocationPicker: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.secondary)
-                TextField(L10n.Automation.locationSearchPlaceholder, text: $searchText)
-                    .textFieldStyle(.plain)
-                    .onSubmit { Task { await search() } }
-                if isLocating {
-                    ProgressView()
-                        .controlSize(.small)
-                        .padding(.trailing, 4)
-                    Text(L10n.Automation.locating)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    TextField(L10n.Automation.locationSearchPlaceholder, text: $search.query)
+                        .textFieldStyle(.roundedBorder)
+                        .onSubmit {
+                            if let first = search.completions.first {
+                                Task { await select(first) }
+                            }
+                        }
+                    if isLocating {
+                        ProgressView()
+                            .controlSize(.small)
+                            .padding(.trailing, 4)
+                        Text(L10n.Automation.locating)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    if isLocating {
+                        Button(L10n.Automation.cancel) { isLocating = false }
+                            .controlSize(.small)
+                    } else {
+                        Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
+                            .controlSize(.small)
+                            .disabled(!canUseCurrentLocation)
+                    }
+                }
+
+                if !search.completions.isEmpty {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(search.completions, id: \.self) { completion in
+                            Button {
+                                Task { await select(completion) }
+                            } label: {
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(completion.title)
+                                    if !completion.subtitle.isEmpty {
+                                        Text(completion.subtitle)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 8)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .background(Color.secondary.opacity(0.10))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                } else if search.hasSearched {
+                    Text(L10n.Automation.locationNoResults)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                }
-                if isLocating {
-                    Button(L10n.Automation.cancel) { isLocating = false }
-                        .controlSize(.small)
-                } else {
-                    Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
-                        .controlSize(.small)
-                        .disabled(!canUseCurrentLocation)
                 }
             }
 
@@ -103,6 +137,9 @@ struct AutomationLocationPicker: View {
                         set(clCoordinate)
                     }
                 }
+                .onMapCameraChange { context in
+                    search.updateRegion(context.region)
+                }
             }
             .frame(height: 220)
             .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -125,8 +162,24 @@ struct AutomationLocationPicker: View {
             // picker closes. This is the only place in the app that runs continuous updates.
             normalizeRadius()
             if let coordinate { recenter(on: coordinate.clCoordinate) }
+            var didSeedSearchRegion = false
             for await snapshot in locationClient.snapshotUpdates() {
                 self.snapshot = snapshot
+                // For a brand-new rule (no coordinate yet), `recenter(on:)` above never runs, so
+                // the map camera — and with it `search`'s completer region, which only otherwise
+                // updates via `onMapCameraChange` — stays on its world-spanning default until the
+                // user pans. That leaves the very first search unbiased, which is exactly the
+                // "wars" case this task exists to fix. Seed the completer's region from the last
+                // known fix once, without touching the map camera itself.
+                if !didSeedSearchRegion, coordinate == nil, let fix = snapshot.lastFix {
+                    didSeedSearchRegion = true
+                    search.updateRegion(
+                        MKCoordinateRegion(
+                            center: fix.clCoordinate,
+                            span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+                        )
+                    )
+                }
                 if isLocating, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
                     apply(fix)
                     isLocating = false
@@ -224,17 +277,12 @@ struct AutomationLocationPicker: View {
         if label.isEmpty { label = L10n.Automation.currentLocationLabel }
     }
 
-    private func search() async {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = query
-        let response = try? await MKLocalSearch(request: request).start()
-        guard let item = response?.mapItems.first else { return }
-        let clCoordinate = item.placemark.coordinate
-        set(clCoordinate)
-        recenter(on: clCoordinate)
-        if label.isEmpty { label = item.name ?? query }
+    private func select(_ completion: MKLocalSearchCompletion) async {
+        guard let resolved = await search.resolve(completion) else { return }
+        set(resolved.coordinate)
+        recenter(on: resolved.coordinate)
+        if label.isEmpty { label = resolved.name }
+        search.clear()
     }
 }
 

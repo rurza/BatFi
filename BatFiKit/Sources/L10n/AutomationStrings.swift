@@ -39,6 +39,7 @@ public extension L10n {
 
         public static let locationCondition = String(localized: "automation.editor.location_condition", defaultValue: "Only at a location", bundle: Bundle.module)
         public static let locationSearchPlaceholder = String(localized: "automation.editor.location_search", defaultValue: "Search address…", bundle: Bundle.module)
+        public static let locationNoResults = String(localized: "automation.editor.location_no_results", defaultValue: "No places found.", bundle: Bundle.module)
         public static let locationRadius = String(localized: "automation.editor.location_radius", defaultValue: "Radius", bundle: Bundle.module)
         public static let useCurrentLocation = String(localized: "automation.editor.use_current_location", defaultValue: "Use current location", bundle: Bundle.module)
         public static let locationLabelPlaceholder = String(localized: "automation.editor.location_label", defaultValue: "Place name", bundle: Bundle.module)
