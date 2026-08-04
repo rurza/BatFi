@@ -121,3 +121,73 @@ private func fence(_ radius: Double, _ label: String = "Home", at center: Coordi
         #expect(PermissionBannerState(snapshot(.authorized)) == .none)
     }
 }
+
+@Suite struct FenceReconciliationTests {
+    private let idA = UUID(uuidString: "AAAAAAAA-0000-0000-0000-000000000001")!
+    private let idB = UUID(uuidString: "BBBBBBBB-0000-0000-0000-000000000002")!
+
+    @Test func emptyDesiredRemovesEverything() {
+        let plan = FenceReconciliation.plan(
+            desired: [],
+            current: [idA: MonitoredRegion(center: warsaw, radiusMeters: 300)]
+        )
+        #expect(plan.toRemove == [idA])
+        #expect(plan.toAdd.isEmpty)
+    }
+
+    @Test func newFenceIsAdded() {
+        let desired = [MonitoredFence(id: idA, fence: fence(300))]
+        let plan = FenceReconciliation.plan(desired: desired, current: [:])
+        #expect(plan.toRemove.isEmpty)
+        #expect(plan.toAdd.map(\.id) == [idA])
+    }
+
+    @Test func unchangedFenceProducesEmptyPlan() {
+        // Load-bearing: re-adding resets CLMonitor state to .unknown and flickers the rule off.
+        let desired = [MonitoredFence(id: idA, fence: fence(300))]
+        let plan = FenceReconciliation.plan(
+            desired: desired,
+            current: [idA: MonitoredRegion(center: warsaw, radiusMeters: 300)]
+        )
+        #expect(plan.isEmpty)
+    }
+
+    @Test func subFloorFenceDoesNotChurn() {
+        // A stored 50 m fence is monitored at 100 m. Both sides must compare as 100 m,
+        // otherwise every pass would remove and re-add it.
+        let desired = [MonitoredFence(id: idA, fence: fence(50))]
+        let plan = FenceReconciliation.plan(
+            desired: desired,
+            current: [idA: MonitoredRegion(center: warsaw, radiusMeters: 100)]
+        )
+        #expect(plan.isEmpty)
+    }
+
+    @Test func changedRadiusReplaces() {
+        let desired = [MonitoredFence(id: idA, fence: fence(500))]
+        let plan = FenceReconciliation.plan(
+            desired: desired,
+            current: [idA: MonitoredRegion(center: warsaw, radiusMeters: 300)]
+        )
+        #expect(plan.toRemove == [idA])
+        #expect(plan.toAdd.map(\.id) == [idA])
+    }
+
+    @Test func mixedAddRemoveAndKeep() {
+        let desired = [
+            MonitoredFence(id: idA, fence: fence(300)),   // unchanged → untouched
+            MonitoredFence(id: idB, fence: fence(400)),   // new → added
+        ]
+        let plan = FenceReconciliation.plan(
+            desired: desired,
+            current: [
+                idA: MonitoredRegion(center: warsaw, radiusMeters: 300),
+                UUID(uuidString: "CCCCCCCC-0000-0000-0000-000000000003")!:
+                    MonitoredRegion(center: warsaw, radiusMeters: 900),  // gone → removed
+            ]
+        )
+        #expect(plan.toAdd.map(\.id) == [idB])
+        #expect(plan.toRemove.count == 1)
+        #expect(plan.toRemove.first?.uuidString.hasPrefix("CCCCCCCC") == true)
+    }
+}
