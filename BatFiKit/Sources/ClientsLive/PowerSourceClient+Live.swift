@@ -58,7 +58,14 @@ extension PowerSourceClient: DependencyKey {
             defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
 
             readings.cycleCount = getValue(kIOPMPSCycleCountKey, from: service)
+            // `Temperature` as a second source, not as a synonym. Both keys are published on
+            // `IOPMPowerSource` today — measured on this Mac as 3084 and 3519 respectively,
+            // about 4 °C apart, with `VirtualTemperature` reading hotter — so the fallback
+            // trips the hot-battery cutout *later* than the primary and the primary stays
+            // first. It exists because the alternative is nil, and a nil temperature does
+            // not stop BatFi managing charging: it only removes the cutout, silently.
             readings.temperatureRaw = getValue("VirtualTemperature", from: service)
+                ?? getValue("Temperature", from: service)
             readings.chargerConnected = getValue(kIOPMPSExternalConnectedKey, from: service)
             await batteryHealthState.refreshIfStale()
             readings.batteryHealth = await batteryHealthState.currentHealth()

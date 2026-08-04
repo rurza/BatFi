@@ -60,6 +60,22 @@ public actor ChargingManager: ChargingModeManager {
     /// event again.
     private var hasReportedUnknownLid = false
 
+    /// Whether "hot-battery protection is switched on and there is no temperature to check
+    /// it against" has already been said. Battery temperature became optional in Phase 1,
+    /// and the argument for that — "strictly safer than today, where a missing temperature
+    /// meant no charging decisions happened at all" — does not hold for this one feature.
+    /// Before, a missing reading threw, the stream yielded nothing and BatFi wrote no SMC
+    /// state at all. Now BatFi actively manages charging with the cutout bypassed, and
+    /// nothing anywhere says so: the Advanced pane toggle still reads ON, the battery info
+    /// view simply hides the row, and `logAvailableBatteryProperties` only fires for the
+    /// three *required* fields. A safety feature that has silently stopped working has to
+    /// be visible in a bug report.
+    ///
+    /// Reported on change rather than per pass, like the three above: on firmware that
+    /// renamed the key this is a permanent steady state, and `updateStatus` runs several
+    /// times a minute.
+    private var hasReportedMissingBatteryTemperature = false
+
     /// The resolved charge backend, cached for the life of the process.
     ///
     /// Safe to cache and not merely convenient: a backend is a property of the firmware,
@@ -351,13 +367,31 @@ public actor ChargingManager: ChargingModeManager {
         // which beats the user's configured one.
         await applyChargeLimit(userTempChargingMode?.limit ?? effectiveChargeLimit)
 
-        if turnOffChargingWithHotBattery,
-           let batteryTemperature = powerState.batteryTemperature,
-           batteryTemperature > Constant.batteryTemperatureWarning {
+        switch HotBatteryProtection.decision(
+            isEnabled: turnOffChargingWithHotBattery,
+            temperature: powerState.batteryTemperature,
+            threshold: Constant.batteryTemperatureWarning
+        ) {
+        case .notEnabled, .withinLimits:
+            hasReportedMissingBatteryTemperature = false
+        case .tooHot(let batteryTemperature):
+            hasReportedMissingBatteryTemperature = false
             logger.notice("Battery is hot")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Battery is hot, \(batteryTemperature)")
             await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             return
+        case .cutoutCannotFire:
+            // Said once, loudly, and with a breadcrumb. This is the difference between
+            // "the cutout did not need to fire" and "the cutout cannot fire", and only one
+            // of those belongs in a bug report from a Mac that charged at 45 °C.
+            if !hasReportedMissingBatteryTemperature {
+                hasReportedMissingBatteryTemperature = true
+                logger.error("Hot-battery protection is on but this Mac reports no battery temperature; charging is being managed with the cutout bypassed")
+                await analytics.addBreadcrumb(
+                    category: .chargingManager,
+                    message: "Hot-battery protection is on but no battery temperature is available; the cutout cannot fire"
+                )
+            }
         }
 
         let isLidOpened: Bool
