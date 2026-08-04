@@ -34,6 +34,10 @@ struct RuleEditorView: View {
     @State private var radius: Double
     @State private var locationLabel: String
 
+    /// Widest field label in the sheet, measured across both this view and the location picker.
+    /// Seeded to the environment default so the first frame is already close to the settled layout.
+    @State private var labelColumnWidth: CGFloat = 90
+
     init(
         rule: AutomationRule,
         isNew: Bool,
@@ -113,6 +117,10 @@ struct RuleEditorView: View {
             footer
         }
         .padding(20)
+        .onPreferenceChange(AutomationLabelWidthKey.self) { width in
+            labelColumnWidth = width
+        }
+        .environment(\.automationLabelWidth, labelColumnWidth)
         .frame(minWidth: 480, idealWidth: 480, maxWidth: 480, minHeight: 520, idealHeight: 640, maxHeight: 720)
     }
 
@@ -120,15 +128,11 @@ struct RuleEditorView: View {
 
     private var nameAndLimit: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(L10n.Automation.nameField)
-                    .frame(width: 90, alignment: .leading)
+            AutomationLabeledRow(L10n.Automation.nameField) {
                 TextField(L10n.Automation.namePlaceholder, text: $name)
                     .textFieldStyle(.roundedBorder)
             }
-            HStack {
-                Text(L10n.Automation.chargeLimit)
-                    .frame(width: 90, alignment: .leading)
+            AutomationLabeledRow(L10n.Automation.chargeLimit) {
                 Slider(value: $limit, in: 0...100, step: 5)
                 Text("\(Int(limit))%")
                     .monospacedDigit()

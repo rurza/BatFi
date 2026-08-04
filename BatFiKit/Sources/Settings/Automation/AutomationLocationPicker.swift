@@ -22,6 +22,10 @@ struct AutomationLocationPicker: View {
 
     @Dependency(\.locationClient) private var locationClient
 
+    /// Published by `RuleEditorView`. Used to indent the place-name caption so it lines up under
+    /// the field rather than under the label.
+    @Environment(\.automationLabelWidth) private var labelColumnWidth
+
     @State private var cameraPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
             center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
@@ -189,8 +193,7 @@ struct AutomationLocationPicker: View {
             .frame(height: 220)
             .clipShape(RoundedRectangle(cornerRadius: 8))
 
-            HStack {
-                Text(L10n.Automation.locationRadius)
+            AutomationLabeledRow(L10n.Automation.locationRadius) {
                 Slider(value: $radiusMeters, in: Self.radiusRange, step: 50)
                 Text("\(Int(monitoredRadiusMeters)) m")
                     .monospacedDigit()
@@ -199,16 +202,14 @@ struct AutomationLocationPicker: View {
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                HStack {
-                    Text(L10n.Automation.locationLabelField)
-                        .frame(width: 90, alignment: .leading)
+                AutomationLabeledRow(L10n.Automation.locationLabelField) {
                     TextField(L10n.Automation.locationLabelPlaceholder, text: labelBinding)
                         .textFieldStyle(.roundedBorder)
                 }
                 Text(L10n.Automation.locationLabelCaption)
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .padding(.leading, 90)
+                    .padding(.leading, labelColumnWidth + 8)
             }
         }
         .task {
