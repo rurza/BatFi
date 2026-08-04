@@ -19,27 +19,6 @@ extension PowerSourceClient: DependencyKey {
     public static let liveValue: PowerSourceClient = {
         let logger = Logger(category: "Power Source")
 
-        /// Opaque identity token, e.g. "mBoot-18000.161.9". Never parsed or compared —
-        /// SMC behaviour tracks firmware, not macOS, so this is what belongs in a bug report.
-        /// Note the prefix changed from "iBoot-" to "mBoot-" in macOS 26.4.
-        @Sendable
-        func systemFirmwareVersion() -> String? {
-            let entry = IORegistryEntryFromPath(kIOMainPortDefault, "IODeviceTree:/chosen")
-            guard entry != IO_OBJECT_NULL else { return nil }
-            defer { IOObjectRelease(entry) }
-            for key in ["system-firmware-version", "firmware-version"] {
-                guard let value = IORegistryEntryCreateCFProperty(entry, key as CFString, kCFAllocatorDefault, 0)?
-                    .takeRetainedValue() else { continue }
-                if let string = value as? String, !string.isEmpty { return string }
-                if let data = value as? Data {
-                    // Fixed-size NUL-padded buffer; truncate at the first NUL.
-                    let bytes = data.prefix(while: { $0 != 0 })
-                    if let string = String(data: bytes, encoding: .utf8), !string.isEmpty { return string }
-                }
-            }
-            return nil
-        }
-
         let batteryHealthState = BatteryHealthState()
 
         @Sendable
@@ -103,7 +82,7 @@ extension PowerSourceClient: DependencyKey {
         @Sendable
         func logAvailableBatteryProperties(missing: PowerSourceField) {
             guard dumpGate.shouldDump(missing) else { return }
-            let firmware = systemFirmwareVersion() ?? "unknown"
+            let firmware = SystemFirmware.version() ?? "unknown"
             let service = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMPowerSource"))
             defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
             guard service != IO_OBJECT_NULL else {
@@ -151,7 +130,7 @@ extension PowerSourceClient: DependencyKey {
         let observer = Observer(getPowerSourceInfo: getPowerSourceInfo)
         observer.startObserving()
 
-        logger.notice("System firmware: \(systemFirmwareVersion() ?? "unknown", privacy: .public)")
+        logger.notice("System firmware: \(SystemFirmware.version() ?? "unknown", privacy: .public)")
 
         let client = PowerSourceClient(
             powerSourceChanges: {
