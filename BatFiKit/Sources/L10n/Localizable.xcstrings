@@ -18455,6 +18455,50 @@
         }
       }
     },
+    "settings.label.firmware_range_battery_may_dip_below_limit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
+          }
+        }
+      }
+    },
+    "settings.label.firmware_range_cannot_pause_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging can’t be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won’t take effect."
+          }
+        }
+      }
+    },
+    "settings.label.firmware_range_enforced_by_firmware": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
+          }
+        }
+      }
+    },
+    "settings.label.magsafe_led_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The MagSafe LED can’t be driven on this Mac. Its firmware manages charging itself, so BatFi doesn’t know the charging state the light would show."
+          }
+        }
+      }
+    },
     "settings.label.system_charge_limit_banner": {
       "extractionState": "manual",
       "localizations": {

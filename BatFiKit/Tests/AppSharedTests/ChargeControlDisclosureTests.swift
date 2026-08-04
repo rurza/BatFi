@@ -77,6 +77,110 @@ import Testing
         #expect(value.disclosures.isEmpty)
     }
 
+    // MARK: - .firmwareRange
+
+    /// Lead with what works. The first thing this Mac's user reads is that the firmware is
+    /// enforcing their limit and keeps enforcing it through sleep — which is *better* than
+    /// what BatFi can do for itself — and only then what that costs. Ordering is the whole
+    /// difference between "your Mac is well looked after" and "limited support".
+    @Test func theFirmwareRangeLeadsWithWhatWorks() {
+        let value = facts(backend: .firmwareRange)
+        #expect(value.disclosures == [
+            .firmwareEnforcedLimit,
+            .batteryMayDipBelowLimit(hysteresis: FirmwareChargeRange.hysteresis),
+        ])
+    }
+
+    /// The dip is the mechanism, and a user watching 75% with an 80% limit needs to be
+    /// able to find that out. The figure comes from the constant the engage sequence
+    /// actually encodes into `bfE0`, so the sentence cannot name a band the firmware is
+    /// not given — assert against the band itself rather than against a literal 5.
+    @Test func theDipDisclosureNamesTheBandTheFirmwareIsActuallyGiven() {
+        let value = facts(backend: .firmwareRange)
+        let band = FirmwareChargeRange.band(forLimit: 80)
+        #expect(value.disclosures.contains(.batteryMayDipBelowLimit(hysteresis: band.upper - band.lower)))
+    }
+
+    /// The gap the previous task handed forward, disclosed rather than fixed: a band has no
+    /// "stop now" in it, so hot-battery protection and pause-on-sleep do nothing here. Same
+    /// gate `.systemChargeLimit` uses — only a user who switched one on is told.
+    @Test func eitherPauseSettingIsDisclosedUnderTheFirmwareRange() {
+        let hot = facts(backend: .firmwareRange, hotBatteryProtectionEnabled: true)
+        #expect(hot.disclosures.last == .pausingChargingUnavailable(
+            heldBy: .macFirmware,
+            forceDischargeStillAvailable: false
+        ))
+
+        let sleep = facts(backend: .firmwareRange, pauseChargingOnSleepEnabled: true)
+        #expect(sleep.disclosures.last == .pausingChargingUnavailable(
+            heldBy: .macFirmware,
+            forceDischargeStillAvailable: false
+        ))
+    }
+
+    /// The mechanism is named, not assumed. Both backends lose the same feature and the
+    /// sentence explaining it differs: pointing a macOS 27 user at "the macOS charge limit"
+    /// would send them to a System Settings value BatFi never touches on their Mac.
+    @Test func theTwoBackendsThatCannotPauseNameDifferentMechanisms() {
+        let firmware = facts(backend: .firmwareRange, hotBatteryProtectionEnabled: true)
+        let system = facts(backend: .systemChargeLimit, hotBatteryProtectionEnabled: true)
+        #expect(firmware.disclosures.contains(.pausingChargingUnavailable(
+            heldBy: .macFirmware, forceDischargeStillAvailable: false
+        )))
+        #expect(system.disclosures.contains(.pausingChargingUnavailable(
+            heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false
+        )))
+        #expect(firmware.disclosures.contains(.pausingChargingUnavailable(
+            heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false
+        )) == false)
+    }
+
+    /// Run on Battery runs off `CHIE`, which survives on this firmware. A user whose Run on
+    /// Battery still works must never read that it is gone, so the flag is carried here
+    /// exactly as it is under `.systemChargeLimit`.
+    @Test func forceDischargeIsCarriedUnderTheFirmwareRangeToo() {
+        let value = facts(
+            backend: .firmwareRange,
+            forceDischargeAvailable: true,
+            pauseChargingOnSleepEnabled: true
+        )
+        #expect(value.disclosures.contains(.pausingChargingUnavailable(
+            heldBy: .macFirmware, forceDischargeStillAvailable: true
+        )))
+    }
+
+    /// With management off BatFi releases the band, so every one of these sentences would
+    /// describe a limit that is not in force — including the reassuring one, which would be
+    /// the worst of them to get wrong.
+    @Test func theFirmwareRangeSaysNothingWithManagementOff() {
+        let value = facts(
+            backend: .firmwareRange,
+            manageCharging: false,
+            hotBatteryProtectionEnabled: true,
+            pauseChargingOnSleepEnabled: true
+        )
+        #expect(value.disclosures.isEmpty)
+    }
+
+    /// None of the system-limit statements may leak in: BatFi applies its limit through the
+    /// firmware here and leaves System Settings › Battery alone, so telling the user it
+    /// changed a value there — or that limits below 80% cannot be applied — would be false
+    /// on both counts. The applied/raised fields are set to what a *system-limit* Mac
+    /// carries, to prove the arm does not read them.
+    @Test func theFirmwareRangeNeverClaimsToTouchSystemSettings() {
+        let value = facts(
+            backend: .firmwareRange,
+            appliedChargeLimit: 80,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 55,
+            systemLimitSnapshotRefused: true
+        )
+        #expect(value.disclosures.contains(.managingSystemSettingsLimit) == false)
+        #expect(value.disclosures.contains(.usingSystemChargeLimit) == false)
+        #expect(value.disclosures.contains(.limitRaisedToSystemMinimum(applied: 80)) == false)
+        #expect(value.disclosures.contains(.limitNotAppliedWithoutSnapshot) == false)
+    }
+
     // MARK: - .unsupported
 
     @Test func unsupportedFirmwareSaysSoAndNothingElse() {
@@ -235,18 +339,18 @@ import Testing
     /// user who switched either setting on is entitled to know it will not engage.
     @Test func eitherPauseSettingTriggersTheDisclosure() {
         let hot = facts(backend: .systemChargeLimit, hotBatteryProtectionEnabled: true)
-        #expect(hot.disclosures.contains(.pausingChargingUnavailable(forceDischargeStillAvailable: false)))
+        #expect(hot.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false)))
 
         let sleep = facts(backend: .systemChargeLimit, pauseChargingOnSleepEnabled: true)
-        #expect(sleep.disclosures.contains(.pausingChargingUnavailable(forceDischargeStillAvailable: false)))
+        #expect(sleep.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false)))
     }
 
     /// Neither switched on, nothing to warn about. Silence here is what keeps the pane
     /// from lecturing a user about features they are not using.
     @Test func neitherPauseSettingMeansNoPauseDisclosure() {
         let value = facts(backend: .systemChargeLimit)
-        #expect(value.disclosures.contains(.pausingChargingUnavailable(forceDischargeStillAvailable: false)) == false)
-        #expect(value.disclosures.contains(.pausingChargingUnavailable(forceDischargeStillAvailable: true)) == false)
+        #expect(value.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false)) == false)
+        #expect(value.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true)) == false)
     }
 
     /// The precision the finding asked for. CHIE outlives CHTE, so a Mac on
@@ -258,14 +362,14 @@ import Testing
             forceDischargeAvailable: true,
             hotBatteryProtectionEnabled: true
         )
-        #expect(withDischarge.disclosures.contains(.pausingChargingUnavailable(forceDischargeStillAvailable: true)))
+        #expect(withDischarge.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true)))
 
         let without = facts(
             backend: .systemChargeLimit,
             forceDischargeAvailable: false,
             hotBatteryProtectionEnabled: true
         )
-        #expect(without.disclosures.contains(.pausingChargingUnavailable(forceDischargeStillAvailable: false)))
+        #expect(without.disclosures.contains(.pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: false)))
     }
 
     /// With management off neither setting runs, so there is no gap to disclose.
@@ -297,7 +401,7 @@ import Testing
             .usingSystemChargeLimit,
             .limitRaisedToSystemMinimum(applied: 80),
             .managingSystemSettingsLimit,
-            .pausingChargingUnavailable(forceDischargeStillAvailable: true),
+            .pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true),
         ])
     }
 
@@ -316,7 +420,7 @@ import Testing
             .usingSystemChargeLimit,
             .limitRoundedUp(requested: 87, applied: 90),
             .managingSystemSettingsLimit,
-            .pausingChargingUnavailable(forceDischargeStillAvailable: true),
+            .pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true),
         ])
     }
 
@@ -463,7 +567,7 @@ import Testing
             .usingSystemChargeLimit,
             .limitRaisedToSystemMinimum(applied: 80),
             .managingSystemSettingsLimit,
-            .pausingChargingUnavailable(forceDischargeStillAvailable: true),
+            .pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true),
         ])
     }
 

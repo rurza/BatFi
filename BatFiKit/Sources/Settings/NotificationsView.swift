@@ -53,9 +53,10 @@ struct NotificationsView: View {
             }
 
             Section(title: l10n.Section.magSafe, bottomDivider: false) {
-                Toggle(isOn: $blinkMagSafeWhenDischarging) {
-                    Text(l10n.Button.Label.blinkMagSafeWhenDischarging)
-                }
+                MagSafeLEDSettingToggle(
+                    title: l10n.Button.Label.blinkMagSafeWhenDischarging,
+                    isOn: $blinkMagSafeWhenDischarging
+                )
             }
         }
     }

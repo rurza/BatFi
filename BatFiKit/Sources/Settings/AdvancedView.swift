@@ -36,9 +36,10 @@ struct AdvancedView: View {
                         .help(l10n.Button.Tooltip.disableAutomaticSleep)
                 }
 
-                Toggle(isOn: $greenLight) {
-                    Text(l10n.Button.Label.magsafeUseGreenLight)
-                }
+                MagSafeLEDSettingToggle(
+                    title: l10n.Button.Label.magsafeUseGreenLight,
+                    isOn: $greenLight
+                )
             }
             Section(title: l10n.Section.other) {
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)

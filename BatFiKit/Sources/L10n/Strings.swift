@@ -824,6 +824,54 @@ public enum L10n {
             /// force discharge is probed from its own key and survives on firmware that lost
             /// charge limiting, so it is shown only where it is genuinely available.
             public static let systemChargeLimitForceDischargeStillWorks = String(localized: "settings.label.system_charge_limit_force_discharge_still_works", defaultValue: "Running on battery still works — it uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
+
+            // MARK: The firmware-managed charge range
+            //
+            // The lead statement first. On this firmware BatFi is not doing less — it is
+            // handing the limit to something that enforces it better, and the copy has to
+            // say so before it says what that costs. Nothing here mentions a macOS
+            // version, and nothing here calls the mechanism "limited support".
+
+            /// Your Mac's firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep.
+            ///
+            /// The good news, and it is genuinely better than BatFi's own mechanisms:
+            /// nothing has to be running for it to hold.
+            public static let firmwareRangeEnforcedByFirmware = String(localized: "settings.label.firmware_range_enforced_by_firmware", defaultValue: "Your Mac's firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep.", bundle: Bundle.module)
+
+            /// Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn't a fault.
+            ///
+            /// A user who sets 80% and finds the battery sitting at 75% has to be able to
+            /// find out that this is the mechanism working. The figure is passed in from
+            /// `FirmwareChargeRange.hysteresis`, the same constant the firmware is actually
+            /// given, so the sentence cannot name a number the band does not use.
+            public static func firmwareRangeBatteryMayDipBelowLimit(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.firmware_range_battery_may_dip_below_limit",
+                        defaultValue: "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn't a fault.",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            /// Charging can't be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won't take effect.
+            ///
+            /// The `.firmwareRange` counterpart to
+            /// `systemChargeLimitCannotPauseCharging`. Same consequence, different
+            /// mechanism — and naming the wrong one would send a macOS 27 user to a System
+            /// Settings value BatFi is not touching. Spells out which sleep behaviour is
+            /// lost, because the row above says the limit *does* survive sleep and the two
+            /// are read together: what goes is pausing *below* the limit.
+            public static let firmwareRangeCannotPauseCharging = String(localized: "settings.label.firmware_range_cannot_pause_charging", defaultValue: "Charging can't be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won't take effect.", bundle: Bundle.module)
+
+            /// The MagSafe LED can't be driven on this Mac. Its firmware manages charging itself, so BatFi doesn't know the charging state the light would show.
+            ///
+            /// Shown under the two MagSafe LED settings, which are switched off and
+            /// disabled where `ChargingDiagnostics.magSafeLEDAvailable` is false. Says why
+            /// rather than only that: the key is present and writable here, and a user who
+            /// knows their Mac has a MagSafe LED deserves the actual reason.
+            public static let magSafeLEDUnavailable = String(localized: "settings.label.magsafe_led_unavailable", defaultValue: "The MagSafe LED can't be driven on this Mac. Its firmware manages charging itself, so BatFi doesn't know the charging state the light would show.", bundle: Bundle.module)
         }
 
         public enum Section {

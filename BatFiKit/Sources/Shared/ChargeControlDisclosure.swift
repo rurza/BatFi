@@ -61,16 +61,46 @@ public enum ChargeControlDisclosure: Equatable, Sendable {
     /// back. Without this the refusal reaches only the helper log.
     case limitNotAppliedWithoutSnapshot
 
-    /// Pausing charging outright cannot engage: Apple's limit holds charge at a
-    /// percentage and bottoms out at 80%, and there is no inhibit key left to write. This
-    /// is why hot-battery protection and pause-on-sleep do nothing under
-    /// `.systemChargeLimit`, and it cannot be fixed — only disclosed.
+    /// The Mac's own firmware is enforcing the user's limit, and goes on enforcing it with
+    /// no BatFi process running. The lead statement under `.firmwareRange`, and the one
+    /// piece of genuinely *good* news any of these carry — it is stronger than what BatFi
+    /// can do for itself, and burying it under the two limitations below would misdescribe
+    /// this Mac as the worse one.
+    case firmwareEnforcedLimit
+
+    /// The battery will sit below the limit sometimes, on purpose. A band is not a ceiling:
+    /// the firmware lets the charge fall by `hysteresis` points before it charges again, so
+    /// a user who set 80% and watches 75% is looking at the mechanism working.
+    ///
+    /// The number is carried rather than written into the copy because it is a property of
+    /// the band, stated once in `FirmwareChargeRange.hysteresis`, and a sentence naming a
+    /// different figure than the one actually written to the firmware is exactly the kind
+    /// of quiet disagreement this pane exists to avoid.
+    case batteryMayDipBelowLimit(hysteresis: Int)
+
+    /// Pausing charging outright cannot engage: the mechanism in force holds charge at a
+    /// percentage and has no "stop now" to write. This is why hot-battery protection and
+    /// pause-on-sleep do nothing, and it cannot be fixed — only disclosed.
+    ///
+    /// `heldBy` names the mechanism, because the consequence is identical under both and
+    /// the sentence explaining it is not: telling a macOS 27 user that "the macOS charge
+    /// limit" is the reason would point them at a setting BatFi is not using.
     ///
     /// `forceDischargeStillAvailable` is carried rather than implied, deliberately.
-    /// Force discharge is probed from its own key (`CHIE` outlives `CHTE`), so "Run on
-    /// Battery" can still work on a machine that has lost charge limiting — and sweeping
-    /// it into this case would tell a user that a feature which works is broken.
-    case pausingChargingUnavailable(forceDischargeStillAvailable: Bool)
+    /// Force discharge is probed from its own key (`CHIE` outlives both `CHTE` and the
+    /// charge-limit keys), so "Run on Battery" can still work on a machine that has lost
+    /// charge limiting — and sweeping it into this case would tell a user that a feature
+    /// which works is broken.
+    case pausingChargingUnavailable(heldBy: LimitHolder, forceDischargeStillAvailable: Bool)
+
+    /// Which mechanism is holding charge at the limit instead of stopping it on request.
+    public enum LimitHolder: Equatable, Sendable {
+        /// Apple's Manual Charge Limit, the value in System Settings › Battery.
+        case macOSChargeLimit
+        /// The Mac's own firmware, enforcing the band BatFi handed it. Nothing in System
+        /// Settings is involved, so the copy must not send the user there.
+        case macFirmware
+    }
 }
 
 /// Everything the Charging pane knows about charge control, flattened into plain values.
@@ -200,7 +230,8 @@ public struct ChargeControlFacts: Equatable, Sendable {
 
 public extension ChargeControlFacts {
     /// Whether either setting the user has switched on needs charging to actually *stop*
-    /// — which is the thing `.systemChargeLimit` cannot do. Gated on `manageCharging`
+    /// — the thing `ChargeBackend.canPauseChargingOnDemand` answers, and which neither
+    /// `.systemChargeLimit` nor `.firmwareRange` can do. Gated on `manageCharging`
     /// because with management off neither setting runs at all, so warning about them
     /// would describe an absence the user already has.
     var pausingChargingIsExpected: Bool {
@@ -227,12 +258,36 @@ public extension ChargeControlFacts {
         case .firmwareRange:
             // The firmware enforces the user's own value, below 80% included, and BatFi
             // does not touch System Settings to do it — so none of the system-limit
-            // statements apply and there is nothing to disclose. Kept as its own arm
-            // rather than folded in above because the mechanism is different in kind:
-            // charge control is a band the firmware holds, not an inhibit BatFi toggles.
-            // If that turns out to cost the user something they can see — pausing
-            // charging being the candidate — this is the arm that owes them a sentence.
-            return []
+            // statements apply. What this mechanism *does* owe the user is the two ways
+            // it behaves visibly differently from an inhibit, and it owes them in that
+            // order: the limit is enforced by the firmware and survives sleep, which is
+            // better than anything BatFi can do for itself, and only then what it costs.
+            //
+            // Nothing at all with management off. BatFi releases the band then, so every
+            // sentence below would describe a limit that is not in force.
+            guard manageCharging else { return [] }
+
+            var disclosures: [ChargeControlDisclosure] = [
+                .firmwareEnforcedLimit,
+                // Read from the same constant the engage sequence encodes into `bfE0`, so
+                // the figure the pane names and the figure the firmware is given cannot
+                // come apart.
+                .batteryMayDipBelowLimit(hysteresis: FirmwareChargeRange.hysteresis),
+            ]
+
+            // The one thing that genuinely stopped working, and only for a user who asked
+            // for it. `pausingChargingIsExpected` is the same gate `.systemChargeLimit`
+            // uses; the gap is identical and so is the rule about when to mention it.
+            if pausingChargingIsExpected {
+                disclosures.append(
+                    .pausingChargingUnavailable(
+                        heldBy: .macFirmware,
+                        forceDischargeStillAvailable: forceDischargeAvailable
+                    )
+                )
+            }
+
+            return disclosures
 
         case .unsupported:
             return [.chargingControlUnavailable]
@@ -275,7 +330,10 @@ public extension ChargeControlFacts {
 
             if pausingChargingIsExpected {
                 disclosures.append(
-                    .pausingChargingUnavailable(forceDischargeStillAvailable: forceDischargeAvailable)
+                    .pausingChargingUnavailable(
+                        heldBy: .macOSChargeLimit,
+                        forceDischargeStillAvailable: forceDischargeAvailable
+                    )
                 )
             }
 

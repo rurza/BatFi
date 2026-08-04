@@ -43,10 +43,19 @@ struct ChargeControlDisclosureBanner: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background {
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color.orange.opacity(0.12))
+                    // Orange only when something the user asked for is not happening. A
+                    // box that is always orange says "problem" about a Mac whose firmware
+                    // is enforcing the limit better than BatFi could — which is the
+                    // opposite of what these rows say — and it costs the colour its meaning
+                    // on the panes that do have something wrong.
+                    .fill(hasWarning ? Color.orange.opacity(0.12) : Color.secondary.opacity(0.10))
             }
             .padding(.bottom, 14)
         }
+    }
+
+    private var hasWarning: Bool {
+        disclosures.contains(where: isWarning)
     }
 
     @ViewBuilder
@@ -61,7 +70,7 @@ struct ChargeControlDisclosureBanner: View {
                 // Force discharge is probed from its own key and outlives charge limiting,
                 // so where it still works the user is told that in the same breath rather
                 // than left to assume everything went down together.
-                if case .pausingChargingUnavailable(forceDischargeStillAvailable: true) = disclosure {
+                if case .pausingChargingUnavailable(_, forceDischargeStillAvailable: true) = disclosure {
                     Text(L10n.Settings.Label.systemChargeLimitForceDischargeStillWorks)
                         .foregroundStyle(.secondary)
                 }
@@ -91,8 +100,22 @@ struct ChargeControlDisclosureBanner: View {
             return l10n.systemChargeLimitManagesSystemSettings
         case .limitNotAppliedWithoutSnapshot:
             return l10n.systemChargeLimitNoSnapshot
-        case .pausingChargingUnavailable:
-            return l10n.systemChargeLimitCannotPauseCharging
+        case .firmwareEnforcedLimit:
+            return l10n.firmwareRangeEnforcedByFirmware
+        case .batteryMayDipBelowLimit(let hysteresis):
+            // Formatted with the same helper the slider label uses, so "5%" here and the
+            // limit above it are written the same way.
+            return l10n.firmwareRangeBatteryMayDipBelowLimit(chargeLimitPercentageLabel(hysteresis))
+        case .pausingChargingUnavailable(let heldBy, _):
+            // The consequence is one statement; the mechanism holding charge is not, and
+            // naming the wrong one would point a macOS 27 user at a System Settings value
+            // BatFi never touches.
+            switch heldBy {
+            case .macOSChargeLimit:
+                return l10n.systemChargeLimitCannotPauseCharging
+            case .macFirmware:
+                return l10n.firmwareRangeCannotPauseCharging
+            }
         }
     }
 
@@ -106,7 +129,13 @@ struct ChargeControlDisclosureBanner: View {
              .limitNotAppliedWithoutSnapshot,
              .pausingChargingUnavailable:
             return true
-        case .usingSystemChargeLimit, .managingSystemSettingsLimit:
+        // Both firmware-range rows describe how this Mac works, and the first of them is
+        // good news. Warning-styling either would tell a user whose limit is being
+        // enforced through sleep that something is wrong.
+        case .usingSystemChargeLimit,
+             .managingSystemSettingsLimit,
+             .firmwareEnforcedLimit,
+             .batteryMayDipBelowLimit:
             return false
         }
     }
@@ -119,8 +148,10 @@ struct ChargeControlDisclosureBanner: View {
              .limitNotAppliedWithoutSnapshot,
              .pausingChargingUnavailable:
             return "exclamationmark.triangle.fill"
-        case .usingSystemChargeLimit:
+        case .usingSystemChargeLimit, .batteryMayDipBelowLimit:
             return "info.circle"
+        case .firmwareEnforcedLimit:
+            return "checkmark.seal"
         case .managingSystemSettingsLimit:
             return "gearshape"
         }
