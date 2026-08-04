@@ -95,8 +95,9 @@ public actor ChargingManager: ChargingModeManager {
     /// first diagnostics call had not landed yet.
     private func backendCanPauseChargingOnDemand() async -> Bool {
         if let cachedChargeBackend { return cachedChargeBackend.canPauseChargingOnDemand }
-        // `try?` over a throwing call that already returns an optional nests two levels.
-        guard let diagnostics = (try? await chargingClient.chargingDiagnostics()) ?? nil,
+        // `try?` flattens the optional the call already returns, so there is one level
+        // here, not two.
+        guard let diagnostics = try? await chargingClient.chargingDiagnostics(),
               let backend = ChargeBackend(rawValue: diagnostics.backend) else { return true }
         cachedChargeBackend = backend
         return backend.canPauseChargingOnDemand

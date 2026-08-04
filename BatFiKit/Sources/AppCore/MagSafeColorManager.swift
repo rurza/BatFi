@@ -61,6 +61,21 @@ public actor MagSafeColorManager {
     /// it nil so the question is asked again rather than answered by guessing.
     private var magSafeGreenLightIsAvailable: Bool?
 
+    /// The resolved charge backend, memoized for the life of the process — the same memo,
+    /// and the same justification, as `ChargingManager.cachedChargeBackend`: a backend is a
+    /// property of the firmware, and firmware is reflashed only by a macOS install, which
+    /// restarts this process.
+    ///
+    /// It is here to keep `systemChargeLimitIsHoldingCharge` off the wire. That question is
+    /// only meaningful under `.systemChargeLimit`, but it was gated on the *mode* alone —
+    /// and `.charging` is the steady state of a plugged-in Mac below its limit. So on a
+    /// plain `.chte` Mac with the green light on, every LED pass made an XPC round trip
+    /// into `SMCService.chargingDiagnostics()`, which opens the SMC, reads `CHNC`, queries
+    /// PowerUI and probes three more keys — and `SMCService` is an actor, so each of those
+    /// serialized ahead of `applyChargeLimit`, `setChargingMode` and
+    /// `restoreSystemDefaults`.
+    private var cachedChargeBackend: ChargeBackend?
+
     /// Turns the green-light setting off **in `Defaults`** on a Mac where BatFi cannot tell
     /// when charge is being held back, rather than merely declining to act on it.
     ///
@@ -93,14 +108,15 @@ public actor MagSafeColorManager {
     private func disarmGreenLightSettingIfUnavailable() async -> Bool {
         guard magSafeGreenLightIsAvailable == nil else { return false }
         guard defaults.value(.showGreenLightMagSafeWhenInhibiting) else { return false }
-        // `try?` over a throwing call that already returns an optional nests two levels;
-        // flattened so a helper that is unreachable leaves the answer unknown and the
-        // question open, which is the safe direction — the alternative is switching a
-        // user's setting off because the helper was slow to start.
-        guard let diagnostics = (try? await chargingClient.chargingDiagnostics()) ?? nil else { return false }
+        // A helper that is unreachable leaves the answer unknown and the question open,
+        // which is the safe direction — the alternative is switching a user's setting off
+        // because the helper was slow to start.
+        guard let diagnostics = try? await chargingClient.chargingDiagnostics() else { return false }
+        let backend = ChargeBackend(rawValue: diagnostics.backend)
+        if let backend { cachedChargeBackend = backend }
         switch MagSafeGreenLightSetting.action(
             magSafeLEDAvailable: diagnostics.magSafeLEDAvailable,
-            backend: ChargeBackend(rawValue: diagnostics.backend)
+            backend: backend
         ) {
         case .leaveAlone:
             // Records `true` only when the answer really was "it works". An unknown stays
@@ -199,11 +215,16 @@ public actor MagSafeColorManager {
         showGreenLightWhenInhibiting: Bool
     ) async -> Bool {
         guard showGreenLightWhenInhibiting, appMode == .charging else { return false }
-        // `try?` over a throwing call that already returns an optional nests two levels;
-        // flattened here so the property below is read off the diagnostics, not off an
-        // optional wrapping them. A helper that is unreachable or has nothing to say
-        // leaves the existing inhibit flag as the only signal, which is the safe answer.
-        let diagnostics = (try? await chargingClient.chargingDiagnostics()) ?? nil
+        // The backend gate, and it is ahead of the round trip rather than inside the
+        // helper on purpose: the round trip is the cost. Only asked while the backend is
+        // still unknown, which is at most once.
+        if let cachedChargeBackend, cachedChargeBackend != .systemChargeLimit { return false }
+        // A helper that is unreachable or has nothing to say leaves the existing inhibit
+        // flag as the only signal, which is the safe answer.
+        let diagnostics = try? await chargingClient.chargingDiagnostics()
+        if let backend = diagnostics.flatMap({ ChargeBackend(rawValue: $0.backend) }) {
+            cachedChargeBackend = backend
+        }
         return diagnostics?.systemChargeLimitIsHoldingCharge == true
     }
 
