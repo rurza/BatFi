@@ -25,8 +25,8 @@ public actor AutomationManager {
 
     private lazy var logger = Logger(category: "Automation Manager")
 
-    private var latestCoordinate: Coordinate?
-    private var locationTask: Task<Void, Never>?
+    private var satisfiedFenceIDs: Set<UUID> = []
+    private var fenceStatesTask: Task<Void, Never>?
     private var observeTask: Task<Void, Never>?
     private var tickTask: Task<Void, Never>?
 
@@ -79,30 +79,43 @@ public actor AutomationManager {
     }
 
     private func handleConfigChange(enabled: Bool, rules: [AutomationRule]) async {
-        reconcileLocationMonitoring(enabled: enabled, rules: rules)
+        await reconcileLocationMonitoring(enabled: enabled, rules: rules)
         await evaluate()
     }
 
-    private func reconcileLocationMonitoring(enabled: Bool, rules: [AutomationRule]) {
-        let needsLocation = enabled && rules.contains { $0.isEnabled && $0.location != nil }
-        if needsLocation {
-            guard locationTask == nil else { return }
+    private func reconcileLocationMonitoring(enabled: Bool, rules: [AutomationRule]) async {
+        let fences: [MonitoredFence] = enabled
+            ? rules.compactMap { rule in
+                guard rule.isEnabled, let fence = rule.location else { return nil }
+                return MonitoredFence(id: rule.id, fence: fence)
+            }
+            : []
+
+        if !fences.isEmpty {
+            locationClient.requestAuthorization()
+        }
+
+        // Passing [] removes every condition, which is how disabling automation stops all
+        // locationd work. No continuous location updates run in either direction.
+        await locationClient.setMonitoredFences(fences)
+
+        if fences.isEmpty {
+            fenceStatesTask?.cancel()
+            fenceStatesTask = nil
+            satisfiedFenceIDs = []
+        } else if fenceStatesTask == nil {
             let client = locationClient
-            client.requestAuthorization()
-            locationTask = Task { [weak self] in
-                for await coordinate in client.coordinateUpdates() {
-                    await self?.updateCoordinate(coordinate)
+            fenceStatesTask = Task { [weak self] in
+                for await ids in client.fenceStates() {
+                    await self?.updateSatisfiedFences(ids)
                 }
             }
-        } else if locationTask != nil {
-            locationTask?.cancel()
-            locationTask = nil
-            latestCoordinate = nil
         }
     }
 
-    private func updateCoordinate(_ coordinate: Coordinate) async {
-        latestCoordinate = coordinate
+    private func updateSatisfiedFences(_ ids: Set<UUID>) async {
+        guard ids != satisfiedFenceIDs else { return }
+        satisfiedFenceIDs = ids
         await evaluate()
     }
 
@@ -112,7 +125,7 @@ public actor AutomationManager {
         let now = date.now
 
         let active = AutomationEngine.activeRule(
-            in: rules, enabled: enabled, at: now, location: latestCoordinate
+            in: rules, enabled: enabled, at: now, satisfiedFenceIDs: satisfiedFenceIDs
         )
         let next = AutomationEngine.nextScheduled(in: rules, enabled: enabled, after: now)
 
