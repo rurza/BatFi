@@ -174,6 +174,14 @@ actor SMCService {
         do {
             try await enableCharging(!inhibitCharging)
             try await enableForceDischarge(forceDischarge)
+        } catch SMCError.noChargeControlMechanism {
+            // Not a driver failure and not something a re-probe can fix — it is the
+            // resolver's own verdict about this firmware, reached over a connection that
+            // was open. Resetting keys, dropping the resolution and closing the connection
+            // here would do all three on every mode change, forever, on a machine where
+            // the app now takes a mode decision on every status update.
+            self.logger.error("No usable charge control mechanism on this firmware; charging mode not changed")
+            throw SMCError.noChargeControlMechanism
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
@@ -837,10 +845,26 @@ actor SMCService {
             logger.notice("System charge limit backend: BatFi holds no inhibit, charging is enabled")
             return true
         case .unsupported:
-            // Unchanged, and must stay so: no mechanism exists here at all, and saying
-            // otherwise would make a Mac BatFi cannot control look like one it can.
-            logger.error("No usable charge control mechanism on this firmware")
-            throw SMCError.keyNotFound(code: "CHTE")
+            // The question this answers is "is BatFi holding charge back with an inhibit",
+            // and here — as under the two arms above — the answer is a flat no. BatFi
+            // writes nothing on this firmware at all, so `true` is the accurate report.
+            //
+            // Throwing was not merely inaccurate, it was self-defeating. This is reached
+            // from `smcChargingStatus()`, which rethrows, which
+            // `ChargingManager.fetchAndUpdateAppChargingState` catches without setting a
+            // mode — so the app stayed in `.initial` forever, `updateStatus` returned
+            // early on every pass, and `ChargeControlDisclosure`'s `.unsupported` arm,
+            // whose entire purpose is to tell *this* user the truth, never rendered. What
+            // they got instead was "BatFi can't read battery information / macOS isn't
+            // reporting the battery details BatFi needs", which blames a battery read for
+            // a missing charge-control key.
+            //
+            // The honest failure has not been lost, it has been moved to where it belongs:
+            // `applyChargeLimit` and `enableCharging` still throw
+            // `SMCError.noChargeControlMechanism` here, so nothing pretends a limit or an
+            // inhibit was put in force.
+            logger.notice("No charge control mechanism on this firmware; BatFi holds no inhibit")
+            return true
         }
     }
     
@@ -911,9 +935,10 @@ actor SMCService {
             logger.notice("Charging mode is governed by the system charge limit; no SMC write needed")
         case .unsupported:
             // Still loud, and must stay that way: here there is genuinely no mechanism,
-            // and reporting honestly is the design.
+            // and reporting honestly is the design. `setChargingMode` recognizes this
+            // particular error and does not treat it as a driver failure — see its catch.
             logger.error("No usable charge control mechanism on this firmware")
-            throw SMCError.keyNotFound(code: "CHTE")
+            throw SMCError.noChargeControlMechanism
         }
     }
 
