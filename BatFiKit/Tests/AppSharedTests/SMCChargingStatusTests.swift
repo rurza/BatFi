@@ -8,8 +8,10 @@
 //
 //  What is pinned here is the part that can be: that "unknown" is representable at all,
 //  and that it survives the trip through NSSecureCoding to the app. The obvious encoding
-//  is the broken one — `decodeBool` answers a missing key with `false`, which reads as
-//  "lid closed" and quietly suppresses discharging on a Mac nobody could ask.
+//  is the broken one, and broken in the dangerous direction — `decodeBool` answers a
+//  missing key with `false`, i.e. `lidClosed == false`, i.e. **lid open**, which is the
+//  state that *enables* force discharge. It would let BatFi discharge on AC on a Mac
+//  whose lid it never read. Unknown must stay unknown so the app can answer "closed".
 //
 
 import Foundation

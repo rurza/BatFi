@@ -14,10 +14,17 @@ public class SMCChargingStatus: NSObject, Codable, NSSecureCoding, @unchecked Se
         coder.encode(forceDischarging, forKey: "forceDischarging")
         coder.encode(inhitbitCharging, forKey: "inhitbitCharging")
         // Encoded as an object rather than with `encode(_: Bool, forKey:)` because the
-        // absence of a value is itself a value here: a primitive bool decodes a missing
-        // key as `false`, which is "lid closed" — the one answer that is never safe to
-        // invent, since it suppresses discharging and puts a claim in the menu about a
-        // lid nobody read.
+        // absence of a value is itself a value here, and the primitive encoding invents
+        // the *permissive* one. `decodeBool` answers a missing key with `false`, i.e.
+        // `lidClosed == false`, i.e. **lid open** — and an open lid is what enables force
+        // discharge (`ChargingManager` gates `turnOnDischarging` on `lidOpened`). So the
+        // obvious encoding would let BatFi discharge on AC on a Mac whose lid it never
+        // read. `nil` instead reaches the app as "not known" and routes it to
+        // `fetchLidStatus()`, which answers "closed" and holds discharge back.
+        //
+        // Note that the two `false`s in this path mean opposite things: `lidClosed ==
+        // false` is permissive (lid open), while `fetchLidStatus() -> false` is the
+        // conservative answer (treat as closed).
         coder.encode(lidClosed.map(NSNumber.init(value:)), forKey: "lidClosed")
     }
 
