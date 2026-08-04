@@ -164,3 +164,12 @@ app. Manual checks, all in the Edit Rule sheet:
 5. Toggle each condition off and on — the sheet resizes smoothly.
 6. Confirm Name, Charge limit, Radius, and Place name labels share one right-aligned column.
 7. Run in a language with long labels (German) — labels are not truncated.
+8. Click a search suggestion that visually overlaps the map and confirm the pin lands on the resolved place, not
+   on the click point. The code asserts `.zIndex(1)` wins hit-testing over a MapKit-hosted view; that is
+   unverified, and if it falls through, `Map.onTapGesture` drops a pin at the cursor instead.
+9. Confirm the dropdown is genuinely opaque over map tiles — no streets or labels showing through the suggestion
+   text. `.regularMaterial` does not always sample an AppKit-hosted layer.
+10. Confirm the Charge limit and Radius sliders sit correctly against their labels under baseline alignment.
+11. Confirm the permission banner is not permanently occluded by the dropdown during a first-run flow — the
+    floating dropdown now paints over the banner rather than pushing it down, so the banner's "Allow Access"
+    button is unclickable while suggestions are showing.

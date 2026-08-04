@@ -168,6 +168,9 @@ struct AutomationLocationPicker: View {
 
             AutomationLabeledRow(L10n.Automation.locationRadius) {
                 Slider(value: $radiusMeters, in: Self.radiusRange, step: 50)
+                    // See the matching comment in RuleEditorView.nameAndLimit: a Slider has no
+                    // text baseline, so without this it aligns to the label by its bottom edge.
+                    .alignmentGuide(.firstTextBaseline) { $0[VerticalAlignment.center] }
                 Text("\(Int(monitoredRadiusMeters)) m")
                     .monospacedDigit()
                     .foregroundStyle(.secondary)
@@ -183,6 +186,10 @@ struct AutomationLocationPicker: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .padding(.leading, labelColumnWidth + 8)
+                    // The column is dynamic and can reach ~150pt in a long-label locale
+                    // (Portuguese), leaving far less width than the old fixed 90pt. Wrap rather
+                    // than truncate.
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .task {

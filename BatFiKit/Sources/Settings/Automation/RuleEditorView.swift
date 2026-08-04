@@ -6,8 +6,8 @@
 //  condition (one-off or repeating) AND an optional location condition.
 //
 
-import AppShared
 import AppKit
+import AppShared
 import L10n
 import SwiftUI
 
@@ -126,13 +126,24 @@ struct RuleEditorView: View {
             // Sized to the content instead of scrolling it: the old `maxHeight: 720` left the
             // Radius slider and Place name field below the fold with no scrollbar to hint they
             // were there.
-            .frame(height: min(contentHeight, maxContentHeight))
+            // Rounded up: an unrounded fractional height can leave the view technically
+            // scrollable by a hair, which is the exact symptom this sheet exists to fix.
+            .frame(height: min(contentHeight.rounded(.up), maxContentHeight))
+            // Only shown once the cap above actually engages — that is the one case where
+            // content is genuinely hidden and a trackpad user has no other hint to scroll.
+            .scrollIndicators(contentHeight > maxContentHeight ? .visible : .automatic)
 
             footer
                 .padding(.horizontal, Self.focusRingInset)
         }
-        .padding(Self.sheetPadding)
+        .padding(.horizontal, Self.sheetPadding)
+        .padding(.vertical, Self.sheetPadding + Self.focusRingInset)
         .onPreferenceChange(AutomationContentHeightKey.self) { height in
+            // The default value is 0 for a preference with no reporter yet; applying that would
+            // collapse the ScrollView to zero and the sheet to just title + footer. No known path
+            // produces a transient zero here, but the guard is cheap insurance on view code with
+            // no automated coverage.
+            guard height > 0 else { return }
             contentHeight = height
         }
         .onPreferenceChange(AutomationLabelWidthKey.self) { width in
@@ -142,14 +153,17 @@ struct RuleEditorView: View {
         .frame(width: Self.sheetWidth)
     }
 
-    // MARK: - Sections
+    // MARK: - Layout
 
     private static let sheetWidth: CGFloat = 520
     /// Room for the focus ring, which SwiftUI draws *outside* a control's frame. Without it the
     /// `ScrollView` clips the ring on the Name field, which is flush against its top edge.
     private static let focusRingInset: CGFloat = 6
-    /// Outer padding. Title and footer add `focusRingInset` back so every element lines up at 20pt
-    /// from the sheet edge, while the scrolling content keeps its ring room.
+    /// Outer padding, applied horizontally on its own. Title and footer add `focusRingInset` back
+    /// horizontally, landing at 14 + 6 = 20pt from the sheet edge, while the scrolling content
+    /// keeps its ring room. Vertically the inset is folded directly into the root's own padding
+    /// below (rather than added by title/footer, which have no ring to protect there), so the top
+    /// and bottom margins land at the same 20pt.
     private static let sheetPadding: CGFloat = 14
     /// Title, footer, their spacings and the outer padding. Deliberately generous — it is only used
     /// to size the scroll cap on displays too small to fit the sheet, where a few unused points
@@ -160,12 +174,17 @@ struct RuleEditorView: View {
     /// the sheet fits without scrolling on every current Mac display; this only engages on a small
     /// panel such as 1280×800, where scrolling beats a sheet clipped by the screen.
     ///
-    /// The 800pt fallback is reached only if `NSScreen.main` is nil, which lands the cap at 720 —
-    /// exactly the height the sheet used before this change, so that path is no worse than before.
+    /// The 80pt subtracted is the screen margin: it covers the sheet's titlebar inset and leaves
+    /// the parent window's edge visible around it. The 800pt fallback is reached only if
+    /// `NSScreen.main` is nil, which lands the cap at `max(240, 800 - 80 - 140)` = 580, for a sheet
+    /// of roughly 680pt — no taller than the sheet's old 720pt cap, so that path is no worse than
+    /// before.
     private var maxContentHeight: CGFloat {
         let visible = NSScreen.main?.visibleFrame.height ?? 800
         return max(240, visible - 80 - Self.chromeAllowance)
     }
+
+    // MARK: - Sections
 
     private var nameAndLimit: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -175,6 +194,11 @@ struct RuleEditorView: View {
             }
             AutomationLabeledRow(L10n.Automation.chargeLimit) {
                 Slider(value: $limit, in: 0...100, step: 5)
+                    // A `Slider` has no text baseline, so `AutomationLabeledRow`'s
+                    // `.firstTextBaseline` alignment would otherwise fall back to its bottom
+                    // edge, sitting a few points higher than the label. Map its baseline to its
+                    // vertical center instead.
+                    .alignmentGuide(.firstTextBaseline) { $0[VerticalAlignment.center] }
                 Text("\(Int(limit))%")
                     .monospacedDigit()
                     .frame(width: 44, alignment: .trailing)
