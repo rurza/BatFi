@@ -116,10 +116,16 @@ actor SMCService {
         logger.notice("Setting SMC charging status")
         await openSMCIfNeeded()
 
+        // Deliberately ahead of the SMC writes, and outside the `do`: under
+        // `.systemChargeLimit` and `.unsupported` every write below throws, so with the
+        // reconcile downstream its non-SMC arm could never run on precisely the machines
+        // it exists for. Same reasoning — and the same MCL-first-then-SMC shape — as
+        // `restoreSystemDefaults()`.
+        await reconcileMCLOwnership(for: message)
+
         do {
             try await enableCharging(!inhibitCharging)
             try await enableForceDischarge(forceDischarge)
-            await reconcileMCLOwnership(for: message)
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
@@ -139,6 +145,15 @@ actor SMCService {
     /// override would keep writing 100 over the adopted value and the user's limit
     /// would oscillate. One `switch` over one backend, rather than two independent
     /// conditionals, is what makes holding both states unrepresentable.
+    ///
+    /// Runs *before* the SMC writes in `setChargingMode`, not after. Two reasons. It has
+    /// to: under `.systemChargeLimit`/`.unsupported` `enableCharging` always throws, so a
+    /// reconcile placed after it never runs on the machines the clearing arm is for. And
+    /// it is safe for the SMC arm: that arm only acts on `.auto`, where both writes
+    /// move the same way — toward "allow charging" — so releasing Apple's limit first
+    /// merely leaves BatFi's own inhibit holding charge back a moment longer, the more
+    /// restrictive of the two transient states. The reverse (Apple's limit released while
+    /// BatFi still inhibits) is not reachable, because `.auto` writes no inhibit.
     private func reconcileMCLOwnership(for message: SMCChargingCommand) async {
         guard await PowerUICharging.shared.isMCLSupported else { return }
 
@@ -171,8 +186,16 @@ actor SMCService {
         switch await currentBackend() {
         case .chte, .legacyCH0BC:
             // Handled by the existing inhibit path, which applies the requested value
-            // exactly. Any note from an earlier resolution goes with it, so diagnostics
-            // cannot claim a raised limit under a backend that never raises one.
+            // exactly. Anything the system-limit backend left behind is handed back first:
+            // a re-probe can flip this machine from `.systemChargeLimit` to an SMC backend
+            // (a firmware token change, or a `CHTE` probe that failed transiently and then
+            // succeeded), and forgetting the adopted limit without releasing it would strand
+            // Apple's Manual Charge Limit at BatFi's value — visible in System Settings, and
+            // silently capping every later SMC-driven limit above it. `releaseSystemLimit`
+            // self-guards on the snapshot, so this is a no-op on machines that never adopted.
+            await PowerUICharging.shared.releaseSystemLimit()
+            // Any note from an earlier resolution goes with it, so diagnostics cannot claim
+            // a raised limit under a backend that never raises one.
             appliedSystemLimit = nil
             return percentage
         case .systemChargeLimit:
