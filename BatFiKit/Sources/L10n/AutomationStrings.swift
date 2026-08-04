@@ -39,9 +39,13 @@ public extension L10n {
 
         public static let locationCondition = String(localized: "automation.editor.location_condition", defaultValue: "Only at a location", bundle: Bundle.module)
         public static let locationSearchPlaceholder = String(localized: "automation.editor.location_search", defaultValue: "Search address…", bundle: Bundle.module)
+        public static let locationNoResults = String(localized: "automation.editor.location_no_results", defaultValue: "No places found.", bundle: Bundle.module)
         public static let locationRadius = String(localized: "automation.editor.location_radius", defaultValue: "Radius", bundle: Bundle.module)
         public static let useCurrentLocation = String(localized: "automation.editor.use_current_location", defaultValue: "Use current location", bundle: Bundle.module)
-        public static let locationLabelPlaceholder = String(localized: "automation.editor.location_label", defaultValue: "Place name", bundle: Bundle.module)
+        public static let locationLabelPlaceholder = String(localized: "automation.editor.location_label", defaultValue: "e.g. Home", bundle: Bundle.module)
+        public static let locationLabelField = String(localized: "automation.editor.location_label_field", defaultValue: "Place name", bundle: Bundle.module)
+        public static let locationLabelCaption = String(localized: "automation.editor.location_label_caption", defaultValue: "Shown in the menu and rule list.", bundle: Bundle.module)
+        public static let locationNeedsCoordinate = String(localized: "automation.editor.location_needs_coordinate", defaultValue: "Pick a place to finish this rule.", bundle: Bundle.module)
         public static let locationPermissionDenied = String(localized: "automation.editor.location_denied", defaultValue: "Location access is denied. Enable it in System Settings › Privacy & Security › Location Services.", bundle: Bundle.module)
         public static let locationServicesOff = String(localized: "automation.editor.location_services_off", defaultValue: "Location Services is turned off for this Mac.", bundle: Bundle.module)
         public static let locationNotDetermined = String(localized: "automation.editor.location_not_determined", defaultValue: "BatFi needs location access to match rules to where your Mac is.", bundle: Bundle.module)
@@ -61,6 +65,7 @@ public extension L10n {
         // Summaries / menu
         public static let anyTime = String(localized: "automation.summary.any_time", defaultValue: "Any time", bundle: Bundle.module)
         public static let anywhere = String(localized: "automation.summary.anywhere", defaultValue: "Anywhere", bundle: Bundle.module)
+        public static let unnamedPlace = String(localized: "automation.summary.unnamed_place", defaultValue: "Unnamed place", bundle: Bundle.module)
         public static let daysEveryDay = String(localized: "automation.summary.every_day", defaultValue: "Every day", bundle: Bundle.module)
         public static let daysWeekdays = String(localized: "automation.summary.weekdays", defaultValue: "Weekdays", bundle: Bundle.module)
         public static let daysWeekends = String(localized: "automation.summary.weekends", defaultValue: "Weekends", bundle: Bundle.module)

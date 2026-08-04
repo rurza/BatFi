@@ -108,11 +108,12 @@ struct RuleEditorView: View {
                 }
                 .padding(.trailing, 4)
             }
+            .scrollIndicators(.visible)
 
             footer
         }
         .padding(20)
-        .frame(width: 460, height: 600)
+        .frame(minWidth: 480, idealWidth: 480, maxWidth: 480, minHeight: 520, idealHeight: 640, maxHeight: 720)
     }
 
     // MARK: - Sections
@@ -198,6 +199,11 @@ struct RuleEditorView: View {
         HStack {
             if let onDelete, !isNew {
                 Button(L10n.Automation.delete, role: .destructive, action: onDelete)
+            }
+            if !canSave {
+                Text(L10n.Automation.locationNeedsCoordinate)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
             Spacer()
             Button(L10n.Automation.cancel, action: onCancel)

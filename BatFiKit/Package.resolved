@@ -1,5 +1,5 @@
 {
-  "originHash" : "c9b70472dc0b3a2298db1da94020084bea40b6c0987091971d762d6a9c76bb7c",
+  "originHash" : "9a0892c90d7bc38178dd365be61f5180637a4afb746dc8c778b65434373c2da4",
   "pins" : [
     {
       "identity" : "aboutkit",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/rurza/AboutKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "9b3dd874b13205a07db36c9ab91bf587aad26a0e"
+        "revision" : "2db79e6982bfdbefbb06f625ff826639e5145628"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/simibac/ConfettiSwiftUI",
       "state" : {
-        "revision" : "8d3a15d0aa2991e0761749b767ef8d89bca6275a",
-        "version" : "1.0.1"
+        "revision" : "f45961f97bbae6fff6e2e64546fea0189425ad92",
+        "version" : "1.1.0"
       }
     },
     {
@@ -70,7 +70,7 @@
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
         "branch" : "main",
-        "revision" : "bd14dae265091c5fb1ba1123a52861ae9f2ede84"
+        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa"
       }
     },
     {
@@ -88,7 +88,7 @@
       "location" : "https://github.com/rurza/KeyboardShortcuts",
       "state" : {
         "branch" : "main",
-        "revision" : "010d5900f7eed37c834eb9d39d7b59b0d4a03911"
+        "revision" : "216ecd1033a6171d029e2c678a35a6366c682545"
       }
     },
     {
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/getsentry/sentry-cocoa",
       "state" : {
-        "revision" : "c1404acfa3a71e42aa789c6d5564da59d4377569",
-        "version" : "8.42.1"
+        "revision" : "c9a692ba837f4832ec7ce6378c071cb91cb55f92",
+        "version" : "8.29.0"
       }
     },
     {
@@ -142,7 +142,7 @@
       "location" : "https://github.com/rurza/SettingsKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "e99c1e9a51afef7c7c07997ac079586138114422"
+        "revision" : "6f53cef9d93d8b8616a78ebdf157a5f24c59ccf7"
       }
     },
     {
@@ -159,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "0ef1ee0220239b3776f433314515fd849025673f",
-        "version" : "2.6.4"
+        "revision" : "df074165274afaa39539c05d57b0832620775b11",
+        "version" : "2.7.1"
       }
     },
     {
@@ -169,7 +169,7 @@
       "location" : "https://github.com/rurza/StatusItemArrowKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "1b81294b10281c22d889f887f7106384e70e019c"
+        "revision" : "591da8e0291e45ae013ef318e464c0bb9f1194bd"
       }
     },
     {
@@ -195,8 +195,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections.git",
       "state" : {
-        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
-        "version" : "1.0.4"
+        "revision" : "ee97538f5b81ae89698fd95938896dec5217b148",
+        "version" : "1.1.1"
       }
     },
     {
@@ -213,8 +213,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "d3a5af3038a09add4d7682f66555d6212058a3c0",
-        "version" : "1.2.2"
+        "revision" : "00bc30ca03f98881329fab7f1bebef8eba472596",
+        "version" : "1.3.1"
       }
     },
     {
@@ -222,8 +222,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-identified-collections",
       "state" : {
-        "revision" : "d1e45f3e1eee2c9193f5369fa9d70a6ddad635e8",
-        "version" : "1.0.0"
+        "revision" : "d533cd18b0b456b106694a9899f917ee595f2666",
+        "version" : "1.0.2"
       }
     },
     {
@@ -249,8 +249,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax",
       "state" : {
-        "revision" : "fa8f95c2d536d6620cc2f504ebe8a6167c9fc2dd",
-        "version" : "510.0.1"
+        "revision" : "303e5c5c36d6a558407d364878df131c3546fad8",
+        "version" : "510.0.2"
       }
     },
     {
@@ -258,8 +258,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
       "state" : {
-        "revision" : "b13b1d1a8e787a5ffc71ac19dcaf52183ab27ba2",
-        "version" : "1.1.1"
+        "revision" : "6f30bdba373bbd7fbfe241dddd732651f2fbd1e2",
+        "version" : "1.1.2"
       }
     }
   ],

@@ -9,6 +9,7 @@
 import AppKit
 import AppShared
 import Clients
+import CoreLocation
 import Dependencies
 import L10n
 import MapKit
@@ -27,12 +28,32 @@ struct AutomationLocationPicker: View {
             span: MKCoordinateSpan(latitudeDelta: 60, longitudeDelta: 60)
         )
     )
-    @State private var searchText = ""
+    @State private var search = LocationSearchModel()
     /// Nil until the first real value arrives. A default-constructed `LocationSnapshot` is
     /// `.notDetermined`, so seeding one would flash the "BatFi needs location access…" banner and
     /// an **Allow Access** button at every user, including already-authorized ones.
     @State private var snapshot: LocationSnapshot?
     @State private var isLocating = false
+
+    // `label` (and, for the current-location/search paths, `coordinate`) has three independent
+    // asynchronous writers below: the map-tap reverse geocode (`prefillLabelIfEmpty`), "use
+    // current location" (`apply`, reached synchronously from `useCurrentLocation()` or later from
+    // the `.task` snapshot loop), and a search selection (`select`). Nothing else sequences them,
+    // so a slower request finishing after a faster, later one would otherwise silently overwrite
+    // it — e.g. naming the pin for a place it's no longer at. Each writer bumps or captures this
+    // counter when its request starts and checks it still matches before applying its result, so
+    // a newer request always supersedes an older one.
+    @State private var pinRequestGeneration = 0
+    @State private var locatingGeneration = 0
+    /// Click order for search-suggestion selections specifically, separate from
+    /// `pinRequestGeneration`. See the comment on `select(_:)` for why a second counter is
+    /// needed here rather than folding this into `pinRequestGeneration`.
+    @State private var selectSequence = 0
+    /// True while `label` holds text one of the three automated writers put there (current
+    /// location, tap-to-geocode, search selection) rather than text the user typed. Lets those
+    /// writers keep replacing each other's output — and the user's own edits still win over all
+    /// of them, since `labelBinding`'s setter clears this the moment the user types.
+    @State private var labelWasAutofilled = false
 
     /// A fix older than this is not good enough to answer "Use current location".
     private static let currentLocationMaxAge: TimeInterval = 300
@@ -56,29 +77,84 @@ struct AutomationLocationPicker: View {
         return PermissionBannerState(snapshot) == .none
     }
 
+    /// Wraps `$label` so the label `TextField` can clear `labelWasAutofilled` on user input
+    /// without the auto-fill writers below (which assign `label` directly, not through this
+    /// binding) tripping the same flag.
+    private var labelBinding: Binding<String> {
+        Binding(
+            get: { label },
+            set: { newValue in
+                label = newValue
+                labelWasAutofilled = false
+            }
+        )
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.secondary)
-                TextField(L10n.Automation.locationSearchPlaceholder, text: $searchText)
-                    .textFieldStyle(.plain)
-                    .onSubmit { Task { await search() } }
-                if isLocating {
-                    ProgressView()
-                        .controlSize(.small)
-                        .padding(.trailing, 4)
-                    Text(L10n.Automation.locating)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    TextField(L10n.Automation.locationSearchPlaceholder, text: $search.query)
+                        .textFieldStyle(.roundedBorder)
+                        .onSubmit {
+                            // A field that is only whitespace (or empty) has nothing to search
+                            // for — leave Return a no-op rather than showing "No places found."
+                            // for text the user never really typed.
+                            guard !search.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                            if let first = search.completions.first {
+                                Task { await select(first) }
+                            }
+                            // Else: the completer hasn't answered this query yet, or answered
+                            // with nothing. Either way `search.hasSearched` drives the "No places
+                            // found." message below reactively, so it surfaces on its own as soon
+                            // as the completer responds — nothing further to do here.
+                        }
+                    if isLocating {
+                        ProgressView()
+                            .controlSize(.small)
+                            .padding(.trailing, 4)
+                        Text(L10n.Automation.locating)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    if isLocating {
+                        Button(L10n.Automation.cancel) { isLocating = false }
+                            .controlSize(.small)
+                    } else {
+                        Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
+                            .controlSize(.small)
+                            .disabled(!canUseCurrentLocation)
+                    }
+                }
+
+                if !search.completions.isEmpty {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(search.completions, id: \.self) { completion in
+                            Button {
+                                Task { await select(completion) }
+                            } label: {
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(completion.title)
+                                    if !completion.subtitle.isEmpty {
+                                        Text(completion.subtitle)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 8)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .background(Color.secondary.opacity(0.10))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                } else if search.hasSearched {
+                    Text(L10n.Automation.locationNoResults)
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                }
-                if isLocating {
-                    Button(L10n.Automation.cancel) { isLocating = false }
-                        .controlSize(.small)
-                } else {
-                    Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
-                        .controlSize(.small)
-                        .disabled(!canUseCurrentLocation)
                 }
             }
 
@@ -101,7 +177,13 @@ struct AutomationLocationPicker: View {
                 .onTapGesture(coordinateSpace: .local) { point in
                     if let clCoordinate = proxy.convert(point, from: .local) {
                         set(clCoordinate)
+                        pinRequestGeneration += 1
+                        let generation = pinRequestGeneration
+                        Task { await prefillLabelIfEmpty(for: clCoordinate, generation: generation) }
                     }
+                }
+                .onMapCameraChange { context in
+                    search.updateRegion(context.region)
                 }
             }
             .frame(height: 220)
@@ -116,19 +198,50 @@ struct AutomationLocationPicker: View {
                     .frame(width: 70, alignment: .trailing)
             }
 
-            TextField(L10n.Automation.locationLabelPlaceholder, text: $label)
-                .textFieldStyle(.roundedBorder)
-
+            VStack(alignment: .leading, spacing: 2) {
+                HStack {
+                    Text(L10n.Automation.locationLabelField)
+                        .frame(width: 90, alignment: .leading)
+                    TextField(L10n.Automation.locationLabelPlaceholder, text: labelBinding)
+                        .textFieldStyle(.roundedBorder)
+                }
+                Text(L10n.Automation.locationLabelCaption)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.leading, 90)
+            }
         }
         .task {
             // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
             // picker closes. This is the only place in the app that runs continuous updates.
             normalizeRadius()
             if let coordinate { recenter(on: coordinate.clCoordinate) }
+            var didSeedSearchRegion = false
             for await snapshot in locationClient.snapshotUpdates() {
                 self.snapshot = snapshot
+                // For a brand-new rule (no coordinate yet), `recenter(on:)` above never runs, so
+                // the map camera — and with it `search`'s completer region, which only otherwise
+                // updates via `onMapCameraChange` — stays on its world-spanning default until the
+                // user pans. That leaves the very first search unbiased, which is exactly the
+                // "wars" case this task exists to fix. Seed both the completer's region and the
+                // camera from the last known fix, once: `onMapCameraChange` fires with the
+                // camera's *current* region on its very first callback, so if we only seeded the
+                // completer, that initial callback (order versus this snapshot is not guaranteed)
+                // could immediately clobber the seed with the world-spanning default. Moving the
+                // camera too means that first callback carries the biased region instead of
+                // fighting it — with the side benefit that a new rule's map opens near the user
+                // rather than on the whole planet.
+                if !didSeedSearchRegion, coordinate == nil, let fix = snapshot.lastFix {
+                    didSeedSearchRegion = true
+                    let seededRegion = MKCoordinateRegion(
+                        center: fix.clCoordinate,
+                        span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
+                    )
+                    search.updateRegion(seededRegion)
+                    cameraPosition = .region(seededRegion)
+                }
                 if isLocating, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
-                    apply(fix)
+                    apply(fix, generation: locatingGeneration)
                     isLocating = false
                 }
             }
@@ -202,10 +315,13 @@ struct AutomationLocationPicker: View {
     /// locationd's push cadence, not detecting a real failure. A fresh-enough fix fills the
     /// field immediately; otherwise the button shows "Locating…" until a fix arrives.
     private func useCurrentLocation() {
+        pinRequestGeneration += 1
+        let generation = pinRequestGeneration
         if let snapshot, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
-            apply(fix)
+            apply(fix, generation: generation)
         } else {
             isLocating = true
+            locatingGeneration = generation
         }
     }
 
@@ -218,23 +334,87 @@ struct AutomationLocationPicker: View {
         if normalized != radiusMeters { radiusMeters = normalized }
     }
 
-    private func apply(_ fix: Coordinate) {
+    /// `generation` is the pin-request counter captured when this "use current location" attempt
+    /// started. If a newer tap, "use current location", or search selection has since bumped the
+    /// counter, this result is stale and is dropped rather than moving the pin to a place the
+    /// user has already left.
+    private func apply(_ fix: Coordinate, generation: Int) {
+        guard generation == pinRequestGeneration else { return }
         coordinate = fix
         recenter(on: fix.clCoordinate)
-        if label.isEmpty { label = L10n.Automation.currentLocationLabel }
+        // Overwrite empty text and our own earlier auto-fill alike, but never text the user
+        // typed — see `labelWasAutofilled`.
+        if label.isEmpty || labelWasAutofilled {
+            label = L10n.Automation.currentLocationLabel
+            labelWasAutofilled = true
+        }
     }
 
-    private func search() async {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return }
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = query
-        let response = try? await MKLocalSearch(request: request).start()
-        guard let item = response?.mapItems.first else { return }
-        let clCoordinate = item.placemark.coordinate
-        set(clCoordinate)
-        recenter(on: clCoordinate)
-        if label.isEmpty { label = item.name ?? query }
+    /// Names a tapped point so the user does not have to. Silent on failure — `CLGeocoder` is
+    /// rate-limited and fails for ordinary reasons; an unnamed pin is fine, a blocking error for
+    /// a nicety is not. `generation` is the pin-request counter captured when this tap started;
+    /// checked both before starting the network request (the label may already be non-empty,
+    /// user-typed) and again after it returns, so a name the user typed during the geocode wins
+    /// and a superseded tap does not overwrite a newer pin. Both checks allow overwriting text
+    /// that is empty *or* still marked auto-filled (`labelWasAutofilled`) from an earlier writer,
+    /// but never text the user typed themselves.
+    private func prefillLabelIfEmpty(for clCoordinate: CLLocationCoordinate2D, generation: Int) async {
+        guard label.isEmpty || labelWasAutofilled else { return }
+        let location = CLLocation(latitude: clCoordinate.latitude, longitude: clCoordinate.longitude)
+        guard let placemark = try? await CLGeocoder().reverseGeocodeLocation(location).first else { return }
+        guard generation == pinRequestGeneration else { return }
+        let name = placemark.name ?? placemark.locality ?? placemark.administrativeArea
+        if let name, label.isEmpty || labelWasAutofilled {
+            label = name
+            labelWasAutofilled = true
+        }
+    }
+
+    /// Captures `pinRequestGeneration` rather than bumping it up front: bumping here would
+    /// supersede an unrelated in-flight request (e.g. a map-tap geocode from
+    /// `prefillLabelIfEmpty`) even if this resolve then fails and writes nothing, silently
+    /// discarding that other request's result for no reason. Any later tap or "use current
+    /// location" still bumps the counter and fails this call's post-await guard, so supersession
+    /// still works; we only stop bumping *before* knowing this attempt will actually produce a
+    /// write.
+    ///
+    /// That deferred bump is why a second counter, `selectSequence`, exists. Two overlapping
+    /// selections both start before either has bumped `pinRequestGeneration`, so both capture the
+    /// same value from it — `pinRequestGeneration` alone cannot tell them apart, and whichever
+    /// `MKLocalSearch` happened to resolve first would win, even if it was the user's earlier,
+    /// already-abandoned click. `selectSequence` is bumped synchronously at the very top of this
+    /// function, before any `await`, so it records click order independent of resolve latency: the
+    /// later click always captures the higher value, and a stale selection's post-await check
+    /// against the current `selectSequence` fails no matter which resolve returns first. Do not
+    /// collapse these two counters into one — bumping a single counter up front reintroduces the
+    /// discarded-map-tap bug above, and deferring a single counter's bump reintroduces the
+    /// click-order bug this one fixes.
+    private func select(_ completion: MKLocalSearchCompletion) async {
+        selectSequence += 1
+        let mySequence = selectSequence
+        let generation = pinRequestGeneration
+        guard let resolved = await search.resolve(completion) else {
+            // No feedback shown here on a failed resolve (offline, rate-limited, unresolvable
+            // completion) — needs a new localized string, deliberately deferred.
+            return
+        }
+        // Clear unconditionally, even if this selection turns out to be superseded below: a
+        // resolve did complete, so the stale suggestion list and query should not linger under a
+        // pin the user has since moved elsewhere.
+        search.clear()
+        // Stale relative to a later click on a different suggestion — the user has already moved
+        // on, so this result must not land even if it resolved first.
+        guard mySequence == selectSequence else { return }
+        // Stale relative to a map tap or "use current location" that happened after this click —
+        // same rule the other two writers follow.
+        guard generation == pinRequestGeneration else { return }
+        pinRequestGeneration += 1
+        set(resolved.coordinate)
+        recenter(on: resolved.coordinate)
+        if label.isEmpty || labelWasAutofilled {
+            label = resolved.name
+            labelWasAutofilled = true
+        }
     }
 }
 
