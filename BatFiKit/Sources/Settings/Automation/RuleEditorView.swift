@@ -7,6 +7,7 @@
 //
 
 import AppShared
+import AppKit
 import L10n
 import SwiftUI
 
@@ -37,6 +38,10 @@ struct RuleEditorView: View {
     /// Widest field label in the sheet, measured across both this view and the location picker.
     /// Seeded to the environment default so the first frame is already close to the settled layout.
     @State private var labelColumnWidth: CGFloat = 90
+
+    /// Measured height of the scrollable content. Seeded near the common expanded height so the
+    /// sheet does not visibly settle when it opens.
+    @State private var contentHeight: CGFloat = 600
 
     init(
         rule: AutomationRule,
@@ -96,6 +101,7 @@ struct RuleEditorView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text(isNew ? L10n.Automation.editorAddTitle : L10n.Automation.editorEditTitle)
                 .font(.headline)
+                .padding(.horizontal, Self.focusRingInset)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -110,21 +116,56 @@ struct RuleEditorView: View {
                             .foregroundStyle(.orange)
                     }
                 }
-                .padding(.trailing, 4)
+                .padding(Self.focusRingInset)
+                .background(
+                    GeometryReader { proxy in
+                        Color.clear.preference(key: AutomationContentHeightKey.self, value: proxy.size.height)
+                    }
+                )
             }
-            .scrollIndicators(.visible)
+            // Sized to the content instead of scrolling it: the old `maxHeight: 720` left the
+            // Radius slider and Place name field below the fold with no scrollbar to hint they
+            // were there.
+            .frame(height: min(contentHeight, maxContentHeight))
 
             footer
+                .padding(.horizontal, Self.focusRingInset)
         }
-        .padding(20)
+        .padding(Self.sheetPadding)
+        .onPreferenceChange(AutomationContentHeightKey.self) { height in
+            contentHeight = height
+        }
         .onPreferenceChange(AutomationLabelWidthKey.self) { width in
             labelColumnWidth = width
         }
         .environment(\.automationLabelWidth, labelColumnWidth)
-        .frame(minWidth: 480, idealWidth: 480, maxWidth: 480, minHeight: 520, idealHeight: 640, maxHeight: 720)
+        .frame(width: Self.sheetWidth)
     }
 
     // MARK: - Sections
+
+    private static let sheetWidth: CGFloat = 520
+    /// Room for the focus ring, which SwiftUI draws *outside* a control's frame. Without it the
+    /// `ScrollView` clips the ring on the Name field, which is flush against its top edge.
+    private static let focusRingInset: CGFloat = 6
+    /// Outer padding. Title and footer add `focusRingInset` back so every element lines up at 20pt
+    /// from the sheet edge, while the scrolling content keeps its ring room.
+    private static let sheetPadding: CGFloat = 14
+    /// Title, footer, their spacings and the outer padding. Deliberately generous — it is only used
+    /// to size the scroll cap on displays too small to fit the sheet, where a few unused points
+    /// cost nothing.
+    private static let chromeAllowance: CGFloat = 140
+
+    /// Tallest the scrolling content may be before it starts scrolling. At ~748pt fully expanded
+    /// the sheet fits without scrolling on every current Mac display; this only engages on a small
+    /// panel such as 1280×800, where scrolling beats a sheet clipped by the screen.
+    ///
+    /// The 800pt fallback is reached only if `NSScreen.main` is nil, which lands the cap at 720 —
+    /// exactly the height the sheet used before this change, so that path is no worse than before.
+    private var maxContentHeight: CGFloat {
+        let visible = NSScreen.main?.visibleFrame.height ?? 800
+        return max(240, visible - 80 - Self.chromeAllowance)
+    }
 
     private var nameAndLimit: some View {
         VStack(alignment: .leading, spacing: 10) {

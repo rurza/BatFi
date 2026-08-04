@@ -21,6 +21,17 @@ struct AutomationLabelWidthKey: PreferenceKey {
     }
 }
 
+/// Reports the rule editor's scrollable content height so the sheet can size itself to fit.
+/// A `ScrollView` does not propagate its content's ideal height, so without this the sheet has no
+/// way to know how tall it wants to be.
+struct AutomationContentHeightKey: PreferenceKey {
+    static let defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
 private struct AutomationLabelWidthEnvironmentKey: EnvironmentKey {
     /// The width the sheet hard-coded before the column was measured. Starting here rather than at
     /// zero means the first rendered frame is already close to the settled layout, so the single
