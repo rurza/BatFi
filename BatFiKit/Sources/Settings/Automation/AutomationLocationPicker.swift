@@ -9,6 +9,7 @@
 import AppKit
 import AppShared
 import Clients
+import CoreLocation
 import Dependencies
 import L10n
 import MapKit
@@ -33,6 +34,17 @@ struct AutomationLocationPicker: View {
     /// an **Allow Access** button at every user, including already-authorized ones.
     @State private var snapshot: LocationSnapshot?
     @State private var isLocating = false
+
+    // `label` (and, for the current-location/search paths, `coordinate`) has three independent
+    // asynchronous writers below: the map-tap reverse geocode (`prefillLabelIfEmpty`), "use
+    // current location" (`apply`, reached synchronously from `useCurrentLocation()` or later from
+    // the `.task` snapshot loop), and a search selection (`select`). Nothing else sequences them,
+    // so a slower request finishing after a faster, later one would otherwise silently overwrite
+    // it — e.g. naming the pin for a place it's no longer at. Each writer bumps or captures this
+    // counter when its request starts and checks it still matches before applying its result, so
+    // a newer request always supersedes an older one.
+    @State private var pinRequestGeneration = 0
+    @State private var locatingGeneration = 0
 
     /// A fix older than this is not good enough to answer "Use current location".
     private static let currentLocationMaxAge: TimeInterval = 300
@@ -135,6 +147,9 @@ struct AutomationLocationPicker: View {
                 .onTapGesture(coordinateSpace: .local) { point in
                     if let clCoordinate = proxy.convert(point, from: .local) {
                         set(clCoordinate)
+                        pinRequestGeneration += 1
+                        let generation = pinRequestGeneration
+                        Task { await prefillLabelIfEmpty(for: clCoordinate, generation: generation) }
                     }
                 }
                 .onMapCameraChange { context in
@@ -153,9 +168,18 @@ struct AutomationLocationPicker: View {
                     .frame(width: 70, alignment: .trailing)
             }
 
-            TextField(L10n.Automation.locationLabelPlaceholder, text: $label)
-                .textFieldStyle(.roundedBorder)
-
+            VStack(alignment: .leading, spacing: 2) {
+                HStack {
+                    Text(L10n.Automation.locationLabelField)
+                        .frame(width: 90, alignment: .leading)
+                    TextField(L10n.Automation.locationLabelPlaceholder, text: $label)
+                        .textFieldStyle(.roundedBorder)
+                }
+                Text(L10n.Automation.locationLabelCaption)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.leading, 90)
+            }
         }
         .task {
             // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
@@ -181,7 +205,7 @@ struct AutomationLocationPicker: View {
                     )
                 }
                 if isLocating, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
-                    apply(fix)
+                    apply(fix, generation: locatingGeneration)
                     isLocating = false
                 }
             }
@@ -255,10 +279,13 @@ struct AutomationLocationPicker: View {
     /// locationd's push cadence, not detecting a real failure. A fresh-enough fix fills the
     /// field immediately; otherwise the button shows "Locating…" until a fix arrives.
     private func useCurrentLocation() {
+        pinRequestGeneration += 1
+        let generation = pinRequestGeneration
         if let snapshot, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
-            apply(fix)
+            apply(fix, generation: generation)
         } else {
             isLocating = true
+            locatingGeneration = generation
         }
     }
 
@@ -271,14 +298,37 @@ struct AutomationLocationPicker: View {
         if normalized != radiusMeters { radiusMeters = normalized }
     }
 
-    private func apply(_ fix: Coordinate) {
+    /// `generation` is the pin-request counter captured when this "use current location" attempt
+    /// started. If a newer tap, "use current location", or search selection has since bumped the
+    /// counter, this result is stale and is dropped rather than moving the pin to a place the
+    /// user has already left.
+    private func apply(_ fix: Coordinate, generation: Int) {
+        guard generation == pinRequestGeneration else { return }
         coordinate = fix
         recenter(on: fix.clCoordinate)
         if label.isEmpty { label = L10n.Automation.currentLocationLabel }
     }
 
+    /// Names a tapped point so the user does not have to. Silent on failure — `CLGeocoder` is
+    /// rate-limited and fails for ordinary reasons; an unnamed pin is fine, a blocking error for
+    /// a nicety is not. `generation` is the pin-request counter captured when this tap started;
+    /// checked both before starting the network request (`label.isEmpty` may already be false)
+    /// and again after it returns, so a name the user typed during the geocode wins and a
+    /// superseded tap does not overwrite a newer pin.
+    private func prefillLabelIfEmpty(for clCoordinate: CLLocationCoordinate2D, generation: Int) async {
+        guard label.isEmpty else { return }
+        let location = CLLocation(latitude: clCoordinate.latitude, longitude: clCoordinate.longitude)
+        guard let placemark = try? await CLGeocoder().reverseGeocodeLocation(location).first else { return }
+        guard generation == pinRequestGeneration else { return }
+        let name = placemark.name ?? placemark.locality ?? placemark.administrativeArea
+        if let name, label.isEmpty { label = name }
+    }
+
     private func select(_ completion: MKLocalSearchCompletion) async {
+        pinRequestGeneration += 1
+        let generation = pinRequestGeneration
         guard let resolved = await search.resolve(completion) else { return }
+        guard generation == pinRequestGeneration else { return }
         set(resolved.coordinate)
         recenter(on: resolved.coordinate)
         if label.isEmpty { label = resolved.name }

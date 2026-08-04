@@ -31,7 +31,7 @@ public enum AutomationFormatting {
 
     public static func locationSummary(_ fence: GeoFence?) -> String {
         guard let fence else { return L10n.Automation.anywhere }
-        let label = fence.label.isEmpty ? L10n.Automation.locationLabelPlaceholder : fence.label
+        let label = fence.label.isEmpty ? L10n.Automation.unnamedPlace : fence.label
         return "@ \(label)"
     }
 
