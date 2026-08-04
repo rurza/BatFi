@@ -30,8 +30,16 @@ struct ChargingView: View {
     @Dependency(\.systemVersionClient) var systemVersion
     @Dependency(\.chargingClient) private var chargingClient
 
-    // Fetched once from the helper and shown read-only for bug reports.
+    // What the helper says about charge control on this Mac. Re-fetched whenever the user
+    // touches something that can change it: this no longer only feeds the read-only
+    // Diagnostics section, it drives the warning sitting directly above the slider, and a
+    // banner that still says "80% is in force" after the user has dragged to 85% is worse
+    // than no banner.
     @State private var diagnostics: ChargingDiagnostics?
+
+    // Held so a drag across the slider does not queue one fetch per step. Each change
+    // cancels the previous wait; only the last one lands.
+    @State private var diagnosticsReload: Task<Void, Never>?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -141,6 +149,24 @@ struct ChargingView: View {
         .task {
             await loadDiagnostics()
         }
+        // Both inputs that can change what the helper reports. The limit decides
+        // `appliedChargeLimit`, `requestedChargeLimit` and `chargeLimitWasRaised`;
+        // switching management off releases the limit entirely, which clears all three and
+        // can clear a snapshot refusal with them.
+        .onChange(of: chargeLimit) { _, _ in
+            // The wait is for `ChargingManager` to observe the same default, ask the helper
+            // to apply it and have the helper record the outcome. Fetching immediately
+            // would read the state from before the change and pin the stale banner in
+            // place rather than refreshing it.
+            scheduleDiagnosticsReload(after: .milliseconds(750))
+        }
+        .onChange(of: manageCharging) { _, _ in
+            scheduleDiagnosticsReload(after: .milliseconds(750))
+        }
+        .onDisappear {
+            diagnosticsReload?.cancel()
+            diagnosticsReload = nil
+        }
     }
 
     @ViewBuilder
@@ -237,7 +263,25 @@ struct ChargingView: View {
     }
 
     private func loadDiagnostics() async {
-        diagnostics = try? await chargingClient.chargingDiagnostics()
+        // A failed fetch leaves the previous snapshot in place rather than blanking it:
+        // `nil` discloses nothing, so overwriting on a dropped connection would silently
+        // retract a warning that is still true.
+        if let fresh = try? await chargingClient.chargingDiagnostics() {
+            diagnostics = fresh
+        }
+    }
+
+    /// Re-reads the helper's snapshot once the change the user just made has had time to
+    /// reach it, coalescing a burst of changes into a single fetch.
+    private func scheduleDiagnosticsReload(after delay: Duration) {
+        diagnosticsReload?.cancel()
+        diagnosticsReload = Task {
+            // Cancellation lands as a thrown error here; the guard covers the case where it
+            // arrives after the sleep has already completed.
+            try? await Task.sleep(for: delay)
+            guard !Task.isCancelled else { return }
+            await loadDiagnostics()
+        }
     }
 
     static let pane: Pane<Self> = Pane(
