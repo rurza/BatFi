@@ -50,6 +50,15 @@ actor PowerUICharging {
     /// update, forever, which is exactly the noise it is warning about.
     private var hasReportedSnapshotRefusal = false
 
+    /// Whether a snapshot has actually been refused, as opposed to merely being refusable.
+    ///
+    /// Recorded rather than recomputed on demand, and that distinction matters. Asking
+    /// `SystemLimitSnapshot.readIsTrustworthy` at an arbitrary moment answers "no" before
+    /// anything has touched the MCL at all — `overrideClearInvoked` is still false — even
+    /// though the first real write clears the override first and then succeeds. Only a
+    /// refusal that happened is worth telling the user about.
+    private var snapshotRefused = false
+
     private static let renewalInterval: Duration = .seconds(60)
 
     private init() {
@@ -178,7 +187,14 @@ actor PowerUICharging {
         MCLStatus(
             supported: isAvailable,
             batFiHasActiveOverride: hasActiveOverride,
-            lastOverrideValue: hasActiveOverride ? Int(lastOverrideValue) : nil
+            lastOverrideValue: hasActiveOverride ? Int(lastOverrideValue) : nil,
+            // The system's own percentage, so the app can stop guessing at it. The
+            // conflict warning in the Charging pane used to key on "BatFi holds no
+            // override", a proxy for this number that was adopted only because the number
+            // did not cross the boundary — and that fired on every Mac where BatFi had
+            // simply not written an override yet, whatever the limit really was.
+            systemLimit: currentSystemLimit(),
+            snapshotRefused: snapshotRefused
         )
     }
 
@@ -264,6 +280,10 @@ actor PowerUICharging {
             canWriteOverride: canWriteOverride,
             overrideRetired: overrideClearInvoked
         ) else {
+            // Surfaced to the app on every status read, unlike the log line below: the
+            // user needs the pane to keep saying why no limit is in force, not to have
+            // said it once into a log they will never open.
+            snapshotRefused = true
             // Said once, not per poll: both inputs are fixed for the life of the process by
             // the time we get here — `clearMCLOverride()` above has already zeroed this
             // process's override, so what is left is which selectors this build exposes.
@@ -286,6 +306,10 @@ actor PowerUICharging {
         }
 
         userSystemLimitSnapshot = current
+        // Whatever was refused before, it is not being refused now, and the pane must stop
+        // saying so. Cheap insurance rather than a reachable state today: the refusal's
+        // inputs are fixed for the life of the process by the time it is decided.
+        snapshotRefused = false
         logger.notice("Captured user's system charge limit: \(current, privacy: .public)%")
         return true
     }
