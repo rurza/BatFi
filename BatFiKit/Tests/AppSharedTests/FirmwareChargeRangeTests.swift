@@ -120,6 +120,52 @@ import Testing
         }
     }
 
+    /// **Release only on restore.** Of the three points at which BatFi touches these keys,
+    /// only the release path may clear the activation key.
+    ///
+    /// A charging-mode change must not. `ChargingManager.updateStatus` applies the limit and
+    /// *then* takes a mode decision, so a release on the "charging allowed" arm would disarm
+    /// the band in the very pass that armed it, on every pass where the battery sits below
+    /// the limit — and the Mac would sleep with nothing in force. That turns a
+    /// firmware-managed limit into no limit at all while displacing Apple's own, which is
+    /// worse than the fallback it outranks.
+    @Test func onlyTheReleasePathClearsActivation() {
+        func clearsActivation(_ steps: [FirmwareRangeWrite]) -> Bool {
+            steps.contains {
+                $0.key == FirmwareRangeKeyShape.activation && $0.bytes == [FirmwareChargeRange.activationOff]
+            }
+        }
+        #expect(clearsActivation(FirmwareChargeRange.releaseSequence))
+        #expect(clearsActivation(FirmwareChargeRange.chargingModeChangeSequence) == false)
+    }
+
+    /// A charging-mode change writes nothing at all under this mechanism — the firmware owns
+    /// the decision. Empty is the rule, not an oversight, so it is asserted rather than left
+    /// as a `break` in an actor where nothing could look at it.
+    @Test func chargingModeChangesWriteNothing() {
+        #expect(FirmwareChargeRange.chargingModeChangeSequence.isEmpty)
+    }
+
+    /// The engage sequence's leading deactivate is not a release: it re-arms immediately, and
+    /// the firmware requires `bfF0 <- 0x00` before the bounds move. So changing the user's
+    /// limit runs the whole sequence over a live band with no separate release first — and
+    /// leaves it armed.
+    @Test func changingTheLimitRearmsOverALiveBand() {
+        for limit in [50, 65, 80, 100] {
+            let steps = FirmwareChargeRange.engageSequence(forLimit: limit)
+            #expect(steps.count == 4)
+            // Deactivate first, because the bounds may not move while the band is in force.
+            #expect(steps.first?.key == FirmwareRangeKeyShape.activation)
+            #expect(steps.first?.bytes == [FirmwareChargeRange.activationOff])
+            // ...and armed again by the end, so re-arming never leaves the band off.
+            #expect(steps.last?.key == FirmwareRangeKeyShape.activation)
+            #expect(steps.last?.bytes == [FirmwareChargeRange.activationOn])
+        }
+        // Self-sufficient: the sequence does not depend on what ran before it, so applying a
+        // new limit twice in a row is the same sequence twice.
+        #expect(FirmwareChargeRange.engageSequence(forLimit: 70) == FirmwareChargeRange.engageSequence(forLimit: 70))
+    }
+
     /// Releasing is one write of the activation key, and it is `off`.
     @Test func releaseSequenceClearsActivation() {
         #expect(FirmwareChargeRange.releaseSequence == [

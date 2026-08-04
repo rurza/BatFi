@@ -136,7 +136,34 @@ public enum FirmwareChargeRange {
     ///
     /// The same list serves `releaseFirmwareRange` and the reset path, so the safety net
     /// cannot come to clear less than the engage path arms.
+    ///
+    /// **Release only on restore.** This runs when BatFi is handing the machine back — quit,
+    /// or charge management turned off — and from the crash safety net. It must *not* run on
+    /// a charging-mode change; see `chargingModeChangeSequence`.
     public static let releaseSequence: [FirmwareRangeWrite] = [
         FirmwareRangeWrite(key: FirmwareRangeKeyShape.activation, bytes: [activationOff])
     ]
+
+    /// What a charging-mode change — charge, inhibit, discharge — writes under this
+    /// mechanism: **nothing, in either direction.** Empty is the rule, not an oversight.
+    ///
+    /// Under an inhibit backend a mode change *is* the mechanism, so every one is a write.
+    /// Here it is the opposite: BatFi hands the firmware a band once, in the engage
+    /// sequence, and steps back. The firmware then decides moment to moment whether to
+    /// charge — which is the entire reason this backend outranks the others, because it
+    /// goes on deciding while the Mac is asleep and no BatFi process is running at all.
+    ///
+    /// Releasing the band here would destroy exactly that. `ChargingManager.updateStatus`
+    /// applies the limit and *then* takes a mode decision, so a release on the "charging
+    /// allowed" arm would disarm the band in the same pass that armed it, on every pass
+    /// where the battery sits below the limit — leaving the machine to sleep with no limit
+    /// in force. The result would be a backend that displaces Apple's own charge limit
+    /// while enforcing strictly less than it. `onlyTheReleasePathClearsActivation` is the
+    /// test that pins this.
+    ///
+    /// Same shape `.systemChargeLimit` already has, where the mechanism owns the decision
+    /// and `enableCharging(_:)` succeeds without writing anything. Note this does **not**
+    /// mean charging can be paused on demand: it cannot, under either backend, because a
+    /// band is not an inhibit. That is a disclosure the user is owed, not a write to make.
+    public static let chargingModeChangeSequence: [FirmwareRangeWrite] = []
 }

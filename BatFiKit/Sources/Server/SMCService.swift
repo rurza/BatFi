@@ -315,6 +315,24 @@ actor SMCService {
             failures.append(error)
         }
 
+        // The firmware-managed band is the one piece of charge control an SMC backend leaves
+        // armed in hardware between calls, so it is the one that has to be handed back
+        // explicitly here. `enableCharging(true)` below does **not** clear it — under that
+        // backend a charging-mode change writes nothing, which is precisely what lets the
+        // band hold across sleep — so without this write, quitting BatFi or turning charge
+        // management off would leave a macOS 27 Mac capped by a limit the user can no longer
+        // see, change, or remove short of reinstalling BatFi.
+        //
+        // Attempted independently, like the two writes either side of it: the keys are
+        // disjoint and there is no precedence between them, so failing fast here would only
+        // pick which safety write gets stranded.
+        do {
+            try await releaseFirmwareRangeIfHeld()
+        } catch {
+            logger.critical("SMC writing error while releasing the firmware charge range: \(error)")
+            failures.append(error)
+        }
+
         do {
             try await enableCharging(true)
         } catch {
@@ -678,20 +696,36 @@ actor SMCService {
 
         switch await currentBackend() {
         case .firmwareRange:
+            // **A no-op that succeeds, in both directions**, and the same treatment
+            // `.systemChargeLimit` gets below for the same reason: the mechanism owns the
+            // charging decision. BatFi hands the firmware a band once, in `applyChargeLimit`,
+            // and steps back; the firmware then decides moment to moment whether to charge,
+            // and goes on deciding while the Mac is asleep with no BatFi process running.
+            //
+            // Releasing the band on the "enable" arm is the one thing that must not happen
+            // here, however natural it looks. `ChargingManager.updateStatus` applies the
+            // limit and *then* takes a mode decision, so a release would disarm the band in
+            // the very pass that armed it, on every pass where the battery sits below the
+            // limit — and the machine would sleep with nothing in force. That would leave
+            // macOS 27 users with a backend that displaces Apple's charge limit while
+            // enforcing strictly less than it. The release belongs to
+            // `restoreSystemDefaults()`, which reaches it explicitly.
+            //
+            // The empty sequence is stated in `Shared`, where a test can see it, rather than
+            // as a bare `break` here: `onlyTheReleasePathClearsActivation` fails the moment
+            // a write is added to it.
+            for step in FirmwareChargeRange.chargingModeChangeSequence {
+                try perform(step)
+            }
+            // Inhibiting deserves a word of its own. It is not expressible as a band, so
+            // this arm succeeds without honouring it — the same gap `.systemChargeLimit`
+            // has. Hot-battery protection and inhibit-on-sleep route through here and will
+            // not take effect below the limit. That is a disclosure the user is owed, not a
+            // write to invent.
             if enable {
-                // The one path that hands the machine back unlimited. `restoreSystemDefaults()`
-                // reaches it — that is how quitting BatFi, or turning charge management off,
-                // stops the firmware holding a band the user can no longer see or change.
-                // A failure here is a real one and is reported: unlike the inhibit-free
-                // backends below, there genuinely was a write owed.
-                try releaseFirmwareRange()
+                logger.notice("Charging mode is governed by the firmware charge range; the band stays in force")
             } else {
-                // No inhibit key exists on this firmware and none is wanted: charge control
-                // is a band, already put in force by `applyChargeLimit`, which
-                // `ChargingManager.updateStatus` calls ahead of every mode decision. Writing
-                // an inhibit as well would be a second mechanism holding charge back, which
-                // is the arrangement `reconcileMCLOwnership` exists to prevent elsewhere.
-                logger.notice("Charging mode is governed by the firmware charge range; the band is the inhibit")
+                logger.notice("Charging mode is governed by the firmware charge range; it cannot pause charging below the limit")
             }
         case .chte:
             try SMCKit.writeData(.inhibitCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
@@ -759,6 +793,28 @@ actor SMCService {
         logger.notice("""
         Firmware charge range set to \(band.lower, privacy: .public)-\(band.upper, privacy: .public)%
         """)
+    }
+
+    /// Hands back the firmware-managed band on the one backend that holds one.
+    ///
+    /// The single place the release decision is taken. `restoreSystemDefaults()` calls this
+    /// unconditionally and this switch answers whether there is anything to release, rather
+    /// than the caller deciding — the same shape as `releaseSystemLimit()` self-guarding on
+    /// its snapshot, and for the same reason: a hand-back that only the backend which set
+    /// something can reach is a hand-back that a restarted BatFi cannot make.
+    ///
+    /// The other arms are genuinely nothing to do, not omissions. The inhibit backends are
+    /// released by `enableCharging(true)`, Apple's limit by `releaseSystemLimit()` and
+    /// `clearMCLOverride()` upstream, and `.unsupported` never armed anything. Writing
+    /// `bfF0` on firmware that has no such key would throw, and `restoreSystemDefaults()`
+    /// would report a failed restore on machines where the restore was complete.
+    private func releaseFirmwareRangeIfHeld() async throws {
+        switch await currentBackend() {
+        case .firmwareRange:
+            try releaseFirmwareRange()
+        case .chte, .legacyCH0BC, .systemChargeLimit, .unsupported:
+            break
+        }
     }
 
     /// Takes the band out of force. A single write — the bounds mean nothing while the
