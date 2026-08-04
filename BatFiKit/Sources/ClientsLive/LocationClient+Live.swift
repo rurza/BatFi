@@ -26,6 +26,18 @@ import os
 extension LocationClient: DependencyKey {
     public static let liveValue: LocationClient = {
         let fences = FenceMonitor()
+        // `SnapshotCoordinator` receives `locationManagerDidChangeAuthorization` whether or not
+        // any snapshot consumer exists, so it is the process's single source of authorization
+        // truth. The fence half needs it as well, and cannot observe CoreLocation itself: it
+        // owns no `CLLocationManager`. Without this wiring the first-run grant — which lands
+        // seconds *after* `setMonitoredFences` has already added the conditions — would never
+        // reconcile, and a later revocation would leave `CLMonitor`'s persisted `.satisfied`
+        // driving a rule the app can no longer track.
+        Task { @MainActor in
+            SnapshotCoordinator.shared.observeAuthorization { authorization in
+                Task { await fences.setAuthorization(authorization) }
+            }
+        }
         return LocationClient(
             // `SnapshotCoordinator` is @MainActor, so it cannot be constructed here (this
             // initializer is nonisolated and synchronous). Its singleton is a `@MainActor
@@ -51,6 +63,7 @@ private final class SnapshotCoordinator: NSObject, CLLocationManagerDelegate {
     private var continuations: [UUID: AsyncStream<LocationSnapshot>.Continuation] = [:]
     private var snapshot = LocationSnapshot()
     private var isUpdating = false
+    private var authorizationObserver: (@Sendable (LocationAuthorization) -> Void)?
 
     override init() {
         super.init()
@@ -75,13 +88,24 @@ private final class SnapshotCoordinator: NSObject, CLLocationManagerDelegate {
         return AsyncStream { continuation in
             Task { @MainActor in
                 let coordinator = SnapshotCoordinator.shared
-                coordinator.continuations[id] = continuation
-                continuation.yield(coordinator.snapshot)
-                // Toggling the system-wide Location Services switch does not change this app's
-                // authorization, so no delegate callback fires and the cached value can be a
-                // stale `true`. Subscribing is the moment the picker is about to render the
-                // `.servicesOff` banner, so re-read it here.
-                coordinator.refreshServicesEnabled()
+                // Registration and `onTermination`'s removal are two unstructured tasks on the
+                // main actor's priority-ordered queue and can run in either order. Registering
+                // unconditionally would let a removal that ran first be undone by this task,
+                // leaving a dead continuation in the dictionary — `reconcileUpdating` would then
+                // hold `startUpdatingLocation` on forever with no picker open, which is the exact
+                // drain this branch exists to remove. The initial yield's result is the only
+                // reliable signal that the stream is already gone, so it decides whether to
+                // register at all.
+                if case .terminated = continuation.yield(coordinator.snapshot) {
+                    coordinator.continuations[id] = nil
+                } else {
+                    coordinator.continuations[id] = continuation
+                    // Toggling the system-wide Location Services switch does not change this
+                    // app's authorization, so no delegate callback fires and the cached value can
+                    // be a stale `true`. Subscribing is the moment the picker is about to render
+                    // the `.servicesOff` banner, so re-read it here.
+                    coordinator.refreshServicesEnabled()
+                }
                 coordinator.reconcileUpdating()
             }
             continuation.onTermination = { _ in
@@ -92,6 +116,15 @@ private final class SnapshotCoordinator: NSObject, CLLocationManagerDelegate {
                 }
             }
         }
+    }
+
+    /// Registers `handler` and delivers the current value immediately. The immediate delivery is
+    /// load-bearing: on a launch where access was already granted, `CLLocationManager` reports no
+    /// authorization *change*, so a handler that only saw subsequent callbacks would never learn
+    /// it is authorized.
+    func observeAuthorization(_ handler: @escaping @Sendable (LocationAuthorization) -> Void) {
+        authorizationObserver = handler
+        handler(snapshot.authorization)
     }
 
     func requestAuthorization() {
@@ -139,6 +172,7 @@ private final class SnapshotCoordinator: NSObject, CLLocationManagerDelegate {
         Task { @MainActor in
             self.logger.notice("Authorization changed: \(String(describing: mapped), privacy: .public)")
             self.update { $0.authorization = mapped }
+            self.authorizationObserver?(mapped)
             if mapped == .notDetermined, !self.continuations.isEmpty {
                 self.manager.requestAlwaysAuthorization()
             }
@@ -193,6 +227,10 @@ private actor FenceMonitor {
     private var eventTask: Task<Void, Never>?
     private var isReconciling = false
     private var reconcilePending = false
+    private var authorization: LocationAuthorization = .notDetermined
+    /// Whether `setFences` has ever run. Distinguishes "nothing is desired" from "nothing has
+    /// been submitted yet", which are the same `desired == []` but must reconcile differently.
+    private var hasReceivedDesiredSet = false
 
     nonisolated func makeStream() -> AsyncStream<Set<UUID>> {
         let id = UUID()
@@ -205,8 +243,15 @@ private actor FenceMonitor {
     }
 
     private func addContinuation(_ continuation: AsyncStream<Set<UUID>>.Continuation, id: UUID) {
+        // Registration and removal are separate tasks hopping onto this actor and may arrive in
+        // either order. Yielding first and registering only if the stream is still live keeps a
+        // dead continuation from being re-inserted after `removeContinuation` already ran, which
+        // would grow `continuations` for the life of the process.
+        if case .terminated = continuation.yield(satisfied) {
+            continuations[id] = nil
+            return
+        }
         continuations[id] = continuation
-        continuation.yield(satisfied)
     }
 
     private func removeContinuation(_ id: UUID) {
@@ -215,7 +260,45 @@ private actor FenceMonitor {
 
     func setFences(_ fences: [MonitoredFence]) async {
         desired = fences
+        hasReceivedDesiredSet = true
         await reconcile()
+    }
+
+    /// Fence monitoring's only view of authorization. `CLMonitor` requires `authorizedAlways` and
+    /// persists each condition's last event across launches, so this actor cannot treat an
+    /// unauthorized monitor as failing closed on its own — the persisted `.satisfied` outlives
+    /// the grant that produced it.
+    ///
+    /// `desired` is deliberately retained through denial, so a later grant re-applies it without
+    /// the user having to edit a rule.
+    func setAuthorization(_ newValue: LocationAuthorization) async {
+        guard newValue != authorization else { return }
+        authorization = newValue
+        logger.notice("Fence authorization: \(String(describing: newValue), privacy: .public)")
+
+        switch newValue {
+        case .authorized:
+            // The first-run path: `AutomationManager` calls `requestAuthorization()` and then
+            // immediately awaits `setMonitoredFences`, so conditions are added with
+            // `assuming: .unknown` while the prompt is still on screen. Nothing else re-runs when
+            // the user clicks Allow, so without this the fence could stay `.unknown` until the
+            // next rule edit or relaunch.
+            //
+            // Reconciling before anything has been submitted would be actively harmful: the plan
+            // would be computed against an empty `desired` and would remove the persisted
+            // conditions before `AutomationManager` submits them, throwing away exactly the
+            // cold-start state CLMonitor kept. The first `setFences` reconciles with the
+            // authorization already stored, so nothing is lost by waiting.
+            guard hasReceivedDesiredSet else { return }
+            // Routed through the serialised wrapper, not `performReconcile`, so this cannot
+            // interleave with an in-flight `setFences` and re-add a condition CoreLocation has
+            // already resolved.
+            await reconcile()
+        case .denied, .restricted, .notDetermined:
+            // Stop geofenced rules from matching rather than holding a verdict the app can no
+            // longer verify.
+            publish([])
+        }
     }
 
     private func monitorIfNeeded() async -> CLMonitor {
@@ -254,11 +337,22 @@ private actor FenceMonitor {
         let monitor = await monitorIfNeeded()
 
         var current: [UUID: MonitoredRegion] = [:]
+        var unreducible: [String] = []
         for identifier in await monitor.identifiers {
             guard let id = UUID(uuidString: identifier),
                   let record = await monitor.record(for: identifier),
                   let condition = record.condition as? CLMonitor.CircularGeographicCondition
-            else { continue }
+            else {
+                // An identifier that cannot be reduced to a `MonitoredRegion` never enters
+                // `current`, and `plan` derives removals only from `current.keys` — so left here
+                // it would be invisible to reconciliation forever, including when `desired` is
+                // empty. locationd would keep evaluating a condition in
+                // `~/Library/CoreLocation/<BundleID>/BatFiAutomation.monitor` for the life of the
+                // install, falsifying the documented contract that passing `[]` stops all
+                // monitoring. Tracked separately and removed below.
+                unreducible.append(identifier)
+                continue
+            }
             current[id] = MonitoredRegion(
                 center: Coordinate(
                     latitude: condition.center.latitude,
@@ -268,12 +362,23 @@ private actor FenceMonitor {
             )
         }
 
+        // A transient nil `record(for:)` on a fence that is still wanted must not delete it; only
+        // identifiers the desired set does not claim are orphans. One that *is* claimed is simply
+        // absent from `current`, so the plan re-adds it.
+        let desiredIdentifiers = Set(desired.map(\.id.uuidString))
+        let orphans = unreducible.filter { !desiredIdentifiers.contains($0) }
+
         let plan = FenceReconciliation.plan(desired: desired, current: current)
-        if !plan.isEmpty {
-            logger.notice("Reconciling fences. remove=\(plan.toRemove.count) add=\(plan.toAdd.count)")
+        if !plan.isEmpty || !orphans.isEmpty {
+            logger.notice(
+                "Reconciling fences. remove=\(plan.toRemove.count) add=\(plan.toAdd.count) orphans=\(orphans.count)"
+            )
         }
         for id in plan.toRemove {
             await monitor.remove(id.uuidString)
+        }
+        for identifier in orphans {
+            await monitor.remove(identifier)
         }
         for fence in plan.toAdd {
             // Both the submitted radius and the comparison above must reduce through the same
@@ -303,6 +408,15 @@ private actor FenceMonitor {
     /// inside a fence when BatFi quit reports `.satisfied` immediately, with no new fix. This
     /// is why cold start is better here than it was with a cached coordinate.
     private func reseedSatisfied(from monitor: CLMonitor) async {
+        // ...which is precisely why this must be gated. A persisted `.satisfied` outlives the
+        // authorization that produced it: revoke access while inside "Home" and the next launch
+        // would read `.satisfied` straight back off disk and keep the rule active with no
+        // location capability at all. Fail closed until authorization is known to be granted.
+        guard authorization == .authorized else {
+            publish([])
+            return
+        }
+
         var next: Set<UUID> = []
         for fence in desired {
             let state = await monitor.record(for: fence.id.uuidString)?.lastEvent.state
