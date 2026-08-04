@@ -3858,7 +3858,7 @@
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Errore di Download. $@"
+            "value": "Errore di download. %@"
           }
         },
         "ja": {
@@ -17483,13 +17483,13 @@
               "one": {
                 "stringUnit": {
                   "state": "translated",
-                  "value": "Zeige bis zu  %d Prozess"
+                  "value": "Zeige bis zu %d Prozess"
                 }
               },
               "other": {
                 "stringUnit": {
                   "state": "translated",
-                  "value": "Zeige bis zu  %d Prozesse"
+                  "value": "Zeige bis zu %d Prozesse"
                 }
               }
             }
@@ -17585,7 +17585,7 @@
               "other": {
                 "stringUnit": {
                   "state": "translated",
-                  "value": "Toon maximal %d processen"
+                  "value": "Toon maximaal %d processen"
                 }
               }
             }
@@ -20687,73 +20687,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automatizace"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automatisierung"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automatisation"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automazione"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自動化"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "자동화"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automatisering"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automação"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Автоматизация"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Otomasyon"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Автоматизація"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自动化"
           }
         }
@@ -20776,73 +20776,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Panel automatizace"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automatisierungsbereich"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Volet Automatisation"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Pannello Automazione"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自動化パネル"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "자동화 패널"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Automatiseringspaneel"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Painel de automação"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Раздел автоматизации"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Otomasyon bölmesi"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Панель автоматизації"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自动化面板"
           }
         }
@@ -20865,73 +20865,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zapnout automatizaci nabíjení"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Lade-Automatisierung aktivieren"
+            "state": "translated",
+            "value": "Ladeautomatisierung aktivieren"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Activer l’automatisation de la charge"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Abilita automazione della ricarica"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "充電の自動化を有効にする"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "충전 자동화 사용"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Oplaadautomatisering inschakelen"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ativar automação de carregamento"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Включить автоматизацию зарядки"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Şarj otomasyonunu etkinleştir"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Увімкнути автоматизацію заряджання"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "启用充电自动化"
           }
         }
@@ -20954,73 +20954,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Pravidla běží automaticky. Použije se první pravidlo shora, jehož podmínky jsou právě splněny."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regeln werden automatisch ausgeführt. Es gilt die oberste Regel, deren Bedingungen gerade zutreffen."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Les règles s’exécutent automatiquement. La première règle (en haut) dont les conditions sont remplies l’emporte."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Le regole vengono eseguite automaticamente. Vince la prima regola in alto le cui condizioni sono soddisfatte ora."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールは自動的に実行されます。現在条件が一致している最上位のルールが適用されます。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙은 자동으로 실행됩니다. 지금 조건이 맞는 가장 위쪽 규칙이 적용됩니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regels worden automatisch uitgevoerd. De bovenste regel waarvan de voorwaarden nu kloppen, wint."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "As regras são executadas automaticamente. Vence a primeira regra (de cima) cujas condições são atendidas agora."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правила выполняются автоматически. Действует верхнее правило, условия которого сейчас совпадают."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kurallar otomatik olarak çalışır. Koşulları şu anda eşleşen en üstteki kural geçerli olur."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правила виконуються автоматично. Діє найвище правило, умови якого зараз збігаються."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "规则自动运行。当前条件匹配的最上方规则生效。"
           }
         }
@@ -21043,73 +21043,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Přidat pravidlo"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regel hinzufügen"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ajouter une règle"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aggiungi regola"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールを追加"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙 추가"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Regel toevoegen"
+            "state": "translated",
+            "value": "Voeg regel toe"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Adicionar regra"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Добавить правило"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kural ekle"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Додати правило"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "添加规则"
           }
         }
@@ -21118,10 +21118,88 @@
     "automation.charging_override.active": {
       "extractionState": "manual",
       "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatizace „%1$@“ nyní přepisuje limit nabíjení na %2$lld %%."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Automatisierung „%1$@“ überschreibt das Ladelimit gerade auf %2$lld %%."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Automation “%@” is overriding the charge limit to %lld%% right now."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’automatisation « %1$@ » remplace actuellement la limite de charge par %2$lld %%."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’automazione “%1$@” sta sovrascrivendo il limite di ricarica a %2$lld%%."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在、自動化「%1$@」により充電上限が%2$lld%%に上書きされています。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "현재 자동화 ‘%1$@’이(가) 충전 한도를 %2$lld%%로 재설정하고 있습니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatisering ‘%1$@’ overschrijft het oplaadlimiet nu naar %2$lld%%."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatyzacja „%1$@” zmienia teraz limit ładowania na %2$lld%%."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A automação “%1$@” está substituindo o limite de carregamento por %2$lld%% agora."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматизация «%1$@» сейчас переопределяет лимит заряда на %2$lld%%."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "“%1$@” otomasyonu şu anda şarj sınırını %%%2$lld olarak geçersiz kılıyor."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматизація «%1$@» зараз перевизначає ліміт заряду на %2$lld%%."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动化规则“%1$@”当前将充电限制覆盖为%2$lld%%。"
           }
         }
       }
@@ -21129,10 +21207,88 @@
     "automation.charging_state.charging": {
       "extractionState": "manual",
       "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit je %1$@ (nastaveno automatizací „%2$@“)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Ladegrenze ist %1$@ (festgelegt durch die Automatisierung „%2$@“)."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The limit is %@ (set by automation “%@”)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La limite est %1$@ (définie par l’automatisation « %2$@ »)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il limite è %1$@ (impostato dall’automazione “%2$@”)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上限は%1$@です（自動化「%2$@」による設定）。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@까지 충전합니다(자동화 ‘%2$@’에서 설정)."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De limiet is %1$@ (ingesteld door automatisering ‘%2$@’)."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit to %1$@ (ustawiony przez automatyzację „%2$@”)."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O limite é %1$@ (definido pela automação “%2$@”)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лимит составляет %1$@ (задан автоматизацией «%2$@»)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sınır %1$@ (“%2$@” otomasyonu tarafından ayarlandı)."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ліміт становить %1$@ (задано автоматизацією «%2$@»)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电限制为%1$@（由自动化规则“%2$@”设置）。"
           }
         }
       }
@@ -21140,10 +21296,88 @@
     "automation.charging_state.force_discharge": {
       "extractionState": "manual",
       "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Používání baterie (nastaveno automatizací „%@“)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akku wird verwendet (festgelegt durch die Automatisierung „%@“)."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Using the battery (set by automation “%@”)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisation de la batterie (définie par l’automatisation « %@ »)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilizzando la batteria (impostato dall’automazione “%@”)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "バッテリーを使用しています（自動化「%@」による設定）。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배터리를 방전합니다(자동화 ‘%@’에서 설정)."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De batterij wordt gebruikt (ingesteld door automatisering ‘%@’)."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zasilanie z baterii (ustawione przez automatyzację „%@”)."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usando a bateria (definido pela automação “%@”)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использование аккумулятора (задано автоматизацией «%@»)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pil kullanılıyor (“%@” otomasyonu tarafından ayarlandı)."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Використання акумулятора (задано автоматизацією «%@»)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在使用电池（由自动化规则“%@”设置）。"
           }
         }
       }
@@ -21151,10 +21385,88 @@
     "automation.charging_state.inhibit": {
       "extractionState": "manual",
       "localizations": {
+        "cs": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit nabíjení je nastaven na %1$@ (automatizací „%2$@“)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Ladegrenze ist auf %1$@ eingestellt (festgelegt durch die Automatisierung „%2$@“)."
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "The charging limit is set to %@ (set by automation “%@”)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La limite de charge est fixée à %1$@ (définie par l’automatisation « %2$@ »)."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il limite di ricarica è impostato a %1$@ (dall’automazione “%2$@”)."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充電上限は%1$@に設定されています（自動化「%2$@」による設定）。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "충전 한도가 %1$@로 설정되었습니다(자동화 ‘%2$@’에서 설정)."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Het oplaadlimiet is ingesteld op %1$@ (door automatisering ‘%2$@’)."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limit ładowania to %1$@ (ustawiony przez automatyzację „%2$@”)."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O limite de carregamento foi definido para %1$@ (pela automação “%2$@”)."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лимит зарядки установлен на %1$@ (задан автоматизацией «%2$@»)."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Şarj sınırı %1$@ olarak ayarlandı (“%2$@” otomasyonu tarafından)."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ліміт заряджання встановлено на %1$@ (задано автоматизацією «%2$@»)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电限制被设置为%1$@（由自动化规则“%2$@”设置）。"
           }
         }
       }
@@ -21176,74 +21488,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zatím žádná pravidla. Přidejte pravidlo pro automatizaci limitu nabíjení podle času a místa."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Noch keine Regeln. Füge eine hinzu, um dein Ladelimit nach Zeit und Ort zu automatisieren."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aucune règle pour le moment. Ajoutez-en une pour automatiser votre limite de charge selon l’heure et le lieu."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ancora nessuna regola. Aggiungine una per automatizzare il limite di ricarica in base a ora e luogo."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールがまだありません。時間と場所に応じて充電上限を自動化するルールを追加してください。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "아직 규칙이 없습니다. 시간과 장소에 따라 충전 한도를 자동화하려면 규칙을 추가하세요."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nog geen regels. Voeg er een toe om je oplaadlimiet te automatiseren op tijd en plaats."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Nenhuma regra ainda. Adicione uma para automatizar seu limite de carga por horário e local."
+            "state": "translated",
+            "value": "Nenhuma regra ainda. Adicione uma para automatizar seu limite de carregamento por horário e local."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Пока нет правил. Добавьте правило, чтобы автоматизировать лимит заряда по времени и месту."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Henüz kural yok. Şarj sınırını saate ve yere göre otomatikleştirmek için bir kural ekleyin."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Поки немає правил. Додайте правило, щоб автоматизувати ліміт заряду за часом і місцем."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "暂无规则。添加规则可按时间和地点自动设置充电上限。"
+            "state": "translated",
+            "value": "暂无规则。添加规则可按时间和地点自动设置充电限制。"
           }
         }
       }
@@ -21265,73 +21577,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "AKTIVNÍ"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "AKTIV"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ACTIVE"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ATTIVA"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "有効"
+            "state": "translated",
+            "value": "適用中"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "활성"
+            "state": "translated",
+            "value": "적용 중"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ACTIEF"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ATIVA"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "АКТИВНО"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ETKİN"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "АКТИВНА"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "已生效"
           }
         }
@@ -21354,73 +21666,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Pravidlo bez názvu"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Unbenannte Regel"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Règle sans nom"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regola senza nome"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "名称未設定のルール"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "이름 없는 규칙"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Naamloze regel"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regra sem título"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правило без названия"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Adsız kural"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правило без назви"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "未命名规则"
           }
         }
@@ -21443,73 +21755,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nové pravidlo"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Neue Regel"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nouvelle règle"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nuova regola"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "新規ルール"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "새 규칙"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nieuwe regel"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nova regra"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Новое правило"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yeni kural"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Нове правило"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "新建规则"
           }
         }
@@ -21532,73 +21844,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Upravit pravidlo"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regel bearbeiten"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Modifier la règle"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Modifica regola"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールを編集"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙 편집"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regel bewerken"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Editar regra"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Изменить правило"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kuralı düzenle"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Редагувати правило"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "编辑规则"
           }
         }
@@ -21621,73 +21933,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Název"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Name"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nom"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nome"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "名前"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "이름"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Naam"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nome"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Название"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ad"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Назва"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "名称"
           }
         }
@@ -21710,73 +22022,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "např. Pracovní doba"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "z. B. Bürozeiten"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "p. ex. Heures de bureau"
+            "state": "translated",
+            "value": "ex. : Heures de bureau"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "es. Orario d’ufficio"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "例：勤務時間"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "예: 근무 시간"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "bijv. Kantooruren"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ex.: Horário de trabalho"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "напр., Рабочие часы"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "örn. Ofis saatleri"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "напр., Робочі години"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "例如：办公时间"
           }
         }
@@ -21799,74 +22111,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Limit nabíjení"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ladelimit"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Limite de charge"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Limite di ricarica"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "充電上限"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "충전 한도"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Oplaadlimiet"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Limite de carga"
+            "state": "translated",
+            "value": "Limite de carregamento"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Лимит заряда"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Şarj sınırı"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ліміт заряду"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "充电上限"
+            "state": "translated",
+            "value": "充电限制"
           }
         }
       }
@@ -21888,73 +22200,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Jen v určitou dobu"
+            "state": "translated",
+            "value": "Pouze v určitou dobu"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nur zu bestimmten Zeiten"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Seulement à certaines heures"
+            "state": "translated",
+            "value": "Uniquement à certaines heures"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Solo in determinati orari"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "特定の時間帯のみ"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "특정 시간에만"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Alleen op bepaalde tijden"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Apenas em determinados horários"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Только в определённое время"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yalnızca belirli saatlerde"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Лише в певний час"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "仅在特定时间"
           }
         }
@@ -21977,73 +22289,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Jednorázové datum"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Einmaliges Datum"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Date unique"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Data singola"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "1回限りの日付"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "일회성 날짜"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Eenmalige datum"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Data única"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Разовая дата"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Tek seferlik tarih"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Одноразова дата"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "单次日期"
           }
         }
@@ -22066,73 +22378,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Opakující se"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wiederkehrend"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Récurrent"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ricorrente"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "繰り返し"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "반복"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Herhalend"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Recorrente"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Повтор"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yinelenen"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Повторення"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "重复"
           }
         }
@@ -22155,73 +22467,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Datum"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Datum"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Date"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Data"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "日付"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "날짜"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Datum"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Data"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Дата"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Tarih"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Дата"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "日期"
           }
         }
@@ -22244,73 +22556,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Dny"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Tage"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Jours"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Giorni"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "曜日"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "요일"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Dagen"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Dias"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Дни"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Günler"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Дні"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "星期"
           }
         }
@@ -22333,73 +22645,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Od"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Von"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "De"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Da"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "開始"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "시작"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Van"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "De"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "С"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Başlangıç"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "З"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "从"
           }
         }
@@ -22422,73 +22734,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Do"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bis"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "À"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "A"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "終了"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "종료"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Tot"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Até"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "По"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bitiş"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "До"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "到"
           }
         }
@@ -22511,73 +22823,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Jen na určitém místě"
+            "state": "translated",
+            "value": "Pouze na určitém místě"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nur an einem Ort"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Seulement à un endroit"
+            "state": "translated",
+            "value": "Uniquement à un endroit"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Solo in un luogo"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "特定の場所のみ"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "특정 위치에서만"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Alleen op een locatie"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Apenas em um local"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Только в определённом месте"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yalnızca belirli bir konumda"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Лише в певному місці"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "仅在某个位置"
           }
         }
@@ -22600,73 +22912,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Hledat adresu…"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Adresse suchen…"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Rechercher une adresse…"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Cerca indirizzo…"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "住所を検索…"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "주소 검색…"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zoek adres…"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Buscar endereço…"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Поиск адреса…"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Adres ara…"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Пошук адреси…"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "搜索地址…"
           }
         }
@@ -22689,73 +23001,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Žádná místa nenalezena."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Keine Orte gefunden."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aucun lieu trouvé."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nessun luogo trovato."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "場所が見つかりません。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "장소를 찾을 수 없습니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Geen locaties gevonden."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nenhum local encontrado."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Места не найдены."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yer bulunamadı."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Місць не знайдено."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "未找到地点。"
           }
         }
@@ -22778,73 +23090,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Poloměr"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Radius"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Rayon"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Raggio"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "半径"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "반경"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Straal"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Raio"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Радиус"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yarıçap"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Радіус"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "半径"
           }
         }
@@ -22867,73 +23179,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Použít aktuální polohu"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aktuellen Standort verwenden"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Utiliser la position actuelle"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Usa la posizione attuale"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "現在地を使用"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "현재 위치 사용"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Huidige locatie gebruiken"
+            "state": "translated",
+            "value": "Gebruik huidige locatie"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Usar localização atual"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Использовать текущее местоположение"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Geçerli konumu kullan"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Використати поточне місцезнаходження"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "使用当前位置"
           }
         }
@@ -22956,73 +23268,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "např. Domov"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "z. B. Zuhause"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "p. ex. Domicile"
+            "state": "translated",
+            "value": "ex. : Domicile"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "es. Casa"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "例：自宅"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "예: 집"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "bijv. Thuis"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ex.: Casa"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "напр., Дом"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "örn. Ev"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "напр., Дім"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "例如：家"
           }
         }
@@ -23045,73 +23357,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Název místa"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ortsname"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nom du lieu"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nome del luogo"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "場所の名前"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "장소 이름"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Naam van locatie"
+            "state": "translated",
+            "value": "Locatienaam"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nome do local"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Название места"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Yer adı"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Назва місця"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "地点名称"
           }
         }
@@ -23134,73 +23446,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zobrazí se v nabídce a v seznamu pravidel."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wird im Menü und in der Regelliste angezeigt."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Affiché dans le menu et la liste des règles."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Viene mostrato nel menu e nell’elenco delle regole."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "メニューとルールリストに表示されます。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "메뉴와 규칙 목록에 표시됩니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wordt getoond in het menu en in de lijst met regels."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aparece no menu e na lista de regras."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Отображается в меню и в списке правил."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Menüde ve kural listesinde gösterilir."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Показується в меню та у списку правил."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "将显示在菜单和规则列表中。"
           }
         }
@@ -23223,73 +23535,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Dokončete pravidlo výběrem místa."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wähle einen Ort, um diese Regel abzuschließen."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Choisissez un lieu pour terminer cette règle."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Scegli un luogo per completare questa regola."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールを完成させるには場所を選択してください。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "이 규칙을 완성하려면 장소를 선택하세요."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kies een locatie om deze regel af te maken."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Escolha um local para concluir esta regra."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Выберите место, чтобы завершить это правило."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bu kuralı tamamlamak için bir yer seçin."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Виберіть місце, щоб завершити це правило."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "选择一个地点以完成此规则。"
           }
         }
@@ -23312,73 +23624,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Přístup k poloze je odepřen. Povolte jej v Nastavení systému › Soukromí a zabezpečení › Polohové služby."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zugriff auf den Standort verweigert. Aktiviere ihn in den Systemeinstellungen › Datenschutz & Sicherheit › Ortungsdienste."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Accès à la localisation refusé. Activez-le dans Réglages Système › Confidentialité et sécurité › Service de localisation."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Accesso alla posizione negato. Abilitalo in Impostazioni di Sistema › Privacy e sicurezza › Localizzazione."
+            "state": "translated",
+            "value": "Accesso alla posizione negato. Abilitalo in Impostazioni di Sistema › Privacy e sicurezza › Servizi di localizzazione."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "位置情報へのアクセスが拒否されています。システム設定 › プライバシーとセキュリティ › 位置情報サービスで有効にしてください。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "위치 접근이 거부되었습니다. 시스템 설정 › 개인정보 보호 및 보안 › 위치 서비스에서 켜세요."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Toegang tot locatie geweigerd. Schakel dit in via Systeeminstellingen › Privacy en beveiliging › Locatievoorzieningen."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Acesso à localização negado. Ative em Ajustes do Sistema › Privacidade e Segurança › Serviços de Localização."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Доступ к геопозиции запрещён. Включите его в Системных настройках › Конфиденциальность и безопасность › Службы геолокации."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Konum erişimi reddedildi. Sistem Ayarları › Gizlilik ve Güvenlik › Konum Servisleri’nden etkinleştirin."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Доступ до геопозиції заборонено. Увімкніть його в Системних параметрах › Конфіденційність і безпека › Служби геолокації."
+            "state": "translated",
+            "value": "Доступ до геопозиції заборонено. Увімкніть його в Системних параметрах › Конфіденційність і безпека › Служби локації."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "位置访问被拒绝。请在“系统设置 › 隐私与安全性 › 定位服务”中启用。"
           }
         }
@@ -23401,74 +23713,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Polohové služby jsou pro tento Mac vypnuté."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Die Ortungsdienste sind für diesen Mac deaktiviert."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Le service de localisation est désactivé pour ce Mac."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "La localizzazione è disattivata su questo Mac."
+            "state": "translated",
+            "value": "I Servizi di localizzazione sono disattivati su questo Mac."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "この Mac では位置情報サービスがオフになっています。"
+            "state": "translated",
+            "value": "このMacでは位置情報サービスがオフになっています。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "이 Mac에서 위치 서비스가 꺼져 있습니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Locatievoorzieningen zijn uitgeschakeld voor deze Mac."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Os Serviços de Localização estão desativados neste Mac."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Службы геолокации отключены на этом Mac."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bu Mac için Konum Servisleri kapalı."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Служби геолокації вимкнено на цьому Mac."
+            "state": "translated",
+            "value": "Служби локації вимкнено на цьому Mac."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "此 Mac 已关闭定位服务。"
+            "state": "translated",
+            "value": "此Mac已关闭定位服务。"
           }
         }
       }
@@ -23490,74 +23802,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi potřebuje přístup k poloze, aby mohl pravidla přiřazovat k místu, kde se Mac nachází."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi benötigt Zugriff auf den Standort, um Regeln dem Ort zuzuordnen, an dem sich dein Mac befindet."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi a besoin d’accéder à la localisation pour associer les règles à l’endroit où se trouve votre Mac."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi ha bisogno dell’accesso alla posizione per associare le regole al luogo in cui si trova il Mac."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "ルールを Mac の現在地に合わせるには、BatFi に位置情報へのアクセスが必要です。"
+            "state": "translated",
+            "value": "ルールをMacの現在地に合わせるには、BatFiに位置情報へのアクセスが必要です。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙을 Mac의 현재 위치에 맞추려면 BatFi에 위치 접근 권한이 필요합니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi heeft locatietoegang nodig om regels te koppelen aan de plek waar je Mac is."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "O BatFi precisa de acesso à localização para associar as regras ao lugar onde o seu Mac está."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi нужен доступ к геопозиции, чтобы применять правила там, где находится Mac."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi’nin kuralları Mac’inizin bulunduğu yere göre uygulayabilmesi için konum erişimi gerekiyor."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "BatFi потрібен доступ до геопозиції, щоб застосовувати правила залежно від місця, де перебуває Mac."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "BatFi 需要位置访问权限，才能根据 Mac 所在的位置匹配规则。"
+            "state": "translated",
+            "value": "BatFi需要位置访问权限，才能根据Mac所在的位置匹配规则。"
           }
         }
       }
@@ -23579,73 +23891,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Přístup k poloze spravuje vaše organizace."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Der Standortzugriff wird von deiner Organisation verwaltet."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "L’accès à la localisation est géré par votre organisation."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "L’accesso alla posizione è gestito dalla tua organizzazione."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "位置情報へのアクセスは組織によって管理されています。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "위치 접근 권한은 조직에서 관리합니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Locatietoegang wordt beheerd door je organisatie."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "O acesso à localização é gerenciado pela sua organização."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Доступом к геопозиции управляет ваша организация."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Konum erişimi kuruluşunuz tarafından yönetiliyor."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Доступом до геопозиції керує ваша організація."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "位置访问权限由你的组织管理。"
           }
         }
@@ -23668,73 +23980,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Povolit přístup"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zugriff erlauben"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Autoriser l’accès"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Consenti accesso"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "アクセスを許可"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "접근 허용"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Toegang toestaan"
+            "state": "translated",
+            "value": "Sta toegang toe"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Permitir Acesso"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Разрешить доступ"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Erişime İzin Ver"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Дозволити доступ"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "允许访问"
           }
         }
@@ -23757,73 +24069,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Otevřít Nastavení systému"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Systemeinstellungen öffnen"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ouvrir Réglages Système"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Apri Impostazioni di Sistema"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "システム設定を開く"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "시스템 설정 열기"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Open Systeeminstellingen"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Abrir Ajustes do Sistema"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Открыть Системные настройки"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Sistem Ayarları’nı Aç"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Відкрити Системні параметри"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "打开“系统设置”"
           }
         }
@@ -23846,73 +24158,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Určování polohy…"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Standort wird ermittelt…"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Localisation en cours…"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Localizzazione in corso…"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "現在地を取得中…"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "위치 찾는 중…"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Locatie bepalen…"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Localizando…"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Определение геопозиции…"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Konum belirleniyor…"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Визначення геопозиції…"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "正在定位…"
           }
         }
@@ -23935,73 +24247,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aktuální poloha"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Aktueller Standort"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Position actuelle"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Posizione attuale"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "現在地"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "현재 위치"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Huidige locatie"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Localização atual"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Текущее местоположение"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Geçerli konum"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Поточне місцезнаходження"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "当前位置"
           }
         }
@@ -24024,74 +24336,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nepodařilo se zjistit polohu. Ujistěte se, že je zapnuté Wi-Fi a že jsou pro BatFi povolené polohové služby."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Standort konnte nicht ermittelt werden. Stelle sicher, dass WLAN aktiviert und die Ortungsdienste für BatFi erlaubt sind."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Impossible de déterminer votre position. Vérifiez que le Wi-Fi est activé et que le service de localisation est autorisé pour BatFi."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Impossibile determinare la posizione. Assicurati che il Wi-Fi sia attivo e che la localizzazione sia abilitata per BatFi."
+            "state": "translated",
+            "value": "Impossibile determinare la posizione. Assicurati che il Wi-Fi sia attivo e che i Servizi di localizzazione siano abilitati per BatFi."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "現在地を特定できませんでした。Wi-Fi がオンで、BatFi の位置情報サービスが有効になっていることを確認してください。"
+            "state": "translated",
+            "value": "現在地を特定できませんでした。Wi-Fiがオンで、BatFiの位置情報サービスが有効になっていることを確認してください。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "위치를 확인할 수 없습니다. Wi-Fi가 켜져 있고 BatFi의 위치 서비스가 활성화되어 있는지 확인하세요."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kan je locatie niet bepalen. Zorg dat wifi aanstaat en dat locatievoorzieningen voor BatFi zijn ingeschakeld."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Não foi possível determinar sua localização. Verifique se o Wi-Fi está ligado e se os Serviços de Localização estão ativados para o BatFi."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Не удалось определить местоположение. Убедитесь, что Wi-Fi включён, а службы геолокации разрешены для BatFi."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Konumunuz belirlenemedi. Wi-Fi’nin açık ve BatFi için Konum Servisleri’nin etkin olduğundan emin olun."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Не вдалося визначити місцезнаходження. Переконайтеся, що Wi-Fi увімкнено, а служби геолокації дозволено для BatFi."
+            "state": "translated",
+            "value": "Не вдалося визначити місцезнаходження. Переконайтеся, що Wi-Fi увімкнено, а служби локації дозволено для BatFi."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "无法确定你的位置。请确保 Wi-Fi 已开启，并已为 BatFi 启用定位服务。"
+            "state": "translated",
+            "value": "无法确定你的位置。请确保Wi-Fi已开启，并已为BatFi启用定位服务。"
           }
         }
       }
@@ -24113,73 +24425,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Toto pravidlo nemá žádné podmínky — bude vždy aktivní, dokud je zapnuté."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Diese Regel hat keine Bedingungen – sie ist immer aktiv, solange sie aktiviert ist."
+            "state": "translated",
+            "value": "Diese Regel hat keine Bedingungen – sie gilt immer, solange sie eingeschaltet ist."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Cette règle n’a aucune condition — elle sera toujours active tant qu’elle est activée."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Questa regola non ha condizioni — sarà sempre attiva quando abilitata."
+            "state": "translated",
+            "value": "Questa regola non ha condizioni — sarà sempre attiva finché è abilitata."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "このルールには条件がありません。有効にしている間は常に適用されます。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "이 규칙에는 조건이 없습니다. 사용하는 동안 항상 적용됩니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Deze regel heeft geen voorwaarden — hij is altijd actief zolang hij is ingeschakeld."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Esta regra não tem condições — ela ficará sempre ativa enquanto estiver habilitada."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "У этого правила нет условий — оно всегда активно, пока включено."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bu kuralın koşulu yok — etkin olduğu sürece her zaman geçerli olur."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Це правило не має умов — воно завжди активне, поки ввімкнене."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "此规则没有条件——启用时将始终生效。"
           }
         }
@@ -24202,73 +24514,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Zrušit"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Abbrechen"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Annuler"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Annulla"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "キャンセル"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "취소"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Annuleer"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Cancelar"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Отменить"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "İptal"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Скасувати"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "取消"
           }
         }
@@ -24291,73 +24603,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Uložit"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Sichern"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Enregistrer"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Salva"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "保存"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "저장"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bewaar"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Salvar"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Сохранить"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kaydet"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Зберегти"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "存储"
           }
         }
@@ -24380,73 +24692,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Smazat pravidlo"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regel löschen"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Supprimer la règle"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Elimina regola"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールを削除"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙 삭제"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Regel verwijderen"
+            "state": "translated",
+            "value": "Verwijder regel"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Apagar regra"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Удалить правило"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kuralı sil"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Видалити правило"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "删除规则"
           }
         }
@@ -24469,73 +24781,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kdykoli"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Jederzeit"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "À tout moment"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "In qualsiasi momento"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "いつでも"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "언제든지"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Altijd"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "A qualquer hora"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "В любое время"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Her zaman"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Будь-коли"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "任何时间"
           }
         }
@@ -24558,73 +24870,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kdekoli"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Überall"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Partout"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ovunque"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "どこでも"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "어디서나"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Overal"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Em qualquer lugar"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Везде"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Her yerde"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Будь-де"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "任何地点"
           }
         }
@@ -24647,73 +24959,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Místo bez názvu"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Unbenannter Ort"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Lieu sans nom"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Luogo senza nome"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "名称未設定の場所"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "이름 없는 장소"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Naamloze locatie"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Local sem nome"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Место без названия"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Adsız yer"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Місце без назви"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "未命名地点"
           }
         }
@@ -24736,73 +25048,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld %%"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld %%"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld %%"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%%"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%%"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%%"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%%"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%%"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%lld %%"
+            "state": "translated",
+            "value": "%lld%%"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%%%lld"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%lld %%"
+            "state": "translated",
+            "value": "%lld%%"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%%"
           }
         }
@@ -24825,73 +25137,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Každý den"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Täglich"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Tous les jours"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ogni giorno"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "毎日"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "매일"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Elke dag"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Todos os dias"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Каждый день"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Her gün"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Щодня"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "每天"
           }
         }
@@ -24914,73 +25226,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Všední dny"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wochentags"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "En semaine"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Giorni feriali"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "平日"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "평일"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Doordeweeks"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Dias úteis"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "По будням"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Hafta içi"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "У будні"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "工作日"
           }
         }
@@ -25003,73 +25315,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Víkendy"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Wochenenden"
+            "state": "translated",
+            "value": "Am Wochenende"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Le week-end"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Fine settimana"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "週末"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "주말"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Weekenden"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Fins de semana"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "По выходным"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Hafta sonu"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "У вихідні"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "周末"
           }
         }
@@ -25092,73 +25404,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%lld%% — „%@“"
+            "state": "translated",
+            "value": "%lld %% — „%@“"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%lld%% – „%@“"
+            "state": "translated",
+            "value": "%lld %% – „%@“"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%lld%% — « %@ »"
+            "state": "translated",
+            "value": "%lld %% — « %@ »"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — “%@”"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — 「%@」"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — “%@”"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — ‘%@’"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — “%@”"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — «%@»"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%lld%% — “%@”"
+            "state": "translated",
+            "value": "%%%lld — “%@”"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — «%@»"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%lld%% — “%@”"
           }
         }
@@ -25181,74 +25493,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "do %@"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "bis %@"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "jusqu’à %@"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "fino alle %@"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "%@ まで"
+            "state": "translated",
+            "value": "%@まで"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%@까지"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "tot %@"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "até %@"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "до %@"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%@’a kadar"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "до %@"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "至 %@"
+            "state": "translated",
+            "value": "至%@"
           }
         }
       }
@@ -25270,73 +25582,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Nečinná"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Inaktiv"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Inactive"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Inattiva"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "待機中"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "대기 중"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Inactief"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Inativa"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ожидание"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Boşta"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Очікування"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "空闲"
           }
         }
@@ -25359,73 +25671,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "další: „%@“ %@"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "nächste: „%@“ %@"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "suivante : « %@ » %@"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "prossima: “%@” %@"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "次: 「%@」 %@"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "다음: “%@” %@"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "volgende: ‘%@’ %@"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "próxima: “%@” %@"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "следующая: «%@» %@"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "sonraki: “%@” %@"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "наступна: «%@» %@"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "下一个：“%@” %@"
           }
         }
@@ -25448,73 +25760,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "O automatizaci"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Über die Automatisierung"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "À propos de l’automatisation"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Informazioni sull’automazione"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自動化について"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "자동화 정보"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Over automatisering"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Sobre a automação"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Об автоматизации"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Otomasyon hakkında"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Про автоматизацію"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "关于自动化"
           }
         }
@@ -25537,73 +25849,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Jak funguje automatizace"
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "So funktioniert die Automatisierung"
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Comment fonctionne l’automatisation"
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Come funziona l’automazione"
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自動化の仕組み"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "자동화 작동 방식"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Hoe automatisering werkt"
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Como a automação funciona"
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Как работает автоматизация"
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Otomasyon nasıl çalışır"
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Як працює автоматизація"
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "自动化的工作原理"
           }
         }
@@ -25626,74 +25938,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Každé pravidlo nastaví limit nabíjení, který platí, dokud jsou splněny jeho podmínky."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Jede Regel legt ein Ladelimit fest, das gilt, solange ihre Bedingungen erfüllt sind."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Chaque règle définit une limite de charge qui s’applique tant que ses conditions sont remplies."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Ogni regola imposta un limite di ricarica che si applica quando le sue condizioni sono soddisfatte."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "各ルールは、条件が満たされている間に適用される充電上限を設定します。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "각 규칙은 조건이 충족되는 동안 적용되는 충전 한도를 설정합니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Elke regel stelt een oplaadlimiet in die geldt zolang aan de voorwaarden wordt voldaan."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Cada regra define um limite de carga que se aplica enquanto suas condições são atendidas."
+            "state": "translated",
+            "value": "Cada regra define um limite de carregamento que se aplica enquanto suas condições são atendidas."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Каждое правило задаёт лимит заряда, который действует, пока выполняются его условия."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Her kural, koşulları sağlandığı sürece geçerli olan bir şarj sınırı belirler."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Кожне правило задає ліміт заряду, який діє, поки виконуються його умови."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "每条规则设置一个充电上限，在其条件满足时生效。"
+            "state": "translated",
+            "value": "每条规则设置一个充电限制，在其条件满足时生效。"
           }
         }
       }
@@ -25715,73 +26027,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Podmínky jsou volitelné. Omezte pravidlo na rozvrh (jednorázové datum nebo opakující se dny a časy) a/nebo polohu. Když nastavíte obojí, musí platit obojí."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bedingungen sind optional. Beschränke eine Regel auf einen Zeitplan (ein einmaliges Datum oder wiederkehrende Tage und Zeiten) und/oder einen Ort. Wenn du beides festlegst, muss beides zutreffen."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Les conditions sont facultatives. Limitez une règle à un horaire (une date unique ou des jours et heures récurrents) et/ou à un lieu. Si vous définissez les deux, les deux doivent correspondre."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Le condizioni sono facoltative. Limita una regola a una pianificazione (una data singola o giorni e orari ricorrenti) e/o a un luogo. Se imposti entrambe, devono corrispondere entrambe."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "条件は任意です。ルールをスケジュール（1回限りの日付、または繰り返す曜日と時間帯）や場所に限定できます。両方を設定した場合は、両方が一致する必要があります。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "조건은 선택 사항입니다. 규칙을 일정(일회성 날짜 또는 반복되는 요일 및 시간)과/또는 위치로 제한하세요. 둘 다 설정하면 둘 다 일치해야 합니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Voorwaarden zijn optioneel. Beperk een regel tot een schema (een eenmalige datum of terugkerende dagen en tijden) en/of een locatie. Als je beide instelt, moeten beide kloppen."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "As condições são opcionais. Restrinja uma regra a uma programação (uma data única ou dias e horários recorrentes) e/ou a um local. Se você definir ambos, ambos precisam corresponder."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Условия необязательны. Ограничьте правило расписанием (разовой датой либо повторяющимися днями и временем) и/или местоположением. Если задать оба, должны совпадать оба."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Koşullar isteğe bağlıdır. Bir kuralı bir zamanlamayla (tek seferlik tarih ya da yinelenen gün ve saatler) ve/veya bir konumla sınırlayın. İkisini de ayarlarsanız ikisinin de eşleşmesi gerekir."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Умови необов’язкові. Обмежте правило розкладом (одноразовою датою або повторюваними днями й часом) та/або місцезнаходженням. Якщо задати обидва, мають збігатися обидва."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "条件是可选的。可将规则限制为某个时间安排（单次日期或重复的星期和时间）和/或某个位置。如果同时设置，两者都必须匹配。"
           }
         }
@@ -25804,73 +26116,73 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Pravidla se kontrolují shora dolů — vyhrává první, jehož podmínky jsou právě splněny. Pořadí změníte přetažením."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regeln werden von oben nach unten geprüft – es gewinnt die erste, deren Bedingungen gerade zutreffen. Zum Umsortieren ziehen."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Les règles sont évaluées de haut en bas — la première dont les conditions correspondent l’emporte. Faites glisser pour les réorganiser."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Le regole vengono controllate dall’alto verso il basso — vince la prima le cui condizioni corrispondono ora. Trascina per riordinarle."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールは上から順に確認され、条件が現在一致する最初のルールが適用されます。ドラッグして並べ替えできます。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙은 위에서 아래로 확인되며, 지금 조건이 맞는 첫 번째 규칙이 적용됩니다. 드래그하여 순서를 바꿀 수 있습니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regels worden van boven naar beneden gecontroleerd — de eerste waarvan de voorwaarden nu kloppen, wint. Sleep om de volgorde te wijzigen."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "As regras são verificadas de cima para baixo — vence a primeira cujas condições correspondem agora. Arraste para reordenar."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правила проверяются сверху вниз — побеждает первое, чьи условия сейчас совпадают. Перетащите, чтобы изменить порядок."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Kurallar yukarıdan aşağıya kontrol edilir — koşulları şu anda eşleşen ilk kural geçerli olur. Sıralamak için sürükleyin."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правила перевіряються згори донизу — перемагає перше, чиї умови зараз збігаються. Перетягніть, щоб змінити порядок."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "规则从上到下检查——当前条件匹配的第一条规则生效。拖动可重新排序。"
           }
         }
@@ -25893,74 +26205,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Když je pravidlo aktivní, řádek nabídek ukazuje, které pravidlo a limit platí."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wenn eine Regel aktiv ist, zeigt die Menüleiste, welche Regel und welches Limit gelten."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Quand une règle est active, la barre des menus indique quelle règle et quelle limite s’appliquent."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Quando una regola è attiva, la barra dei menu mostra quale regola e quale limite sono in vigore."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "ルールが有効なときは、メニューバーにどのルールと上限が適用されているかが表示されます。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "규칙이 활성화되면 메뉴 막대에 어떤 규칙과 한도가 적용 중인지 표시됩니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Wanneer een regel actief is, toont de menubalk welke regel en limiet van kracht zijn."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Quando uma regra está ativa, a barra de menus mostra qual regra e limite estão em vigor."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Когда правило активно, строка меню показывает, какое правило и лимит действуют."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Bir kural etkinken menü çubuğu hangi kuralın ve sınırın geçerli olduğunu gösterir."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Коли правило активне, рядок меню показує, яке правило та ліміт діють."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "当某条规则生效时，菜单栏会显示当前生效的规则和上限。"
+            "state": "translated",
+            "value": "当某条规则生效时，菜单栏会显示当前生效的规则和限制。"
           }
         }
       }
@@ -25982,74 +26294,74 @@
         },
         "cs": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Pravidla podle polohy vyžadují oprávnění k polohovým službám a Wi-Fi, kterou Mac používá ke zjištění své polohy."
           }
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Standortregeln benötigen die Berechtigung für Ortungsdienste und WLAN, mit dem dein Mac seinen Standort bestimmt."
           }
         },
         "fr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Les règles de localisation nécessitent l’autorisation du service de localisation et le Wi-Fi, que votre Mac utilise pour déterminer où il se trouve."
           }
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Le regole basate sulla posizione richiedono l’autorizzazione alla localizzazione e il Wi-Fi, che il Mac usa per determinare dove si trova."
+            "state": "translated",
+            "value": "Le regole basate sulla posizione richiedono l’autorizzazione dei Servizi di localizzazione e il Wi-Fi, che il Mac usa per determinare dove si trova."
           }
         },
         "ja": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "場所のルールには、位置情報サービスの許可と、Mac が現在地を特定するために使う Wi-Fi が必要です。"
+            "state": "translated",
+            "value": "場所のルールには、位置情報サービスの許可と、Macが現在地を特定するために使うWi-Fiが必要です。"
           }
         },
         "ko": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "위치 규칙에는 위치 서비스 권한과, Mac이 위치를 파악하는 데 사용하는 Wi-Fi가 필요합니다."
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Locatieregels hebben toestemming voor locatievoorzieningen en wifi nodig, die je Mac gebruikt om te bepalen waar hij is."
           }
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Regras de local precisam de permissão dos Serviços de Localização e de Wi-Fi, que o seu Mac usa para determinar onde está."
           }
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Правилам по местоположению нужны разрешение на службы геолокации и Wi-Fi, по которому Mac определяет своё местоположение."
           }
         },
         "tr": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Konum kuralları, Konum Servisleri izni ve Mac’inizin yerini belirlemek için kullandığı Wi-Fi gerektirir."
           }
         },
         "uk": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Правила за місцезнаходженням потребують дозволу на служби геолокації та Wi-Fi, за яким Mac визначає своє розташування."
+            "state": "translated",
+            "value": "Правила за місцезнаходженням потребують дозволу служб локації та Wi-Fi, за яким Mac визначає своє розташування."
           }
         },
         "zh-Hans": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "位置规则需要定位服务权限和 Wi-Fi，Mac 用它来确定自己的位置。"
+            "state": "translated",
+            "value": "位置规则需要定位服务权限和Wi-Fi，Mac用它来确定自己的位置。"
           }
         }
       }
