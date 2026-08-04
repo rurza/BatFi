@@ -30,7 +30,14 @@ struct BasicBatteryIndicatorView: View {
                 .foregroundStyle(.primary)
                 .opacity(1.0)
                 GeometryReader { innerProxy in
-                    let width = (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                    // No fill at all before the first reading. `batteryLevel` defaults to
+                    // 0, so this drew a zero-width bar — and `fillColor` read it as 10% or
+                    // below and made it red. The user saw an empty red battery, i.e.
+                    // "critically low", beside the "–" the percentage label already shows.
+                    // The empty outline is the honest picture of "no reading yet".
+                    let width = model.hasReading
+                        ? (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                        : 0
                     RoundedRectangle(cornerRadius: 1)
                         .frame(width: width)
                         .foregroundStyle(fillColor)
@@ -81,7 +88,9 @@ struct BasicBatteryIndicatorView: View {
         guard !lowPowerMode else {
             return .yellow
         }
-        if !model.monochrome, model.batteryLevel <= 10 {
+        // `model.hasReading` guards the red for the same reason: a default `batteryLevel`
+        // of 0 is not a low battery.
+        if !model.monochrome, model.hasReading, model.batteryLevel <= 10 {
             return .red
         } else {
             return .primary.opacity(0.8)
