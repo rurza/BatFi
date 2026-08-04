@@ -12,10 +12,12 @@ All notable changes to BatFi are documented here. The format is based on
   asks the Mac itself which charging mechanisms its firmware offers and uses the best one
   available. On Macs that still have the familiar mechanism, nothing changes.
 - **On the newest firmware, the charge limit is held by the Mac itself.** Where the firmware
-  offers its own charge range, BatFi hands it your limit and steps back — so the limit keeps
-  being enforced even while the Mac is asleep or BatFi isn't running. Because the firmware
-  manages the range on its own terms, the battery may sit a few points below your limit before
-  it tops back up; the Charging pane says so.
+  offers its own charge range, BatFi hands it your limit and steps back — so the limit is meant
+  to keep being enforced even while the Mac is asleep. BatFi hands the range back when you quit
+  it or turn charge management off. Because the firmware manages the range on its own terms, the
+  battery may sit a few points below your limit before it tops back up; the Charging pane says
+  so. This firmware is new enough that nobody has been able to test it on real hardware yet, so
+  please report anything that looks wrong.
 - **Where only Apple's own charge limit is available, BatFi drives that instead.** Apple's
   limit cannot be set below 80%, so if you have chosen a lower one BatFi now says plainly that
   it could not be applied and which limit is actually in force.
@@ -31,13 +33,14 @@ All notable changes to BatFi are documented here. The format is based on
   cycle count, temperature, time remaining and battery health degrade individually and hide
   just their own row. Reads also retry on launch and re-check every minute while failing, so
   BatFi recovers on its own instead of staying stuck.
-- **"Run on Battery" now actually discharges on recent firmware.** BatFi was writing the wrong
+- **"Run on Battery" should now discharge on recent firmware.** BatFi was writing the wrong
   value to the charging controller key used by macOS 26-era firmware and newer, so the request
-  was accepted but had no effect.
-- **"Run on Battery" and the MagSafe light no longer depend on the charge limit working.** Both
-  used to be switched off together with the charge limit whenever BatFi couldn't use its usual
-  mechanism. They are now checked on their own, so on firmware that has dropped that mechanism
-  they keep working.
+  was accepted but had no effect. The corrected value has not yet been confirmed on hardware.
+- **"Run on Battery" and the MagSafe discharge blink no longer depend on the charge limit
+  working.** Both used to be switched off together with the charge limit whenever BatFi couldn't
+  use its usual mechanism. They are now checked on their own, so on firmware that has dropped
+  that mechanism they keep working. The green MagSafe light is a separate setting with a separate
+  answer — see Known issues.
 
 ### Changed
 - Battery health is no longer measured during the battery read, removing a blocking system
