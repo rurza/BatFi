@@ -33,13 +33,18 @@ public enum FenceReconciliation {
     public static func plan(desired: [MonitoredFence], current: [UUID: MonitoredRegion]) -> Plan {
         var toRemove: [UUID] = []
         var toAdd: [MonitoredFence] = []
-        let desiredByID = Dictionary(uniqueKeysWithValues: desired.map { ($0.id, $0) })
+        // `desired` is derived from rules decoded out of UserDefaults JSON, so a duplicate ID is
+        // not structurally impossible. `uniqueKeysWithValues` would trap — a `fatalError` on an
+        // actor path fed by user-writable data. First entry wins instead, and the loop below
+        // skips later repeats so one ID cannot be submitted twice in a single pass.
+        let desiredByID = Dictionary(desired.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
 
         for id in current.keys where desiredByID[id] == nil {
             toRemove.append(id)
         }
 
-        for fence in desired {
+        var seen: Set<UUID> = []
+        for fence in desired where seen.insert(fence.id).inserted {
             guard let existing = current[fence.id] else {
                 toAdd.append(fence)
                 continue

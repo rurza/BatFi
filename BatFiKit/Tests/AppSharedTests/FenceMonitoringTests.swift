@@ -173,6 +173,34 @@ private func fence(_ radius: Double, _ label: String = "Home", at center: Coordi
         #expect(plan.toAdd.map(\.id) == [idA])
     }
 
+    @Test func duplicateRuleIDsDoNotTrap() {
+        // `desired` comes from rules decoded out of UserDefaults JSON, so a repeated ID is
+        // reachable with a hand-edited or corrupted store. This used to be a `fatalError` inside
+        // an actor. First entry wins, and the ID is submitted once.
+        let desired = [
+            MonitoredFence(id: idA, fence: fence(300)),
+            MonitoredFence(id: idA, fence: fence(900, "Home copy")),
+        ]
+        let plan = FenceReconciliation.plan(desired: desired, current: [:])
+        #expect(plan.toRemove.isEmpty)
+        #expect(plan.toAdd.map(\.id) == [idA])
+        #expect(plan.toAdd.first?.region.radiusMeters == 300)
+    }
+
+    @Test func duplicateRuleIDsDoNotChurnAnUnchangedFence() {
+        // The duplicate must not make an otherwise-unchanged fence look changed and get
+        // removed/re-added — that would reset its CLMonitor state to .unknown.
+        let desired = [
+            MonitoredFence(id: idA, fence: fence(300)),
+            MonitoredFence(id: idA, fence: fence(900, "Home copy")),
+        ]
+        let plan = FenceReconciliation.plan(
+            desired: desired,
+            current: [idA: MonitoredRegion(center: warsaw, radiusMeters: 300)]
+        )
+        #expect(plan.isEmpty)
+    }
+
     @Test func mixedAddRemoveAndKeep() {
         let desired = [
             MonitoredFence(id: idA, fence: fence(300)),   // unchanged → untouched
