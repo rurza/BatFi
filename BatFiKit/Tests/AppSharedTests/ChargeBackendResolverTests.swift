@@ -61,6 +61,11 @@ import Testing
         #expect(ChargeBackendResolver.resolve(table([cap("CHTE", "ui32", 4, writable: false)])) == .unsupported)
     }
 
+    /// A key the firmware reports but will not let us read cannot drive charging.
+    @Test func rejectsNonReadableCHTE() {
+        #expect(ChargeBackendResolver.resolve(table([cap("CHTE", "ui32", 4, readable: false)])) == .unsupported)
+    }
+
     /// Zero-size placeholder keys are reported by some firmware and can be neither
     /// read nor written. They must not select a mechanism.
     @Test func rejectsZeroSizePlaceholder() {
@@ -82,5 +87,17 @@ import Testing
             cap("bfD0", "hex_", 2, writable: false),
         ])
         #expect(ChargeBackendResolver.resolve(caps) == .chte)
+    }
+
+    /// The decoy that makes name-only probing unsafe: bfD0 exists on Tahoe-era
+    /// firmware as a read-only hex_/2 key with unrelated meaning, while the macOS 27
+    /// mechanism needs it as a writable ui32/4. Matching on the name alone would
+    /// select the wrong backend on hardware that cannot support it.
+    @Test func measuredTahoeBFD0DoesNotMatchTheMacOS27Shape() {
+        let measured = cap("bfD0", "hex_", 2, writable: false)
+        #expect(!measured.matches(type: "ui32", size: 4, writable: true))
+        // ...and it is not merely the writability that saves us:
+        #expect(!measured.matches(type: "ui32", size: 4, writable: false))
+        #expect(!measured.matches(type: "hex_", size: 4, writable: false))
     }
 }
