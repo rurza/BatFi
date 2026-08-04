@@ -28,11 +28,33 @@ struct AutomationLocationPicker: View {
         )
     )
     @State private var searchText = ""
-    @State private var snapshot = LocationSnapshot()
+    /// Nil until the first real value arrives. A default-constructed `LocationSnapshot` is
+    /// `.notDetermined`, so seeding one would flash the "BatFi needs location access…" banner and
+    /// an **Allow Access** button at every user, including already-authorized ones.
+    @State private var snapshot: LocationSnapshot?
     @State private var isLocating = false
 
     /// A fix older than this is not good enough to answer "Use current location".
     private static let currentLocationMaxAge: TimeInterval = 300
+
+    /// Matches the slider. The floor is the radius CoreLocation will actually monitor.
+    private static let radiusRange: ClosedRange<Double> = GeoFence.minimumMonitoredRadiusMeters ... 2000
+
+    /// What locationd monitors, which is not always what is stored: a legacy rule can hold 50 m.
+    /// The circle and the readout both use this so the picker never claims to watch a smaller
+    /// area than it does.
+    private var monitoredRadiusMeters: Double {
+        max(radiusMeters, GeoFence.minimumMonitoredRadiusMeters)
+    }
+
+    /// Whether a fix could ever arrive. Under `.denied`, `.restricted` or with Location Services
+    /// off, "Locating…" would spin until the user pressed Cancel. Unknown (no snapshot yet) is
+    /// treated as available: the stream yields on subscribe, and disabling the button on a value
+    /// that has not arrived would leave it permanently dead wherever the stream is inert.
+    private var canUseCurrentLocation: Bool {
+        guard let snapshot else { return true }
+        return PermissionBannerState(snapshot) == .none
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -56,6 +78,7 @@ struct AutomationLocationPicker: View {
                 } else {
                     Button(L10n.Automation.useCurrentLocation) { useCurrentLocation() }
                         .controlSize(.small)
+                        .disabled(!canUseCurrentLocation)
                 }
             }
 
@@ -70,7 +93,7 @@ struct AutomationLocationPicker: View {
                                 .foregroundStyle(.red)
                                 .font(.title2)
                         }
-                        MapCircle(center: clCoordinate, radius: radiusMeters)
+                        MapCircle(center: clCoordinate, radius: monitoredRadiusMeters)
                             .foregroundStyle(.blue.opacity(0.18))
                             .stroke(.blue, lineWidth: 1)
                     }
@@ -86,8 +109,8 @@ struct AutomationLocationPicker: View {
 
             HStack {
                 Text(L10n.Automation.locationRadius)
-                Slider(value: $radiusMeters, in: 100...2000, step: 50)
-                Text("\(Int(radiusMeters)) m")
+                Slider(value: $radiusMeters, in: Self.radiusRange, step: 50)
+                Text("\(Int(monitoredRadiusMeters)) m")
                     .monospacedDigit()
                     .foregroundStyle(.secondary)
                     .frame(width: 70, alignment: .trailing)
@@ -100,6 +123,7 @@ struct AutomationLocationPicker: View {
         .task {
             // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
             // picker closes. This is the only place in the app that runs continuous updates.
+            normalizeRadius()
             if let coordinate { recenter(on: coordinate.clCoordinate) }
             for await snapshot in locationClient.snapshotUpdates() {
                 self.snapshot = snapshot
@@ -114,17 +138,21 @@ struct AutomationLocationPicker: View {
     /// Rendered above the map on purpose: the previous copy sat at the bottom of scrollable
     /// content, where a user who needed it had no indication it existed.
     @ViewBuilder private var banner: some View {
-        switch PermissionBannerState(snapshot) {
-        case .none:
-            EmptyView()
-        case .servicesOff:
-            bannerRow(L10n.Automation.locationServicesOff, action: .openSettings)
-        case .notDetermined:
-            bannerRow(L10n.Automation.locationNotDetermined, action: .allowAccess)
-        case .denied:
-            bannerRow(L10n.Automation.locationPermissionDenied, action: .openSettings)
-        case .restricted:
-            bannerRow(L10n.Automation.locationRestricted, action: .none)
+        // No banner at all until the first snapshot lands: an unknown state is not a problem
+        // state, and rendering one would accuse every user of having denied access.
+        if let snapshot {
+            switch PermissionBannerState(snapshot) {
+            case .none:
+                EmptyView()
+            case .servicesOff:
+                bannerRow(L10n.Automation.locationServicesOff, action: .openSettings)
+            case .notDetermined:
+                bannerRow(L10n.Automation.locationNotDetermined, action: .allowAccess)
+            case .denied:
+                bannerRow(L10n.Automation.locationPermissionDenied, action: .openSettings)
+            case .restricted:
+                bannerRow(L10n.Automation.locationRestricted, action: .none)
+            }
         }
     }
 
@@ -174,11 +202,20 @@ struct AutomationLocationPicker: View {
     /// locationd's push cadence, not detecting a real failure. A fresh-enough fix fills the
     /// field immediately; otherwise the button shows "Locating…" until a fix arrives.
     private func useCurrentLocation() {
-        if snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
+        if let snapshot, snapshot.hasFix(fresherThan: Self.currentLocationMaxAge), let fix = snapshot.lastFix {
             apply(fix)
         } else {
             isLocating = true
         }
+    }
+
+    /// A rule saved before the 100 m floor can hold a radius outside the slider's range, which
+    /// leaves the thumb pinned at an end while the readout disagrees with it. Normalising once,
+    /// when the picker appears, makes the control, the label, the circle and what CoreLocation
+    /// monitors all say the same thing.
+    private func normalizeRadius() {
+        let normalized = min(max(radiusMeters, Self.radiusRange.lowerBound), Self.radiusRange.upperBound)
+        if normalized != radiusMeters { radiusMeters = normalized }
     }
 
     private func apply(_ fix: Coordinate) {
