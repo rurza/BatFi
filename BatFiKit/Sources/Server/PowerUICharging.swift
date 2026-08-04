@@ -185,7 +185,14 @@ actor PowerUICharging {
 
     func mclStatus() -> MCLStatus {
         MCLStatus(
-            supported: isAvailable,
+            // What every reader of this field actually asks — does this machine have a
+            // Manual Charge Limit — not merely whether the framework loaded. Those are two
+            // questions, and `isAvailable` answers the wrong one: it is true on every Mac
+            // that can dlopen PowerUI, including all the ones with no MCL at all.
+            // `SMCService.mclStatus()` gating on `isMCLSupported` before delegating here is
+            // what kept the delivered value honest; now it is belt and braces rather than
+            // the only thing standing between a direct caller and a false claim.
+            supported: isMCLSupported,
             batFiHasActiveOverride: hasActiveOverride,
             lastOverrideValue: hasActiveOverride ? Int(lastOverrideValue) : nil,
             // The system's own percentage, so the app can stop guessing at it. The

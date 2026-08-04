@@ -11,7 +11,14 @@ import Foundation
 public final class MCLStatus: NSObject, NSSecureCoding, @unchecked Sendable {
     public static let supportsSecureCoding: Bool = true
 
-    /// True if the helper successfully loaded the PowerUI private framework.
+    /// Whether this machine has a Manual Charge Limit at all, as PowerUI itself reports it
+    /// (`isMCLSupported`).
+    ///
+    /// Deliberately not "the helper loaded the framework", which is what this used to
+    /// carry: PowerUI loads on every Mac, so that answer was true on machines with no MCL,
+    /// and the readers of this field — the conflict warning, `ChargeControlFacts` — all
+    /// mean the narrower question. Asking the framework also keeps the answer off the
+    /// macOS version, which is not what charge control tracks.
     public let supported: Bool
 
     /// True if BatFi currently holds an active `temporarilyOverrideMCLTargetSoC` override.
