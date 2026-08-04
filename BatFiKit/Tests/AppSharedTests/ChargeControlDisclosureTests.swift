@@ -24,6 +24,7 @@ import Testing
         manageCharging: Bool = true,
         appliedChargeLimit: Int? = nil,
         chargeLimitWasRaised: Bool = false,
+        requestedChargeLimit: Int? = nil,
         systemLimitSnapshotRefused: Bool = false,
         systemLimitIsSupported: Bool = true,
         systemLimit: Int? = 100,
@@ -37,6 +38,7 @@ import Testing
             manageCharging: manageCharging,
             appliedChargeLimit: appliedChargeLimit,
             chargeLimitWasRaised: chargeLimitWasRaised,
+            requestedChargeLimit: requestedChargeLimit,
             systemLimitSnapshotRefused: systemLimitSnapshotRefused,
             systemLimitIsSupported: systemLimitIsSupported,
             systemLimit: systemLimit,
@@ -91,17 +93,86 @@ import Testing
         #expect(value.disclosures.first == .usingSystemChargeLimit)
     }
 
-    /// The single thing the user most needs told, and it names the number in force.
-    @Test func aRaisedLimitIsDisclosedWithTheValueActuallyApplied() {
-        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: 80, chargeLimitWasRaised: true)
+    /// The single thing the user most needs told, and it names the number in force. The
+    /// floor-clamp wording — "limits below 80% can't be applied, 80% is the lowest
+    /// accepted" — is true only here, for a request that really was below the floor.
+    @Test func aLimitBelowTheFloorIsDisclosedAsAFloorClampWithTheValueActuallyApplied() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 80,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 55
+        )
         #expect(value.disclosures.contains(.limitRaisedToSystemMinimum(applied: 80)))
+    }
+
+    /// A request *at or above* the floor that could not be expressed exactly is a
+    /// round-up, not a clamp, and gets its own words. Reached by clicking stop-charging at
+    /// 87%: `inhibitCharging()` requests the current battery level, which is an arbitrary
+    /// integer. Told as a floor clamp it would claim 87 is below 80 and that 90 is the
+    /// lowest value the mechanism accepts — two false statements in an everyday flow.
+    @Test func aLimitAboveTheFloorIsDisclosedAsARoundUpNamingBothNumbers() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 90,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 87
+        )
+        #expect(value.disclosures.contains(.limitRoundedUp(requested: 87, applied: 90)))
+        #expect(value.disclosures.contains(.limitRaisedToSystemMinimum(applied: 90)) == false)
+    }
+
+    /// The top of the range, where the floor-clamp string claimed 100% was "the lowest the
+    /// macOS charge limit accepts".
+    @Test func aRoundUpToTheCeilingIsStillARoundUp() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 100,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 97
+        )
+        #expect(value.disclosures.contains(.limitRoundedUp(requested: 97, applied: 100)))
+        #expect(value.disclosures.contains(.limitRaisedToSystemMinimum(applied: 100)) == false)
+    }
+
+    /// The boundary itself belongs to the round-up side: 80 is expressible, so a request of
+    /// exactly 80 is never clamped, and anything from 80 up that moves was rounded.
+    @Test func theFloorItselfIsNotTreatedAsBelowTheFloor() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 85,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: ChargeLimitRange.systemChargeLimitLowest
+        )
+        #expect(value.disclosures.contains(.limitRoundedUp(requested: 80, applied: 85)))
+        #expect(value.disclosures.contains(.limitRaisedToSystemMinimum(applied: 85)) == false)
+    }
+
+    /// Fail closed, as an applied-less raise already does. Without the requested value
+    /// there is no way to tell a clamp from a round-up, and both sentences assert a reason;
+    /// guessing would be how the pane starts naming the wrong one. A matched install cannot
+    /// reach this — both numbers come from the same `AppliedChargeLimit`.
+    @Test func aRaiseWithNoRequestedValueNamesNoReason() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 90,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: nil
+        )
+        #expect(value.disclosures == [.usingSystemChargeLimit, .managingSystemSettingsLimit])
     }
 
     /// A limit the mechanism could express exactly is not a raise, and must not be
     /// reported as one — that would put a permanent warning on a Mac doing what was asked.
     @Test func anExactlyAppliedLimitIsNotReportedAsRaised() {
-        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: 85, chargeLimitWasRaised: false)
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 85,
+            chargeLimitWasRaised: false,
+            requestedChargeLimit: 85
+        )
         #expect(value.disclosures.contains(.limitRaisedToSystemMinimum(applied: 85)) == false)
+        #expect(value.disclosures.contains(.limitRoundedUp(requested: 85, applied: 85)) == false)
         #expect(value.disclosures.contains(.managingSystemSettingsLimit))
     }
 
@@ -109,7 +180,12 @@ import Testing
     /// requested — an automation limit or a temporary override, not necessarily the
     /// slider. A flag set with no applied value to name says nothing rather than guessing.
     @Test func aRaiseWithNoAppliedValueNamesNothing() {
-        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: nil, chargeLimitWasRaised: true)
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: nil,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 55
+        )
         #expect(value.disclosures == [.usingSystemChargeLimit])
     }
 
@@ -144,6 +220,7 @@ import Testing
             backend: .systemChargeLimit,
             appliedChargeLimit: 80,
             chargeLimitWasRaised: true,
+            requestedChargeLimit: 55,
             systemLimitSnapshotRefused: true
         )
         #expect(value.disclosures.contains(.limitNotAppliedWithoutSnapshot))
@@ -212,12 +289,32 @@ import Testing
             backend: .systemChargeLimit,
             appliedChargeLimit: 80,
             chargeLimitWasRaised: true,
+            requestedChargeLimit: 55,
             forceDischargeAvailable: true,
             hotBatteryProtectionEnabled: true
         )
         #expect(value.disclosures == [
             .usingSystemChargeLimit,
             .limitRaisedToSystemMinimum(applied: 80),
+            .managingSystemSettingsLimit,
+            .pausingChargingUnavailable(forceDischargeStillAvailable: true),
+        ])
+    }
+
+    /// The round-up takes the same slot in the same order — it replaces the clamp rather
+    /// than adding a row.
+    @Test func aRoundUpTakesTheClampsPlaceInTheOrder() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 90,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 87,
+            forceDischargeAvailable: true,
+            hotBatteryProtectionEnabled: true
+        )
+        #expect(value.disclosures == [
+            .usingSystemChargeLimit,
+            .limitRoundedUp(requested: 87, applied: 90),
             .managingSystemSettingsLimit,
             .pausingChargingUnavailable(forceDischargeStillAvailable: true),
         ])
@@ -345,7 +442,8 @@ import Testing
             forceDischargeAvailable: true,
             magSafeLEDAvailable: false,
             appliedChargeLimit: 80,
-            chargeLimitWasRaised: true
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 55
         )
         let value = ChargeControlFacts(
             diagnostics: diagnostics,
@@ -356,6 +454,7 @@ import Testing
         #expect(value.backend == .systemChargeLimit)
         #expect(value.appliedChargeLimit == 80)
         #expect(value.chargeLimitWasRaised)
+        #expect(value.requestedChargeLimit == 55)
         #expect(value.systemLimit == 80)
         #expect(value.systemLimitIsSupported)
         #expect(value.forceDischargeAvailable)

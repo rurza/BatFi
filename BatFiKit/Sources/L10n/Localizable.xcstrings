@@ -18477,6 +18477,17 @@
         }
       }
     },
+    "settings.label.system_charge_limit_rounded_up": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The macOS charge limit only accepts certain values, so BatFi is holding charging at %@ instead of the %@ it was asked for."
+          }
+        }
+      }
+    },
     "settings.label.system_charge_limit_manages_system_settings": {
       "extractionState": "manual",
       "localizations": {

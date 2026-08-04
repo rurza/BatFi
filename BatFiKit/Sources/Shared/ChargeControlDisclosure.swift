@@ -29,10 +29,26 @@ public enum ChargeControlDisclosure: Equatable, Sendable {
     /// BatFi is driving Apple's Manual Charge Limit, which only accepts 80–100%.
     case usingSystemChargeLimit
 
-    /// The limit BatFi was asked for could not be expressed, and `applied` is what is in
-    /// force instead. Carried as a number so the copy can name the value actually in
+    /// A limit *below the mechanism's floor* was asked for, so `applied` — the floor — is
+    /// in force instead. Carried as a number so the copy can name the value actually in
     /// effect rather than gesture at it.
+    ///
+    /// Strictly the floor clamp, never a round-up: only here is it true that limits below
+    /// the floor cannot be applied at all and that the applied value is the lowest the
+    /// mechanism accepts. A request of 87 landing on 90 is `.limitRoundedUp`, where both
+    /// of those sentences would be false.
     case limitRaisedToSystemMinimum(applied: Int)
+
+    /// A limit the mechanism could have expressed *in principle* — at or above its floor —
+    /// but not exactly, so it was rounded up to the next accepted step. 87 becomes 90, 97
+    /// becomes 100.
+    ///
+    /// Not a corner case: `ChargingManager.inhibitCharging()` sets a temporary limit at the
+    /// current battery level, an arbitrary integer, so any stop-charging click at a
+    /// non-multiple of 5 lands here. Both numbers are carried because the copy has to name
+    /// what was asked for as well as what is in force — without them the pane can only
+    /// repeat the floor-clamp sentence, which is false for every one of these.
+    case limitRoundedUp(requested: Int, applied: Int)
 
     /// BatFi has written the value the user can see in System Settings › Battery, and
     /// owes them a restore on quit. The disclosure the whole snapshot/restore machinery
@@ -79,6 +95,11 @@ public struct ChargeControlFacts: Equatable, Sendable {
     /// `ChargingDiagnostics.chargeLimitWasRaised`.
     public let chargeLimitWasRaised: Bool
 
+    /// `ChargingDiagnostics.requestedChargeLimit` — what was asked for, beside what was
+    /// applied. The flag above says only *that* the value moved; this says which way of
+    /// moving it happened, and the two need different words.
+    public let requestedChargeLimit: Int?
+
     /// Whether the helper refused to snapshot the user's own System Settings limit, and
     /// therefore set no limit at all.
     public let systemLimitSnapshotRefused: Bool
@@ -108,6 +129,7 @@ public struct ChargeControlFacts: Equatable, Sendable {
         manageCharging: Bool,
         appliedChargeLimit: Int?,
         chargeLimitWasRaised: Bool,
+        requestedChargeLimit: Int? = nil,
         systemLimitSnapshotRefused: Bool,
         systemLimitIsSupported: Bool,
         systemLimit: Int?,
@@ -120,6 +142,7 @@ public struct ChargeControlFacts: Equatable, Sendable {
         self.manageCharging = manageCharging
         self.appliedChargeLimit = appliedChargeLimit
         self.chargeLimitWasRaised = chargeLimitWasRaised
+        self.requestedChargeLimit = requestedChargeLimit
         self.systemLimitSnapshotRefused = systemLimitSnapshotRefused
         self.systemLimitIsSupported = systemLimitIsSupported
         self.systemLimit = systemLimit
@@ -151,6 +174,7 @@ public struct ChargeControlFacts: Equatable, Sendable {
         }
         let applied: Int? = diagnostics?.appliedChargeLimit
         let wasRaised: Bool = diagnostics?.chargeLimitWasRaised ?? false
+        let requested: Int? = diagnostics?.requestedChargeLimit
         let refused: Bool = mcl?.snapshotRefused ?? false
         let mclSupported: Bool = mcl?.supported ?? false
         let currentSystemLimit: Int? = mcl?.systemLimit
@@ -162,6 +186,7 @@ public struct ChargeControlFacts: Equatable, Sendable {
             manageCharging: manageCharging,
             appliedChargeLimit: applied,
             chargeLimitWasRaised: wasRaised,
+            requestedChargeLimit: requested,
             systemLimitSnapshotRefused: refused,
             systemLimitIsSupported: mclSupported,
             systemLimit: currentSystemLimit,
@@ -216,8 +241,21 @@ public extension ChargeControlFacts {
                 // an automation limit or a temporary override rather than the slider, and
                 // a second implementation of the rounding would be free to disagree with
                 // the one that ran.
-                if chargeLimitWasRaised {
-                    disclosures.append(.limitRaisedToSystemMinimum(applied: applied))
+                //
+                // The flag says only that the value moved up. Which *kind* of raise it was
+                // decides the words: a request below the floor genuinely cannot be applied
+                // and the floor genuinely is the lowest value accepted, while a request of
+                // 87 landing on 90 makes both of those sentences false. Only the requested
+                // value tells them apart, so a raise arriving without one names nothing —
+                // the same fail-closed rule an applied-less raise already follows. In a
+                // matched install that cannot happen: both numbers come from the same
+                // `AppliedChargeLimit` and cross the boundary together.
+                if chargeLimitWasRaised, let requested = requestedChargeLimit {
+                    if requested < ChargeLimitRange.systemChargeLimitLowest {
+                        disclosures.append(.limitRaisedToSystemMinimum(applied: applied))
+                    } else {
+                        disclosures.append(.limitRoundedUp(requested: requested, applied: applied))
+                    }
                 }
                 // Only once a limit is actually held. `appliedChargeLimit` is cleared by
                 // every route that ends BatFi's ownership of the system limit, so this
@@ -286,6 +324,10 @@ public enum ChargeLimitRange {
     /// The lowest value Apple's Manual Charge Limit accepts. Measured as (80, 85, 90, 95,
     /// 100); the helper still queries the real list before writing, and this is only what
     /// the slider offers.
+    ///
+    /// It also decides which raise sentence the pane shows — below it a request was
+    /// clamped to the floor, at or above it a request was merely rounded up — and the
+    /// floor-clamp string names "80%" in words. Change one and change the other.
     public static let systemChargeLimitLowest = 80
 
     /// The lowest value the slider may be dragged to on this Mac.

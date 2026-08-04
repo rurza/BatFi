@@ -770,6 +770,12 @@ public enum L10n {
             ///
             /// The one thing a user set to 55% most needs told. The value is the one the
             /// helper actually put in force, never a recomputed guess at it.
+            ///
+            /// Shown *only* for a request below the floor, where both of its claims are
+            /// true. A request above the floor that was merely rounded up gets
+            /// `systemChargeLimitRoundedUp` instead — there this string would assert that
+            /// 87% is "below 80%" and that 90% is the lowest value accepted, neither of
+            /// which is so.
             public static func systemChargeLimitRaised(_ p1: Any) -> String {
                 String(
                     format: String(
@@ -778,6 +784,28 @@ public enum L10n {
                         bundle: .module
                     ),
                     String(describing: p1)
+                )
+            }
+
+            /// The macOS charge limit only accepts certain values, so BatFi is holding charging at %@ instead of the %@ it was asked for.
+            ///
+            /// The round-up, reached by clicking stop-charging at any battery level that is
+            /// not a multiple of 5. Names both numbers and claims nothing about a floor:
+            /// "the value it was asked for" rather than "your setting", because the request
+            /// can be an automation limit or a temporary override rather than the slider.
+            ///
+            /// - Parameters:
+            ///   - p1: the limit actually in force.
+            ///   - p2: the limit that was requested.
+            public static func systemChargeLimitRoundedUp(_ p1: Any, _ p2: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.system_charge_limit_rounded_up",
+                        defaultValue: "The macOS charge limit only accepts certain values, so BatFi is holding charging at %@ instead of the %@ it was asked for.",
+                        bundle: .module
+                    ),
+                    String(describing: p1),
+                    String(describing: p2)
                 )
             }
 

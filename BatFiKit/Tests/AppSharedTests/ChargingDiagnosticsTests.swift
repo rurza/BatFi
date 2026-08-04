@@ -26,7 +26,8 @@ import Testing
         forceDischargeAvailable: Bool = false,
         magSafeLEDAvailable: Bool = false,
         appliedChargeLimit: Int? = nil,
-        chargeLimitWasRaised: Bool = false
+        chargeLimitWasRaised: Bool = false,
+        requestedChargeLimit: Int? = nil
     ) -> ChargingDiagnostics {
         ChargingDiagnostics(
             backend: backend,
@@ -36,7 +37,8 @@ import Testing
             forceDischargeAvailable: forceDischargeAvailable,
             magSafeLEDAvailable: magSafeLEDAvailable,
             appliedChargeLimit: appliedChargeLimit,
-            chargeLimitWasRaised: chargeLimitWasRaised
+            chargeLimitWasRaised: chargeLimitWasRaised,
+            requestedChargeLimit: requestedChargeLimit
         )
     }
 
@@ -84,6 +86,33 @@ import Testing
         #expect(decoded.appliedChargeLimit == 80)
         #expect(decoded.chargeLimitWasRaised)
         #expect(decoded.mcl?.supported == true)
+    }
+
+    /// The requested value rides beside the applied one. Dropped in either half of the
+    /// coder it decodes as nil, and the pane then declines to name a reason for the raise
+    /// at all — a silent loss of the disclosure this whole field exists to get right.
+    @Test func theRequestedLimitSurvivesTheXPCRoundTrip() throws {
+        let decoded = try roundTrip(diagnostics(
+            backend: ChargeBackend.systemChargeLimit.rawValue,
+            appliedChargeLimit: 90,
+            chargeLimitWasRaised: true,
+            requestedChargeLimit: 87
+        ))
+        #expect(decoded.requestedChargeLimit == 87)
+        #expect(decoded.appliedChargeLimit == 90)
+    }
+
+    /// Absent has to decode as absent rather than as a stored zero — the flag-plus-value
+    /// shape, for the same reason `appliedChargeLimit` uses it. Zero is a value a request
+    /// can genuinely hold: `dischargeBattery(to:)` accepts any 0...100.
+    @Test func anAbsentRequestedLimitRoundTripsAsAbsent() throws {
+        let decoded = try roundTrip(diagnostics(requestedChargeLimit: nil))
+        #expect(decoded.requestedChargeLimit == nil)
+    }
+
+    @Test func aZeroRequestedLimitRoundTripsAsZeroNotAsAbsent() throws {
+        let decoded = try roundTrip(diagnostics(appliedChargeLimit: 80, requestedChargeLimit: 0))
+        #expect(decoded.requestedChargeLimit == 0)
     }
 
     // MARK: - systemChargeLimitIsHoldingCharge

@@ -82,6 +82,11 @@ struct ChargeControlDisclosureBanner: View {
             return l10n.systemChargeLimitBanner
         case .limitRaisedToSystemMinimum(let applied):
             return l10n.systemChargeLimitRaised(chargeLimitPercentageLabel(applied))
+        case .limitRoundedUp(let requested, let applied):
+            return l10n.systemChargeLimitRoundedUp(
+                chargeLimitPercentageLabel(applied),
+                chargeLimitPercentageLabel(requested)
+            )
         case .managingSystemSettingsLimit:
             return l10n.systemChargeLimitManagesSystemSettings
         case .limitNotAppliedWithoutSnapshot:
@@ -97,6 +102,7 @@ struct ChargeControlDisclosureBanner: View {
         switch disclosure {
         case .chargingControlUnavailable,
              .limitRaisedToSystemMinimum,
+             .limitRoundedUp,
              .limitNotAppliedWithoutSnapshot,
              .pausingChargingUnavailable:
             return true
@@ -109,6 +115,7 @@ struct ChargeControlDisclosureBanner: View {
         switch disclosure {
         case .chargingControlUnavailable,
              .limitRaisedToSystemMinimum,
+             .limitRoundedUp,
              .limitNotAppliedWithoutSnapshot,
              .pausingChargingUnavailable:
             return "exclamationmark.triangle.fill"
