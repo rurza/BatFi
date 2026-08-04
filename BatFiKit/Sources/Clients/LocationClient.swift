@@ -2,8 +2,15 @@
 //  LocationClient.swift
 //  BatFi
 //
-//  Abstraction over CoreLocation for the calendar/automation feature. Vends the current
-//  coordinate (one-shot) and a stream of updates for geofence evaluation.
+//  Abstraction over CoreLocation for the automation feature, split into two surfaces with
+//  deliberately different lifetimes:
+//
+//  - `snapshotUpdates` drives the location picker and permission UI. It runs continuous
+//    CoreLocation updates, but only while a consumer is iterating — i.e. while the picker
+//    sheet is open.
+//  - `setMonitoredFences` / `fenceStates` drive rule evaluation via CLMonitor. CoreLocation
+//    evaluates the geofences and reports satisfied/unsatisfied; no continuous updates run and
+//    the app never receives coordinates for this path.
 //
 
 import AppShared
@@ -11,25 +18,23 @@ import Dependencies
 import DependenciesMacros
 import Foundation
 
-/// Authorization state, decoupled from `CLAuthorizationStatus` so callers needn't import
-/// CoreLocation.
-public enum LocationAuthorization: Sendable, Equatable {
-    case notDetermined
-    case denied
-    case authorized
-}
-
 @DependencyClient
 public struct LocationClient: Sendable {
-    /// Current authorization status.
-    public var authorizationStatus: @Sendable () -> LocationAuthorization = { .notDetermined }
-    /// Ask the user for permission (no-op if already determined).
+    /// Current snapshot, then every change. Yields the current value immediately on subscribe.
+    /// While at least one consumer iterates, CoreLocation updates run. Picker/permission UI only.
+    public var snapshotUpdates: @Sendable () -> AsyncStream<LocationSnapshot> = { AsyncStream { _ in } }
+
+    /// Reconcile the monitored set. Passing `[]` removes every condition and stops all
+    /// monitoring. Idempotent: fences whose centre and monitored radius are unchanged are left
+    /// alone, preserving their resolved state.
+    public var setMonitoredFences: @Sendable ([MonitoredFence]) async -> Void
+
+    /// Satisfied fence IDs: the current set immediately, then every change. Backed by
+    /// CLMonitor; starts no continuous location updates.
+    public var fenceStates: @Sendable () -> AsyncStream<Set<UUID>> = { AsyncStream { _ in } }
+
+    /// Prompt for authorization. No-op unless `.notDetermined`.
     public var requestAuthorization: @Sendable () -> Void
-    /// One-shot best-effort current coordinate. Returns nil when unavailable or denied.
-    public var currentCoordinate: @Sendable () async -> Coordinate?
-    /// Continuous coordinate updates while at least one consumer is iterating. Starts and
-    /// stops the underlying location updates based on demand.
-    public var coordinateUpdates: @Sendable () -> AsyncStream<Coordinate> = { AsyncStream { _ in } }
 }
 
 extension LocationClient: TestDependencyKey {
