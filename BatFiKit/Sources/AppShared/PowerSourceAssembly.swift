@@ -91,7 +91,23 @@ public enum PowerStateAssembler {
         // source reads battery. Fall back to the power source only when the IORegistry value
         // is unavailable, so a renamed or missing property degrades instead of taking down
         // the whole power state stream.
-        let resolvedChargerConnected = readings.chargerConnected ?? (powerSource == "AC Power")
+        //
+        // The fallback is wrong in exactly one situation, and it is not a corner: it is
+        // wrong *while BatFi is force-discharging*, which is when the adapter is isolated
+        // and IOPS therefore reports "Battery Power" with the charger plugged in. So the
+        // derivation is flagged rather than hidden, and `ChargerConnection.isConnected`
+        // decides what to do about it — `turnOnDischarging` used to hit its
+        // `guard chargerConnected` and return before re-asserting a discharge it was still
+        // running, and the sleep assertion was released mid-discharge.
+        let resolvedChargerConnected: Bool
+        let isDerived: Bool
+        if let reported = readings.chargerConnected {
+            resolvedChargerConnected = reported
+            isDerived = false
+        } else {
+            resolvedChargerConnected = powerSource == "AC Power"
+            isDerived = true
+        }
 
         return PowerState(
             batteryLevel: batteryLevel,
@@ -103,6 +119,7 @@ public enum PowerStateAssembler {
             batteryHealth: readings.batteryHealth,
             batteryTemperature: readings.temperatureRaw.map { $0 / 100 },
             chargerConnected: resolvedChargerConnected,
+            chargerConnectionIsDerived: isDerived,
             optimizedBatteryChargingEngaged: readings.optimizedBatteryChargingEngaged
         )
     }

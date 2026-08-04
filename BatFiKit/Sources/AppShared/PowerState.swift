@@ -17,6 +17,14 @@ public struct PowerState: CustomStringConvertible, Equatable, Sendable {
     public let batteryHealth: Int?
     public let batteryTemperature: Double?
     public let chargerConnected: Bool
+    /// Whether `chargerConnected` came from the power-source string rather than from
+    /// `ExternalConnected`.
+    ///
+    /// Carried because the derivation has one known-wrong case and it is the one that
+    /// matters: while BatFi force-discharges, the adapter is isolated and IOPS reports
+    /// "Battery Power" with the charger plugged in. `ChargerConnection.isConnected` is
+    /// where that is dealt with; nothing should read this field on its own.
+    public let chargerConnectionIsDerived: Bool
     public let optimizedBatteryChargingEngaged: Bool?
 
     public init(
@@ -29,6 +37,7 @@ public struct PowerState: CustomStringConvertible, Equatable, Sendable {
         batteryHealth: Int?,
         batteryTemperature: Double?,
         chargerConnected: Bool,
+        chargerConnectionIsDerived: Bool = false,
         optimizedBatteryChargingEngaged: Bool?
     ) {
         self.batteryLevel = batteryLevel
@@ -40,6 +49,7 @@ public struct PowerState: CustomStringConvertible, Equatable, Sendable {
         self.batteryHealth = batteryHealth
         self.batteryTemperature = batteryTemperature
         self.chargerConnected = chargerConnected
+        self.chargerConnectionIsDerived = chargerConnectionIsDerived
         self.optimizedBatteryChargingEngaged = optimizedBatteryChargingEngaged
     }
 

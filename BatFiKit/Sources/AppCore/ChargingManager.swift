@@ -325,10 +325,18 @@ public actor ChargingManager: ChargingModeManager {
         disableSleepDuringDischarge: Bool
     ) async {
         logger.debug("Update status")
-        let chargerConnected = powerState.chargerConnected
-        updateLastChargerConnectedStateIfNeeded(chargerConnected)
         let appChargingMode = await appChargingState.currentAppChargingMode()
         let currentMode = appChargingMode.mode
+        // Resolved rather than read straight off the reading, and the mode has to be in
+        // hand first. On firmware with no `ExternalConnected` the connection is derived
+        // from the power-source string, which reads "Battery Power" while BatFi is
+        // force-discharging with the charger plugged in — see `ChargerConnection`.
+        let chargerConnected = ChargerConnection.isConnected(
+            reported: powerState.chargerConnected,
+            isDerived: powerState.chargerConnectionIsDerived,
+            appMode: currentMode
+        )
+        updateLastChargerConnectedStateIfNeeded(chargerConnected)
 
         // The automation engine can request a base charge limit. It overrides the user's
         // configured limit only when there's no manual temp override (which still wins).
@@ -348,10 +356,13 @@ public actor ChargingManager: ChargingModeManager {
             return
         }
 
+        // The resolved value, not the raw one: releasing the prevent-automatic-sleep
+        // assertion mid-discharge lets the Mac auto-sleep with force discharge latched in
+        // the SMC.
         await setUpDelaySleep(
             preventAutomaticSleep &&
             powerState.batteryLevel < userTempChargingMode?.limit ?? effectiveChargeLimit &&
-            powerState.chargerConnected
+            chargerConnected
         )
 
         guard manageCharging else {
@@ -681,7 +692,15 @@ public actor ChargingManager: ChargingModeManager {
                 await appChargingState.updateLidOpenedStatus(lidOpened)
             }
             await appChargingState.setAppChargingMode(
-                .init(mode: mode, userTempOverride: userTempOverride, chargerConnected: powerState.chargerConnected)
+                .init(
+                    mode: mode,
+                    userTempOverride: userTempOverride,
+                    chargerConnected: ChargerConnection.isConnected(
+                        reported: powerState.chargerConnected,
+                        isDerived: powerState.chargerConnectionIsDerived,
+                        appMode: mode
+                    )
+                )
             )
             await updateStatusWithCurrentState()
         } catch {

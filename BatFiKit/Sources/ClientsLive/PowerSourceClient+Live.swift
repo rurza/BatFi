@@ -21,6 +21,12 @@ extension PowerSourceClient: DependencyKey {
 
         let batteryHealthState = BatteryHealthState()
 
+        /// One-shot gate for the derived-charger-connection notice, for the same reason
+        /// `dumpGate` below exists: `getPowerSourceInfo` runs on every power change and
+        /// ~6-8 subscribers drive it, so an ungated line is a flood on the one firmware
+        /// that would emit it.
+        let chargerConnectedGate = DumpGate()
+
         @Sendable
         func getPowerSourceInfo() async throws -> PowerState {
             func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
@@ -66,7 +72,19 @@ extension PowerSourceClient: DependencyKey {
             // not stop BatFi managing charging: it only removes the cutout, silently.
             readings.temperatureRaw = getValue("VirtualTemperature", from: service)
                 ?? getValue("Temperature", from: service)
+            // `AppleRawExternalConnected` as a second source, present on this Mac's
+            // `IOPMPowerSource` node and carrying the same signal. Worth trying before the
+            // power-source-string derivation in `PowerStateAssembler`, which is wrong
+            // exactly while BatFi is force-discharging.
             readings.chargerConnected = getValue(kIOPMPSExternalConnectedKey, from: service)
+                ?? getValue("AppleRawExternalConnected", from: service)
+            if readings.chargerConnected == nil, chargerConnectedGate.shouldDump(.chargerConnected) {
+                // The field is derived rather than required, so `assemble` can never throw
+                // for it and `logAvailableBatteryProperties` can never fire for it. Without
+                // this line, a firmware that renamed `ExternalConnected` produces zero
+                // diagnostics about the one signal force discharge depends on.
+                logger.error("Neither ExternalConnected nor AppleRawExternalConnected is published; deriving charger connection from the power source string")
+            }
             await batteryHealthState.refreshIfStale()
             readings.batteryHealth = await batteryHealthState.currentHealth()
 

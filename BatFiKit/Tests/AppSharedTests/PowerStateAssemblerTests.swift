@@ -105,6 +105,18 @@ import Testing
         }
     }
 
+    /// Whether the value was derived rides with it, so the one situation the derivation
+    /// gets wrong can be recognized rather than guessed at. See `ChargerConnection`.
+    @Test func theDerivationIsFlaggedAndAReportedValueIsNot() throws {
+        var reported = minimal
+        reported.chargerConnected = true
+        #expect(try PowerStateAssembler.assemble(reported).chargerConnectionIsDerived == false)
+
+        var derived = minimal
+        derived.chargerConnected = nil
+        #expect(try PowerStateAssembler.assemble(derived).chargerConnectionIsDerived)
+    }
+
     @Test func errorDescriptionNamesTheIOKitKey() {
         let error = PowerSourceAssemblyError(missingField: .chargerConnected)
         #expect(error.description.contains("ExternalConnected"))
