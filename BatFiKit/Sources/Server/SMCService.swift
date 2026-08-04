@@ -533,15 +533,13 @@ actor SMCService {
     /// write and ignores it, so "Run on Battery" would report success while the battery
     /// never discharged. Same rule the backend resolver applies to `CHTE`/`CH0B`/`CH0C`.
     ///
-    /// The shapes are measured, not derived from `SMCKey`: on Tahoe-era firmware `CHIE`
-    /// reports `hex_`/1 with attributes 0xd4 (readable | writable), *not* the `ui8 ` its
-    /// declaration implies — the size matches, so the write is unaffected, but a `ui8 `
-    /// expectation here would reject a perfectly good key. `CH0I`/`CH0J` are absent on
-    /// that firmware and could not be measured; their shape follows the declaration.
+    /// The shapes themselves live in `ForceDischargeKeyShape`, in `Shared`, where the
+    /// test suite can reach them — `CHIE`'s accepted encodings are measured facts about
+    /// real firmware, and a change to them has to break a test rather than the fleet.
+    /// This function only turns the `SMCKey` into a probed capability and asks.
     private func forceDischargeKeyIsUsable(_ key: SMCKey, writable: Bool) -> Bool {
         guard let capability = SMCKit.probeCapability(for: key) else { return false }
-        let expectedType = key.code == SMCKey.disableCharging3.code ? "hex_" : "ui8 "
-        return capability.matches(type: expectedType, size: 1, writable: writable)
+        return ForceDischargeKeyShape.isUsable(capability, writable: writable)
     }
 
     func enableForceDischarge(_ enable: Bool) async throws {

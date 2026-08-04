@@ -57,7 +57,18 @@ public struct SMCKeyCapability: Sendable, Equatable {
     /// read-only `hex_`/2 key with unrelated meaning, and some firmware exposes
     /// zero-size placeholders that can be neither read nor written.
     public func matches(type expectedType: String, size expectedSize: UInt32, writable: Bool) -> Bool {
-        guard size > 0, size == expectedSize, self.type == expectedType else { return false }
+        self.type == expectedType && matchesAnyType(size: expectedSize, writable: writable)
+    }
+
+    /// The same rule minus the type check, for keys whose type has never been
+    /// measured on real firmware and whose expected type would therefore be a guess.
+    ///
+    /// Everything else still applies. A zero-size key is a placeholder that can be
+    /// neither read nor written, and a key that cannot be read cannot be verified
+    /// after a write — both are real firmware behaviours, not type pedantry, so
+    /// dropping the type expectation must not drop them too.
+    public func matchesAnyType(size expectedSize: UInt32, writable: Bool) -> Bool {
+        guard size > 0, size == expectedSize else { return false }
         guard isReadable else { return false }
         return !writable || isWritable
     }
@@ -82,4 +93,60 @@ public enum ChargeBackendResolver {
 
     /// Keys the helper must probe to resolve a backend.
     public static let probedKeys: [String] = ["CHTE", "CH0B", "CH0C", "CHIE", "CH0I", "CH0J"]
+}
+
+/// The shapes a force-discharge key must have before BatFi will write it.
+///
+/// Force discharge is probed independently of the charge backend — `CHIE` outlives
+/// `CHTE` on newer firmware — so these expectations do not belong to
+/// `ChargeBackendResolver`, but they are the same kind of decision and they live
+/// here for the same reason: this is the value that decides whether "Run on Battery"
+/// works, and only `Shared` is reachable from the test target. Buried in `Server` the
+/// accepted encodings could be "tidied up" to match a declaration and take the whole
+/// feature down with a green suite.
+///
+/// The rule is strict where the shape was measured and permissive where it was not.
+public enum ForceDischargeKeyShape {
+    /// `CHIE` (`SMCKey.disableCharging3`), the current mechanism.
+    ///
+    /// Measured on a Mac15,8 / M3 Max / firmware mBoot-18000.161.9 as `hex_`/1 with
+    /// attributes 0xd4 — **not** the `ui8 ` its `SMCKey` declaration implies. `hex_`
+    /// is therefore load-bearing on every current Mac and must not be dropped.
+    /// `ui8 ` is accepted alongside it: one machine is not enough evidence to reject
+    /// a second plausible encoding, and at size 1 the write is byte-identical either
+    /// way.
+    public static let chieAcceptedTypes: [String] = ["hex_", "ui8 "]
+
+    /// Size, in bytes, of every force-discharge key. Measured for `CHIE`, and the
+    /// one thing the legacy pair's declaration and every other implementation agree
+    /// on.
+    public static let expectedSize: UInt32 = 1
+
+    /// Whether a probed key is a force-discharge mechanism BatFi can use.
+    ///
+    /// Pass the capability the helper probed for the `SMCKey` it is about to touch;
+    /// the key is identified by the code the firmware answered for. `writable: false`
+    /// asks only whether the key can back a status read, `writable: true` whether it
+    /// can be written — the two are deliberately different tests.
+    ///
+    /// `CH0I`/`CH0J` are checked on size and attributes only, with no type
+    /// expectation. They are the Intel-era pair: absent on the machine available to
+    /// measure, so their declared `ui8 ` is a guess — and `CHIE`, whose declaration
+    /// says `ui8 ` while the firmware says `hex_`, is direct proof that those
+    /// declarations do not track firmware. Guessing wrong there would silently
+    /// disable force discharge across the entire Intel fleet.
+    public static func isUsable(_ capability: SMCKeyCapability, writable: Bool) -> Bool {
+        switch capability.code {
+        case "CHIE":
+            return chieAcceptedTypes.contains {
+                capability.matches(type: $0, size: expectedSize, writable: writable)
+            }
+        case "CH0I", "CH0J":
+            return capability.matchesAnyType(size: expectedSize, writable: writable)
+        default:
+            // Not a key this mechanism is ever driven by. Answering "usable" for an
+            // unrelated code is how a same-shaped key of another meaning gets written.
+            return false
+        }
+    }
 }
