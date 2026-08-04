@@ -6,18 +6,27 @@
 
 ---
 
-## 1. Working tree is DIRTY — read this first
+## 1. Start here
 
-Phase 3 Task 3 was **mid-flight** when the session ended. Uncommitted:
+Phase 3 Task 3 committed as `02ccaaf` ("Apply the charge limit through Apple's limit when no SMC key works") just as the session ended. **It has NOT been reviewed** — it is the only task in this whole effort that never got a review pass. Review it first.
 
-```
- M BatFiKit/Sources/Server/SMCService.swift
- M BatFiKit/Sources/Shared/ChargingDiagnostics.swift
-?? BatFiKit/Sources/Shared/SystemChargeLimit.swift
-?? BatFiKit/Tests/AppSharedTests/SystemChargeLimitTests.swift
-```
+What to check in it, from the brief it was given:
+- **Exactly one MCL owner.** SMC backends *release* Apple's limit (override to 100); `.systemChargeLimit` *sets* it. If both can run, the 60 s renewal task fights the setter and the user's limit oscillates. It was told to enforce this with a single `switch` on the backend, not two independent conditionals — verify that.
+- Sub-80 requests must round **up** to the nearest value Apple accepts. Rounding down would charge past what the user asked for.
+- `restoreSystemDefaults()` must release the system limit, so quitting BatFi hands the user's setting back.
+- `.chte` behaviour unchanged.
 
-The background agent may or may not have committed after the session ended. **Check `git log` and `git status` first.** If the work is incomplete, either finish it against the P3.3 brief below or `git checkout`/`git clean` it and redo the task — do not half-merge it.
+It also added `BatFiKit/Sources/Shared/SystemChargeLimit.swift` (pure rounding helper) and tests. **Test baseline is now 70 tests / 11 suites.**
+
+### ⚠️ PLAN DEFECT — `applyChargeLimit` has no caller
+
+The implementer flagged this and it is correct: `applyChargeLimit` exists on `SMCService` but is **not in the XPC protocol, not in `Listener`, and not called from `ChargingManager`** — and **no remaining Phase 3 task wires it up**. My plan skipped that step entirely.
+
+So as it stands, `.systemChargeLimit` is fully built and completely unreachable: on macOS 27 firmware `setChargingMode` still throws, tearing down the SMC connection on every mode change, and the fallback never applies a limit.
+
+**Phase 3 needs an inserted task before Task 4:** add `applyChargeLimit` (or an equivalent "apply limit" operation) to `Shared/XPCService.swift`, implement it in `Server/Listener.swift` following the `getMCLStatus` shape, wrap it in `ClientsLive/XPCClient.swift`, expose it on `Clients/ChargingClient.swift`, and call it from `ChargingManager` where the charge limit is applied — so the `.systemChargeLimit` backend actually engages. Also reconcile `setChargingMode`, which currently throws for this backend rather than routing through the limit path.
+
+Working tree was clean at handoff (HEAD `62bea45` + the P3.3 commit `02ccaaf`, 36 commits).
 
 `BatFiKit/Sources/ClientsLive/AnalyticsDSN.swift` is gitignored, CI-generated, and **must exist locally** or `ClientsLive` will not compile. Recreate with:
 
@@ -38,7 +47,7 @@ xcodebuild build -project BatFi.xcodeproj -scheme Server       -destination 'pla
 xcodebuild build -project BatFi.xcodeproj -scheme ClientsLive  -destination 'platform=macOS'
 ```
 
-The `AppSharedTests` scheme was added in `7f95c0d` precisely to make CLI testing possible. **Baseline at handoff: 62 tests / 10 suites.**
+The `AppSharedTests` scheme was added in `7f95c0d` precisely to make CLI testing possible. **Baseline at handoff: 70 tests / 11 suites.**
 
 ---
 
