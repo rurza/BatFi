@@ -180,8 +180,8 @@ struct ChargingView: View {
     /// User-facing summary of the resolved backend. `.chte` and `.legacyCH0BC` both read
     /// as "Active" — the mechanism only matters for a bug report, and the firmware token
     /// below already disambiguates that unambiguously. Exhaustive over `ChargeBackend` so
-    /// a future case (`.systemChargeLimit`, `.firmwareRange`) fails to compile here rather
-    /// than silently falling into the wrong branch.
+    /// a future case (`.firmwareRange`) fails to compile here rather than silently falling
+    /// into the wrong branch.
     private var chargingControlDescription: String {
         guard let chargeBackend else {
             return L10n.Settings.Label.diagnosticsChargingControlUnknown
@@ -191,6 +191,8 @@ struct ChargingView: View {
             return L10n.Settings.Label.diagnosticsChargingControlUnavailable
         case .chte, .legacyCH0BC:
             return L10n.Settings.Label.diagnosticsChargingControlActive
+        case .systemChargeLimit:
+            return L10n.Settings.Label.diagnosticsChargingControlSystemChargeLimit
         }
     }
 

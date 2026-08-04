@@ -733,6 +733,8 @@ public enum L10n {
             public static let diagnosticsFirmwareUnknown = String(localized: "settings.label.diagnostics_firmware_unknown", defaultValue: "Unknown", bundle: Bundle.module)
             /// Active
             public static let diagnosticsChargingControlActive = String(localized: "settings.label.diagnostics_charging_control_active", defaultValue: "Active", bundle: Bundle.module)
+            /// Active (via macOS Charge Limit)
+            public static let diagnosticsChargingControlSystemChargeLimit = String(localized: "settings.label.diagnostics_charging_control_system_charge_limit", defaultValue: "Active (via macOS Charge Limit)", bundle: Bundle.module)
             /// Not available
             public static let diagnosticsChargingControlUnavailable = String(localized: "settings.label.diagnostics_charging_control_unavailable", defaultValue: "Not available", bundle: Bundle.module)
             /// Unknown

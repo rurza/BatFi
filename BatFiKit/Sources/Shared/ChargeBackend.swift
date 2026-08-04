@@ -17,10 +17,23 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
     case chte
     /// `CH0B` + `CH0C` (ui8 pair) — pre-Tahoe firmware.
     case legacyCH0BC
+    /// Apple's Manual Charge Limit (macOS 26.4+). Fallback when no SMC mechanism
+    /// works — notably macOS 27 firmware, which removed `CHTE`. Restricted to
+    /// 80–100% in 5% steps, so it cannot honour BatFi's sub-80% limits.
+    case systemChargeLimit
     /// No usable mechanism. Report honestly rather than appearing to work.
     case unsupported
 
     public var isUsable: Bool { self != .unsupported }
+
+    /// Whether this backend can express a limit below 80%. Apple's own limit cannot,
+    /// which is the single most important thing to tell the user when it is active.
+    public var honoursLimitsBelow80: Bool {
+        switch self {
+        case .chte, .legacyCH0BC: return true
+        case .systemChargeLimit, .unsupported: return false
+        }
+    }
 }
 
 /// One key as the firmware describes it. `type` is the raw four-character type
@@ -51,7 +64,10 @@ public struct SMCKeyCapability: Sendable, Equatable {
 }
 
 public enum ChargeBackendResolver {
-    public static func resolve(_ capabilities: [String: SMCKeyCapability]) -> ChargeBackend {
+    public static func resolve(
+        _ capabilities: [String: SMCKeyCapability],
+        systemChargeLimitSupported: Bool = false
+    ) -> ChargeBackend {
         if capabilities["CHTE"]?.matches(type: "ui32", size: 4, writable: true) == true {
             return .chte
         }
@@ -59,6 +75,8 @@ public enum ChargeBackendResolver {
            capabilities["CH0C"]?.matches(type: "ui8 ", size: 1, writable: true) == true {
             return .legacyCH0BC
         }
+        // Ranked last on purpose: only the SMC backends honour limits below 80%.
+        if systemChargeLimitSupported { return .systemChargeLimit }
         return .unsupported
     }
 

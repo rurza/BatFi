@@ -18400,6 +18400,17 @@
         }
       }
     },
+    "settings.label.diagnostics_charging_control_system_charge_limit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active (via macOS Charge Limit)"
+          }
+        }
+      }
+    },
     "settings.label.diagnostics_charging_control_unavailable": {
       "extractionState": "manual",
       "localizations": {

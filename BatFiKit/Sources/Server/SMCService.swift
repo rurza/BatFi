@@ -354,7 +354,10 @@ actor SMCService {
             let isEnabled = data.0 == 0
             logger.notice("CH0B: charging enabled = \(isEnabled)")
             return isEnabled
-        case .unsupported:
+        case .systemChargeLimit, .unsupported:
+            // No SMC key backs charging control under either case: .systemChargeLimit
+            // is driven through PowerUI instead (wired up separately), and .unsupported
+            // has no mechanism at all.
             logger.error("No usable charge control mechanism on this firmware")
             throw SMCError.keyNotFound(code: "CHTE")
         }
@@ -377,7 +380,10 @@ actor SMCService {
             try SMCKit.writeData(.inhibitCharging1, uint8: enableByte)
             try SMCKit.writeData(.inhibitCharging2, uint8: enableByte)
             logger.notice("Inhibit charging changed using CH0B/CH0C")
-        case .unsupported:
+        case .systemChargeLimit, .unsupported:
+            // No SMC key backs charging control under either case: .systemChargeLimit
+            // is driven through PowerUI instead (wired up separately), and .unsupported
+            // has no mechanism at all.
             logger.error("No usable charge control mechanism on this firmware")
             throw SMCError.keyNotFound(code: "CHTE")
         }

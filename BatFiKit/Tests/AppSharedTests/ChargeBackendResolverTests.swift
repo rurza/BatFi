@@ -100,4 +100,36 @@ import Testing
         #expect(!measured.matches(type: "ui32", size: 4, writable: false))
         #expect(!measured.matches(type: "hex_", size: 4, writable: false))
     }
+
+    /// Apple's limit is the fallback of last resort: only the SMC backends can
+    /// express a limit below 80%, so they must outrank it.
+    @Test func smcBackendsOutrankSystemChargeLimit() {
+        let chte = table([cap("CHTE", "ui32", 4)])
+        #expect(ChargeBackendResolver.resolve(chte, systemChargeLimitSupported: true) == .chte)
+
+        let legacy = table([cap("CH0B", "ui8 ", 1), cap("CH0C", "ui8 ", 1)])
+        #expect(ChargeBackendResolver.resolve(legacy, systemChargeLimitSupported: true) == .legacyCH0BC)
+    }
+
+    /// The macOS 27 case: no usable SMC key, but Apple's limit is available.
+    @Test func fallsBackToSystemChargeLimitWhenNoSMCMechanism() {
+        #expect(ChargeBackendResolver.resolve([:], systemChargeLimitSupported: true) == .systemChargeLimit)
+    }
+
+    @Test func unsupportedWhenNeitherSMCNorSystemLimit() {
+        #expect(ChargeBackendResolver.resolve([:], systemChargeLimitSupported: false) == .unsupported)
+    }
+
+    /// A zero-size CHTE placeholder must not beat an available system limit.
+    @Test func placeholderKeyDoesNotBeatSystemChargeLimit() {
+        let caps = table([cap("CHTE", "ui32", 0)])
+        #expect(ChargeBackendResolver.resolve(caps, systemChargeLimitSupported: true) == .systemChargeLimit)
+    }
+
+    @Test func onlySMCBackendsHonourLimitsBelow80() {
+        #expect(ChargeBackend.chte.honoursLimitsBelow80)
+        #expect(ChargeBackend.legacyCH0BC.honoursLimitsBelow80)
+        #expect(!ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
+        #expect(!ChargeBackend.unsupported.honoursLimitsBelow80)
+    }
 }
