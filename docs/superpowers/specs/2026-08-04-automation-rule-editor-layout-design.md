@@ -42,42 +42,41 @@ label longer than 90pt rather than growing.
 
 ## Design
 
-### Shared alignment guide
+### Shared, measured label column
 
-Introduce one custom `HorizontalAlignment` in the Settings module, used by both files:
+The column must be shared across the `RuleEditorView` / `AutomationLocationPicker` boundary, which rules out the
+two obvious native answers:
 
-```swift
-extension HorizontalAlignment {
-    private enum AutomationLabel: AlignmentID {
-        static func defaultValue(in context: ViewDimensions) -> CGFloat { context[.leading] }
-    }
-    static let automationLabel = HorizontalAlignment(AutomationLabel.self)
-}
-```
+- **`Form` (`.columns` style)** enumerates its *immediate* children. The whole picker would be one opaque row and
+  its internal labels would never join the parent's column. Same for `Grid`, which needs `GridRow` as a direct
+  child. Dissolving the picker into its parent is not an option — it owns ~15 `@State` properties and the
+  CoreLocation `.task`, so it has to stay a `View`.
+- **A custom `HorizontalAlignment` guide** breaks on this sheet's *full-width* rows. In
+  `VStack(alignment: .automationLabel)` every child aligns its guide to a common x. A labeled row's guide is its
+  label's trailing edge; the map, search field, permission banner and both condition checkboxes have no explicit
+  guide, so theirs defaults to `context[.leading]`. The stack resolves that by placing their leading edge where
+  the labels' trailing edges are, **indenting every full-width row by the label column's width.** A guide only
+  works when all siblings are labeled rows, and here most are not.
 
-Labeled rows become:
+So the column is measured instead. A `PreferenceKey` collects each label's intrinsic width and reduces with
+`max`; preferences propagate up through custom `View` boundaries by design, which is precisely the property
+needed. The sheet root reads the maximum into `@State` and pushes it back down through an `EnvironmentKey`, which
+each labeled row reads to size its label.
 
-```swift
-HStack(alignment: .firstTextBaseline) {
-    Text(label).alignmentGuide(.automationLabel) { $0[.trailing] }
-    control
-}
-```
+The measuring copy of each label is a hidden `.fixedSize()` duplicate in the label's `.background`. Measuring the
+*visible* label would report the environment-supplied column width straight back and pin it at its starting
+value.
 
-inside a root `VStack(alignment: .automationLabel)`.
+There is no feedback loop: the measured value depends only on the label's intrinsic text width, never on the
+width being distributed. The environment default is 90 — today's hard-coded value — so the first rendered frame
+is already close to the settled layout and the single correction pass is not visible.
 
-This is the mechanism `Form`'s `.columns` style uses internally, chosen over `Form` itself for one specific
-reason: **`Form` enumerates its immediate children, so `AutomationLocationPicker` would be a single opaque row
-and its internal labels would not join the parent's column.** Alignment guides propagate up through custom `View`
-boundaries to the nearest ancestor stack using that alignment, so the picker's rows land in the same column as
-the editor's without the picker having to be dissolved into its parent.
-
-Because no width is declared, the column sizes itself to the longest label in whatever locale is running, which
-fixes the truncation risk in point 3.
-
-Rows that legitimately span both columns — the two condition checkboxes, the search field, the permission banner,
-the map, the unconditional-rule warning — do not adopt the guide and stay full-width. The checkboxes continue to
+Full-width rows — the two condition checkboxes, the search field, the permission banner, the map, the
+unconditional-rule warning — simply do not use the row component and are unaffected. The checkboxes continue to
 read as section headers.
+
+Because no width is declared at any call site, the column sizes itself to the longest label in whatever locale is
+running, which fixes the truncation risk in point 3.
 
 ### Content-driven height with a screen-size cap
 
