@@ -19,6 +19,9 @@ actor PowerUICharging {
     private var renewalTask: Task<Void, Never>?
     private var lastOverrideValue: UInt8 = 0
 
+    /// The user's System Settings value, captured before BatFi first changed it.
+    private var userSystemLimitSnapshot: Int?
+
     private static let renewalInterval: Duration = .seconds(60)
 
     private init() {
@@ -55,6 +58,33 @@ actor PowerUICharging {
         typealias Query = @convention(c) (AnyObject, Selector) -> ObjCBool
         let query = unsafeBitCast(method_getImplementation(method), to: Query.self)
         return query(client, selector).boolValue
+    }
+
+    /// Values Apple accepts, measured as (80, 85, 90, 95, 100). Queried rather than
+    /// hardcoded so a future macOS that widens the range works without a code change.
+    func availableLimits() -> [Int] {
+        guard let client, let clientClass else { return [] }
+        let selector = NSSelectorFromString("availableChargeLimitsWithError:")
+        guard let method = class_getInstanceMethod(clientClass, selector) else { return [] }
+        typealias Query = @convention(c) (AnyObject, Selector, AutoreleasingUnsafeMutablePointer<NSError?>?) -> NSArray?
+        let query = unsafeBitCast(method_getImplementation(method), to: Query.self)
+        var error: NSError?
+        guard let values = query(client, selector, &error) as? [NSNumber], error == nil else { return [] }
+        return values.map(\.intValue).sorted()
+    }
+
+    /// The user's own System Settings value. Note the selector returns an unsigned
+    /// char, not an object.
+    func currentSystemLimit() -> Int? {
+        guard let client, let clientClass else { return nil }
+        let selector = NSSelectorFromString("getMCLLimitWithError:")
+        guard let method = class_getInstanceMethod(clientClass, selector) else { return nil }
+        typealias Query = @convention(c) (AnyObject, Selector, AutoreleasingUnsafeMutablePointer<NSError?>?) -> UInt8
+        let query = unsafeBitCast(method_getImplementation(method), to: Query.self)
+        var error: NSError?
+        let value = query(client, selector, &error)
+        guard error == nil else { return nil }
+        return Int(value)
     }
 
     var hasActiveOverride: Bool { lastOverrideValue != 0 }
@@ -98,7 +128,70 @@ actor PowerUICharging {
         )
     }
 
+    /// Drives Apple's Manual Charge Limit. Only for the `.systemChargeLimit` backend —
+    /// every other backend releases the system limit instead of setting it, and the two
+    /// must never run together or the renewal task will fight this setter.
+    func adoptSystemLimit(_ percentage: Int) throws {
+        guard isAvailable else { throw PowerUIChargingError.frameworkUnavailable }
+
+        let available = availableLimits()
+        guard available.contains(percentage) else {
+            throw PowerUIChargingError.limitOutOfRange(requested: percentage, available: available)
+        }
+
+        if userSystemLimitSnapshot == nil {
+            userSystemLimitSnapshot = currentSystemLimit()
+            logger.notice("Captured user's system charge limit: \(self.userSystemLimitSnapshot?.description ?? "unknown", privacy: .public)")
+        }
+
+        try adoptSystemLimitWithoutSnapshotting(percentage)
+    }
+
+    /// Puts the user's own value back. Safe to call when nothing was ever adopted.
+    func releaseSystemLimit() {
+        guard let snapshot = userSystemLimitSnapshot else { return }
+        userSystemLimitSnapshot = nil
+        do {
+            try adoptSystemLimitWithoutSnapshotting(snapshot)
+            logger.notice("Restored user's system charge limit to \(snapshot, privacy: .public)%")
+        } catch {
+            logger.error("Could not restore the user's system charge limit: \(error, privacy: .public)")
+        }
+    }
+
     // MARK: - Private
+
+    /// Raw `setMCLLimit:error:` call with no snapshotting. `adoptSystemLimit` and
+    /// `releaseSystemLimit` both funnel through here so restoring the user's value can
+    /// never re-capture it as a new snapshot.
+    private func adoptSystemLimitWithoutSnapshotting(_ percentage: Int) throws {
+        guard let client, let clientClass else {
+            throw PowerUIChargingError.frameworkUnavailable
+        }
+
+        let selector = NSSelectorFromString("setMCLLimit:error:")
+        guard let method = class_getInstanceMethod(clientClass, selector) else {
+            throw PowerUIChargingError.selectorUnavailable("setMCLLimit:error:")
+        }
+
+        typealias Setter = @convention(c) (AnyObject, Selector, UInt8, AutoreleasingUnsafeMutablePointer<NSError?>?) -> ObjCBool
+        let setter = unsafeBitCast(method_getImplementation(method), to: Setter.self)
+
+        var error: NSError?
+        let success = setter(client, selector, UInt8(percentage), &error).boolValue
+
+        if let error {
+            logger.error("setMCLLimit returned error: \(error, privacy: .public)")
+            throw PowerUIChargingError.apiCallFailed(error)
+        }
+
+        if !success {
+            logger.error("setMCLLimit returned false without error")
+            throw PowerUIChargingError.apiCallReturnedFalse
+        }
+
+        logger.notice("System charge limit set to \(percentage, privacy: .public)%")
+    }
 
     private func invokeOverride(_ targetSoC: UInt8) throws {
         guard let client, let clientClass else {
@@ -161,6 +254,7 @@ enum PowerUIChargingError: Error, CustomStringConvertible {
     case selectorUnavailable(String)
     case apiCallFailed(Error)
     case apiCallReturnedFalse
+    case limitOutOfRange(requested: Int, available: [Int])
 
     var description: String {
         switch self {
@@ -168,6 +262,8 @@ enum PowerUIChargingError: Error, CustomStringConvertible {
         case .selectorUnavailable(let name): return "PowerUI selector unavailable: \(name)"
         case .apiCallFailed(let err): return "PowerUI API failed: \(err)"
         case .apiCallReturnedFalse: return "PowerUI API returned false"
+        case .limitOutOfRange(let requested, let available):
+            return "Requested system charge limit \(requested)% is not one of the available limits \(available)"
         }
     }
 }
