@@ -31,6 +31,17 @@ actor SMCService {
     private var cachedBackend: ChargeBackend?
     private var cachedBackendFirmware: String?
 
+    /// What `applyChargeLimit` last put in place, kept for diagnostics so the UI can say
+    /// which limit is really in effect. Only written by the `.systemChargeLimit` backend:
+    /// the SMC backends apply the user's value exactly, so there is nothing to explain.
+    private struct AppliedSystemLimit {
+        let requested: Int
+        let applied: Int
+        var wasRaised: Bool { applied > requested }
+    }
+
+    private var appliedSystemLimit: AppliedSystemLimit?
+
     /// Closes the driver connection through the flag rather than behind its back:
     /// `Listener`'s quit handler calls this directly, and a request racing that
     /// handler has to see `smcIsOpened == false`. Closing is the `didSet`'s job.
@@ -63,7 +74,14 @@ actor SMCService {
         }
 
         let capabilities = SMCKit.probeCapabilities(ChargeBackendResolver.probedKeys)
-        let backend = ChargeBackendResolver.resolve(capabilities)
+        // Asked of PowerUI rather than inferred from the macOS version, for the same
+        // reason the SMC keys are probed: what the machine reports is the only thing
+        // that is true on it. The resolver ranks this last, so it is only reached when
+        // no SMC key works.
+        let backend = ChargeBackendResolver.resolve(
+            capabilities,
+            systemChargeLimitSupported: await PowerUICharging.shared.isMCLSupported
+        )
 
         let summary = capabilities.keys.sorted().joined(separator: ", ")
         logger.notice("""
@@ -101,13 +119,7 @@ actor SMCService {
         do {
             try await enableCharging(!inhibitCharging)
             try await enableForceDischarge(forceDischarge)
-            if await PowerUICharging.shared.isMCLSupported, message == .auto {
-                do {
-                    try await PowerUICharging.shared.overrideMCLTarget(100)
-                } catch {
-                    logger.error("PowerUI MCL override failed: \(error, privacy: .public)")
-                }
-            }
+            await reconcileMCLOwnership(for: message)
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
@@ -117,13 +129,93 @@ actor SMCService {
         }
     }
 
-    /// Clears the PowerUI MCL override (so the user's saved System Settings limit comes back)
-    /// and sets SMC back to auto-charge. Used on app quit and when the user disables BatFi's
-    /// charge management.
+    /// Decides, in one place, which of the two mutually exclusive things BatFi may do
+    /// with Apple's Manual Charge Limit.
+    ///
+    /// Under an SMC backend BatFi **releases** the system limit — overrides it to 100 —
+    /// so its own inhibit is the only thing holding charge back. Under
+    /// `.systemChargeLimit` BatFi **sets** it instead, via `applyChargeLimit`, and must
+    /// not also hold a temporary override: the 60-second renewal task behind that
+    /// override would keep writing 100 over the adopted value and the user's limit
+    /// would oscillate. One `switch` over one backend, rather than two independent
+    /// conditionals, is what makes holding both states unrepresentable.
+    private func reconcileMCLOwnership(for message: SMCChargingCommand) async {
+        guard await PowerUICharging.shared.isMCLSupported else { return }
+
+        switch await currentBackend() {
+        case .chte, .legacyCH0BC:
+            // An SMC backend owns charging; get Apple's limit out of the way.
+            guard message == .auto else { return }
+            do {
+                try await PowerUICharging.shared.overrideMCLTarget(100)
+            } catch {
+                logger.error("PowerUI MCL override failed: \(error, privacy: .public)")
+            }
+        case .systemChargeLimit, .unsupported:
+            // BatFi either owns the system limit or has no mechanism at all. Either way
+            // it must not hold a temporary override. Cleared unconditionally rather than
+            // only when this process knows it set one: an override outlives the process
+            // that started it, so a BatFi that restarted onto a different backend has to
+            // clear one it has no memory of.
+            await PowerUICharging.shared.clearMCLOverride()
+        }
+    }
+
+    /// Applies a charge limit using whichever mechanism this firmware supports.
+    ///
+    /// Returns the limit actually applied, which may be higher than requested when the
+    /// system limit is in use — it cannot go below 80%. The SMC backends express a limit
+    /// as an inhibit rather than a number, and apply the requested value exactly, so
+    /// under those this only reports the request back.
+    func applyChargeLimit(_ percentage: Int) async throws -> Int {
+        switch await currentBackend() {
+        case .chte, .legacyCH0BC:
+            // Handled by the existing inhibit path, which applies the requested value
+            // exactly. Any note from an earlier resolution goes with it, so diagnostics
+            // cannot claim a raised limit under a backend that never raises one.
+            appliedSystemLimit = nil
+            return percentage
+        case .systemChargeLimit:
+            let available = await PowerUICharging.shared.availableLimits()
+            guard let applied = SystemChargeLimit.applicableLimit(for: percentage, from: available) else {
+                logger.error("PowerUI reported no accepted charge limit values; refusing to guess one")
+                throw PowerUIChargingError.availableLimitsUnavailable
+            }
+            // The temporary override belongs to the SMC backends and is dropped before
+            // adopting anything. Its renewal task would otherwise write 100 over the
+            // value set below, and while it is live the user's own saved limit reads
+            // back as the overridden one — which is the value `adoptSystemLimit` would
+            // then snapshot as "the user's" and restore on quit.
+            await PowerUICharging.shared.clearMCLOverride()
+            try await PowerUICharging.shared.adoptSystemLimit(applied)
+            if applied > percentage {
+                logger.notice("Requested \(percentage, privacy: .public)% raised to \(applied, privacy: .public)% — the system limit cannot go lower")
+            } else if applied < percentage {
+                logger.notice("Requested \(percentage, privacy: .public)% clamped to \(applied, privacy: .public)%, the highest value the system limit accepts")
+            }
+            appliedSystemLimit = AppliedSystemLimit(requested: percentage, applied: applied)
+            return applied
+        case .unsupported:
+            logger.error("No usable charge control mechanism on this firmware")
+            throw SMCError.keyNotFound(code: "CHTE")
+        }
+    }
+
+    /// Clears the PowerUI MCL override (so the user's saved System Settings limit comes back),
+    /// hands back any limit BatFi adopted, and sets SMC back to auto-charge. Used on app quit
+    /// and when the user disables BatFi's charge management.
     func restoreSystemDefaults() async throws {
+        // Both directions of MCL ownership are handed back, in this order: the temporary
+        // override goes first so its renewal task cannot fire between the two calls and
+        // write 100 over the value being restored. `releaseSystemLimit` guards itself on
+        // whether a limit was ever adopted, so it is safe under every backend — this is
+        // the path that gives the user their System Settings value back on quit, and it
+        // must not be reachable only from the backend that set it.
         if await PowerUICharging.shared.isMCLSupported {
             await PowerUICharging.shared.clearMCLOverride()
         }
+        await PowerUICharging.shared.releaseSystemLimit()
+        appliedSystemLimit = nil
 
         logger.notice("Restoring SMC defaults (auto charge, force discharge off)")
         await openSMCIfNeeded()
@@ -153,7 +245,8 @@ actor SMCService {
     }
 
     /// Snapshot for bug reports: resolved backend, firmware token, the firmware's own
-    /// `CHNC` reason for not charging, and MCL status. Decoded and reported only — no
+    /// `CHNC` reason for not charging, MCL status, and the limit actually applied —
+    /// which is not always the one asked for. Decoded and reported only — no
     /// control flow branches on `CHNC`, since which bit a `CHTE` inhibit raises has not
     /// been confirmed on hardware.
     func chargingDiagnostics() async -> ChargingDiagnostics {
@@ -179,7 +272,9 @@ actor SMCService {
             backend: backend.rawValue,
             firmwareVersion: firmwareVersion,
             notChargingReasons: reasons,
-            mcl: mcl
+            mcl: mcl,
+            appliedChargeLimit: appliedSystemLimit?.applied,
+            chargeLimitWasRaised: appliedSystemLimit?.wasRaised ?? false
         )
     }
 

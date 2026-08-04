@@ -53,12 +53,28 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// Decoded `CHNC` reasons, as `NotChargingReason.rawValue`.
     public let notChargingReasons: [String]
     public let mcl: MCLStatus?
+    /// The limit BatFi last applied through Apple's Manual Charge Limit. Nil under the
+    /// SMC backends, which apply the user's value exactly and so have nothing to report.
+    public let appliedChargeLimit: Int?
+    /// True when `appliedChargeLimit` is higher than the user asked for, because the
+    /// mechanism in use cannot express the requested value. The single thing the user
+    /// most needs told: their limit is not the one in effect.
+    public let chargeLimitWasRaised: Bool
 
-    public init(backend: String, firmwareVersion: String?, notChargingReasons: [String], mcl: MCLStatus?) {
+    public init(
+        backend: String,
+        firmwareVersion: String?,
+        notChargingReasons: [String],
+        mcl: MCLStatus?,
+        appliedChargeLimit: Int? = nil,
+        chargeLimitWasRaised: Bool = false
+    ) {
         self.backend = backend
         self.firmwareVersion = firmwareVersion
         self.notChargingReasons = notChargingReasons
         self.mcl = mcl
+        self.appliedChargeLimit = appliedChargeLimit
+        self.chargeLimitWasRaised = chargeLimitWasRaised
         super.init()
     }
 
@@ -67,6 +83,15 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         coder.encode(firmwareVersion, forKey: "firmwareVersion")
         coder.encode(notChargingReasons, forKey: "notChargingReasons")
         coder.encode(mcl, forKey: "mcl")
+        // Same flag-plus-value shape MCLStatus uses for its optional Int: decodeInteger
+        // cannot tell an absent key from a stored zero.
+        if let appliedChargeLimit {
+            coder.encode(true, forKey: "hasAppliedChargeLimit")
+            coder.encode(appliedChargeLimit, forKey: "appliedChargeLimit")
+        } else {
+            coder.encode(false, forKey: "hasAppliedChargeLimit")
+        }
+        coder.encode(chargeLimitWasRaised, forKey: "chargeLimitWasRaised")
     }
 
     public required init?(coder: NSCoder) {
@@ -75,10 +100,20 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         let reasons = coder.decodeObject(of: [NSArray.self, NSString.self], forKey: "notChargingReasons")
         notChargingReasons = (reasons as? [String]) ?? []
         mcl = coder.decodeObject(of: MCLStatus.self, forKey: "mcl")
+        if coder.decodeBool(forKey: "hasAppliedChargeLimit") {
+            appliedChargeLimit = coder.decodeInteger(forKey: "appliedChargeLimit")
+        } else {
+            appliedChargeLimit = nil
+        }
+        chargeLimitWasRaised = coder.decodeBool(forKey: "chargeLimitWasRaised")
         super.init()
     }
 
     public override var description: String {
-        "ChargingDiagnostics(backend: \(backend), firmware: \(firmwareVersion ?? "unknown"), reasons: \(notChargingReasons))"
+        let applied = appliedChargeLimit.map { "\($0)%\(chargeLimitWasRaised ? " (raised)" : "")" } ?? "—"
+        return """
+        ChargingDiagnostics(backend: \(backend), firmware: \(firmwareVersion ?? "unknown"), \
+        reasons: \(notChargingReasons), appliedLimit: \(applied))
+        """
     }
 }
