@@ -31,16 +31,19 @@ actor SMCService {
     private var cachedBackend: ChargeBackend?
     private var cachedBackendFirmware: String?
 
-    /// What `applyChargeLimit` last put in place, kept for diagnostics so the UI can say
-    /// which limit is really in effect. Only written by the `.systemChargeLimit` backend:
-    /// the SMC backends apply the user's value exactly, so there is nothing to explain.
-    private struct AppliedSystemLimit {
-        let requested: Int
-        let applied: Int
-        var wasRaised: Bool { applied > requested }
-    }
-
-    private var appliedSystemLimit: AppliedSystemLimit?
+    /// What `applyChargeLimit` last put in place. Two jobs: diagnostics, so the UI can say
+    /// which limit is really in effect, and the short-circuit that keeps `setMCLLimit:`
+    /// from being rewritten on every status update. Only written by the
+    /// `.systemChargeLimit` backend: the SMC backends apply the user's value exactly, so
+    /// there is nothing to explain and nothing to hold.
+    ///
+    /// **Invariant: this is nil whenever BatFi does not hold the system limit.** It is
+    /// cleared by every route that ends that ownership — the SMC arm of
+    /// `applyChargeLimit`, `restoreSystemDefaults()`, and `invalidateBackendCache()`,
+    /// which runs whenever the resolved backend is dropped. That is what stops the
+    /// short-circuit wedging: it can only suppress a write while the exact limit it
+    /// records is still in force.
+    private var appliedSystemLimit: AppliedChargeLimit?
 
     /// Closes the driver connection through the flag rather than behind its back:
     /// `Listener`'s quit handler calls this directly, and a request racing that
@@ -116,11 +119,13 @@ actor SMCService {
         logger.notice("Setting SMC charging status")
         await openSMCIfNeeded()
 
-        // Deliberately ahead of the SMC writes, and outside the `do`: under
-        // `.systemChargeLimit` and `.unsupported` every write below throws, so with the
-        // reconcile downstream its non-SMC arm could never run on precisely the machines
-        // it exists for. Same reasoning — and the same MCL-first-then-SMC shape — as
-        // `restoreSystemDefaults()`.
+        // Deliberately ahead of the SMC writes, and outside the `do`, for two reasons that
+        // both still hold. Under `.unsupported` every write below still throws, so a
+        // reconcile placed downstream could never run on the machines its clearing arm
+        // exists for. And under `.systemChargeLimit` the reconcile is what guarantees BatFi
+        // is not holding an override while `applyChargeLimit` sets the limit — a guarantee
+        // that must not become conditional on an SMC write succeeding. Same
+        // MCL-first-then-SMC shape as `restoreSystemDefaults()`.
         await reconcileMCLOwnership(for: message)
 
         do {
@@ -146,10 +151,16 @@ actor SMCService {
     /// would oscillate. One `switch` over one backend, rather than two independent
     /// conditionals, is what makes holding both states unrepresentable.
     ///
-    /// Runs *before* the SMC writes in `setChargingMode`, not after. Two reasons. It has
-    /// to: under `.systemChargeLimit`/`.unsupported` `enableCharging` always throws, so a
-    /// reconcile placed after it never runs on the machines the clearing arm is for. And
-    /// it is safe for the SMC arm: that arm only acts on `.auto`, where both writes
+    /// Runs *before* the SMC writes in `setChargingMode`, not after, and must stay there.
+    ///
+    /// It has to, for `.unsupported`: `enableCharging` still throws there, so a reconcile
+    /// placed after it never runs on the machines the clearing arm is for. `enableCharging`
+    /// no longer throws under `.systemChargeLimit` — but that is not a reason to move this,
+    /// because the ordering is load-bearing for that backend too: the clearing arm is what
+    /// keeps BatFi from holding an override while `applyChargeLimit` is setting the limit,
+    /// and one MCL owner at a time must not depend on an SMC write succeeding first.
+    ///
+    /// And it is safe for the SMC arm: that arm only acts on `.auto`, where both writes
     /// move the same way — toward "allow charging" — so releasing Apple's limit first
     /// merely leaves BatFi's own inhibit holding charge back a moment longer, the more
     /// restrictive of the two transient states. The reverse (Apple's limit released while
@@ -204,11 +215,24 @@ actor SMCService {
                 logger.error("PowerUI reported no accepted charge limit values; refusing to guess one")
                 throw PowerUIChargingError.availableLimitsUnavailable
             }
+            let outcome = AppliedChargeLimit(requested: percentage, applied: applied)
+            // `applyChargeLimit` runs on every status update — roughly once a minute for
+            // the life of the process — and `setMCLLimit:` mutates a control the user can
+            // see and touch in System Settings. Rewriting the value already in force buys
+            // nothing, so don't.
+            //
+            // Safe here in a way it would not be inside `PowerUICharging.adoptSystemLimit`,
+            // where skipping the write would also skip the snapshot capture: this field is
+            // non-nil only *after* a successful adopt, which is after the user's value was
+            // captured. The guard can therefore never fire before a snapshot exists. If an
+            // adopt throws the field stays as it was, so the next pass writes again.
+            guard AppliedChargeLimit.needsWrite(outcome, inForce: appliedSystemLimit) else {
+                return applied
+            }
             // The temporary override belongs to the SMC backends and is dropped before
             // adopting anything. Its renewal task would otherwise write 100 over the
             // value set below, and while it is live the user's own saved limit reads
-            // back as the overridden one — which is the value `adoptSystemLimit` would
-            // then snapshot as "the user's" and restore on quit.
+            // back as the overridden one.
             await PowerUICharging.shared.clearMCLOverride()
             try await PowerUICharging.shared.adoptSystemLimit(applied)
             if applied > percentage {
@@ -216,7 +240,7 @@ actor SMCService {
             } else if applied < percentage {
                 logger.notice("Requested \(percentage, privacy: .public)% clamped to \(applied, privacy: .public)%, the highest value the system limit accepts")
             }
-            appliedSystemLimit = AppliedSystemLimit(requested: percentage, applied: applied)
+            appliedSystemLimit = outcome
             return applied
         case .unsupported:
             logger.error("No usable charge control mechanism on this firmware")
@@ -353,6 +377,13 @@ actor SMCService {
     private func invalidateBackendCache() {
         cachedBackend = nil
         cachedBackendFirmware = nil
+        // The applied-limit note is scoped to the backend that produced it. Dropping the
+        // resolution means the next `applyChargeLimit` may land on a different mechanism,
+        // and the short-circuit in its `.systemChargeLimit` arm must not carry a claim
+        // made under the old one across that boundary — it would suppress the write that
+        // re-establishes the limit. Clearing here also fails safe: every path that gets
+        // here is a failure path, and the safe direction is always "write again".
+        appliedSystemLimit = nil
     }
 
     func smcChargingStatus() async throws -> SMCChargingStatus {
