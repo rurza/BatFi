@@ -22,6 +22,10 @@ public final class BatteryIndicatorViewModel: ObservableObject {
     public var chargingMode: ChargingMode = .discharging
     @Published
     public var batteryLevel: Int = 0
+    /// False until the first successful power source read. Without this, a failed read is
+    /// indistinguishable from a genuine 0% battery.
+    @Published
+    public var hasReading: Bool = false
     @Published
     public var monochrome: Bool = Defaults[.monochromeStatusIcon]
     @Published
@@ -59,6 +63,7 @@ public final class BatteryIndicatorViewModel: ObservableObject {
             ) {
                 logger.debug("Update battery indicator: \(powerState)")
                 self.batteryLevel = powerState.batteryLevel
+                self.hasReading = true
                 self.chargingMode = ChargingMode(appChargingStateMode: mode)
                 self.monochrome = showMonochrome
                 self.showPercentage = showPercentage

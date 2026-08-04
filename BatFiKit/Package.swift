@@ -230,6 +230,7 @@ let package = Package(
                 .l10n,
                 .license,
                 .pow,
+                .shared,
                 .sharedUI,
             ],
             swiftSettings: swiftV6LanguageMode()
@@ -282,6 +283,7 @@ let package = Package(
                 .l10n,
                 .license,
                 .settingsKit,
+                .shared,
                 .sharedUI,
             ],
             swiftSettings: swiftV6LanguageMode()
@@ -289,7 +291,7 @@ let package = Package(
         .target(name: "SharedUI", swiftSettings: swiftV6LanguageMode()),
         .testTarget(
             name: "AppSharedTests",
-            dependencies: [.appShared],
+            dependencies: [.appShared, .shared],
             swiftSettings: swiftV6LanguageMode()
         ),
     ]

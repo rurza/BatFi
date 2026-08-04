@@ -17,7 +17,9 @@ public extension PowerStateModel {
     ) {
         self.init(context: context)
         batteryLevel = Int16(powerState.batteryLevel)
-        batteryTemperature = powerState.batteryTemperature
+        // Core Data scalar attribute; temperature is a secondary chart series, so an
+        // unknown reading records as 0 rather than dropping the whole sample.
+        batteryTemperature = powerState.batteryTemperature ?? 0
         chargerConnected = powerState.chargerConnected
         isCharging = powerState.isCharging
         timestamp = Date.now

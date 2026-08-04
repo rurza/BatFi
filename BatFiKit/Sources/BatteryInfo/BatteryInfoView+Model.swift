@@ -37,11 +37,11 @@ public final class BatteryInfoViewModel: ObservableObject {
     var fullChargeDateRelativeTime: String? { fullChargeDate?.relativeTime(to: date.now) }
 
     var time: Time? {
-        guard let state else { return nil }
+        guard let state, let timeLeft = state.timeLeft, let timeToCharge = state.timeToCharge else { return nil }
         return Time(
             isCharging: state.isCharging,
-            timeLeft: state.timeLeft,
-            timeToCharge: state.timeToCharge,
+            timeLeft: timeLeft,
+            timeToCharge: timeToCharge,
             batteryLevel: state.batteryLevel
         )
     }

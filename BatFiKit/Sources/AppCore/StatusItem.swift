@@ -42,10 +42,16 @@ struct StatusItem: View {
             BatteryIndicatorView(model: self.batteryIndicatorModel)
                 .frame(width: 30, height: 13)
             if batteryIndicatorModel.showPercentageNextToIndicator && batteryIndicatorModel.showPercentage {
-                Text(batteryIndicatorModel.batteryLevel, format: .percent)
-                    .font(.system(size: 11, weight: .medium))
-                    .monospacedDigit()
-                    .id("batteryLevel")
+                Group {
+                    if batteryIndicatorModel.hasReading {
+                        Text(batteryIndicatorModel.batteryLevel, format: .percent)
+                    } else {
+                        Text(verbatim: "–")
+                    }
+                }
+                .font(.system(size: 11, weight: .medium))
+                .monospacedDigit()
+                .id("batteryLevel")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -67,7 +73,7 @@ struct StatusItem: View {
     }
 
     var timeLeftDescription: String? {
-        guard let timeLeft = model.powerState?.timeLeft else { return nil }
+        guard let powerState = model.powerState, let timeLeft = powerState.timeLeft else { return nil }
         let time = Time.timeLeft(time: timeLeft)
         guard case let .time(timeLeft) = time.info else { return nil }
         if let formattedInterval = shortTimeFormatter.string(from: Double(timeLeft * 60)) {

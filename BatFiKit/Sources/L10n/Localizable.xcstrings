@@ -18356,6 +18356,259 @@
         }
       }
     },
+    "settings.label.diagnostics_charging_control": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging control"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_firmware": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Firmware"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_firmware_unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_active": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_system_charge_limit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active (via macOS Charge Limit)"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_idle": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available, not in use"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not available"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_charging_control_unsupported_explanation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
+          }
+        }
+      }
+    },
+    "settings.label.diagnostics_system_charge_limit_conflict": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100% there so BatFi is the only thing in control."
+          }
+        }
+      }
+    },
+    "settings.label.force_discharge_still_works": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
+          }
+        }
+      }
+    },
+    "settings.label.magsafe_green_light_no_led": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not available on this Mac, which doesn't have a MagSafe indicator light."
+          }
+        }
+      }
+    },
+    "settings.label.firmware_range_battery_may_dip_below_limit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
+          }
+        }
+      }
+    },
+    "settings.label.firmware_range_cannot_pause_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging can’t be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won’t take effect."
+          }
+        }
+      }
+    },
+    "settings.label.firmware_range_charging_status_is_inferred": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
+          }
+        }
+      }
+    },
+    "settings.label.firmware_range_enforced_by_firmware": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
+          }
+        }
+      }
+    },
+    "settings.label.magsafe_green_light_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
+          }
+        }
+      }
+    },
+    "settings.label.system_charge_limit_banner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This Mac’s firmware doesn’t support BatFi’s own charge control, so BatFi is using the macOS charge limit instead. That limit only accepts values from 80% to 100%."
+          }
+        }
+      }
+    },
+    "settings.label.system_charge_limit_raised": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limits below 80% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
+          }
+        }
+      }
+    },
+    "settings.label.system_charge_limit_rounded_up": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
+          }
+        }
+      }
+    },
+    "settings.label.system_charge_limit_manages_system_settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
+          }
+        }
+      }
+    },
+    "settings.label.system_charge_limit_no_snapshot": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back."
+          }
+        }
+      }
+    },
+    "settings.label.system_charge_limit_cannot_pause_charging": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Charging can’t be paused on this Mac. The macOS charge limit holds charging at a percentage instead of stopping it, so pausing on sleep and stopping when the battery gets hot won’t take effect."
+          }
+        }
+      }
+    },
     "settings.label.tip_jar.body": {
       "extractionState": "extracted_with_value",
       "localizations": {
@@ -19598,6 +19851,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Інше"
+          }
+        }
+      }
+    },
+    "settings.section.diagnostics": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diagnostics"
           }
         }
       }

@@ -6,9 +6,12 @@
 //
 
 import AppShared
+import Clients
 import Defaults
 import DefaultsKeys
+import Dependencies
 import L10n
+import Shared
 import SharedUI
 import SwiftUI
 
@@ -16,6 +19,18 @@ struct ChargingLimitView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.launchAtLogin) private var launchAtLogin
     @ObservedObject var model: Onboarding.Model
+
+    @Dependency(\.chargingClient) private var chargingClient
+
+    /// The resolved backend, or nil while unknown — which is the normal state here, since
+    /// this pane can be reached before the helper is installed. Nil gives the same 50%
+    /// floor the pane always had, so nothing regresses on a Mac that cannot answer yet.
+    ///
+    /// Asked at all because the range was hardcoded `50 ... 90` with hardcoded end labels,
+    /// while `ChargingView` stops the slider at the floor this Mac's mechanism can express.
+    /// A new user on `.systemChargeLimit` was walked through choosing 55% in the one pane
+    /// every new user sees, and then told in Settings that 55% cannot be applied.
+    @State private var backend: ChargeBackend?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -34,14 +49,25 @@ struct ChargingLimitView: View {
                 GroupBackground {
                     VStack(alignment: .leading, spacing: 20) {
                         VStack(alignment: .leading, spacing: 10) {
-                            let percent = percentageFormatter.string(from: NSNumber(floatLiteral: Double(chargeLimit) / 100))!
-                            Text(L10n.Onboarding.Slider.Label.setLimit(percent))
-                            Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
+                            let lowestLimit = ChargeLimitRange.lowestSelectable(for: backend)
+                            let displayedLimit = ChargeLimitRange.displayedLimit(
+                                configured: chargeLimit,
+                                for: backend
+                            )
+                            // No force-unwrap. A formatter that declines the conversion
+                            // falls back to the plain number rather than crashing the one
+                            // pane every new user sees.
+                            Text(L10n.Onboarding.Slider.Label.setLimit(percentageLabel(displayedLimit)))
+                            Slider(
+                                value: .convert(from: $chargeLimit),
+                                in: Double(lowestLimit) ... Double(ChargeLimitRange.highest),
+                                step: 5
+                            ) {
                                 EmptyView()
                             } minimumValueLabel: {
-                                Text(L10n.Settings.Label.lowestLimit)
+                                Text(percentageLabel(lowestLimit))
                             } maximumValueLabel: {
-                                Text(L10n.Settings.Label.highestLimit)
+                                Text(percentageLabel(ChargeLimitRange.highest))
                             }
                             .frame(maxWidth: .infinity)
                         }
@@ -55,5 +81,17 @@ struct ChargingLimitView: View {
             }
             .padding(20)
         }
+        .task {
+            // A failed fetch — the usual case here, since the helper may not be installed
+            // yet — leaves the backend nil and the slider at its widest, which is the
+            // permissive direction.
+            if let diagnostics = try? await chargingClient.chargingDiagnostics() {
+                backend = ChargeBackend(rawValue: diagnostics.backend)
+            }
+        }
+    }
+
+    private func percentageLabel(_ percentage: Int) -> String {
+        percentageFormatter.string(from: NSNumber(value: Double(percentage) / 100)) ?? "\(percentage)%"
     }
 }

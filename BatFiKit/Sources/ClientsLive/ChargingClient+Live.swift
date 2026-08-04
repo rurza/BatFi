@@ -25,11 +25,17 @@ extension ChargingClient: DependencyKey {
             restoreSystemDefaults: {
                 try await XPCClient.shared.restoreSystemDefaults()
             },
+            applyChargeLimit: { percentage in
+                try await XPCClient.shared.applyChargeLimit(percentage)
+            },
             chargingStatus: {
                 return try await XPCClient.shared.getSMCChargingStatus()
             },
             mclStatus: {
                 return try await XPCClient.shared.getMCLStatus()
+            },
+            chargingDiagnostics: {
+                return try await XPCClient.shared.getChargingDiagnostics()
             }
         )
     }()

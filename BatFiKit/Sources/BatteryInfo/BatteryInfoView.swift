@@ -71,10 +71,11 @@ public struct BatteryInfoView: View {
                         if showBatteryCycleCount {
                             BatteryAdditionalInfo(
                                 label: l10n.Additional.cycleCount,
-                                info: powerState?.batteryCycleCount.description ?? unknown
+                                info: powerState?.batteryCycleCount?.description ?? unknown
                             )
                         }
-                        let batteryReachedFortyDegrees = model.state?.batteryTemperature ?? 0 >= Constant.batteryTemperatureWarning
+                        let batteryReachedFortyDegrees = model.state.flatMap(\.batteryTemperature)
+                            .map { $0 >= Constant.batteryTemperatureWarning } ?? false
                         if showBatteryTemperature || batteryReachedFortyDegrees {
                             if let temperature = model.temperatureDescription() {
                                 HStack(alignment: .top) {

@@ -17,7 +17,6 @@ import SwiftUI
 struct AdvancedView: View {
     @Default(.temperatureSwitch) private var temperatureSwitch
     @Default(.disableSleep) private var disableAutomaticSleep
-    @Default(.showGreenLightMagSafeWhenInhibiting) private var greenLight
     @Default(.showDebugMenu) private var showDebugMenu
 
     @Dependency(\.updater) private var updater
@@ -36,9 +35,7 @@ struct AdvancedView: View {
                         .help(l10n.Button.Tooltip.disableAutomaticSleep)
                 }
 
-                Toggle(isOn: $greenLight) {
-                    Text(l10n.Button.Label.magsafeUseGreenLight)
-                }
+                MagSafeGreenLightToggle()
             }
             Section(title: l10n.Section.other) {
                 Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)

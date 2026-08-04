@@ -14,11 +14,47 @@ private struct UnsafeSendableBox<T>: @unchecked Sendable {
 }
 
 final class ListenerDelegate: NSObject, NSXPCListenerDelegate {
+    private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "ListenerDelegate")
+    private let lock = NSLock()
+    private var liveConnections = 0
+
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
         newConnection.exportedInterface = NSXPCInterface(with: XPCService.self)
         newConnection.exportedObject = XPCServiceHandler()
+        // The helper's only way of learning that the app is gone without having been asked
+        // to quit — a crash, a jetsam kill, a force-quit, or a `restoreSystemDefaults()`
+        // that lost the race with the app's terminate watchdog.
+        //
+        // It matters for exactly one piece of state, and only since Phase 4: the firmware
+        // charge band. Every other mechanism BatFi drives is an inhibit that a dead helper
+        // stops asserting, or Apple's own limit, which the app owns. The band is enforced
+        // by the firmware itself, with no process running and nothing in System Settings
+        // showing it, so a band left armed by a vanished app is a Mac capped forever.
+        //
+        // `invalidationHandler` only — invalidation is terminal, while an interruption can
+        // be followed by the same client reconnecting, and running a restore under a
+        // client that is still there would release a limit it is still asking for.
+        newConnection.invalidationHandler = { [weak self] in
+            self?.connectionDidInvalidate()
+        }
+        lock.withLock { liveConnections += 1 }
         newConnection.resume()
         return true
+    }
+
+    private func connectionDidInvalidate() {
+        let remaining = lock.withLock { () -> Int in
+            liveConnections = max(0, liveConnections - 1)
+            return liveConnections
+        }
+        guard remaining == 0 else { return }
+        logger.notice("The last app connection dropped without a quit; restoring system defaults")
+        Task {
+            // `try?`: nothing is left to report to. On the existing fleet the band write
+            // inside this throws because the key is absent, which is exactly the case that
+            // must not be treated as a failure.
+            try? await SMCService.shared.restoreSystemDefaults()
+        }
     }
 }
 
@@ -51,11 +87,42 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         }
     }
 
+    func applyChargeLimit(_ percentage: UInt8, _ reply: @escaping (UInt8, (any Error)?) -> Void) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            do {
+                let applied = try await smcService.applyChargeLimit(Int(percentage))
+                // The reply's failure sentinel is UInt8.max, so anything that is not a
+                // percentage has to fail loudly here rather than travel as one. Nothing
+                // downstream can produce such a value today; this is what keeps that true.
+                guard let appliedByte = UInt8(exactly: applied), appliedByte <= 100 else {
+                    throw NSError(
+                        domain: Constant.helperBundleIdentifier,
+                        code: 0,
+                        userInfo: [NSLocalizedDescriptionKey: "Applied charge limit \(applied) is not a percentage"]
+                    )
+                }
+                reply.value(appliedByte, nil)
+            } catch {
+                logger.error("Error applying charge limit \(percentage, privacy: .public)%: \(error, privacy: .public)")
+                reply.value(UInt8.max, error)
+            }
+        }
+    }
+
     func getMCLStatus(_ reply: @escaping (Shared.MCLStatus?, (any Error)?) -> Void) {
         let reply = UnsafeSendableBox(value: reply)
         Task {
             let status = await smcService.mclStatus()
             reply.value(status, nil)
+        }
+    }
+
+    func getChargingDiagnostics(_ reply: @escaping (Shared.ChargingDiagnostics?, (any Error)?) -> Void) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            let diagnostics = await smcService.chargingDiagnostics()
+            reply.value(diagnostics, nil)
         }
     }
 
