@@ -569,15 +569,41 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Disengaging — restoring system defaults")
         do {
             try await chargingClient.restoreSystemDefaults()
-            if defaults.value(.allowDischargingFullBattery) {
-                try? await sleepAssertionClient.disableSleep(false)
-            }
             await analytics.addBreadcrumb(category: .chargingManager, message: "System defaults restored")
-            await appChargingState.updateChargingMode(.charging)
         } catch {
             logger.warning("Failed to restore system defaults: \(error, privacy: .public)")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to restore system defaults. Error: \(error.localizedDescription)")
         }
+
+        // Everything below runs whether or not the restore threw, and that is the fix.
+        // `restoreSystemDefaults()` attempts its three writes independently and calls
+        // `resetIfPossible()` before it rethrows, so by the time it throws the hardware has
+        // already been put back — but it still rethrows, and under `.unsupported`
+        // `enableCharging(true)` throws unconditionally. Sitting inside the `do` meant that
+        // on a machine with no mechanism at all, and on any machine where one of the three
+        // writes failed, turning "manage charging" off left the app reporting
+        // `.inhibit`/`.forceDischarge` for the rest of the session, the MagSafe LED green,
+        // and a sleep assertion held. `.charging` is the accurate report either way.
+        if sleepAssertionMayBeHeldForDischarging {
+            try? await sleepAssertionClient.disableSleep(false)
+        }
+        // BatFi is handing charging back, so it must not still be preventing automatic
+        // sleep. The license-invalid guard in `updateStatus` returns through here *before*
+        // reaching `setUpDelaySleep`, so without this a held prevent-automatic-sleep
+        // assertion survived until quit.
+        await restoreSleepifNeeded()
+        await appChargingState.updateChargingMode(.charging)
+    }
+
+    /// Whether a discharge-related sleep assertion could be outstanding.
+    ///
+    /// The release sites used to be gated on `allowDischargingFullBattery` alone, so
+    /// turning that off mid-discharge stranded the assertion with nothing left that would
+    /// release it. Both settings that can *take* one are named here, so neither can be
+    /// switched off out from under its own release. Still gated rather than unconditional:
+    /// `disableSleep(false)` makes an XPC call, and this runs on every status update.
+    private var sleepAssertionMayBeHeldForDischarging: Bool {
+        defaults.value(.allowDischargingFullBattery) || defaults.value(.disableSleepDuringDischarging)
     }
 
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
@@ -587,7 +613,7 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
         do {
             try await chargingClient.turnOnAutoChargingMode()
-            if defaults.value(.allowDischargingFullBattery) {
+            if sleepAssertionMayBeHeldForDischarging {
                 try? await sleepAssertionClient.disableSleep(false)
             }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Charging turned on")
@@ -604,7 +630,7 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibiting charging")
         do {
             try await chargingClient.inhibitCharging()
-            if defaults.value(.allowDischargingFullBattery) {
+            if sleepAssertionMayBeHeldForDischarging {
                 try? await sleepAssertionClient.disableSleep(false)
             }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
@@ -617,15 +643,19 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func turnOnDischarging(chargerConnected: Bool, disableSleep: Bool, currentMode: ChargingMode) async {
-        try? await sleepAssertionClient.disableSleep(disableSleep)
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
-        if defaults.value(.disableSleepDuringDischarging) {
-            try? await sleepAssertionClient.disableSleep(true)
-        }
+        // Ahead of the assertion, not after it. Taking the assertion first and then
+        // returning through this guard stranded it: nothing below runs, and every release
+        // site is on a path this pass no longer reaches.
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
+            try? await sleepAssertionClient.disableSleep(false)
             return
+        }
+        try? await sleepAssertionClient.disableSleep(disableSleep)
+        if defaults.value(.disableSleepDuringDischarging) {
+            try? await sleepAssertionClient.disableSleep(true)
         }
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on discharging")
         logger.debug("Turning on discharging")
