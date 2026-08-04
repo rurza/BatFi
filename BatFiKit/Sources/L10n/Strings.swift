@@ -735,6 +735,8 @@ public enum L10n {
             public static let diagnosticsChargingControlActive = String(localized: "settings.label.diagnostics_charging_control_active", defaultValue: "Active", bundle: Bundle.module)
             /// Not available
             public static let diagnosticsChargingControlUnavailable = String(localized: "settings.label.diagnostics_charging_control_unavailable", defaultValue: "Not available", bundle: Bundle.module)
+            /// Unknown
+            public static let diagnosticsChargingControlUnknown = String(localized: "settings.label.diagnostics_charging_control_unknown", defaultValue: "Unknown", bundle: Bundle.module)
             /// BatFi can't control charging on this Mac — its firmware doesn't support it.
             public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can't control charging on this Mac — its firmware doesn't support it.", bundle: Bundle.module)
             /// Your Mac also has its own Charge Limit, in System Settings › Battery. If it's set below 100%, it can cap charging below the limit set above. Set it to 100% there so BatFi is the only thing in control.

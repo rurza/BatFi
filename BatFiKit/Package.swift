@@ -282,6 +282,7 @@ let package = Package(
                 .l10n,
                 .license,
                 .settingsKit,
+                .shared,
                 .sharedUI,
             ],
             swiftSettings: swiftV6LanguageMode()

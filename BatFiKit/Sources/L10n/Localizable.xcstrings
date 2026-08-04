@@ -18411,6 +18411,17 @@
         }
       }
     },
+    "settings.label.diagnostics_charging_control_unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        }
+      }
+    },
     "settings.label.diagnostics_charging_control_unsupported_explanation": {
       "extractionState": "manual",
       "localizations": {
