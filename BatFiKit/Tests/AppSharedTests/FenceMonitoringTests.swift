@@ -80,3 +80,44 @@ private func fence(_ radius: Double, _ label: String = "Home", at center: Coordi
         #expect(readBack.matches(desired))
     }
 }
+
+@Suite struct LocationSnapshotTests {
+    private let now = Date(timeIntervalSince1970: 1_800_000_000)
+
+    private func snapshot(
+        _ auth: LocationAuthorization = .authorized,
+        servicesEnabled: Bool = true,
+        fixAgeSeconds: TimeInterval? = nil
+    ) -> LocationSnapshot {
+        LocationSnapshot(
+            authorization: auth,
+            servicesEnabled: servicesEnabled,
+            lastFix: fixAgeSeconds == nil ? nil : Coordinate(latitude: 52.2297, longitude: 21.0122),
+            lastFixDate: fixAgeSeconds.map { now.addingTimeInterval(-$0) }
+        )
+    }
+
+    @Test func freshFixIsFresh() {
+        #expect(snapshot(fixAgeSeconds: 60).hasFix(fresherThan: 300, now: now))
+    }
+
+    @Test func staleFixIsNotFresh() {
+        #expect(!snapshot(fixAgeSeconds: 600).hasFix(fresherThan: 300, now: now))
+    }
+
+    @Test func missingFixIsNotFresh() {
+        #expect(!snapshot().hasFix(fresherThan: 300, now: now))
+    }
+
+    @Test func servicesOffWinsOverAuthorization() {
+        // The system-wide switch is the actionable problem even when the app is authorized.
+        #expect(PermissionBannerState(snapshot(.authorized, servicesEnabled: false)) == .servicesOff)
+    }
+
+    @Test func bannerMapsEachAuthorization() {
+        #expect(PermissionBannerState(snapshot(.notDetermined)) == .notDetermined)
+        #expect(PermissionBannerState(snapshot(.denied)) == .denied)
+        #expect(PermissionBannerState(snapshot(.restricted)) == .restricted)
+        #expect(PermissionBannerState(snapshot(.authorized)) == .none)
+    }
+}
