@@ -365,7 +365,19 @@ public actor ChargingManager: ChargingModeManager {
         // already in force. The value follows the same precedence used everywhere else a
         // target limit is worked out: a manual temp override beats the automation limit,
         // which beats the user's configured one.
-        await applyChargeLimit(userTempChargingMode?.limit ?? effectiveChargeLimit)
+        let requestedLimit = userTempChargingMode?.limit ?? effectiveChargeLimit
+        // **The mode decision below branches on what was applied, not on what was asked
+        // for**, and the two come apart under `.systemChargeLimit`, which cannot express a
+        // limit below 80%. With a 55% limit and "allow discharging" on, branching on the
+        // request produced a perpetual cycle on mains power: at 56% `56 > 55` engaged
+        // `CHIE` and the battery drained on AC; at 55% `inhibitCharging` is a no-op under
+        // that backend, so Apple's 80% limit resumed charging; at 56% it discharged again.
+        // Cycling the battery indefinitely is the exact opposite of what the app is for.
+        //
+        // Falls back to the request when the apply failed, which is what it did before:
+        // the mode decision is what every currently working Mac relies on and it must not
+        // stop happening because Apple's limit could not be set.
+        let effectiveLimitInForce = await applyChargeLimit(requestedLimit) ?? requestedLimit
 
         switch HotBatteryProtection.decision(
             isEnabled: turnOffChargingWithHotBattery,
@@ -378,6 +390,19 @@ public actor ChargingManager: ChargingModeManager {
             hasReportedMissingBatteryTemperature = false
             logger.notice("Battery is hot")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Battery is hot, \(batteryTemperature)")
+            // The same gate the sleep hook and its poll-side twin already carry, and this
+            // arm needed it more than either: `temperatureSwitch` defaults to **true**, so
+            // this was the one route to `inhibitCharging()` with no backend check on a
+            // default-on path. Under `.firmwareRange` and `.systemChargeLimit` the inhibit
+            // writes nothing, so the app's mode went to `.inhibit` regardless — the menu
+            // bar said "Charging paused", `NotificationsManager` announced it, and the
+            // MagSafe LED went green — while the Mac charged on at 45 °C. Reporting
+            // `.inhibit` where nothing was inhibited is a worse failure than the missing
+            // protection, which cannot be fixed and is disclosed instead.
+            guard await backendCanPauseChargingOnDemand() else {
+                logger.notice("Battery is hot but this Mac's charge mechanism cannot pause charging on demand; not claiming a pause")
+                break
+            }
             await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             return
         case .cutoutCannotFire:
@@ -406,6 +431,10 @@ public actor ChargingManager: ChargingModeManager {
         let currentBatteryLevel = powerState.batteryLevel
         if let tempLimit = userTempChargingMode?.limit {
             logger.debug("User set temp limit to \(tempLimit)")
+            // The override's own bookkeeping — "charge to full is done" and the
+            // disconnect policy — keeps reading the value the *user* asked for. Only the
+            // charge/hold/discharge comparisons move to what is in force; an override
+            // raised from 55% to 80% is still a 55% override as far as removing it goes.
             if tempLimit >= 100, currentBatteryLevel >= 100 {
                 logger.notice("Battery reached 100%, removing charge-to-full override")
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Battery reached 100%, removing charge-to-full override")
@@ -417,13 +446,13 @@ public actor ChargingManager: ChargingModeManager {
                 batteryLevel: currentBatteryLevel,
                 overrideLimit: tempLimit
             )
-            if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
+            if currentBatteryLevel > effectiveLimitInForce, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
                     disableSleep: disableSleepDuringDischarge,
                     currentMode: currentMode
                 )
-            } else if currentBatteryLevel < tempLimit {
+            } else if currentBatteryLevel < effectiveLimitInForce {
                 return await turnOnCharging(
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
@@ -435,8 +464,8 @@ public actor ChargingManager: ChargingModeManager {
                 )
             }
         } else {
-            if currentBatteryLevel >= effectiveChargeLimit {
-                if currentBatteryLevel > effectiveChargeLimit, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
+            if currentBatteryLevel >= effectiveLimitInForce {
+                if currentBatteryLevel > effectiveLimitInForce, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
                         disableSleep: disableSleepDuringDischarge,
@@ -466,12 +495,13 @@ public actor ChargingManager: ChargingModeManager {
 
     /// Puts the target limit in force through whichever mechanism the helper resolved.
     ///
-    /// Under the SMC backends this costs almost nothing — they express a limit as an
+    /// Under the inhibit backends this costs almost nothing — they express a limit as an
     /// inhibit, so the helper reads its cached backend and hands the requested value
     /// straight back — which is why one call site serves every backend. Under the system
-    /// charge limit it is the only thing holding charge back at all: there is no inhibit
-    /// write on that firmware, so without this the mode decision below would decide a
-    /// mode nothing could enforce.
+    /// charge limit and the firmware range it is the only thing holding charge back at
+    /// all: there is no inhibit write on that firmware, so without this the mode decision
+    /// below would decide a mode nothing could enforce. Both of those hold a needs-write
+    /// short-circuit helper-side, so a repeat call with an unchanged limit writes nothing.
     ///
     /// A failure is logged and swallowed deliberately. The mode decision that follows is
     /// what every currently working Mac relies on and it does not depend on this call, so
@@ -484,7 +514,11 @@ public actor ChargingManager: ChargingModeManager {
     /// minute for the life of the process. Each arm clears the other's memory, so a failure
     /// after a run of successes — or a mismatch after a run of failures — is a change and is
     /// said once more.
-    private func applyChargeLimit(_ limit: Int) async {
+    /// - Returns: the limit actually in force, or nil when it could not be applied. The
+    ///   mode decision in `updateStatus` branches on this rather than on the request — see
+    ///   the comment there — so the value must not be swallowed even though the failure is.
+    @discardableResult
+    private func applyChargeLimit(_ limit: Int) async -> Int? {
         do {
             let applied = try await chargingClient.applyChargeLimit(limit)
             lastReportedChargeLimitFailure = nil
@@ -500,6 +534,7 @@ public actor ChargingManager: ChargingModeManager {
                 logger.notice("Charge limit \(limit, privacy: .public)% applied as \(applied, privacy: .public)%")
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Charge limit \(limit)% applied as \(applied)%")
             }
+            return applied
         } catch {
             let failure = ChargeLimitFailure(requested: limit, reason: String(describing: error))
             if ChargeLimitFailure.shouldReport(failure, lastReported: lastReportedChargeLimitFailure) {
@@ -508,6 +543,7 @@ public actor ChargingManager: ChargingModeManager {
                 logger.warning("Failed to apply charge limit \(limit, privacy: .public)%: \(error, privacy: .public)")
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to apply charge limit. Error: \(error.localizedDescription)")
             }
+            return nil
         }
     }
 

@@ -35,7 +35,9 @@ actor SMCService {
     /// which limit is really in effect, and the short-circuit that keeps `setMCLLimit:`
     /// from being rewritten on every status update. Only written by the
     /// `.systemChargeLimit` backend: the SMC backends apply the user's value exactly, so
-    /// there is nothing to explain and nothing to hold.
+    /// there is nothing to explain. `.firmwareRange` does hold state of its own — see
+    /// `firmwareRangeArmed` and `appliedFirmwareRange` below — but it is not *this* state,
+    /// because Apple's Manual Charge Limit is not what it holds.
     ///
     /// **Invariant: this is nil whenever BatFi does not hold the system limit.** It is
     /// cleared by every route that ends that ownership — the SMC arm of
