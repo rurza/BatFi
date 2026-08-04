@@ -741,8 +741,61 @@ public enum L10n {
             public static let diagnosticsChargingControlUnknown = String(localized: "settings.label.diagnostics_charging_control_unknown", defaultValue: "Unknown", bundle: Bundle.module)
             /// BatFi can't control charging on this Mac — its firmware doesn't support it.
             public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can't control charging on this Mac — its firmware doesn't support it.", bundle: Bundle.module)
-            /// Your Mac also has its own Charge Limit, in System Settings › Battery. If it's set below 100%, it can cap charging below the limit set above. Set it to 100% there so BatFi is the only thing in control.
-            public static let diagnosticsSystemChargeLimitWarning = String(localized: "settings.label.diagnostics_system_charge_limit_warning", defaultValue: "Your Mac also has its own Charge Limit, in System Settings › Battery. If it's set below 100%, it can cap charging below the limit set above. Set it to 100% there so BatFi is the only thing in control.", bundle: Bundle.module)
+            /// Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100% there so BatFi is the only thing in control.
+            ///
+            /// Replaces `diagnostics_system_charge_limit_warning`, which could only say "if it's
+            /// set below 100%" because the percentage never crossed the XPC boundary. It does
+            /// now, so the warning names the value and only appears when there is one to name.
+            public static func diagnosticsSystemChargeLimitConflict(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.diagnostics_system_charge_limit_conflict",
+                        defaultValue: "Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100% there so BatFi is the only thing in control.",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            // MARK: Charge control disclosures
+            //
+            // What the Charging pane owes the user about the mechanism in force on their
+            // Mac. Every one of these is a statement about *this machine* — never about a
+            // macOS version, which is not what charge control tracks.
+
+            /// This Mac's firmware doesn't support BatFi's own charge control, so BatFi is using the macOS charge limit instead. That limit only accepts values from 80% to 100%.
+            public static let systemChargeLimitBanner = String(localized: "settings.label.system_charge_limit_banner", defaultValue: "This Mac's firmware doesn't support BatFi's own charge control, so BatFi is using the macOS charge limit instead. That limit only accepts values from 80% to 100%.", bundle: Bundle.module)
+
+            /// Limits below 80% can't be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.
+            ///
+            /// The one thing a user set to 55% most needs told. The value is the one the
+            /// helper actually put in force, never a recomputed guess at it.
+            public static func systemChargeLimitRaised(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.system_charge_limit_raised",
+                        defaultValue: "Limits below 80% can't be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            /// To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved and is put back when BatFi quits.
+            public static let systemChargeLimitManagesSystemSettings = String(localized: "settings.label.system_charge_limit_manages_system_settings", defaultValue: "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved and is put back when BatFi quits.", bundle: Bundle.module)
+
+            /// BatFi isn't applying a charge limit on this Mac. It couldn't record the limit you have in System Settings › Battery, and it won't change a value it might not be able to put back.
+            public static let systemChargeLimitNoSnapshot = String(localized: "settings.label.system_charge_limit_no_snapshot", defaultValue: "BatFi isn't applying a charge limit on this Mac. It couldn't record the limit you have in System Settings › Battery, and it won't change a value it might not be able to put back.", bundle: Bundle.module)
+
+            /// Charging can't be paused on this Mac. The macOS charge limit holds charging at a percentage instead of stopping it, so pausing on sleep and stopping when the battery gets hot won't take effect.
+            public static let systemChargeLimitCannotPauseCharging = String(localized: "settings.label.system_charge_limit_cannot_pause_charging", defaultValue: "Charging can't be paused on this Mac. The macOS charge limit holds charging at a percentage instead of stopping it, so pausing on sleep and stopping when the battery gets hot won't take effect.", bundle: Bundle.module)
+
+            /// Running on battery still works — it uses a separate part of the firmware, which this Mac still has.
+            ///
+            /// Deliberately a sentence of its own rather than a clause inside the one above:
+            /// force discharge is probed from its own key and survives on firmware that lost
+            /// charge limiting, so it is shown only where it is genuinely available.
+            public static let systemChargeLimitForceDischargeStillWorks = String(localized: "settings.label.system_charge_limit_force_discharge_still_works", defaultValue: "Running on battery still works — it uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
         }
 
         public enum Section {

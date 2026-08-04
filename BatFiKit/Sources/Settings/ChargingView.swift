@@ -22,6 +22,10 @@ struct ChargingView: View {
     @Default(.allowDischargingFullBattery) private var dischargeBatteryWhenFull
     @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
     @Default(.disableSleepDuringDischarging) private var disableSleepDuringDischarging
+    // Lives in the Advanced pane, read here because it is one of the two settings that
+    // silently do nothing under Apple's Manual Charge Limit — and this is the pane that
+    // explains what this Mac's charge control can and cannot do.
+    @Default(.temperatureSwitch) private var turnOffChargingWhenBatteryIsHot
 
     @Dependency(\.systemVersionClient) var systemVersion
     @Dependency(\.chargingClient) private var chargingClient
@@ -51,19 +55,34 @@ struct ChargingView: View {
                         GroupBackground {
                             VStack(alignment: .leading, spacing: 6) {
                                 AutomationOverrideBanner()
+                                ChargeControlDisclosureBanner(disclosures: facts.disclosures)
                                 VStack(alignment: .leading, spacing: 14) {
+                                    // The value the slider shows, which on firmware that
+                                    // cannot express limits below 80% is the floor rather
+                                    // than the stored number. Label and knob read the same
+                                    // value so they cannot contradict each other, and the
+                                    // banner above names what is really in force.
+                                    let lowestLimit = ChargeLimitRange.lowestSelectable(for: facts.backend)
+                                    let displayedLimit = ChargeLimitRange.displayedLimit(
+                                        configured: chargeLimit,
+                                        for: facts.backend
+                                    )
                                     let label = l10n.Slider.Label.turnOffChargingAt(
-                                        percentageFormatter.string(from: NSNumber(value: Double(chargeLimit) / 100))!
+                                        chargeLimitPercentageLabel(displayedLimit)
                                     )
                                     Text(label)
                                         .foregroundColor(manageCharging ? .primary : .secondary)
                                     HStack {
-                                        Slider(value: .convert(from: $chargeLimit), in: 50 ... 90, step: 5) {
+                                        Slider(
+                                            value: limitSliderBinding(for: facts.backend),
+                                            in: Double(lowestLimit) ... Double(ChargeLimitRange.highest),
+                                            step: 5
+                                        ) {
                                             EmptyView()
                                         } minimumValueLabel: {
-                                            Text(L10n.Settings.Label.lowestLimit)
+                                            Text(chargeLimitPercentageLabel(lowestLimit))
                                         } maximumValueLabel: {
-                                            Text(L10n.Settings.Label.highestLimit)
+                                            Text(chargeLimitPercentageLabel(ChargeLimitRange.highest))
                                         }
                                         .disabled(!manageCharging)
                                         .frame(width: 360)
@@ -135,11 +154,9 @@ struct ChargingView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.trailing)
             }
-            if chargeBackend == .unsupported {
-                Text(l10n.diagnosticsChargingControlUnsupportedExplanation)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .settingDescription()
-            }
+            // The "BatFi can't control charging on this Mac" line used to live here. It is
+            // now one of the disclosures shown beside the slider, where the user actually
+            // is — this section still reports the mechanism as "Not available".
 
             HStack(alignment: .firstTextBaseline) {
                 Text(l10n.diagnosticsFirmware)
@@ -149,32 +166,55 @@ struct ChargingView: View {
                     .textSelection(.enabled)
             }
 
-            if systemChargeLimitMayConflict {
-                Label(l10n.diagnosticsSystemChargeLimitWarning, systemImage: "exclamationmark.triangle.fill")
-                    .font(.callout)
-                    .foregroundStyle(.orange)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 4)
+            // Keyed on the system's own percentage now that it crosses the XPC boundary,
+            // and silent under `.systemChargeLimit`, where the limit it would warn about
+            // is the one BatFi itself set. `ChargeControlFacts.conflictingSystemLimit`
+            // holds the rule and the tests that pin it.
+            if let conflictingLimit = facts.conflictingSystemLimit {
+                Label(
+                    l10n.diagnosticsSystemChargeLimitConflict(chargeLimitPercentageLabel(conflictingLimit)),
+                    systemImage: "exclamationmark.triangle.fill"
+                )
+                .font(.callout)
+                .foregroundStyle(.orange)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 4)
             }
         }
+    }
+
+    /// Everything the pane knows about charge control, in one value. The decisions that
+    /// hang off it — which disclosures show, whether the slider is constrained, whether
+    /// the conflict warning fires — all live in `Shared` and are tested there.
+    private var facts: ChargeControlFacts {
+        ChargeControlFacts(
+            diagnostics: diagnostics,
+            manageCharging: manageCharging,
+            hotBatteryProtectionEnabled: turnOffChargingWhenBatteryIsHot,
+            pauseChargingOnSleepEnabled: inhibitChargingOnSleep
+        )
     }
 
     /// The resolved backend, reconstituted from `ChargingDiagnostics.backend`'s raw value.
     /// `nil` both before the initial fetch completes and if the helper ever reports a raw
     /// value this build doesn't recognize.
     private var chargeBackend: ChargeBackend? {
-        diagnostics.flatMap { ChargeBackend(rawValue: $0.backend) }
+        facts.backend
     }
 
-    // BatFi neutralizes the system's own Charge Limit by overriding it to 100% whenever
-    // it's actively managing charging. No active override means whatever the user set
-    // natively in System Settings is the one in effect — which can silently cap charging
-    // below the limit configured above. That only matters while BatFi is actually
-    // managing charging: with automatic management off, BatFi holds no override by
-    // design, and the system's own limit is exactly what should be in effect.
-    private var systemChargeLimitMayConflict: Bool {
-        guard let mcl = diagnostics?.mcl else { return false }
-        return manageCharging && mcl.supported && !mcl.batFiHasActiveOverride
+    /// Reads the value the slider should *show* and writes what the user picks.
+    ///
+    /// Asymmetric on purpose. A stored limit below what this Mac's mechanism can express
+    /// is displayed at the floor but never written back to it: clamping the default would
+    /// quietly replace the 55% the user chose — the very setting the banner above exists
+    /// to talk about — and would lose it for good if this Mac later regains a mechanism
+    /// that can honour it.
+    private func limitSliderBinding(for backend: ChargeBackend?) -> Binding<Double> {
+        let stored = $chargeLimit
+        return Binding(
+            get: { Double(ChargeLimitRange.displayedLimit(configured: stored.wrappedValue, for: backend)) },
+            set: { stored.wrappedValue = Int($0) }
+        )
     }
 
     /// User-facing summary of the resolved backend. `.chte` and `.legacyCH0BC` both read
