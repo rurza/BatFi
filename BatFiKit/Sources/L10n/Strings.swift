@@ -855,6 +855,20 @@ public enum L10n {
                 )
             }
 
+            /// During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn't report when it's holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly.
+            ///
+            /// Sits directly under the dip sentence, because it is the other half of the
+            /// same fact: that one explains why the battery sits below the limit, this one
+            /// explains why the label disagrees for the same stretch of time. Without it the
+            /// pane explains the battery and leaves the menu bar asserting something false.
+            ///
+            /// Deliberately narrow. Names the menu bar and notifications, because that is
+            /// where the label is read; says the firmware does not report the hold, which is
+            /// the actual cause; and closes on the limit being enforced exactly, so nobody
+            /// reads this as "the limit is unreliable". Only the label is a guess, and the
+            /// battery percentage shown is real.
+            public static let firmwareRangeChargingStatusIsInferred = String(localized: "settings.label.firmware_range_charging_status_is_inferred", defaultValue: "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn't report when it's holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly.", bundle: Bundle.module)
+
             /// Charging can't be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won't take effect.
             ///
             /// The `.firmwareRange` counterpart to

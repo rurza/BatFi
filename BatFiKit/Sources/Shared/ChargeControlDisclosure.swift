@@ -78,6 +78,22 @@ public enum ChargeControlDisclosure: Equatable, Sendable {
     /// of quiet disagreement this pane exists to avoid.
     case batteryMayDipBelowLimit(hysteresis: Int)
 
+    /// BatFi's own charging/holding label is **inferred, not observed**, so it can say
+    /// "charging" while the mechanism is holding. Belongs beside `batteryMayDipBelowLimit`
+    /// and is emitted immediately after it: that case explains why the *battery* sits below
+    /// the limit, and leaves the *label* still asserting something false for the same
+    /// stretch of time.
+    ///
+    /// Precise about what is and is not affected. The limit is enforced exactly and the
+    /// battery percentage shown is real; only the charging/holding label is a guess. A user
+    /// must not come away thinking the limit is unreliable — that would be a worse error
+    /// than the one this discloses.
+    ///
+    /// Scoped to the mechanism that genuinely does not report when it is holding. See the
+    /// `.systemChargeLimit` arm of `disclosures` for why that backend, which looks like it
+    /// has the same problem, does not get this sentence.
+    case chargingStatusIsInferred
+
     /// Pausing charging outright cannot engage: the mechanism in force holds charge at a
     /// percentage and has no "stop now" to write. This is why hot-battery protection and
     /// pause-on-sleep do nothing, and it cannot be fixed — only disclosed.
@@ -273,6 +289,13 @@ public extension ChargeControlFacts {
                 // the figure the pane names and the figure the firmware is given cannot
                 // come apart.
                 .batteryMayDipBelowLimit(hysteresis: FirmwareChargeRange.hysteresis),
+                // Immediately after, because it is the other half of the same fact. The dip
+                // row explains the battery; this one explains the label, which is wrong for
+                // the same stretch of time and in a place the user looks far more often
+                // than this pane — `ChargingManager` infers the mode by comparing the
+                // battery level against the limit, and the menu bar and the charging
+                // notifications both read it.
+                .chargingStatusIsInferred,
             ]
 
             // The one thing that genuinely stopped working, and only for a user who asked
@@ -293,6 +316,24 @@ public extension ChargeControlFacts {
             return [.chargingControlUnavailable]
 
         case .systemChargeLimit:
+            // **Deliberately no `.chargingStatusIsInferred` here**, and not by reflex — the
+            // question was asked directly, because this backend looks like it has the same
+            // problem and the answer is that it does not have the same *cause*.
+            //
+            // Under the firmware range nothing reports when charge is being held, so
+            // BatFi's label can only ever be a guess. Here the firmware does report it, in
+            // `CHNC` bit 24, and BatFi already reads it —
+            // `ChargingDiagnostics.systemChargeLimitIsHoldingCharge` is that reading, and
+            // the MagSafe LED is already driven from it. The honest sentence for this Mac
+            // is therefore not "BatFi can't know"; the signal exists.
+            //
+            // BatFi's *mode* can still be wrong here, in the other direction: a limit
+            // raised from 55% to 80% makes `updateStatus` report `.inhibit` from 55%
+            // upward while the hardware charges on. That is worth fixing rather than
+            // disclosing — the signal to fix it with is already in this class — and the
+            // limit disclosures below already tell this user the number in force. Writing
+            // "BatFi can't tell whether it's charging" here would be false and would spend
+            // the user's trust on a bug.
             var disclosures: [ChargeControlDisclosure] = [.usingSystemChargeLimit]
 
             if systemLimitSnapshotRefused {

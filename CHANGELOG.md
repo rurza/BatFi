@@ -46,10 +46,19 @@ All notable changes to BatFi are documented here. The format is based on
   so a single report is enough to diagnose the next firmware change.
 
 ### Known issues
-- **Pausing charging on demand doesn't take effect on Macs that fall back to Apple's charge
-  limit.** Apple's limit only sets a ceiling — it has no way to stop charging right now — so on
-  those Macs the pause when the battery gets too hot and the pause while the Mac sleeps have no
-  effect. Your charge limit is still enforced, and "Run on Battery" is unaffected.
+- **Pausing charging on demand doesn't take effect where the mechanism only sets a ceiling.**
+  Neither Apple's charge limit nor the newest firmware's own charge range has a way to stop
+  charging right now — both hold the battery at a percentage instead — so on Macs using either
+  of them, the pause when the battery gets too hot and the pause while the Mac sleeps have no
+  effect. Your charge limit is still enforced, and "Run on Battery" is unaffected. The Charging
+  pane says so on the Macs it applies to.
+- **On the newest firmware, BatFi can say "charging" while the Mac is actually holding.** That
+  firmware doesn't report when it's holding the battery inside its charge range, so BatFi works
+  the status out from the battery level — which means the menu bar and the charging
+  notifications can be wrong for the few points between topping up and the limit. Your limit is
+  still enforced exactly and the battery percentage shown is real; only the charging label is a
+  guess. For the same reason, the green MagSafe light can't be used on those Macs; the blink
+  when BatFi discharges the battery still works.
 - **After quitting BatFi, the charge limit in System Settings can read 100% for a while.** When
   BatFi raises Apple's charge limit temporarily, current versions of macOS give it no way to
   hand that back early, so System Settings can keep showing 100% until the temporary change

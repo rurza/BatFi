@@ -106,6 +106,8 @@ struct ChargeControlDisclosureBanner: View {
             // Formatted with the same helper the slider label uses, so "5%" here and the
             // limit above it are written the same way.
             return l10n.firmwareRangeBatteryMayDipBelowLimit(chargeLimitPercentageLabel(hysteresis))
+        case .chargingStatusIsInferred:
+            return l10n.firmwareRangeChargingStatusIsInferred
         case .pausingChargingUnavailable(let heldBy, _):
             // The consequence is one statement; the mechanism holding charge is not, and
             // naming the wrong one would point a macOS 27 user at a System Settings value
@@ -135,7 +137,13 @@ struct ChargeControlDisclosureBanner: View {
         case .usingSystemChargeLimit,
              .managingSystemSettingsLimit,
              .firmwareEnforcedLimit,
-             .batteryMayDipBelowLimit:
+             .batteryMayDipBelowLimit,
+             // Not a warning either, and that is a judgement worth recording: nothing the
+             // user asked for has stopped happening. The limit is enforced exactly and the
+             // battery reading is real — only BatFi's label for what the firmware is doing
+             // is inferred. Styling it orange would say the limit is unreliable, which is
+             // precisely the wrong thing to leave a user believing.
+             .chargingStatusIsInferred:
             return false
         }
     }
@@ -148,7 +156,7 @@ struct ChargeControlDisclosureBanner: View {
              .limitNotAppliedWithoutSnapshot,
              .pausingChargingUnavailable:
             return "exclamationmark.triangle.fill"
-        case .usingSystemChargeLimit, .batteryMayDipBelowLimit:
+        case .usingSystemChargeLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred:
             return "info.circle"
         case .firmwareEnforcedLimit:
             return "checkmark.seal"

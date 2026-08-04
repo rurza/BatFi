@@ -18477,6 +18477,17 @@
         }
       }
     },
+    "settings.label.firmware_range_charging_status_is_inferred": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
+          }
+        }
+      }
+    },
     "settings.label.firmware_range_enforced_by_firmware": {
       "extractionState": "manual",
       "localizations": {

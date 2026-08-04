@@ -88,7 +88,63 @@ import Testing
         #expect(value.disclosures == [
             .firmwareEnforcedLimit,
             .batteryMayDipBelowLimit(hysteresis: FirmwareChargeRange.hysteresis),
+            .chargingStatusIsInferred,
         ])
+    }
+
+    /// The label disclosure has to sit *immediately* after the dip it explains. They are two
+    /// halves of one fact — the battery sits below the limit, and for that same stretch
+    /// BatFi's own label says "charging" — and a row between them would leave the second
+    /// reading as a separate complaint rather than the completion of the first.
+    @Test func theInferredStatusFollowsTheDipItExplains() {
+        let disclosures = facts(backend: .firmwareRange).disclosures
+        let dip = disclosures.firstIndex(of: .batteryMayDipBelowLimit(
+            hysteresis: FirmwareChargeRange.hysteresis
+        ))
+        let label = disclosures.firstIndex(of: .chargingStatusIsInferred)
+        #expect(dip != nil)
+        #expect(label != nil)
+        if let dip, let label { #expect(label == dip + 1) }
+    }
+
+    /// Not conditional on either pause setting, unlike the row below it. The label is wrong
+    /// on this firmware whatever the user has switched on, because it is inferred from the
+    /// battery level and the band moves independently of it.
+    @Test func theInferredStatusIsDisclosedWhateverTheUserHasSwitchedOn() {
+        #expect(facts(backend: .firmwareRange).disclosures.contains(.chargingStatusIsInferred))
+        #expect(
+            facts(
+                backend: .firmwareRange,
+                hotBatteryProtectionEnabled: true,
+                pauseChargingOnSleepEnabled: true
+            ).disclosures.contains(.chargingStatusIsInferred)
+        )
+    }
+
+    /// Asked directly rather than scoped by reflex: `.systemChargeLimit` looks like it has
+    /// the same problem and does not have the same cause. There the firmware *does* report
+    /// the hold, in `CHNC` bit 24, and BatFi already reads it through
+    /// `systemChargeLimitIsHoldingCharge`. Its mode can still be wrong — a limit raised from
+    /// 55% to 80% reports `.inhibit` from 55% up while the hardware charges — but that is a
+    /// bug with a signal available to fix it, not a limitation to disclose, and saying
+    /// "BatFi can't tell whether it's charging" there would be false.
+    ///
+    /// Every other backend too: no mechanism, no inference to warn about.
+    @Test func onlyTheFirmwareRangeDisclosesAnInferredStatus() {
+        for backend in ChargeBackend.allCases where backend != .firmwareRange {
+            let value = facts(
+                backend: backend,
+                appliedChargeLimit: 80,
+                chargeLimitWasRaised: true,
+                requestedChargeLimit: 55,
+                hotBatteryProtectionEnabled: true,
+                pauseChargingOnSleepEnabled: true
+            )
+            #expect(
+                value.disclosures.contains(.chargingStatusIsInferred) == false,
+                "\(backend.rawValue)"
+            )
+        }
     }
 
     /// The dip is the mechanism, and a user watching 75% with an 80% limit needs to be
