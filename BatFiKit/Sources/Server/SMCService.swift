@@ -44,6 +44,17 @@ actor SMCService {
         }
 
         await openSMCIfNeeded()
+        // openSMCIfNeeded() cannot fail loudly — it exhausts its retries and returns
+        // with smcIsOpened still false. Probing over a dead connection makes every key
+        // look absent, which resolves to .unsupported and would then be cached against
+        // this machine's real firmware token, pinning a resident daemon to "no charge
+        // control" for its whole life over one transient open failure. Fail this call
+        // only; the next one retries the open.
+        guard smcIsOpened else {
+            logger.error("SMC is not open; refusing to cache a backend resolution")
+            return .unsupported
+        }
+
         let capabilities = SMCKit.probeCapabilities(ChargeBackendResolver.probedKeys)
         let backend = ChargeBackendResolver.resolve(capabilities)
 
@@ -154,9 +165,9 @@ actor SMCService {
             // diverge from each other (or from the write) is how this drifted out of sync
             // before.
             let forceDischarging: Bool
-            if SMCKit.probeCapability("CHIE") != nil, let data = try? SMCKit.readData(.disableCharging3) {
+            if SMCKit.probeCapability(for: .disableCharging3) != nil, let data = try? SMCKit.readData(.disableCharging3) {
                 forceDischarging = data.0 != 0
-            } else if SMCKit.probeCapability("CH0I") != nil, let data = try? SMCKit.readData(.disableCharging1) {
+            } else if SMCKit.probeCapability(for: .disableCharging1) != nil, let data = try? SMCKit.readData(.disableCharging1) {
                 forceDischarging = data.0 != 0
             } else {
                 forceDischarging = false
@@ -353,12 +364,16 @@ actor SMCService {
         // Probed independently of the charge backend: CHIE survives on firmware that
         // has dropped CHTE, so deriving this from the backend would disable a feature
         // that still works.
-        if SMCKit.probeCapability("CHIE") != nil {
+        if SMCKit.probeCapability(for: .disableCharging3) != nil {
             try SMCKit.writeData(.disableCharging3, uint8: engageByte(for: .disableCharging3))
             logger.notice("Force discharge changed using CHIE")
             return
         }
-        if SMCKit.probeCapability("CH0J") != nil {
+        // Gated on CH0I, the same key smcChargingStatus() gates its legacy read on, so
+        // the write and read paths can never disagree about whether this mechanism
+        // exists. CH0I and CH0J ship as a pair; if CH0J were somehow absent its write
+        // below throws loudly rather than reporting a discharge that never engaged.
+        if SMCKit.probeCapability(for: .disableCharging1) != nil {
             try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
             try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
             logger.notice("Force discharge changed using CH0I/CH0J")

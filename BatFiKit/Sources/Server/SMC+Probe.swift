@@ -40,6 +40,16 @@ extension SMCKit {
         )
     }
 
+    /// Probes the key by its own four-character code.
+    ///
+    /// Prefer this over the string overload wherever the caller goes on to read or
+    /// write that same `SMCKey`: a bare literal beside a `SMCKey` constant can drift
+    /// silently when the constant is repointed at a different code, and the compiler
+    /// cannot catch it. Deriving the probe from the constant makes that impossible.
+    static func probeCapability(for key: SMCKey) -> SMCKeyCapability? {
+        probeCapability(key.code.toString())
+    }
+
     /// Probes every code, dropping the ones that come back nil.
     static func probeCapabilities(_ codes: [String]) -> [String: SMCKeyCapability] {
         var table: [String: SMCKeyCapability] = [:]
