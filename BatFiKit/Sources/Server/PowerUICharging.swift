@@ -135,27 +135,41 @@ actor PowerUICharging {
         guard isAvailable else { throw PowerUIChargingError.frameworkUnavailable }
 
         let available = availableLimits()
+        guard !available.isEmpty else {
+            throw PowerUIChargingError.availableLimitsUnavailable
+        }
         guard available.contains(percentage) else {
             throw PowerUIChargingError.limitOutOfRange(requested: percentage, available: available)
         }
 
+        // Gate the write on a confirmed read: if we cannot learn the user's current value,
+        // we must not overwrite it, because we would then have no correct value to restore.
+        // Leaving the snapshot `nil` here means "never captured and never written" — the
+        // next call retries the capture cleanly, with no risk of later grabbing BatFi's own
+        // already-written value instead of the user's original.
         if userSystemLimitSnapshot == nil {
-            userSystemLimitSnapshot = currentSystemLimit()
-            logger.notice("Captured user's system charge limit: \(self.userSystemLimitSnapshot?.description ?? "unknown", privacy: .public)")
+            guard let current = currentSystemLimit() else {
+                throw PowerUIChargingError.snapshotUnavailable
+            }
+            userSystemLimitSnapshot = current
+            logger.notice("Captured user's system charge limit: \(current, privacy: .public)%")
         }
 
         try adoptSystemLimitWithoutSnapshotting(percentage)
     }
 
-    /// Puts the user's own value back. Safe to call when nothing was ever adopted.
+    /// Puts the user's own value back. Safe to call when nothing was ever adopted. The
+    /// snapshot is only cleared once the restore write actually succeeds, so a failed
+    /// attempt (transient shutdown/backend-switch hiccup) can be retried later instead of
+    /// silently forgetting the value there was to restore.
     func releaseSystemLimit() {
         guard let snapshot = userSystemLimitSnapshot else { return }
-        userSystemLimitSnapshot = nil
         do {
             try adoptSystemLimitWithoutSnapshotting(snapshot)
+            userSystemLimitSnapshot = nil
             logger.notice("Restored user's system charge limit to \(snapshot, privacy: .public)%")
         } catch {
-            logger.error("Could not restore the user's system charge limit: \(error, privacy: .public)")
+            logger.error("Could not restore the user's system charge limit; will retry on next release: \(error, privacy: .public)")
         }
     }
 
@@ -255,6 +269,8 @@ enum PowerUIChargingError: Error, CustomStringConvertible {
     case apiCallFailed(Error)
     case apiCallReturnedFalse
     case limitOutOfRange(requested: Int, available: [Int])
+    case availableLimitsUnavailable
+    case snapshotUnavailable
 
     var description: String {
         switch self {
@@ -264,6 +280,10 @@ enum PowerUIChargingError: Error, CustomStringConvertible {
         case .apiCallReturnedFalse: return "PowerUI API returned false"
         case .limitOutOfRange(let requested, let available):
             return "Requested system charge limit \(requested)% is not one of the available limits \(available)"
+        case .availableLimitsUnavailable:
+            return "Could not read the accepted system charge limit values from PowerUI, so the requested value could not be validated"
+        case .snapshotUnavailable:
+            return "BatFi will not change the system charge limit because it could not read the user's current value to restore later"
         }
     }
 }
