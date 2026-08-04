@@ -24,8 +24,38 @@ actor SMCService {
 
     private init() { }
 
+    private var cachedBackend: ChargeBackend?
+    private var cachedBackendFirmware: String?
+
     func close() {
         SMCKit.close()
+    }
+
+    /// Resolves the charge-control mechanism from the firmware's key table.
+    ///
+    /// Cached against the firmware token, not the macOS version, and re-probed when
+    /// that token changes. This is the case a user hits by updating macOS, taking the
+    /// new firmware, then downgrading macOS again — the OS moves, the firmware does
+    /// not, and the cache follows the firmware.
+    func currentBackend() async -> ChargeBackend {
+        let firmware = SystemFirmware.version()
+        if let cachedBackend, cachedBackendFirmware == firmware {
+            return cachedBackend
+        }
+
+        await openSMCIfNeeded()
+        let capabilities = SMCKit.probeCapabilities(ChargeBackendResolver.probedKeys)
+        let backend = ChargeBackendResolver.resolve(capabilities)
+
+        let summary = capabilities.keys.sorted().joined(separator: ", ")
+        logger.notice("""
+        Charge backend resolved to \(backend.rawValue, privacy: .public) \
+        on firmware \(firmware ?? "unknown", privacy: .public); usable keys: \(summary, privacy: .public)
+        """)
+
+        cachedBackend = backend
+        cachedBackendFirmware = firmware
+        return backend
     }
 
     func setChargingMode(_ message: SMCChargingCommand) async throws {
@@ -113,11 +143,13 @@ actor SMCService {
         await openSMCIfNeeded()
         do {
             logger.notice("Getting disable charging status")
+            // Probed rather than read-and-catch, and independently of the charge
+            // backend — CHIE outlives CHTE on newer firmware.
             let forceDischarging: Bool
-            if let forceDischarging2 = try? SMCKit.readData(.disableCharging3) {
-                forceDischarging = forceDischarging2.0 == 1
-            } else if let forceDischarging1 = try? SMCKit.readData(.disableCharging1) {
-                forceDischarging = forceDischarging1.0 == 1
+            if SMCKit.probeCapability("CHIE") != nil, let data = try? SMCKit.readData(.disableCharging3) {
+                forceDischarging = data.0 == 1
+            } else if SMCKit.probeCapability("CH0I") != nil, let data = try? SMCKit.readData(.disableCharging1) {
+                forceDischarging = data.0 == 1
             } else {
                 forceDischarging = false
                 logger.error("Failed to read disable charging status")
@@ -261,22 +293,20 @@ actor SMCService {
         logger.notice("Checking if charging is enabled")
         await openSMCIfNeeded()
         
-        // Check for new firmware first
-        do {
+        switch await currentBackend() {
+        case .chte:
             let data = try SMCKit.readData(.inhibitCharging3)
             let isEnabled = data.0 == 0
-            logger.notice("New firmware: charging enabled = \(isEnabled)")
+            logger.notice("CHTE: charging enabled = \(isEnabled)")
             return isEnabled
-        } catch {
-            // Try old firmware
-            do {
-                let data1 = try SMCKit.readData(.inhibitCharging1)
-                let isEnabled = data1.0 == 0
-                logger.notice("Old firmware: charging enabled = \(isEnabled)")
-                return isEnabled
-            } catch {
-                throw error
-            }
+        case .legacyCH0BC:
+            let data = try SMCKit.readData(.inhibitCharging1)
+            let isEnabled = data.0 == 0
+            logger.notice("CH0B: charging enabled = \(isEnabled)")
+            return isEnabled
+        case .unsupported:
+            logger.error("No usable charge control mechanism on this firmware")
+            throw SMCError.keyNotFound(code: "CHTE")
         }
     }
     
@@ -289,19 +319,17 @@ actor SMCService {
         await openSMCIfNeeded()
         let enableByte: UInt8 = enable ? 0 : 1
 
-        // Try new firmware first
-        do {
+        switch await currentBackend() {
+        case .chte:
             try SMCKit.writeData(.inhibitCharging3, byte0: enableByte, byte1: 0, byte2: 0, byte3: 0)
-            logger.notice("Inhibit charging changed using new firmware")
-        } catch {
-            // Fallback to old firmware
-            do {
-                try SMCKit.writeData(.inhibitCharging1, uint8: enableByte)
-                try SMCKit.writeData(.inhibitCharging2, uint8: enableByte)
-                logger.notice("Inhibit charging changed using old firmware")
-            } catch {
-                throw error
-            }
+            logger.notice("Inhibit charging changed using CHTE")
+        case .legacyCH0BC:
+            try SMCKit.writeData(.inhibitCharging1, uint8: enableByte)
+            try SMCKit.writeData(.inhibitCharging2, uint8: enableByte)
+            logger.notice("Inhibit charging changed using CH0B/CH0C")
+        case .unsupported:
+            logger.error("No usable charge control mechanism on this firmware")
+            throw SMCError.keyNotFound(code: "CHTE")
         }
     }
 
@@ -314,19 +342,21 @@ actor SMCService {
         await openSMCIfNeeded()
         func engageByte(for key: SMCKey) -> UInt8 { enable ? key.forceDischargeEngagedValue : 0 }
 
-        do {
+        // Probed independently of the charge backend: CHIE survives on firmware that
+        // has dropped CHTE, so deriving this from the backend would disable a feature
+        // that still works.
+        if SMCKit.probeCapability("CHIE") != nil {
             try SMCKit.writeData(.disableCharging3, uint8: engageByte(for: .disableCharging3))
-            logger.notice("Force discharge changed using new firmware")
-        } catch {
-            logger.error("Force discharge state change failed with new firmware. Using old as fallback")
-            do {
-                try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
-                try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
-                logger.notice("Force discharge changed using old firmware")
-            } catch {
-                logger.error("Force discharge failed with old firmware")
-                throw error
-            }
+            logger.notice("Force discharge changed using CHIE")
+            return
         }
+        if SMCKit.probeCapability("CH0J") != nil {
+            try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
+            try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
+            logger.notice("Force discharge changed using CH0I/CH0J")
+            return
+        }
+        logger.error("No usable force discharge mechanism on this firmware")
+        throw SMCError.keyNotFound(code: "CHIE")
     }
 }
