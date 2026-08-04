@@ -38,6 +38,13 @@ public actor ChargingManager: ChargingModeManager {
 
     private var lastChargerConnectedStatus: ChargerConnectedStatus?
 
+    /// The last request/applied pair `applyChargeLimit(_:)` reported, so a mismatch is
+    /// reported as an event rather than as a state. Under the system charge limit a
+    /// mismatch is the permanent steady state for anyone whose limit is below 80%, and
+    /// this runs on every status update. Cleared in `disengage()` so re-engaging says it
+    /// once again.
+    private var lastReportedChargeLimit: AppliedChargeLimit?
+
     public init() {}
 
     public func setUpObserving() {
@@ -386,9 +393,15 @@ public actor ChargingManager: ChargingModeManager {
     private func applyChargeLimit(_ limit: Int) async {
         do {
             let applied = try await chargingClient.applyChargeLimit(limit)
-            // Only worth saying when the mechanism could not honour the request — the SMC
-            // backends always can, and this runs on every status update.
-            if applied != limit {
+            // On change, not on inequality. Under the system charge limit a request the
+            // mechanism cannot express — anything below 80%, which is most of the slider —
+            // resolves to a raised value on *every* pass, so reporting the inequality would
+            // emit a notice and burn a Sentry breadcrumb roughly once a minute, forever, on
+            // exactly the machines whose bug reports are worth having. The mismatch itself
+            // is still carried structurally by `ChargingDiagnostics.chargeLimitWasRaised`.
+            let outcome = AppliedChargeLimit(requested: limit, applied: applied)
+            if AppliedChargeLimit.shouldReport(outcome, lastReported: lastReportedChargeLimit) {
+                lastReportedChargeLimit = outcome
                 logger.notice("Charge limit \(limit, privacy: .public)% applied as \(applied, privacy: .public)%")
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Charge limit \(limit)% applied as \(applied)%")
             }
@@ -401,6 +414,9 @@ public actor ChargingManager: ChargingModeManager {
     private func disengage(chargerConnected: Bool) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // BatFi is handing charging back, so the next limit it applies starts a new
+        // episode and is worth reporting again even if it resolves the same way.
+        lastReportedChargeLimit = nil
         logger.debug("Disengaging — restoring system defaults")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Disengaging — restoring system defaults")
         do {
