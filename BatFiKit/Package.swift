@@ -230,6 +230,7 @@ let package = Package(
                 .l10n,
                 .license,
                 .pow,
+                .shared,
                 .sharedUI,
             ],
             swiftSettings: swiftV6LanguageMode()
