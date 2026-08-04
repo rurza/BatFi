@@ -470,22 +470,26 @@ public enum ChargeLimitRange {
 
     /// The lowest value the slider may be dragged to on this Mac.
     ///
-    /// Exhaustive over `ChargeBackend`, with `.unsupported` deliberately *not* constrained
-    /// even though `honoursLimitsBelow80` is false for it. The constraint exists to stop
-    /// the user choosing a value that would be silently raised to something else — and
-    /// under `.unsupported` nothing is applied at all, so raising the floor to 80% would
-    /// imply 80% is in force when nothing is. That Mac is told the truth by
-    /// `.chargingControlUnavailable` instead.
+    /// **Derived from `ChargeBackend.honoursLimitsBelow80` rather than restating it.** This
+    /// used to be a second, independent switch over the same enum, which meant the property
+    /// its own doc calls "the single most important thing to tell the user" had zero
+    /// production callers while the decision it names was taken here — and the two already
+    /// disagreed on `.unsupported`. Add a sixth backend that cannot go below 80, answer the
+    /// property correctly, and the slider would still have offered 50% under a green suite.
+    ///
+    /// `.unsupported` is the one case answered here rather than by the property, and the
+    /// divergence is deliberate rather than left implicit. The property is false for it —
+    /// correctly: nothing there can express any limit, let alone one below 80%. But this
+    /// constraint exists to stop the user choosing a value that would be *silently raised
+    /// to something else*, and under `.unsupported` nothing is applied at all, so pinning
+    /// the slider at 80% would imply 80% is in force when nothing is. That Mac is told the
+    /// truth by `.chargingControlUnavailable` instead, and keeps the limit it chose for
+    /// whenever it regains a mechanism.
     public static func lowestSelectable(for backend: ChargeBackend?) -> Int {
-        guard let backend else { return lowest }
-        switch backend {
-        // `.firmwareRange` is here because the whole reason it exists is that it can
-        // express a limit below 80% on firmware where `CHTE` is gone. Constraining the
-        // slider there would give that back away.
-        case .firmwareRange, .chte, .legacyCH0BC: return lowest
-        case .systemChargeLimit: return systemChargeLimitLowest
-        case .unsupported: return lowest
-        }
+        // Unresolved is as permissive as `.unsupported`, and for the same reason: no claim
+        // has been made about what is in force.
+        guard let backend, backend != .unsupported else { return lowest }
+        return backend.honoursLimitsBelow80 ? lowest : systemChargeLimitLowest
     }
 
     /// The value the slider shows, given what the user has configured.

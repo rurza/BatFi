@@ -596,6 +596,30 @@ import Testing
         #expect(ChargeLimitRange.lowestSelectable(for: nil) == 50)
     }
 
+    /// The slider floor is now *derived* from `ChargeBackend.honoursLimitsBelow80` rather
+    /// than restating it in a second switch over the same enum. This is the assertion that
+    /// keeps them one fact: a backend that does not honour limits below 80 gets the raised
+    /// floor, and one that does keeps the full range — for every case, so a sixth backend
+    /// cannot answer the property correctly while the slider quietly offers 50%.
+    ///
+    /// `.unsupported` is the deliberate exception and is asserted as such rather than
+    /// skipped: nothing is applied there at all, so a raised floor would imply 80% is in
+    /// force when nothing is.
+    @Test func theSliderFloorFollowsTheBackendProperty() {
+        for backend in ChargeBackend.allCases {
+            let floor = ChargeLimitRange.lowestSelectable(for: backend)
+            if backend == .unsupported {
+                #expect(!backend.honoursLimitsBelow80)
+                #expect(floor == ChargeLimitRange.lowest, "\(backend.rawValue)")
+                continue
+            }
+            let expected = backend.honoursLimitsBelow80
+                ? ChargeLimitRange.lowest
+                : ChargeLimitRange.systemChargeLimitLowest
+            #expect(floor == expected, "\(backend.rawValue)")
+        }
+    }
+
     /// The user's 55% is *shown* at the floor, never written back to it. Keeping the
     /// stored value is what lets it return untouched if this Mac ever regains a mechanism
     /// that can honour it — and clamping it would erase the very setting the disclosure
