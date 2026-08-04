@@ -45,6 +45,10 @@ struct AutomationLocationPicker: View {
     // a newer request always supersedes an older one.
     @State private var pinRequestGeneration = 0
     @State private var locatingGeneration = 0
+    /// Click order for search-suggestion selections specifically, separate from
+    /// `pinRequestGeneration`. See the comment on `select(_:)` for why a second counter is
+    /// needed here rather than folding this into `pinRequestGeneration`.
+    @State private var selectSequence = 0
     /// True while `label` holds text one of the three automated writers put there (current
     /// location, tap-to-geocode, search selection) rather than text the user typed. Lets those
     /// writers keep replacing each other's output — and the user's own edits still win over all
@@ -366,13 +370,28 @@ struct AutomationLocationPicker: View {
         }
     }
 
-    /// Captures the generation rather than bumping it up front: bumping here would supersede an
-    /// unrelated in-flight request (e.g. a map-tap geocode from `prefillLabelIfEmpty`) even if
-    /// this resolve then fails and writes nothing, silently discarding that other request's
-    /// result for no reason. Any later tap or "use current location" still bumps the counter and
-    /// fails this call's post-await guard, so supersession still works; we only stop bumping
-    /// *before* knowing this attempt will actually produce a write.
+    /// Captures `pinRequestGeneration` rather than bumping it up front: bumping here would
+    /// supersede an unrelated in-flight request (e.g. a map-tap geocode from
+    /// `prefillLabelIfEmpty`) even if this resolve then fails and writes nothing, silently
+    /// discarding that other request's result for no reason. Any later tap or "use current
+    /// location" still bumps the counter and fails this call's post-await guard, so supersession
+    /// still works; we only stop bumping *before* knowing this attempt will actually produce a
+    /// write.
+    ///
+    /// That deferred bump is why a second counter, `selectSequence`, exists. Two overlapping
+    /// selections both start before either has bumped `pinRequestGeneration`, so both capture the
+    /// same value from it — `pinRequestGeneration` alone cannot tell them apart, and whichever
+    /// `MKLocalSearch` happened to resolve first would win, even if it was the user's earlier,
+    /// already-abandoned click. `selectSequence` is bumped synchronously at the very top of this
+    /// function, before any `await`, so it records click order independent of resolve latency: the
+    /// later click always captures the higher value, and a stale selection's post-await check
+    /// against the current `selectSequence` fails no matter which resolve returns first. Do not
+    /// collapse these two counters into one — bumping a single counter up front reintroduces the
+    /// discarded-map-tap bug above, and deferring a single counter's bump reintroduces the
+    /// click-order bug this one fixes.
     private func select(_ completion: MKLocalSearchCompletion) async {
+        selectSequence += 1
+        let mySequence = selectSequence
         let generation = pinRequestGeneration
         guard let resolved = await search.resolve(completion) else {
             // No feedback shown here on a failed resolve (offline, rate-limited, unresolvable
@@ -383,6 +402,11 @@ struct AutomationLocationPicker: View {
         // resolve did complete, so the stale suggestion list and query should not linger under a
         // pin the user has since moved elsewhere.
         search.clear()
+        // Stale relative to a later click on a different suggestion — the user has already moved
+        // on, so this result must not land even if it resolved first.
+        guard mySequence == selectSequence else { return }
+        // Stale relative to a map tap or "use current location" that happened after this click —
+        // same rule the other two writers follow.
         guard generation == pinRequestGeneration else { return }
         pinRequestGeneration += 1
         set(resolved.coordinate)
