@@ -49,6 +49,13 @@ extension SMCKey {
         info: DataTypes.UInt8
     )
 
+    /// The firmware's own reason for not charging — an 8-byte little-endian
+    /// bitfield. See `NotChargingReason` for the bit layout.
+    static let notChargingReason = Self(
+        code: .init(fromStaticString: "CHNC"),
+        info: DataTypes.Hex8
+    )
+
     static let magSafeLED = Self(
         code: .init(fromStaticString: "ACLC"),
         info: DataTypes.UInt8

@@ -59,6 +59,14 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         }
     }
 
+    func getChargingDiagnostics(_ reply: @escaping (Shared.ChargingDiagnostics?, (any Error)?) -> Void) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            let diagnostics = await smcService.chargingDiagnostics()
+            reply.value(diagnostics, nil)
+        }
+    }
+
     func getCurrentChargingStatus(_ reply: @escaping (Shared.SMCChargingStatus?, (any Error)?) -> Void) {
         let reply = UnsafeSendableBox(value: reply)
         Task {

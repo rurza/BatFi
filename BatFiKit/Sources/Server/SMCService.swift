@@ -138,6 +138,37 @@ actor SMCService {
         return MCLStatus(supported: false, batFiHasActiveOverride: false, lastOverrideValue: nil)
     }
 
+    /// Snapshot for bug reports: resolved backend, firmware token, the firmware's own
+    /// `CHNC` reason for not charging, and MCL status. Decoded and reported only — no
+    /// control flow branches on `CHNC`, since which bit a `CHTE` inhibit raises has not
+    /// been confirmed on hardware.
+    func chargingDiagnostics() async -> ChargingDiagnostics {
+        let backend = await currentBackend()
+        let firmwareVersion = SystemFirmware.version()
+
+        await openSMCIfNeeded()
+        // Read defensively: CHNC may be absent on some firmware, and a diagnostics call
+        // that throws is worse than useless. Absent or unreadable reports no reasons.
+        let reasons: [String]
+        if let bytes = try? SMCKit.readData(.notChargingReason) {
+            let raw: [UInt8] = [
+                bytes.0, bytes.1, bytes.2, bytes.3, bytes.4, bytes.5, bytes.6, bytes.7
+            ]
+            reasons = NotChargingReason.decode(raw).map(\.rawValue)
+        } else {
+            reasons = []
+        }
+
+        let mcl = await mclStatus()
+
+        return ChargingDiagnostics(
+            backend: backend.rawValue,
+            firmwareVersion: firmwareVersion,
+            notChargingReasons: reasons,
+            mcl: mcl
+        )
+    }
+
     func resetIfPossible() {
         // Try to reset new firmware keys first
         try? SMCKit.writeData(.inhibitCharging3, byte0: 0, byte1: 0, byte2: 0, byte3: 0)

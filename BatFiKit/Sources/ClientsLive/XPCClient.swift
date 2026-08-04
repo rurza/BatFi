@@ -75,6 +75,19 @@ actor XPCClient {
         }
     }
 
+    func getChargingDiagnostics() async throws -> ChargingDiagnostics? {
+        let remote = remoteService()
+        return try await remote.withContinuation { service, continuation in
+            service.getChargingDiagnostics { diagnostics, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: diagnostics)
+                }
+            }
+        }
+    }
+
     func getSMCChargingStatus() async throws -> SMCChargingStatus {
         let remote = remoteService()
         return try await remote.withContinuation { service, continuation in

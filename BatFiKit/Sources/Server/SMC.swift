@@ -257,6 +257,9 @@ enum DataTypes {
         DataType(type: FourCharCode(fromStaticString: "ui32"), size: 4)
     static let Float =
         DataType(type: FourCharCode(fromStaticString: "flt "), size: 4)
+    /// 8-byte opaque bitfield, e.g. `CHNC`.
+    static let Hex8 =
+        DataType(type: FourCharCode(fromStaticString: "hex_"), size: 8)
 }
 
 struct SMCKey {
