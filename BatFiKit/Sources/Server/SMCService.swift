@@ -243,21 +243,42 @@ actor SMCService {
         logger.notice("Restoring SMC defaults (auto charge, force discharge off)")
         await openSMCIfNeeded()
 
+        // Attempted independently rather than as one all-or-nothing block. The two
+        // writes target disjoint keys with no precedence between them, so failing fast
+        // protects nothing — it only picks which of the two safety writes gets stranded.
+        // It also cost the caller: `ChargingManager.disengage()` skips its own
+        // `updateChargingMode(.charging)` when this throws, so an early throw left the
+        // app's in-memory mode stale against hardware `resetIfPossible()` had already
+        // put back.
+        var failures: [any Error] = []
+
+        // Force discharge is still released first, and for the original reason: it is
+        // the only state that can drain the battery while the Mac sits on AC, and with
+        // the charge write upstream one transient throw skipped the release entirely and
+        // left the machine discharging until BatFi was relaunched. Nothing below may
+        // strand it — which is now true even when this very write is the one that fails.
         do {
-            // Force discharge is released first on purpose. It is the only state that
-            // can drain the battery while the Mac sits on AC, and `enableCharging` can
-            // throw transiently — with the charge write upstream, one such throw skipped
-            // the release entirely and left the machine discharging until BatFi was
-            // relaunched. Nothing downstream of this line can strand that state now.
             try await enableForceDischarge(false)
+        } catch {
+            logger.critical("SMC writing error while releasing force discharge: \(error)")
+            failures.append(error)
+        }
+
+        do {
             try await enableCharging(true)
         } catch {
-            logger.critical("SMC writing error while restoring defaults: \(error)")
-            resetIfPossible()
-            invalidateBackendCache()
-            smcIsOpened = false
-            throw error
+            logger.critical("SMC writing error while re-enabling charging: \(error)")
+            failures.append(error)
         }
+
+        // Still throws, so callers learn the restore was incomplete — but only after
+        // both writes have had their turn. Both errors are already logged above; the
+        // first is the one surfaced.
+        guard let firstFailure = failures.first else { return }
+        resetIfPossible()
+        invalidateBackendCache()
+        smcIsOpened = false
+        throw firstFailure
     }
 
     func mclStatus() async -> MCLStatus {
