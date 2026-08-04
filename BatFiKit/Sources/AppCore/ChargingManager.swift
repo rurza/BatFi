@@ -557,7 +557,13 @@ public actor ChargingManager: ChargingModeManager {
                 mode = .inhibit
             }
 
-            await appChargingState.updateLidOpenedStatus(!chargingStatus.lidClosed)
+            // Only when the helper actually read one. An unknown lid leaves the last known
+            // answer — or `nil`, which `fetchLidStatus()` retries — rather than being
+            // recorded as "closed", which would suppress discharging on a machine whose
+            // firmware simply has no lid key.
+            if let lidOpened = chargingStatus.lidOpened {
+                await appChargingState.updateLidOpenedStatus(lidOpened)
+            }
             await appChargingState.setAppChargingMode(
                 .init(mode: mode, userTempOverride: userTempOverride, chargerConnected: powerState.chargerConnected)
             )
@@ -573,8 +579,15 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "We don't know if the lid is opened")
         do {
             let chargingStatus = try await chargingClient.chargingStatus()
-            await appChargingState.updateLidOpenedStatus(!chargingStatus.lidClosed)
-            return !chargingStatus.lidClosed
+            guard let lidOpened = chargingStatus.lidOpened else {
+                // Same answer this function's `catch` has always given when it could not
+                // find out, and for the same reason: the caller needs a `Bool`, and the
+                // stored state stays `nil` so the next pass asks again.
+                logger.notice("The helper could not read the lid state")
+                return false
+            }
+            await appChargingState.updateLidOpenedStatus(lidOpened)
+            return lidOpened
         } catch {
             logger.notice("Failed to fetch lid status: \(error)")
             await analytics.captureError(error: error)

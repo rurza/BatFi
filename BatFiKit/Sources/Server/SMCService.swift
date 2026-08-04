@@ -438,12 +438,25 @@ actor SMCService {
             let chargingEnabled = try await isChargingEnabled()
             
             logger.notice("Getting lid closed status")
-            let lidClosed = try SMCKit.readData(SMCKey.lidClosed)
+            // Read defensively, like `CHNC` in `chargingDiagnostics()`, and for a sharper
+            // reason: this key is not guaranteed to exist on every firmware, and a throw
+            // here took the whole status read down with it. That read is where the app's
+            // charging mode comes from, so a machine missing this one key never left
+            // `ChargingMode.initial` — the same trap the power-source stream had to be
+            // hardened against. A lid nobody could read is reported as unknown; the app
+            // already has a path for that.
+            let lidClosed: Bool?
+            if let data = try? SMCKit.readData(SMCKey.lidClosed) {
+                lidClosed = data.0 == 01
+            } else {
+                lidClosed = nil
+                logger.error("Failed to read the lid state; reporting it as unknown")
+            }
 
             return SMCChargingStatus(
                 forceDischarging: forceDischarging,
                 inhitbitCharging: !chargingEnabled,
-                lidClosed: lidClosed.0 == 01
+                lidClosed: lidClosed
             )
         } catch {
             // Cleared here too, not only on the write paths: isChargingEnabled() above
