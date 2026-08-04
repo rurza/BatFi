@@ -581,9 +581,14 @@ actor SMCService {
             return
         }
         // Gated on CH0I, the same key smcChargingStatus() gates its legacy read on, so
-        // the write and read paths can never disagree about whether this mechanism
-        // exists. CH0I and CH0J ship as a pair; if CH0J were somehow absent its write
-        // below throws loudly rather than reporting a discharge that never engaged.
+        // both paths agree on which key backs this mechanism and on the shape it has to
+        // have. They are not the same test, and must not be: the read gate asks for
+        // `writable: false`, this one for `writable: true`, so a readable-but-not-writable
+        // CH0I still backs a status read while being refused as a write target. That is
+        // the intended asymmetry — a write the firmware accepts and ignores is exactly
+        // the silent failure this gate exists to prevent. CH0I and CH0J ship as a pair;
+        // if CH0J were somehow absent its write below throws loudly rather than
+        // reporting a discharge that never engaged.
         if forceDischargeKeyIsUsable(.disableCharging1, writable: true) {
             try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
             try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
