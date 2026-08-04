@@ -4,6 +4,27 @@ All notable changes to BatFi are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.2] - 2026-08-03
+
+### Fixed
+- **BatFi no longer gets stuck on "Initializing" with an empty battery reading.** A single
+  missing value from the system's battery service — which happens when a macOS or firmware
+  update renames or removes one — used to abort the entire battery read, leaving the menu bar
+  at 0% and BatFi unable to make any charging decision. Quitting and relaunching did not help.
+  Battery level, charging state and charger connection are now the only values BatFi requires;
+  cycle count, temperature, time remaining and battery health degrade individually and hide
+  just their own row. Reads also retry on launch and re-check every minute while failing, so
+  BatFi recovers on its own instead of staying stuck.
+- **"Run on Battery" now actually discharges on recent firmware.** BatFi was writing the wrong
+  value to the charging controller key used by macOS 26-era firmware and newer, so the request
+  was accepted but had no effect.
+
+### Changed
+- Battery health is no longer measured during the battery read, removing a blocking system
+  call from a path that runs on every power change.
+- When a battery value is missing, BatFi now records which one and the Mac's firmware version,
+  so a single report is enough to diagnose the next firmware change.
+
 ## [3.1.1] - 2026-06-19
 
 ### Added
