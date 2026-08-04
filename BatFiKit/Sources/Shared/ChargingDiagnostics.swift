@@ -73,6 +73,19 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
     /// most needs told: their limit is not the one in effect.
     public let chargeLimitWasRaised: Bool
 
+    /// What was actually asked for, beside what was applied. Nil under the SMC backends
+    /// for the same reason `appliedChargeLimit` is: they apply the request exactly.
+    ///
+    /// Carried because `chargeLimitWasRaised` alone cannot tell the two kinds of raise
+    /// apart, and they need different words. A request *below* the mechanism's floor was
+    /// clamped up to it — "limits below 80% can't be applied here". A request above the
+    /// floor was merely rounded up to the next accepted step — 87 becomes 90 — where
+    /// saying "below 80%" and calling 90 the lowest accepted value are both false. That is
+    /// not a corner: `ChargingManager.inhibitCharging()` sets a temporary limit at the
+    /// current battery level, an arbitrary integer, so any stop-charging click at a
+    /// non-multiple of 5 lands in it.
+    public let requestedChargeLimit: Int?
+
     public init(
         backend: String,
         firmwareVersion: String?,
@@ -81,7 +94,8 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         forceDischargeAvailable: Bool,
         magSafeLEDAvailable: Bool,
         appliedChargeLimit: Int? = nil,
-        chargeLimitWasRaised: Bool = false
+        chargeLimitWasRaised: Bool = false,
+        requestedChargeLimit: Int? = nil
     ) {
         self.backend = backend
         self.firmwareVersion = firmwareVersion
@@ -91,6 +105,7 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         self.magSafeLEDAvailable = magSafeLEDAvailable
         self.appliedChargeLimit = appliedChargeLimit
         self.chargeLimitWasRaised = chargeLimitWasRaised
+        self.requestedChargeLimit = requestedChargeLimit
         super.init()
     }
 
@@ -123,6 +138,12 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
             coder.encode(false, forKey: "hasAppliedChargeLimit")
         }
         coder.encode(chargeLimitWasRaised, forKey: "chargeLimitWasRaised")
+        if let requestedChargeLimit {
+            coder.encode(true, forKey: "hasRequestedChargeLimit")
+            coder.encode(requestedChargeLimit, forKey: "requestedChargeLimit")
+        } else {
+            coder.encode(false, forKey: "hasRequestedChargeLimit")
+        }
     }
 
     public required init?(coder: NSCoder) {
@@ -139,11 +160,17 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
             appliedChargeLimit = nil
         }
         chargeLimitWasRaised = coder.decodeBool(forKey: "chargeLimitWasRaised")
+        if coder.decodeBool(forKey: "hasRequestedChargeLimit") {
+            requestedChargeLimit = coder.decodeInteger(forKey: "requestedChargeLimit")
+        } else {
+            requestedChargeLimit = nil
+        }
         super.init()
     }
 
     public override var description: String {
-        let applied = appliedChargeLimit.map { "\($0)%\(chargeLimitWasRaised ? " (raised)" : "")" } ?? "—"
+        let requested = requestedChargeLimit.map { "\($0)% → " } ?? ""
+        let applied = appliedChargeLimit.map { "\(requested)\($0)%\(chargeLimitWasRaised ? " (raised)" : "")" } ?? "—"
         return """
         ChargingDiagnostics(backend: \(backend), firmware: \(firmwareVersion ?? "unknown"), \
         reasons: \(notChargingReasons), appliedLimit: \(applied), \

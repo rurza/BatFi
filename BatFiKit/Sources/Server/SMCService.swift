@@ -360,7 +360,12 @@ actor SMCService {
             forceDischargeAvailable: forceDischargeAvailable,
             magSafeLEDAvailable: magSafeLEDAvailable,
             appliedChargeLimit: appliedSystemLimit?.applied,
-            chargeLimitWasRaised: appliedSystemLimit?.wasRaised ?? false
+            chargeLimitWasRaised: appliedSystemLimit?.wasRaised ?? false,
+            // Sent beside the applied value because a raise alone does not say which kind
+            // of raise it was: a request below the mechanism's floor clamped up to it, or
+            // one above the floor rounded up to the next accepted step. They need
+            // different words, and only the requested value can tell them apart.
+            requestedChargeLimit: appliedSystemLimit?.requested
         )
     }
 
