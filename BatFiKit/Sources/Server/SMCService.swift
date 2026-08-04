@@ -512,10 +512,27 @@ actor SMCService {
             let isEnabled = data.0 == 0
             logger.notice("CH0B: charging enabled = \(isEnabled)")
             return isEnabled
-        case .systemChargeLimit, .unsupported:
-            // No SMC key backs charging control under either case: .systemChargeLimit
-            // is driven through PowerUI instead (wired up separately), and .unsupported
-            // has no mechanism at all.
+        case .systemChargeLimit:
+            // The question this answers is "is BatFi holding charge back with an inhibit",
+            // and under Apple's Manual Charge Limit the answer is a flat no — there is no
+            // inhibit key, `enableCharging` writes nothing, and the firmware stops at the
+            // limit by itself. `true` is the accurate report, not a convenient one.
+            //
+            // Throwing here was not merely inaccurate, it was fatal to the whole backend.
+            // This is reached from `smcChargingStatus()`, whose catch drops the backend
+            // cache and closes the driver connection — so the status poll re-probed the
+            // entire key table every 30 seconds, undoing the caching `setChargingMode`'s
+            // fix above restores. Worse, `smcChargingStatus()` is the *only* thing that
+            // moves the app off `ChargingMode.initial`, and `ChargingManager.updateStatus`
+            // returns early while the mode is `.initial`. A throw here therefore pinned
+            // the app in `.initial` for its whole life on precisely this firmware: no
+            // charge limit applied, no mode decision ever taken, and after 30 seconds the
+            // "BatFi can't read battery information" notification.
+            logger.notice("System charge limit backend: BatFi holds no inhibit, charging is enabled")
+            return true
+        case .unsupported:
+            // Unchanged, and must stay so: no mechanism exists here at all, and saying
+            // otherwise would make a Mac BatFi cannot control look like one it can.
             logger.error("No usable charge control mechanism on this firmware")
             throw SMCError.keyNotFound(code: "CHTE")
         }
@@ -538,10 +555,25 @@ actor SMCService {
             try SMCKit.writeData(.inhibitCharging1, uint8: enableByte)
             try SMCKit.writeData(.inhibitCharging2, uint8: enableByte)
             logger.notice("Inhibit charging changed using CH0B/CH0C")
-        case .systemChargeLimit, .unsupported:
-            // No SMC key backs charging control under either case: .systemChargeLimit
-            // is driven through PowerUI instead (wired up separately), and .unsupported
-            // has no mechanism at all.
+        case .systemChargeLimit:
+            // Not a failure, and deliberately no longer grouped with `.unsupported`.
+            // Under Apple's Manual Charge Limit BatFi does not drive the charging mode at
+            // all: control is expressed as a *limit*, applied by `applyChargeLimit`, and
+            // the firmware decides on its own when to stop. There is simply no
+            // inhibit/allow write to make, so succeeding is the accurate answer and
+            // throwing was a lie about a write that was never owed.
+            //
+            // It is also load-bearing. A throw here propagates out of `setChargingMode`,
+            // whose catch resets the SMC keys, drops the backend cache and closes the
+            // driver connection — on every mode change, on exactly the firmware this
+            // backend exists for. And it propagates out of `restoreSystemDefaults()`,
+            // where `ChargingManager.disengage()` reads it as "restore failed" and skips
+            // both its own charging-mode update and its sleep-assertion release. Neither
+            // of those had anything to do with an SMC write that was never needed.
+            logger.notice("Charging mode is governed by the system charge limit; no SMC write needed")
+        case .unsupported:
+            // Still loud, and must stay that way: here there is genuinely no mechanism,
+            // and reporting honestly is the design.
             logger.error("No usable charge control mechanism on this firmware")
             throw SMCError.keyNotFound(code: "CHTE")
         }
