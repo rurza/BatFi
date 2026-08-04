@@ -172,6 +172,21 @@ public struct ChargeControlFacts: Equatable, Sendable {
     /// inferred from `backend`.
     public let forceDischargeAvailable: Bool
 
+    /// `ChargingDiagnostics.firmwareRangeIsArmed` — whether the `bfF0` readback says the
+    /// band BatFi asked for actually took. Nil where the question does not apply or could
+    /// not be answered.
+    ///
+    /// Carried because it is, in its own words, "the only window onto whether the band
+    /// BatFi asked for actually took", and `.firmwareEnforcedLimit` was being emitted from
+    /// the backend and `manageCharging` alone — so the pane asserted the firmware was
+    /// enforcing the limit even when the readback said released.
+    public let firmwareRangeIsArmed: Bool?
+
+    /// The limit the user has configured, when the caller knows it. Only used to decide
+    /// whether the system's own limit is genuinely in conflict: a macOS limit at or above
+    /// BatFi's own cannot stop charging before BatFi's is reached.
+    public let configuredChargeLimit: Int?
+
     /// The "stop charging when the battery is hot" setting (Advanced pane).
     public let hotBatteryProtectionEnabled: Bool
 
@@ -189,6 +204,8 @@ public struct ChargeControlFacts: Equatable, Sendable {
         systemLimit: Int?,
         batFiHoldsSystemLimitOverride: Bool,
         forceDischargeAvailable: Bool,
+        firmwareRangeIsArmed: Bool? = nil,
+        configuredChargeLimit: Int? = nil,
         hotBatteryProtectionEnabled: Bool,
         pauseChargingOnSleepEnabled: Bool
     ) {
@@ -202,6 +219,8 @@ public struct ChargeControlFacts: Equatable, Sendable {
         self.systemLimit = systemLimit
         self.batFiHoldsSystemLimitOverride = batFiHoldsSystemLimitOverride
         self.forceDischargeAvailable = forceDischargeAvailable
+        self.firmwareRangeIsArmed = firmwareRangeIsArmed
+        self.configuredChargeLimit = configuredChargeLimit
         self.hotBatteryProtectionEnabled = hotBatteryProtectionEnabled
         self.pauseChargingOnSleepEnabled = pauseChargingOnSleepEnabled
     }
@@ -212,6 +231,7 @@ public struct ChargeControlFacts: Equatable, Sendable {
     public init(
         diagnostics: ChargingDiagnostics?,
         manageCharging: Bool,
+        configuredChargeLimit: Int? = nil,
         hotBatteryProtectionEnabled: Bool,
         pauseChargingOnSleepEnabled: Bool
     ) {
@@ -249,6 +269,8 @@ public struct ChargeControlFacts: Equatable, Sendable {
             systemLimit: currentSystemLimit,
             batFiHoldsSystemLimitOverride: holdsOverride,
             forceDischargeAvailable: forceDischarge,
+            firmwareRangeIsArmed: diagnostics?.firmwareRangeIsArmed ?? nil,
+            configuredChargeLimit: configuredChargeLimit,
             hotBatteryProtectionEnabled: hotBatteryProtectionEnabled,
             pauseChargingOnSleepEnabled: pauseChargingOnSleepEnabled
         )
@@ -294,8 +316,19 @@ public extension ChargeControlFacts {
             // sentence below would describe a limit that is not in force.
             guard manageCharging else { return [] }
 
-            var disclosures: [ChargeControlDisclosure] = [
-                .firmwareEnforcedLimit,
+            var disclosures: [ChargeControlDisclosure] = []
+
+            // The good-news row, and the one row here that is an assertion about the
+            // hardware rather than about the mechanism. `bfF0` reading back as released is
+            // the only evidence available that the band BatFi asked for did not take, so a
+            // definite `false` withdraws the claim rather than restating it. `nil` — the
+            // question could not be answered — leaves it, which is the same fail-open rule
+            // every other unreadable probe on this branch follows.
+            if firmwareRangeIsArmed != false {
+                disclosures.append(.firmwareEnforcedLimit)
+            }
+
+            disclosures.append(contentsOf: [
                 // Read from the same constant the engage sequence encodes into `bfE0`, so
                 // the figure the pane names and the figure the firmware is given cannot
                 // come apart.
@@ -307,7 +340,7 @@ public extension ChargeControlFacts {
                 // battery level against the limit, and the menu bar and the charging
                 // notifications both read it.
                 .chargingStatusIsInferred,
-            ]
+            ])
 
             // The one thing that genuinely stopped working, and only for a user who asked
             // for it. `pausingChargingIsExpected` is the same gate `.systemChargeLimit`
@@ -446,6 +479,12 @@ public extension ChargeControlFacts {
             // An unreadable limit is not evidence of a conflict. Warning on `nil` would
             // put a permanent orange label on every Mac whose PowerUI declines the read.
             guard let systemLimit, systemLimit < 100 else { return nil }
+            // And a system limit at or above BatFi's own is not in conflict with it. The
+            // string says "It can stop charging before BatFi's limit is reached", which is
+            // false for macOS at 80% with BatFi at 80% or 50% — the common case, and
+            // exactly the configuration a careful user arrives at. Only compared when the
+            // caller knows the configured limit; without it the old behaviour stands.
+            if let configuredChargeLimit, systemLimit >= configuredChargeLimit { return nil }
             return systemLimit
         }
     }

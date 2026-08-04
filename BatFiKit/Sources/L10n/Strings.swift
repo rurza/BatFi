@@ -737,6 +737,14 @@ public enum L10n {
             public static let diagnosticsChargingControlUnavailable = String(localized: "settings.label.diagnostics_charging_control_unavailable", defaultValue: "Not available", bundle: Bundle.module)
             /// Unknown
             public static let diagnosticsChargingControlUnknown = String(localized: "settings.label.diagnostics_charging_control_unknown", defaultValue: "Unknown", bundle: Bundle.module)
+
+            /// Available, not in use
+            ///
+            /// The mechanism exists and works; BatFi is simply not driving it, because
+            /// charge management is switched off. "Active" would contradict the banner
+            /// directly above, and "Unknown" would misreport a mechanism that was resolved
+            /// perfectly well.
+            public static let diagnosticsChargingControlIdle = String(localized: "settings.label.diagnostics_charging_control_idle", defaultValue: "Available, not in use", bundle: Bundle.module)
             /// BatFi can't control charging on this Mac — its firmware doesn't support it.
             public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can't control charging on this Mac — its firmware doesn't support it.", bundle: Bundle.module)
             /// Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100% there so BatFi is the only thing in control.

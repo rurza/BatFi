@@ -18411,6 +18411,17 @@
         }
       }
     },
+    "settings.label.diagnostics_charging_control_idle": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available, not in use"
+          }
+        }
+      }
+    },
     "settings.label.diagnostics_charging_control_unavailable": {
       "extractionState": "manual",
       "localizations": {

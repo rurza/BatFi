@@ -216,6 +216,7 @@ struct ChargingView: View {
         ChargeControlFacts(
             diagnostics: diagnostics,
             manageCharging: manageCharging,
+            configuredChargeLimit: chargeLimit,
             hotBatteryProtectionEnabled: turnOffChargingWhenBatteryIsHot,
             pauseChargingOnSleepEnabled: inhibitChargingOnSleep
         )
@@ -252,8 +253,24 @@ struct ChargingView: View {
     /// `ChargeBackend` so a future case fails to compile here rather than silently
     /// falling into the wrong branch.
     private var chargingControlDescription: String {
+        // Read off `facts`, not off the backend alone. The backend says what this Mac's
+        // firmware *can* do; this row sits directly under a banner that says what BatFi is
+        // actually doing, and the two contradicted each other in two ordinary states — with
+        // charge management switched off, and when the helper refused to snapshot the
+        // user's System Settings limit and is therefore applying nothing. Both said
+        // "Active".
         guard let chargeBackend else {
             return L10n.Settings.Label.diagnosticsChargingControlUnknown
+        }
+        guard facts.manageCharging else {
+            // Resolved, and not in use. `.unsupported` still reports itself, since there is
+            // nothing to be idle about.
+            return chargeBackend == .unsupported
+                ? L10n.Settings.Label.diagnosticsChargingControlUnavailable
+                : L10n.Settings.Label.diagnosticsChargingControlIdle
+        }
+        if facts.systemLimitSnapshotRefused, chargeBackend == .systemChargeLimit {
+            return L10n.Settings.Label.diagnosticsChargingControlUnavailable
         }
         switch chargeBackend {
         case .unsupported:

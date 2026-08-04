@@ -30,6 +30,8 @@ import Testing
         systemLimit: Int? = 100,
         batFiHoldsSystemLimitOverride: Bool = false,
         forceDischargeAvailable: Bool = false,
+        firmwareRangeIsArmed: Bool? = nil,
+        configuredChargeLimit: Int? = nil,
         hotBatteryProtectionEnabled: Bool = false,
         pauseChargingOnSleepEnabled: Bool = false
     ) -> ChargeControlFacts {
@@ -44,6 +46,8 @@ import Testing
             systemLimit: systemLimit,
             batFiHoldsSystemLimitOverride: batFiHoldsSystemLimitOverride,
             forceDischargeAvailable: forceDischargeAvailable,
+            firmwareRangeIsArmed: firmwareRangeIsArmed,
+            configuredChargeLimit: configuredChargeLimit,
             hotBatteryProtectionEnabled: hotBatteryProtectionEnabled,
             pauseChargingOnSleepEnabled: pauseChargingOnSleepEnabled
         )
@@ -568,6 +572,47 @@ import Testing
     /// permanent orange label to every Mac whose PowerUI declines the read.
     @Test func anUnreadableSystemLimitDoesNotConflict() {
         #expect(facts(backend: .chte, systemLimit: nil).conflictingSystemLimit == nil)
+    }
+
+    /// M4. The warning's own string says the system limit "can stop charging before
+    /// BatFi's limit is reached", which is false whenever the system limit is at or above
+    /// BatFi's own — macOS at 80% with BatFi at 80% or 50% is the common case, and the
+    /// configuration a careful user arrives at.
+    @Test func aSystemLimitAtOrAboveBatFisOwnIsNotAConflict() {
+        #expect(facts(backend: .chte, systemLimit: 80, configuredChargeLimit: 80).conflictingSystemLimit == nil)
+        #expect(facts(backend: .chte, systemLimit: 80, configuredChargeLimit: 50).conflictingSystemLimit == nil)
+    }
+
+    /// And it still fires where it is true.
+    @Test func aSystemLimitBelowBatFisOwnIsStillAConflict() {
+        #expect(facts(backend: .chte, systemLimit: 80, configuredChargeLimit: 90).conflictingSystemLimit == 80)
+    }
+
+    /// Without a configured limit the old behaviour stands: any limit below 100 warns.
+    @Test func anUnknownConfiguredLimitKeepsTheOldRule() {
+        #expect(facts(backend: .chte, systemLimit: 80).conflictingSystemLimit == 80)
+    }
+
+    // MARK: - The band readback
+
+    /// M6. `.firmwareEnforcedLimit` used to be emitted from the backend and
+    /// `manageCharging` alone, so the pane asserted the firmware was enforcing the limit
+    /// even where `bfF0` read back as released. That readback is the only window onto
+    /// whether the band BatFi asked for actually took.
+    @Test func aReleasedBandWithdrawsTheFirmwareEnforcedClaim() {
+        let value = facts(backend: .firmwareRange, firmwareRangeIsArmed: false)
+        #expect(value.disclosures.contains(.firmwareEnforcedLimit) == false)
+        // The rest of the arm still applies: the band is what the mechanism *is*, and
+        // these two describe the mechanism rather than assert a state.
+        #expect(value.disclosures.contains(.batteryMayDipBelowLimit(hysteresis: FirmwareChargeRange.hysteresis)))
+        #expect(value.disclosures.contains(.chargingStatusIsInferred))
+    }
+
+    /// An unreadable `bfF0` is not evidence that the band is off, so the claim stands —
+    /// the same fail-open rule every other unanswered probe on this branch follows.
+    @Test func anUnreadableBandLeavesTheClaimStanding() {
+        #expect(facts(backend: .firmwareRange, firmwareRangeIsArmed: nil).disclosures.first == .firmwareEnforcedLimit)
+        #expect(facts(backend: .firmwareRange, firmwareRangeIsArmed: true).disclosures.first == .firmwareEnforcedLimit)
     }
 
     // MARK: - Slider bounds
