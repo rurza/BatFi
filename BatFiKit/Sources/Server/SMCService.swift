@@ -12,10 +12,14 @@ import Shared
 
 actor SMCService {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "SMC Service")
+    /// Mirrors the driver connection, and is the only thing that may close it.
+    /// `currentBackend()` refuses to cache a resolution unless this is true, so the
+    /// flag and the connection must never disagree — a flag left true over a closed
+    /// connection lets a racing request probe a dead driver and cache `.unsupported`.
     private var smcIsOpened = false {
         didSet {
             if !smcIsOpened && oldValue {
-                close()
+                SMCKit.close()
             }
         }
     }
@@ -27,8 +31,11 @@ actor SMCService {
     private var cachedBackend: ChargeBackend?
     private var cachedBackendFirmware: String?
 
+    /// Closes the driver connection through the flag rather than behind its back:
+    /// `Listener`'s quit handler calls this directly, and a request racing that
+    /// handler has to see `smcIsOpened == false`. Closing is the `didSet`'s job.
     func close() {
-        SMCKit.close()
+        smcIsOpened = false
     }
 
     /// Resolves the charge-control mechanism from the firmware's key table.
@@ -104,6 +111,7 @@ actor SMCService {
         } catch {
             self.logger.critical("SMC writing error: \(error)")
             self.resetIfPossible()
+            invalidateBackendCache()
             smcIsOpened = false
             throw error
         }
@@ -121,11 +129,17 @@ actor SMCService {
         await openSMCIfNeeded()
 
         do {
-            try await enableCharging(true)
+            // Force discharge is released first on purpose. It is the only state that
+            // can drain the battery while the Mac sits on AC, and `enableCharging` can
+            // throw transiently — with the charge write upstream, one such throw skipped
+            // the release entirely and left the machine discharging until BatFi was
+            // relaunched. Nothing downstream of this line can strand that state now.
             try await enableForceDischarge(false)
+            try await enableCharging(true)
         } catch {
             logger.critical("SMC writing error while restoring defaults: \(error)")
             resetIfPossible()
+            invalidateBackendCache()
             smcIsOpened = false
             throw error
         }
@@ -169,9 +183,17 @@ actor SMCService {
         )
     }
 
+    /// Best-effort return to a safe state after a write error.
+    ///
+    /// Invariant: **every key any engage path can write must be cleared here.** This
+    /// is the last line of defence — callers use `try?` and one of them runs as the
+    /// app exits, so a key left engaged here stays engaged. `CHIE` was missing from
+    /// this list while `enableForceDischarge` wrote it, which is exactly how a Mac
+    /// could be left draining on AC after a failed restore.
     func resetIfPossible() {
         // Try to reset new firmware keys first
         try? SMCKit.writeData(.inhibitCharging3, byte0: 0, byte1: 0, byte2: 0, byte3: 0)
+        try? SMCKit.writeData(.disableCharging3, uint8: 0)
 
         // Also reset old firmware keys
         try? SMCKit.writeData(.disableCharging1, uint8: 0)
@@ -180,12 +202,26 @@ actor SMCService {
         try? SMCKit.writeData(.inhibitCharging2, uint8: 0)
     }
 
+    /// Drops the resolved backend so the next call re-probes.
+    ///
+    /// Called from every failure path that can have resolved one: a probe run over a
+    /// connection that is already degrading can answer for some keys and not others,
+    /// and that partial table resolves to a backend this firmware does not have —
+    /// cached against the machine's real firmware token, which pins it for the life of
+    /// the daemon and makes every later call fail on a key that was never really
+    /// missing. The MagSafe LED and power-distribution paths never reach the resolver,
+    /// so they have nothing to drop.
+    private func invalidateBackendCache() {
+        cachedBackend = nil
+        cachedBackendFirmware = nil
+    }
+
     func smcChargingStatus() async throws -> SMCChargingStatus {
         logger.notice("Checking SMC status")
         await openSMCIfNeeded()
         do {
             logger.notice("Getting disable charging status")
-            // Probed rather than read-and-catch, and independently of the charge
+            // Shape-checked rather than read-and-catch, and independently of the charge
             // backend — CHIE outlives CHTE on newer firmware.
             // CHIE and the legacy CH0I/CH0J all use 0 for "adapter connected". They do NOT
             // share one engaged value — CHIE is written 0x08 here (see
@@ -196,9 +232,9 @@ actor SMCService {
             // diverge from each other (or from the write) is how this drifted out of sync
             // before.
             let forceDischarging: Bool
-            if SMCKit.probeCapability(for: .disableCharging3) != nil, let data = try? SMCKit.readData(.disableCharging3) {
+            if forceDischargeKeyIsUsable(.disableCharging3, writable: false), let data = try? SMCKit.readData(.disableCharging3) {
                 forceDischarging = data.0 != 0
-            } else if SMCKit.probeCapability(for: .disableCharging1) != nil, let data = try? SMCKit.readData(.disableCharging1) {
+            } else if forceDischargeKeyIsUsable(.disableCharging1, writable: false), let data = try? SMCKit.readData(.disableCharging1) {
                 forceDischarging = data.0 != 0
             } else {
                 forceDischarging = false
@@ -217,6 +253,12 @@ actor SMCService {
                 lidClosed: lidClosed.0 == 01
             )
         } catch {
+            // Cleared here too, not only on the write paths: isChargingEnabled() above
+            // resolves — and caches — a backend, and status is polled continuously while
+            // writes happen only when the user changes mode. Without this, a resolution
+            // made over a degrading connection would be re-read, fail, and be re-read
+            // again for the life of the daemon with no write ever arriving to clear it.
+            invalidateBackendCache()
             smcIsOpened = false
             throw error
         }
@@ -316,29 +358,6 @@ actor SMCService {
         logger.notice("SMC successfully opened!")
     }
     
-    func isChargingControlCapable() async -> Bool {
-        logger.notice("Checking charging control capability")
-        await openSMCIfNeeded()
-        
-        // Check for new firmware keys first
-        do {
-            _ = try SMCKit.readData(.inhibitCharging3)
-            logger.notice("New firmware detected")
-            return true
-        } catch {
-            // Try old firmware keys
-            do {
-                _ = try SMCKit.readData(.inhibitCharging1)
-                _ = try SMCKit.readData(.inhibitCharging2)
-                logger.notice("Old firmware detected")
-                return true
-            } catch {
-                logger.warning("No charging control keys found")
-                return false
-            }
-        }
-    }
-    
     func isChargingEnabled() async throws -> Bool {
         logger.notice("Checking if charging is enabled")
         await openSMCIfNeeded()
@@ -389,6 +408,24 @@ actor SMCService {
         }
     }
 
+    /// Whether the firmware exposes a force-discharge key in the shape this code needs.
+    ///
+    /// Existence is not enough to gate on. `probeCapability` only promises a non-zero
+    /// size, and a same-named key of another shape — or a read-only one — accepts the
+    /// write and ignores it, so "Run on Battery" would report success while the battery
+    /// never discharged. Same rule the backend resolver applies to `CHTE`/`CH0B`/`CH0C`.
+    ///
+    /// The shapes are measured, not derived from `SMCKey`: on Tahoe-era firmware `CHIE`
+    /// reports `hex_`/1 with attributes 0xd4 (readable | writable), *not* the `ui8 ` its
+    /// declaration implies — the size matches, so the write is unaffected, but a `ui8 `
+    /// expectation here would reject a perfectly good key. `CH0I`/`CH0J` are absent on
+    /// that firmware and could not be measured; their shape follows the declaration.
+    private func forceDischargeKeyIsUsable(_ key: SMCKey, writable: Bool) -> Bool {
+        guard let capability = SMCKit.probeCapability(for: key) else { return false }
+        let expectedType = key.code == SMCKey.disableCharging3.code ? "hex_" : "ui8 "
+        return capability.matches(type: expectedType, size: 1, writable: writable)
+    }
+
     func enableForceDischarge(_ enable: Bool) async throws {
         if enable {
             logger.notice("Force discharge")
@@ -401,7 +438,7 @@ actor SMCService {
         // Probed independently of the charge backend: CHIE survives on firmware that
         // has dropped CHTE, so deriving this from the backend would disable a feature
         // that still works.
-        if SMCKit.probeCapability(for: .disableCharging3) != nil {
+        if forceDischargeKeyIsUsable(.disableCharging3, writable: true) {
             try SMCKit.writeData(.disableCharging3, uint8: engageByte(for: .disableCharging3))
             logger.notice("Force discharge changed using CHIE")
             return
@@ -410,7 +447,7 @@ actor SMCService {
         // the write and read paths can never disagree about whether this mechanism
         // exists. CH0I and CH0J ship as a pair; if CH0J were somehow absent its write
         // below throws loudly rather than reporting a discharge that never engaged.
-        if SMCKit.probeCapability(for: .disableCharging1) != nil {
+        if forceDischargeKeyIsUsable(.disableCharging1, writable: true) {
             try? SMCKit.writeData(.disableCharging1, uint8: engageByte(for: .disableCharging1))
             try SMCKit.writeData(.disableCharging2, uint8: engageByte(for: .disableCharging2))
             logger.notice("Force discharge changed using CH0I/CH0J")
