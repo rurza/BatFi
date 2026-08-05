@@ -8,7 +8,10 @@
 
 import AppKit
 import AppShared
+import Defaults
+import DefaultsKeys
 import L10n
+import Shared
 import SwiftUI
 
 struct RuleEditorView: View {
@@ -21,6 +24,13 @@ struct RuleEditorView: View {
 
     private let ruleID: UUID
     private let isEnabled: Bool
+
+    /// The lowest limit this Mac's charge mechanism can actually hold.
+    ///
+    /// Read once from the cache in `init` rather than fetched, because this is a **sheet**:
+    /// a slider that re-ranges a moment after it opens is the same class of defect as one
+    /// that shows the wrong range, and it would land while the user is already dragging.
+    private let lowestLimit: Int
 
     @State private var name: String
     @State private var limit: Double
@@ -58,7 +68,21 @@ struct RuleEditorView: View {
         self.isEnabled = rule.isEnabled
 
         _name = State(initialValue: rule.name)
-        _limit = State(initialValue: Double(rule.limit))
+
+        let lowestLimit = ChargeLimitRange.lowestSelectable(forRawBackend: Defaults[.lastKnownChargeBackend])
+        self.lowestLimit = lowestLimit
+        // Raised onto the floor rather than displayed at it. A rule saved under the old
+        // 0...100 slider can hold 30%, which on an 80%-floor Mac would pin the knob at 80
+        // while the label beside it still read 30% — the two contradicting each other in the
+        // one place the user is editing the number.
+        //
+        // `ChargingView.limitSliderBinding` makes the opposite trade for the *global* limit,
+        // preserving a stored 55% in case this Mac ever regains a mechanism that honours it.
+        // That value is the user's single charging setting and is worth protecting; a
+        // per-rule limit is cheap to re-enter, and this editor already rewrites the whole
+        // rule on save. If that judgement proves wrong, the fix is to adopt `displayedLimit`
+        // here too.
+        _limit = State(initialValue: Double(max(rule.limit, lowestLimit)))
 
         switch rule.schedule {
         case let .recurring(days, time):
@@ -193,7 +217,7 @@ struct RuleEditorView: View {
                     .textFieldStyle(.roundedBorder)
             }
             AutomationLabeledRow(L10n.Automation.chargeLimit) {
-                Slider(value: $limit, in: 0...100, step: 5)
+                Slider(value: $limit, in: Double(lowestLimit)...Double(ChargeLimitRange.highest), step: 5)
                     // A `Slider` has no text baseline, so `AutomationLabeledRow`'s
                     // `.firstTextBaseline` alignment would otherwise fall back to its bottom
                     // edge, sitting a few points higher than the label. Map its baseline to its
