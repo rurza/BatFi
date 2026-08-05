@@ -6,10 +6,8 @@
 //
 
 import AppShared
-import Clients
 import Defaults
 import DefaultsKeys
-import Dependencies
 import L10n
 import Shared
 import SharedUI
@@ -19,18 +17,6 @@ struct ChargingLimitView: View {
     @Default(.chargeLimit) private var chargeLimit
     @Default(.launchAtLogin) private var launchAtLogin
     @ObservedObject var model: Onboarding.Model
-
-    @Dependency(\.chargingClient) private var chargingClient
-
-    /// The resolved backend, or nil while unknown — which is the normal state here, since
-    /// this pane can be reached before the helper is installed. Nil gives the same 50%
-    /// floor the pane always had, so nothing regresses on a Mac that cannot answer yet.
-    ///
-    /// Asked at all because the range was hardcoded `50 ... 90` with hardcoded end labels,
-    /// while `ChargingView` stops the slider at the floor this Mac's mechanism can express.
-    /// A new user on `.systemChargeLimit` was walked through choosing 55% in the one pane
-    /// every new user sees, and then told in Settings that 55% cannot be applied.
-    @State private var backend: ChargeBackend?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -47,12 +33,16 @@ struct ChargingLimitView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 GroupBackground {
-                    VStack(alignment: .leading, spacing: 20) {
+                    VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 10) {
-                            let lowestLimit = ChargeLimitRange.lowestSelectable(for: backend)
+                            // Resolved by the model at helper-install time, so this is the
+                            // real floor from the first frame rather than a permissive guess
+                            // that corrects itself. That is the entire point of this pane
+                            // coming after the helper.
+                            let lowestLimit = ChargeLimitRange.lowestSelectable(for: model.backend)
                             let displayedLimit = ChargeLimitRange.displayedLimit(
                                 configured: chargeLimit,
-                                for: backend
+                                for: model.backend
                             )
                             // No force-unwrap. A formatter that declines the conversion
                             // falls back to the plain number rather than crashing the one
@@ -71,23 +61,22 @@ struct ChargingLimitView: View {
                             }
                             .frame(maxWidth: .infinity)
                         }
-                        Spacer()
-                        Text(l10n.setLimitSetUpLater)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .foregroundStyle(.secondary)
+                        Divider()
+                        VStack(alignment: .leading, spacing: 2) {
+                            Toggle(L10n.Onboarding.Button.Label.launchAtLogin, isOn: $launchAtLogin)
+                            Text(l10n.launchAtLoginRecommendation)
+                                .foregroundStyle(.secondary)
+                                // Required, otherwise it will render in center, SwiftUI bug
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
                     .padding()
                 }
+                Text(l10n.appIsReady)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding(20)
-        }
-        .task {
-            // A failed fetch — the usual case here, since the helper may not be installed
-            // yet — leaves the backend nil and the slider at its widest, which is the
-            // permissive direction.
-            if let diagnostics = try? await chargingClient.chargingDiagnostics() {
-                backend = ChargeBackend(rawValue: diagnostics.backend)
-            }
         }
     }
 

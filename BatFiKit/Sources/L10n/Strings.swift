@@ -440,8 +440,6 @@ public enum L10n {
             public static let appDescription = String(localized: "onboarding.label.app_description", defaultValue: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.", bundle: Bundle.module)
             /// The app is ready to use!
             public static let appIsReady = String(localized: "onboarding.label.app_is_ready", defaultValue: "The app is ready to use!", bundle: Bundle.module)
-            /// Done.
-            public static let done = String(localized: "onboarding.label.done", defaultValue: "Done.", bundle: Bundle.module)
             /// Extend the life of your Mac.
             public static let extendLife = String(localized: "onboarding.label.extend_life", defaultValue: "Extend the life of your Mac.", bundle: Bundle.module)
             /// BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.
@@ -454,8 +452,6 @@ public enum L10n {
             public static let setLimit = String(localized: "onboarding.label.set_limit", defaultValue: "Set Charging Limit.", bundle: Bundle.module)
             /// Set a maximum charging percentage to prevent keeping charge level at 100% and improve battery longevity.
             public static let setLimitDescription = String(localized: "onboarding.label.set_limit_description", defaultValue: "Set a maximum charging percentage to prevent keeping charge level at 100% and improve battery longevity.", bundle: Bundle.module)
-            /// You can modify this setting later in the app's settings.
-            public static let setLimitSetUpLater = String(localized: "onboarding.label.set_limit_set_up_later", defaultValue: "You can modify this setting later in the app's settings.", bundle: Bundle.module)
         }
 
         public enum Slider {
