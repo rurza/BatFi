@@ -1001,8 +1001,6 @@ public enum L10n {
             public static let highEnergyImpactProcesses = String(localized: "settings.section.high_energy_impact_processes", defaultValue: "Apps with high energy usage", bundle: .module)
             /// Other
             public static let other = String(localized: "settings.section.other", defaultValue: "Other", bundle: .module)
-            /// Diagnostics
-            public static let diagnostics = String(localized: "settings.section.diagnostics", defaultValue: "Diagnostics", bundle: .module)
         }
 
         public enum Slider {

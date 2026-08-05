@@ -24927,17 +24927,6 @@
         }
       }
     },
-    "settings.section.diagnostics" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diagnostics"
-          }
-        }
-      }
-    },
     "settings.section.general" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

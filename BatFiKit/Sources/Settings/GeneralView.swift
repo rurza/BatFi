@@ -66,7 +66,13 @@ struct GeneralView: View {
                         }
                     }
             }
-            Section(title: l10n.Section.other, bottomDivider: true) {
+            // Diagnostics shares this section rather than holding one of its own. It is
+            // bug-report material, which is the same errand as the crash-report toggle
+            // above it, and the card carries its own boundary now — a second titled
+            // section only bought a heading the card does not need. (It lives in this pane
+            // rather than in Charging, where it started, for the same reason: it is not
+            // something to read while setting a limit.)
+            Section(title: l10n.Section.other) {
                 VStack(alignment: .leading) {
                     if featureFlags.isUsingBetaVersion() {
                         Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
@@ -76,13 +82,8 @@ struct GeneralView: View {
                         Toggle(l10n.Button.Label.sendAnalytics, isOn: $sendAnalytics)
                     }
                 }
-            }
-            // Lives here rather than in the Charging pane, where it started. It is
-            // reference material for a bug report, not something to read while setting a
-            // limit, and every section in this pane is titled — which is what gives these
-            // rows a correctly-sized column instead of one that overruns the window.
-            Section(title: l10n.Section.diagnostics) {
                 diagnosticsContent
+                    .padding(.top, 6)
             }
         }
         .onAppear {
