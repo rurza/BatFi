@@ -194,6 +194,12 @@ public enum L10n {
             public static let batfi = String(localized: "menu.label.batfi", defaultValue: "BatFi…", bundle: Bundle.module)
             /// Charge to 100%
             public static let chargeToHundred = String(localized: "menu.label.charge_to_hundred", defaultValue: "Charge to 100%", bundle: Bundle.module)
+            /// ⚠️ Helper isn't responding — charge limiting is off
+            public static let helperNotResponding = String(
+                localized: "menu.label.helper_not_responding",
+                defaultValue: "⚠️ Helper isn't responding — charge limiting is off",
+                bundle: Bundle.module
+            )
             /// Check for Updates…
             public static let checkForUpdates = String(localized: "menu.label.check_for_updates", defaultValue: "Check for Updates…", bundle: Bundle.module)
             /// Debug
@@ -309,6 +315,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// BatFi's helper isn't responding
+                public static let helperNotResponding = String(
+                    localized: "notifications.alert.title.helper_not_responding",
+                    defaultValue: "BatFi's helper isn't responding",
+                    bundle: Bundle.module
+                )
+
                 /// Run BatFi on a MacBook
                 public static let notLaptop = String(
                     localized: "notifications.alert.title.not_laptop",
@@ -332,6 +345,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own.
+                public static let helperNotResponding = String(
+                    localized: "notifications.alert.informative_text.helper_not_responding",
+                    defaultValue: "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own.",
+                    bundle: Bundle.module
+                )
+
                 /// It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook.
                 public static let notLaptop = String(
                     localized: "notifications.alert.informative_text.not_laptop",
@@ -351,6 +371,13 @@ public enum L10n {
                 public enum Label {
                     /// Open System Settings
                     public static let openSystemSettings = String(localized: "notifications.alert.button.label.open_system_settings", defaultValue: "Open System Settings…", bundle: Bundle.module)
+
+                    /// Close
+                    public static let close = String(
+                        localized: "notifications.alert.button.label.close",
+                        defaultValue: "Close",
+                        bundle: Bundle.module
+                    )
 
                     /// Open Onboarding
                     public static let openOnboarding = String(localized: "notifications.alert.button.label.open_onboarding", defaultValue: "Open Onboarding…", bundle: Bundle.module)

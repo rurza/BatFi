@@ -26,6 +26,7 @@ public actor ChargingManager: ChargingModeManager {
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.sleepAssertionClient) private var sleepAssertionClient
     @Dependency(\.helperClient) private var helperClient
+    @Dependency(\.helperHealthClient) private var helperHealthClient
     @Dependency(\.defaults) private var defaults
     @Dependency(\.analyticsClient) private var analytics
     @Dependency(\.date) private var date
@@ -105,6 +106,7 @@ public actor ChargingManager: ChargingModeManager {
 
     public func setUpObserving() {
         assert(licenseModel != nil)
+        observeHelperHealth()
         Task {
             for await (
                 (
@@ -285,6 +287,23 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "pulling power state stopped")
         powerStatePullingTask?.cancel()
         powerStatePullingTask = nil
+    }
+
+    /// Re-drives the charging state when the helper becomes reachable again.
+    ///
+    /// Without this the app only half-recovers. The main loop below is edge-triggered on
+    /// power-source and defaults changes, and a helper coming back is neither, so the mode
+    /// stayed latched at `.initial` — and the status item with it — until the next relaunch.
+    private func observeHelperHealth() {
+        Task {
+            var wasHealthy = false
+            for await health in helperHealthClient.observeHealth() {
+                defer { wasHealthy = health.isHealthy }
+                guard health.isHealthy, !wasHealthy else { continue }
+                logger.notice("Helper is reachable again; re-driving charging state")
+                await updateStatusWithCurrentState()
+            }
+        }
     }
 
     private func updateStatusWithCurrentState() async {

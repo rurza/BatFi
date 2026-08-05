@@ -132,6 +132,13 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         settingsController.openAutomationSettings()
     }
 
+    /// Reached from the status item's warning row, so it is always available even after the
+    /// once-per-launch modal has been spent.
+    public func showHelperTroubleshooting() {
+        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        showHelperIsNotResponding()
+    }
+
     public func quitApp() {
         NSApp.terminate(nil)
     }
@@ -165,6 +172,8 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         Task { [weak self] in
             guard let self else { return }
             dockIcon.show(true)
+            // Onboarding runs its own helper UI; a modal stacked on top of it helps nobody.
+            helperConnectionManager.suppressesGuidance = true
 
             if onboardingWindow == nil {
                 let window = OnboardingWindow(licenseModel: licenseModel) { [weak self] in
@@ -175,6 +184,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
                     }
                 } onClose: { [weak self] in
                     Task {
+                        self?.helperConnectionManager.suppressesGuidance = false
                         self?.dockIcon.show(false)
                     }
                 }
@@ -339,6 +349,21 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
         } else if response == .alertFirstButtonReturn {
             openOnboarding()
+        }
+    }
+
+    /// Distinct from `showHelperIsNotInstalled()` on purpose: in this state the helper *is*
+    /// installed and approved, and telling the user to install it again sends them looking
+    /// for a problem that isn't there.
+    func showHelperIsNotResponding() {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = L10n.Notifications.Alert.Title.helperNotResponding
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.helperNotResponding
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openSystemSettings)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.close)
+        if alert.runModal() == .alertFirstButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
         }
     }
 

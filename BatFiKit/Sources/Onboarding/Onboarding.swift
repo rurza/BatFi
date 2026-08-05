@@ -175,7 +175,10 @@ extension Onboarding {
                     func observeHelperStatus(error: Error?) async {
                         var counter = 0
                         for await status in helperManager.observeHelperStatus() {
-                            if status == .enabled {
+                            // `.enabled` only means a registration record exists. A record
+                            // macOS can never spawn reads `.enabled` forever, so onboarding
+                            // used to declare success over a helper that answered nothing.
+                            if status == .enabled, (try? await helperManager.pingHelper()) == true {
                                 self.helperError = nil
                                 if let next = currentScreen.next() {
                                     changeScreenTo(next)
@@ -187,9 +190,10 @@ extension Onboarding {
                                 break
                             } else if let error, counter == 20 {
                                 self.helperError = error as NSError
-                            } else if status != .requiresApproval {
-                                try? await helperManager.removeHelper()
-                                try? await Task.sleep(for: .seconds(1))
+                            } else if status == .notRegistered, counter == 0 {
+                                // Once, not on every 1.5s tick. Re-registering in a loop is
+                                // the behaviour most plausibly associated with wedging the
+                                // registration record this screen is waiting on.
                                 try? await helperManager.installHelper()
                             }
                             counter += 1

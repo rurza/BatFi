@@ -147,8 +147,15 @@ policy, so onboarding stops holding its own opinion about health.
 reads current power state and defaults and calls `updateStatus`; the reconnect bug was only
 that nothing re-entered it.
 
-The swallowed `catch` in `fetchChargingState` additionally reports the failure into the
-health signal rather than only logging, making it the natural producer for trigger 2.
+Trigger 2's producer is `XPCClient.connectionDidInvalidate()`, which already runs from the
+connection's `invalidationHandler`/`interruptionHandler` — the handlers that fire for
+exactly the `4097`/`4099` errors observed. It posts a connection-failure notification.
+
+This replaces an earlier plan to report from the swallowed `catch` in
+`fetchChargingState`. That would have been redundant with the connection handlers and would
+have required classifying arbitrary call errors as connection failures — untested logic on
+a path where SMC errors and connection errors are easy to confuse. The `catch` keeps
+logging only.
 
 `StatusItemManager` takes health as another input to its existing `combineLatest`. While
 degraded it renders a warning icon and inserts a "Helper not responding" menu item that
