@@ -15,13 +15,14 @@ import Dependencies
 import L10n
 import License
 import ServiceManagement
+import Shared
 import SwiftUI
 
 enum OnboardingScreen: Int, CaseIterable {
     case welcome
     case license
-    case charging
     case helper
+    case charging
 
     func next() -> OnboardingScreen? {
         OnboardingScreen(rawValue: rawValue + 1)
@@ -55,11 +56,11 @@ struct Onboarding: View {
             ) {
                 WelcomeView().id(OnboardingScreen.welcome.rawValue)
                 OnboardingLicenseView(licenseModel: licenseModel, onboardingModel: model).id(OnboardingScreen.license.rawValue)
-                ChargingLimitView(model: model).id(OnboardingScreen.charging.rawValue)
                 InstallHelperView(model: model).id(OnboardingScreen.helper.rawValue)
+                ChargingLimitView(model: model).id(OnboardingScreen.charging.rawValue)
             }
             HStack {
-                if model.currentScreen == .helper && !model.onboardingIsFinished {
+                if model.currentScreen == .helper && !model.helperIsInstalled {
                     OnboardingButton(title: l10n.Button.Label.previous, isLoading: false, action: { model.previousAction() })
                         .animation(.spring(), value: model.currentScreen)
                         .disabled(model.isLoading)
@@ -86,7 +87,7 @@ struct Onboarding: View {
             .padding([.leading, .bottom, .trailing], 20)
         }
         .confettiCannon(
-            counter: Binding(get: { model.onboardingIsFinished ? 1 : 0 }, set: { _ in }),
+            counter: Binding(get: { model.helperIsInstalled ? 1 : 0 }, set: { _ in }),
             confettiSize: 10,
             openingAngle: Angle(degrees: 30),
             closingAngle: Angle(degrees: 150),
@@ -124,13 +125,11 @@ struct Onboarding: View {
                 return L10n.License.activateBatFi
             }
         case .helper:
-            if model.onboardingIsFinished {
-                return l10n.complete
-            } else {
-                return l10n.installHelper
-            }
-        default:
-            return l10n.next
+            // Unconditional now: a successful install advances off this pane, so it never
+            // has to offer to complete anything.
+            return l10n.installHelper
+        case .charging:
+            return l10n.complete
         }
     }
 
@@ -148,11 +147,24 @@ extension Onboarding {
         var helperError: NSError?
         @MainActor @Published
         var isLoading: Bool = false
+        /// Whether the helper went in. Until this reorder that was also the end of
+        /// onboarding, which is why it used to be called `onboardingIsFinished`; the limit
+        /// pane now comes after it, so the two are different moments and the old name would
+        /// be read as the wrong one.
         @MainActor @Published
-        var onboardingIsFinished = false
+        private(set) var helperIsInstalled = false
+
+        /// What this Mac's charge mechanism turned out to be, resolved once the helper can
+        /// answer and before the limit pane is shown. Held here rather than fetched by
+        /// `ChargingLimitView` so that pane's very first frame already carries the real
+        /// floor — there is no correct value to draw before this is known, which is the
+        /// whole reason the pane moved.
+        @MainActor @Published
+        private(set) var backend: ChargeBackend?
         @Dependency(\.helperClient) private var helperManager
         @Dependency(\.launchAtLogin) private var launchAtLogin
         @Dependency(\.defaults) private var defaults
+        @Dependency(\.chargingClient) private var chargingClient
         var playerModel: OnboardingPlayerViewModel!
         var licenseModel: LicenseModel
 
@@ -166,8 +178,12 @@ extension Onboarding {
         func nextAction() {
             switch currentScreen {
             case .helper:
-                guard !onboardingIsFinished else {
-                    completeOnboarding()
+                // Reachable again after a successful install if the user taps back through
+                // the dots; there is nothing left to install, so advance.
+                guard !helperIsInstalled else {
+                    if let next = currentScreen.next() {
+                        changeScreenTo(next)
+                    }
                     return
                 }
                 Task {
@@ -180,12 +196,20 @@ extension Onboarding {
                             // used to declare success over a helper that answered nothing.
                             if status == .enabled, (try? await helperManager.pingHelper()) == true {
                                 self.helperError = nil
+                                // The first moment BatFi can ask, and it must be answered
+                                // before the pane that renders the floor appears — a slider
+                                // that draws at 50% and corrects itself to 80% is the defect
+                                // this reorder exists to remove.
+                                await resolveBackend()
+                                didInstallHelper()
+                                defaults.setValue(.onboardingIsDone, value: true)
+                                // Set before the screen change so the navigation ceiling in
+                                // `changeScreenToOneWithIndex` has already risen by the time
+                                // the limit pane is on screen and its dot is live.
+                                helperIsInstalled = true
                                 if let next = currentScreen.next() {
                                     changeScreenTo(next)
                                 }
-                                didInstallHelper()
-                                defaults.setValue(.onboardingIsDone, value: true)
-                                onboardingIsFinished = true
                                 NSSound(named: "Funk")?.play()
                                 break
                             } else if let error, counter == 20 {
@@ -215,6 +239,12 @@ extension Onboarding {
                         changeScreenTo(next)
                     }
                 }
+            case .charging:
+                // Load-bearing. `.charging` is the last screen, so its `next()` is nil and
+                // the old `default:` arm would have made the Complete button do nothing at
+                // all. `completeOnboarding()` used to be reached only through the `.helper`
+                // guard, which no longer runs last.
+                completeOnboarding()
             default:
                 if let next = currentScreen.next() {
                     changeScreenTo(next)
@@ -229,11 +259,34 @@ extension Onboarding {
             }
         }
 
+        /// Asks the freshly installed helper what this Mac's mechanism is. A failed fetch
+        /// leaves `backend` nil, which `ChargeLimitRange` reads as unresolved and answers
+        /// with the widest range — the same permissive direction this pane has always taken,
+        /// and the only honest one when nothing has been claimed.
+        @MainActor
+        private func resolveBackend() async {
+            if let diagnostics = try? await chargingClient.chargingDiagnostics() {
+                backend = ChargeBackend(rawValue: diagnostics.backend)
+            }
+        }
+
+        /// The furthest screen the page dots may jump to. The limit pane is deliberately
+        /// unreachable until the helper is in: that install is the only moment BatFi can
+        /// learn this Mac's floor, and a limit slider shown before it is the bug this
+        /// ordering fixes — reachable by tapping the last dot even though the flow no
+        /// longer leads there.
+        @MainActor
+        private var highestReachableScreen: OnboardingScreen {
+            helperIsInstalled ? .charging : .helper
+        }
+
         @MainActor
         func changeScreenToOneWithIndex(_ index: Int) {
-            if let screen = OnboardingScreen(rawValue: index), licenseModel.hasValidLicense {
-                changeScreenTo(screen)
-            }
+            guard let screen = OnboardingScreen(rawValue: index),
+                  licenseModel.hasValidLicense,
+                  screen.rawValue <= highestReachableScreen.rawValue
+            else { return }
+            changeScreenTo(screen)
         }
 
         @MainActor

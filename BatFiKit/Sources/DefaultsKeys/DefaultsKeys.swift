@@ -74,6 +74,21 @@ public extension Defaults.Keys {
     static let lastKnownCanPauseCharging = Key<Bool>("lastKnownCanPauseCharging", default: true)
     static let lastKnownForceDischargeAvailable = Key<Bool>("lastKnownForceDischargeAvailable", default: true)
 
+    // The raw `ChargeBackend` this Mac last reported, or nil where it has never answered.
+    //
+    // Cached for the same reason as the two above — a view cannot wait on an async fetch
+    // without visibly correcting itself afterwards — but with one difference that matters:
+    // it is written in a single place, the `chargingDiagnostics` closure in
+    // `ChargingClient.liveValue`, so every successful fetch anywhere in the app refreshes it
+    // and no caller has to remember to. The two keys above are still refreshed per-view in
+    // `ChargingView.refreshCapabilityCache()`; moving them here would be an improvement and
+    // is deliberately not part of this change.
+    //
+    // Stored as the raw string rather than the enum so this module needs no dependency on
+    // `Shared`. Nil means unresolved, which `ChargeLimitRange.lowestSelectable` answers with
+    // the permissive 50% floor — the same answer a Mac that has never been asked deserves.
+    static let lastKnownChargeBackend = Key<String?>("lastKnownChargeBackend", default: nil)
+
     static let highEnergyImpactProcessesThreshold = Key<Int>("highEnergyImpactProcessesThreshold", default: 500)
     static let highEnergyImpactProcessesDuration = Key<TimeInterval>("highEnergyImpactProcessesDuration", default: 180)
     static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)

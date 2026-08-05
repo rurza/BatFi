@@ -7,6 +7,8 @@
 
 import AppKit
 import Clients
+import Defaults
+import DefaultsKeys
 import Dependencies
 import Shared
 
@@ -35,7 +37,17 @@ extension ChargingClient: DependencyKey {
                 return try await XPCClient.shared.getMCLStatus()
             },
             chargingDiagnostics: {
-                return try await XPCClient.shared.getChargingDiagnostics()
+                let diagnostics = try await XPCClient.shared.getChargingDiagnostics()
+                // The one write site for `lastKnownChargeBackend`. Every pane and sheet that
+                // needs this Mac's floor synchronously reads that cache, and putting the
+                // refresh here means none of them has to remember to fetch first. A nil
+                // result is a helper that answered without a snapshot, which is not evidence
+                // the backend changed — so the previous value stands rather than being
+                // cleared.
+                if let diagnostics {
+                    Defaults[.lastKnownChargeBackend] = diagnostics.backend
+                }
+                return diagnostics
             }
         )
     }()

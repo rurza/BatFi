@@ -539,6 +539,19 @@ public enum ChargeLimitRange {
         return backend.honoursLimitsBelow80 ? lowest : systemChargeLimitLowest
     }
 
+    /// The floor, resolved from the backend as it is *stored* — the raw string the
+    /// `lastKnownChargeBackend` cache holds, because `ChargingDiagnostics.backend` is a
+    /// `String` and keeping it that way spares `DefaultsKeys` a dependency on this module.
+    ///
+    /// The decision this centralises is what an unrecognised value means. A newer build can
+    /// write a backend this one has never heard of and a downgrade then reads it back; that
+    /// is *unresolved*, not `.unsupported`. Both answer 50 today, so a reader open-coding
+    /// `flatMap` would look correct — right up until a sixth backend that cannot go below 80
+    /// makes the two diverge.
+    public static func lowestSelectable(forRawBackend raw: String?) -> Int {
+        lowestSelectable(for: raw.flatMap(ChargeBackend.init(rawValue:)))
+    }
+
     /// The value the slider shows, given what the user has configured.
     ///
     /// A stored limit below the floor is shown *at* the floor rather than written back to
