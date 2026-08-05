@@ -127,6 +127,17 @@ private final class SnapshotCoordinator: NSObject, CLLocationManagerDelegate {
         handler(snapshot.authorization)
     }
 
+    /// `requestAlwaysAuthorization()` requires **both** `NSLocationAlwaysAndWhenInUseUsageDescription`
+    /// and `NSLocationWhenInUseUsageDescription` in `App/Info.plist`. With either missing,
+    /// CoreLocation decides the app does not support Always authorization and the call does
+    /// nothing at all — no prompt, no delegate callback, no error, nothing in the log. Every build
+    /// up to and including 3.2.0 shipped without the Always key, which is why no user was ever
+    /// asked for location access no matter which button they pressed. Keep both keys; the app is
+    /// not sandboxed, so nothing else gates this.
+    ///
+    /// The same contract adds a second silent no-op: CoreLocation ignores the request unless the
+    /// app is "in use", i.e. active. Every caller here is driven by the rule editor sheet, so the
+    /// app is frontmost by construction — do not move this behind a background trigger.
     func requestAuthorization() {
         guard manager.authorizationStatus == .notDetermined else { return }
         logger.notice("Requesting location authorization")

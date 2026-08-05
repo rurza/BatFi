@@ -196,6 +196,12 @@ struct AutomationLocationPicker: View {
             // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
             // picker closes. This is the only place in the app that runs continuous updates.
             normalizeRadius()
+            // Ticking the location condition *is* the user asking for a location-based service,
+            // which is the moment Apple's own guidance says to prompt — so prompt here rather
+            // than making the user find the banner's Allow Access button first. A no-op unless
+            // authorization is `.notDetermined`, so reopening an existing rule prompts nobody.
+            // The banner remains the recovery path for a prompt that was dismissed or denied.
+            locationClient.requestAuthorization()
             if let coordinate { recenter(on: coordinate.clCoordinate) }
             var didSeedSearchRegion = false
             for await snapshot in locationClient.snapshotUpdates() {
