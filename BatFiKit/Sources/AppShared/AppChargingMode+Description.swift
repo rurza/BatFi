@@ -9,6 +9,24 @@ import Foundation
 import L10n
 
 public extension AppChargingMode {
+    /// The state line, told through what the app can actually verify.
+    ///
+    /// The mode is only ever as good as the helper that reported it, and `.enabled` is not
+    /// proof that a helper exists to report anything. A Background Task Management record
+    /// registered by a copy of BatFi that has since been deleted, moved, or replaced by
+    /// another copy keeps reporting `.enabled` while launchd fails every spawn — so the app
+    /// either never gets a first mode and sits on `.initial`, or holds the last mode it saw
+    /// before the helper went away. Both are reported here as what they are.
+    ///
+    /// Only `.degraded` overrides the mode. `.unknown` is the ordinary launch window before
+    /// the first probe lands, where "Initializing" is the honest answer.
+    func stateDescription(helperHealth: HelperHealth) -> String {
+        if case .degraded = helperHealth {
+            return L10n.AppChargingMode.State.Title.helperNotRunning
+        }
+        return stateDescription
+    }
+
     var stateDescription: String {
         let label = L10n.AppChargingMode.State.Title.self
 

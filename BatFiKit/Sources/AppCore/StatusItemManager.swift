@@ -249,6 +249,7 @@ public final class StatusItemManager {
                     .onSelect { [weak self] in
                         self?.delegate?.showHelperTroubleshooting()
                     }
+                helperNotRespondingDisclaimer
                 SeparatorItem()
             }
 
@@ -371,6 +372,24 @@ public final class StatusItemManager {
                     .frame(width: 220, alignment: .leading)
                     .padding(.leading, horizontalPadding(for: limit))
                     .padding(.top, 6)
+                    .padding(.bottom, 6)
+            }
+    }
+
+    /// The consequence of the warning row above it, wrapped rather than spelled into the
+    /// item's title: a plain `NSMenuItem` widens the whole menu to fit its title, and this
+    /// sentence is far wider than the 220pt the menu's content is built for.
+    @MenuBuilder
+    var helperNotRespondingDisclaimer: [NSMenuItem] {
+        MenuItem("")
+            .view {
+                Text(L10n.Menu.Label.helperNotRespondingDisclaimer)
+                    .font(.callout)
+                    .multilineTextAlignment(.leading)
+                    .foregroundStyle(.tertiary)
+                    .frame(width: 220, alignment: .leading)
+                    .padding(.leading, menuItemCheckMarkPadding)
+                    .padding(.top, 2)
                     .padding(.bottom, 6)
             }
     }

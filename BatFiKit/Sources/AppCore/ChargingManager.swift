@@ -472,12 +472,42 @@ public actor ChargingManager: ChargingModeManager {
                 removeTempOverride()
                 return await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             }
+            // Symmetric to the charge-to-full removal above, and needed for the same reason
+            // the discharge arm below had to stop reading the applied limit. Where charging
+            // is held at a percentage there is no way to *keep* a battery below 80%: the
+            // inhibit writes nothing, so BatFi would discharge to the target, let Apple's
+            // limit charge it back, and discharge again — cycling the battery on mains
+            // power, which is precisely what this app exists to prevent. The override has
+            // met its goal, so it is retired rather than left oscillating. Backends that can
+            // pause charging on demand hold the target exactly as before.
+            //
+            // `tempLimit > 0` deliberately: "Run on Battery" is a 0% override and is meant
+            // to keep discharging until the charger is unplugged or the user cancels it.
+            if currentBatteryLevel <= tempLimit, tempLimit > 0, tempLimit < 100,
+               await !backendCanPauseChargingOnDemand() {
+                logger.notice("Discharge target reached and this Mac's charge mechanism cannot hold it; removing the override")
+                await analytics.addBreadcrumb(category: .chargingManager, message: "Discharge target reached on a backend that cannot hold it; removing override")
+                removeTempOverride()
+                return await turnOnCharging(chargerConnected: chargerConnected, currentMode: currentMode)
+            }
             handleRemovingTempOverrideOnDisconnect(
                 chargerConnected: chargerConnected,
                 batteryLevel: currentBatteryLevel,
                 overrideLimit: tempLimit
             )
-            if currentBatteryLevel > effectiveLimitInForce, isLidOpenedOrSleepDisabled {
+            // The discharge decision reads the limit the *user asked for*, not the one the
+            // charge mechanism could express — and that difference is the whole feature on
+            // firmware that holds a percentage. Discharging is force discharge over `CHIE`,
+            // a separate mechanism this Mac still has; the charge limit cannot express
+            // anything under 80%, so under `.systemChargeLimit` "Run on Battery" (a 0%
+            // override) came back applied as 80%, and this branch then read a 61% battery
+            // as "below the limit, start charging" — the exact opposite of the request, with
+            // the menu still showing the override ticked.
+            //
+            // Only this arm moves back to the request. The charge arm below keeps reading
+            // what is actually in force, because that is what governs charging and is what
+            // stopped the discharge/charge cycling described above.
+            if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
                     disableSleep: disableSleepDuringDischarge,

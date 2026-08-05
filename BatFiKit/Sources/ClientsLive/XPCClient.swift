@@ -22,10 +22,70 @@ enum XPCClientError: Error {
 actor XPCClient {
     private lazy var logger = Logger(category: "XPC Client")
     private var _connection: NSXPCConnection?
+    /// Identifies the current connection so a dying one cannot clear its replacement. The
+    /// watchdog below deliberately tears a connection down and lets the next call build a
+    /// new one, which means an old connection's invalidation handler can land after the new
+    /// connection is already in place.
+    private var connectionID: UUID?
+
+    /// How long a helper call may go unanswered before its connection is torn down.
+    ///
+    /// Generous on purpose: a false positive is worse than a slow call, because the health
+    /// policy answers a failed probe by re-registering the daemon.
+    /// `restoreSystemDefaults()` alone can spend ~2s reopening a dropped SMC connection.
+    private static let callTimeout = Duration.seconds(15)
+
+    /// The health probe's budget. `ping` does no work at all — a reachable helper answers
+    /// it in about 150ms — so this only has to cover a cold daemon spawn, and it is the
+    /// probe's speed that decides how long the app can be wrong about itself.
+    private static let pingTimeout = Duration.seconds(5)
 
     private init() { }
 
     static let shared = XPCClient()
+
+    /// Sends one message to the helper under a watchdog.
+    ///
+    /// Every call goes through here, because a helper call has no timeout of its own and
+    /// can hang for the life of the process. When `SMAppService` reports `.enabled` for a
+    /// record whose bundle no longer resolves — the copy of BatFi that registered the
+    /// daemon was deleted, moved, or replaced by another copy, which is ordinary once a
+    /// user has two or three copies on disk — launchd keeps the mach service registered and
+    /// answers the lookup, then fails every spawn with `EX_CONFIG`. The connection is never
+    /// invalidated, so `remoteObjectProxyWithErrorHandler` never fires and no reply ever
+    /// arrives: the continuation stays suspended forever.
+    ///
+    /// That one unbounded await starves everything downstream. `ChargingManager` never gets
+    /// a charging status, so the app mode stays `.initial` and the menu reads "Initializing"
+    /// with no error to explain it; and `HelperHealthPolicy` never gets a ping result, so it
+    /// never concludes `.degraded` and never runs the unregister/re-register recovery that
+    /// repoints the record at *this* bundle — the one thing that actually fixes it.
+    ///
+    /// Invalidating is what breaks the deadlock: `NSXPCConnection` calls the error handler
+    /// for every message in flight on a connection it invalidates, which resumes the
+    /// continuations and turns the hang into a thrown error the policy can act on.
+    private func call<T>(
+        timeout: Duration = XPCClient.callTimeout,
+        _ body: (XPCService, CheckedContinuation<T, Error>) -> Void
+    ) async throws -> T {
+        let remote = remoteService()
+        let watchdog = Task { [weak self] in
+            try await Task.sleep(for: timeout)
+            await self?.tearDownUnresponsiveConnection(after: timeout)
+        }
+        defer { watchdog.cancel() }
+        return try await remote.withContinuation(body)
+    }
+
+    private func tearDownUnresponsiveConnection(after timeout: Duration) {
+        guard let connection = _connection else { return }
+        logger.error("Helper did not answer within \(timeout.components.seconds, privacy: .public)s; tearing down the connection")
+        // Cleared before invalidating so a call that arrives while the handler is in flight
+        // builds a fresh connection rather than queueing another message onto a dead one.
+        _connection = nil
+        connectionID = nil
+        connection.invalidate()
+    }
 
     func changeChargingMode(_ newMode: SMCChargingCommand) async throws {
         switch newMode {
@@ -39,8 +99,7 @@ actor XPCClient {
     }
 
     func getPowerDistribution() async throws -> PowerDistributionInfo {
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        try await call { service, continuation in
             service.getPowerDistribution { powerInfo, error in
                 if let powerInfo {
                     continuation.resume(returning: powerInfo)
@@ -54,8 +113,7 @@ actor XPCClient {
     }
 
     func restoreSystemDefaults() async throws {
-        let remote = remoteService()
-        try await remote.withContinuation { (service, continuation: CheckedContinuation<Void, Error>) in
+        try await call { (service, continuation: CheckedContinuation<Void, Error>) in
             service.restoreSystemDefaults { error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -70,8 +128,7 @@ actor XPCClient {
     /// one asked for — Apple's Manual Charge Limit cannot go below 80%.
     func applyChargeLimit(_ percentage: Int) async throws -> Int {
         logger.debug("Applying charge limit: \(percentage)")
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        return try await call { service, continuation in
             // Clamped rather than trusted: `percentage` reaches here from settings and
             // from automation rules, and a value outside 0...100 would wrap on the way
             // into a byte and ask the helper for a limit nobody chose.
@@ -92,8 +149,7 @@ actor XPCClient {
     }
 
     func getMCLStatus() async throws -> MCLStatus? {
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        try await call { service, continuation in
             service.getMCLStatus { status, error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -105,8 +161,7 @@ actor XPCClient {
     }
 
     func getChargingDiagnostics() async throws -> ChargingDiagnostics? {
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        try await call { service, continuation in
             service.getChargingDiagnostics { diagnostics, error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -118,8 +173,7 @@ actor XPCClient {
     }
 
     func getSMCChargingStatus() async throws -> SMCChargingStatus {
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        try await call { service, continuation in
             service.getCurrentChargingStatus { status, error in
                 if let status {
                     continuation.resume(returning: status)
@@ -133,8 +187,7 @@ actor XPCClient {
     }
 
     func changeMagSafeLEDColor(_ color: MagSafeLEDOption) async throws -> MagSafeLEDOption {
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        try await call { service, continuation in
             service.setMagSafeLEDColor(color: color.rawValue) { rawValue, error in
                 if let option = MagSafeLEDOption(rawValue: rawValue) {
                     continuation.resume(returning: option)
@@ -149,8 +202,7 @@ actor XPCClient {
     }
 
     func currentMagSafeLEDOption() async throws -> MagSafeLEDOption {
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        try await call { service, continuation in
             service.getMagSafeLEDOption { rawValue, error in
                 if let option = MagSafeLEDOption(rawValue: rawValue) {
                     continuation.resume(returning: option)
@@ -166,8 +218,9 @@ actor XPCClient {
 
     func pingHelper() async throws -> Bool {
         logger.debug("Pinging helper")
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        // The probe that decides whether the app believes in its helper at all, so it gets
+        // the short budget rather than the working-call one.
+        return try await call(timeout: Self.pingTimeout) { service, continuation in
             service.ping { success, error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -180,8 +233,7 @@ actor XPCClient {
 
     func quitHelper() async throws -> Bool {
         logger.debug("Quitting helper")
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        return try await call(timeout: Self.pingTimeout) { service, continuation in
             service.quit { success, error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -194,8 +246,7 @@ actor XPCClient {
 
     func setPowerMode(_ mode: UInt8, lowPowerModeOnly: Bool) async throws {
         logger.debug("Setting power mode: \(mode)")
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        return try await call { service, continuation in
             service.turnPowerMode(mode, lowPowerModeOnly: lowPowerModeOnly) { error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -208,8 +259,7 @@ actor XPCClient {
 
     func getPowerMode() async throws -> (UInt8, Bool) {
         logger.debug("Getting power mode")
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        return try await call { service, continuation in
             service.currentPowerMode { mode, highPowerModeIsAvailable in
                 if let uint = mode?.uint8Value {
                     continuation.resume(returning: (uint, highPowerModeIsAvailable))
@@ -222,8 +272,7 @@ actor XPCClient {
 
     func setDisableAutosleep(_ disable: Bool) async throws {
         logger.debug("Setting disable autosleep: \(disable)")
-        let remote = remoteService()
-        return try await remote.withContinuation { service, continuation in
+        return try await call { service, continuation in
             service.disableAutosleep(disable, { error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -240,8 +289,7 @@ actor XPCClient {
     private func setChargingMode(
         _ handler: (XPCService) -> (@escaping (Error?) -> Void) -> Void
     ) async throws {
-        let service = remoteService()
-        try await service.withContinuation { (service, continuation: CheckedContinuation<Void, Error>) in
+        try await call { (service, continuation: CheckedContinuation<Void, Error>) in
             handler(service)() { error in
                 if let error {
                     continuation.resume(throwing: error)
@@ -266,21 +314,28 @@ actor XPCClient {
         )
         connection.setCodeSigningRequirement(xpcEntitlement)
         connection.remoteObjectInterface = NSXPCInterface(with: XPCService.self)
+        let id = UUID()
         // The handlers, not the tasks they spawn, are what the connection holds on to, so the
         // weak capture belongs on them. Spelled on the inner `Task` it bought nothing: the
         // outer closure still captured `self` strongly to have something to weaken.
         connection.invalidationHandler = { [weak self] in
-            Task { await self?.connectionDidInvalidate() }
+            Task { await self?.connectionDidInvalidate(id) }
         }
         connection.interruptionHandler = { [weak self] in
-            Task { await self?.connectionDidInvalidate() }
+            Task { await self?.connectionDidInvalidate(id) }
         }
         connection.resume()
         _connection = connection
+        connectionID = id
         return connection
     }
 
-    private func connectionDidInvalidate() {
+    /// - Parameter id: which connection died. The watchdog tears a connection down and lets
+    ///   the next call build a replacement immediately, so a late handler from the old
+    ///   connection must not clear — or report the death of — the one now in use.
+    private func connectionDidInvalidate(_ id: UUID) {
+        guard connectionID == id else { return }
+        connectionID = nil
         _connection = nil
         // A fact for the health policy, not a verdict. Connections also die for reasons
         // that have nothing to do with a wedged helper, so this only prompts a ping —

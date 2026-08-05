@@ -66,6 +66,12 @@ struct ChargingLimitView: View {
                             Toggle(L10n.Onboarding.Button.Label.launchAtLogin, isOn: $launchAtLogin)
                             Text(l10n.launchAtLoginRecommendation)
                                 .foregroundStyle(.secondary)
+                                // Wraps rather than truncating. Without this the label is
+                                // handed a single line and clipped mid-word — it only just
+                                // overruns the group's width in English, and every longer
+                                // translation loses more of the sentence. Every other
+                                // multi-line `Text` in this pane carries the same modifier.
+                                .fixedSize(horizontal: false, vertical: true)
                                 // Required, otherwise it will render in center, SwiftUI bug
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }

@@ -110,7 +110,12 @@ struct Onboarding: View {
             }
         )
         .edgesIgnoringSafeArea(.top)
-        .frame(width: 420, height: 620)
+        // Height is shared by every pane and set by the tallest, which is the final one:
+        // video (300pt at this width) plus a group that has grown a slider, a toggle and a
+        // wrapping recommendation line. At 620 that pane overran the window and "The app is
+        // ready to use!" was clipped off the bottom edge. The other panes end in a `Spacer`,
+        // so the extra room simply spreads there.
+        .frame(width: 420, height: 680)
     }
 
     var nextButtonTitle: String {

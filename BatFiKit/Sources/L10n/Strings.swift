@@ -80,6 +80,9 @@ public enum L10n {
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
 
+                /// Helper not running
+                public static let helperNotRunning = String(localized: "app_charging_mode.state.title.helper_not_running", defaultValue: "Helper not running", bundle: Bundle.module)
+
                 /// Temporarily discharging
                 public static let tempDischarging = String(localized: "app_charging_mode.state.title.temp_discharging", defaultValue: "Temporarily discharging", bundle: Bundle.module)
 
@@ -194,10 +197,21 @@ public enum L10n {
             public static let batfi = String(localized: "menu.label.batfi", defaultValue: "BatFi…", bundle: Bundle.module)
             /// Charge to 100%
             public static let chargeToHundred = String(localized: "menu.label.charge_to_hundred", defaultValue: "Charge to 100%", bundle: Bundle.module)
-            /// ⚠️ Helper isn't responding — charge limiting is off
+            /// ⚠️ Helper isn't responding
+            ///
+            /// Deliberately short. This is a plain menu item, and `NSMenu` sizes itself to
+            /// its widest one — a full sentence here stretched the whole menu well past the
+            /// 220pt its content is laid out for. The consequence lives in the wrapped
+            /// disclaimer below instead.
             public static let helperNotResponding = String(
                 localized: "menu.label.helper_not_responding",
-                defaultValue: "⚠️ Helper isn't responding — charge limiting is off",
+                defaultValue: "⚠️ Helper isn't responding",
+                bundle: Bundle.module
+            )
+            /// Charge limiting is off. Click for help.
+            public static let helperNotRespondingDisclaimer = String(
+                localized: "menu.label.helper_not_responding_disclaimer",
+                defaultValue: "Charge limiting is off. Click for help.",
                 bundle: Bundle.module
             )
             /// Check for Updates…

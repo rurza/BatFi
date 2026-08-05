@@ -133,19 +133,52 @@ final class HelperConnectionManager: @unchecked Sendable {
         }
     }
 
-    /// The one mutating recovery attempt. `SMAppService` refuses to re-register over an
-    /// existing record, so the unregister has to land first, and it needs a moment to.
+    /// Delays before each re-registration attempt. `SMAppService` refuses to register over
+    /// an existing record, so the unregister has to land first — and Background Task
+    /// Management does not finish retiring the old record synchronously. A single fixed
+    /// second was observed losing that race and failing with
+    /// `SMAppServiceErrorDomain Code=1 "Operation not permitted"`, while the identical
+    /// sequence tried again moments later succeeded.
+    private static let registrationBackoff: [Duration] = [.seconds(1), .seconds(2), .seconds(4)]
+
+    /// The one mutating recovery attempt, and the only thing that actually fixes a record
+    /// owned by a different copy of BatFi.
+    ///
+    /// launchd resolves this daemon through the Background Task Management record's bundle,
+    /// not through a path in the plist, so a record registered by another copy of the app —
+    /// an older install, a second download, another build — cannot be repaired by the user.
+    /// Toggling it in Login Items re-enables the *same* record, still owned by the other
+    /// bundle. Only unregistering and registering again from the running app takes ownership.
+    ///
+    /// Retried rather than attempted once, because the failure mode of giving up here is the
+    /// worst one available: the unregister succeeds and the register does not, which leaves
+    /// the user with no helper registration at all — strictly worse than the broken record
+    /// they started with. Every attempt after the first re-issues the unregister too, since
+    /// a register that failed may still have left the old record in place.
     private func retryRegistration() async {
-        logger.notice("Helper unreachable; attempting a single re-registration")
-        do {
-            try await helperClient.removeHelper()
-            try await Task.sleep(for: .seconds(1))
-            try await helperClient.installHelper()
-            await send(.retryFinished(error: nil))
-        } catch {
-            logger.error("Helper re-registration failed: \(error, privacy: .public)")
-            await send(.retryFinished(error: error.localizedDescription))
+        logger.notice("Helper unreachable; attempting re-registration to take ownership")
+        var lastError: Error?
+
+        for (attempt, delay) in Self.registrationBackoff.enumerated() {
+            do {
+                // Tolerated, not fatal: on the later attempts there may be nothing left to
+                // remove, and that is a success condition for what follows, not a failure.
+                try? await helperClient.removeHelper()
+                try await Task.sleep(for: delay)
+                try await helperClient.installHelper()
+                logger.notice("Helper re-registered on attempt \(attempt + 1, privacy: .public)")
+                await send(.retryFinished(error: nil))
+                return
+            } catch {
+                lastError = error
+                logger.warning("Helper re-registration attempt \(attempt + 1, privacy: .public) failed: \(error, privacy: .public)")
+            }
         }
+
+        // Out of attempts with the record still not ours. Say so with the last error, so the
+        // guidance names what went wrong rather than guessing.
+        logger.error("Helper re-registration failed after \(Self.registrationBackoff.count, privacy: .public) attempts")
+        await send(.retryFinished(error: lastError?.localizedDescription ?? "Registration did not complete"))
     }
 
     /// Read-only, so it can repeat for as long as the helper stays broken. This is what

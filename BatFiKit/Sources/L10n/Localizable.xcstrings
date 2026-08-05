@@ -1247,6 +1247,17 @@
         }
       }
     },
+    "app_charging_mode.state.title.helper_not_running" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Helper not running"
+          }
+        }
+      }
+    },
     "app_charging_mode.state.title.inhibit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -12912,7 +12923,18 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "⚠️ Helper isn't responding — charge limiting is off"
+            "value" : "⚠️ Helper isn't responding"
+          }
+        }
+      }
+    },
+    "menu.label.helper_not_responding_disclaimer" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charge limiting is off. Click for help."
           }
         }
       }

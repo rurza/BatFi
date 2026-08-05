@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import L10n
 import Testing
 
 @testable import AppShared
@@ -63,6 +64,41 @@ import Testing
         let attributed = mode(.forceDischarge, chargerConnected: false)
             .stateDescription(chargeLimitFraction: 0.85, automationRuleName: "Work")
         #expect(attributed?.contains("Work") == true)
+    }
+
+    // MARK: - Helper health outranks the mode
+
+    // The mode is only ever as trustworthy as the helper that reported it. A record left
+    // behind by a copy of BatFi that has since been deleted or moved reports `.enabled`
+    // forever while every spawn fails, so the app can hold a mode it has no way to verify —
+    // or, at launch, never get one at all and sit on `.initial`.
+
+    @Test func degradedHelperIsReportedInsteadOfInitializing() {
+        let description = mode(.initial).stateDescription(helperHealth: .degraded(.registeredButUnreachable))
+        #expect(description != L10n.AppChargingMode.State.Title.initial)
+        #expect(description == L10n.AppChargingMode.State.Title.helperNotRunning)
+    }
+
+    @Test func degradedHelperOutranksAStaleMode() {
+        // Reporting "Inhibiting charging" while the helper is unreachable claims a pause
+        // that nothing is holding.
+        for staleMode in [ChargingMode.charging, .inhibit, .forceDischarge] {
+            let description = mode(staleMode).stateDescription(helperHealth: .degraded(.notRegistered))
+            #expect(description == L10n.AppChargingMode.State.Title.helperNotRunning)
+        }
+    }
+
+    @Test func unknownHelperHealthStillReportsInitializing() {
+        // The launch window, before the first probe lands, really is initializing.
+        let description = mode(.initial).stateDescription(helperHealth: .unknown)
+        #expect(description == L10n.AppChargingMode.State.Title.initial)
+    }
+
+    @Test func healthyHelperReportsTheModeUnchanged() {
+        for anyMode in [ChargingMode.initial, .charging, .inhibit, .forceDischarge] {
+            let withHealth = mode(anyMode).stateDescription(helperHealth: .healthy)
+            #expect(withHealth == mode(anyMode).stateDescription)
+        }
     }
 
     // MARK: - Temp override wins over automation
