@@ -94,23 +94,38 @@ struct AutomationLabeledRow<Content: View>: View {
 }
 
 extension View {
-    /// Positions a `.bottomLeading` overlay just below its parent row and gives it an opaque
-    /// surface to sit on.
-    ///
-    /// The alignment guide, rather than a fixed `.offset(y:)`: setting the content's bottom guide
-    /// to 4pt above its own top places its top 4pt below the parent's bottom edge, whatever height
-    /// that row turns out to be. The search row's height changes when "Locating…" and its
-    /// progress spinner appear, so a hard-coded offset would drift.
+    /// The opaque surface the search suggestions sit on. Applied *inside* each branch of the
+    /// suggestion list, because only a branch is guaranteed to have content to wrap — hanging this
+    /// on the enclosing conditional would paint a full-width hairline pill when neither branch
+    /// renders.
     ///
     /// `.regularMaterial` because this floats over a map — the old `Color.secondary.opacity(0.10)`
     /// let streets and labels show straight through the text.
-    func floatingUnderSearchField() -> some View {
+    func searchSuggestionSurface() -> some View {
         self
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6))
             .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(.separator))
             .shadow(radius: 8, y: 4)
-            .alignmentGuide(.bottom) { $0[.top] - 4 }
+    }
+
+    /// Positions a `.bottomLeading` overlay just below its parent row.
+    ///
+    /// The alignment guide, rather than a fixed `.offset(y:)`: setting the content's bottom guide
+    /// to 4pt above its own top places its top 4pt below the parent's bottom edge, whatever height
+    /// that row turns out to be. The search row's height changes when "Locating…" and its progress
+    /// spinner appear, so a hard-coded offset would drift.
+    ///
+    /// **Apply this outside any `if` / `else if`.** A guide set *inside* a `ViewBuilder`
+    /// conditional is invisible to the overlay: SwiftUI resolves the alignment against the
+    /// `_ConditionalContent` wrapper, which reports the default `.bottom` — its own height. The
+    /// panel then bottom-aligns with the row and grows *upward*, burying the search field and the
+    /// "Use current location" button under the suggestion list. Measured, with the guide inside
+    /// the branches: row `y=16…40`, panel `y=-150…40`. Hoisted here: panel `y=44…234`. That was a
+    /// shipped bug — keep the guide and the surface in separate modifiers so it cannot come back
+    /// by someone folding the two together again.
+    func anchoredBelowSearchRow() -> some View {
+        alignmentGuide(.bottom) { $0[.top] - 4 }
     }
 }

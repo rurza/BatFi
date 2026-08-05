@@ -129,7 +129,9 @@ struct AutomationLocationPicker: View {
                         .disabled(!canUseCurrentLocation)
                 }
             }
-            .overlay(alignment: .bottomLeading) { completions }
+            // `anchoredBelowSearchRow()` belongs here, not inside `completions` — see its doc
+            // comment. Inside the conditional it does nothing and the panel covers this row.
+            .overlay(alignment: .bottomLeading) { completions.anchoredBelowSearchRow() }
             // SwiftUI paints stack siblings in order, so the map — which comes after this row —
             // would otherwise draw over the dropdown and swallow its clicks. Raising this row
             // puts the dropdown above the map for both drawing and hit-testing.
@@ -263,14 +265,14 @@ struct AutomationLocationPicker: View {
                     .buttonStyle(.plain)
                 }
             }
-            .floatingUnderSearchField()
+            .searchSuggestionSurface()
         } else if search.hasSearched {
             Text(L10n.Automation.locationNoResults)
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.vertical, 4)
                 .padding(.horizontal, 8)
-                .floatingUnderSearchField()
+                .searchSuggestionSurface()
         }
     }
 
