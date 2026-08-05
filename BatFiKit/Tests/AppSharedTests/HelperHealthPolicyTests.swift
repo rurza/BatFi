@@ -153,6 +153,33 @@ import Testing
         #expect(actions.contains(.scheduleProbe(HelperHealthPolicy.firstProbeDelay)))
     }
 
+    @Test("A repeated identical status is ignored, so the backoff owns retesting")
+    func repeatedStatusDoesNotReVerify() {
+        // The status stream yields every 1.5s including duplicates. Acting on each one
+        // would ping continuously while degraded and make the probe backoff meaningless —
+        // and a wedged record reports .enabled on every one of those ticks.
+        var policy = enabledAndVerifying()
+        _ = policy.handle(.pingFailed)
+        _ = policy.handle(.pingFailed)
+        _ = policy.handle(.retryFinished(error: nil))
+        _ = policy.handle(.pingFailed)          // settled into degraded
+
+        let actions = policy.handle(.statusObserved(.enabled))
+
+        #expect(actions.isEmpty)
+    }
+
+    @Test("A status that actually changes is acted on")
+    func changedStatusIsActedOn() {
+        var policy = enabledAndVerifying()
+        _ = policy.handle(.pingSucceeded)
+
+        _ = policy.handle(.statusObserved(.notRegistered))
+        let actions = policy.handle(.statusObserved(.enabled))
+
+        #expect(actions == [.verifyWithPing])
+    }
+
     @Test("requiresApproval goes straight to guidance and never re-registers")
     func requiresApprovalDoesNotRetryRegistration() {
         var policy = HelperHealthPolicy()

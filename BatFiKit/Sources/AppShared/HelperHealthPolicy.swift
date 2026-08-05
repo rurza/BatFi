@@ -41,6 +41,10 @@ public struct HelperHealthPolicy: Sendable {
     /// plausibly associated with wedging the record this whole type exists to detect.
     private var hasRetriedRegistration = false
     private var nextProbeDelay = HelperHealthPolicy.firstProbeDelay
+    /// The status stream repeats every 1.5s by design. Only transitions carry information —
+    /// and in the failure this type exists for, the repeated value is `.enabled`, so acting
+    /// on every repeat would ping continuously and make the probe backoff meaningless.
+    private var lastObservedStatus: HelperServiceStatus?
 
     public init() {}
 
@@ -67,6 +71,9 @@ public struct HelperHealthPolicy: Sendable {
     }
 
     private mutating func handleStatus(_ status: HelperServiceStatus) -> [Action] {
+        guard status != lastObservedStatus else { return [] }
+        lastObservedStatus = status
+
         switch status {
         case .enabled:
             // Never conclusive on its own: a wedged record reports `.enabled` forever.
