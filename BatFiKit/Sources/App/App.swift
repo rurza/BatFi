@@ -7,6 +7,7 @@
 
 import About
 import AppCore
+import AppShared
 import Cocoa
 import Dependencies
 import KeyboardShortcuts
@@ -123,19 +124,19 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     // MARK: - MenuControllerDelegate
 
     public func openSettings() {
-        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        activateApp()
         settingsController.openSettings()
     }
 
     public func openAutomationSettings() {
-        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        activateApp()
         settingsController.openAutomationSettings()
     }
 
     /// Reached from the status item's warning row, so it is always available even after the
     /// once-per-launch modal has been spent.
     public func showHelperTroubleshooting() {
-        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        activateApp()
         showHelperIsNotResponding()
     }
 
@@ -194,7 +195,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             } else {
                 onboardingWindow?.makeKeyAndOrderFront(nil)
             }
-            NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+            activateApp()
         }
     }
 
@@ -243,7 +244,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             arrowWindow = window
             window.show()
             Task { [weak self] in
-                try await self?.clock.sleep(for: .seconds(7))
+                guard (try? await self?.clock.sleep(for: .seconds(7))) != nil else { return }
                 self?.arrowWindow?.close()
             }
         }

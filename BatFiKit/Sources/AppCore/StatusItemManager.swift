@@ -420,16 +420,20 @@ public final class StatusItemManager {
         if dependencies.showDebugMenu {
             SeparatorItem()
             MenuItem(L10n.Menu.Label.debug)
-                .submenu {
-                    MenuItem(L10n.Menu.Label.installHelper).onSelect { [weak self] in
-                        Task { try? await self?.helperManager.installHelper() }
+                // The clients are captured instead of `self`. A `[weak self]` on the items alone
+                // was not weak at all: the enclosing `submenu` closure escapes, so it had to hold
+                // `self` strongly for the items to weaken it — and the menu is reachable from
+                // `self`. These three items only ever need the two clients anyway.
+                .submenu { [helperManager, defaults] in
+                    MenuItem(L10n.Menu.Label.installHelper).onSelect {
+                        Task { try? await helperManager.installHelper() }
                     }
-                    MenuItem(L10n.Menu.Label.removeHelper).onSelect { [weak self] in
-                        Task { try? await self?.helperManager.removeHelper() }
+                    MenuItem(L10n.Menu.Label.removeHelper).onSelect {
+                        Task { try? await helperManager.removeHelper() }
                     }
                     SeparatorItem()
-                    MenuItem(L10n.Menu.Label.resetSettings).onSelect { [weak self] in
-                        self?.defaults.resetSettings()
+                    MenuItem(L10n.Menu.Label.resetSettings).onSelect {
+                        defaults.resetSettings()
                     }
                 }
         }

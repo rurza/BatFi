@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import AppShared
 import Clients
 @preconcurrency import Combine
 import Dependencies
@@ -37,8 +38,7 @@ public final class LicenseModel: ObservableObject {
 
     public init() {
         Task {
-            let license = try await licenseClient.cachedLicense()
-            guard let license else {
+            guard let license = try? await licenseClient.cachedLicense() else {
                 return
             }
             state = .loaded(license)
@@ -105,8 +105,14 @@ public final class LicenseModel: ObservableObject {
     
     public func removeLicense() {
         Task {
-            try await keychainClient.saveLicense(nil)
-            state = .initial
+            do {
+                try await keychainClient.saveLicense(nil)
+                state = .initial
+            } catch {
+                // The keychain refused the delete, so the key is still on disk. Leaving the
+                // state alone keeps the UI honest about that rather than showing an
+                // unlicensed app over a license that is still there.
+            }
         }
     }
 
@@ -117,7 +123,7 @@ public final class LicenseModel: ObservableObject {
 
     @MainActor
     public func openLicenseWindow() {
-        NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+        activateApp()
         if let existingLicenseWindow {
             existingLicenseWindow.makeKeyAndOrderFront(nil)
         } else {

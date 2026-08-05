@@ -7,6 +7,7 @@
 
 import AboutKit
 import AppKit
+import AppShared
 import L10n
 
 @MainActor
@@ -18,6 +19,6 @@ public func presentAboutWindow() -> NSWindow {
         }
     )
     about.orderFrontRegardless()
-    NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+    activateApp()
     return about
 }
