@@ -3033,85 +3033,85 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pouze na určitém místě"
+            "value" : "Na určitém místě"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur an einem Ort"
+            "value" : "An einem Ort"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Only at a location"
+            "value" : "At a location"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uniquement à un endroit"
+            "value" : "À un endroit"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo in un luogo"
+            "value" : "In un luogo"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "特定の場所のみ"
+            "value" : "特定の場所"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "특정 위치에서만"
+            "value" : "특정 위치에서"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen op een locatie"
+            "value" : "Op een locatie"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tylko w danym miejscu"
+            "value" : "W danym miejscu"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apenas em um local"
+            "value" : "Em um local"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только в определённом месте"
+            "value" : "В определённом месте"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yalnızca belirli bir konumda"
+            "value" : "Belirli bir konumda"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лише в певному місці"
+            "value" : "У певному місці"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅在某个位置"
+            "value" : "在某个位置"
           }
         }
       }
@@ -4902,85 +4902,85 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pouze v určitou dobu"
+            "value" : "V určitou dobu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nur zu bestimmten Zeiten"
+            "value" : "Zu bestimmten Zeiten"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Only at certain times"
+            "value" : "At certain times"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uniquement à certaines heures"
+            "value" : "À certaines heures"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solo in determinati orari"
+            "value" : "In determinati orari"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "特定の時間帯のみ"
+            "value" : "特定の時間帯"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "특정 시간에만"
+            "value" : "특정 시간에"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alleen op bepaalde tijden"
+            "value" : "Op bepaalde tijden"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tylko o określonych porach"
+            "value" : "O określonych porach"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apenas em determinados horários"
+            "value" : "Em determinados horários"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только в определённое время"
+            "value" : "В определённое время"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yalnızca belirli saatlerde"
+            "value" : "Belirli saatlerde"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лише в певний час"
+            "value" : "У певний час"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "仅在特定时间"
+            "value" : "在特定时间"
           }
         }
       }
@@ -12906,6 +12906,17 @@
         }
       }
     },
+    "menu.label.helper_not_responding" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "⚠️ Helper isn't responding — charge limiting is off"
+          }
+        }
+      }
+    },
     "menu.label.high_power_mode" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -14419,6 +14430,17 @@
         }
       }
     },
+    "notifications.alert.button.label.close" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close"
+          }
+        }
+      }
+    },
     "notifications.alert.button.label.open_onboarding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -14686,6 +14708,17 @@
         }
       }
     },
+    "notifications.alert.informative_text.helper_not_responding" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own."
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.install_helper_troubleshooting" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -14949,6 +14982,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要重新打开 BatFi 设置，请点击其通知，选择 Launchpad 中的图标，或在 Finder 中双击图标。"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.helper_not_responding" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi's helper isn't responding"
           }
         }
       }

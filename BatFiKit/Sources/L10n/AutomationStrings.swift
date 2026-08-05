@@ -29,7 +29,10 @@ public extension L10n {
         public static let namePlaceholder = String(localized: "automation.editor.name_placeholder", defaultValue: "e.g. Office hours", bundle: Bundle.module)
         public static let chargeLimit = String(localized: "automation.editor.charge_limit", defaultValue: "Charge limit", bundle: Bundle.module)
 
-        public static let timeCondition = String(localized: "automation.editor.time_condition", defaultValue: "Only at certain times", bundle: Bundle.module)
+        // No "Only" on either condition label: both checkboxes can be ticked at once, and "Only
+        // at a location" alongside "Only at certain times" reads as though the two were mutually
+        // exclusive. They are ANDed — see `helpConditions`.
+        public static let timeCondition = String(localized: "automation.editor.time_condition", defaultValue: "At certain times", bundle: Bundle.module)
         public static let scheduleOneOff = String(localized: "automation.editor.schedule_one_off", defaultValue: "One-off date", bundle: Bundle.module)
         public static let scheduleRepeating = String(localized: "automation.editor.schedule_repeating", defaultValue: "Repeating", bundle: Bundle.module)
         public static let scheduleDate = String(localized: "automation.editor.schedule_date", defaultValue: "Date", bundle: Bundle.module)
@@ -37,7 +40,7 @@ public extension L10n {
         public static let fromTime = String(localized: "automation.editor.from_time", defaultValue: "From", bundle: Bundle.module)
         public static let toTime = String(localized: "automation.editor.to_time", defaultValue: "To", bundle: Bundle.module)
 
-        public static let locationCondition = String(localized: "automation.editor.location_condition", defaultValue: "Only at a location", bundle: Bundle.module)
+        public static let locationCondition = String(localized: "automation.editor.location_condition", defaultValue: "At a location", bundle: Bundle.module)
         public static let locationSearchPlaceholder = String(localized: "automation.editor.location_search", defaultValue: "Search address…", bundle: Bundle.module)
         public static let locationNoResults = String(localized: "automation.editor.location_no_results", defaultValue: "No places found.", bundle: Bundle.module)
         public static let locationRadius = String(localized: "automation.editor.location_radius", defaultValue: "Radius", bundle: Bundle.module)

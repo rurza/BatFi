@@ -129,7 +129,9 @@ struct AutomationLocationPicker: View {
                         .disabled(!canUseCurrentLocation)
                 }
             }
-            .overlay(alignment: .bottomLeading) { completions }
+            // `anchoredBelowSearchRow()` belongs here, not inside `completions` — see its doc
+            // comment. Inside the conditional it does nothing and the panel covers this row.
+            .overlay(alignment: .bottomLeading) { completions.anchoredBelowSearchRow() }
             // SwiftUI paints stack siblings in order, so the map — which comes after this row —
             // would otherwise draw over the dropdown and swallow its clicks. Raising this row
             // puts the dropdown above the map for both drawing and hit-testing.
@@ -196,6 +198,12 @@ struct AutomationLocationPicker: View {
             // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
             // picker closes. This is the only place in the app that runs continuous updates.
             normalizeRadius()
+            // Ticking the location condition *is* the user asking for a location-based service,
+            // which is the moment Apple's own guidance says to prompt — so prompt here rather
+            // than making the user find the banner's Allow Access button first. A no-op unless
+            // authorization is `.notDetermined`, so reopening an existing rule prompts nobody.
+            // The banner remains the recovery path for a prompt that was dismissed or denied.
+            locationClient.requestAuthorization()
             if let coordinate { recenter(on: coordinate.clCoordinate) }
             var didSeedSearchRegion = false
             for await snapshot in locationClient.snapshotUpdates() {
@@ -257,14 +265,14 @@ struct AutomationLocationPicker: View {
                     .buttonStyle(.plain)
                 }
             }
-            .floatingUnderSearchField()
+            .searchSuggestionSurface()
         } else if search.hasSearched {
             Text(L10n.Automation.locationNoResults)
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.vertical, 4)
                 .padding(.horizontal, 8)
-                .floatingUnderSearchField()
+                .searchSuggestionSurface()
         }
     }
 
