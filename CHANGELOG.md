@@ -4,7 +4,7 @@ All notable changes to BatFi are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] - 2026-08-04
+## [4.0.0] - 2026-08-05
 
 ### Added
 - **BatFi keeps working on Macs whose firmware has dropped the charge-limit mechanism BatFi
@@ -111,7 +111,7 @@ All notable changes to BatFi are documented here. The format is based on
 - Defer the menu rebuild on macOS 26 while the menu is open, fixing a blank area at the top
   of the dropdown.
 
-[3.2.0]: https://github.com/rurza/BatFi-Priv/compare/3.1.1...3.2.0
+[4.0.0]: https://github.com/rurza/BatFi-Priv/compare/3.1.1...4.0.0
 [3.1.1]: https://github.com/rurza/BatFi-Priv/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.1.0
 [3.0.5]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.0.5
