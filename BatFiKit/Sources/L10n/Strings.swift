@@ -847,6 +847,18 @@ public enum L10n {
             /// translator who reads it.
             public static let forceDischargeStillWorks = String(localized: "settings.label.force_discharge_still_works", defaultValue: "Running on battery still works — it uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
 
+            // MARK: The charge-control help popover
+            // Replaces the permanent banner that used to sit above the slider. The
+            // heading is phrased around the outcome the user cares about — where
+            // charging stops — rather than around which mechanism BatFi ended up using.
+            public static let chargeControlHelpButtonAccessibility = String(localized: "settings.label.charge_control_help_button_accessibility", defaultValue: "About charging on this Mac", bundle: Bundle.module)
+            public static let chargeControlHelpHeading = String(localized: "settings.label.charge_control_help_heading", defaultValue: "How charging works on this Mac", bundle: Bundle.module)
+
+            // The three "why is this greyed out" tooltips that briefly lived here are
+            // gone: the settings they explained are hidden rather than disabled now, and
+            // a tooltip needs a control to hover over. The help popover carries the
+            // explanation instead.
+
             // MARK: The firmware-managed charge range
             //
             // The lead statement first. On this firmware BatFi is not doing less — it is

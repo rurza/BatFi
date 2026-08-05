@@ -26,6 +26,10 @@ struct ChargingView: View {
     // silently do nothing under Apple's Manual Charge Limit — and this is the pane that
     // explains what this Mac's charge control can and cannot do.
     @Default(.temperatureSwitch) private var turnOffChargingWhenBatteryIsHot
+    // What the helper last said this Mac's mechanism can do. Read synchronously so the
+    // hidden controls are absent from the first render rather than vanishing after it.
+    @Default(.lastKnownCanPauseCharging) private var canPauseChargingCache
+    @Default(.lastKnownForceDischargeAvailable) private var forceDischargeAvailableCache
 
     @Dependency(\.systemVersionClient) var systemVersion
     @Dependency(\.chargingClient) private var chargingClient
@@ -63,13 +67,14 @@ struct ChargingView: View {
                         GroupBackground {
                             VStack(alignment: .leading, spacing: 6) {
                                 AutomationOverrideBanner()
-                                ChargeControlDisclosureBanner(disclosures: facts.disclosures)
+                                conflictingSystemLimitWarning
                                 VStack(alignment: .leading, spacing: 14) {
                                     // The value the slider shows, which on firmware that
                                     // cannot express limits below 80% is the floor rather
                                     // than the stored number. Label and knob read the same
                                     // value so they cannot contradict each other, and the
-                                    // banner above names what is really in force.
+                                    // help button beside them names what is really in
+                                    // force for the Macs where the two differ.
                                     let lowestLimit = ChargeLimitRange.lowestSelectable(for: facts.backend)
                                     let displayedLimit = ChargeLimitRange.displayedLimit(
                                         configured: chargeLimit,
@@ -78,8 +83,12 @@ struct ChargingView: View {
                                     let label = l10n.Slider.Label.turnOffChargingAt(
                                         chargeLimitPercentageLabel(displayedLimit)
                                     )
-                                    Text(label)
-                                        .foregroundColor(manageCharging ? .primary : .secondary)
+                                    HStack(alignment: .firstTextBaseline) {
+                                        Text(label)
+                                            .foregroundColor(manageCharging ? .primary : .secondary)
+                                        Spacer(minLength: 8)
+                                        ChargeControlHelpButton(disclosures: facts.disclosures)
+                                    }
                                     HStack {
                                         Slider(
                                             value: limitSliderBinding(for: facts.backend),
@@ -99,30 +108,43 @@ struct ChargingView: View {
                                 }
                                 .padding(.bottom, 14)
 
-                                Toggle(isOn: $inhibitChargingOnSleep) {
-                                    Text(l10n.Button.Label.pauseChargingOnSleep)
-                                }
-                                .disabled(!manageCharging)
-                                .padding(.bottom, 4)
-
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Toggle(isOn: $dischargeBatteryWhenFull) {
-                                        Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
+                                // Absent, not greyed out, where this Mac's firmware cannot
+                                // honour them: a setting that cannot do anything is not a
+                                // setting. The stored preference is left untouched, so it
+                                // comes back exactly as it was if the Mac ever regains a
+                                // mechanism that can act on it. The help button beside the
+                                // slider is what explains the absence.
+                                if !pausingChargingUnavailable {
+                                    Toggle(isOn: $inhibitChargingOnSleep) {
+                                        Text(l10n.Button.Label.pauseChargingOnSleep)
                                     }
                                     .disabled(!manageCharging)
-                                    .onChange(of: dischargeBatteryWhenFull) { _, newValue in
-                                        if newValue {
-                                            disableSleepDuringDischarging = true
-                                        }
-                                    }
-                                    Text(l10n.Button.Description.lidMustBeOpened)
-                                        .offset(x: 19)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .settingDescription()
-                                        .opacity(manageCharging ? 1 : 0.4)
+                                    .padding(.bottom, 4)
                                 }
-                                Toggle(isOn: $disableSleepDuringDischarging) {
-                                    Text(l10n.Button.Label.disableSleepWhileDischarging)
+
+                                if !forceDischargeUnavailable {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Toggle(isOn: $dischargeBatteryWhenFull) {
+                                            Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
+                                        }
+                                        .disabled(!manageCharging)
+                                        .onChange(of: dischargeBatteryWhenFull) { _, newValue in
+                                            if newValue {
+                                                disableSleepDuringDischarging = true
+                                            }
+                                        }
+                                        Text(l10n.Button.Description.lidMustBeOpened)
+                                            .offset(x: 19)
+                                            .fixedSize(horizontal: false, vertical: true)
+                                            .settingDescription()
+                                            .opacity(manageCharging ? 1 : 0.4)
+                                    }
+                                    // Only meaningful while discharging, so it shares the
+                                    // gate. Its lack of a `manageCharging` check is
+                                    // pre-existing and left alone.
+                                    Toggle(isOn: $disableSleepDuringDischarging) {
+                                        Text(l10n.Button.Label.disableSleepWhileDischarging)
+                                    }
                                 }
                             }
                             .padding()
@@ -141,13 +163,15 @@ struct ChargingView: View {
                         .settingDescription()
                     }
                 }
-                Section(title: L10n.Settings.Section.diagnostics) {
-                    diagnosticsContent
-                }
+                // The Diagnostics rows moved to the General pane. Keeping them here meant
+                // this pane mixed a titled section with untitled ones, and `Container`
+                // sizes an untitled section as if the label column did not exist before
+                // shifting it into one anyway — which ran this pane's full-width content
+                // off the right edge of the window. Every section here is untitled now.
             }
         }
         .task {
-            await loadDiagnostics()
+            await loadDiagnosticsAndRefreshCache()
         }
         // Both inputs that can change what the helper reports. The limit decides
         // `appliedChargeLimit`, `requestedChargeLimit` and `chargeLimitWasRaised`;
@@ -169,44 +193,51 @@ struct ChargingView: View {
         }
     }
 
+    /// The one thing on this pane that is both a problem and the user's to fix: their own
+    /// System Settings charge limit can stop charging before BatFi's does. It stays inline
+    /// rather than moving behind the help button, because unlike the disclosures it is not
+    /// a description of how this Mac works — it is an instruction to go change something.
+    ///
+    /// Keyed on the system's own percentage now that it crosses the XPC boundary, and
+    /// silent under `.systemChargeLimit`, where the limit it would warn about is the one
+    /// BatFi itself set. `ChargeControlFacts.conflictingSystemLimit` holds the rule and the
+    /// tests that pin it.
     @ViewBuilder
-    private var diagnosticsContent: some View {
-        let l10n = L10n.Settings.Label.self
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(l10n.diagnosticsChargingControl)
-                Spacer(minLength: 20)
-                Text(chargingControlDescription)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.trailing)
-            }
-            // The "BatFi can't control charging on this Mac" line used to live here. It is
-            // now one of the disclosures shown beside the slider, where the user actually
-            // is — this section still reports the mechanism as "Not available".
-
-            HStack(alignment: .firstTextBaseline) {
-                Text(l10n.diagnosticsFirmware)
-                Spacer(minLength: 20)
-                Text(diagnostics?.firmwareVersion ?? l10n.diagnosticsFirmwareUnknown)
-                    .foregroundColor(.secondary)
-                    .textSelection(.enabled)
-            }
-
-            // Keyed on the system's own percentage now that it crosses the XPC boundary,
-            // and silent under `.systemChargeLimit`, where the limit it would warn about
-            // is the one BatFi itself set. `ChargeControlFacts.conflictingSystemLimit`
-            // holds the rule and the tests that pin it.
-            if let conflictingLimit = facts.conflictingSystemLimit {
-                Label(
-                    l10n.diagnosticsSystemChargeLimitConflict(chargeLimitPercentageLabel(conflictingLimit)),
-                    systemImage: "exclamationmark.triangle.fill"
-                )
-                .font(.callout)
-                .foregroundStyle(.orange)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 4)
-            }
+    private var conflictingSystemLimitWarning: some View {
+        if let conflictingLimit = facts.conflictingSystemLimit {
+            Label(
+                L10n.Settings.Label.diagnosticsSystemChargeLimitConflict(
+                    chargeLimitPercentageLabel(conflictingLimit)
+                ),
+                systemImage: "exclamationmark.triangle.fill"
+            )
+            .font(.callout)
+            .foregroundStyle(.orange)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.bottom, 10)
         }
+    }
+
+    /// Whether this Mac can stop charging on demand — read from the cache, not from the
+    /// live fetch, because the controls it gates are *hidden* rather than greyed out and
+    /// visibility has to be right on the very first render. See
+    /// `Defaults.Keys.lastKnownCanPauseCharging` for why the window cannot cope otherwise.
+    ///
+    /// Under `.systemChargeLimit` and `.firmwareRange` the limit is held by macOS or the
+    /// firmware, neither of which offers a "stop now", so pausing on sleep writes nothing.
+    private var pausingChargingUnavailable: Bool { !canPauseChargingCache }
+
+    /// Whether this Mac can run off its battery with the charger attached, which is what
+    /// both discharge settings depend on. Probed from its own SMC key, so it is answered
+    /// separately from charge limiting and can outlive it.
+    private var forceDischargeUnavailable: Bool { !forceDischargeAvailableCache }
+
+    /// Writes what the helper just said into the cache the panes render from. Called on
+    /// every successful fetch, so a firmware change costs one stale render and settles.
+    private func refreshCapabilityCache() {
+        guard diagnostics != nil else { return }
+        canPauseChargingCache = facts.backend?.canPauseChargingOnDemand ?? true
+        forceDischargeAvailableCache = facts.forceDischargeAvailable
     }
 
     /// Everything the pane knows about charge control, in one value. The decisions that
@@ -220,13 +251,6 @@ struct ChargingView: View {
             hotBatteryProtectionEnabled: turnOffChargingWhenBatteryIsHot,
             pauseChargingOnSleepEnabled: inhibitChargingOnSleep
         )
-    }
-
-    /// The resolved backend, reconstituted from `ChargingDiagnostics.backend`'s raw value.
-    /// `nil` both before the initial fetch completes and if the helper ever reports a raw
-    /// value this build doesn't recognize.
-    private var chargeBackend: ChargeBackend? {
-        facts.backend
     }
 
     /// Reads the value the slider should *show* and writes what the user picks.
@@ -244,42 +268,9 @@ struct ChargingView: View {
         )
     }
 
-    /// User-facing summary of the resolved backend. `.chte`, `.legacyCH0BC` and
-    /// `.firmwareRange` all read as "Active" — the mechanism only matters for a bug
-    /// report, and the firmware token below already disambiguates that unambiguously.
-    /// What the user needs from this line is whether their own limit is being honoured,
-    /// and all three honour it exactly, below 80% included; `.systemChargeLimit` is
-    /// called out separately because it is the one that cannot. Exhaustive over
-    /// `ChargeBackend` so a future case fails to compile here rather than silently
-    /// falling into the wrong branch.
-    private var chargingControlDescription: String {
-        // Read off `facts`, not off the backend alone. The backend says what this Mac's
-        // firmware *can* do; this row sits directly under a banner that says what BatFi is
-        // actually doing, and the two contradicted each other in two ordinary states — with
-        // charge management switched off, and when the helper refused to snapshot the
-        // user's System Settings limit and is therefore applying nothing. Both said
-        // "Active".
-        guard let chargeBackend else {
-            return L10n.Settings.Label.diagnosticsChargingControlUnknown
-        }
-        guard facts.manageCharging else {
-            // Resolved, and not in use. `.unsupported` still reports itself, since there is
-            // nothing to be idle about.
-            return chargeBackend == .unsupported
-                ? L10n.Settings.Label.diagnosticsChargingControlUnavailable
-                : L10n.Settings.Label.diagnosticsChargingControlIdle
-        }
-        if facts.systemLimitSnapshotRefused, chargeBackend == .systemChargeLimit {
-            return L10n.Settings.Label.diagnosticsChargingControlUnavailable
-        }
-        switch chargeBackend {
-        case .unsupported:
-            return L10n.Settings.Label.diagnosticsChargingControlUnavailable
-        case .firmwareRange, .chte, .legacyCH0BC:
-            return L10n.Settings.Label.diagnosticsChargingControlActive
-        case .systemChargeLimit:
-            return L10n.Settings.Label.diagnosticsChargingControlSystemChargeLimit
-        }
+    private func loadDiagnosticsAndRefreshCache() async {
+        await loadDiagnostics()
+        refreshCapabilityCache()
     }
 
     private func loadDiagnostics() async {
@@ -300,7 +291,7 @@ struct ChargingView: View {
             // arrives after the sleep has already completed.
             try? await Task.sleep(for: delay)
             guard !Task.isCancelled else { return }
-            await loadDiagnostics()
+            await loadDiagnosticsAndRefreshCache()
         }
     }
 
