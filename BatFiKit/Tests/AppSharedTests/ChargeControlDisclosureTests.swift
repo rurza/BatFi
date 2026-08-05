@@ -641,6 +641,32 @@ import Testing
         #expect(ChargeLimitRange.lowestSelectable(for: nil) == 50)
     }
 
+    /// The cache stores `ChargingDiagnostics.backend` verbatim, so the readers see a
+    /// `String`. Round-tripping it must land on the same floor the enum would give.
+    @Test func aRawBackendStringResolvesToItsBackendsFloor() {
+        for backend in ChargeBackend.allCases {
+            #expect(
+                ChargeLimitRange.lowestSelectable(forRawBackend: backend.rawValue)
+                    == ChargeLimitRange.lowestSelectable(for: backend),
+                "\(backend.rawValue)"
+            )
+        }
+    }
+
+    /// Nil is "this Mac has never answered" and keeps the widest range — the same answer
+    /// `lowestSelectable(for: nil)` gives, since the cache's default is nil.
+    @Test func anAbsentRawBackendKeepsTheFullRange() {
+        #expect(ChargeLimitRange.lowestSelectable(forRawBackend: nil) == ChargeLimitRange.lowest)
+    }
+
+    /// A value this build does not recognise — written by a newer build, then downgraded —
+    /// is unresolved, not unsupported. Both happen to answer 50 today, but the reason
+    /// differs and only "unresolved" survives a future backend that cannot go below 80.
+    @Test func anUnrecognisedRawBackendIsTreatedAsUnresolved() {
+        #expect(ChargeLimitRange.lowestSelectable(forRawBackend: "someFutureBackend") == ChargeLimitRange.lowest)
+        #expect(ChargeLimitRange.lowestSelectable(forRawBackend: "") == ChargeLimitRange.lowest)
+    }
+
     /// The slider floor is now *derived* from `ChargeBackend.honoursLimitsBelow80` rather
     /// than restating it in a second switch over the same enum. This is the assertion that
     /// keeps them one fact: a backend that does not honour limits below 80 gets the raised
