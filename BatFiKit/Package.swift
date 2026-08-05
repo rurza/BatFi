@@ -90,6 +90,7 @@ let package = Package(
             dependencies: [
                 "About",
                 .appCore,
+                .appShared,
                 "BatteryIndicator",
                 "BatteryInfo",
                 "ClientsLive",
@@ -211,6 +212,7 @@ let package = Package(
         .target(
             name: "License",
             dependencies: [
+                .appShared,
                 .clients,
                 .confetti,
                 .shared,

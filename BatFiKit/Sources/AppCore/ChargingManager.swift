@@ -240,7 +240,7 @@ public actor ChargingManager: ChargingModeManager {
 
     nonisolated public func inhibitCharging() {
         Task {
-            let powerState = try await powerSourceClient.currentPowerSourceState()
+            guard let powerState = try? await powerSourceClient.currentPowerSourceState() else { return }
             await appChargingState.setTempOverride(.init(limit: powerState.batteryLevel))
         }
     }

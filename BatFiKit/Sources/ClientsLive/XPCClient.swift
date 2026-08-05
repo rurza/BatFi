@@ -266,11 +266,14 @@ actor XPCClient {
         )
         connection.setCodeSigningRequirement(xpcEntitlement)
         connection.remoteObjectInterface = NSXPCInterface(with: XPCService.self)
-        connection.invalidationHandler = {
-            Task { [weak self] in await self?.connectionDidInvalidate() }
+        // The handlers, not the tasks they spawn, are what the connection holds on to, so the
+        // weak capture belongs on them. Spelled on the inner `Task` it bought nothing: the
+        // outer closure still captured `self` strongly to have something to weaken.
+        connection.invalidationHandler = { [weak self] in
+            Task { await self?.connectionDidInvalidate() }
         }
-        connection.interruptionHandler = {
-            Task { [weak self] in await self?.connectionDidInvalidate() }
+        connection.interruptionHandler = { [weak self] in
+            Task { await self?.connectionDidInvalidate() }
         }
         connection.resume()
         _connection = connection
