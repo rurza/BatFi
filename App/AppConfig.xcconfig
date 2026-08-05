@@ -37,6 +37,17 @@ ENABLE_APP_SANDBOX = NO
 // Location of the info property list.
 INFOPLIST_FILE = $(TARGET_DIRECTORY)/Info.plist
 
+// ENABLE_HARDENED_RUNTIME is YES, and the hardened runtime gates CoreLocation behind
+// com.apple.security.personal-information.location even though this app is not sandboxed. Without
+// the entitlement `requestAlwaysAuthorization()` is a silent no-op: the app logs the request, no
+// prompt appears, and locationd records nothing at all. Every non-sandboxed hardened-runtime app on
+// the machine that successfully uses location (Flux, Firefox) carries this entitlement. The
+// Info.plist usage-description keys are necessary too, but not sufficient on their own.
+//
+// This file is referenced by path and is deliberately not a member of the Xcode project — signing
+// reads CODE_SIGN_ENTITLEMENTS directly, so it will not appear in the navigator. Do not delete it.
+CODE_SIGN_ENTITLEMENTS = $(TARGET_DIRECTORY)/BatFi.entitlements
+
 // Tells Xcode Archive the app is the target which should be the installable artifact (unlike the helper tool).
 SKIP_INSTALL = NO
 
