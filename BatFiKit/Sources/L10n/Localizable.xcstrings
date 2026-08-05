@@ -24683,39 +24683,6 @@
         }
       }
     },
-    "settings.label.unavailable_force_discharge" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Not available on this Mac. Its firmware cannot run the Mac on battery power while the charger is connected."
-          }
-        }
-      }
-    },
-    "settings.label.unavailable_hot_battery_cutoff" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Not available on this Mac. Charging is held at your limit rather than stopped on request, so it cannot be cut off when the battery gets hot."
-          }
-        }
-      }
-    },
-    "settings.label.unavailable_pausing_charging" : {
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Not available on this Mac. Your charge limit already holds while the Mac is asleep, so there is nothing for BatFi to pause."
-          }
-        }
-      }
-    },
     "settings.section.advanced" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

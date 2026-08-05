@@ -5,49 +5,177 @@
 //  Created by Adam Różyński on 06/05/2024.
 //
 
+import AppShared
 import AsyncAlgorithms
 import Clients
 import Dependencies
 import Foundation
 import L10n
+import os
 
 protocol HelperConnectionManagerDelegate: AnyObject, Sendable {
     @MainActor
     func showHelperIsNotInstalled()
+    @MainActor
+    func showHelperIsNotResponding()
 }
 
 final class HelperConnectionManager: @unchecked Sendable {
     @Dependency(\.helperClient) private var helperClient
+    @Dependency(\.helperHealthClient) private var helperHealthClient
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.userNotificationsClient) private var userNotificationsClient
 
+    private let logger = Logger(category: "Helper Connection")
+    private let state = State()
+
+    /// Owns everything mutable here: the policy itself, the once-per-launch guidance flag,
+    /// and the pending probe.
+    private actor State {
+        private var policy = HelperHealthPolicy()
+        private var hasShownGuidance = false
+        private var probeTask: Task<Void, Never>?
+
+        func handle(_ event: HelperHealthPolicy.Event) -> [HelperHealthPolicy.Action] {
+            policy.handle(event)
+        }
+
+        /// Returns whether guidance had already been shown, and marks it shown.
+        func claimGuidance() -> Bool {
+            defer { hasShownGuidance = true }
+            return hasShownGuidance
+        }
+
+        func replaceProbe(with task: Task<Void, Never>?) {
+            probeTask?.cancel()
+            probeTask = task
+        }
+    }
+
     weak var delegate: HelperConnectionManagerDelegate?
+
+    /// Set while onboarding is up. Onboarding has its own helper UI, and stacking a modal
+    /// on top of it helps nobody.
+    var suppressesGuidance = false
 
     init(delegate: HelperConnectionManagerDelegate) {
         self.delegate = delegate
         observerHelperConnection()
+        observeHelperStatus()
+        observeConnectionFailures()
     }
 
     func checkHelperHealth() {
         Task {
             let status = await helperClient.helperStatus()
-            if status == .notRegistered {
-                do {
-                    try await helperClient.installHelper()
-                } catch {
-                    await delegate?.showHelperIsNotInstalled()
-                }
-            } else if status == .requiresApproval || status == .notFound {
-                await delegate?.showHelperIsNotInstalled()
-            } else if status == .enabled {
-                do {
-                    _ = try await helperClient.pingHelper()
-                } catch {
-                    await delegate?.showHelperIsNotInstalled()
-                }
+            await send(.statusObserved(status.helperServiceStatus))
+        }
+    }
+
+    // MARK: - Inputs
+
+    private func observeHelperStatus() {
+        Task {
+            for await status in helperClient.observeHelperStatus() {
+                await send(.statusObserved(status.helperServiceStatus))
             }
         }
     }
+
+    private func observeConnectionFailures() {
+        Task {
+            for await _ in helperHealthClient.observeConnectionFailures() {
+                // Only meaningful once we believed the helper worked; while degraded the
+                // backoff probe already drives the retesting.
+                guard await helperHealthClient.currentHealth() == .healthy else { continue }
+                await send(.pingFailed)
+            }
+        }
+    }
+
+    // MARK: - Policy loop
+
+    private func send(_ event: HelperHealthPolicy.Event) async {
+        for action in await state.handle(event) {
+            await perform(action)
+        }
+    }
+
+    private func perform(_ action: HelperHealthPolicy.Action) async {
+        switch action {
+        case .verifyWithPing:
+            await ping()
+        case .installHelper:
+            do {
+                try await helperClient.installHelper()
+                await ping()
+            } catch {
+                await send(.retryFinished(error: error.localizedDescription))
+            }
+        case .retryRegistrationOnce:
+            await retryRegistration()
+        case let .publish(health):
+            await helperHealthClient.setHealth(health)
+        case .showGuidance:
+            await showGuidance()
+        case let .scheduleProbe(delay):
+            await scheduleProbe(after: delay)
+        }
+    }
+
+    private func ping() async {
+        do {
+            _ = try await helperClient.pingHelper()
+            await send(.pingSucceeded)
+        } catch {
+            logger.warning("Helper ping failed: \(error.localizedDescription, privacy: .public)")
+            await send(.pingFailed)
+        }
+    }
+
+    /// The one mutating recovery attempt. `SMAppService` refuses to re-register over an
+    /// existing record, so the unregister has to land first, and it needs a moment to.
+    private func retryRegistration() async {
+        logger.notice("Helper unreachable; attempting a single re-registration")
+        do {
+            try await helperClient.removeHelper()
+            try await Task.sleep(for: .seconds(1))
+            try await helperClient.installHelper()
+            await send(.retryFinished(error: nil))
+        } catch {
+            logger.error("Helper re-registration failed: \(error, privacy: .public)")
+            await send(.retryFinished(error: error.localizedDescription))
+        }
+    }
+
+    /// Read-only, so it can repeat for as long as the helper stays broken. This is what
+    /// lets the app notice a repair it cannot perform itself — the user toggling the
+    /// helper in Login Items — without needing a relaunch.
+    private func scheduleProbe(after delay: Duration) async {
+        let task = Task { [weak self] in
+            try? await Task.sleep(for: delay)
+            guard !Task.isCancelled, let self else { return }
+            await self.ping()
+        }
+        await state.replaceProbe(with: task)
+    }
+
+    private func showGuidance() async {
+        guard !suppressesGuidance else { return }
+        guard await !state.claimGuidance() else { return }
+
+        let health = await helperHealthClient.currentHealth()
+        await MainActor.run {
+            switch health {
+            case .degraded(.registeredButUnreachable), .degraded(.installFailed):
+                delegate?.showHelperIsNotResponding()
+            default:
+                delegate?.showHelperIsNotInstalled()
+            }
+        }
+    }
+
+    // MARK: - Existing: initial-mode watchdog
 
     func observerHelperConnection() {
         Task {
@@ -55,9 +183,10 @@ final class HelperConnectionManager: @unchecked Sendable {
                 .appChargingModeDidChage()
                 .debounce(for: .seconds(30))
                 .filter({ $0.mode == .initial }) {
-                let status = await helperClient.helperStatus()
-                guard status == .enabled else { continue }
-                try await userNotificationsClient.showUserNotification(
+                guard await helperHealthClient.currentHealth() == .healthy else { continue }
+                // Not `try`: a failed notification used to throw out of the enclosing Task
+                // and silently end this watchdog for the rest of the session.
+                try? await userNotificationsClient.showUserNotification(
                     title: "⚠️ BatFi can't read battery information",
                     body: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.",
                     identifier: "software.micropixels.BatFi.notifications.initial_mode",

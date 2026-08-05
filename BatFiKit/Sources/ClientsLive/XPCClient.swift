@@ -279,5 +279,9 @@ actor XPCClient {
 
     private func connectionDidInvalidate() {
         _connection = nil
+        // A fact for the health policy, not a verdict. Connections also die for reasons
+        // that have nothing to do with a wedged helper, so this only prompts a ping —
+        // nothing mutating happens until that ping fails twice.
+        NotificationCenter.default.post(name: HelperConnectionDidFailNotificationName, object: nil)
     }
 }

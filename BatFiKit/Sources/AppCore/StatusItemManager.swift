@@ -41,6 +41,7 @@ public protocol StatusItemManagerDelegate: AnyObject {
     func checkForUpdates()
     func openOnboarding()
     func openAutomationSettings()
+    func showHelperTroubleshooting()
 
     var chargingModeManager: ChargingModeManager { get }
 }
@@ -59,6 +60,11 @@ public final class StatusItemManager {
     private var powerModeTask: Task<Void, Never>?
     @Published
     private var lastPowerMode: PowerMode?
+
+    /// Mirrored into a published property so it can join the menu's `combineLatest` below,
+    /// which is already at its maximum arity.
+    @Published
+    private var helperHealth: HelperHealth = .unknown
     private var showHighPowerMode = false
     private let menuDelegate = MenuObserver.shared
     private let batteryInfoModel = BatteryInfoViewModel()
@@ -69,6 +75,7 @@ public final class StatusItemManager {
     @Dependency(\.defaults) private var defaults
     @Dependency(\.appChargingState) private var appChargingState
     @Dependency(\.helperClient) private var helperManager
+    @Dependency(\.helperHealthClient) private var helperHealthClient
     @Dependency(\.powerModeClient) private var powerModeClient
     @Dependency(\.suspendingClock) private var clock
 
@@ -104,9 +111,15 @@ public final class StatusItemManager {
                 self.showHighPowerMode = result.1
             }
         }
+        Task { [weak self] in
+            guard let self else { return }
+            for await health in helperHealthClient.observeHealth() {
+                self.helperHealth = health
+            }
+        }
         menuStateTask = Task { [weak self] in
             guard let self else { return }
-            for await ((state, showDebugMenu, showPowerModeOptions), (showChart, showPowerDiagram, showHighEnergyImpactProcesses), powerMode) in combineLatest(
+            for await ((state, showDebugMenu, showPowerModeOptions), (showChart, showPowerDiagram, showHighEnergyImpactProcesses), (powerMode, helperHealth)) in combineLatest(
                 combineLatest(
                     appChargingState.appChargingModeDidChage(),
                     defaults.observe(.showDebugMenu),
@@ -117,7 +130,10 @@ public final class StatusItemManager {
                     defaults.observe(.showPowerDiagram),
                     defaults.observe(.showHighEnergyImpactProcesses)
                 ),
-                self.$lastPowerMode.values.eraseToStream()
+                combineLatest(
+                    self.$lastPowerMode.values.eraseToStream(),
+                    self.$helperHealth.values.eraseToStream()
+                )
             ) {
                 updateMenu(
                     dependencies:
@@ -129,7 +145,8 @@ public final class StatusItemManager {
                             showDebugMenu: showDebugMenu,
                             lidOpened: await appChargingState.lidOpened() ?? false,
                             showPowerModeOptions: showPowerModeOptions,
-                            powerMode: powerMode
+                            powerMode: powerMode,
+                            helperHealth: helperHealth
                         )
                 )
             }
@@ -225,6 +242,16 @@ public final class StatusItemManager {
                             .modifier(MenuViewModifier())
                     }
             }
+            // Stays for as long as the helper is broken, which is what lets the modal be
+            // capped at one per launch without the failure becoming invisible.
+            if case .degraded = dependencies.helperHealth {
+                MenuItem(L10n.Menu.Label.helperNotResponding)
+                    .onSelect { [weak self] in
+                        self?.delegate?.showHelperTroubleshooting()
+                    }
+                SeparatorItem()
+            }
+
             MenuItem(L10n.Menu.Label.chargeToHundred)
                 .onSelect { [weak self] in
                     if tempChargingMode?.limit == 100 {
@@ -493,6 +520,7 @@ struct MenuDependencies {
     let lidOpened: Bool
     let showPowerModeOptions: Bool
     let powerMode: PowerMode?
+    let helperHealth: HelperHealth
 }
 
 private struct MenuViewModifier: ViewModifier {
