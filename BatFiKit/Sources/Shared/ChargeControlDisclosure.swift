@@ -496,8 +496,16 @@ public enum ChargeLimitRange {
     /// The lowest limit BatFi offers when the mechanism can express it.
     public static let lowest = 50
     /// The highest limit the slider offers. Unchanged by the backend: Apple's limit
-    /// accepts 90, and so do the SMC backends.
-    public static let highest = 90
+    /// accepts 100, and so do the SMC backends.
+    ///
+    /// Raised from 90, which predated the backends and was the reason a
+    /// `.systemChargeLimit` Mac — floored at 80 by Apple's limit — was left with a
+    /// three-stop slider. Apple's measured value list is (80, 85, 90, 95, 100), so 95 and
+    /// 100 were being withheld on the one backend that had the fewest choices to begin
+    /// with. 100 means "charge to full and hold there": `ChargingManager` inhibits once
+    /// the level reaches the limit, and its discharge arm is `level > limit`, which simply
+    /// never fires at 100.
+    public static let highest = 100
     /// The lowest value Apple's Manual Charge Limit accepts. Measured as (80, 85, 90, 95,
     /// 100); the helper still queries the real list before writing, and this is only what
     /// the slider offers.

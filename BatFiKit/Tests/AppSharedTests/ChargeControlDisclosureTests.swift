@@ -674,8 +674,11 @@ import Testing
         #expect(ChargeLimitRange.displayedLimit(configured: 55, for: .chte) == 55)
     }
 
+    /// Every value Apple's Manual Charge Limit was measured to accept, all of which the
+    /// slider now offers. 95 and 100 are the two the old 90% ceiling withheld — on the one
+    /// backend whose floor of 80 already left it the fewest choices of any Mac.
     @Test func aStoredLimitWithinRangeIsUntouched() {
-        for limit in [80, 85, 90] {
+        for limit in [80, 85, 90, 95, 100] {
             #expect(ChargeLimitRange.displayedLimit(configured: limit, for: .systemChargeLimit) == limit)
         }
     }
@@ -683,8 +686,15 @@ import Testing
     /// Both ends are clamped. The slider is the only writer of this default today, but a
     /// value from anywhere else must not push the knob off the track.
     @Test func aStoredLimitAboveTheCeilingIsClamped() {
-        #expect(ChargeLimitRange.displayedLimit(configured: 100, for: .systemChargeLimit) == 90)
-        #expect(ChargeLimitRange.displayedLimit(configured: 100, for: .chte) == 90)
+        #expect(ChargeLimitRange.displayedLimit(configured: 120, for: .systemChargeLimit) == 100)
+        #expect(ChargeLimitRange.displayedLimit(configured: 120, for: .chte) == 100)
+    }
+
+    /// The ceiling itself, pinned. 100 means "charge to full and hold there" rather than
+    /// "no limit": `ChargingManager` inhibits once the level reaches the limit, and its
+    /// discharge arm is `level > limit`, which cannot fire at 100.
+    @Test func theCeilingIsOneHundred() {
+        #expect(ChargeLimitRange.highest == 100)
     }
 
     // MARK: - Reading the helper's snapshot
