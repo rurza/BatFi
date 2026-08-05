@@ -59,6 +59,21 @@ public extension Defaults.Keys {
     static let temperatureSwitch = Key<Bool>("temperatureSwitch", default: true)
     static let turnOnSystemChargeLimitingWhenGoingToSleep = Key<Bool>("turnOnSystemChargeLimitingWhenGoingToSleep", default: false)
 
+    // What this Mac's charge mechanism could do the last time the helper was asked.
+    //
+    // Cached purely so the settings panes know it *synchronously, on their first render*.
+    // The controls these gate are hidden where the firmware cannot honour them, and
+    // `SettingsWindowController` sizes its window once from `fittingSize` at the moment a
+    // pane is installed — before any async fetch can answer. Deciding visibility from the
+    // fetch alone would draw the pane at full height, drop the controls a moment later and
+    // leave a blank gap the window can never close, on every single visit.
+    //
+    // Optimistic by default: a Mac that has never been asked shows every control, which is
+    // what BatFi has always done. The values are refreshed whenever diagnostics arrive, so
+    // a firmware change costs exactly one stale render before it settles.
+    static let lastKnownCanPauseCharging = Key<Bool>("lastKnownCanPauseCharging", default: true)
+    static let lastKnownForceDischargeAvailable = Key<Bool>("lastKnownForceDischargeAvailable", default: true)
+
     static let highEnergyImpactProcessesThreshold = Key<Int>("highEnergyImpactProcessesThreshold", default: 500)
     static let highEnergyImpactProcessesDuration = Key<TimeInterval>("highEnergyImpactProcessesDuration", default: 180)
     static let highEnergyImpactProcessesCapacity = Key<Int>("highEnergyImpactProcessesCapacity", default: 5)
