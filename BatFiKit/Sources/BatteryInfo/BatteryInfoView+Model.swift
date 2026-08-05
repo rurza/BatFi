@@ -17,6 +17,7 @@ import Shared
 public final class BatteryInfoViewModel: ObservableObject {
     @Dependency(\.powerSourceClient) private var powerSourceClient
     @Dependency(\.appChargingState) private var appChargingState
+    @Dependency(\.helperHealthClient) private var helperHealthClient
     @Dependency(\.defaults) private var defaults
     @Dependency(\.menuDelegate) private var menuDelegate
     @Dependency(\.energyStatsClient) private var energyStatsClient
@@ -83,12 +84,20 @@ public final class BatteryInfoViewModel: ObservableObject {
     private func observeChargingStateAndPowerSourceChanges() {
         chargingStateModeChanges = Task { [weak self] in
             guard let self else { return }
-            for await (mode, manageCharging) in combineLatest(
-                appChargingState.appChargingModeDidChage(),
-                defaults.observe(.manageCharging)
+            // Helper health joins the mode here because the mode alone cannot tell the
+            // truth about itself: a helper that macOS reports as installed but never
+            // launches leaves the mode pinned at `.initial`, or stale at whatever it was
+            // when the helper went away. `observeHealth()` replays the current value, so
+            // this combine still emits on the first mode change.
+            for await ((mode, manageCharging), helperHealth) in combineLatest(
+                combineLatest(
+                    appChargingState.appChargingModeDidChage(),
+                    defaults.observe(.manageCharging)
+                ),
+                helperHealthClient.observeHealth()
             ) {
                 if manageCharging {
-                    modeDescription = mode.stateDescription
+                    modeDescription = mode.stateDescription(helperHealth: helperHealth)
                 } else {
                     modeDescription = L10n.AppChargingMode.State.Title.disabled
                 }
