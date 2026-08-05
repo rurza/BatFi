@@ -97,24 +97,45 @@ struct GeneralView: View {
         }
     }
 
+    /// The two facts, in a card of their own — the same `GroupBackground` the Charging and
+    /// Hotkeys panes use. These are read-only reference material, not controls, so they
+    /// read as one block instead of two loose lines with the value stranded against the
+    /// window's right edge, which is what a full-width row and a `Spacer` gave.
+    ///
+    /// A `Grid` rather than stacked `HStack`s: it lines the values up in a column across
+    /// rows, and it sizes to its content, so the card is as wide as the facts it holds
+    /// rather than as wide as the pane.
     @ViewBuilder
     private var diagnosticsContent: some View {
         let l10n = L10n.Settings.Label.self
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(l10n.diagnosticsChargingControl)
-                Spacer(minLength: 20)
-                Text(chargingControlDescription)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.trailing)
+        GroupBackground {
+            Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 24, verticalSpacing: 10) {
+                diagnosticsRow(
+                    label: l10n.diagnosticsChargingControl,
+                    value: chargingControlDescription
+                )
+                // Unsized horizontally, or the divider proposes an infinite width and the
+                // card stretches to the full pane again.
+                Divider().gridCellUnsizedAxes(.horizontal)
+                diagnosticsRow(
+                    label: l10n.diagnosticsFirmware,
+                    value: diagnostics?.firmwareVersion ?? l10n.diagnosticsFirmwareUnknown
+                )
             }
-            HStack(alignment: .firstTextBaseline) {
-                Text(l10n.diagnosticsFirmware)
-                Spacer(minLength: 20)
-                Text(diagnostics?.firmwareVersion ?? l10n.diagnosticsFirmwareUnknown)
-                    .foregroundColor(.secondary)
-                    .textSelection(.enabled)
-            }
+            // Both values, not just the firmware string. The whole point of the card is
+            // that it can be selected and pasted into a bug report.
+            .textSelection(.enabled)
+            .padding()
+        }
+    }
+
+    private func diagnosticsRow(label: String, value: String) -> some View {
+        GridRow {
+            Text(label)
+            Text(value)
+                .foregroundColor(.secondary)
+                // A long localized value wraps inside the card instead of truncating.
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
