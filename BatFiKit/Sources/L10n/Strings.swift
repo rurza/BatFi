@@ -408,6 +408,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// Another copy of BatFi owns the helper
+                public static let foreignHelper = String(
+                    localized: "notifications.alert.title.foreign_helper",
+                    defaultValue: "Another copy of BatFi owns the helper",
+                    bundle: Bundle.module
+                )
+
                 /// Run BatFi on a MacBook
                 public static let notLaptop = String(
                     localized: "notifications.alert.title.not_laptop",
@@ -437,6 +444,35 @@ public enum L10n {
                     defaultValue: "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own.",
                     bundle: Bundle.module
                 )
+
+                /// macOS starts the helper belonging to the copy of BatFi at %@, not this one…
+                ///
+                /// The path is the *other* copy's `.app`, which is the only part of this the
+                /// user can act on. The two variants differ by one fact — whether that copy
+                /// is open — because the remedy differs with it: quitting an app is not the
+                /// same instruction as removing one.
+                public static func foreignHelperOtherCopyRunning(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.alert.informative_text.foreign_helper_other_copy_running",
+                            defaultValue: "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy — or delete it and keep just one — then reopen BatFi.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
+                /// macOS is starting the helper that belongs to another copy of BatFi at %@…
+                public static func foreignHelperOtherCopyInstalled(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.alert.informative_text.foreign_helper_other_copy_installed",
+                            defaultValue: "macOS is starting the helper that belongs to another copy of BatFi at %@, and BatFi could not take it over.\n\nDelete the copy you don't want, keep one, then reopen BatFi.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
 
                 /// The app won't work properly with it. \nDisable it by clicking the info icon next to the "Battery Health" in System Settings.
                 public static let optimizedChargingTurnedOn = String(
@@ -469,6 +505,13 @@ public enum L10n {
                     public static let close = String(
                         localized: "notifications.alert.button.label.close",
                         defaultValue: "Close",
+                        bundle: Bundle.module
+                    )
+
+                    /// Show in Finder
+                    public static let showInFinder = String(
+                        localized: "notifications.alert.button.label.show_in_finder",
+                        defaultValue: "Show in Finder",
                         bundle: Bundle.module
                     )
 

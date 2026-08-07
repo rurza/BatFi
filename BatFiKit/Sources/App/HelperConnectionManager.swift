@@ -18,6 +18,12 @@ protocol HelperConnectionManagerDelegate: AnyObject, Sendable {
     func showHelperIsNotInstalled()
     @MainActor
     func showHelperIsNotResponding()
+    /// - Parameter otherCopyIsRunningAt: the other copy's bundle path when it is open right
+    ///   now. This is what decides whether the user is asked to quit something or to delete
+    ///   it, and it is read at display time rather than when the conflict was found, because
+    ///   they may have closed it in between.
+    @MainActor
+    func showHelperBelongsToAnotherCopy(_ conflict: HelperOwnershipConflict, otherCopyIsRunningAt: String?)
 }
 
 final class HelperConnectionManager: @unchecked Sendable {
@@ -105,6 +111,10 @@ final class HelperConnectionManager: @unchecked Sendable {
         switch action {
         case .verifyWithPing:
             await ping()
+        case .verifyIdentity:
+            await send(.identityChecked(helperClient.helperOwnership()))
+        case let .takeOwnership(conflict):
+            await takeOwnership(resolving: conflict)
         case .installHelper:
             do {
                 try await helperClient.installHelper()
@@ -157,6 +167,12 @@ final class HelperConnectionManager: @unchecked Sendable {
     /// a register that failed may still have left the old record in place.
     private func retryRegistration() async {
         logger.notice("Helper unreachable; attempting re-registration to take ownership")
+        await send(.retryFinished(error: await reregister()))
+    }
+
+    /// Repoints the Background Task Management record at this bundle, and returns a
+    /// description of why it could not — nil on success.
+    private func reregister() async -> String? {
         var lastError: Error?
 
         for (attempt, delay) in Self.registrationBackoff.enumerated() {
@@ -167,8 +183,7 @@ final class HelperConnectionManager: @unchecked Sendable {
                 try await Task.sleep(for: delay)
                 try await helperClient.installHelper()
                 logger.notice("Helper re-registered on attempt \(attempt + 1, privacy: .public)")
-                await send(.retryFinished(error: nil))
-                return
+                return nil
             } catch {
                 lastError = error
                 logger.warning("Helper re-registration attempt \(attempt + 1, privacy: .public) failed: \(error, privacy: .public)")
@@ -178,7 +193,48 @@ final class HelperConnectionManager: @unchecked Sendable {
         // Out of attempts with the record still not ours. Say so with the last error, so the
         // guidance names what went wrong rather than guessing.
         logger.error("Helper re-registration failed after \(Self.registrationBackoff.count, privacy: .public) attempts")
-        await send(.retryFinished(error: lastError?.localizedDescription ?? "Registration did not complete"))
+        return lastError?.localizedDescription ?? "Registration did not complete"
+    }
+
+    /// Takes the daemon back from another copy of BatFi.
+    ///
+    /// The order matters more than it looks. The foreign helper is asked to quit *first*,
+    /// and not merely to be tidy: it is a root process actively driving the SMC, and one of
+    /// the things it may be holding is a firmware charge band, which is enforced by the
+    /// hardware and outlives every process that knows about it. Unregistering underneath a
+    /// live helper would leave that band armed with nothing left to release it. `quit`
+    /// closes the SMC connection and, through `ListenerDelegate`'s invalidation handler,
+    /// restores system defaults on the way out.
+    ///
+    /// `staleBinary` stops there. That case is our own path running a previous build —
+    /// after an in-place update — and launchd starts the current binary the next time the
+    /// mach service is looked up. Re-registering would cost the user a System Settings
+    /// approval to achieve exactly what the process exiting already did.
+    private func takeOwnership(resolving conflict: HelperOwnershipConflict) async {
+        logger.notice("Taking ownership of the helper from \(conflict.runningExecutablePath, privacy: .public)")
+
+        // Refused rather than attempted when the other copy is open, because a takeover it
+        // can undo is not a fix. Both copies would see the other's helper as foreign and
+        // trade the record between them; the policy bounds that to one round each, but the
+        // user still ends up wherever the last write landed. Naming the other copy is the
+        // only thing here that leads to a stable outcome.
+        if let other = await OtherRunningCopies.first() {
+            logger.error("Another copy of BatFi is running from \(other.path, privacy: .public); not competing for the helper")
+            await send(.takeoverFinished(error: "Another copy of BatFi is running from \(other.path)"))
+            return
+        }
+
+        // Best effort throughout: a helper that will not answer a quit is already the
+        // unreachable case, and the re-registration below is what fixes that too.
+        try? await helperClient.quitHelper()
+
+        guard conflict.kind != .staleBinary else {
+            logger.notice("Stale helper asked to quit; launchd will start the current build")
+            await send(.takeoverFinished(error: nil))
+            return
+        }
+
+        await send(.takeoverFinished(error: await reregister()))
     }
 
     /// Read-only, so it can repeat for as long as the helper stays broken. This is what
@@ -200,6 +256,8 @@ final class HelperConnectionManager: @unchecked Sendable {
         let health = await helperHealthClient.currentHealth()
         await MainActor.run {
             switch health {
+            case let .degraded(.foreignHelper(conflict)):
+                delegate?.showHelperBelongsToAnotherCopy(conflict, otherCopyIsRunningAt: OtherRunningCopies.first()?.path)
             case .degraded(.registeredButUnreachable), .degraded(.installFailed):
                 delegate?.showHelperIsNotResponding()
             default:

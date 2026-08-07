@@ -35,6 +35,11 @@ public enum HelperHealth: Sendable, Equatable {
         /// Registered and reported `.enabled`, but unreachable over XPC. The wedged case.
         case registeredButUnreachable
         case installFailed(String)
+        /// Reachable, correctly signed, and belonging to a *different* copy of the app.
+        /// The one degraded state that looks perfectly healthy from every other angle:
+        /// status is `.enabled`, pings succeed, and the helper doing the work is simply
+        /// not this app's. See `HelperOwnership`.
+        case foreignHelper(HelperOwnershipConflict)
     }
 
     public var isHealthy: Bool { self == .healthy }

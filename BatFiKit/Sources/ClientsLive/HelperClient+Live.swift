@@ -5,6 +5,7 @@
 //  Created by Adam on 16/05/2023.
 //
 
+import AppShared
 import Clients
 import Dependencies
 import Foundation
@@ -68,6 +69,38 @@ extension HelperClient: DependencyKey {
             },
             pingHelper: {
                 return try await XPCClient.shared.pingHelper()
+            },
+            helperOwnership: {
+                // Read once per call rather than cached: the app can be moved on disk while
+                // it runs, and a cached "expected path" would then accuse the correct helper.
+                let expectedURL = HelperCodeIdentityInspector.expectedHelperExecutableURL
+                let bundled = HelperCodeIdentityInspector.identity(ofFileAt: expectedURL)
+                do {
+                    let pid = try await XPCClient.shared.helperProcessIdentifier()
+                    let running = HelperCodeIdentityInspector.identity(
+                        ofProcessWithID: pid,
+                        satisfying: xpcEntitlement
+                    )
+                    let ownership = HelperOwnershipCheck.evaluate(
+                        running: running,
+                        expectedExecutablePath: expectedURL.path,
+                        expectedCDHash: bundled?.cdHash
+                    )
+                    switch ownership {
+                    case .ours:
+                        logger.notice("The running helper belongs to this copy of BatFi")
+                    case let .foreign(conflict):
+                        logger.error("The running helper is not ours (\(String(describing: conflict.kind), privacy: .public)). Running: \(conflict.runningExecutablePath, privacy: .public). Expected: \(conflict.expectedExecutablePath, privacy: .public)")
+                    case let .undetermined(reason):
+                        logger.warning("Helper ownership undetermined: \(reason, privacy: .public)")
+                    }
+                    return ownership
+                } catch {
+                    // Unreachable, not foreign. Saying so keeps the ownership recovery — which
+                    // costs the user an approval — off a failure the reachability path owns.
+                    logger.warning("Could not identify the helper: \(error.localizedDescription, privacy: .public)")
+                    return .undetermined(error.localizedDescription)
+                }
             }
         )
         return manager

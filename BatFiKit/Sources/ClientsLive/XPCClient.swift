@@ -231,6 +231,19 @@ actor XPCClient {
         }
     }
 
+    /// The process identifier of the helper currently on the other end.
+    ///
+    /// `NSXPCConnection` only learns the peer's pid once a message has crossed, so this
+    /// pings first when the number is not yet there — otherwise the very first identity
+    /// check after launch would read 0 and report no verdict, which is the case it most
+    /// needs to answer.
+    func helperProcessIdentifier() async throws -> pid_t {
+        let existing = connection().processIdentifier
+        if existing > 0 { return existing }
+        _ = try await pingHelper()
+        return connection().processIdentifier
+    }
+
     func quitHelper() async throws -> Bool {
         logger.debug("Quitting helper")
         return try await call(timeout: Self.pingTimeout) { service, continuation in

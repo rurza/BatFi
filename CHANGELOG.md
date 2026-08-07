@@ -25,6 +25,25 @@ All notable changes to BatFi are documented here. The format is based on
   version, and lists the features that mechanism does and doesn't support.
 
 ### Fixed
+- **BatFi now notices when the helper it is talking to belongs to a different copy of the
+  app, and takes it back.** Every copy of BatFi on a Mac registers the same background
+  helper, and macOS keys that registration to whichever copy asked first. A second
+  copy — one still in Downloads, one on a mounted disk image, a build in Xcode's Derived
+  Data — was told its installation had succeeded while macOS quietly kept running the other
+  copy's helper. Everything looked healthy, because the helper answering really was a
+  genuine BatFi helper; it just wasn't that copy's, so it could be an older build, and it
+  disappeared the moment the other copy was updated or deleted. BatFi now identifies the
+  helper process it is connected to, and if it is not the one this copy ships, it stops the
+  other one, reclaims the registration, and starts its own. If two copies of BatFi are open
+  at once — the one case BatFi cannot settle on its own, since each would take the helper
+  straight back — it now says which other copy is running and where to find it, instead of
+  competing with it. Onboarding no longer reports a successful installation on the strength
+  of another copy's helper either.
+- **A helper left running from a previous version after an in-place update is now
+  restarted.** Replacing BatFi on disk did not replace the helper already running in memory,
+  so an updated app could keep talking to the previous release's helper until the next
+  reboot. BatFi now detects this and asks that process to quit so macOS starts the current
+  one — no approval needed, since the registration was already correct.
 - **BatFi no longer gets stuck on "Initializing" with an empty battery reading.** A single
   missing value from the system's battery service — which happens when a macOS or firmware
   update renames or removes one — used to abort the entire battery read, leaving the menu bar

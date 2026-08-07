@@ -192,14 +192,58 @@ extension Onboarding {
                     return
                 }
                 Task {
+                    /// One unregister/register cycle, to claim a daemon record that another
+                    /// copy of BatFi is holding.
+                    ///
+                    /// Onboarding needs its own, rather than leaving this to
+                    /// `HelperConnectionManager`: guidance is suppressed while this window is
+                    /// up, so the recovery that runs later would be silent, and this screen
+                    /// would already have written `onboardingIsDone` on the strength of a
+                    /// helper belonging to somebody else.
+                    @MainActor
+                    func claimHelperFromOtherCopy() async {
+                        try? await helperManager.quitHelper()
+                        try? await helperManager.removeHelper()
+                        try? await Task.sleep(for: .seconds(1))
+                        try? await helperManager.installHelper()
+                    }
+
+                    // Explicit, because the compiler infers nested-function isolation from
+                    // what the body touches and the ownership check above is nonisolated;
+                    // without this the actor-isolated state below stops being reachable.
                     @MainActor
                     func observeHelperStatus(error: Error?) async {
                         var counter = 0
+                        var hasClaimedHelper = false
                         for await status in helperManager.observeHelperStatus() {
                             // `.enabled` only means a registration record exists. A record
                             // macOS can never spawn reads `.enabled` forever, so onboarding
                             // used to declare success over a helper that answered nothing.
                             if status == .enabled, (try? await helperManager.pingHelper()) == true {
+                                // Reachable is still not enough. Every copy of BatFi on the
+                                // disk registers the same daemon label, so a second copy
+                                // being onboarded gets `.enabled` and a perfectly good ping
+                                // from the *first* copy's helper — and would finish setup
+                                // believing it had installed one of its own.
+                                if case let .foreign(conflict) = await helperManager.helperOwnership() {
+                                    guard !hasClaimedHelper else {
+                                        // Claimed once and still not ours, which means the
+                                        // other copy is open and registering too. Onboarding
+                                        // cannot resolve that; saying so beats looping.
+                                        self.helperError = NSError(
+                                            domain: Constant.appBundleIdentifier,
+                                            code: 0,
+                                            userInfo: [NSLocalizedDescriptionKey: L10n.Notifications.Alert.InformativeText
+                                                .foreignHelperOtherCopyInstalled(conflict.owningAppPath ?? conflict.runningExecutablePath)]
+                                        )
+                                        counter += 1
+                                        continue
+                                    }
+                                    hasClaimedHelper = true
+                                    await claimHelperFromOtherCopy()
+                                    counter += 1
+                                    continue
+                                }
                                 self.helperError = nil
                                 // The first moment BatFi can ask, and it must be answered
                                 // before the pane that renders the floor appears — a slider

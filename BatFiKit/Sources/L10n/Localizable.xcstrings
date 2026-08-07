@@ -15932,6 +15932,273 @@
         }
       }
     },
+    "notifications.alert.informative_text.foreign_helper_other_copy_running" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jiná kopie BatFi je otevřená v %@ a macOS spouští její pomocný nástroj místo tohoto.\n\nUkončete tuto kopii – nebo ji smažte a ponechte jen jednu – a poté BatFi znovu otevřete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein anderes Exemplar von BatFi ist unter %@ geöffnet, und macOS startet dessen Helper statt diesen.\n\nBeende dieses Exemplar – oder lösche es und behalte nur eines – und öffne BatFi dann erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy — or delete it and keep just one — then reopen BatFi."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une autre copie de BatFi est ouverte à l'emplacement %@, et macOS lance son assistant plutôt que celui-ci.\n\nQuittez cette copie — ou supprimez-la pour n'en garder qu'une — puis rouvrez BatFi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un'altra copia di BatFi è aperta in %@ e macOS sta avviando il suo Helper anziché questo.\n\nChiudi quella copia — o eliminala e tienine solo una — poi riapri BatFi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "別のBatFiのコピーが %@ で開いており、macOSはこちらではなくそのヘルパーを実行しています。\n\nそのコピーを終了する（または削除して1つだけ残す）してから、BatFiを開き直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 있는 다른 BatFi 사본이 열려 있으며, macOS가 이 사본 대신 그 보조 프로그램을 실행하고 있습니다.\n\n해당 사본을 종료하거나 삭제해 하나만 남긴 뒤 BatFi를 다시 여세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een andere kopie van BatFi is geopend op %@, en macOS start het hulpprogramma daarvan in plaats van dit.\n\nStop die kopie — of verwijder hem en houd er één over — en open BatFi opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inna kopia BatFi jest otwarta w %@, a macOS uruchamia jej helper zamiast tego.\n\nZamknij tamtą kopię – albo usuń ją i zostaw tylko jedną – a następnie uruchom BatFi ponownie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outra cópia do BatFi está aberta em %@, e o macOS está executando o Helper dela em vez deste.\n\nEncerre aquela cópia — ou apague-a e mantenha apenas uma — e reabra o BatFi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Другая копия BatFi открыта по пути %@, и macOS запускает её помощник вместо этого.\n\nЗавершите ту копию — или удалите её, оставив только одну — и снова откройте BatFi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin başka bir kopyası %@ konumunda açık ve macOS bunun yerine onun yardımcısını çalıştırıyor.\n\nO kopyayı kapatın — ya da silip yalnızca birini tutun — sonra BatFi’yi yeniden açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Інша копія BatFi відкрита за шляхом %@, і macOS запускає її помічника замість цього.\n\nЗакрийте ту копію — або видаліть її, залишивши лише одну — і знову відкрийте BatFi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另一份 BatFi 副本正在 %@ 运行，macOS 启动的是它的 Helper，而不是这一份的。\n\n请退出那份副本（或将其删除，只保留一份），然后重新打开 BatFi。"
+          }
+        }
+      }
+    },
+    "notifications.alert.informative_text.foreign_helper_other_copy_installed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS spouští pomocný nástroj patřící jiné kopii BatFi v %@ a BatFi jej nedokázal převzít.\n\nSmažte kopii, kterou nechcete, ponechte jednu a poté BatFi znovu otevřete."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS startet den Helper, der zu einem anderen Exemplar von BatFi unter %@ gehört, und BatFi konnte ihn nicht übernehmen.\n\nLösche das Exemplar, das du nicht möchtest, behalte eines und öffne BatFi dann erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS is starting the helper that belongs to another copy of BatFi at %@, and BatFi could not take it over.\n\nDelete the copy you don't want, keep one, then reopen BatFi."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS lance l'assistant appartenant à une autre copie de BatFi située à %@, et BatFi n'a pas pu le reprendre.\n\nSupprimez la copie dont vous ne voulez pas, gardez-en une, puis rouvrez BatFi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS sta avviando l'Helper che appartiene a un'altra copia di BatFi in %@ e BatFi non è riuscito a subentrare.\n\nElimina la copia che non vuoi, tienine una, poi riapri BatFi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSは %@ にある別のBatFiのコピーに属するヘルパーを起動しており、BatFiはそれを引き継げませんでした。\n\n不要なコピーを削除して1つだけ残し、BatFiを開き直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 %@에 있는 다른 BatFi 사본의 보조 프로그램을 시작하고 있으며, BatFi가 이를 넘겨받지 못했습니다.\n\n원하지 않는 사본을 삭제하고 하나만 남긴 뒤 BatFi를 다시 여세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS start het hulpprogramma van een andere kopie van BatFi op %@, en BatFi kon het niet overnemen.\n\nVerwijder de kopie die je niet wilt, houd er één over en open BatFi opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS uruchamia helper należący do innej kopii BatFi w %@, a BatFi nie mógł go przejąć.\n\nUsuń kopię, której nie chcesz, zostaw jedną, a następnie uruchom BatFi ponownie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS está iniciando o Helper que pertence a outra cópia do BatFi em %@, e o BatFi não conseguiu assumi-lo.\n\nApague a cópia que você não quer, mantenha uma e reabra o BatFi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускает помощник, принадлежащий другой копии BatFi по пути %@, и BatFi не смог его перехватить.\n\nУдалите ненужную копию, оставьте одну и снова откройте BatFi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, %@ konumundaki başka bir BatFi kopyasına ait yardımcıyı başlatıyor ve BatFi bunu devralamadı.\n\nİstemediğiniz kopyayı silin, bir tane bırakın, sonra BatFi’yi yeniden açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS запускає помічника, який належить іншій копії BatFi за шляхом %@, і BatFi не зміг його перебрати.\n\nВидаліть непотрібну копію, залиште одну, а потім знову відкрийте BatFi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 正在启动位于 %@ 的另一份 BatFi 副本的 Helper，BatFi 无法接管它。\n\n请删除不需要的副本，只保留一份，然后重新打开 BatFi。"
+          }
+        }
+      }
+    },
+    "notifications.alert.button.label.show_in_finder" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit ve Finderu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Finder zeigen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show in Finder"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher dans le Finder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra nel Finder"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finderに表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder에서 보기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon in Finder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż w Finderze"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar no Finder"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать в Finder"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finder’da Göster"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показати у Finder"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在访达中显示"
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16373,6 +16640,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要重新打开 BatFi 设置，请点击其通知，选择 Launchpad 中的图标，或在 Finder 中双击图标。"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.foreign_helper" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj patří jiné kopii BatFi"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein anderes Exemplar von BatFi besitzt den Helper"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Another copy of BatFi owns the helper"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant appartient à une autre copie de BatFi"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper appartiene a un'altra copia di BatFi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーは別のBatFiのコピーに属しています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램이 다른 BatFi 사본에 속해 있습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma hoort bij een andere kopie van BatFi"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper należy do innej kopii BatFi"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Helper pertence a outra cópia do BatFi"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник принадлежит другой копии BatFi"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı, BatFi’nin başka bir kopyasına ait"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник належить іншій копії BatFi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper 属于另一份 BatFi 副本"
           }
         }
       }

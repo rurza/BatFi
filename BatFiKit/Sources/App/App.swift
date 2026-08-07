@@ -44,6 +44,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     @Dependency(\.dockIcon) private var dockIcon
     @Dependency(\.featureFlags) private var featureFlags
     @Dependency(\.helperClient) private var helperClient
+    @Dependency(\.helperHealthClient) private var helperHealthClient
     @Dependency(\.suspendingClock) private var clock
     @Dependency(\.systemVersionClient) private var systemVersion
     @Dependency(\.updater) private var updater
@@ -135,9 +136,20 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
 
     /// Reached from the status item's warning row, so it is always available even after the
     /// once-per-launch modal has been spent.
+    ///
+    /// Reads the current health rather than always showing the not-responding alert: the
+    /// two failures need opposite instructions, and this is the one entry point the user
+    /// chooses deliberately, so getting it wrong here sends someone who asked for help to
+    /// toggle a Login Items switch that is already correct.
     public func showHelperTroubleshooting() {
         activateApp()
-        showHelperIsNotResponding()
+        Task { @MainActor in
+            if case let .degraded(.foreignHelper(conflict)) = await helperHealthClient.currentHealth() {
+                showHelperBelongsToAnotherCopy(conflict, otherCopyIsRunningAt: OtherRunningCopies.first()?.path)
+            } else {
+                showHelperIsNotResponding()
+            }
+        }
     }
 
     public func quitApp() {
@@ -365,6 +377,30 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.close)
         if alert.runModal() == .alertFirstButtonReturn {
             NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
+        }
+    }
+
+    /// The alert for a helper that works perfectly — for somebody else.
+    ///
+    /// Kept apart from both other helper alerts because the instruction is the opposite of
+    /// theirs. Nothing here is fixed in Login Items: the registration is present, enabled
+    /// and correct, and toggling it re-enables the *same* record, still naming the other
+    /// bundle. What the user has is two copies of BatFi, and what resolves it is having one.
+    func showHelperBelongsToAnotherCopy(_ conflict: HelperOwnershipConflict, otherCopyIsRunningAt: String?) {
+        let otherPath = otherCopyIsRunningAt ?? conflict.owningAppPath ?? conflict.runningExecutablePath
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = L10n.Notifications.Alert.Title.foreignHelper
+        alert.informativeText = otherCopyIsRunningAt != nil
+            ? L10n.Notifications.Alert.InformativeText.foreignHelperOtherCopyRunning(otherPath)
+            : L10n.Notifications.Alert.InformativeText.foreignHelperOtherCopyInstalled(otherPath)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.showInFinder)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.close)
+        if alert.runModal() == .alertFirstButtonReturn {
+            // Selects the other copy rather than opening it: the user has to be able to see
+            // *which* BatFi this is talking about before deciding what to do with it, and
+            // the paths involved are usually two that look identical in a menu bar.
+            NSWorkspace.shared.activateFileViewerSelecting([URL(fileURLWithPath: otherPath)])
         }
     }
 
