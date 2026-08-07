@@ -21,7 +21,9 @@ final class PowerInfoViewModel: ObservableObject {
     private var menuChanges: Task<Void, Never>?
 
     init() {
-        print("🟢 PowerInfoViewModel init")
+        #if DEBUG
+            print("🟢 PowerInfoViewModel init")
+        #endif
         menuChanges = Task { [weak self] in
             guard let menuDelegate = self?.menuDelegate else { return }
             for await menuIsVisible in await menuDelegate.observeMenu() {
@@ -53,6 +55,8 @@ final class PowerInfoViewModel: ObservableObject {
     deinit {
         powerInfoChanges?.cancel()
         menuChanges?.cancel()
-        print("🔴 PowerInfoViewModel deinit")
+        #if DEBUG
+            print("🔴 PowerInfoViewModel deinit")
+        #endif
     }
 }

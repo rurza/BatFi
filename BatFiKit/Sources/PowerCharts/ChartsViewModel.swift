@@ -36,7 +36,9 @@ final class ChartsViewModel: ObservableObject {
     var toDate: Date { date.now }
 
     init() {
-        print("🟢 ChartsViewModel init")
+        #if DEBUG
+            print("🟢 ChartsViewModel init")
+        #endif
         setUpObserving()
     }
 
@@ -53,7 +55,9 @@ final class ChartsViewModel: ObservableObject {
 
     deinit {
         observingTask?.cancel()
-        print("🔴 ChartsViewModel deinit")
+        #if DEBUG
+            print("🔴 ChartsViewModel deinit")
+        #endif
     }
 
     func fetchPowerStatePoints() async {

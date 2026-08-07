@@ -202,7 +202,9 @@ public final class StatusItemManager {
 
     @MainActor
     private func updateMenu(dependencies: MenuDependencies) {
-        print("📊 updateMenu — memory: \(Self.memoryFootprint())")
+        #if DEBUG
+            print("📊 updateMenu — memory: \(Self.memoryFootprint())")
+        #endif
 
         // macOS 26 workaround: replaceItems detaches the cached MenuContentHostingView
         // from the menu's display window. While the menu is open the SwiftUI render
@@ -594,14 +596,18 @@ private class MenuContentHostingView<Content: View>: NSHostingView<Content> {
 
     required init(rootView: Content) {
         super.init(rootView: rootView)
-        print("🟢 MenuContentHostingView init")
+        #if DEBUG
+            print("🟢 MenuContentHostingView init")
+        #endif
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { fatalError() }
 
     deinit {
-        print("🔴 MenuContentHostingView deinit")
+        #if DEBUG
+            print("🔴 MenuContentHostingView deinit")
+        #endif
     }
 
     override var intrinsicContentSize: NSSize {

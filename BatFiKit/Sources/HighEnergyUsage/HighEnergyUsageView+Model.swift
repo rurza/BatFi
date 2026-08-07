@@ -24,7 +24,9 @@ final class HighEnergyUsageViewModel: ObservableObject {
     private var defaultsTask: Task<Void, Never>?
 
     init() {
-        print("🟢 HighEnergyUsageViewModel init")
+        #if DEBUG
+            print("🟢 HighEnergyUsageViewModel init")
+        #endif
     }
 
     func startObserving() {
@@ -65,7 +67,9 @@ final class HighEnergyUsageViewModel: ObservableObject {
     deinit {
         changesTask?.cancel()
         defaultsTask?.cancel()
-        print("🔴 HighEnergyUsageViewModel deinit")
+        #if DEBUG
+            print("🔴 HighEnergyUsageViewModel deinit")
+        #endif
     }
 }
 
