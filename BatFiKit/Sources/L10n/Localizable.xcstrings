@@ -1250,10 +1250,88 @@
     "app_charging_mode.state.title.helper_not_running" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj neběží"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper läuft nicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Helper not running"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant ne fonctionne pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper non in esecuzione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーが実行されていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램이 실행 중이 아님"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hulpprogramma draait niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper nie działa"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper não está em execução"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник не запущен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı çalışmıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник не запущено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper未运行"
           }
         }
       }
@@ -12920,10 +12998,88 @@
     "menu.label.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Pomocný nástroj neodpovídá"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Helper antwortet nicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "⚠️ Helper isn't responding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ L'assistant ne répond pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ L'Helper non risponde"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ ヘルパーが応答していません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ 보조 프로그램이 응답하지 않음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Hulpprogramma reageert niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Helper nie odpowiada"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ O Helper não está respondendo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Помощник не отвечает"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Yardımcı yanıt vermiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Помічник не відповідає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ Helper无响应"
           }
         }
       }
@@ -12931,10 +13087,88 @@
     "menu.label.helper_not_responding_disclaimer" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omezování nabíjení je vypnuté. Kliknutím zobrazíte nápovědu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Ladebegrenzung ist deaktiviert. Klicken für Hilfe."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Charge limiting is off. Click for help."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limitation de charge est désactivée. Cliquez pour obtenir de l'aide."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limitazione della ricarica è disattivata. Fai clic per assistenza."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電上限は無効です。クリックしてヘルプを表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제한이 꺼져 있습니다. 도움말을 보려면 클릭하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oplaadlimiet is uitgeschakeld. Klik voor hulp."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit ładowania jest wyłączony. Kliknij, aby uzyskać pomoc."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A limitação de carregamento está desativada. Clique para obter ajuda."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ограничение зарядки выключено. Нажмите, чтобы получить справку."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj sınırlama kapalı. Yardım için tıklayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обмеження заряджання вимкнено. Натисніть, щоб отримати довідку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电限制已关闭。点按获取帮助。"
           }
         }
       }
@@ -14455,10 +14689,88 @@
     "notifications.alert.button.label.close" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zavřít"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "Close"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "閉じる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "닫기"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamknij"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapat"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрити"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭"
           }
         }
       }
@@ -14733,10 +15045,88 @@
     "notifications.alert.informative_text.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj je nainstalovaný, ale macOS jej nespouští, takže omezování nabíjení neběží.\n\nOtevřete Nastavení systému → Obecné → Aktivace položek a rozšíření při přihlášení, vypněte BatFi a znovu jej zapněte. BatFi se sám znovu připojí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Helper ist installiert, aber macOS startet ihn nicht, daher läuft die Ladebegrenzung nicht.\n\nÖffne Systemeinstellungen → Allgemein → Anmeldeobjekte, schalte BatFi aus und wieder ein. BatFi stellt die Verbindung von selbst wieder her."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant est installé, mais macOS ne le démarre pas, la limitation de charge n'est donc pas active.\n\nOuvrez Réglages Système → Général → Ouverture, désactivez BatFi puis réactivez-le. BatFi se reconnectera de lui-même."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper è installato, ma macOS non lo avvia, quindi la limitazione della ricarica non è attiva.\n\nApri Impostazioni di Sistema → Generale → Elementi di login, disattiva BatFi e poi riattivalo. BatFi si riconnetterà da solo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーはインストールされていますが、macOSが起動していないため、充電上限が機能していません。\n\nシステム設定 → 一般 → ログイン項目を開き、BatFiを一度オフにしてから再度オンにしてください。BatFiは自動的に再接続します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램이 설치되어 있지만 macOS가 이를 시작하지 않아 충전 제한이 작동하지 않습니다.\n\n시스템 설정 → 일반 → 로그인 항목을 열고 BatFi를 껐다가 다시 켜세요. BatFi가 자동으로 다시 연결됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma is geïnstalleerd, maar macOS start het niet, waardoor het oplaadlimiet niet werkt.\n\nOpen Systeeminstellingen → Algemeen → Inlogonderdelen, schakel BatFi uit en weer in. BatFi maakt vanzelf opnieuw verbinding."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper jest zainstalowany, ale macOS go nie uruchamia, więc limitowanie ładowania nie działa.\n\nOtwórz Ustawienia systemowe → Ogólne → Logowanie, wyłącz BatFi i włącz go ponownie. BatFi połączy się sam."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Helper está instalado, mas o macOS não o está iniciando, então a limitação de carregamento não está funcionando.\n\nAbra Ajustes do Sistema → Geral → Itens de Início, desligue o BatFi e ligue-o novamente. O BatFi voltará a se conectar sozinho."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник установлен, но macOS не запускает его, поэтому ограничение зарядки не работает.\n\nОткройте Системные настройки → Основные → Элементы входа, выключите BatFi и снова включите. BatFi подключится самостоятельно."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcı yüklü ancak macOS onu başlatmıyor, bu yüzden şarj sınırlama çalışmıyor.\n\nSistem Ayarları → Genel → Oturum Açma Öğeleri’ni açın, BatFi’yi kapatıp yeniden açın. BatFi kendiliğinden yeniden bağlanacaktır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник встановлено, але macOS не запускає його, тому обмеження заряджання не працює.\n\nВідкрийте Системні параметри → Загальні → Елементи входу, вимкніть BatFi і знову увімкніть. BatFi під’єднається самостійно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper已安装，但macOS没有启动它，因此充电限制未在运行。\n\n请打开“系统设置”→“通用”→“登录项”，将BatFi关闭后再重新打开。BatFi会自行重新连接。"
           }
         }
       }
@@ -15011,10 +15401,88 @@
     "notifications.alert.title.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj aplikace BatFi neodpovídá"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Helper von BatFi antwortet nicht"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "BatFi's helper isn't responding"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant de BatFi ne répond pas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper di BatFi non risponde"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiのヘルパーが応答していません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 보조 프로그램이 응답하지 않습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi's hulpprogramma reageert niet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper BatFi nie odpowiada"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Helper do BatFi não está respondendo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник BatFi не отвечает"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin yardımcısı yanıt vermiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник BatFi не відповідає"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi的Helper无响应"
           }
         }
       }
@@ -22854,10 +23322,88 @@
     "settings.label.charge_control_help_button_accessibility" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O nabíjení na tomto Macu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Über das Laden auf diesem Mac"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "About charging on this Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos de la charge sur ce Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni sulla ricarica su questo Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacでの充電について"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 충전에 관하여"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Over opladen op deze Mac"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O ładowaniu na tym Macu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre o carregamento neste Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О зарядке на этом Mac"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’te şarj etme hakkında"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Про заряджання на цьому Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于这台Mac的充电"
           }
         }
       }
@@ -22865,10 +23411,88 @@
     "settings.label.charge_control_help_heading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak na tomto Macu funguje nabíjení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So funktioniert das Laden auf diesem Mac"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "How charging works on this Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment fonctionne la charge sur ce Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come funziona la ricarica su questo Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacでの充電の仕組み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서 충전이 작동하는 방식"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe opladen werkt op deze Mac"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak działa ładowanie na tym Macu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como funciona o carregamento neste Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как работает зарядка на этом Mac"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’te şarj etme nasıl çalışır"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Як працює заряджання на цьому Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac的充电工作方式"
           }
         }
       }
@@ -23054,10 +23678,88 @@
     "settings.label.diagnostics_charging_control" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Řízení nabíjení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ladesteuerung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Charging control"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrôle de la charge"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo della ricarica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電制御"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전 제어"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oplaadregeling"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontrola ładowania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controle de carregamento"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Управление зарядкой"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj denetimi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Керування заряджанням"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充电控制"
           }
         }
       }
@@ -23065,10 +23767,88 @@
     "settings.label.diagnostics_charging_control_active" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivní"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiv"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Active"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actif"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attivo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動作中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작동 중"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywna"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkin"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активне"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已启用"
           }
         }
       }
@@ -23076,10 +23856,88 @@
     "settings.label.diagnostics_charging_control_idle" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dostupné, nepoužívá se"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verfügbar, nicht in Verwendung"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Available, not in use"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponible, non utilisé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponibile, non in uso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利用可能（未使用）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 가능, 사용 중 아님"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beschikbaar, niet in gebruik"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dostępna, nieużywana"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disponível, sem uso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступно, не используется"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanılabilir, kullanımda değil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступне, не використовується"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用，未在使用"
           }
         }
       }
@@ -23087,10 +23945,88 @@
     "settings.label.diagnostics_charging_control_system_charge_limit" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivní (přes Limit nabíjení v macOS)"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiv (über macOS-Ladelimit)"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Active (via macOS Charge Limit)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actif (via la limite de charge de macOS)"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attivo (tramite il limite di ricarica di macOS)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動作中（macOSの充電上限を使用）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작동 중(macOS 충전 제한 사용)"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actief (via macOS-oplaadlimiet)"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktywna (przez limit ładowania macOS)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativo (via Limite de Carga do macOS)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активно (через лимит заряда macOS)"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etkin (macOS Şarj Sınırı ile)"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Активне (через ліміт заряду macOS)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已启用（通过macOS充电限制）"
           }
         }
       }
@@ -23098,10 +24034,88 @@
     "settings.label.diagnostics_charging_control_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Není dostupné"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht verfügbar"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not available"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponibile"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利用できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용 불가"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet beschikbaar"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedostępna"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não disponível"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanılamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступне"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不可用"
           }
         }
       }
@@ -23109,10 +24123,88 @@
     "settings.label.diagnostics_charging_control_unknown" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neznámé"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inconnu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sconosciuto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onbekend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieznana"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconhecido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Невідомо"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
           }
         }
       }
@@ -23120,10 +24212,88 @@
     "settings.label.diagnostics_charging_control_unsupported_explanation" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi nemůže na tomto Macu řídit nabíjení — jeho firmware to nepodporuje."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi kann das Laden auf diesem Mac nicht steuern — die Firmware unterstützt das nicht."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi ne peut pas contrôler la charge sur ce Mac — son micrologiciel ne le permet pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi non può controllare la ricarica su questo Mac — il suo firmware non lo supporta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファームウェアが対応していないため、BatFiはこのMacの充電を制御できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서는 펌웨어가 지원하지 않아 BatFi가 충전을 제어할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi kan het opladen op deze Mac niet regelen — de firmware ondersteunt dat niet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi nie może kontrolować ładowania na tym Macu — jego firmware tego nie obsługuje."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O BatFi não consegue controlar o carregamento neste Mac — o firmware dele não oferece suporte a isso."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi не может управлять зарядкой на этом Mac — его прошивка это не поддерживает."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi bu Mac’te şarj etmeyi denetleyemiyor — donanım yazılımı bunu desteklemiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi не може керувати заряджанням на цьому Mac — його прошивка цього не підтримує."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi无法控制这台Mac的充电——其固件不支持。"
           }
         }
       }
@@ -23131,10 +24301,88 @@
     "settings.label.diagnostics_firmware" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Firmware"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Micrologiciel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファームウェア"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "펌웨어"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прошивка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donanım yazılımı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прошивка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固件"
           }
         }
       }
@@ -23142,10 +24390,88 @@
     "settings.label.diagnostics_firmware_unknown" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neznámý"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inconnu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sconosciuto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알 수 없음"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onbekend"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieznany"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconhecido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестно"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Невідомо"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知"
           }
         }
       }
@@ -23153,10 +24479,88 @@
     "settings.label.diagnostics_system_charge_limit_conflict" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vlastní Limit nabíjení vašeho Macu v Nastavení systému › Baterie je nastaven na %@. Může zastavit nabíjení dřív, než se dosáhne limitu BatFi. Nastavte jej tam na 100 %%, aby vše řídil pouze BatFi."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das eigene Ladelimit deines Macs in den Systemeinstellungen › Batterie ist auf %@ eingestellt. Es kann das Laden stoppen, bevor das Limit von BatFi erreicht ist. Stelle es dort auf 100%%, damit nur BatFi die Kontrolle hat."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limite de charge propre à votre Mac, dans Réglages Système › Batterie, est fixée à %@. Elle peut arrêter la charge avant que la limite de BatFi ne soit atteinte. Réglez-la sur 100%% afin que BatFi soit le seul à contrôler la charge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il limite di ricarica del tuo Mac, in Impostazioni di Sistema › Batteria, è impostato a %@. Può interrompere la ricarica prima che venga raggiunto il limite di BatFi. Impostalo al 100%% lì, così BatFi sarà l'unico a gestire la ricarica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム設定 › バッテリーにあるMac自体の充電上限が%@に設定されています。この設定により、BatFiの上限に達する前に充電が停止することがあります。BatFiだけが制御するように、そちらは100%%に設定してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 › 배터리에 있는 Mac 자체의 충전 제한이 %@로 설정되어 있습니다. 이 때문에 BatFi의 한도에 도달하기 전에 충전이 멈출 수 있습니다. BatFi만 제어하도록 그곳의 값을 100%%로 설정하세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het eigen oplaadlimiet van je Mac, in Systeeminstellingen › Batterij, staat op %@. Dit kan het opladen stoppen voordat de limiet van BatFi is bereikt. Stel het daar in op 100%% zodat alleen BatFi de controle heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Własny limit ładowania Twojego Maca, w Ustawieniach systemowych › Bateria, jest ustawiony na %@. Może zatrzymać ładowanie, zanim zostanie osiągnięty limit BatFi. Ustaw tam 100%%, aby wszystkim sterował wyłącznie BatFi."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Limite de Carga do próprio Mac, em Ajustes do Sistema › Bateria, está definido para %@. Ele pode interromper o carregamento antes que o limite do BatFi seja atingido. Defina-o como 100%% lá, para que o BatFi seja o único no controle."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Собственный лимит заряда вашего Mac в Системных настройках › Аккумулятор установлен на %@. Он может остановить зарядку раньше, чем будет достигнут лимит BatFi. Установите там 100%%, чтобы всем управлял только BatFi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac’inizin Sistem Ayarları › Pil bölümündeki kendi Şarj Sınırı %@ olarak ayarlanmış. Bu, BatFi’nin sınırına ulaşılmadan şarjı durdurabilir. Denetimin yalnızca BatFi’de olması için orada %%100 olarak ayarlayın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Власний ліміт заряду вашого Mac у Системних параметрах › Акумулятор встановлено на %@. Він може зупинити заряджання ще до досягнення ліміту BatFi. Встановіть там 100%%, щоб усім керував лише BatFi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac在“系统设置 › 电池”中自带的充电限制被设置为%@。它可能在达到BatFi的限制之前就停止充电。请在那里将其设为100%%，以便仅由BatFi控制充电。"
           }
         }
       }
@@ -23164,10 +24568,88 @@
     "settings.label.firmware_range_battery_may_dip_below_limit" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baterie může klesnout až o %@ pod limit, než se nabíjení znovu spustí. Tento pokles je způsob, jakým firmware limit udržuje — nejde o závadu."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Akku kann bis zu %@ unter das Limit fallen, bevor das Laden wieder beginnt. Dieses Absinken ist die Art, wie die Firmware das Limit hält — es ist kein Fehler."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre batterie peut descendre jusqu'à %@ en dessous de la limite avant que la charge ne reprenne. Cette baisse correspond à la façon dont le micrologiciel maintient la limite — ce n'est pas un défaut."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La batteria può scendere fino a %@ sotto il limite prima che la ricarica riprenda. Questo calo è il modo in cui il firmware mantiene il limite — non è un difetto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "充電が再開されるまでに、バッテリーは上限から最大%@まで下がることがあります。この低下はファームウェアが上限を維持する仕組みによるもので、不具合ではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "충전이 다시 시작되기 전까지 배터리가 한도보다 최대 %@까지 내려갈 수 있습니다. 이러한 하락은 펌웨어가 한도를 유지하는 방식이며 결함이 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je batterij kan tot %@ onder de limiet zakken voordat het opladen weer begint. Die daling is de manier waarop de firmware de limiet aanhoudt — het is geen storing."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bateria może spaść nawet o %@ poniżej limitu, zanim ładowanie znów się rozpocznie. Ten spadek to sposób, w jaki firmware utrzymuje limit — to nie jest usterka."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua bateria pode cair até %@ abaixo do limite antes que o carregamento recomece. Essa queda é a forma como o firmware mantém o limite — não é uma falha."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд аккумулятора может опуститься на %@ ниже лимита, прежде чем зарядка возобновится. Такое снижение — это способ, которым прошивка удерживает лимит, а не неисправность."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj yeniden başlamadan önce piliniz sınırın %@ altına kadar düşebilir. Bu düşüş, donanım yazılımının sınırı koruma biçimidir — bir arıza değildir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заряд акумулятора може впасти на %@ нижче ліміту, перш ніж заряджання відновиться. Таке просідання — це спосіб, у який прошивка утримує ліміт, а не несправність."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在重新开始充电之前，电量最多可能比限制值低%@。这种回落是固件维持限制的方式，并非故障。"
           }
         }
       }
@@ -23175,10 +24657,88 @@
     "settings.label.firmware_range_cannot_pause_charging" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš limit platí i během spánku Macu, protože jej vynucuje firmware, takže BatFi nemá co pozastavovat. Nastavení pro pozastavení při uspání a pro zastavení při zahřátí baterie se na tomto Macu nezobrazují, protože nabíjení je zde drženo na vašem limitu, nikoli zastavováno na vyžádání."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Limit bleibt auch im Ruhezustand des Macs bestehen, durchgesetzt von der Firmware, daher gibt es für BatFi nichts zu pausieren. Die Einstellungen zum Pausieren im Ruhezustand und zum Stoppen bei zu warmem Akku werden auf diesem Mac nicht angezeigt, weil das Laden hier auf deinem Limit gehalten und nicht auf Anforderung gestoppt wird."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your limit keeps holding while the Mac is asleep, enforced by its firmware, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at your limit rather than stopped on request."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre limite reste maintenue lorsque le Mac est en veille, car elle est appliquée par son micrologiciel : BatFi n'a donc rien à mettre en pause. Les réglages de mise en pause en veille et d'arrêt en cas de surchauffe de la batterie ne sont pas affichés sur ce Mac, car la charge y est maintenue à votre limite plutôt qu'arrêtée sur demande."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo limite resta attivo anche mentre il Mac è in standby, perché è applicato dal firmware, quindi BatFi non ha nulla da mettere in pausa. Le impostazioni per la pausa durante lo standby e per l'interruzione al surriscaldamento della batteria non vengono mostrate su questo Mac, perché qui la ricarica viene mantenuta al tuo limite anziché interrotta su richiesta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macがスリープ中も、ファームウェアによって上限が維持されるため、BatFiが一時停止するものはありません。このMacでは、充電は要求に応じて停止されるのではなく上限で維持されるため、スリープ時の充電一時停止やバッテリーが熱くなったときの充電停止の設定は表示されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 잠자기 상태일 때도 펌웨어가 한도를 계속 유지하므로 BatFi가 중단할 것이 없습니다. 이 Mac에서는 충전이 요청에 따라 멈추는 대신 설정한 한도에서 유지되므로, 잠자기 시 충전 중단 및 배터리가 뜨거울 때 충전 중단 설정은 표시되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je limiet blijft gelden terwijl de Mac in sluimerstand staat, afgedwongen door de firmware, dus er is voor BatFi niets te pauzeren. De instellingen voor pauzeren bij sluimerstand en voor stoppen als de batterij te heet wordt, worden op deze Mac niet getoond, omdat het opladen hier op jouw limiet wordt gehouden in plaats van op verzoek gestopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój limit obowiązuje także wtedy, gdy Mac śpi, ponieważ wymusza go firmware, więc BatFi nie ma czego wstrzymywać. Ustawienia wstrzymywania ładowania przy usypianiu i przerywania go przy gorącej baterii nie są pokazywane na tym Macu, ponieważ ładowanie jest tu utrzymywane na poziomie limitu, a nie zatrzymywane na żądanie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu limite continua sendo mantido enquanto o Mac está em suspensão, aplicado pelo firmware, portanto não há nada para o BatFi pausar. Os ajustes para pausar na suspensão e para interromper quando a bateria esquenta não são exibidos neste Mac, porque aqui o carregamento é mantido no seu limite em vez de ser interrompido sob demanda."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш лимит действует и когда Mac спит, так как его обеспечивает прошивка, поэтому BatFi нечего приостанавливать. Настройки приостановки зарядки при переходе в сон и её остановки при нагреве аккумулятора не показываются на этом Mac, потому что зарядка здесь удерживается на вашем лимите, а не останавливается по запросу."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sınırınız, donanım yazılımı tarafından uygulandığı için Mac uyku modundayken de geçerli kalır; bu yüzden BatFi’nin duraklatacağı bir şey yoktur. Uyku modunda duraklatma ve pil ısındığında durdurma ayarları bu Mac’te gösterilmez, çünkü burada şarj istek üzerine durdurulmak yerine sizin sınırınızda tutulur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш ліміт діє й тоді, коли Mac спить, бо його забезпечує прошивка, тож BatFi нічого призупиняти. Параметри призупинення заряджання під час сну та зупинки при нагріванні акумулятора не показуються на цьому Mac, оскільки заряджання тут утримується на вашому ліміті, а не зупиняється на запит."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac睡眠时限制仍由固件持续维持，因此BatFi没有可暂停的内容。这台Mac不会显示睡眠时暂停充电和电池过热时停止充电的设置，因为这里的充电是保持在你设定的限制值，而不是按请求停止。"
           }
         }
       }
@@ -23186,10 +24746,88 @@
     "settings.label.firmware_range_charging_status_is_inferred" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Během tohoto poklesu může BatFi v řádku nabídek i v oznámeních stále zobrazovat Mac jako nabíjející se. Firmware nehlásí, kdy limit drží, takže BatFi stav odvozuje z úrovně nabití baterie — samotný limit je i tak dodržován přesně."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Während dieses Absinkens zeigt BatFi deinen Mac in der Menüleiste und in den Mitteilungen möglicherweise weiterhin als ladend an. Die Firmware meldet nicht, wann sie das Limit hält, daher leitet BatFi den Status aus dem Akkustand ab — das Limit selbst wird weiterhin exakt eingehalten."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendant cette baisse, BatFi peut continuer d'indiquer que votre Mac est en charge, dans la barre des menus et dans ses notifications. Le micrologiciel ne signale pas lorsqu'il maintient la limite, BatFi déduit donc l'état à partir du niveau de la batterie — la limite elle-même reste appliquée avec précision."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durante questo calo BatFi potrebbe continuare a mostrare il Mac come in carica, nella barra dei menu e nelle sue notifiche. Il firmware non segnala quando sta mantenendo il limite, quindi BatFi deduce lo stato dal livello della batteria — il limite stesso viene comunque applicato con precisione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この低下の間、BatFiはメニューバーや通知でMacを充電中と表示することがあります。ファームウェアは上限を維持中かどうかを報告しないため、BatFiはバッテリー残量から状態を推測しています。上限そのものは正確に適用されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 하락 구간 동안 BatFi가 메뉴 막대와 알림에서 Mac을 충전 중으로 표시할 수 있습니다. 펌웨어는 한도를 유지 중인지 알려주지 않기 때문에 BatFi가 배터리 잔량으로 상태를 추정합니다. 한도 자체는 정확하게 적용됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tijdens die daling kan BatFi je Mac nog steeds als opladend tonen, in de menubalk en in de meldingen. De firmware meldt niet wanneer ze de limiet aanhoudt, dus BatFi leidt de status af uit het batterijniveau — de limiet zelf wordt nog steeds exact aangehouden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podczas tego spadku BatFi może nadal pokazywać Maca jako ładującego się — na pasku menu i w powiadomieniach. Firmware nie informuje, kiedy utrzymuje limit, więc BatFi wnioskuje status z poziomu naładowania baterii — sam limit jest nadal egzekwowany dokładnie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durante essa queda, o BatFi pode continuar mostrando o Mac como carregando, na barra de menus e em suas notificações. O firmware não informa quando está mantendo o limite, então o BatFi deduz o status a partir do nível da bateria — o limite em si continua sendo aplicado com exatidão."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Во время такого снижения BatFi может по-прежнему показывать Mac как заряжающийся — в строке меню и в уведомлениях. Прошивка не сообщает, когда она удерживает лимит, поэтому BatFi определяет статус по уровню заряда — сам лимит при этом соблюдается точно."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu düşüş sırasında BatFi, menü çubuğunda ve bildirimlerinde Mac’inizi hâlâ şarj oluyor olarak gösterebilir. Donanım yazılımı sınırı ne zaman koruduğunu bildirmediğinden BatFi durumu pil seviyesinden çıkarır — sınırın kendisi yine tam olarak uygulanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під час такого просідання BatFi може й далі показувати Mac як такий, що заряджається, — у рядку меню та в сповіщеннях. Прошивка не повідомляє, коли вона утримує ліміт, тому BatFi визначає статус за рівнем заряду — сам ліміт при цьому дотримується точно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在回落期间，BatFi可能仍会在菜单栏和通知中把这台Mac显示为充电中。固件不会报告它何时在维持限制，因此BatFi根据电量推断状态——限制本身仍会被精确执行。"
           }
         }
       }
@@ -23197,10 +24835,88 @@
     "settings.label.firmware_range_enforced_by_firmware" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit nabíjení vynucuje firmware vašeho Macu sám. BatFi mu limit jednou předá a dál nezasahuje, takže limit funguje i tehdy, když Mac spí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Firmware deines Macs setzt das Ladelimit selbst durch. BatFi übergibt ihr dein Limit einmal und hält sich dann zurück, sodass das Limit auch im Ruhezustand des Macs weiterhin gilt."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le micrologiciel de votre Mac applique lui-même la limite de charge. BatFi lui transmet votre limite une seule fois puis se retire, ce qui permet à la limite de rester active même lorsque le Mac est en veille."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È il firmware del tuo Mac ad applicare il limite di ricarica. BatFi gli comunica il tuo limite una sola volta e si tira indietro, così il limite continua a funzionare anche mentre il Mac è in standby."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacのファームウェアが充電上限を自ら適用します。BatFiは上限を一度渡すだけで以降は関与しないため、Macがスリープ中でも上限は機能し続けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac의 펌웨어가 충전 한도를 직접 적용합니다. BatFi는 한도를 한 번 전달한 뒤 물러나므로, Mac이 잠자기 상태일 때도 한도가 계속 작동합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De firmware van je Mac dwingt het oplaadlimiet zelf af. BatFi geeft je limiet één keer door en treedt daarna terug, zodat de limiet blijft werken, zelfs als de Mac in sluimerstand staat."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware Twojego Maca sam wymusza limit ładowania. BatFi przekazuje mu limit raz i się wycofuje, więc limit działa nawet wtedy, gdy Mac śpi."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O próprio firmware do seu Mac aplica o limite de carregamento. O BatFi informa o seu limite uma vez e se afasta, de modo que o limite continua funcionando mesmo enquanto o Mac está em suspensão."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прошивка вашего Mac сама обеспечивает лимит заряда. BatFi один раз передаёт ей ваш лимит и больше не вмешивается, поэтому лимит продолжает действовать даже когда Mac спит."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Şarj sınırını Mac’inizin donanım yazılımı kendisi uygular. BatFi sınırınızı bir kez iletip geri çekilir, böylece sınır Mac uyku modundayken bile geçerli olmayı sürdürür."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прошивка вашого Mac сама забезпечує ліміт заряду. BatFi один раз передає їй ваш ліміт і більше не втручається, тож ліміт діє навіть тоді, коли Mac спить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac的固件会自行执行充电限制。BatFi只需将你的限制值交给固件一次便不再干预，因此即使Mac处于睡眠状态，限制依然有效。"
           }
         }
       }
@@ -23208,10 +24924,88 @@
     "settings.label.force_discharge_still_works" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provoz na baterii stále funguje — využívá jinou část firmwaru, kterou tento Mac má."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Betrieb über den Akku funktioniert weiterhin — dafür wird ein anderer Teil der Firmware genutzt, den dieser Mac noch hat."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le fonctionnement sur batterie reste possible — il utilise une autre partie du micrologiciel, dont ce Mac dispose toujours."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il funzionamento a batteria resta possibile — usa una parte diversa del firmware, di cui questo Mac dispone ancora."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリー駆動への切り替えは引き続き使用できます。これはファームウェアの別の機能を使用しており、このMacにも備わっています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리로 구동하는 기능은 계속 사용할 수 있습니다. 이 기능은 펌웨어의 다른 부분을 사용하며, 이 Mac에도 그 기능이 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Werken op de batterij blijft mogelijk — daarvoor wordt een ander deel van de firmware gebruikt, dat deze Mac nog wel heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zasilanie z baterii nadal działa — korzysta z innej części firmware’u, którą ten Mac wciąż ma."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funcionar na bateria continua possível — isso usa uma parte separada do firmware, que este Mac ainda possui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Работа от аккумулятора по-прежнему возможна — она использует отдельную часть прошивки, которая на этом Mac есть."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pille çalışma yine de mümkündür — bunun için donanım yazılımının bu Mac’te hâlâ bulunan ayrı bir bölümü kullanılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Робота від акумулятора й далі працює — вона використовує окрему частину прошивки, яка на цьому Mac є."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用电池供电仍然可用——它使用固件中另一部分功能，这台Mac仍具备该功能。"
           }
         }
       }
@@ -24039,10 +25833,88 @@
     "settings.label.magsafe_green_light_no_led" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tomto Macu není dostupné, protože nemá kontrolku MagSafe."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf diesem Mac nicht verfügbar, da er keine MagSafe-Anzeigeleuchte hat."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not available on this Mac, which doesn't have a MagSafe indicator light."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponible sur ce Mac, qui ne possède pas de témoin lumineux MagSafe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponibile su questo Mac, che non ha una spia luminosa MagSafe."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacにはMagSafeのインジケータランプがないため、利用できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에는 MagSafe 표시등이 없어 사용할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet beschikbaar op deze Mac, omdat die geen MagSafe-indicatielampje heeft."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedostępne na tym Macu, który nie ma wskaźnika świetlnego MagSafe."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não disponível neste Mac, que não possui uma luz indicadora MagSafe."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступно на этом Mac, так как у него нет индикатора MagSafe."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MagSafe gösterge ışığı olmadığı için bu Mac’te kullanılamıyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступно на цьому Mac, оскільки він не має індикатора MagSafe."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac没有MagSafe指示灯，因此不可用。"
           }
         }
       }
@@ -24050,10 +25922,88 @@
     "settings.label.magsafe_green_light_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tomto Macu není dostupné. Jeho firmware rozhoduje, kdy nabíjet, a nehlásí, kdy limit drží, takže BatFi nemůže kontrolce určit, kdy se má rozsvítit."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf diesem Mac nicht verfügbar. Die Firmware entscheidet, wann geladen wird, und meldet nicht, wann sie das Limit hält, daher kann BatFi der Leuchte nicht mitteilen, wann sie leuchten soll."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponible sur ce Mac. Son micrologiciel décide quand charger et ne signale pas lorsqu'il maintient la limite, BatFi ne peut donc pas indiquer au témoin lumineux quand s'allumer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponibile su questo Mac. Il suo firmware decide quando ricaricare e non segnala quando sta mantenendo il limite, quindi BatFi non può indicare alla spia quando accendersi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacでは利用できません。ファームウェアが充電のタイミングを決定し、上限を維持中かどうかを報告しないため、BatFiはランプを点灯させるタイミングを指示できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서는 사용할 수 없습니다. 펌웨어가 충전 시점을 결정하고 한도를 유지 중인지 알려주지 않기 때문에, BatFi가 표시등을 켤 시점을 지정할 수 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niet beschikbaar op deze Mac. De firmware bepaalt wanneer er wordt opgeladen en meldt niet wanneer ze de limiet aanhoudt, dus BatFi kan het lampje niet vertellen wanneer het moet gaan branden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niedostępne na tym Macu. Jego firmware decyduje, kiedy ładować, i nie informuje, kiedy utrzymuje limit, więc BatFi nie może wskazać światłu, kiedy ma się zaświecić."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não disponível neste Mac. O firmware dele decide quando carregar e não informa quando está mantendo o limite, então o BatFi não consegue dizer à luz quando acender."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступно на этом Mac. Его прошивка сама решает, когда заряжать, и не сообщает, когда удерживает лимит, поэтому BatFi не может указать индикатору, когда загораться."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’te kullanılamıyor. Ne zaman şarj edileceğine donanım yazılımı karar verir ve sınırı ne zaman koruduğunu bildirmez, bu yüzden BatFi ışığa ne zaman yanacağını söyleyemez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступно на цьому Mac. Його прошивка сама вирішує, коли заряджати, і не повідомляє, коли утримує ліміт, тому BatFi не може вказати індикатору, коли вмикатися."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac不可用。其固件决定何时充电，并且不会报告它何时在维持限制，因此BatFi无法告知指示灯何时亮起。"
           }
         }
       }
@@ -24152,10 +26102,88 @@
     "settings.label.system_charge_limit_banner" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baterie se přestane nabíjet na limitu, který nastavíte. Na tomto Macu tento limit vynucuje macOS, nikoli BatFi, což znamená, že nejnižší dostupný limit je 80 %."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Akku hört bei dem von dir festgelegten Limit auf zu laden. Auf diesem Mac setzt macOS dieses Limit durch und nicht BatFi, deshalb ist 80% das niedrigste verfügbare Limit."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre batterie cessera de se charger à la limite que vous avez définie. Sur ce Mac, c'est macOS qui applique cette limite et non BatFi, ce qui signifie que la limite la plus basse disponible est de 80%."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La batteria smetterà di ricaricarsi al limite che hai impostato. Su questo Mac è macOS ad applicare quel limite e non BatFi, il che significa che il limite più basso disponibile è 80%."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定した上限でバッテリーの充電が停止します。このMacではBatFiではなくmacOSが上限を適用するため、設定できる最小の上限は80%です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정한 한도에서 배터리 충전이 멈춥니다. 이 Mac에서는 BatFi가 아니라 macOS가 한도를 적용하므로 설정할 수 있는 가장 낮은 한도는 80%입니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je batterij stopt met opladen bij de limiet die je instelt. Op deze Mac wordt die limiet door macOS afgedwongen en niet door BatFi, waardoor 80% de laagst beschikbare limiet is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bateria przestanie się ładować przy ustawionym przez Ciebie limicie. Na tym Macu limit wymusza macOS, a nie BatFi, co oznacza, że najniższy dostępny limit to 80%."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua bateria vai parar de carregar no limite que você definir. Neste Mac, quem aplica esse limite é o macOS e não o BatFi, o que significa que o limite mais baixo disponível é 80%."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккумулятор перестанет заряжаться на установленном вами лимите. На этом Mac этот лимит обеспечивает macOS, а не BatFi, поэтому наименьший доступный лимит — 80%."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piliniz, belirlediğiniz sınırda şarj olmayı durdurur. Bu Mac’te bu sınırı BatFi değil macOS uygular; bu da kullanılabilen en düşük sınırın %80 olduğu anlamına gelir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Акумулятор припинить заряджатися на встановленому вами ліміті. На цьому Mac цей ліміт забезпечує macOS, а не BatFi, тож найнижчий доступний ліміт — 80%."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电池会在你设定的限制值处停止充电。在这台Mac上，该限制由macOS而非BatFi执行，因此可设置的最低限制为80%。"
           }
         }
       }
@@ -24163,10 +26191,88 @@
     "settings.label.system_charge_limit_cannot_pause_charging" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Váš limit platí i během spánku Macu, takže BatFi nemá co pozastavovat. Nastavení pro pozastavení při uspání a pro zastavení při zahřátí baterie se na tomto Macu nezobrazují, protože nabíjení je zde drženo na určitém procentu, nikoli zastavováno na vyžádání."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Limit bleibt auch im Ruhezustand des Macs bestehen, daher gibt es für BatFi nichts zu pausieren. Die Einstellungen zum Pausieren im Ruhezustand und zum Stoppen bei zu warmem Akku werden auf diesem Mac nicht angezeigt, weil das Laden hier auf einem Prozentwert gehalten und nicht auf Anforderung gestoppt wird."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at a percentage rather than stopped on request."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre limite reste maintenue lorsque le Mac est en veille : BatFi n'a donc rien à mettre en pause. Les réglages de mise en pause en veille et d'arrêt en cas de surchauffe de la batterie ne sont pas affichés sur ce Mac, car la charge y est maintenue à un pourcentage plutôt qu'arrêtée sur demande."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo limite resta attivo anche mentre il Mac è in standby, quindi BatFi non ha nulla da mettere in pausa. Le impostazioni per la pausa durante lo standby e per l'interruzione al surriscaldamento della batteria non vengono mostrate su questo Mac, perché qui la ricarica viene mantenuta a una percentuale anziché interrotta su richiesta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Macがスリープ中も上限が維持されるため、BatFiが一時停止するものはありません。このMacでは、充電は要求に応じて停止されるのではなく一定の割合で維持されるため、スリープ時の充電一時停止やバッテリーが熱くなったときの充電停止の設定は表示されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac이 잠자기 상태일 때도 한도가 계속 유지되므로 BatFi가 중단할 것이 없습니다. 이 Mac에서는 충전이 요청에 따라 멈추는 대신 일정 퍼센트로 유지되므로, 잠자기 시 충전 중단 및 배터리가 뜨거울 때 충전 중단 설정은 표시되지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je limiet blijft gelden terwijl de Mac in sluimerstand staat, dus er is voor BatFi niets te pauzeren. De instellingen voor pauzeren bij sluimerstand en voor stoppen als de batterij te heet wordt, worden op deze Mac niet getoond, omdat het opladen hier op een percentage wordt gehouden in plaats van op verzoek gestopt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twój limit obowiązuje także wtedy, gdy Mac śpi, więc BatFi nie ma czego wstrzymywać. Ustawienia wstrzymywania ładowania przy usypianiu i przerywania go przy gorącej baterii nie są pokazywane na tym Macu, ponieważ ładowanie jest tu utrzymywane na określonym procencie, a nie zatrzymywane na żądanie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu limite continua sendo mantido enquanto o Mac está em suspensão, portanto não há nada para o BatFi pausar. Os ajustes para pausar na suspensão e para interromper quando a bateria esquenta não são exibidos neste Mac, porque aqui o carregamento é mantido em uma porcentagem em vez de ser interrompido sob demanda."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш лимит действует и когда Mac спит, поэтому BatFi нечего приостанавливать. Настройки приостановки зарядки при переходе в сон и её остановки при нагреве аккумулятора не показываются на этом Mac, потому что зарядка здесь удерживается на определённом проценте, а не останавливается по запросу."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sınırınız Mac uyku modundayken de geçerli kalır, bu yüzden BatFi’nin duraklatacağı bir şey yoktur. Uyku modunda duraklatma ve pil ısındığında durdurma ayarları bu Mac’te gösterilmez, çünkü burada şarj istek üzerine durdurulmak yerine bir yüzdede tutulur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш ліміт діє й тоді, коли Mac спить, тож BatFi нічого призупиняти. Параметри призупинення заряджання під час сну та зупинки при нагріванні акумулятора не показуються на цьому Mac, оскільки заряджання тут утримується на певному відсотку, а не зупиняється на запит."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac睡眠时限制仍会持续维持，因此BatFi没有可暂停的内容。这台Mac不会显示睡眠时暂停充电和电池过热时停止充电的设置，因为这里的充电是保持在某个百分比，而不是按请求停止。"
           }
         }
       }
@@ -24174,10 +26280,88 @@
     "settings.label.system_charge_limit_manages_system_settings" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi k tomu mění limit nabíjení v Nastavení systému › Baterie. Vaše původní nastavení bylo uloženo a BatFi jej při ukončení vrátí zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dazu ändert BatFi das Ladelimit in den Systemeinstellungen › Batterie. Deine eigene Einstellung dort wurde gesichert, und BatFi stellt sie beim Beenden wieder her."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour cela, BatFi modifie la limite de charge dans Réglages Système › Batterie. Votre propre réglage a été enregistré et BatFi le rétablit lorsqu'il quitte."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per farlo, BatFi modifica il limite di ricarica in Impostazioni di Sistema › Batteria. La tua impostazione è stata salvata e BatFi la ripristina alla chiusura."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "そのためにBatFiはシステム設定 › バッテリーの充電上限を変更します。元の設定は保存されており、BatFiの終了時に元に戻されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이를 위해 BatFi는 시스템 설정 › 배터리의 충전 제한을 변경합니다. 기존 설정은 저장되어 있으며, BatFi를 종료하면 원래대로 되돌립니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daarvoor wijzigt BatFi het oplaadlimiet in Systeeminstellingen › Batterij. Je eigen instelling daar is bewaard, en BatFi zet die terug bij het afsluiten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W tym celu BatFi zmienia limit ładowania w Ustawieniach systemowych › Bateria. Twoje własne ustawienie zostało zapisane, a BatFi przywróci je przy zamknięciu."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para isso, o BatFi altera o limite de carga em Ajustes do Sistema › Bateria. Seu próprio ajuste foi salvo, e o BatFi o restaura ao encerrar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для этого BatFi меняет лимит заряда в Системных настройках › Аккумулятор. Ваша собственная настройка была сохранена, и BatFi вернёт её при выходе."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunun için BatFi, Sistem Ayarları › Pil bölümündeki şarj sınırını değiştirir. Oradaki kendi ayarınız kaydedildi ve BatFi çıkarken onu geri koyar."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для цього BatFi змінює ліміт заряду в Системних параметрах › Акумулятор. Ваше власне налаштування збережено, і BatFi поверне його під час виходу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为此，BatFi会更改“系统设置 › 电池”中的充电限制。你原有的设置已被保存，BatFi退出时会将其恢复。"
           }
         }
       }
@@ -24185,10 +26369,88 @@
     "settings.label.system_charge_limit_no_snapshot" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi na tomto Macu neuplatňuje limit nabíjení. Nepodařilo se mu zaznamenat limit, který máte v Nastavení systému › Baterie, a nezmění hodnotu, kterou by možná nedokázal vrátit zpět."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi wendet auf diesem Mac kein Ladelimit an. Es konnte das Limit, das du in den Systemeinstellungen › Batterie eingestellt hast, nicht sichern, und es ändert keinen Wert, den es möglicherweise nicht wiederherstellen kann."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi n'applique pas de limite de charge sur ce Mac. Il n'a pas pu enregistrer la limite définie dans Réglages Système › Batterie, et il ne modifiera pas une valeur qu'il ne pourrait peut-être pas rétablir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi non sta applicando un limite di ricarica su questo Mac. Non è riuscito a registrare il limite impostato in Impostazioni di Sistema › Batteria e non modificherà un valore che potrebbe non essere in grado di ripristinare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiはこのMacで充電上限を適用していません。システム設定 › バッテリーの上限を記録できなかったため、元に戻せない可能性のある値は変更しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi가 이 Mac에서 충전 한도를 적용하지 않고 있습니다. 시스템 설정 › 배터리의 기존 한도를 기록할 수 없었으며, 되돌리지 못할 수도 있는 값은 변경하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi past op deze Mac geen oplaadlimiet toe. Het kon de limiet die je in Systeeminstellingen › Batterij hebt ingesteld niet bewaren, en het wijzigt geen waarde die het misschien niet kan terugzetten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi nie stosuje limitu ładowania na tym Macu. Nie udało mu się zapisać limitu ustawionego w Ustawieniach systemowych › Bateria, a nie zmieni wartości, której mógłby nie przywrócić."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O BatFi não está aplicando um limite de carregamento neste Mac. Ele não conseguiu registrar o limite que você tem em Ajustes do Sistema › Bateria e não vai alterar um valor que talvez não consiga restaurar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi не применяет лимит заряда на этом Mac. Ему не удалось запомнить лимит, установленный в Системных настройках › Аккумулятор, и он не станет менять значение, которое, возможно, не сможет вернуть."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi bu Mac’te bir şarj sınırı uygulamıyor. Sistem Ayarları › Pil bölümündeki sınırınızı kaydedemedi ve geri koyamayabileceği bir değeri değiştirmez."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi не застосовує ліміт заряду на цьому Mac. Йому не вдалося зберегти ліміт, який ви маєте в Системних параметрах › Акумулятор, і він не змінюватиме значення, яке, можливо, не зможе повернути."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi未在这台Mac上应用充电限制。它无法记录你在“系统设置 › 电池”中的限制值，也不会更改可能无法恢复的设置。"
           }
         }
       }
@@ -24196,10 +26458,88 @@
     "settings.label.system_charge_limit_raised" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limity pod 80 %% nelze na tomto Macu použít. BatFi místo toho drží nabíjení na %@, což je nejnižší hodnota, kterou limit nabíjení v macOS přijímá."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limits unter 80%% können auf diesem Mac nicht angewendet werden. BatFi hält das Laden stattdessen bei %@ — dem niedrigsten Wert, den das macOS-Ladelimit zulässt."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les limites inférieures à 80%% ne peuvent pas être appliquées sur ce Mac. BatFi maintient donc la charge à %@, la valeur la plus basse acceptée par la limite de charge de macOS."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I limiti inferiori all'80%% non possono essere applicati su questo Mac. BatFi mantiene invece la ricarica a %@, il valore più basso accettato dal limite di ricarica di macOS."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このMacでは80%%未満の上限は適用できません。代わりに、macOSの充電上限で設定できる最小値である%@でBatFiが充電を維持します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 Mac에서는 80%% 미만의 한도를 적용할 수 없습니다. 대신 BatFi가 macOS 충전 제한이 허용하는 가장 낮은 값인 %@에서 충전을 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limieten onder 80%% kunnen op deze Mac niet worden toegepast. BatFi houdt het opladen daarom op %@, de laagste waarde die het macOS-oplaadlimiet accepteert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limitów poniżej 80%% nie da się zastosować na tym Macu. BatFi utrzymuje zamiast tego ładowanie na %@, czyli najniższej wartości akceptowanej przez limit ładowania macOS."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limites abaixo de 80%% não podem ser aplicados neste Mac. Em vez disso, o BatFi está mantendo o carregamento em %@, o valor mais baixo aceito pelo limite de carga do macOS."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимиты ниже 80%% нельзя применить на этом Mac. Вместо этого BatFi удерживает зарядку на %@ — это наименьшее значение, которое принимает лимит заряда macOS."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu Mac’te %%80 altındaki sınırlar uygulanamaz. BatFi bunun yerine şarjı, macOS şarj sınırının kabul ettiği en düşük değer olan %@ seviyesinde tutuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ліміти нижче 80%% не можна застосувати на цьому Mac. Натомість BatFi утримує заряджання на %@ — це найнижче значення, яке приймає ліміт заряду macOS."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这台Mac无法应用低于80%%的限制。BatFi改为将充电保持在%@，这是macOS充电限制所接受的最低值。"
           }
         }
       }
@@ -24207,10 +26547,88 @@
     "settings.label.system_charge_limit_rounded_up" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit nabíjení v macOS přijímá pouze určité hodnoty, takže BatFi drží nabíjení na %1$@ místo požadovaných %2$@."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das macOS-Ladelimit akzeptiert nur bestimmte Werte, daher hält BatFi das Laden bei %1$@ statt bei den angeforderten %2$@."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La limite de charge de macOS n'accepte que certaines valeurs ; BatFi maintient donc la charge à %1$@ au lieu des %2$@ demandés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il limite di ricarica di macOS accetta solo determinati valori, quindi BatFi mantiene la ricarica a %1$@ invece del %2$@ richiesto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSの充電上限は特定の値しか受け付けないため、BatFiは指定された%2$@ではなく%1$@で充電を維持します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 충전 제한은 특정 값만 허용하므로, BatFi는 요청된 %2$@ 대신 %1$@에서 충전을 유지합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het macOS-oplaadlimiet accepteert alleen bepaalde waarden, dus BatFi houdt het opladen op %1$@ in plaats van de gevraagde %2$@."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limit ładowania macOS akceptuje tylko określone wartości, więc BatFi utrzymuje ładowanie na %1$@ zamiast żądanych %2$@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O limite de carga do macOS só aceita determinados valores, então o BatFi está mantendo o carregamento em %1$@ em vez dos %2$@ solicitados."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит заряда macOS принимает только определённые значения, поэтому BatFi удерживает зарядку на %1$@ вместо запрошенных %2$@."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS şarj sınırı yalnızca belirli değerleri kabul ettiğinden BatFi, istenen %2$@ yerine şarjı %1$@ seviyesinde tutuyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ліміт заряду macOS приймає лише певні значення, тому BatFi утримує заряджання на %1$@ замість запитаних %2$@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS充电限制仅接受特定的值，因此BatFi将充电保持在%1$@，而不是所请求的%2$@。"
           }
         }
       }
