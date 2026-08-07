@@ -10,6 +10,7 @@ import Clients
 import Defaults
 import Dependencies
 import Foundation
+import L10n
 import Sparkle
 import UserNotifications
 
@@ -71,8 +72,8 @@ private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriv
     ) {
         if !state.userInitiated {
             let content = UNMutableNotificationContent()
-            content.title = "A new update is available"
-            content.body = "Version \(update.displayVersionString) is now available"
+            content.title = L10n.Updater.Notification.updateAvailable
+            content.body = L10n.Updater.Notification.updateAvailableBody(update.displayVersionString)
             content.interruptionLevel = .active
             let request = UNNotificationRequest(identifier: updateNotificationIdentifier, content: content, trigger: nil)
             UNUserNotificationCenter.current().add(request)

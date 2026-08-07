@@ -114,9 +114,9 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         } catch {
             let alert = NSAlert()
             alert.alertStyle = .warning
-            alert.messageText = "Can't use this link"
+            alert.messageText = L10n.License.cantUseLink
             alert.informativeText = error.localizedDescription
-            alert.addButton(withTitle: "OK")
+            alert.addButton(withTitle: L10n.Common.ok)
             _ = alert.runModal()
         }
     }
@@ -220,8 +220,8 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         if systemVersion.currentSystemIsSequoiaOrNewer() && defaults.value(.turnOnSystemChargeLimitingWhenGoingToSleep) {
             defaults.setValue(.turnOnSystemChargeLimitingWhenGoingToSleep, value: false)
             try? await userNotificationsClient.showUserNotification(
-                title: "System charge limit removed",
-                body: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
+                title: L10n.Notifications.Notification.Title.systemChargeLimitRemoved,
+                body: L10n.Notifications.Notification.Body.systemChargeLimitRemoved,
                 identifier: "software.micropixels.BatFi.migration.system_charge_limit",
                 threadIdentifier: nil,
                 delay: nil

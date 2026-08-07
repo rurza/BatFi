@@ -89,9 +89,9 @@ struct OnboardingLicenseView: View {
         }, set: { _ in
             licenseModel.dimissErrorClicked()
         })) {
-            Button("OK") { }
+            Button(L10n.Common.ok) { }
         } message: {
-            Text(licenseModel.state.error?.localizedDescription ?? "Unknown Error")
+            Text(licenseModel.state.error?.localizedDescription ?? L10n.Common.unknownError)
         }
         .onAppear {
             focus = .license

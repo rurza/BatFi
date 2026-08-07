@@ -1,6 +1,40 @@
 import Foundation
 
 public enum L10n {
+    /// Strings that aren't tied to one screen.
+    public enum Common {
+        /// OK
+        ///
+        /// Dismisses an alert. Lives here rather than being written inline as `Button("OK")`:
+        /// a bare literal in a package is a `LocalizedStringKey` resolved against `Bundle.main`,
+        /// so it never reaches this module's catalog and always renders in English.
+        public static let ok = String(localized: "common.button.label.ok", defaultValue: "OK", bundle: Bundle.module)
+
+        /// Unknown Error
+        ///
+        /// Fallback body for an alert whose error carries no description of its own.
+        public static let unknownError = String(localized: "common.label.unknown_error", defaultValue: "Unknown Error", bundle: Bundle.module)
+    }
+
+    public enum Updater {
+        public enum Notification {
+            /// A new update is available
+            public static let updateAvailable = String(localized: "updater.notification.title.update_available", defaultValue: "A new update is available", bundle: Bundle.module)
+
+            /// Version %@ is now available
+            public static func updateAvailableBody(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "updater.notification.body.update_available",
+                        defaultValue: "Version %@ is now available",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+        }
+    }
+
     public enum About {
         public enum Button {
             public enum Label {
@@ -177,6 +211,29 @@ public enum L10n {
         /// Don't own BatFi yet? Buy it now!
         public static let buyNow = String(localized: "license.label.buy_now", defaultValue: "Don't own BatFi yet? Buy it now!", bundle: Bundle.module)
 
+        /// Can't use this link
+        ///
+        /// Shown when a `batfi://` license link can't be parsed.
+        public static let cantUseLink = String(localized: "license.alert.title.cant_use_link", defaultValue: "Can't use this link", bundle: Bundle.module)
+
+        // MARK: Receipt
+
+        /// The receipt's field labels keep their trailing colon in the catalog: French and other
+        /// languages put a non-breaking space before it, which can't be appended in code.
+        public enum Receipt {
+            /// I appreciate your support!
+            public static let appreciateSupport = String(localized: "license.receipt.appreciate_support", defaultValue: "I appreciate your support!", bundle: Bundle.module)
+
+            /// Date:
+            public static let date = String(localized: "license.receipt.date", defaultValue: "Date:", bundle: Bundle.module)
+
+            /// Email:
+            public static let email = String(localized: "license.receipt.email", defaultValue: "Email:", bundle: Bundle.module)
+
+            /// Key:
+            public static let key = String(localized: "license.receipt.key", defaultValue: "Key:", bundle: Bundle.module)
+        }
+
         // MARK: Error messages
         
         /// Can't identify system
@@ -189,6 +246,21 @@ public enum L10n {
         public static let errorDeactivatedLicense = String(localized: "license.error.deactivated_license", defaultValue: "License is deactivated. Please purchase the app again.", bundle: Bundle.module)
         /// Unexpected response. Contact the developer if you think this is an error and have a valid license key.
         public static let errorUnexpectedResponse = String(localized: "license.error.unexpected_response", defaultValue: "Unexpected response. Contact the developer if you think this is an error and have a valid license key.", bundle: Bundle.module)
+
+        // MARK: Activation link errors
+        //
+        // Shown as the body of the "Can't use this link" alert. Previously these were
+        // thrown as bare English strings ("Wrong schema", "Wrong path", "Wrong query"),
+        // which reached the user verbatim in every language.
+
+        /// This isn’t a BatFi activation link.
+        public static let errorLinkNotBatFi = String(localized: "license.error.link_not_batfi", defaultValue: "This isn’t a BatFi activation link.", bundle: Bundle.module)
+
+        /// This link doesn’t activate a license.
+        public static let errorLinkWrongDestination = String(localized: "license.error.link_wrong_destination", defaultValue: "This link doesn’t activate a license.", bundle: Bundle.module)
+
+        /// The link is missing the email address or the license key.
+        public static let errorLinkMissingDetails = String(localized: "license.error.link_missing_details", defaultValue: "The link is missing the email address or the license key.", bundle: Bundle.module)
     }
 
     public enum Menu {
@@ -366,6 +438,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// The app won't work properly with it. \nDisable it by clicking the info icon next to the "Battery Health" in System Settings.
+                public static let optimizedChargingTurnedOn = String(
+                    localized: "notifications.alert.informative_text.optimized_charging_turned_on",
+                    defaultValue: "The app won't work properly with it. \nDisable it by clicking the info icon next to the \"Battery Health\" in System Settings.",
+                    bundle: Bundle.module
+                )
+
                 /// It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook.
                 public static let notLaptop = String(
                     localized: "notifications.alert.informative_text.not_laptop",
@@ -426,11 +505,41 @@ public enum L10n {
                 public static let highPowerModeOn = String(localized: "notifications.notification.title.high_power_mode_on", defaultValue: "High power mode is on", bundle: Bundle.module)
                 public static let automaticPowerModeOn = String(localized: "notifications.notification.title.automatic_power_mode_on", defaultValue: "Automatic power mode is on", bundle: Bundle.module)
                 public static let highPowerModeUnsupported = String(localized: "notifications.notification.title.high_power_mode_unsupported", defaultValue: "High power mode is not supported", bundle: Bundle.module)
+
+                /// System charge limit removed
+                ///
+                /// One-off migration notice for Macs upgraded to macOS 15.
+                public static let systemChargeLimitRemoved = String(
+                    localized: "notifications.notification.title.system_charge_limit_removed",
+                    defaultValue: "System charge limit removed",
+                    bundle: Bundle.module
+                )
+
+                /// ⚠️ BatFi can't read battery information
+                public static let cannotReadBatteryInfo = String(
+                    localized: "notifications.notification.title.cannot_read_battery_info",
+                    defaultValue: "⚠️ BatFi can't read battery information",
+                    bundle: Bundle.module
+                )
             }
 
             public enum Body {
                 public static let lowBattery = String(localized: "notifications.notification.body.low_battery", defaultValue: "I need more juice!", bundle: Bundle.module)
                 public static let batteryCalibration = String(localized: "notifications.notification.body.battery_calibration", defaultValue: "Unplug the computer and let the battery drain completely. Then, plug it in and charge it to 100%, using the “Charge to 100%” command from the menu if needed.", bundle: Bundle.module)
+
+                /// It looks like you're running on macOS 15. The "Enable System charge limit 80% on sleep" option was removed from this macOS
+                public static let systemChargeLimitRemoved = String(
+                    localized: "notifications.notification.body.system_charge_limit_removed",
+                    defaultValue: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
+                    bundle: Bundle.module
+                )
+
+                /// macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.
+                public static let cannotReadBatteryInfo = String(
+                    localized: "notifications.notification.body.cannot_read_battery_info",
+                    defaultValue: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.",
+                    bundle: Bundle.module
+                )
             }
         }
     }

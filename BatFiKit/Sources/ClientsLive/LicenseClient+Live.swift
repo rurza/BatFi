@@ -105,12 +105,12 @@ private func licenseFrom(_ jwtString: String, publicKeyData: Data, decoder: JSON
     let rsaJWTDecoder = JWTDecoder(jwtVerifier: JWTVerifier.rs256(publicKey: publicKeyData))
     let jwt: JWT<Claims> = try rsaJWTDecoder.decode(JWT<Claims>.self, fromString: jwtString)
     guard let privateKeyData = Data(base64Encoded: jwt.claims.k) else {
-        throw "Unexpected response"
+        throw L10n.License.errorUnexpectedResponse
     }
     let privateKey = try createSecKey(from: privateKeyData)
 
     guard let encryptedLicenseData = Data(base64Encoded: jwt.claims.l) else {
-        throw "Unexpected response"
+        throw L10n.License.errorUnexpectedResponse
     }
     let decryptedLicenseData = try decryptRSA(data: encryptedLicenseData, privateKey: privateKey)
     let license = try decoder.decode(License.self, from: decryptedLicenseData)
@@ -123,7 +123,7 @@ private func createSecKey(from privateKeyData: Data) throws -> SecKey {
         kSecAttrKeyClass as String: kSecAttrKeyClassPrivate
     ]
     guard let privateKey = SecKeyCreateWithData(privateKeyData as CFData, options as CFDictionary, nil) else {
-        throw "Failed to create SecKey"
+        throw L10n.License.errorUnexpectedResponse
     }
     return privateKey
 }

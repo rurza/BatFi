@@ -229,13 +229,13 @@ public class NotificationsManager: NSObject {
     func showOptimizedBatteryChargingIsTurnedOn() {
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.messageText = "Optimized battery charging is turned ON."
-        alert.informativeText = "The app won't work properly with it. \nDisable it by clicking the info icon next to the \"Battery Health\" in System Settings."
+        alert.messageText = L10n.Notifications.Alert.Title.optimizedChargingTurnedOn
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.optimizedChargingTurnedOn
         alert.showsSuppressionButton = true
         alert.suppressionButton?.target = self
         alert.suppressionButton?.action = #selector(supressionWasSelected(_:))
-        alert.addButton(withTitle: "OK")
-        alert.addButton(withTitle: "System Settings…")
+        alert.addButton(withTitle: L10n.Common.ok)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openSystemSettings)
         let response = alert.runModal()
         if response == .alertSecondButtonReturn {
             NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.Battery-Settings.extension")!)

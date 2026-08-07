@@ -75,7 +75,7 @@ struct SettingsStatusIconView: View {
                     statusIconOption = .dynamic
                 }
             }
-            Button("OK") { }
+            Button(L10n.Common.ok) { }
         } message: {
             Text(L10n.Notifications.Alert.InformativeText.statusBarIconHidden)
         }

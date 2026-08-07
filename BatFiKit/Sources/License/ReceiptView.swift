@@ -33,7 +33,7 @@ public struct ReceiptView: View {
                     .monospaced()
                     .foregroundStyle(.black.opacity(0.8))
                     .padding(.top, 20)
-                Text("I appreciate your support!")
+                Text(L10n.License.Receipt.appreciateSupport)
                     .font(.footnote)
                     .monospaced()
                     .foregroundStyle(.gray)
@@ -44,7 +44,7 @@ public struct ReceiptView: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text("Date:")
+                    Text(L10n.License.Receipt.date)
                         .font(.callout)
                         .monospaced()
                         .fontWeight(.semibold)
@@ -56,7 +56,7 @@ public struct ReceiptView: View {
                         .foregroundStyle(.black.opacity(0.7))
                 }
                 HStack {
-                    Text("Email:")
+                    Text(L10n.License.Receipt.email)
                         .font(.callout)
                         .monospaced()
                         .fontWeight(.semibold)
@@ -84,7 +84,7 @@ public struct ReceiptView: View {
                     }
                 }
                 HStack {
-                    Text("Key:")
+                    Text(L10n.License.Receipt.key)
                         .font(.callout)
                         .monospaced()
                         .fontWeight(.semibold)

@@ -9168,6 +9168,28 @@
         }
       }
     },
+    "common.button.label.ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "common.label.unknown_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown Error"
+          }
+        }
+      }
+    },
     "installer.button.label.accept" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -10236,6 +10258,17 @@
         }
       }
     },
+    "license.alert.title.cant_use_link" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't use this link"
+          }
+        }
+      }
+    },
     "license.error.deactivated_license" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -10499,6 +10532,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无效响应"
+          }
+        }
+      }
+    },
+    "license.error.link_missing_details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The link is missing the email address or the license key."
+          }
+        }
+      }
+    },
+    "license.error.link_not_batfi" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This isn’t a BatFi activation link."
+          }
+        }
+      }
+    },
+    "license.error.link_wrong_destination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This link doesn’t activate a license."
           }
         }
       }
@@ -11745,6 +11811,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解锁失败"
+          }
+        }
+      }
+    },
+    "license.receipt.appreciate_support" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I appreciate your support!"
+          }
+        }
+      }
+    },
+    "license.receipt.date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date:"
+          }
+        }
+      }
+    },
+    "license.receipt.email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email:"
+          }
+        }
+      }
+    },
+    "license.receipt.key" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Key:"
           }
         }
       }
@@ -15309,6 +15419,17 @@
         }
       }
     },
+    "notifications.alert.informative_text.optimized_charging_turned_on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app won't work properly with it. \nDisable it by clicking the info icon next to the \"Battery Health\" in System Settings."
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.status_bar_icon_hidden" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -15932,6 +16053,17 @@
         }
       }
     },
+    "notifications.notification.body.cannot_read_battery_info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value."
+          }
+        }
+      }
+    },
     "notifications.notification.body.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16017,6 +16149,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "快来填满我吧！"
+          }
+        }
+      }
+    },
+    "notifications.notification.body.system_charge_limit_removed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS"
           }
         }
       }
@@ -16284,6 +16427,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "电池校准时间已到"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.cannot_read_battery_info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi can't read battery information"
           }
         }
       }
@@ -16640,6 +16794,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "低功耗模式已启用"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.system_charge_limit_removed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System charge limit removed"
           }
         }
       }
@@ -28943,6 +29108,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "赞助"
+          }
+        }
+      }
+    },
+    "updater.notification.body.update_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ is now available"
+          }
+        }
+      }
+    },
+    "updater.notification.title.update_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new update is available"
           }
         }
       }

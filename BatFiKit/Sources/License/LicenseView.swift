@@ -42,9 +42,9 @@ struct LicenseView: View {
         }, set: { _ in
             model.dimissErrorClicked()
         })) {
-            Button("OK") { }
+            Button(L10n.Common.ok) { }
         } message: {
-            Text(model.state.error?.localizedDescription ?? "Unknown Error")
+            Text(model.state.error?.localizedDescription ?? L10n.Common.unknownError)
         }
         .confettiCannon(
             counter: Binding(get: { model.state.license != nil ? 1 : 0 }, set: { _ in }),

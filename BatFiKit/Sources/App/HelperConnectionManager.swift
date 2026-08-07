@@ -220,8 +220,8 @@ final class HelperConnectionManager: @unchecked Sendable {
                 // Not `try`: a failed notification used to throw out of the enclosing Task
                 // and silently end this watchdog for the rest of the session.
                 try? await userNotificationsClient.showUserNotification(
-                    title: "⚠️ BatFi can't read battery information",
-                    body: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.",
+                    title: L10n.Notifications.Notification.Title.cannotReadBatteryInfo,
+                    body: L10n.Notifications.Notification.Body.cannotReadBatteryInfo,
                     identifier: "software.micropixels.BatFi.notifications.initial_mode",
                     threadIdentifier: nil,
                     delay: nil
