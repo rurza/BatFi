@@ -793,7 +793,8 @@ public enum L10n {
                 String(
                     format: String(
                         localized: "settings.label.diagnostics_system_charge_limit_conflict",
-                        defaultValue: "Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100% there so BatFi is the only thing in control.",
+                        // `100%%`, not `100%` — see `systemChargeLimitRaised`.
+                        defaultValue: "Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100%% there so BatFi is the only thing in control.",
                         bundle: .module
                     ),
                     String(describing: p1)
@@ -823,7 +824,10 @@ public enum L10n {
                 String(
                     format: String(
                         localized: "settings.label.system_charge_limit_raised",
-                        defaultValue: "Limits below 80% can't be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.",
+                        // The literal per cent sign is doubled: this string is a `String(format:)`
+                        // template, and a lone `%` there is read as a conversion specifier. Every
+                        // translation of this key has to double it too.
+                        defaultValue: "Limits below 80%% can't be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.",
                         bundle: .module
                     ),
                     String(describing: p1)

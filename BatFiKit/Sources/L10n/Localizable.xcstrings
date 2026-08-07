@@ -23156,7 +23156,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100% there so BatFi is the only thing in control."
+            "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control."
           }
         }
       }
@@ -24199,7 +24199,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limits below 80% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
+            "value" : "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
           }
         }
       }
