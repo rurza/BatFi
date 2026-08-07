@@ -1250,6 +1250,12 @@
     "app_charging_mode.state.title.helper_not_running" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Helper not running"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1260,12 +1266,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Helper läuft nicht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Helper not running"
           }
         },
         "fr" : {
@@ -9171,10 +9171,88 @@
     "common.button.label.ok" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamam"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好"
           }
         }
       }
@@ -9182,10 +9260,88 @@
     "common.label.unknown_error" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neznámá chyba"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbekannter Fehler"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown Error"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur inconnue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Errore sconosciuto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不明なエラー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알 수 없는 오류"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onbekende fout"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nieznany błąd"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro desconhecido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестная ошибка"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilinmeyen hata"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Невідома помилка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未知错误"
           }
         }
       }
@@ -10261,10 +10417,88 @@
     "license.alert.title.cant_use_link" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento odkaz nelze použít"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Link kann nicht verwendet werden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Can't use this link"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible d’utiliser ce lien"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile usare questo link"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このリンクは使用できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 링크를 사용할 수 없습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan deze link niet gebruiken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można użyć tego linku"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não é possível usar este link"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удается использовать эту ссылку"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu bağlantı kullanılamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдається використати це посилання"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法使用此链接"
           }
         }
       }
@@ -10539,10 +10773,88 @@
     "license.error.link_missing_details" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V odkazu chybí e‑mailová adresa nebo licenční klíč."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Link fehlt die E-Mail-Adresse oder der Lizenzschlüssel."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The link is missing the email address or the license key."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il manque l’adresse email ou la clé de licence dans ce lien."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nel link manca l’indirizzo email o la chiave di licenza."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リンクにメールアドレスまたはライセンスキーが含まれていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "링크에 이메일 주소 또는 라이선스 키가 없습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In de link ontbreekt het e-mailadres of de licentiesleutel."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W linku brakuje adresu email lub klucza licencyjnego."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O link não contém o e-mail ou a chave de licença."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В ссылке не хватает адреса электронной почты или лицензионного ключа."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bağlantıda e-posta adresi veya lisans anahtarı eksik."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У посиланні бракує адреси електронної пошти або ліцензійного ключа."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "链接中缺少电子邮件地址或许可证密钥。"
           }
         }
       }
@@ -10550,10 +10862,88 @@
     "license.error.link_not_batfi" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto není aktivační odkaz BatFi."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist kein BatFi-Aktivierungslink."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "This isn’t a BatFi activation link."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce n’est pas un lien d’activation BatFi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo non è un link di attivazione di BatFi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これはBatFiのアクティベーションリンクではありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 링크는 BatFi 활성화 링크가 아닙니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is geen BatFi-activatielink."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To nie jest link aktywacyjny BatFi."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este não é um link de ativação do BatFi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это не ссылка активации BatFi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu bir BatFi etkinleştirme bağlantısı değil."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це не посилання для активації BatFi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这不是BatFi的激活链接。"
           }
         }
       }
@@ -10561,10 +10951,88 @@
     "license.error.link_wrong_destination" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tento odkaz neaktivuje licenci."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieser Link aktiviert keine Lizenz."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "This link doesn’t activate a license."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce lien n’active pas de licence."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo link non attiva una licenza."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このリンクではライセンスを有効化できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 링크는 라이선스를 활성화하지 않습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze link activeert geen licentie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten link nie aktywuje licencji."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este link não ativa uma licença."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эта ссылка не активирует лицензию."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu bağlantı bir lisansı etkinleştirmiyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Це посилання не активує ліцензію."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此链接不会激活许可证。"
           }
         }
       }
@@ -11818,10 +12286,88 @@
     "license.receipt.appreciate_support" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Děkuji za vaši podporu!"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danke für deine Unterstützung!"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "I appreciate your support!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merci pour votre soutien !"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grazie per il tuo supporto!"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ご支援ありがとうございます！"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지원해 주셔서 감사합니다!"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bedankt voor je steun!"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dziękuję za wsparcie!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agradeço seu apoio!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спасибо за вашу поддержку!"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desteğiniz için teşekkür ederim!"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дякую за вашу підтримку!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "感谢你的支持！"
           }
         }
       }
@@ -11829,10 +12375,88 @@
     "license.receipt.date" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum:"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum:"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Date:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日付："
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "날짜:"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum:"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data:"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarih:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期："
           }
         }
       }
@@ -11840,10 +12464,88 @@
     "license.receipt.email" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E‑mail:"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-Mail:"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Email:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メール："
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이메일:"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail:"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email:"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-mail:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Электронная почта:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-posta:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Електронна пошта:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "电子邮件："
           }
         }
       }
@@ -11851,10 +12553,88 @@
     "license.receipt.key" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klíč:"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lizenzschlüssel:"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Key:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clé de licence :"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiave di licenza:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キー："
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키:"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licentiesleutel:"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klucz:"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chave de licença:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лицензионный ключ:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anahtar:"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ліцензійний ключ:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "许可证密钥："
           }
         }
       }
@@ -13108,6 +13888,12 @@
     "menu.label.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "⚠️ Helper isn't responding"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13118,12 +13904,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⚠️ Helper antwortet nicht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "⚠️ Helper isn't responding"
           }
         },
         "fr" : {
@@ -13197,6 +13977,12 @@
     "menu.label.helper_not_responding_disclaimer" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charge limiting is off. Click for help."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13207,12 +13993,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Die Ladebegrenzung ist deaktiviert. Klicken für Hilfe."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Charge limiting is off. Click for help."
           }
         },
         "fr" : {
@@ -14799,6 +15579,12 @@
     "notifications.alert.button.label.close" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -14809,12 +15595,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schließen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Close"
           }
         },
         "fr" : {
@@ -15155,6 +15935,12 @@
     "notifications.alert.informative_text.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15165,12 +15951,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Helper ist installiert, aber macOS startet ihn nicht, daher läuft die Ladebegrenzung nicht.\n\nÖffne Systemeinstellungen → Allgemein → Anmeldeobjekte, schalte BatFi aus und wieder ein. BatFi stellt die Verbindung von selbst wieder her."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own."
           }
         },
         "fr" : {
@@ -15422,10 +16202,88 @@
     "notifications.alert.informative_text.optimized_charging_turned_on" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace s ním nebude fungovat správně. \nVypněte jej kliknutím na ikonu informací vedle položky „Stav baterie“ v Nastavení systému."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App funktioniert damit nicht richtig. \nDeaktiviere es, indem du auf das Info-Symbol neben „Batteriezustand“ in den Systemeinstellungen klickst."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "The app won't work properly with it. \nDisable it by clicking the info icon next to the \"Battery Health\" in System Settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’application ne fonctionnera pas correctement avec cette option. \nDésactivez-la en cliquant sur l’icône d’information à côté de « État de la batterie » dans Réglages Système."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’app non funzionerà correttamente con questa opzione attiva. \nDisattivala facendo clic sull’icona info accanto a \"Stato batteria\" in Impostazioni di Sistema."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この設定が有効だとアプリは正しく動作しません。 \nシステム設定の「バッテリーの状態」の横にあるインフォメーションアイコンをクリックして無効にしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기능이 켜져 있으면 앱이 제대로 작동하지 않습니다. \n시스템 설정에서 \"배터리 성능 상태\" 옆의 정보 아이콘을 클릭해 끄세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app werkt daarmee niet goed. \nSchakel het uit door in Systeeminstellingen op het infosymbool naast \"Batterijconditie\" te klikken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apka nie będzie z tym działać poprawnie. \nWyłącz to, klikając ikonę informacji obok \"Kondycji baterii\" w Ustawieniach systemowych."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplicativo não funcionará corretamente com isso ligado. \nDesative clicando no ícone de informações ao lado de \"Saúde da Bateria\" nos Ajustes do Sistema."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение не будет работать корректно с этой функцией. \nОтключите её, нажав на значок информации рядом с «Состоянием аккумулятора» в Системных настройках."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama bu açıkken düzgün çalışmayacaktır. \nSistem Ayarları’nda “Pil Sağlığı” yanındaki bilgi simgesine tıklayarak devre dışı bırakın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Програма не працюватиме належним чином із цією функцією. \nВимкніть її, натиснувши на значок інформації поруч зі «Станом акумулятора» в Системних параметрах."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用它时应用无法正常工作。 \n请在“系统设置”中点击“电池健康度”旁边的信息图标将其关闭。"
           }
         }
       }
@@ -15522,6 +16380,12 @@
     "notifications.alert.title.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi's helper isn't responding"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15532,12 +16396,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Helper von BatFi antwortet nicht"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "BatFi's helper isn't responding"
           }
         },
         "fr" : {
@@ -16056,10 +16914,88 @@
     "notifications.notification.body.cannot_read_battery_info" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS neposkytuje údaje o baterii, které BatFi potřebuje. Váš limit nabíjení může být stále aktivní. Nahlaste to prosím — chybějící hodnota je uvedena v logu aplikace."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS meldet die Akku-Daten nicht, die BatFi benötigt. Dein Ladelimit ist möglicherweise weiterhin aktiv. Bitte melde das — das Log der App nennt den fehlenden Wert."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS ne fournit pas les données de batterie dont BatFi a besoin. Votre limite de charge est peut-être toujours active. Merci de le signaler — le journal de l’application indique la valeur manquante."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS non riporta i dati della batteria di cui BatFi ha bisogno. Il tuo limite di ricarica potrebbe essere ancora attivo. Segnalalo, per favore — il log dell’app indica il valore mancante."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがBatFiに必要なバッテリー情報を返していません。充電上限はまだ有効な可能性があります。この問題を報告してください。不足している値はアプリのログに記録されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 BatFi에 필요한 배터리 정보를 제공하지 않습니다. 충전 제한은 여전히 작동 중일 수 있습니다. 이 문제를 알려 주세요 — 앱 로그에 누락된 값이 기록되어 있습니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS geeft de batterijgegevens die BatFi nodig heeft niet door. Je oplaadlimiet is mogelijk nog steeds actief. Meld dit alsjeblieft — de log van de app noemt de ontbrekende waarde."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS nie zwraca danych baterii, których potrzebuje BatFi. Twój limit ładowania może nadal działać. Zgłoś to proszę — w logu apki znajdziesz nazwę brakującej wartości."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS não está informando os dados da bateria de que o BatFi precisa. Seu limite de carga pode continuar ativo. Por favor, relate isso — o log do aplicativo indica o valor que está faltando."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не сообщает данные об аккумуляторе, которые нужны BatFi. Ваш лимит заряда может по-прежнему действовать. Пожалуйста, сообщите об этом — в журнале приложения указано недостающее значение."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, BatFi’nin ihtiyaç duyduğu pil bilgilerini bildirmiyor. Şarj sınırınız hâlâ etkin olabilir. Lütfen bunu bildirin — eksik değer uygulamanın günlüğünde belirtiliyor."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS не повідомляє дані про акумулятор, які потрібні BatFi. Ваш ліміт заряду може досі діяти. Будь ласка, повідомте про це — у журналі програми вказано відсутнє значення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS没有返回BatFi所需的电池数据。你的充电限制可能仍在生效。请反馈此问题——应用日志中记录了缺失的数值。"
           }
         }
       }
@@ -16156,10 +17092,88 @@
     "notifications.notification.body.system_charge_limit_removed" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypadá to, že používáte macOS 15. Volba „Automaticky povolit omezení nabití systému (80 %), když Mac přejde do režimu spánku“ byla z tohoto systému macOS odstraněna"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es sieht so aus, als würdest du macOS 15 verwenden. Die Option „Automatisch das System-Ladelimit (80 %) aktivieren, sobald der Mac in den Ruhezustand wechselt“ wurde aus diesem macOS entfernt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il semble que vous utilisiez macOS 15. L’option « Activer automatiquement la limite de charge système (80 %) lorsque le Mac passe veille » a été supprimée de ce macOS"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sembra che tu stia usando macOS 15. L’opzione \"Abilita automaticamente il limite (80%) quando il Mac va in standby\" è stata rimossa da questo macOS"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 15をお使いのようです。「Macがスリープしたら自動でシステムの充電上限(80%)を有効化する」のオプションは、このmacOSでは削除されました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS 15을 사용 중인 것으로 보입니다. \"Mac이 잠자기로 전환될 경우 시스템 설정(80%)에 따라 자동으로 충전 제한\" 옵션은 이 macOS에서 제거되었습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het lijkt erop dat je macOS 15 gebruikt. De optie \"Schakel systeem-oplaadlimiet (80%) automatisch in bij sluimerstand\" is uit deze macOS verwijderd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wygląda na to, że używasz macOS 15. Opcja \"Automatycznie włącz systemowy limit ładowania (80%) gdy Mac się usypia\" została usunięta z tego systemu macOS"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parece que você está no macOS 15. A opção \"Habilitar automaticamente o limite de carga do sistema (80%) quando o Mac entrar em suspensão\" foi removida deste macOS"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже, вы используете macOS 15. Опция «Автоматически включать системное ограничение заряда (80 %), когда Mac переходит в спящий режим» была удалена из этой версии macOS"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Görünüşe göre macOS 15 kullanıyorsunuz. “Mac uyku moduna geçtiğinde sistem şarj sınırını (%80) otomatik olarak etkinleştir” seçeneği bu macOS sürümünden kaldırıldı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Схоже, ви використовуєте macOS 15. Опцію «Автоматично вмикати системне обмеження заряду (80%), коли Mac переходить у сплячий режим» було видалено з цієї версії macOS"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看起来你正在使用macOS 15。“当Mac进入睡眠时自动启动系统充电限制（80%）”选项已从此macOS中移除"
           }
         }
       }
@@ -16434,10 +17448,88 @@
     "notifications.notification.title.cannot_read_battery_info" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi nemůže načíst informace o baterii"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi kann die Akku-Informationen nicht lesen"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "⚠️ BatFi can't read battery information"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi ne peut pas lire les informations de la batterie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi non riesce a leggere le informazioni sulla batteria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFiはバッテリー情報を読み取れません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi가 배터리 정보를 읽을 수 없습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi kan de batterijgegevens niet lezen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi nie może odczytać informacji o baterii"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ O BatFi não consegue ler as informações da bateria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi не может прочитать информацию об аккумуляторе"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi pil bilgilerini okuyamıyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi не може зчитати інформацію про акумулятор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ BatFi无法读取电池信息"
           }
         }
       }
@@ -16801,10 +17893,88 @@
     "notifications.notification.title.system_charge_limit_removed" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systémový limit nabíjení byl odstraněn"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System-Ladelimit entfernt"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "System charge limit removed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite de charge système supprimée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite di ricarica di sistema rimosso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システムの充電上限が削除されました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 충전 제한 제거됨"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systeem-oplaadlimiet verwijderd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemowy limit ładowania usunięty"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite de carga do sistema removido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системное ограничение заряда удалено"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistem şarj sınırı kaldırıldı"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системне обмеження заряду видалено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统充电限制已移除"
           }
         }
       }
@@ -23487,6 +24657,12 @@
     "settings.label.charge_control_help_button_accessibility" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About charging on this Mac"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23497,12 +24673,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Über das Laden auf diesem Mac"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "About charging on this Mac"
           }
         },
         "fr" : {
@@ -23576,6 +24746,12 @@
     "settings.label.charge_control_help_heading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "How charging works on this Mac"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23586,12 +24762,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "So funktioniert das Laden auf diesem Mac"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "How charging works on this Mac"
           }
         },
         "fr" : {
@@ -23843,6 +25013,12 @@
     "settings.label.diagnostics_charging_control" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charging control"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23853,12 +25029,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ladesteuerung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charging control"
           }
         },
         "fr" : {
@@ -23932,6 +25102,12 @@
     "settings.label.diagnostics_charging_control_active" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23942,12 +25118,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktiv"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Active"
           }
         },
         "fr" : {
@@ -24021,6 +25191,12 @@
     "settings.label.diagnostics_charging_control_idle" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available, not in use"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24031,12 +25207,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verfügbar, nicht in Verwendung"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Available, not in use"
           }
         },
         "fr" : {
@@ -24110,6 +25280,12 @@
     "settings.label.diagnostics_charging_control_system_charge_limit" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active (via macOS Charge Limit)"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24120,12 +25296,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktiv (über macOS-Ladelimit)"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Active (via macOS Charge Limit)"
           }
         },
         "fr" : {
@@ -24199,6 +25369,12 @@
     "settings.label.diagnostics_charging_control_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24209,12 +25385,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nicht verfügbar"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available"
           }
         },
         "fr" : {
@@ -24288,6 +25458,12 @@
     "settings.label.diagnostics_charging_control_unknown" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24298,12 +25474,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unbekannt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unknown"
           }
         },
         "fr" : {
@@ -24377,6 +25547,12 @@
     "settings.label.diagnostics_charging_control_unsupported_explanation" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24387,12 +25563,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi kann das Laden auf diesem Mac nicht steuern — die Firmware unterstützt das nicht."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
           }
         },
         "fr" : {
@@ -24466,6 +25636,12 @@
     "settings.label.diagnostics_firmware" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24473,12 +25649,6 @@
           }
         },
         "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Firmware"
-          }
-        },
-        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Firmware"
@@ -24555,6 +25725,12 @@
     "settings.label.diagnostics_firmware_unknown" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24565,12 +25741,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unbekannt"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unknown"
           }
         },
         "fr" : {
@@ -24644,6 +25814,12 @@
     "settings.label.diagnostics_system_charge_limit_conflict" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24654,12 +25830,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Das eigene Ladelimit deines Macs in den Systemeinstellungen › Batterie ist auf %@ eingestellt. Es kann das Laden stoppen, bevor das Limit von BatFi erreicht ist. Stelle es dort auf 100%%, damit nur BatFi die Kontrolle hat."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control."
           }
         },
         "fr" : {
@@ -24733,6 +25903,12 @@
     "settings.label.firmware_range_battery_may_dip_below_limit" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24743,12 +25919,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Akku kann bis zu %@ unter das Limit fallen, bevor das Laden wieder beginnt. Dieses Absinken ist die Art, wie die Firmware das Limit hält — es ist kein Fehler."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
           }
         },
         "fr" : {
@@ -24822,6 +25992,12 @@
     "settings.label.firmware_range_cannot_pause_charging" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your limit keeps holding while the Mac is asleep, enforced by its firmware, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at your limit rather than stopped on request."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24832,12 +26008,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Limit bleibt auch im Ruhezustand des Macs bestehen, durchgesetzt von der Firmware, daher gibt es für BatFi nichts zu pausieren. Die Einstellungen zum Pausieren im Ruhezustand und zum Stoppen bei zu warmem Akku werden auf diesem Mac nicht angezeigt, weil das Laden hier auf deinem Limit gehalten und nicht auf Anforderung gestoppt wird."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your limit keeps holding while the Mac is asleep, enforced by its firmware, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at your limit rather than stopped on request."
           }
         },
         "fr" : {
@@ -24911,6 +26081,12 @@
     "settings.label.firmware_range_charging_status_is_inferred" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -24921,12 +26097,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Während dieses Absinkens zeigt BatFi deinen Mac in der Menüleiste und in den Mitteilungen möglicherweise weiterhin als ladend an. Die Firmware meldet nicht, wann sie das Limit hält, daher leitet BatFi den Status aus dem Akkustand ab — das Limit selbst wird weiterhin exakt eingehalten."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
           }
         },
         "fr" : {
@@ -25000,6 +26170,12 @@
     "settings.label.firmware_range_enforced_by_firmware" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25010,12 +26186,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Die Firmware deines Macs setzt das Ladelimit selbst durch. BatFi übergibt ihr dein Limit einmal und hält sich dann zurück, sodass das Limit auch im Ruhezustand des Macs weiterhin gilt."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
           }
         },
         "fr" : {
@@ -25089,6 +26259,12 @@
     "settings.label.force_discharge_still_works" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25099,12 +26275,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Betrieb über den Akku funktioniert weiterhin — dafür wird ein anderer Teil der Firmware genutzt, den dieser Mac noch hat."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
           }
         },
         "fr" : {
@@ -25998,6 +27168,12 @@
     "settings.label.magsafe_green_light_no_led" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available on this Mac, which doesn't have a MagSafe indicator light."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26008,12 +27184,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auf diesem Mac nicht verfügbar, da er keine MagSafe-Anzeigeleuchte hat."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available on this Mac, which doesn't have a MagSafe indicator light."
           }
         },
         "fr" : {
@@ -26087,6 +27257,12 @@
     "settings.label.magsafe_green_light_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26097,12 +27273,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auf diesem Mac nicht verfügbar. Die Firmware entscheidet, wann geladen wird, und meldet nicht, wann sie das Limit hält, daher kann BatFi der Leuchte nicht mitteilen, wann sie leuchten soll."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
           }
         },
         "fr" : {
@@ -26267,6 +27437,12 @@
     "settings.label.system_charge_limit_banner" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26277,12 +27453,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Akku hört bei dem von dir festgelegten Limit auf zu laden. Auf diesem Mac setzt macOS dieses Limit durch und nicht BatFi, deshalb ist 80% das niedrigste verfügbare Limit."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%."
           }
         },
         "fr" : {
@@ -26356,6 +27526,12 @@
     "settings.label.system_charge_limit_cannot_pause_charging" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at a percentage rather than stopped on request."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26366,12 +27542,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Limit bleibt auch im Ruhezustand des Macs bestehen, daher gibt es für BatFi nichts zu pausieren. Die Einstellungen zum Pausieren im Ruhezustand und zum Stoppen bei zu warmem Akku werden auf diesem Mac nicht angezeigt, weil das Laden hier auf einem Prozentwert gehalten und nicht auf Anforderung gestoppt wird."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at a percentage rather than stopped on request."
           }
         },
         "fr" : {
@@ -26445,6 +27615,12 @@
     "settings.label.system_charge_limit_manages_system_settings" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26455,12 +27631,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dazu ändert BatFi das Ladelimit in den Systemeinstellungen › Batterie. Deine eigene Einstellung dort wurde gesichert, und BatFi stellt sie beim Beenden wieder her."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
           }
         },
         "fr" : {
@@ -26534,6 +27704,12 @@
     "settings.label.system_charge_limit_no_snapshot" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26544,12 +27720,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi wendet auf diesem Mac kein Ladelimit an. Es konnte das Limit, das du in den Systemeinstellungen › Batterie eingestellt hast, nicht sichern, und es ändert keinen Wert, den es möglicherweise nicht wiederherstellen kann."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back."
           }
         },
         "fr" : {
@@ -26623,6 +27793,12 @@
     "settings.label.system_charge_limit_raised" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26633,12 +27809,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limits unter 80%% können auf diesem Mac nicht angewendet werden. BatFi hält das Laden stattdessen bei %@ — dem niedrigsten Wert, den das macOS-Ladelimit zulässt."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
           }
         },
         "fr" : {
@@ -26712,6 +27882,12 @@
     "settings.label.system_charge_limit_rounded_up" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26722,12 +27898,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Das macOS-Ladelimit akzeptiert nur bestimmte Werte, daher hält BatFi das Laden bei %1$@ statt bei den angeforderten %2$@."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
           }
         },
         "fr" : {
@@ -29115,10 +30285,88 @@
     "updater.notification.body.update_available" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verze %@ je nyní dostupná"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ ist jetzt verfügbar"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Version %@ is now available"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La version %@ est maintenant disponible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versione %@ è ora disponibile"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン %@ が利用可能になりました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@를 사용할 수 있습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versie %@ is nu beschikbaar"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wersja %@ jest już dostępna"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A versão %@ já está disponível"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %@ теперь доступна"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sürüm %@ şimdi kullanılabilir"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версія %@ тепер доступна"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本 %@ 现已推出"
           }
         }
       }
@@ -29126,10 +30374,88 @@
     "updater.notification.title.update_available" : {
       "extractionState" : "manual",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je dostupná nová aktualizace"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine neue Aktualisierung ist verfügbar"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "A new update is available"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une nouvelle mise à jour est disponible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È disponibile un nuovo aggiornamento"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しいアップデートが利用可能です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로운 업데이트가 있습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is een nieuwe update beschikbaar"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dostępne jest nowe uaktualnienie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uma nova atualização está disponível"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступно новое обновление"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yeni bir güncelleme mevcut"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступне нове оновлення"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有新的更新可用"
           }
         }
       }
