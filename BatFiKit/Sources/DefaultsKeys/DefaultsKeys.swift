@@ -13,12 +13,6 @@ import Foundation
 // automatically, so a conformance declaration is all that's needed to persist them.
 extension AutomationRule: Defaults.Serializable {}
 
-#if DEBUG
-    private let showDebugMenuByDefault = true
-#else
-    private let showDebugMenuByDefault = false
-#endif
-
 public extension Defaults.Keys {
     static let launchAtLogin = Key<Bool>("launchAtLogin", default: true)
     static let onboardingIsDone = Key<Bool>("onboardingIsDone", default: false)
@@ -52,7 +46,8 @@ public extension Defaults.Keys {
 
     // Advanced
     static let downloadBetaVersion = Key<Bool>("downloadBetaVersion", default: false)
-    static let showDebugMenu = Key<Bool>("showDebugMenu", default: showDebugMenuByDefault)
+    // Off everywhere, debug builds included: it is opt-in from Settings › Advanced.
+    static let showDebugMenu = Key<Bool>("showDebugMenu", default: false)
     static let disableSleep = Key<Bool>("disableSleep", default: false)
     static let showGreenLightMagSafeWhenInhibiting = Key<Bool>("showGreenLightMagSafeWhenInhibiting", default: false)
     static let turnOnInhibitingChargingWhenGoingToSleep = Key<Bool>("turnOnInhibitingChargingWhenGoingToSleep", default: false)
