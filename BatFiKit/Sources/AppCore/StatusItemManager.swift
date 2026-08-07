@@ -175,7 +175,7 @@ public final class StatusItemManager {
     @available(macOS 26, *)
     @MainActor
     private func makeMenuContentView() -> NSView {
-        let contentWidth: CGFloat = 220
+        let contentWidth = MenuMetrics.contentWidth
         let coordinator = MenuContentSizeCoordinator()
 
         let content = MenuContent(licenseModel: licenseModel)
@@ -195,8 +195,7 @@ public final class StatusItemManager {
             hostingView?.updateFromSwiftUI(height: height)
         }
 
-        let totalWidth = contentWidth + 30
-        hostingView.frame = NSRect(x: 0, y: 0, width: totalWidth, height: 1)
+        hostingView.frame = NSRect(x: 0, y: 0, width: MenuMetrics.width, height: 1)
 
         return hostingView
     }
@@ -239,7 +238,7 @@ public final class StatusItemManager {
                         MenuContent(licenseModel: licenseModel)
                             .environmentObject(batteryInfoModel)
                             .tint(.appAccent)
-                            .frame(width: 220)
+                            .frame(width: MenuMetrics.contentWidth)
                             .frame(maxHeight: .infinity)
                             .modifier(MenuViewModifier())
                     }
@@ -371,7 +370,7 @@ public final class StatusItemManager {
                     .font(.callout)
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
-                    .frame(width: 220, alignment: .leading)
+                    .frame(width: MenuMetrics.contentWidth, alignment: .leading)
                     .padding(.leading, horizontalPadding(for: limit))
                     .padding(.top, 6)
                     .padding(.bottom, 6)
@@ -389,7 +388,7 @@ public final class StatusItemManager {
                     .font(.callout)
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
-                    .frame(width: 220, alignment: .leading)
+                    .frame(width: MenuMetrics.contentWidth, alignment: .leading)
                     .padding(.leading, menuItemCheckMarkPadding)
                     .padding(.top, 2)
                     .padding(.bottom, 6)
@@ -404,7 +403,7 @@ public final class StatusItemManager {
                     .font(.callout)
                     .multilineTextAlignment(.leading)
                     .foregroundStyle(.tertiary)
-                    .frame(width: 220, alignment: .leading)
+                    .frame(width: MenuMetrics.contentWidth, alignment: .leading)
                     .padding(.leading, menuItemCheckMarkPadding)
                     .padding(.top, 2)
                     .padding(.bottom, 6)
@@ -446,16 +445,19 @@ public final class StatusItemManager {
                 // `self` strongly for the items to weaken it — and the menu is reachable from
                 // `self`. These three items only ever need the two clients anyway.
                 .submenu { [helperManager, defaults] in
-                    MenuItem(L10n.Menu.Label.installHelper).onSelect {
-                        Task { try? await helperManager.installHelper() }
-                    }
-                    MenuItem(L10n.Menu.Label.removeHelper).onSelect {
-                        Task { try? await helperManager.removeHelper() }
-                    }
+                    MenuItem(L10n.Menu.Label.installHelper)
+                        .onSelect {
+                            Task { try? await helperManager.installHelper() }
+                        }
+                    MenuItem(L10n.Menu.Label.removeHelper)
+                        .onSelect {
+                            Task { try? await helperManager.removeHelper() }
+                        }
                     SeparatorItem()
-                    MenuItem(L10n.Menu.Label.resetSettings).onSelect {
-                        defaults.resetSettings()
-                    }
+                    MenuItem(L10n.Menu.Label.resetSettings)
+                        .onSelect {
+                            defaults.resetSettings()
+                        }
                 }
         }
     }
@@ -548,10 +550,20 @@ struct MenuDependencies {
     let helperHealth: HelperHealth
 }
 
+private enum MenuMetrics {
+    /// Total width of the menu: what `MenuContent` is laid out at plus `MenuViewModifier`'s
+    /// inset on each side. The SwiftUI block and the plain menu items below it then share one
+    /// leading edge, and the block doesn't widen the menu past what AppKit draws its rows at.
+    static let width: CGFloat = 250
+    static let horizontalInset: CGFloat = 15
+    /// What `MenuContent` itself is laid out at, once the insets are taken off.
+    static let contentWidth: CGFloat = width - horizontalInset * 2
+}
+
 private struct MenuViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .padding(.horizontal, 15)
+            .padding(.horizontal, MenuMetrics.horizontalInset)
             .padding(.top, 6)
             .padding(.bottom, 6)
     }
