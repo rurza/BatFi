@@ -180,6 +180,7 @@ public final class StatusItemManager {
 
         let content = MenuContent(licenseModel: licenseModel)
             .environmentObject(batteryInfoModel)
+            .tint(.appAccent)
             .frame(width: contentWidth)
             .fixedSize(horizontal: false, vertical: true)
             .modifier(MenuViewModifier())
@@ -237,6 +238,7 @@ public final class StatusItemManager {
                     .view {
                         MenuContent(licenseModel: licenseModel)
                             .environmentObject(batteryInfoModel)
+                            .tint(.appAccent)
                             .frame(width: 220)
                             .frame(maxHeight: .infinity)
                             .modifier(MenuViewModifier())

@@ -7,6 +7,7 @@
 
 import ConfettiSwiftUI
 import L10n
+import SharedUI
 import SwiftUI
 
 struct LicenseView: View {
@@ -109,7 +110,7 @@ struct LicenseView: View {
                                 }, label: {
                                     Text(l10n.activateBatFi)
                                 })
-                                .tint(Color.init("appGreen"))
+                                .tint(.appAccent)
                                 .buttonStyle(.borderedProminent)
                                 .disabled(model.state.isLoading || !model.canVerifyLicense)
                                 .opacity(model.state.isLoading ? 0 : 1)
