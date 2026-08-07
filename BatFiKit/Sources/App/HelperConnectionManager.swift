@@ -167,7 +167,10 @@ final class HelperConnectionManager: @unchecked Sendable {
     /// a register that failed may still have left the old record in place.
     private func retryRegistration() async {
         logger.notice("Helper unreachable; attempting re-registration to take ownership")
-        await send(.retryFinished(error: await reregister()))
+        await helperHealthClient.setReclaimingHelper(true)
+        let error = await reregister()
+        await helperHealthClient.setReclaimingHelper(false)
+        await send(.retryFinished(error: error))
     }
 
     /// Repoints the Background Task Management record at this bundle, and returns a
@@ -224,17 +227,32 @@ final class HelperConnectionManager: @unchecked Sendable {
             return
         }
 
+        // Held across the whole sequence, including the quit: from here until a helper of
+        // ours answers again there is deliberately nothing on the other end, and everything
+        // the app would otherwise send in that window fails. Without this the takeover was
+        // observably noisy — a burst of failed charge-limit, inhibit and discharge calls,
+        // a MagSafe write, and user-facing notifications for mode changes that were only
+        // ever an artefact of the helper being torn down on purpose.
+        await helperHealthClient.setReclaimingHelper(true)
+
         // Best effort throughout: a helper that will not answer a quit is already the
         // unreachable case, and the re-registration below is what fixes that too.
         try? await helperClient.quitHelper()
 
-        guard conflict.kind != .staleBinary else {
+        // Cleared before the terminal event in every arm, never in a `defer`. The event
+        // drives a ping, an identity check and — on success — the re-drive that puts the
+        // charge limit back; all of that runs inside `send`, so a flag still set at that
+        // point would suppress the very recovery this exists to protect.
+        if conflict.kind == .staleBinary {
             logger.notice("Stale helper asked to quit; launchd will start the current build")
+            await helperHealthClient.setReclaimingHelper(false)
             await send(.takeoverFinished(error: nil))
             return
         }
 
-        await send(.takeoverFinished(error: await reregister()))
+        let error = await reregister()
+        await helperHealthClient.setReclaimingHelper(false)
+        await send(.takeoverFinished(error: error))
     }
 
     /// Read-only, so it can repeat for as long as the helper stays broken. This is what

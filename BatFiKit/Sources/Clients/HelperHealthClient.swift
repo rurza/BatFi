@@ -20,6 +20,17 @@ public struct HelperHealthClient: Sendable {
     /// decides what it means, and confirms with a ping before acting.
     public var reportConnectionFailure: @Sendable () async -> Void
     public var observeConnectionFailures: @Sendable () -> AsyncStream<Void> = { AsyncStream { _ in } }
+    /// True while the app is deliberately taking the daemon down — to reclaim it from
+    /// another copy, or to repair a record macOS will not start.
+    ///
+    /// Distinct from any `HelperHealth` value, and deliberately so. Health says what is
+    /// true of the helper; this says the app is *in the middle of changing* it, and knows
+    /// exactly when the outage starts and ends. Only the second one justifies standing
+    /// down, which is why it is not folded into `.degraded`: a helper that is degraded but
+    /// answering still limits the battery, and refusing to use it would leave the Mac
+    /// charging to 100% with nothing managing it.
+    public var isReclaimingHelper: @Sendable () async -> Bool = { false }
+    public var setReclaimingHelper: @Sendable (Bool) async -> Void
 }
 
 extension HelperHealthClient: TestDependencyKey {

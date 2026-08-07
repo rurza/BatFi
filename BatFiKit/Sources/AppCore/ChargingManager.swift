@@ -307,6 +307,21 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     private func updateStatusWithCurrentState() async {
+        // Nothing to drive while the app is deliberately taking the daemon down to reclaim
+        // it. Every call in that window fails — the helper has been asked to quit and the
+        // registration is being rewritten — and failing loudly is the least of it: the mode
+        // churns as the calls error out, which posts charging-status notifications the user
+        // has no way to interpret, and a limit or discharge command issued a moment before
+        // the quit lands on the *other* copy's helper, which is precisely the daemon this
+        // app has already decided it should not be driving.
+        //
+        // Skipped, not queued. `observeHelperHealth()` re-drives from the current power
+        // state the moment a helper of ours answers, so the correct limit is applied from
+        // fresh readings rather than from whatever was true before the outage.
+        guard await !helperHealthClient.isReclaimingHelper() else {
+            logger.debug("Reclaiming the helper; not driving charging until it answers")
+            return
+        }
         let powerState = try? await powerSourceClient.currentPowerSourceState()
         let userTempChargingMode = await appChargingState.currentUserTempOverrideMode()
         logger.debug("\(#function). Battery level: \(powerState?.batteryLevel.description ?? "no power state"), Charge limit: \(self.defaults.value(.chargeLimit))")

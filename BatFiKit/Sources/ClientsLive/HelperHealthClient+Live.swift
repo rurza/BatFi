@@ -17,6 +17,17 @@ private let HelperHealthDidChangeNotificationName = Notification.Name("HelperHea
 
 private actor HelperHealthState {
     var health: HelperHealth = .unknown
+    /// Counted rather than a boolean, so that two recovery paths overlapping cannot have
+    /// the first one to finish declare the outage over while the second is still tearing
+    /// the daemon down. The policy serialises them today; this stops that from being a
+    /// thing the charging path silently depends on.
+    private var reclaimDepth = 0
+
+    var isReclaiming: Bool { reclaimDepth > 0 }
+
+    func setReclaiming(_ reclaiming: Bool) {
+        reclaimDepth = reclaiming ? reclaimDepth + 1 : max(0, reclaimDepth - 1)
+    }
 
     func setHealth(_ newHealth: HelperHealth) {
         guard newHealth != health else { return }
@@ -62,6 +73,12 @@ extension HelperHealthClient: DependencyKey {
                     }
                     continuation.onTermination = { _ in streamTask.cancel() }
                 }
+            },
+            isReclaimingHelper: {
+                await state.isReclaiming
+            },
+            setReclaimingHelper: { reclaiming in
+                await state.setReclaiming(reclaiming)
             }
         )
     }()
