@@ -31,6 +31,7 @@
 		66CF84352BC6D4A6003C51B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84342BC6D4A6003C51B8 /* Assets.xcassets */; };
 		66CF84382BC6D4A6003C51B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */; };
 		66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 66F50ABA2BD316970043C5DF /* Localizable.xcstrings */; };
+		09221906F9E0DA2AC2B63F21 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 8896282A618C9CF7D83777F4 /* InfoPlist.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -122,6 +123,7 @@
 		66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66CF84392BC6D4A6003C51B8 /* Previews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Previews.entitlements; sourceTree = "<group>"; };
 		66F50ABA2BD316970043C5DF /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		8896282A618C9CF7D83777F4 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
 				5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */,
 				66F50ABA2BD316970043C5DF /* Localizable.xcstrings */,
+				8896282A618C9CF7D83777F4 /* InfoPlist.xcstrings */,
 				66939C232BD5A4E600A9B73A /* AppShortcuts.swift */,
 			);
 			path = App;
@@ -395,6 +398,7 @@
 			files = (
 				66558E972BC1CB5D00FC377A /* license.rtf in Resources */,
 				66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */,
+				09221906F9E0DA2AC2B63F21 /* InfoPlist.xcstrings in Resources */,
 				66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
