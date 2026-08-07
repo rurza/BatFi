@@ -10,6 +10,12 @@
             "value": "Nabít baterii"
           }
         },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akku laden"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "new",
@@ -22,10 +28,22 @@
             "value": "Charger la batterie"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica la batteria"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "バッテリーを充電"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배터리 충전"
           }
         },
         "nl": {
@@ -46,6 +64,12 @@
             "value": "Carregue a bateria"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядить аккумулятор"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -57,6 +81,12 @@
             "state": "translated",
             "value": "Зарядити батарею"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "为电池充电"
+          }
         }
       }
     },
@@ -67,6 +97,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nabít nebo provozovat na baterii (při otevřeném víku), dokud není dosaženo limitu ${limit} %."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lädt den Akku oder wechselt auf Akkubetrieb (bei geöffnetem Deckel), bis das Limit von ${limit}% erreicht ist."
           }
         },
         "en": {
@@ -81,10 +117,22 @@
             "value": "Charger ou utiliser la batterie (quand l'écran est ouvert) jusqu'a ${limit}%"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica o alimenta a batteria (con il coperchio aperto) fino al raggiungimento del limite di ${limit}%."
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": " ${limit} の制限に達するまでバッテリーを充電するかバッテリー駆動にする(Macの蓋が開いているとき)"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${limit}% 한도에 도달할 때까지 충전하거나 (뚜껑이 열린 상태에서) 배터리로 구동합니다."
           }
         },
         "nl": {
@@ -105,6 +153,12 @@
             "value": "Carregue ou utilize na bateria (com a tampa aberta) até que o limite de ${limit}% seja atingido."
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заряжать или работать от аккумулятора (при открытой крышке), пока не будет достигнут лимит ${limit}%."
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -115,6 +169,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Заряджати або працювати від батареї (при відкритій кришці), доки не буде досягнуто ліміту ${limit}%."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电或使用电池运行（在打开上盖时），直至达到${limit}%的限制。"
           }
         }
       }
@@ -128,16 +188,34 @@
             "value": "Nabít baterii pomocí ${applicationName}"
           }
         },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akku laden mit ${applicationName}"
+          }
+        },
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Charger la batterie avec ${applicationName}"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica la batteria con ${applicationName}"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "バッテリーを ${applicationName} で充電する"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}(으)로 배터리 충전"
           }
         },
         "nl": {
@@ -158,6 +236,12 @@
             "value": "Carregue a bateria com ${applicationName}"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядить аккумулятор с помощью ${applicationName}"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -168,6 +252,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Зарядити батарею за допомогою ${applicationName}"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用${applicationName}为电池充电"
           }
         }
       }
@@ -181,16 +271,34 @@
             "value": "Nabít na 100 % pomocí ${applicationName}"
           }
         },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf 100% aufladen mit ${applicationName}"
+          }
+        },
         "fr": {
           "stringUnit": {
             "state": "translated",
             "value": "Charger à 100% avec ${applicationName}"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica fino al 100% con ${applicationName}"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "100%まで ${applicationName} で充電する"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "${applicationName}(으)로 100%까지 충전"
           }
         },
         "nl": {
@@ -211,6 +319,12 @@
             "value": "Carregue até 100% com ${applicationName}"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядить до 100% с помощью ${applicationName}"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -222,6 +336,12 @@
             "state": "translated",
             "value": "Зарядити до 100% за допомогою ${applicationName}"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用${applicationName}充电至100%"
+          }
         }
       }
     },
@@ -232,6 +352,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nabít na 100 %"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufladen auf 100%"
           }
         },
         "en": {
@@ -246,10 +372,22 @@
             "value": "Charger à 100%"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica fino al 100%"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "100%まで充電する"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100%까지 충전"
           }
         },
         "nl": {
@@ -270,6 +408,12 @@
             "value": "Carregue até 100%"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зарядить до 100%"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -281,6 +425,12 @@
             "state": "translated",
             "value": "Зарядити до 100%"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电至100%"
+          }
         }
       }
     },
@@ -291,6 +441,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Funguje pouze s otevřeným víkem."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funktioniert nur bei geöffnetem Deckel."
           }
         },
         "en": {
@@ -305,10 +461,22 @@
             "value": "Ne fonctionne que si l'écran est ouvert."
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funziona solo con il coperchio aperto."
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "Macの蓋が開いている時のみ動作します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "뚜껑이 열려 있을 때만 작동합니다."
           }
         },
         "nl": {
@@ -329,6 +497,12 @@
             "value": "Funciona somente com a tampa aberta."
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работает только при открытой крышке."
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -340,6 +514,12 @@
             "state": "translated",
             "value": "Працює тільки при відкритій кришці."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅在打开上盖时有效。"
+          }
         }
       }
     },
@@ -350,6 +530,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Provoz na baterii"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auf Batteriebetrieb umschalten"
           }
         },
         "en": {
@@ -364,10 +550,22 @@
             "value": "Utiliser la batterie"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alimentato a batteria"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "バッテリーで動作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배터리 사용"
           }
         },
         "nl": {
@@ -388,6 +586,12 @@
             "value": "Utilize na Bateria"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работать от батареи"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -399,6 +603,12 @@
             "state": "translated",
             "value": "Працювати від батареї"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用电池运行"
+          }
         }
       }
     },
@@ -409,6 +619,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vybíjení funguje pouze při otevřeném víku."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Entladen funktioniert nur bei geöffnetem Deckel."
           }
         },
         "en": {
@@ -423,10 +639,22 @@
             "value": "Le déchargement ne fonctionne que si l'écran est ouvert"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La scarica funziona solo con il coperchio aperto."
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "放電はMacが開いている時のみ動作します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "방전은 뚜껑이 열려 있을 때만 작동합니다."
           }
         },
         "nl": {
@@ -447,6 +675,12 @@
             "value": "O descargamento só funciona com a tampa aberta."
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрядка работает только при открытой крышке."
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -458,6 +692,12 @@
             "state": "translated",
             "value": "Розряджання працює тільки при відкритій кришці."
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放电仅在打开上盖时有效。"
+          }
         }
       }
     },
@@ -468,6 +708,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Procento baterie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akkuladung in Prozent"
           }
         },
         "en": {
@@ -482,10 +728,22 @@
             "value": "Pourcentage de la batterie"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Percentuale batteria"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "バッテリー残量"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배터리 퍼센트"
           }
         },
         "nl": {
@@ -506,6 +764,12 @@
             "value": "Porcentagem da bateria"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Процент заряда аккумулятора"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -516,6 +780,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Відсоток заряду"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "电量百分比"
           }
         }
       }
@@ -532,7 +802,7 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Limit"
+            "value": "Ladelimit"
           }
         },
         "en": {
@@ -547,16 +817,22 @@
             "value": "Limite"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limite"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "Limit"
+            "value": "充電上限"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "Limit"
+            "value": "충전 한도"
           }
         },
         "nl": {
@@ -580,7 +856,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Limit"
+            "value": "Лимит заряда"
           }
         },
         "tr": {
@@ -589,16 +865,16 @@
             "value": "Sınır"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Limit"
-          }
-        },
         "uk": {
           "stringUnit": {
             "state": "translated",
             "value": "Ліміт"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充电限制"
           }
         }
       }
@@ -610,6 +886,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dočasně přepsat úroveň nabití baterie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Akkustand vorübergehend überschreiben"
           }
         },
         "en": {
@@ -624,10 +906,22 @@
             "value": "Temporairement charger la batterie au dela de la limite"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sovrascrivi temporaneamente il livello della batteria"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "一時的にバッテリー残量を上書きする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "배터리 잔량 임시 재설정"
           }
         },
         "nl": {
@@ -648,6 +942,12 @@
             "value": "Sobrepor Temporariamente o Nível da Bateria"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Временно переопределить уровень заряда"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -659,6 +959,12 @@
             "state": "translated",
             "value": "Тимчасово перевизначити рівень заряду"
           }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "临时覆盖电池电量"
+          }
         }
       }
     },
@@ -669,6 +975,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Zastavit přepsání nabíjení"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ladeüberschreibung stoppen"
           }
         },
         "en": {
@@ -683,10 +995,22 @@
             "value": "Arrêter la charge"
           }
         },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Interrompi sovrascrizione della carica"
+          }
+        },
         "ja": {
           "stringUnit": {
             "state": "translated",
             "value": "充電オーバーライドを停止する"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "임시 충전 설정 취소"
           }
         },
         "nl": {
@@ -707,6 +1031,12 @@
             "value": "Parar sobreposição da bateria"
           }
         },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановить переопределение зарядки"
+          }
+        },
         "tr": {
           "stringUnit": {
             "state": "translated",
@@ -717,6 +1047,12 @@
           "stringUnit": {
             "state": "translated",
             "value": "Зупинити перевизначення заряду"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止充电覆盖"
           }
         }
       }
