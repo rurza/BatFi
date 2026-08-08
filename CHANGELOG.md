@@ -55,6 +55,21 @@ All notable changes to BatFi are documented here. The format is based on
 - **"Run on Battery" should now discharge on recent firmware.** BatFi was writing the wrong
   value to the charging controller key used by macOS 26-era firmware and newer, so the request
   was accepted but had no effect. The corrected value has not yet been confirmed on hardware.
+- **When macOS refuses to start the helper, BatFi now says exactly how to fix it instead of
+  reporting a fault it cannot repair.** macOS attaches a launch constraint to the background
+  helper's registration, derived from the copy of BatFi that registered it. If that copy is
+  later deleted — one run once from a disk image or Downloads, or a build directory since
+  cleaned — the constraint can no longer be resolved and macOS refuses to start the helper at
+  all, while still reporting the registration as enabled. BatFi used to answer this by
+  unregistering and registering again, which cannot help: unregistering leaves the record in
+  place and merely disables it, so registering re-finds the same one and reports success while
+  nothing changes. BatFi now recognises when its own repair has made no difference and asks you
+  to turn BatFi off and back on in Login Items — the one action that clears the record, and one
+  only you can perform — instead of telling you the helper isn't responding and leaving you to
+  guess. It also stops re-registering once it knows that won't work, which macOS was rate
+  limiting BatFi for, and waits out the delay macOS imposes after a failed start before
+  concluding anything, so a helper that was simply slow to come up is no longer reported as
+  broken.
 - **"Run on Battery" and the MagSafe discharge blink no longer depend on the charge limit
   working.** Both used to be switched off together with the charge limit whenever BatFi couldn't
   use its usual mechanism. They are now checked on their own, so on firmware that has dropped
