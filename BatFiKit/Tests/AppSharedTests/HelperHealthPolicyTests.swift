@@ -183,8 +183,12 @@ import Testing
         var policy = enabledAndVerifying()
         driveToStaleRegistration(&policy)
 
-        let install = policy.handle(.statusObserved(.notRegistered))
-        #expect(install.contains(.installHelper))
+        // The toggle-off leaves no record, which is reported rather than silently
+        // reinstalled — but crucially it also retires the stale verdict, so what follows is
+        // judged as a new install and not as more evidence against the old record.
+        let reset = policy.handle(.statusObserved(.notRegistered))
+        #expect(reset.contains(.publish(.degraded(.notRegistered))))
+        #expect(policy.health != .degraded(.staleRegistrationNeedsUserReset))
 
         // One slow probe against the newly minted record must not re-run the verdict.
         let interim = policy.handle(.pingFailed)
@@ -340,14 +344,73 @@ import Testing
         #expect(!actions.contains(.verifyWithPing))
     }
 
-    @Test("notRegistered installs rather than re-registering")
-    func notRegisteredInstalls() {
+    /// Registering a privileged daemon makes macOS post a background-item notification and
+    /// often demand an approval. Doing that unasked, seconds after launch, is
+    /// indistinguishable from the app misbehaving — so the policy reports the absence and
+    /// lets the guidance's button be what asks.
+    @Test("No helper means asking the user, not installing unasked")
+    func notRegisteredAsksRatherThanInstalling() {
         var policy = HelperHealthPolicy()
 
         let actions = policy.handle(.statusObserved(.notRegistered))
 
-        #expect(actions.contains(.installHelper))
+        #expect(actions.contains(.publish(.degraded(.notRegistered))))
+        #expect(actions.contains(.showGuidance))
+        #expect(!actions.contains(.installHelper))
         #expect(!actions.contains(.retryRegistrationOnce))
+    }
+
+    /// The state a vanished record actually reports. Observed live: `register()` logged
+    /// success, the helper never answered, and the next launch read `.notFound` and settled
+    /// into a verdict that told the user to re-enable a Login Items entry which did not
+    /// exist — there is nothing to toggle, because there is no record.
+    ///
+    /// It is the same situation as `.notRegistered` and must reach the same place: say so,
+    /// and offer the button that installs.
+    @Test("notFound is the same absence as notRegistered, not a dead end")
+    func notFoundIsReportedAsNotRegistered() {
+        var policy = HelperHealthPolicy()
+
+        let actions = policy.handle(.statusObserved(.notFound))
+
+        #expect(actions.contains(.publish(.degraded(.notRegistered))))
+        #expect(actions.contains(.showGuidance))
+        #expect(!actions.contains(.installHelper))
+    }
+
+    /// A failing install still has to reach a verdict, and it has to be the one that carries
+    /// the real reason — `.installFailed` names what went wrong, where the old `.notFound`
+    /// path could only offer Login Items advice that did not apply.
+    @Test("An install that fails from notFound is reported with its reason")
+    func notFoundInstallFailureIsReported() {
+        var policy = HelperHealthPolicy()
+        _ = policy.handle(.statusObserved(.notFound))
+
+        let actions = policy.handle(.retryFinished(error: "The plist could not be found"))
+
+        #expect(actions.contains(.publish(.degraded(.installFailed("The plist could not be found")))))
+        #expect(actions.contains(.showGuidance))
+    }
+
+    /// The complaint this rule comes from: the app launched, and macOS asked for approval
+    /// before the user had clicked anything. `.installHelper` is the only action that makes
+    /// macOS prompt, so nothing the policy decides on its own may emit it — it exists for
+    /// the button, and for the button only.
+    @Test("Nothing the policy decides by itself ever asks macOS to install")
+    func installIsNeverEmittedWithoutTheUser() {
+        var policy = HelperHealthPolicy()
+        var emitted: [HelperHealthPolicy.Action] = []
+
+        for status in [HelperServiceStatus.notFound, .notRegistered, .requiresApproval, .enabled] {
+            emitted += policy.handle(.statusObserved(status))
+        }
+        emitted += policy.handle(.pingFailed)
+        emitted += policy.handle(.pingFailed)
+        emitted += policy.handle(.retryFinished(error: nil))
+        emitted += policy.handle(.pingFailed)
+        emitted += policy.handle(.pingFailed)
+
+        #expect(!emitted.contains(.installHelper))
     }
 
     // MARK: - Ownership

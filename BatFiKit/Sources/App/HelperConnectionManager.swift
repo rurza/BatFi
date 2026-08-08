@@ -14,8 +14,13 @@ import L10n
 import os
 
 protocol HelperConnectionManagerDelegate: AnyObject, Sendable {
+    /// There is no helper, and the alert's button is what adds one.
+    ///
+    /// - Parameter reason: what `SMAppService` refused with, when it was asked and said no.
+    ///   Nil when nothing has been attempted yet — the record is simply absent, which is
+    ///   what a user sees after the copy of BatFi that registered it is deleted.
     @MainActor
-    func showHelperIsNotInstalled()
+    func showHelperIsNotInstalled(reason: String?)
     @MainActor
     func showHelperIsNotResponding()
     /// The helper is registered, macOS will not start it, and re-registering from here has
@@ -51,6 +56,19 @@ final class HelperConnectionManager: @unchecked Sendable {
     /// and the pending probe.
     private actor State {
         private var policy = HelperHealthPolicy()
+        /// One automatic modal per launch. Not per state.
+        ///
+        /// Per-state was tried and was much worse. Helper failures do not arrive one at a
+        /// time: a missing record installs into a refusal into a pending approval into a
+        /// stale registration, each a genuinely different state, and keying the gate by
+        /// state put a modal on screen for every one of them. Dismissing an alert produced
+        /// the next alert immediately — three in a row, none of which the user had asked
+        /// for.
+        ///
+        /// The cost is that the first failure of a launch is the one that speaks, even if a
+        /// later one would have been more apt. That is the right trade: the status item
+        /// carries a warning for as long as anything is wrong, and clicking it reports the
+        /// state as it is *now*, on demand, without stacking anything.
         private var hasShownGuidance = false
         private var probeTask: Task<Void, Never>?
 
@@ -81,6 +99,21 @@ final class HelperConnectionManager: @unchecked Sendable {
         observerHelperConnection()
         observeHelperStatus()
         observeConnectionFailures()
+    }
+
+    /// Installs on the user's say-so, from the alert that reports the helper missing.
+    ///
+    /// Routed through the same action the policy emits rather than calling the client
+    /// straight, so the attempt lands back in the state machine: a success is followed by
+    /// the ping and identity check that decide whether to believe it, and a refusal becomes
+    /// `.installFailed` carrying the reason. The user-visible result is macOS's own — the
+    /// approval prompt, or the notification about an item added in the background — which is
+    /// the point of putting this behind a button rather than a link to System Settings.
+    func installHelperRequestedByUser() {
+        Task {
+            logger.notice("Install requested by the user")
+            await perform(.installHelper)
+        }
     }
 
     func checkHelperHealth() {
@@ -297,10 +330,15 @@ final class HelperConnectionManager: @unchecked Sendable {
             // says nothing about the switch that is actually waiting for them.
             case .degraded(.requiresApproval):
                 delegate?.showHelperNeedsApproval()
-            case .degraded(.registeredButUnreachable), .degraded(.installFailed):
+            // Ahead of the not-responding case, and no longer sharing it. That alert says
+            // the helper is installed and macOS will not start it; when the registration was
+            // refused outright, nothing is installed and there is nothing to toggle.
+            case let .degraded(.installFailed(reason)):
+                delegate?.showHelperIsNotInstalled(reason: reason)
+            case .degraded(.registeredButUnreachable):
                 delegate?.showHelperIsNotResponding()
             default:
-                delegate?.showHelperIsNotInstalled()
+                delegate?.showHelperIsNotInstalled(reason: nil)
             }
         }
     }

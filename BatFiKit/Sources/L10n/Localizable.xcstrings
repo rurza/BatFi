@@ -15665,6 +15665,95 @@
         }
       }
     },
+    "notifications.alert.button.label.install_helper" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nainstalovat pomocný nástroj"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper installieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Install Helper"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installer l'assistant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installa Helper"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヘルパーをインストール"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보조 프로그램 설치"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Installeer hulpprogramma"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zainstaluj helpera"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instalar Helper"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить помощник"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yardımcıyı Yükle"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Встановити помічника"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安装 Helper"
+          }
+        }
+      }
+    },
     "notifications.alert.button.label.open_onboarding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16199,6 +16288,95 @@
         }
       }
     },
+    "notifications.alert.informative_text.helper_install_failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi potřebuje ke správě nabíjení pomocný nástroj a macOS jej odmítl přidat: %@\n\nOpakovaná instalace obvykle pomůže. macOS vás může požádat o povolení, aby BatFi běžel na pozadí – právě tento požadavek instalaci dokončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi benötigt einen Helper, um das Laden zu steuern, und macOS hat abgelehnt, ihn hinzuzufügen: %@\n\nEin erneuter Versuch klappt meist. macOS fragt dich möglicherweise, ob BatFi im Hintergrund laufen darf – diese Anfrage schließt die Installation ab."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi needs a helper to manage charging, and macOS refused to add it: %@\n\nInstalling it again usually works. macOS may ask you to allow BatFi to run in the background — that request is what completes the installation."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi a besoin d'un assistant pour gérer la charge, et macOS a refusé de l'ajouter : %@\n\nRéessayer fonctionne généralement. macOS peut vous demander d'autoriser BatFi à s'exécuter en arrière-plan — c'est cette demande qui termine l'installation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi ha bisogno di un Helper per gestire la ricarica e macOS ha rifiutato di aggiungerlo: %@\n\nInstallarlo di nuovo di solito funziona. macOS potrebbe chiederti di consentire a BatFi di essere eseguito in background: è quella richiesta a completare l'installazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiは充電を管理するためにヘルパーを必要としますが、macOSが追加を拒否しました: %@\n\nもう一度インストールすれば通常は成功します。macOSがBatFiのバックグラウンド実行の許可を求めることがありますが、その許可でインストールが完了します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi가 충전을 관리하려면 보조 프로그램이 필요한데, macOS가 추가를 거부했습니다: %@\n\n다시 설치하면 대개 성공합니다. macOS가 BatFi의 백그라운드 실행 허용을 요청할 수 있으며, 그 요청이 설치를 완료합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi heeft een hulpprogramma nodig om het opladen te beheren, en macOS weigerde het toe te voegen: %@\n\nOpnieuw installeren werkt meestal. macOS vraagt je mogelijk om BatFi op de achtergrond te laten draaien — dat verzoek voltooit de installatie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi potrzebuje helpera do zarządzania ładowaniem, a macOS odmówił jego dodania: %@\n\nPonowna instalacja zwykle działa. macOS może poprosić o zezwolenie BatFi na działanie w tle – ta prośba kończy instalację."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O BatFi precisa de um Helper para gerenciar o carregamento, e o macOS recusou adicioná-lo: %@\n\nInstalar novamente costuma funcionar. O macOS pode pedir para permitir que o BatFi seja executado em segundo plano — é esse pedido que conclui a instalação."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi нужен помощник для управления зарядкой, и macOS отказался его добавить: %@\n\nПовторная установка обычно срабатывает. macOS может попросить разрешить BatFi работать в фоне — именно этот запрос завершает установку."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin şarjı yönetmek için bir yardımcıya ihtiyacı var ve macOS onu eklemeyi reddetti: %@\n\nYeniden yüklemek genellikle işe yarar. macOS, BatFi’nin arka planda çalışmasına izin vermenizi isteyebilir — kurulumu tamamlayan şey bu istektir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi потрібен помічник для керування заряджанням, і macOS відмовився його додати: %@\n\nПовторне встановлення зазвичай спрацьовує. macOS може попросити дозволити BatFi працювати у фоні — саме цей запит завершує встановлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 需要一个 Helper 来管理充电，但 macOS 拒绝添加它：%@\n\n再安装一次通常就能成功。macOS 可能会请求允许 BatFi 在后台运行——正是该请求完成了安装。"
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.helper_needs_approval" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16373,6 +16551,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "macOS保留着BatFi的Helper的过时注册信息，因此拒绝启动它。这通常是由已被删除的BatFi副本遗留下来的，BatFi无法自行清除。\n\n请在下方打开系统设置，在列表中找到BatFi，将其关闭后再重新打开。BatFi会在几秒内自行重新连接。\n\n在此之前，BatFi不会管理充电。"
+          }
+        }
+      }
+    },
+    "notifications.alert.informative_text.helper_not_installed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi potřebuje ke správě nabíjení pomocný nástroj a ten není nainstalovaný.\n\nKlikněte níže na „Nainstalovat pomocný nástroj“. macOS vás může požádat o povolení, aby BatFi běžel na pozadí – právě tento požadavek instalaci dokončí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi benötigt einen Helper, um das Laden zu steuern, und er ist nicht installiert.\n\nKlicke unten auf „Helper installieren“. macOS fragt dich möglicherweise, ob BatFi im Hintergrund laufen darf – diese Anfrage schließt die Installation ab."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi needs a helper to manage charging, and it isn't installed.\n\nClick Install Helper below. macOS may ask you to allow BatFi to run in the background — that request is what completes the installation."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi a besoin d'un assistant pour gérer la charge, et il n'est pas installé.\n\nCliquez sur « Installer l'assistant » ci-dessous. macOS peut vous demander d'autoriser BatFi à s'exécuter en arrière-plan — c'est cette demande qui termine l'installation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi ha bisogno di un Helper per gestire la ricarica e non è installato.\n\nFai clic su “Installa Helper” qui sotto. macOS potrebbe chiederti di consentire a BatFi di essere eseguito in background: è quella richiesta a completare l'installazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiは充電を管理するためにヘルパーを必要としますが、インストールされていません。\n\n下の「ヘルパーをインストール」をクリックしてください。macOSがBatFiのバックグラウンド実行の許可を求めることがありますが、その許可でインストールが完了します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi가 충전을 관리하려면 보조 프로그램이 필요한데, 설치되어 있지 않습니다.\n\n아래의 ‘보조 프로그램 설치’를 클릭하세요. macOS가 BatFi의 백그라운드 실행 허용을 요청할 수 있으며, 그 요청이 설치를 완료합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi heeft een hulpprogramma nodig om het opladen te beheren, en het is niet geïnstalleerd.\n\nKlik hieronder op 'Installeer hulpprogramma'. macOS vraagt je mogelijk om BatFi op de achtergrond te laten draaien — dat verzoek voltooit de installatie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi potrzebuje helpera do zarządzania ładowaniem, a nie jest on zainstalowany.\n\nKliknij „Zainstaluj helpera” poniżej. macOS może poprosić o zezwolenie BatFi na działanie w tle – ta prośba kończy instalację."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O BatFi precisa de um Helper para gerenciar o carregamento, e ele não está instalado.\n\nClique em “Instalar Helper” abaixo. O macOS pode pedir para permitir que o BatFi seja executado em segundo plano — é esse pedido que conclui a instalação."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi нужен помощник для управления зарядкой, и он не установлен.\n\nНажмите «Установить помощник» ниже. macOS может попросить разрешить BatFi работать в фоне — именно этот запрос завершает установку."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin şarjı yönetmek için bir yardımcıya ihtiyacı var ve yüklü değil.\n\nAşağıdaki “Yardımcıyı Yükle” düğmesine tıklayın. macOS, BatFi’nin arka planda çalışmasına izin vermenizi isteyebilir — kurulumu tamamlayan şey bu istektir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi потрібен помічник для керування заряджанням, і його не встановлено.\n\nНатисніть «Встановити помічника» нижче. macOS може попросити дозволити BatFi працювати у фоні — саме цей запит завершує встановлення."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 需要一个 Helper 来管理充电，但它尚未安装。\n\n请点按下方的“安装 Helper”。macOS 可能会请求允许 BatFi 在后台运行——正是该请求完成了安装。"
           }
         }
       }
@@ -16907,6 +17174,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Helper 属于另一份 BatFi 副本"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.helper_install_failed" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj BatFi není nainstalovaný"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFis Helper ist nicht installiert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi's helper isn't installed"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant de BatFi n'est pas installé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper di BatFi non è installato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiのヘルパーがインストールされていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 보조 프로그램이 설치되어 있지 않습니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi's hulpprogramma is niet geïnstalleerd"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper BatFi nie jest zainstalowany"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Helper do BatFi não está instalado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник BatFi не установлен"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin yardımcısı yüklü değil"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічник BatFi не встановлено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 的 Helper 未安装"
           }
         }
       }

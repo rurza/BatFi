@@ -408,6 +408,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// BatFi's helper isn't installed
+                public static let helperInstallFailed = String(
+                    localized: "notifications.alert.title.helper_install_failed",
+                    defaultValue: "BatFi's helper isn't installed",
+                    bundle: Bundle.module
+                )
+
                 /// BatFi's helper needs your approval
                 public static let helperNeedsApproval = String(
                     localized: "notifications.alert.title.helper_needs_approval",
@@ -479,6 +486,39 @@ public enum L10n {
                 /// Nothing here mentions installing, repairing or onboarding. The
                 /// registration succeeded; a switch is off. Saying more would invite the
                 /// user to go looking for a fault that does not exist.
+                /// Says the helper is missing, and offers the one action that can add it.
+                ///
+                /// The alert this replaced for this state claimed the helper was installed
+                /// and told the user to toggle it off and on in Login Items — at the same
+                /// moment macOS was asking them to allow an item it had just been asked to
+                /// add. There is nothing in Login Items to toggle when the registration was
+                /// refused, so the remedy has to be BatFi asking macOS again, not the user
+                /// hunting for a switch.
+                ///
+                /// The reason is included because "Operation not permitted" is the ordinary
+                /// refusal here and it is transient, which is exactly what makes trying
+                /// again worth offering rather than describing as a repair.
+                /// The same state, before anything has been attempted: the record is simply
+                /// absent, which is what a user is left with once the copy of BatFi that
+                /// registered it is deleted. No reason to quote, because macOS has not
+                /// refused anything — it has not been asked yet.
+                public static let helperNotInstalled = String(
+                    localized: "notifications.alert.informative_text.helper_not_installed",
+                    defaultValue: "BatFi needs a helper to manage charging, and it isn't installed.\n\nClick Install Helper below. macOS may ask you to allow BatFi to run in the background — that request is what completes the installation.",
+                    bundle: Bundle.module
+                )
+
+                public static func helperInstallFailed(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.alert.informative_text.helper_install_failed",
+                            defaultValue: "BatFi needs a helper to manage charging, and macOS refused to add it: %@\n\nInstalling it again usually works. macOS may ask you to allow BatFi to run in the background — that request is what completes the installation.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
                 public static let helperNeedsApproval = String(
                     localized: "notifications.alert.informative_text.helper_needs_approval",
                     defaultValue: "macOS has registered BatFi's helper but is waiting for you to allow it to run in the background.\n\nOpen System Settings below, find BatFi in the list, and turn it on.\n\nUntil then, BatFi isn't managing charging.",
@@ -559,6 +599,13 @@ public enum L10n {
                     public static let close = String(
                         localized: "notifications.alert.button.label.close",
                         defaultValue: "Close",
+                        bundle: Bundle.module
+                    )
+
+                    /// Install Helper
+                    public static let installHelper = String(
+                        localized: "notifications.alert.button.label.install_helper",
+                        defaultValue: "Install Helper",
                         bundle: Bundle.module
                     )
 

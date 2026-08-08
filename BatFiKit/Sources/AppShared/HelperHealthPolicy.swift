@@ -177,23 +177,27 @@ public struct HelperHealthPolicy: Sendable {
         case .enabled:
             // Never conclusive on its own: a wedged record reports `.enabled` forever.
             return health.isHealthy ? [] : [.verifyWithPing]
-        case .notRegistered:
-            // The record is gone, which is the one transition that can undo
-            // `.staleRegistrationNeedsUserReset`: it is what the user's toggle produces, and
-            // installing over it is what mints a record with a constraint that resolves.
+        case .notRegistered, .notFound:
+            // Both mean the same thing to a user — there is no helper — and neither installs
+            // one from here. Registering a privileged daemon makes macOS post a
+            // background-item notification and, often, demand an approval; doing that
+            // unasked, seconds after launch, is indistinguishable from the app misbehaving.
+            // The guidance below carries a button that installs, so the prompt arrives as
+            // the answer to a click rather than ahead of one.
             //
-            // So the install that follows is given a full budget rather than inheriting the
-            // failures banked against the record it replaces. Those were the old record's,
-            // and holding them against a new one would report the repair as broken while it
-            // was still starting.
+            // The counters are still cleared, because whatever was banked belonged to a
+            // record that no longer exists, and holding it against the next one would report
+            // a fresh install as broken while it was still starting.
+            //
+            // No probe: there is nothing registered to ping, and the status stream already
+            // polls, so a record appearing — by this app's button or by the user's own hand
+            // in Login Items — is noticed without one.
             consecutivePingFailures = 0
             hasVerifiedIdentity = false
-            return publishing(.degraded(.notRegistered)) + [.installHelper]
+            return concluding(.degraded(.notRegistered), scheduleProbe: false)
         case .requiresApproval:
             // Only the user can clear this, so re-registering would just churn the record.
             return concluding(.degraded(.requiresApproval), scheduleProbe: false)
-        case .notFound:
-            return concluding(.degraded(.notRegistered), scheduleProbe: false)
         }
     }
 

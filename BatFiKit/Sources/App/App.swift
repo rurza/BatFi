@@ -135,20 +135,41 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     }
 
     /// Reached from the status item's warning row, so it is always available even after the
-    /// once-per-launch modal has been spent.
+    /// automatic guidance for a given state has been spent.
     ///
-    /// Reads the current health rather than always showing the not-responding alert: the
-    /// two failures need opposite instructions, and this is the one entry point the user
-    /// chooses deliberately, so getting it wrong here sends someone who asked for help to
-    /// toggle a Login Items switch that is already correct.
+    /// Routed through the same mapping the automatic guidance uses, rather than keeping its
+    /// own shorter one. This is the entry point the user chooses deliberately — they have
+    /// seen a warning and gone looking for the explanation — so it is the worst place to
+    /// answer with a different, and mostly wrong, story than the alert that prompted them.
+    /// It previously answered every state except a foreign helper with "the helper is
+    /// installed, macOS will not start it", which is false in three of them.
     public func showHelperTroubleshooting() {
         activateApp()
         Task { @MainActor in
-            if case let .degraded(.foreignHelper(conflict)) = await helperHealthClient.currentHealth() {
-                showHelperBelongsToAnotherCopy(conflict, otherCopyIsRunningAt: OtherRunningCopies.first()?.path)
-            } else {
-                showHelperIsNotResponding()
-            }
+            presentHelperGuidance(for: await helperHealthClient.currentHealth())
+        }
+    }
+
+    /// The single place that decides which helper alert a given health means.
+    @MainActor
+    private func presentHelperGuidance(for health: HelperHealth) {
+        switch health {
+        case let .degraded(.foreignHelper(conflict)):
+            showHelperBelongsToAnotherCopy(conflict, otherCopyIsRunningAt: OtherRunningCopies.first()?.path)
+        case .degraded(.staleRegistrationNeedsUserReset):
+            showHelperNeedsManualReset()
+        case .degraded(.requiresApproval):
+            showHelperNeedsApproval()
+        case let .degraded(.installFailed(reason)):
+            showHelperIsNotInstalled(reason: reason)
+        case .degraded(.registeredButUnreachable):
+            showHelperIsNotResponding()
+        case .degraded(.notRegistered):
+            showHelperIsNotInstalled(reason: nil)
+        // Healthy, or not yet determined. Nothing is known to be wrong, so the honest
+        // answer is the reachability one rather than an invented fault.
+        default:
+            showHelperIsNotResponding()
         }
     }
 
@@ -350,18 +371,31 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         statusItemManager?.delegate = nil
     }
 
-    func showHelperIsNotInstalled() {
+    /// The alert for "there is no helper", and the only helper alert whose primary button
+    /// does something rather than pointing somewhere.
+    ///
+    /// Every other one names a switch the user has to find. Here there is no switch, because
+    /// there is no registration — so the button asks macOS, and it is macOS that then
+    /// prompts for approval or posts the background-item notification. That prompt is a
+    /// consequence of a click, which is the whole point: registering a privileged daemon
+    /// unasked, seconds after launch, reads as the app misbehaving.
+    ///
+    /// Reachable with onboarding long since completed, because the record is pruned later —
+    /// when the copy of BatFi that registered it is deleted. So this deliberately does not
+    /// send anyone back through onboarding to redo something they did months ago.
+    func showHelperIsNotInstalled(reason: String?) {
         let alert = NSAlert()
         alert.alertStyle = .critical
-        alert.messageText = L10n.Notifications.Alert.Title.installHelperTroubleshooting
-        alert.informativeText = L10n.Notifications.Alert.InformativeText.installHelperTroubleshooting
-        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openOnboarding)
-        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openSystemSettings)
-        let response = alert.runModal()
-        if response == .alertSecondButtonReturn {
-            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
-        } else if response == .alertFirstButtonReturn {
-            openOnboarding()
+        alert.messageText = L10n.Notifications.Alert.Title.helperInstallFailed
+        // The reason is shown when there is one, because the ordinary refusal here is
+        // "Operation not permitted" — the transient Background Task Management race — and
+        // that is precisely what makes offering to try again honest rather than a guess.
+        alert.informativeText = reason.map(L10n.Notifications.Alert.InformativeText.helperInstallFailed)
+            ?? L10n.Notifications.Alert.InformativeText.helperNotInstalled
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.installHelper)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.close)
+        if alert.runModal() == .alertFirstButtonReturn {
+            helperConnectionManager.installHelperRequestedByUser()
         }
     }
 
