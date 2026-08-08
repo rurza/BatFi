@@ -80,7 +80,7 @@ private func range(_ sh: Int, _ sm: Int, _ eh: Int, _ em: Int) -> TimeRange {
 @Suite struct GeoFenceTests {
     @Test func containsWithinRadius() {
         let center = Coordinate(latitude: 52.2297, longitude: 21.0122) // Warsaw
-        let fence = GeoFence(center: center, radiusMeters: 500, label: "Home")
+        let fence = GeoFence(center: center, radiusMeters: 500)
         let near = Coordinate(latitude: 52.2300, longitude: 21.0125)   // ~40 m away
         let far = Coordinate(latitude: 52.4000, longitude: 21.0122)    // ~19 km away
         #expect(fence.contains(near))
@@ -123,27 +123,27 @@ private func range(_ sh: Int, _ sm: Int, _ eh: Int, _ em: Int) -> TimeRange {
     }
 
     @Test func locationRuleFailsWhenFenceUnsatisfied() {
-        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
+        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300)
         let rules = [rule("office", limit: 60, location: fence)]
         // Empty set models both "not yet resolved" (.unknown) and "outside".
         #expect(AutomationEngine.activeRule(in: rules, enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [], calendar: utc) == nil)
     }
 
     @Test func locationRuleMatchesWhenItsOwnFenceIsSatisfied() {
-        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
+        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300)
         let r = rule("office", limit: 60, location: fence)
         #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [r.id], calendar: utc)?.name == "office")
     }
 
     @Test func anotherRulesSatisfiedFenceDoesNotMatch() {
-        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
+        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300)
         let r = rule("office", limit: 60, location: fence)
         let unrelated = UUID()
         #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 10, 0), satisfiedFenceIDs: [unrelated], calendar: utc) == nil)
     }
 
     @Test func scheduleAndLocationCombineWithAnd() {
-        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300, label: "Office")
+        let fence = GeoFence(center: Coordinate(latitude: 52.2297, longitude: 21.0122), radiusMeters: 300)
         let r = rule("office hours", limit: 60,
                      schedule: .recurring(days: [.monday], time: range(9, 0, 17, 0)),
                      location: fence)

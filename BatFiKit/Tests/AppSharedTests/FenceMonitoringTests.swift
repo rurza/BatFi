@@ -13,8 +13,8 @@ import Testing
 
 private let warsaw = Coordinate(latitude: 52.2297, longitude: 21.0122)
 
-private func fence(_ radius: Double, _ label: String = "Home", at center: Coordinate = warsaw) -> GeoFence {
-    GeoFence(center: center, radiusMeters: radius, label: label)
+private func fence(_ radius: Double, at center: Coordinate = warsaw) -> GeoFence {
+    GeoFence(center: center, radiusMeters: radius)
 }
 
 @Suite struct MonitoredRadiusTests {
@@ -179,7 +179,7 @@ private func fence(_ radius: Double, _ label: String = "Home", at center: Coordi
         // an actor. First entry wins, and the ID is submitted once.
         let desired = [
             MonitoredFence(id: idA, fence: fence(300)),
-            MonitoredFence(id: idA, fence: fence(900, "Home copy")),
+            MonitoredFence(id: idA, fence: fence(900)),
         ]
         let plan = FenceReconciliation.plan(desired: desired, current: [:])
         #expect(plan.toRemove.isEmpty)
@@ -192,7 +192,7 @@ private func fence(_ radius: Double, _ label: String = "Home", at center: Coordi
         // removed/re-added — that would reset its CLMonitor state to .unknown.
         let desired = [
             MonitoredFence(id: idA, fence: fence(300)),
-            MonitoredFence(id: idA, fence: fence(900, "Home copy")),
+            MonitoredFence(id: idA, fence: fence(900)),
         ]
         let plan = FenceReconciliation.plan(
             desired: desired,

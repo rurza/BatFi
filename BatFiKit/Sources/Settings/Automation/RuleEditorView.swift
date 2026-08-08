@@ -43,7 +43,6 @@ struct RuleEditorView: View {
     @State private var hasLocation: Bool
     @State private var coordinate: Coordinate?
     @State private var radius: Double
-    @State private var locationLabel: String
 
     /// Widest field label in the sheet, measured across both this view and the location picker.
     /// Seeded to the environment default so the first frame is already close to the settled layout.
@@ -112,12 +111,10 @@ struct RuleEditorView: View {
             _hasLocation = State(initialValue: true)
             _coordinate = State(initialValue: fence.center)
             _radius = State(initialValue: fence.radiusMeters)
-            _locationLabel = State(initialValue: fence.label)
         } else {
             _hasLocation = State(initialValue: false)
             _coordinate = State(initialValue: nil)
             _radius = State(initialValue: 150)
-            _locationLabel = State(initialValue: "")
         }
     }
 
@@ -283,7 +280,7 @@ struct RuleEditorView: View {
             Toggle(L10n.Automation.locationCondition, isOn: $hasLocation)
                 .toggleStyle(.checkbox)
             if hasLocation {
-                AutomationLocationPicker(coordinate: $coordinate, radiusMeters: $radius, label: $locationLabel)
+                AutomationLocationPicker(coordinate: $coordinate, radiusMeters: $radius)
             }
         }
     }
@@ -330,7 +327,7 @@ struct RuleEditorView: View {
 
         let location: GeoFence?
         if hasLocation, let coordinate {
-            location = GeoFence(center: coordinate, radiusMeters: radius, label: locationLabel)
+            location = GeoFence(center: coordinate, radiusMeters: radius)
         } else {
             location = nil
         }

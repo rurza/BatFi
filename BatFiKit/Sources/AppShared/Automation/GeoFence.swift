@@ -37,12 +37,41 @@ public struct Coordinate: Codable, Equatable, Sendable {
 public struct GeoFence: Codable, Equatable, Sendable {
     public var center: Coordinate
     public var radiusMeters: Double
-    public var label: String
 
-    public init(center: Coordinate, radiusMeters: Double, label: String) {
+    public init(center: Coordinate, radiusMeters: Double) {
         self.center = center
         self.radiusMeters = radiusMeters
-        self.label = label
+    }
+
+    /// Spelled out rather than synthesised, to keep a field this type no longer has.
+    ///
+    /// A fence used to carry a `label`, so that a place could be named. It never earned it:
+    /// region monitoring identifies a fence by its *rule's* UUID, nothing matched on the
+    /// text, and since a rule holds at most one fence there was never a second place to tell
+    /// apart. What it did do was give every rule two names — the rule's and the place's —
+    /// which the menu then printed one under the other, "“Dom”: 85%" above "@ Dom".
+    ///
+    /// Decoding ignores the key, so rules written by earlier versions load unchanged.
+    /// Encoding still *writes* it, empty, which costs one key and buys the downgrade path:
+    /// an older BatFi requires the field and would otherwise fail to decode the array — not
+    /// one rule, the whole array, losing every automation rule the user has. It renders the
+    /// place as "Unnamed place" there, which is a cosmetic loss in a version being left
+    /// behind rather than a destructive one.
+    private enum CodingKeys: String, CodingKey {
+        case center, radiusMeters, label
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        center = try container.decode(Coordinate.self, forKey: .center)
+        radiusMeters = try container.decode(Double.self, forKey: .radiusMeters)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(center, forKey: .center)
+        try container.encode(radiusMeters, forKey: .radiusMeters)
+        try container.encode("", forKey: .label)
     }
 
     /// Whether `coordinate` falls inside this fence.

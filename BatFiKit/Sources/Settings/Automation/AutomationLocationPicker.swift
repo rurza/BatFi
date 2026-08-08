@@ -18,7 +18,6 @@ import SwiftUI
 struct AutomationLocationPicker: View {
     @Binding var coordinate: Coordinate?
     @Binding var radiusMeters: Double
-    @Binding var label: String
 
     @Dependency(\.locationClient) private var locationClient
 
@@ -53,12 +52,6 @@ struct AutomationLocationPicker: View {
     /// `pinRequestGeneration`. See the comment on `select(_:)` for why a second counter is
     /// needed here rather than folding this into `pinRequestGeneration`.
     @State private var selectSequence = 0
-    /// True while `label` holds text one of the three automated writers put there (current
-    /// location, tap-to-geocode, search selection) rather than text the user typed. Lets those
-    /// writers keep replacing each other's output — and the user's own edits still win over all
-    /// of them, since `labelBinding`'s setter clears this the moment the user types.
-    @State private var labelWasAutofilled = false
-
     /// A fix older than this is not good enough to answer "Use current location".
     private static let currentLocationMaxAge: TimeInterval = 300
 
@@ -84,16 +77,6 @@ struct AutomationLocationPicker: View {
     /// Wraps `$label` so the label `TextField` can clear `labelWasAutofilled` on user input
     /// without the auto-fill writers below (which assign `label` directly, not through this
     /// binding) tripping the same flag.
-    private var labelBinding: Binding<String> {
-        Binding(
-            get: { label },
-            set: { newValue in
-                label = newValue
-                labelWasAutofilled = false
-            }
-        )
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -143,7 +126,9 @@ struct AutomationLocationPicker: View {
                 Map(position: $cameraPosition, interactionModes: .all) {
                     if let coordinate {
                         let clCoordinate = coordinate.clCoordinate
-                        Annotation(label.isEmpty ? " " : label, coordinate: clCoordinate) {
+                        // No caption: the pin is the only one on the map, and the rule it
+                        // belongs to is named in the field above it.
+                        Annotation("", coordinate: clCoordinate) {
                             Image(systemName: "mappin.circle.fill")
                                 .foregroundStyle(.red)
                                 .font(.title2)
@@ -156,9 +141,11 @@ struct AutomationLocationPicker: View {
                 .onTapGesture(coordinateSpace: .local) { point in
                     if let clCoordinate = proxy.convert(point, from: .local) {
                         set(clCoordinate)
+                        // Still bumped with nothing to launch: the counter is what makes a
+                        // "use current location" or search resolve still in flight recognise
+                        // that the user has since put the pin somewhere else, and drop its
+                        // coordinate rather than dragging the pin back.
                         pinRequestGeneration += 1
-                        let generation = pinRequestGeneration
-                        Task { await prefillLabelIfEmpty(for: clCoordinate, generation: generation) }
                     }
                 }
                 .onMapCameraChange { context in
@@ -179,20 +166,6 @@ struct AutomationLocationPicker: View {
                     .frame(width: 70, alignment: .trailing)
             }
 
-            VStack(alignment: .leading, spacing: 2) {
-                AutomationLabeledRow(L10n.Automation.locationLabelField) {
-                    TextField(L10n.Automation.locationLabelPlaceholder, text: labelBinding)
-                        .textFieldStyle(.roundedBorder)
-                }
-                Text(L10n.Automation.locationLabelCaption)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.leading, labelColumnWidth + 8)
-                    // The column is dynamic and can reach ~150pt in a long-label locale
-                    // (Portuguese), leaving far less width than the old fixed 90pt. Wrap rather
-                    // than truncate.
-                    .fixedSize(horizontal: false, vertical: true)
-            }
         }
         .task {
             // Subscription lifetime == sheet lifetime, so CoreLocation updates stop when the
@@ -370,32 +343,6 @@ struct AutomationLocationPicker: View {
         guard generation == pinRequestGeneration else { return }
         coordinate = fix
         recenter(on: fix.clCoordinate)
-        // Overwrite empty text and our own earlier auto-fill alike, but never text the user
-        // typed — see `labelWasAutofilled`.
-        if label.isEmpty || labelWasAutofilled {
-            label = L10n.Automation.currentLocationLabel
-            labelWasAutofilled = true
-        }
-    }
-
-    /// Names a tapped point so the user does not have to. Silent on failure — `CLGeocoder` is
-    /// rate-limited and fails for ordinary reasons; an unnamed pin is fine, a blocking error for
-    /// a nicety is not. `generation` is the pin-request counter captured when this tap started;
-    /// checked both before starting the network request (the label may already be non-empty,
-    /// user-typed) and again after it returns, so a name the user typed during the geocode wins
-    /// and a superseded tap does not overwrite a newer pin. Both checks allow overwriting text
-    /// that is empty *or* still marked auto-filled (`labelWasAutofilled`) from an earlier writer,
-    /// but never text the user typed themselves.
-    private func prefillLabelIfEmpty(for clCoordinate: CLLocationCoordinate2D, generation: Int) async {
-        guard label.isEmpty || labelWasAutofilled else { return }
-        let location = CLLocation(latitude: clCoordinate.latitude, longitude: clCoordinate.longitude)
-        guard let placemark = try? await CLGeocoder().reverseGeocodeLocation(location).first else { return }
-        guard generation == pinRequestGeneration else { return }
-        let name = placemark.name ?? placemark.locality ?? placemark.administrativeArea
-        if let name, label.isEmpty || labelWasAutofilled {
-            label = name
-            labelWasAutofilled = true
-        }
     }
 
     /// Captures `pinRequestGeneration` rather than bumping it up front: bumping here would
@@ -439,10 +386,6 @@ struct AutomationLocationPicker: View {
         pinRequestGeneration += 1
         set(resolved.coordinate)
         recenter(on: resolved.coordinate)
-        if label.isEmpty || labelWasAutofilled {
-            label = resolved.name
-            labelWasAutofilled = true
-        }
     }
 }
 
