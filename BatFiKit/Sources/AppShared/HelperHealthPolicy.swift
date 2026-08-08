@@ -208,12 +208,28 @@ public struct HelperHealthPolicy: Sendable {
         // establishing that as a fact rather than retrying into it: the record cannot be
         // repaired from inside this process, so the only useful output is guidance naming
         // the one thing that does repair it.
-        if hasRetriedRegistration {
+        // `hasTakenOwnership` counts here as much as `hasRetriedRegistration`, because a
+        // takeover *is* an unregister/register — it just reached that point down a different
+        // road. Reading only the retry flag let one launch spend both: the takeover
+        // re-registered, the helper still did not answer, and the unreachable path then
+        // re-registered a second time as though nothing had been tried. That is precisely
+        // the churn the once-per-launch rule exists to prevent.
+        if hasRetriedRegistration || hasTakenOwnership {
             guard consecutivePingFailures >= Self.postRegistrationProbeBudget else {
                 // Published, not concluded. Downstream has to stop trusting the helper
-                // immediately — the charge limit must not be driven through a daemon that
-                // is not answering — but the user is told nothing until the verdict is in.
+                // immediately, since the charge limit must not be driven through a daemon
+                // that is not answering, but the user is told nothing until the verdict is
+                // in.
                 return publishing(.degraded(.registeredButUnreachable)) + [.verifyWithPing]
+            }
+            // A conflict that was already identified outranks the generic verdict, and the
+            // difference is the whole value of the alert. `staleRegistrationNeedsUserReset`
+            // tells the user a deleted copy left a record behind and to toggle Login Items.
+            // When another copy is sitting right there, holding the registration, that
+            // account is simply false and the remedy it names fixes nothing: what resolves
+            // it is having one copy, and only the conflict knows where the other one is.
+            if let lastConflict {
+                return concluding(.degraded(.foreignHelper(lastConflict)))
             }
             return concluding(.degraded(.staleRegistrationNeedsUserReset))
         }

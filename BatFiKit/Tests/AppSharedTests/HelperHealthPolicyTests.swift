@@ -196,6 +196,47 @@ import Testing
         #expect(policy.health == .healthy)
     }
 
+    /// Two copies on disk, both present, the other one holding the registration. The
+    /// takeover is the right response and it ran; it simply did not work, because macOS
+    /// refused to launch this copy's helper. What must not happen next is the unreachable
+    /// path spending a *second* unregister/register on the same launch.
+    @Test("A takeover already spends the launch's one re-registration")
+    func takeoverCountsAsTheRegistrationAttempt() {
+        var policy = enabledAndVerifying()
+        _ = policy.handle(.pingSucceeded)
+        _ = policy.handle(.identityChecked(.foreign(conflict)))   // the takeover
+        _ = policy.handle(.takeoverFinished(error: nil))
+
+        var retries = 0
+        for _ in 0 ..< 10 {
+            retries += policy.handle(.pingFailed).filter { $0 == .retryRegistrationOnce }.count
+        }
+
+        #expect(retries == 0)
+    }
+
+    /// Reporting a known conflict as a stale registration tells the user a deleted copy left
+    /// a record behind, and sends them to Login Items to clear it. Both are false while the
+    /// other copy is sitting on disk holding the registration, and toggling the item fixes
+    /// nothing. Only the conflict knows where that copy is.
+    @Test("An unreachable helper after a takeover is reported as the conflict, not as stale")
+    func unreachableAfterTakeoverKeepsTheConflict() {
+        var policy = enabledAndVerifying()
+        _ = policy.handle(.pingSucceeded)
+        _ = policy.handle(.identityChecked(.foreign(conflict)))
+        _ = policy.handle(.takeoverFinished(error: nil))
+
+        var actions: [HelperHealthPolicy.Action] = []
+        for _ in 0 ..< HelperHealthPolicy.postRegistrationProbeBudget {
+            actions = policy.handle(.pingFailed)
+        }
+
+        #expect(actions.contains(.publish(.degraded(.foreignHelper(conflict)))))
+        #expect(actions.contains(.showGuidance))
+        #expect(policy.health == .degraded(.foreignHelper(conflict)))
+        #expect(policy.health != .degraded(.staleRegistrationNeedsUserReset))
+    }
+
     /// Re-registering is what the app has already established does not work here. Doing it
     /// again would be futile and not merely wasteful: the churn is what earns BatFi
     /// "Exceeded max notifications" from Background Task Management.
