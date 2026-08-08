@@ -18,6 +18,12 @@ protocol HelperConnectionManagerDelegate: AnyObject, Sendable {
     func showHelperIsNotInstalled()
     @MainActor
     func showHelperIsNotResponding()
+    /// The helper is registered, macOS will not start it, and re-registering from here has
+    /// already been tried and changed nothing. Separate from `showHelperIsNotResponding()`
+    /// because it is the one helper failure with a precise, reliable manual remedy, and the
+    /// alert exists to spell that remedy out rather than to report a fault.
+    @MainActor
+    func showHelperNeedsManualReset()
     /// - Parameter otherCopyIsRunningAt: the other copy's bundle path when it is open right
     ///   now. This is what decides whether the user is asked to quit something or to delete
     ///   it, and it is read at display time rather than when the conflict was found, because
@@ -276,6 +282,8 @@ final class HelperConnectionManager: @unchecked Sendable {
             switch health {
             case let .degraded(.foreignHelper(conflict)):
                 delegate?.showHelperBelongsToAnotherCopy(conflict, otherCopyIsRunningAt: OtherRunningCopies.first()?.path)
+            case .degraded(.staleRegistrationNeedsUserReset):
+                delegate?.showHelperNeedsManualReset()
             case .degraded(.registeredButUnreachable), .degraded(.installFailed):
                 delegate?.showHelperIsNotResponding()
             default:

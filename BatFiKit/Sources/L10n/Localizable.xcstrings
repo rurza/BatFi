@@ -16199,6 +16199,17 @@
         }
       }
     },
+    "notifications.alert.informative_text.helper_needs_manual_reset" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nTo fix it:\n1. Open System Settings → General → Login Items & Extensions\n2. Find BatFi under \"Allow in the Background\"\n3. Turn it off\n4. Turn it back on\n\nBatFi will reconnect by itself within a few seconds. Charge limiting is paused until then."
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16729,6 +16740,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Helper 属于另一份 BatFi 副本"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.helper_needs_manual_reset" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi needs you to reset its helper"
           }
         }
       }

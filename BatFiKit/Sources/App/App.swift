@@ -380,6 +380,29 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         }
     }
 
+    /// The alert for the one helper failure with a reliable manual remedy.
+    ///
+    /// Deliberately instructional rather than diagnostic. macOS is holding a registration
+    /// whose launch constraint can no longer be resolved, and the app has already spent its
+    /// unregister/register attempt discovering that neither call clears it — `unregister()`
+    /// disables the record without removing it, and the `register()` after it re-finds the
+    /// same one and reports success. Turning the item off in Login Items is what destroys
+    /// it, and that is a privileged operation the app has no way to perform.
+    ///
+    /// So the steps are numbered and name the exact switch. The user is not being asked to
+    /// investigate anything; they are being asked to perform the single action that works.
+    func showHelperNeedsManualReset() {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = L10n.Notifications.Alert.Title.helperNeedsManualReset
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.helperNeedsManualReset
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openSystemSettings)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.close)
+        if alert.runModal() == .alertFirstButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
+        }
+    }
+
     /// The alert for a helper that works perfectly — for somebody else.
     ///
     /// Kept apart from both other helper alerts because the instruction is the opposite of

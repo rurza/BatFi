@@ -408,6 +408,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// BatFi needs you to reset its helper
+                public static let helperNeedsManualReset = String(
+                    localized: "notifications.alert.title.helper_needs_manual_reset",
+                    defaultValue: "BatFi needs you to reset its helper",
+                    bundle: Bundle.module
+                )
+
                 /// Another copy of BatFi owns the helper
                 public static let foreignHelper = String(
                     localized: "notifications.alert.title.foreign_helper",
@@ -442,6 +449,18 @@ public enum L10n {
                 public static let helperNotResponding = String(
                     localized: "notifications.alert.informative_text.helper_not_responding",
                     defaultValue: "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own.",
+                    bundle: Bundle.module
+                )
+
+                /// macOS is holding a stale registration for BatFi's helper…
+                ///
+                /// Numbered because it is a procedure, not an explanation. The cause — a
+                /// launch constraint left behind by a copy of BatFi that no longer exists —
+                /// is deliberately described in one plain clause and not elaborated: it is
+                /// not actionable, and the four steps under it are.
+                public static let helperNeedsManualReset = String(
+                    localized: "notifications.alert.informative_text.helper_needs_manual_reset",
+                    defaultValue: "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nTo fix it:\n1. Open System Settings → General → Login Items & Extensions\n2. Find BatFi under \"Allow in the Background\"\n3. Turn it off\n4. Turn it back on\n\nBatFi will reconnect by itself within a few seconds. Charge limiting is paused until then.",
                     bundle: Bundle.module
                 )
 
