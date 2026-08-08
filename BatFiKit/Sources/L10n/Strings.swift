@@ -408,6 +408,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// BatFi's helper needs your approval
+                public static let helperNeedsApproval = String(
+                    localized: "notifications.alert.title.helper_needs_approval",
+                    defaultValue: "BatFi's helper needs your approval",
+                    bundle: Bundle.module
+                )
+
                 /// BatFi needs you to reset its helper
                 public static let helperNeedsManualReset = String(
                     localized: "notifications.alert.title.helper_needs_manual_reset",
@@ -467,6 +474,17 @@ public enum L10n {
                 /// does not have. The alert's own button deep-links to the right pane on
                 /// every version, so the instruction only has to describe what to do once
                 /// they are looking at it.
+                /// macOS has registered the helper and is waiting for you to allow it…
+                ///
+                /// Nothing here mentions installing, repairing or onboarding. The
+                /// registration succeeded; a switch is off. Saying more would invite the
+                /// user to go looking for a fault that does not exist.
+                public static let helperNeedsApproval = String(
+                    localized: "notifications.alert.informative_text.helper_needs_approval",
+                    defaultValue: "macOS has registered BatFi's helper but is waiting for you to allow it to run in the background.\n\nOpen System Settings below, find BatFi in the list, and turn it on.\n\nUntil then, BatFi isn't managing charging.",
+                    bundle: Bundle.module
+                )
+
                 /// Says what BatFi is doing, not what the battery is doing.
                 ///
                 /// This used to end "Charge limiting is paused until then", which is a claim

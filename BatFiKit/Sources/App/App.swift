@@ -403,7 +403,24 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         }
     }
 
-    /// The alert for a helper that works perfectly — for somebody else.
+    /// The alert for an installation that succeeded and is waiting on the user.
+    ///
+    /// macOS posts its own "Background Items Added" notification for this, which is easy to
+    /// miss and says nothing about BatFi not working. Nothing here asks the user to install
+    /// or repair anything, because nothing is broken: there is one switch, and it is off.
+    func showHelperNeedsApproval() {
+        let alert = NSAlert()
+        alert.alertStyle = .critical
+        alert.messageText = L10n.Notifications.Alert.Title.helperNeedsApproval
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.helperNeedsApproval
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.openSystemSettings)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.close)
+        if alert.runModal() == .alertFirstButtonReturn {
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
+        }
+    }
+
+    /// The alert for a helper that works perfectly, for somebody else.
     ///
     /// Kept apart from both other helper alerts because the instruction is the opposite of
     /// theirs. Nothing here is fixed in Login Items: the registration is present, enabled

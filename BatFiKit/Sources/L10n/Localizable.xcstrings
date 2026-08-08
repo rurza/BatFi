@@ -1250,12 +1250,6 @@
     "app_charging_mode.state.title.helper_not_running" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Helper not running"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1266,6 +1260,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Helper läuft nicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Helper not running"
           }
         },
         "fr" : {
@@ -13888,12 +13888,6 @@
     "menu.label.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "⚠️ Helper isn't responding"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13904,6 +13898,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⚠️ Helper antwortet nicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "⚠️ Helper isn't responding"
           }
         },
         "fr" : {
@@ -13977,12 +13977,6 @@
     "menu.label.helper_not_responding_disclaimer" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Charge limiting is off. Click for help."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -13993,6 +13987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Die Ladebegrenzung ist deaktiviert. Klicken für Hilfe."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charge limiting is off. Click for help."
           }
         },
         "fr" : {
@@ -15579,12 +15579,6 @@
     "notifications.alert.button.label.close" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Close"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -15595,6 +15589,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Schließen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close"
           }
         },
         "fr" : {
@@ -15932,91 +15932,91 @@
         }
       }
     },
-    "notifications.alert.informative_text.foreign_helper_other_copy_running" : {
+    "notifications.alert.button.label.show_in_finder" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jiná kopie BatFi je otevřená v %@ a macOS spouští její pomocný nástroj místo tohoto.\n\nUkončete tuto kopii, nebo ji smažte a ponechte jen jednu, a poté BatFi znovu otevřete."
+            "value" : "Zobrazit ve Finderu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein anderes Exemplar von BatFi ist unter %@ geöffnet, und macOS startet dessen Helper statt diesen.\n\nBeende dieses Exemplar, oder lösche es und behalte nur eines, und öffne BatFi dann erneut."
+            "value" : "Im Finder zeigen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy, or delete it and keep just one, then reopen BatFi."
+            "value" : "Show in Finder"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une autre copie de BatFi est ouverte à l'emplacement %@, et macOS lance son assistant plutôt que celui-ci.\n\nQuittez cette copie, ou supprimez-la pour n'en garder qu'une, puis rouvrez BatFi."
+            "value" : "Afficher dans le Finder"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un'altra copia di BatFi è aperta in %@ e macOS sta avviando il suo Helper anziché questo.\n\nChiudi quella copia, o eliminala e tienine solo una, poi riapri BatFi."
+            "value" : "Mostra nel Finder"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "別のBatFiのコピーが %@ で開いており、macOSはこちらではなくそのヘルパーを実行しています。\n\nそのコピーを終了する（または削除して1つだけ残す）してから、BatFiを開き直してください。"
+            "value" : "Finderに表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@에 있는 다른 BatFi 사본이 열려 있으며, macOS가 이 사본 대신 그 보조 프로그램을 실행하고 있습니다.\n\n해당 사본을 종료하거나 삭제해 하나만 남긴 뒤 BatFi를 다시 여세요."
+            "value" : "Finder에서 보기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een andere kopie van BatFi is geopend op %@, en macOS start het hulpprogramma daarvan in plaats van dit.\n\nStop die kopie, of verwijder hem en houd er één over, en open BatFi opnieuw."
+            "value" : "Toon in Finder"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inna kopia BatFi jest otwarta w %@, a macOS uruchamia jej helper zamiast tego.\n\nZamknij tamtą kopię, albo usuń ją i zostaw tylko jedną, a następnie uruchom BatFi ponownie."
+            "value" : "Pokaż w Finderze"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Outra cópia do BatFi está aberta em %@, e o macOS está executando o Helper dela em vez deste.\n\nEncerre aquela cópia, ou apague-a e mantenha apenas uma, e reabra o BatFi."
+            "value" : "Mostrar no Finder"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Другая копия BatFi открыта по пути %@, и macOS запускает её помощник вместо этого.\n\nЗавершите ту копию, или удалите её, оставив только одну, и снова откройте BatFi."
+            "value" : "Показать в Finder"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi’nin başka bir kopyası %@ konumunda açık ve macOS bunun yerine onun yardımcısını çalıştırıyor.\n\nO kopyayı kapatın, ya da silip yalnızca birini tutun, sonra BatFi’yi yeniden açın."
+            "value" : "Finder’da Göster"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Інша копія BatFi відкрита за шляхом %@, і macOS запускає її помічника замість цього.\n\nЗакрийте ту копію, або видаліть її, залишивши лише одну, і знову відкрийте BatFi."
+            "value" : "Показати у Finder"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "另一份 BatFi 副本正在 %@ 运行，macOS 启动的是它的 Helper，而不是这一份的。\n\n请退出那份副本（或将其删除，只保留一份），然后重新打开 BatFi。"
+            "value" : "在访达中显示"
           }
         }
       }
@@ -16110,91 +16110,180 @@
         }
       }
     },
-    "notifications.alert.button.label.show_in_finder" : {
+    "notifications.alert.informative_text.foreign_helper_other_copy_running" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zobrazit ve Finderu"
+            "state" : "needs_review",
+            "value" : "Jiná kopie BatFi je otevřená v %@ a macOS spouští její pomocný nástroj místo tohoto.\n\nUkončete tuto kopii, nebo ji smažte a ponechte jen jednu, a poté BatFi znovu otevřete."
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Im Finder zeigen"
+            "state" : "needs_review",
+            "value" : "Ein anderes Exemplar von BatFi ist unter %@ geöffnet, und macOS startet dessen Helper statt diesen.\n\nBeende dieses Exemplar, oder lösche es und behalte nur eines, und öffne BatFi dann erneut."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Show in Finder"
+            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy — or delete it and keep just one — then reopen BatFi."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Une autre copie de BatFi est ouverte à l'emplacement %@, et macOS lance son assistant plutôt que celui-ci.\n\nQuittez cette copie, ou supprimez-la pour n'en garder qu'une, puis rouvrez BatFi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Un'altra copia di BatFi è aperta in %@ e macOS sta avviando il suo Helper anziché questo.\n\nChiudi quella copia, o eliminala e tienine solo una, poi riapri BatFi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "別のBatFiのコピーが %@ で開いており、macOSはこちらではなくそのヘルパーを実行しています。\n\nそのコピーを終了する（または削除して1つだけ残す）してから、BatFiを開き直してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "%@에 있는 다른 BatFi 사본이 열려 있으며, macOS가 이 사본 대신 그 보조 프로그램을 실행하고 있습니다.\n\n해당 사본을 종료하거나 삭제해 하나만 남긴 뒤 BatFi를 다시 여세요."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Een andere kopie van BatFi is geopend op %@, en macOS start het hulpprogramma daarvan in plaats van dit.\n\nStop die kopie, of verwijder hem en houd er één over, en open BatFi opnieuw."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Inna kopia BatFi jest otwarta w %@, a macOS uruchamia jej helper zamiast tego.\n\nZamknij tamtą kopię, albo usuń ją i zostaw tylko jedną, a następnie uruchom BatFi ponownie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Outra cópia do BatFi está aberta em %@, e o macOS está executando o Helper dela em vez deste.\n\nEncerre aquela cópia, ou apague-a e mantenha apenas uma, e reabra o BatFi."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Другая копия BatFi открыта по пути %@, и macOS запускает её помощник вместо этого.\n\nЗавершите ту копию, или удалите её, оставив только одну, и снова откройте BatFi."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "BatFi’nin başka bir kopyası %@ konumunda açık ve macOS bunun yerine onun yardımcısını çalıştırıyor.\n\nO kopyayı kapatın, ya da silip yalnızca birini tutun, sonra BatFi’yi yeniden açın."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Інша копія BatFi відкрита за шляхом %@, і macOS запускає її помічника замість цього.\n\nЗакрийте ту копію, або видаліть її, залишивши лише одну, і знову відкрийте BatFi."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "另一份 BatFi 副本正在 %@ 运行，macOS 启动的是它的 Helper，而不是这一份的。\n\n请退出那份副本（或将其删除，只保留一份），然后重新打开 BatFi。"
+          }
+        }
+      }
+    },
+    "notifications.alert.informative_text.helper_needs_approval" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS zaregistroval pomocný nástroj BatFi, ale čeká, až mu povolíte běh na pozadí.\n\nOtevřete níže Nastavení systému, najděte BatFi v seznamu a zapněte jej.\n\nDo té doby BatFi nespravuje nabíjení."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hat den Helper von BatFi registriert, wartet aber darauf, dass du ihm die Ausführung im Hintergrund erlaubst.\n\nÖffne unten die Systemeinstellungen, suche BatFi in der Liste und schalte es ein.\n\nBis dahin verwaltet BatFi das Laden nicht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS has registered BatFi's helper but is waiting for you to allow it to run in the background.\n\nOpen System Settings below, find BatFi in the list, and turn it on.\n\nUntil then, BatFi isn't managing charging."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher dans le Finder"
+            "value" : "macOS a enregistré l'assistant de BatFi mais attend que vous l'autorisiez à s'exécuter en arrière-plan.\n\nOuvrez les réglages système ci-dessous, trouvez BatFi dans la liste et activez-le.\n\nD'ici là, BatFi ne gère pas la charge."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra nel Finder"
+            "value" : "macOS ha registrato l'Helper di BatFi ma sta aspettando che tu gli consenta di funzionare in background.\n\nApri le Impostazioni di Sistema qui sotto, trova BatFi nell'elenco e attivalo.\n\nFino ad allora BatFi non gestisce la ricarica."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finderに表示"
+            "value" : "macOSはBatFiのヘルパーを登録しましたが、バックグラウンドでの実行を許可されるのを待っています。\n\n下からシステム設定を開き、リストでBatFiを見つけてオンにしてください。\n\nそれまでBatFiは充電を管理しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder에서 보기"
+            "value" : "macOS가 BatFi 보조 프로그램을 등록했지만, 백그라운드 실행을 허용해 주기를 기다리고 있습니다.\n\n아래에서 시스템 설정을 열고 목록에서 BatFi를 찾아 켜 주세요.\n\n그때까지 BatFi는 충전을 관리하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toon in Finder"
+            "value" : "macOS heeft het hulpprogramma van BatFi geregistreerd, maar wacht tot je het toestemming geeft om op de achtergrond te draaien.\n\nOpen hieronder Systeeminstellingen, zoek BatFi in de lijst en schakel het in.\n\nTot die tijd beheert BatFi het opladen niet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pokaż w Finderze"
+            "value" : "macOS zarejestrował Helpera BatFi, ale czeka, aż zezwolisz mu na działanie w tle.\n\nOtwórz poniżej Ustawienia systemowe, znajdź BatFi na liście i włącz go.\n\nDo tego czasu BatFi nie zarządza ładowaniem."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostrar no Finder"
+            "value" : "O macOS registrou o Helper do BatFi, mas está aguardando que você permita que ele seja executado em segundo plano.\n\nAbra os Ajustes do Sistema abaixo, encontre o BatFi na lista e ative-o.\n\nAté lá, o BatFi não gerencia o carregamento."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показать в Finder"
+            "value" : "macOS зарегистрировал помощника BatFi, но ждёт, когда вы разрешите ему работать в фоне.\n\nОткройте Системные настройки ниже, найдите BatFi в списке и включите его.\n\nДо этого момента BatFi не управляет зарядкой."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finder’da Göster"
+            "value" : "macOS, BatFi’nin yardımcısını kaydetti ancak arka planda çalışmasına izin vermenizi bekliyor.\n\nAşağıdan Sistem Ayarları’nı açın, listede BatFi’yi bulun ve açın.\n\nO ana kadar BatFi şarjı yönetmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Показати у Finder"
+            "value" : "macOS зареєстрував помічника BatFi, але чекає, доки ви дозволите йому працювати у фоні.\n\nВідкрийте Системні параметри нижче, знайдіть BatFi у списку та увімкніть його.\n\nДо того часу BatFi не керує заряджанням."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在访达中显示"
+            "value" : "macOS已注册BatFi的Helper，但正在等待你允许它在后台运行。\n\n请在下方打开系统设置，在列表中找到BatFi并将其打开。\n\n在此之前，BatFi不会管理充电。"
           }
         }
       }
@@ -16291,12 +16380,6 @@
     "notifications.alert.informative_text.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16307,6 +16390,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Helper ist installiert, aber macOS startet ihn nicht, daher läuft die Ladebegrenzung nicht.\n\nÖffne Systemeinstellungen → Allgemein → Anmeldeobjekte, schalte BatFi aus und wieder ein. BatFi stellt die Verbindung von selbst wieder her."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own."
           }
         },
         "fr" : {
@@ -16822,6 +16911,95 @@
         }
       }
     },
+    "notifications.alert.title.helper_needs_approval" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj BatFi potřebuje vaše schválení"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Helper von BatFi benötigt deine Zustimmung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi's helper needs your approval"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant de BatFi a besoin de votre autorisation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper di BatFi ha bisogno della tua approvazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiのヘルパーには許可が必要です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 보조 프로그램에 승인이 필요합니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van BatFi heeft je toestemming nodig"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper BatFi wymaga Twojej zgody"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Helper do BatFi precisa da sua aprovação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощнику BatFi нужно ваше разрешение"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin yardımcısı onayınızı bekliyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічнику BatFi потрібен ваш дозвіл"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi的Helper需要你的允许"
+          }
+        }
+      }
+    },
     "notifications.alert.title.helper_needs_manual_reset" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16914,12 +17092,6 @@
     "notifications.alert.title.helper_not_responding" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "BatFi's helper isn't responding"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -16930,6 +17102,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Helper von BatFi antwortet nicht"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi's helper isn't responding"
           }
         },
         "fr" : {
@@ -18607,85 +18785,85 @@
       "localizations" : {
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Zdá se, že jste pomocníkovi neudělili oprávnění. Pokud se neobjevila výzva k zadání hesla/Touch ID, je to v pořádku - je to chyba systému macOS a někdy se to stává.\nOprávnění můžete vždy změnit v Nastavení systému.\nMějte prosím na paměti, že aplikace nebude bez pomocného nástroje fungovat."
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort/Touch ID Abfrage bekommen haben, ist das OK, das ist ein macOS Bug und passiert manchmal. \nDu kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen.\n Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay, it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
+            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Il semble que vous n'ayez pas accordé les autorisations nécessaires à l'assistant. S'il n'y avait pas de demande de mot de passe/Touch ID, c'est normal - c'est un bug de macOS et cela arrive parfois. Vous pouvez toujours modifier les autorisations dans les paramètres système. Veuillez noter que l'application ne fonctionnera pas sans l'outil d'assistance."
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Sembra che non hai dato i permessi all'helper. Se non è apparsa una finestra per la password/Touch ID è tutto ok - è un bug di macOS e ogni tanto succede. Puoi sempre cambiare i permessi in Impostazioni di Sistema. Ricorda che l'app non funzione senza l'helper."
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "ヘルパーに権限を与えていないようです。ただ、パスワード/Touch IDのプロンプトが表示されなかったのなら問題ありません。macOSのバグで、時々起こることです。\nシステム設定でいつでも権限を変更できます。ヘルパーツールがないとアプリは動作しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "보조 프로그램에 권한이 할당되지 않았습니다. 권한 부여를 위한 비밀번호 / Touch ID 창이 뜨지 않았을 경우, 이는 macOS의 버그이므로 시스템 설정에서 설정해주십시오.\n언제든지 시스템 설정에서 권한을 변경할 수 있습니다.\n보조 프로그램이 설치되지 않았을 경우 BatFi가 작동되지 않음을 유념해 주십시오."
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Het lijkt er op dat je geen toestemming hebt gegeven voor het hulpprogramma. Als je niet gevraagd bent voor een wachtwoord/Touch ID, dan is dat een macOS bug die soms optreedt. \nJe kunt de toestemming altijd veranderen in Systeeminstellingen. Onthoud dat de app niet werkt zonder hulpprogramma."
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok, czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Parece que você não deu permissão ao Helper. Se não houver solicitação de senha/Touch ID, tudo bem, é um bug do macOS e às vezes acontece.\nVocê sempre pode alterar as permissões nos Ajustes do Sistema.\nLembre-se de que o aplicativo não funcionará sem a ferramenta auxiliar Helper."
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Похоже, что вы не предоставили разрешения помощнику. Если не было запроса пароля/Touch ID, это нормально - это ошибка macOS, и иногда такое случается.\nВы всегда можете изменить разрешения в Системных настройках.\nИмейте в виду, что приложение не будет работать без помощника."
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Görünüşe göre yardımcıya izin vermemişsiniz. Parola/Touch ID istemi yoksa sorun değil - bu bir macOS hatasıdır ve bazen olur.\nSistem Ayarları'ndan izinleri her zaman değiştirebilirsiniz.\nLütfen uygulamanın yardımcı araç olmadan çalışmayacağını unutmayın."
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Схоже, ви не надали дозволи помічнику. Якщо не було запиту пароля/Touch ID, це нормально, це помилка macOS, і іноді таке трапляється.\nВи завжди можете змінити дозволи в Системних параметрах.\nМайте на увазі, що програма не працюватиме без допоміжного інструменту."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "看起来Helper工具没有获得合适的系统信息访问和控制权限。如果没有出现密码/Touch ID提示，不用担心，这是一个macOS的系统bug，时有发生。\n你始终都可以在系统设置中自行更改本软件的权限。\n请记住这个应用需要在Helper工具已安装且获得相关权限的前提下才能正常工作。"
           }
         }
@@ -25191,12 +25369,6 @@
     "settings.label.charge_control_help_button_accessibility" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "About charging on this Mac"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25207,6 +25379,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Über das Laden auf diesem Mac"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About charging on this Mac"
           }
         },
         "fr" : {
@@ -25280,12 +25458,6 @@
     "settings.label.charge_control_help_heading" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "How charging works on this Mac"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25296,6 +25468,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "So funktioniert das Laden auf diesem Mac"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "How charging works on this Mac"
           }
         },
         "fr" : {
@@ -25547,12 +25725,6 @@
     "settings.label.diagnostics_charging_control" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Charging control"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25563,6 +25735,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ladesteuerung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charging control"
           }
         },
         "fr" : {
@@ -25636,12 +25814,6 @@
     "settings.label.diagnostics_charging_control_active" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Active"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25652,6 +25824,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktiv"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active"
           }
         },
         "fr" : {
@@ -25725,12 +25903,6 @@
     "settings.label.diagnostics_charging_control_idle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Available, not in use"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25741,6 +25913,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verfügbar, nicht in Verwendung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available, not in use"
           }
         },
         "fr" : {
@@ -25814,12 +25992,6 @@
     "settings.label.diagnostics_charging_control_system_charge_limit" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Active (via macOS Charge Limit)"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25830,6 +26002,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aktiv (über macOS-Ladelimit)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active (via macOS Charge Limit)"
           }
         },
         "fr" : {
@@ -25903,12 +26081,6 @@
     "settings.label.diagnostics_charging_control_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -25919,6 +26091,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nicht verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
           }
         },
         "fr" : {
@@ -25992,12 +26170,6 @@
     "settings.label.diagnostics_charging_control_unknown" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unknown"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26008,6 +26180,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unbekannt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
           }
         },
         "fr" : {
@@ -26081,12 +26259,6 @@
     "settings.label.diagnostics_charging_control_unsupported_explanation" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26097,6 +26269,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi kann das Laden auf diesem Mac nicht steuern — die Firmware unterstützt das nicht."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
           }
         },
         "fr" : {
@@ -26170,12 +26348,6 @@
     "settings.label.diagnostics_firmware" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Firmware"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26183,6 +26355,12 @@
           }
         },
         "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware"
+          }
+        },
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Firmware"
@@ -26259,12 +26437,6 @@
     "settings.label.diagnostics_firmware_unknown" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unknown"
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26275,6 +26447,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unbekannt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
           }
         },
         "fr" : {
@@ -26348,12 +26526,6 @@
     "settings.label.diagnostics_system_charge_limit_conflict" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26364,6 +26536,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Das eigene Ladelimit deines Macs in den Systemeinstellungen › Batterie ist auf %@ eingestellt. Es kann das Laden stoppen, bevor das Limit von BatFi erreicht ist. Stelle es dort auf 100%%, damit nur BatFi die Kontrolle hat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control."
           }
         },
         "fr" : {
@@ -26437,12 +26615,6 @@
     "settings.label.firmware_range_battery_may_dip_below_limit" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26453,6 +26625,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Akku kann bis zu %@ unter das Limit fallen, bevor das Laden wieder beginnt. Dieses Absinken ist die Art, wie die Firmware das Limit hält — es ist kein Fehler."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
           }
         },
         "fr" : {
@@ -26526,12 +26704,6 @@
     "settings.label.firmware_range_cannot_pause_charging" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your limit keeps holding while the Mac is asleep, enforced by its firmware, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at your limit rather than stopped on request."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26542,6 +26714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Limit bleibt auch im Ruhezustand des Macs bestehen, durchgesetzt von der Firmware, daher gibt es für BatFi nichts zu pausieren. Die Einstellungen zum Pausieren im Ruhezustand und zum Stoppen bei zu warmem Akku werden auf diesem Mac nicht angezeigt, weil das Laden hier auf deinem Limit gehalten und nicht auf Anforderung gestoppt wird."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your limit keeps holding while the Mac is asleep, enforced by its firmware, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at your limit rather than stopped on request."
           }
         },
         "fr" : {
@@ -26615,12 +26793,6 @@
     "settings.label.firmware_range_charging_status_is_inferred" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26631,6 +26803,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Während dieses Absinkens zeigt BatFi deinen Mac in der Menüleiste und in den Mitteilungen möglicherweise weiterhin als ladend an. Die Firmware meldet nicht, wann sie das Limit hält, daher leitet BatFi den Status aus dem Akkustand ab — das Limit selbst wird weiterhin exakt eingehalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
           }
         },
         "fr" : {
@@ -26704,12 +26882,6 @@
     "settings.label.firmware_range_enforced_by_firmware" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26720,6 +26892,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Die Firmware deines Macs setzt das Ladelimit selbst durch. BatFi übergibt ihr dein Limit einmal und hält sich dann zurück, sodass das Limit auch im Ruhezustand des Macs weiterhin gilt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep."
           }
         },
         "fr" : {
@@ -26793,12 +26971,6 @@
     "settings.label.force_discharge_still_works" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26809,6 +26981,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der Betrieb über den Akku funktioniert weiterhin — dafür wird ein anderer Teil der Firmware genutzt, den dieser Mac noch hat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
           }
         },
         "fr" : {
@@ -27702,12 +27880,6 @@
     "settings.label.magsafe_green_light_no_led" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available on this Mac, which doesn't have a MagSafe indicator light."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27718,6 +27890,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auf diesem Mac nicht verfügbar, da er keine MagSafe-Anzeigeleuchte hat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available on this Mac, which doesn't have a MagSafe indicator light."
           }
         },
         "fr" : {
@@ -27791,12 +27969,6 @@
     "settings.label.magsafe_green_light_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27807,6 +27979,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Auf diesem Mac nicht verfügbar. Die Firmware entscheidet, wann geladen wird, und meldet nicht, wann sie das Limit hält, daher kann BatFi der Leuchte nicht mitteilen, wann sie leuchten soll."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on."
           }
         },
         "fr" : {
@@ -27971,12 +28149,6 @@
     "settings.label.system_charge_limit_banner" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -27987,6 +28159,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Akku hört bei dem von dir festgelegten Limit auf zu laden. Auf diesem Mac setzt macOS dieses Limit durch und nicht BatFi, deshalb ist 80% das niedrigste verfügbare Limit."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%."
           }
         },
         "fr" : {
@@ -28060,12 +28238,6 @@
     "settings.label.system_charge_limit_cannot_pause_charging" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at a percentage rather than stopped on request."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28076,6 +28248,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dein Limit bleibt auch im Ruhezustand des Macs bestehen, daher gibt es für BatFi nichts zu pausieren. Die Einstellungen zum Pausieren im Ruhezustand und zum Stoppen bei zu warmem Akku werden auf diesem Mac nicht angezeigt, weil das Laden hier auf einem Prozentwert gehalten und nicht auf Anforderung gestoppt wird."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at a percentage rather than stopped on request."
           }
         },
         "fr" : {
@@ -28149,12 +28327,6 @@
     "settings.label.system_charge_limit_manages_system_settings" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28165,6 +28337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dazu ändert BatFi das Ladelimit in den Systemeinstellungen › Batterie. Deine eigene Einstellung dort wurde gesichert, und BatFi stellt sie beim Beenden wieder her."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits."
           }
         },
         "fr" : {
@@ -28238,12 +28416,6 @@
     "settings.label.system_charge_limit_no_snapshot" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28254,6 +28426,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi wendet auf diesem Mac kein Ladelimit an. Es konnte das Limit, das du in den Systemeinstellungen › Batterie eingestellt hast, nicht sichern, und es ändert keinen Wert, den es möglicherweise nicht wiederherstellen kann."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back."
           }
         },
         "fr" : {
@@ -28327,12 +28505,6 @@
     "settings.label.system_charge_limit_raised" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28343,6 +28515,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limits unter 80%% können auf diesem Mac nicht angewendet werden. BatFi hält das Laden stattdessen bei %@ — dem niedrigsten Wert, den das macOS-Ladelimit zulässt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts."
           }
         },
         "fr" : {
@@ -28416,12 +28594,6 @@
     "settings.label.system_charge_limit_rounded_up" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
-          }
-        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -28432,6 +28604,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Das macOS-Ladelimit akzeptiert nur bestimmte Werte, daher hält BatFi das Laden bei %1$@ statt bei den angeforderten %2$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for."
           }
         },
         "fr" : {

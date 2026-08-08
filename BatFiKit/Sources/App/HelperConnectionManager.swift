@@ -24,6 +24,12 @@ protocol HelperConnectionManagerDelegate: AnyObject, Sendable {
     /// alert exists to spell that remedy out rather than to report a fault.
     @MainActor
     func showHelperNeedsManualReset()
+    /// The helper is registered and macOS is waiting for the user to allow it. Distinct from
+    /// "not installed", which is what this state used to be reported as: the installation
+    /// succeeded, there is nothing to repeat, and the only thing missing is a switch that
+    /// only the user can turn on.
+    @MainActor
+    func showHelperNeedsApproval()
     /// - Parameter otherCopyIsRunningAt: the other copy's bundle path when it is open right
     ///   now. This is what decides whether the user is asked to quit something or to delete
     ///   it, and it is read at display time rather than when the conflict was found, because
@@ -284,6 +290,13 @@ final class HelperConnectionManager: @unchecked Sendable {
                 delegate?.showHelperBelongsToAnotherCopy(conflict, otherCopyIsRunningAt: OtherRunningCopies.first()?.path)
             case .degraded(.staleRegistrationNeedsUserReset):
                 delegate?.showHelperNeedsManualReset()
+            // Ahead of the default, which is where this used to land. `.requiresApproval`
+            // means the registration worked and macOS is holding it pending the user's
+            // consent; reporting that as "the helper app is not installed" sends someone
+            // back through onboarding to reinstall something that is already installed, and
+            // says nothing about the switch that is actually waiting for them.
+            case .degraded(.requiresApproval):
+                delegate?.showHelperNeedsApproval()
             case .degraded(.registeredButUnreachable), .degraded(.installFailed):
                 delegate?.showHelperIsNotResponding()
             default:
