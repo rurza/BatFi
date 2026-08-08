@@ -15938,31 +15938,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jiná kopie BatFi je otevřená v %@ a macOS spouští její pomocný nástroj místo tohoto.\n\nUkončete tuto kopii – nebo ji smažte a ponechte jen jednu – a poté BatFi znovu otevřete."
+            "value" : "Jiná kopie BatFi je otevřená v %@ a macOS spouští její pomocný nástroj místo tohoto.\n\nUkončete tuto kopii, nebo ji smažte a ponechte jen jednu, a poté BatFi znovu otevřete."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein anderes Exemplar von BatFi ist unter %@ geöffnet, und macOS startet dessen Helper statt diesen.\n\nBeende dieses Exemplar – oder lösche es und behalte nur eines – und öffne BatFi dann erneut."
+            "value" : "Ein anderes Exemplar von BatFi ist unter %@ geöffnet, und macOS startet dessen Helper statt diesen.\n\nBeende dieses Exemplar, oder lösche es und behalte nur eines, und öffne BatFi dann erneut."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy — or delete it and keep just one — then reopen BatFi."
+            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy, or delete it and keep just one, then reopen BatFi."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une autre copie de BatFi est ouverte à l'emplacement %@, et macOS lance son assistant plutôt que celui-ci.\n\nQuittez cette copie — ou supprimez-la pour n'en garder qu'une — puis rouvrez BatFi."
+            "value" : "Une autre copie de BatFi est ouverte à l'emplacement %@, et macOS lance son assistant plutôt que celui-ci.\n\nQuittez cette copie, ou supprimez-la pour n'en garder qu'une, puis rouvrez BatFi."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un'altra copia di BatFi è aperta in %@ e macOS sta avviando il suo Helper anziché questo.\n\nChiudi quella copia — o eliminala e tienine solo una — poi riapri BatFi."
+            "value" : "Un'altra copia di BatFi è aperta in %@ e macOS sta avviando il suo Helper anziché questo.\n\nChiudi quella copia, o eliminala e tienine solo una, poi riapri BatFi."
           }
         },
         "ja" : {
@@ -15980,37 +15980,37 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Een andere kopie van BatFi is geopend op %@, en macOS start het hulpprogramma daarvan in plaats van dit.\n\nStop die kopie — of verwijder hem en houd er één over — en open BatFi opnieuw."
+            "value" : "Een andere kopie van BatFi is geopend op %@, en macOS start het hulpprogramma daarvan in plaats van dit.\n\nStop die kopie, of verwijder hem en houd er één over, en open BatFi opnieuw."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inna kopia BatFi jest otwarta w %@, a macOS uruchamia jej helper zamiast tego.\n\nZamknij tamtą kopię – albo usuń ją i zostaw tylko jedną – a następnie uruchom BatFi ponownie."
+            "value" : "Inna kopia BatFi jest otwarta w %@, a macOS uruchamia jej helper zamiast tego.\n\nZamknij tamtą kopię, albo usuń ją i zostaw tylko jedną, a następnie uruchom BatFi ponownie."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Outra cópia do BatFi está aberta em %@, e o macOS está executando o Helper dela em vez deste.\n\nEncerre aquela cópia — ou apague-a e mantenha apenas uma — e reabra o BatFi."
+            "value" : "Outra cópia do BatFi está aberta em %@, e o macOS está executando o Helper dela em vez deste.\n\nEncerre aquela cópia, ou apague-a e mantenha apenas uma, e reabra o BatFi."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Другая копия BatFi открыта по пути %@, и macOS запускает её помощник вместо этого.\n\nЗавершите ту копию — или удалите её, оставив только одну — и снова откройте BatFi."
+            "value" : "Другая копия BatFi открыта по пути %@, и macOS запускает её помощник вместо этого.\n\nЗавершите ту копию, или удалите её, оставив только одну, и снова откройте BatFi."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi’nin başka bir kopyası %@ konumunda açık ve macOS bunun yerine onun yardımcısını çalıştırıyor.\n\nO kopyayı kapatın — ya da silip yalnızca birini tutun — sonra BatFi’yi yeniden açın."
+            "value" : "BatFi’nin başka bir kopyası %@ konumunda açık ve macOS bunun yerine onun yardımcısını çalıştırıyor.\n\nO kopyayı kapatın, ya da silip yalnızca birini tutun, sonra BatFi’yi yeniden açın."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Інша копія BatFi відкрита за шляхом %@, і macOS запускає її помічника замість цього.\n\nЗакрийте ту копію — або видаліть її, залишивши лише одну — і знову відкрийте BatFi."
+            "value" : "Інша копія BatFi відкрита за шляхом %@, і macOS запускає її помічника замість цього.\n\nЗакрийте ту копію, або видаліть її, залишивши лише одну, і знову відкрийте BatFi."
           }
         },
         "zh-Hans" : {
@@ -16205,85 +16205,85 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS si drží zastaralou registraci pomocného nástroje BatFi — obvykle ji zanechala kopie BatFi, která už byla smazána — a odmítá jej spustit. BatFi ji nedokáže odstranit sám.\n\nOtevřete níže Nastavení systému, najděte BatFi v seznamu a poté jej vypněte a znovu zapněte. BatFi se sám během několika sekund znovu připojí.\n\nDo té doby je omezování nabíjení pozastaveno."
+            "value" : "macOS si drží zastaralou registraci pomocného nástroje BatFi a odmítá jej spustit. Obvykle ji zanechá kopie BatFi, která už byla smazána, a BatFi ji nedokáže odstranit sám.\n\nOtevřete níže Nastavení systému, najděte BatFi v seznamu a poté jej vypněte a znovu zapněte. BatFi se sám během několika sekund znovu připojí.\n\nDo té doby BatFi nespravuje nabíjení."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS hält eine veraltete Registrierung für den Helper von BatFi — meist von einem Exemplar von BatFi zurückgelassen, das inzwischen gelöscht wurde — und weigert sich, ihn zu starten. BatFi kann das nicht selbst beheben.\n\nÖffne unten die Systemeinstellungen, suche BatFi in der Liste und schalte es dann aus und wieder ein. BatFi stellt die Verbindung innerhalb weniger Sekunden von selbst wieder her.\n\nBis dahin ist die Ladebegrenzung pausiert."
+            "value" : "macOS hält eine veraltete Registrierung für den Helper von BatFi und weigert sich, ihn zu starten. Sie stammt meist von einem Exemplar von BatFi, das inzwischen gelöscht wurde, und BatFi kann sie nicht selbst entfernen.\n\nÖffne unten die Systemeinstellungen, suche BatFi in der Liste und schalte es dann aus und wieder ein. BatFi stellt die Verbindung innerhalb weniger Sekunden von selbst wieder her.\n\nBis dahin verwaltet BatFi das Laden nicht."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nCharge limiting is paused until then."
+            "value" : "macOS is holding an outdated registration for BatFi's helper and refuses to start it. This is usually left behind by a copy of BatFi that has since been deleted, and BatFi cannot clear it on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nUntil then, BatFi isn't managing charging."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS conserve un enregistrement obsolète de l'assistant de BatFi — généralement laissé par une copie de BatFi supprimée depuis — et refuse de le démarrer. BatFi ne peut pas le supprimer lui-même.\n\nOuvrez les réglages système ci-dessous, trouvez BatFi dans la liste, puis désactivez-le et réactivez-le. BatFi se reconnectera de lui-même en quelques secondes.\n\nD'ici là, la limitation de charge est suspendue."
+            "value" : "macOS conserve un enregistrement obsolète de l'assistant de BatFi et refuse de le démarrer. Il provient généralement d'une copie de BatFi supprimée depuis, et BatFi ne peut pas le supprimer lui-même.\n\nOuvrez les réglages système ci-dessous, trouvez BatFi dans la liste, puis désactivez-le et réactivez-le. BatFi se reconnectera de lui-même en quelques secondes.\n\nD'ici là, BatFi ne gère pas la charge."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS conserva una registrazione obsoleta dell'Helper di BatFi — di solito lasciata da una copia di BatFi che nel frattempo è stata eliminata — e si rifiuta di avviarlo. BatFi non può rimuoverla da solo.\n\nApri le Impostazioni di Sistema qui sotto, trova BatFi nell'elenco, quindi disattivalo e riattivalo. BatFi si riconnetterà da solo nel giro di pochi secondi.\n\nFino ad allora la limitazione della ricarica è sospesa."
+            "value" : "macOS conserva una registrazione obsoleta dell'Helper di BatFi e si rifiuta di avviarlo. Di solito viene lasciata da una copia di BatFi che nel frattempo è stata eliminata, e BatFi non può rimuoverla da solo.\n\nApri le Impostazioni di Sistema qui sotto, trova BatFi nell'elenco, quindi disattivalo e riattivalo. BatFi si riconnetterà da solo nel giro di pochi secondi.\n\nFino ad allora BatFi non gestisce la ricarica."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOSがBatFiのヘルパーの古い登録情報を保持しているため、起動を拒否しています。これは通常、すでに削除されたBatFiのコピーが残したものです。BatFi自身でこれを解除することはできません。\n\n下からシステム設定を開き、リストでBatFiを見つけて、一度オフにしてから再度オンにしてください。BatFiは数秒で自動的に再接続します。\n\nそれまで充電上限は一時停止されます。"
+            "value" : "macOSがBatFiのヘルパーの古い登録情報を保持しているため、起動を拒否しています。これは通常、すでに削除されたBatFiのコピーが残したもので、BatFi自身で解除することはできません。\n\n下からシステム設定を開き、リストでBatFiを見つけて、一度オフにしてから再度オンにしてください。BatFiは数秒で自動的に再接続します。\n\nそれまでBatFiは充電を管理しません。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 BatFi 보조 프로그램의 오래된 등록 정보를 가지고 있어 실행을 거부하고 있습니다. 보통 이미 삭제된 BatFi 사본이 남긴 것입니다. BatFi가 스스로 지울 수는 없습니다.\n\n아래에서 시스템 설정을 열고 목록에서 BatFi를 찾아 껐다가 다시 켜세요. BatFi가 몇 초 안에 자동으로 다시 연결됩니다.\n\n그때까지 충전 제한은 일시 중지됩니다."
+            "value" : "macOS가 BatFi 보조 프로그램의 오래된 등록 정보를 가지고 있어 실행을 거부하고 있습니다. 보통 이미 삭제된 BatFi 사본이 남긴 것이며, BatFi가 스스로 지울 수는 없습니다.\n\n아래에서 시스템 설정을 열고 목록에서 BatFi를 찾아 껐다가 다시 켜세요. BatFi가 몇 초 안에 자동으로 다시 연결됩니다.\n\n그때까지 BatFi는 충전을 관리하지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS houdt een verouderde registratie van het hulpprogramma van BatFi vast — meestal achtergelaten door een kopie van BatFi die inmiddels is verwijderd — en weigert het te starten. BatFi kan dit niet zelf oplossen.\n\nOpen hieronder Systeeminstellingen, zoek BatFi in de lijst en schakel het uit en weer in. BatFi maakt binnen enkele seconden vanzelf opnieuw verbinding.\n\nTot die tijd is het oplaadlimiet gepauzeerd."
+            "value" : "macOS houdt een verouderde registratie van het hulpprogramma van BatFi vast en weigert het te starten. Die is meestal achtergelaten door een kopie van BatFi die inmiddels is verwijderd, en BatFi kan dit niet zelf oplossen.\n\nOpen hieronder Systeeminstellingen, zoek BatFi in de lijst en schakel het uit en weer in. BatFi maakt binnen enkele seconden vanzelf opnieuw verbinding.\n\nTot die tijd beheert BatFi het opladen niet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS przechowuje nieaktualną rejestrację Helpera BatFi — zwykle pozostawioną przez kopię BatFi, która została już usunięta — i odmawia jego uruchomienia. BatFi nie może usunąć jej samodzielnie.\n\nOtwórz poniżej Ustawienia systemowe, znajdź BatFi na liście, a następnie wyłącz go i włącz ponownie. BatFi połączy się sam w ciągu kilku sekund.\n\nDo tego czasu limitowanie ładowania jest wstrzymane."
+            "value" : "macOS przechowuje nieaktualną rejestrację Helpera BatFi i odmawia jego uruchomienia. Zwykle zostawia ją kopia BatFi, która została już usunięta, a BatFi nie może usunąć jej samodzielnie.\n\nOtwórz poniżej Ustawienia systemowe, znajdź BatFi na liście, a następnie wyłącz go i włącz ponownie. BatFi połączy się sam w ciągu kilku sekund.\n\nDo tego czasu BatFi nie zarządza ładowaniem."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS mantém um registro desatualizado do Helper do BatFi — normalmente deixado por uma cópia do BatFi que já foi apagada — e se recusa a iniciá-lo. O BatFi não consegue removê-lo sozinho.\n\nAbra os Ajustes do Sistema abaixo, encontre o BatFi na lista e desligue-o e ligue-o novamente. O BatFi voltará a se conectar sozinho em alguns segundos.\n\nAté lá, a limitação de carregamento fica pausada."
+            "value" : "O macOS mantém um registro desatualizado do Helper do BatFi e se recusa a iniciá-lo. Normalmente ele é deixado por uma cópia do BatFi que já foi apagada, e o BatFi não consegue removê-lo sozinho.\n\nAbra os Ajustes do Sistema abaixo, encontre o BatFi na lista e desligue-o e ligue-o novamente. O BatFi voltará a se conectar sozinho em alguns segundos.\n\nAté lá, o BatFi não gerencia o carregamento."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS хранит устаревшую регистрацию помощника BatFi — обычно её оставляет копия BatFi, которая уже удалена, — и отказывается его запускать. BatFi не может удалить её самостоятельно.\n\nОткройте Системные настройки ниже, найдите BatFi в списке, затем выключите его и включите снова. BatFi подключится сам в течение нескольких секунд.\n\nДо этого момента ограничение зарядки приостановлено."
+            "value" : "macOS хранит устаревшую регистрацию помощника BatFi и отказывается его запускать. Обычно её оставляет копия BatFi, которая уже удалена, и BatFi не может удалить её самостоятельно.\n\nОткройте Системные настройки ниже, найдите BatFi в списке, затем выключите его и включите снова. BatFi подключится сам в течение нескольких секунд.\n\nДо этого момента BatFi не управляет зарядкой."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, BatFi’nin yardımcısına ait güncelliğini yitirmiş bir kaydı tutuyor — bunu genellikle sonradan silinmiş bir BatFi kopyası bırakır — ve yardımcıyı başlatmayı reddediyor. BatFi bunu kendi başına temizleyemez.\n\nAşağıdan Sistem Ayarları’nı açın, listede BatFi’yi bulun, ardından kapatıp yeniden açın. BatFi birkaç saniye içinde kendiliğinden yeniden bağlanacaktır.\n\nO ana kadar şarj sınırlama duraklatılır."
+            "value" : "macOS, BatFi’nin yardımcısına ait güncelliğini yitirmiş bir kaydı tutuyor ve yardımcıyı başlatmayı reddediyor. Bunu genellikle sonradan silinmiş bir BatFi kopyası bırakır ve BatFi bunu kendi başına temizleyemez.\n\nAşağıdan Sistem Ayarları’nı açın, listede BatFi’yi bulun, ardından kapatıp yeniden açın. BatFi birkaç saniye içinde kendiliğinden yeniden bağlanacaktır.\n\nO ana kadar BatFi şarjı yönetmez."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS зберігає застарілу реєстрацію помічника BatFi — зазвичай її залишає копія BatFi, яку вже видалено, — і відмовляється його запускати. BatFi не може видалити її самостійно.\n\nВідкрийте Системні параметри нижче, знайдіть BatFi у списку, а потім вимкніть його й увімкніть знову. BatFi під’єднається сам протягом кількох секунд.\n\nДо того часу обмеження заряджання призупинено."
+            "value" : "macOS зберігає застарілу реєстрацію помічника BatFi і відмовляється його запускати. Зазвичай її залишає копія BatFi, яку вже видалено, і BatFi не може видалити її самостійно.\n\nВідкрийте Системні параметри нижче, знайдіть BatFi у списку, а потім вимкніть його й увімкніть знову. BatFi під’єднається сам протягом кількох секунд.\n\nДо того часу BatFi не керує заряджанням."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS保留着BatFi的Helper的过时注册信息，因此拒绝启动它。这通常是由已被删除的BatFi副本遗留下来的。BatFi无法自行清除。\n\n请在下方打开系统设置，在列表中找到BatFi，将其关闭后再重新打开。BatFi会在几秒内自行重新连接。\n\n在此之前，充电限制处于暂停状态。"
+            "value" : "macOS保留着BatFi的Helper的过时注册信息，因此拒绝启动它。这通常是由已被删除的BatFi副本遗留下来的，BatFi无法自行清除。\n\n请在下方打开系统设置，在列表中找到BatFi，将其关闭后再重新打开。BatFi会在几秒内自行重新连接。\n\n在此之前，BatFi不会管理充电。"
           }
         }
       }
@@ -17451,31 +17451,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS neposkytuje údaje o baterii, které BatFi potřebuje. Váš limit nabíjení může být stále aktivní. Nahlaste to prosím — chybějící hodnota je uvedena v logu aplikace."
+            "value" : "macOS neposkytuje údaje o baterii, které BatFi potřebuje. Váš limit nabíjení může být stále aktivní. Nahlaste to prosím, chybějící hodnota je uvedena v logu aplikace."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS meldet die Akku-Daten nicht, die BatFi benötigt. Dein Ladelimit ist möglicherweise weiterhin aktiv. Bitte melde das — das Log der App nennt den fehlenden Wert."
+            "value" : "macOS meldet die Akku-Daten nicht, die BatFi benötigt. Dein Ladelimit ist möglicherweise weiterhin aktiv. Bitte melde das, das Log der App nennt den fehlenden Wert."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value."
+            "value" : "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this, the app's log names the missing value."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS ne fournit pas les données de batterie dont BatFi a besoin. Votre limite de charge est peut-être toujours active. Merci de le signaler — le journal de l’application indique la valeur manquante."
+            "value" : "macOS ne fournit pas les données de batterie dont BatFi a besoin. Votre limite de charge est peut-être toujours active. Merci de le signaler, le journal de l’application indique la valeur manquante."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS non riporta i dati della batteria di cui BatFi ha bisogno. Il tuo limite di ricarica potrebbe essere ancora attivo. Segnalalo, per favore — il log dell’app indica il valore mancante."
+            "value" : "macOS non riporta i dati della batteria di cui BatFi ha bisogno. Il tuo limite di ricarica potrebbe essere ancora attivo. Segnalalo, per favore, il log dell’app indica il valore mancante."
           }
         },
         "ja" : {
@@ -17487,49 +17487,49 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS가 BatFi에 필요한 배터리 정보를 제공하지 않습니다. 충전 제한은 여전히 작동 중일 수 있습니다. 이 문제를 알려 주세요 — 앱 로그에 누락된 값이 기록되어 있습니다."
+            "value" : "macOS가 BatFi에 필요한 배터리 정보를 제공하지 않습니다. 충전 제한은 여전히 작동 중일 수 있습니다. 이 문제를 알려 주세요, 앱 로그에 누락된 값이 기록되어 있습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS geeft de batterijgegevens die BatFi nodig heeft niet door. Je oplaadlimiet is mogelijk nog steeds actief. Meld dit alsjeblieft — de log van de app noemt de ontbrekende waarde."
+            "value" : "macOS geeft de batterijgegevens die BatFi nodig heeft niet door. Je oplaadlimiet is mogelijk nog steeds actief. Meld dit alsjeblieft, de log van de app noemt de ontbrekende waarde."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS nie zwraca danych baterii, których potrzebuje BatFi. Twój limit ładowania może nadal działać. Zgłoś to proszę — w logu apki znajdziesz nazwę brakującej wartości."
+            "value" : "macOS nie zwraca danych baterii, których potrzebuje BatFi. Twój limit ładowania może nadal działać. Zgłoś to proszę, w logu apki znajdziesz nazwę brakującej wartości."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O macOS não está informando os dados da bateria de que o BatFi precisa. Seu limite de carga pode continuar ativo. Por favor, relate isso — o log do aplicativo indica o valor que está faltando."
+            "value" : "O macOS não está informando os dados da bateria de que o BatFi precisa. Seu limite de carga pode continuar ativo. Por favor, relate isso, o log do aplicativo indica o valor que está faltando."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не сообщает данные об аккумуляторе, которые нужны BatFi. Ваш лимит заряда может по-прежнему действовать. Пожалуйста, сообщите об этом — в журнале приложения указано недостающее значение."
+            "value" : "macOS не сообщает данные об аккумуляторе, которые нужны BatFi. Ваш лимит заряда может по-прежнему действовать. Пожалуйста, сообщите об этом, в журнале приложения указано недостающее значение."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS, BatFi’nin ihtiyaç duyduğu pil bilgilerini bildirmiyor. Şarj sınırınız hâlâ etkin olabilir. Lütfen bunu bildirin — eksik değer uygulamanın günlüğünde belirtiliyor."
+            "value" : "macOS, BatFi’nin ihtiyaç duyduğu pil bilgilerini bildirmiyor. Şarj sınırınız hâlâ etkin olabilir. Lütfen bunu bildirin, eksik değer uygulamanın günlüğünde belirtiliyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS не повідомляє дані про акумулятор, які потрібні BatFi. Ваш ліміт заряду може досі діяти. Будь ласка, повідомте про це — у журналі програми вказано відсутнє значення."
+            "value" : "macOS не повідомляє дані про акумулятор, які потрібні BatFi. Ваш ліміт заряду може досі діяти. Будь ласка, повідомте про це, у журналі програми вказано відсутнє значення."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "macOS没有返回BatFi所需的电池数据。你的充电限制可能仍在生效。请反馈此问题——应用日志中记录了缺失的数值。"
+            "value" : "macOS没有返回BatFi所需的电池数据。你的充电限制可能仍在生效。请反馈此问题，应用日志中记录了缺失的数值。"
           }
         }
       }
@@ -18614,13 +18614,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort/Touch ID Abfrage bekommen haben, ist das OK – das ist ein macOS Bug und passiert manchmal. \nDu kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen.\n Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
+            "value" : "Es scheint, als ob keine Berechtigung für den Helper erteilt wurde. Solltest du keine Passwort/Touch ID Abfrage bekommen haben, ist das OK, das ist ein macOS Bug und passiert manchmal. \nDu kannst die Berechtigung jederzeit in den Systemeinstellungen vornehmen.\n Bitte behalte im Hinterkopf, dass die App ohne Helper nicht funktioniert."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
+            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay, it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
           }
         },
         "fr" : {
@@ -18656,13 +18656,13 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok – czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera."
+            "value" : "Wygląda na to, że wciąż nie dałeś uprawnień helperowi. Jeśli nie widziałeś okna od hasła lub Touch ID to ok, czasem macOS go nie pokazuje i jest to bug systemu.\nZawsze możesz zmienić uprawnienie w Ustawieniach systemu.\nPamiętaj, że apka nie będzie działać bez tego helpera."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parece que você não deu permissão ao Helper. Se não houver solicitação de senha/Touch ID, tudo bem – é um bug do macOS e às vezes acontece.\nVocê sempre pode alterar as permissões nos Ajustes do Sistema.\nLembre-se de que o aplicativo não funcionará sem a ferramenta auxiliar Helper."
+            "value" : "Parece que você não deu permissão ao Helper. Se não houver solicitação de senha/Touch ID, tudo bem, é um bug do macOS e às vezes acontece.\nVocê sempre pode alterar as permissões nos Ajustes do Sistema.\nLembre-se de que o aplicativo não funcionará sem a ferramenta auxiliar Helper."
           }
         },
         "ru" : {
@@ -18680,7 +18680,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Схоже, ви не надали дозволи помічнику. Якщо не було запиту пароля/Touch ID, це нормально — це помилка macOS, і іноді таке трапляється.\nВи завжди можете змінити дозволи в Системних параметрах.\nМайте на увазі, що програма не працюватиме без допоміжного інструменту."
+            "value" : "Схоже, ви не надали дозволи помічнику. Якщо не було запиту пароля/Touch ID, це нормально, це помилка macOS, і іноді таке трапляється.\nВи завжди можете змінити дозволи в Системних параметрах.\nМайте на увазі, що програма не працюватиме без допоміжного інструменту."
           }
         },
         "zh-Hans" : {

@@ -467,9 +467,17 @@ public enum L10n {
                 /// does not have. The alert's own button deep-links to the right pane on
                 /// every version, so the instruction only has to describe what to do once
                 /// they are looking at it.
+                /// Says what BatFi is doing, not what the battery is doing.
+                ///
+                /// This used to end "Charge limiting is paused until then", which is a claim
+                /// about the hardware that BatFi is in no position to make. Where the limit
+                /// is held by Apple's own charge limit or by the firmware's charge range, it
+                /// is the Mac enforcing it, not BatFi, and it keeps being enforced with no
+                /// helper running at all. Telling those users charging is unlimited would
+                /// send them looking for a problem they do not have.
                 public static let helperNeedsManualReset = String(
                     localized: "notifications.alert.informative_text.helper_needs_manual_reset",
-                    defaultValue: "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nCharge limiting is paused until then.",
+                    defaultValue: "macOS is holding an outdated registration for BatFi's helper and refuses to start it. This is usually left behind by a copy of BatFi that has since been deleted, and BatFi cannot clear it on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nUntil then, BatFi isn't managing charging.",
                     bundle: Bundle.module
                 )
 
