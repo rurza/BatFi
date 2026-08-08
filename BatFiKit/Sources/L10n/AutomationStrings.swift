@@ -103,9 +103,6 @@ public extension L10n {
         public static func menuActive(limit: Int, name: String) -> String {
             String(localized: "automation.menu.active", defaultValue: "“\(name)”: \(limit)%", bundle: Bundle.module)
         }
-        public static func menuActiveUntil(_ time: String) -> String {
-            String(localized: "automation.menu.active_until", defaultValue: "until \(time)", bundle: Bundle.module)
-        }
         public static let menuIdle = String(localized: "automation.menu.idle", defaultValue: "Idle", bundle: Bundle.module)
         public static func menuNext(name: String, when: String) -> String {
             String(localized: "automation.menu.next", defaultValue: "next: “\(name)” \(when)", bundle: Bundle.module)

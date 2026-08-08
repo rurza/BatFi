@@ -11,7 +11,6 @@ import AppShared
 import Defaults
 import DefaultsKeys
 import L10n
-import Settings
 import SwiftUI
 
 struct AutomationMenuInfoView: View {
@@ -55,32 +54,20 @@ struct AutomationMenuInfoView: View {
         return L10n.Automation.menuIdle
     }
 
+    /// Nothing under the active rule. Its name and its limit are the whole message: the
+    /// card answers "what is BatFi doing", and the conditions that got the rule here —
+    /// the hours it runs, the area it watches — are the rule's definition, which belongs
+    /// in the editor that owns it rather than restated in a menu every time it fires.
+    ///
+    /// The idle case still says what is coming, because there the card has no rule to name
+    /// and "Idle" alone answers nothing.
     private var secondaryText: String? {
-        if let active = activeRule {
-            let detail = activeDetail(active)
-            return detail.isEmpty ? nil : detail
-        }
+        guard activeRule == nil else { return nil }
         if let next = AutomationEngine.nextScheduled(in: rules, enabled: true, after: Date()) {
             let name = next.rule.name.isEmpty ? L10n.Automation.untitledRule : next.rule.name
             return L10n.Automation.menuNext(name: name, when: Self.relativeDateTime(next.start))
         }
         return nil
-    }
-
-    private func activeDetail(_ rule: AutomationRule) -> String {
-        var parts: [String] = []
-        switch rule.schedule {
-        case let .recurring(_, time):
-            parts.append(L10n.Automation.menuActiveUntil(AutomationFormatting.time(time.end)))
-        case let .oneOff(_, time):
-            parts.append(L10n.Automation.menuActiveUntil(AutomationFormatting.time(time.end)))
-        case nil:
-            break
-        }
-        if rule.location != nil {
-            parts.append(AutomationFormatting.locationSummary(rule.location))
-        }
-        return parts.joined(separator: " · ")
     }
 
     private static func relativeDateTime(_ date: Date) -> String {
