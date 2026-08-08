@@ -509,7 +509,7 @@ public enum L10n {
                     String(
                         format: String(
                             localized: "notifications.alert.informative_text.foreign_helper_other_copy_running",
-                            defaultValue: "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy — or delete it and keep just one — then reopen BatFi.",
+                            defaultValue: "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy, or delete it and keep just one, then reopen BatFi.",
                             bundle: .module
                         ),
                         String(describing: p1)
@@ -634,7 +634,7 @@ public enum L10n {
                 /// macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.
                 public static let cannotReadBatteryInfo = String(
                     localized: "notifications.notification.body.cannot_read_battery_info",
-                    defaultValue: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.",
+                    defaultValue: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this, the app's log names the missing value.",
                     bundle: Bundle.module
                 )
             }
@@ -654,7 +654,7 @@ public enum L10n {
                 /// It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.
                 /// You can always change permissions in the System Settings.
                 /// Please keep in mind that the app won't work without the helper tool.
-                public static let helperNotInstalled = String(localized: "onboarding.alert.message.helper_not_installed", defaultValue: "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.", bundle: Bundle.module)
+                public static let helperNotInstalled = String(localized: "onboarding.alert.message.helper_not_installed", defaultValue: "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay, it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.", bundle: Bundle.module)
             }
 
             public enum Title {
@@ -684,7 +684,7 @@ public enum L10n {
             /// Almost done.
             public static let almostDone = String(localized: "onboarding.label.almost_done", defaultValue: "Almost done.", bundle: Bundle.module)
             /// BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.
-            public static let appDescription = String(localized: "onboarding.label.app_description", defaultValue: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.", bundle: Bundle.module)
+            public static let appDescription = String(localized: "onboarding.label.app_description", defaultValue: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control, charging to 100% only when it's needed.", bundle: Bundle.module)
             /// The app is ready to use!
             public static let appIsReady = String(localized: "onboarding.label.app_is_ready", defaultValue: "The app is ready to use!", bundle: Bundle.module)
             /// Extend the life of your Mac.
@@ -989,7 +989,7 @@ public enum L10n {
             /// perfectly well.
             public static let diagnosticsChargingControlIdle = String(localized: "settings.label.diagnostics_charging_control_idle", defaultValue: "Available, not in use", bundle: Bundle.module)
             /// BatFi can't control charging on this Mac — its firmware doesn't support it.
-            public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can’t control charging on this Mac — its firmware doesn’t support it.", bundle: Bundle.module)
+            public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can’t control charging on this Mac. Its firmware doesn’t support it.", bundle: Bundle.module)
             /// Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100% there so BatFi is the only thing in control.
             ///
             /// Replaces `diagnostics_system_charge_limit_warning`, which could only say "if it's
@@ -1092,7 +1092,7 @@ public enum L10n {
             /// backends and under `.chargingControlUnavailable`, and a key that names one
             /// mechanism while three cases use it is a key that mis-briefs every
             /// translator who reads it.
-            public static let forceDischargeStillWorks = String(localized: "settings.label.force_discharge_still_works", defaultValue: "Running on battery still works — it uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
+            public static let forceDischargeStillWorks = String(localized: "settings.label.force_discharge_still_works", defaultValue: "Running on battery still works. It uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
 
             // MARK: The charge-control help popover
             // Replaces the permanent banner that used to sit above the slider. The
@@ -1129,7 +1129,7 @@ public enum L10n {
                 String(
                     format: String(
                         localized: "settings.label.firmware_range_battery_may_dip_below_limit",
-                        defaultValue: "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault.",
+                        defaultValue: "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit. It isn’t a fault.",
                         bundle: .module
                     ),
                     String(describing: p1)
@@ -1148,7 +1148,7 @@ public enum L10n {
             /// the actual cause; and closes on the limit being enforced exactly, so nobody
             /// reads this as "the limit is unreliable". Only the label is a guess, and the
             /// battery percentage shown is real.
-            public static let firmwareRangeChargingStatusIsInferred = String(localized: "settings.label.firmware_range_charging_status_is_inferred", defaultValue: "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly.", bundle: Bundle.module)
+            public static let firmwareRangeChargingStatusIsInferred = String(localized: "settings.label.firmware_range_charging_status_is_inferred", defaultValue: "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level. The limit itself is still enforced exactly.", bundle: Bundle.module)
 
             /// Charging can't be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won't take effect.
             ///

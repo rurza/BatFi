@@ -5169,31 +5169,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toto pravidlo nemá žádné podmínky — bude vždy aktivní, dokud je zapnuté."
+            "value" : "Toto pravidlo nemá žádné podmínky, bude vždy aktivní, dokud je zapnuté."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diese Regel hat keine Bedingungen – sie gilt immer, solange sie eingeschaltet ist."
+            "value" : "Diese Regel hat keine Bedingungen, sie gilt immer, solange sie eingeschaltet ist."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This rule has no conditions — it will always be active while enabled."
+            "value" : "This rule has no conditions. It will always be active while enabled."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette règle n’a aucune condition — elle sera toujours active tant qu’elle est activée."
+            "value" : "Cette règle n’a aucune condition, elle sera toujours active tant qu’elle est activée."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Questa regola non ha condizioni — sarà sempre attiva finché è abilitata."
+            "value" : "Questa regola non ha condizioni, sarà sempre attiva finché è abilitata."
           }
         },
         "ja" : {
@@ -5211,43 +5211,43 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deze regel heeft geen voorwaarden — hij is altijd actief zolang hij is ingeschakeld."
+            "value" : "Deze regel heeft geen voorwaarden, hij is altijd actief zolang hij is ingeschakeld."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ta reguła nie ma warunków — będzie zawsze aktywna, gdy włączona."
+            "value" : "Ta reguła nie ma warunków, będzie zawsze aktywna, gdy włączona."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esta regra não tem condições — ela ficará sempre ativa enquanto estiver habilitada."
+            "value" : "Esta regra não tem condições, ela ficará sempre ativa enquanto estiver habilitada."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У этого правила нет условий — оно всегда активно, пока включено."
+            "value" : "У этого правила нет условий, оно всегда активно, пока включено."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu kuralın koşulu yok — etkin olduğu sürece her zaman geçerli olur."
+            "value" : "Bu kuralın koşulu yok, etkin olduğu sürece her zaman geçerli olur."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Це правило не має умов — воно завжди активне, поки ввімкнене."
+            "value" : "Це правило не має умов, воно завжди активне, поки ввімкнене."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此规则没有条件——启用时将始终生效。"
+            "value" : "此规则没有条件，启用时将始终生效。"
           }
         }
       }
@@ -5970,31 +5970,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pravidla se kontrolují shora dolů — vyhrává první, jehož podmínky jsou právě splněny. Pořadí změníte přetažením."
+            "value" : "Pravidla se kontrolují shora dolů, vyhrává první, jehož podmínky jsou právě splněny. Pořadí změníte přetažením."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Regeln werden von oben nach unten geprüft – es gewinnt die erste, deren Bedingungen gerade zutreffen. Zum Umsortieren ziehen."
+            "value" : "Regeln werden von oben nach unten geprüft, es gewinnt die erste, deren Bedingungen gerade zutreffen. Zum Umsortieren ziehen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rules are checked from top to bottom — the first rule whose conditions match right now wins. Drag to reorder them."
+            "value" : "Rules are checked from top to bottom. The first rule whose conditions match right now wins. Drag to reorder them."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Les règles sont évaluées de haut en bas — la première dont les conditions correspondent l’emporte. Faites glisser pour les réorganiser."
+            "value" : "Les règles sont évaluées de haut en bas, la première dont les conditions correspondent l’emporte. Faites glisser pour les réorganiser."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le regole vengono controllate dall’alto verso il basso — vince la prima le cui condizioni corrispondono ora. Trascina per riordinarle."
+            "value" : "Le regole vengono controllate dall’alto verso il basso, vince la prima le cui condizioni corrispondono ora. Trascina per riordinarle."
           }
         },
         "ja" : {
@@ -6012,43 +6012,43 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Regels worden van boven naar beneden gecontroleerd — de eerste waarvan de voorwaarden nu kloppen, wint. Sleep om de volgorde te wijzigen."
+            "value" : "Regels worden van boven naar beneden gecontroleerd, de eerste waarvan de voorwaarden nu kloppen, wint. Sleep om de volgorde te wijzigen."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reguły są sprawdzane od góry do dołu — wygrywa pierwsza, której warunki są teraz spełnione. Przeciągnij, aby zmienić kolejność."
+            "value" : "Reguły są sprawdzane od góry do dołu, wygrywa pierwsza, której warunki są teraz spełnione. Przeciągnij, aby zmienić kolejność."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As regras são verificadas de cima para baixo — vence a primeira cujas condições correspondem agora. Arraste para reordenar."
+            "value" : "As regras são verificadas de cima para baixo, vence a primeira cujas condições correspondem agora. Arraste para reordenar."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Правила проверяются сверху вниз — побеждает первое, чьи условия сейчас совпадают. Перетащите, чтобы изменить порядок."
+            "value" : "Правила проверяются сверху вниз, побеждает первое, чьи условия сейчас совпадают. Перетащите, чтобы изменить порядок."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kurallar yukarıdan aşağıya kontrol edilir — koşulları şu anda eşleşen ilk kural geçerli olur. Sıralamak için sürükleyin."
+            "value" : "Kurallar yukarıdan aşağıya kontrol edilir, koşulları şu anda eşleşen ilk kural geçerli olur. Sıralamak için sürükleyin."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Правила перевіряються згори донизу — перемагає перше, чиї умови зараз збігаються. Перетягніть, щоб змінити порядок."
+            "value" : "Правила перевіряються згори донизу, перемагає перше, чиї умови зараз збігаються. Перетягніть, щоб змінити порядок."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "规则从上到下检查——当前条件匹配的第一条规则生效。拖动可重新排序。"
+            "value" : "规则从上到下检查，当前条件匹配的第一条规则生效。拖动可重新排序。"
           }
         }
       }
@@ -6148,85 +6148,85 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld %% — „%@“"
+            "value" : "%lld %%: „%@“"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld %% – „%@“"
+            "value" : "%lld %%: „%@“"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — “%@”"
+            "value" : "%lld%%: “%@”"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld %% — « %@ »"
+            "value" : "%lld %% : « %@ »"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — “%@”"
+            "value" : "%lld%%: “%@”"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — 「%@」"
+            "value" : "%lld%%：「%@」"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — “%@”"
+            "value" : "%lld%%: “%@”"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — ‘%@’"
+            "value" : "%lld%%: ‘%@’"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — „%@”"
+            "value" : "%lld%%: „%@”"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — “%@”"
+            "value" : "%lld%%: “%@”"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — «%@»"
+            "value" : "%lld%%: «%@»"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%%%lld — “%@”"
+            "value" : "%%%lld: “%@”"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — «%@»"
+            "value" : "%lld%%: «%@»"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%% — “%@”"
+            "value" : "%lld%%：“%@”"
           }
         }
       }
@@ -16128,7 +16128,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy — or delete it and keep just one — then reopen BatFi."
+            "value" : "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy, or delete it and keep just one, then reopen BatFi."
           }
         },
         "fr" : {
@@ -18798,7 +18798,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
+            "value" : "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay, it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool."
           }
         },
         "fr" : {
@@ -19682,13 +19682,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi lässt Dich die Akkuleistung deines Macs selber optimieren, oder übernimmt die intelligente Verwaltung der Ladestände. – Lade erst auf 100 %, wenn notwendig."
+            "value" : "BatFi lässt Dich die Akkuleistung deines Macs selber optimieren, oder übernimmt die intelligente Verwaltung der Ladestände. Lade erst auf 100 %, wenn notwendig."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed."
+            "value" : "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control, charging to 100% only when it's needed."
           }
         },
         "fr" : {
@@ -19724,13 +19724,13 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę – wciąż możesz ładować baterię do 100% gdy potrzeba."
+            "value" : "BatFi pozwala zwiększyć wydajność baterii poprzez utrzymywanie optymalnych poziomów naładowania pozostawiając Ci pełną kontrolę, wciąż możesz ładować baterię do 100% gdy potrzeba."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi ajuda você a otimizar o desempenho da bateria do macOS gerenciando os níveis de carga de forma inteligente, mas oferecendo a você controle total – carregando até 100% somente quando necessário."
+            "value" : "BatFi ajuda você a otimizar o desempenho da bateria do macOS gerenciando os níveis de carga de forma inteligente, mas oferecendo a você controle total, carregando até 100% somente quando necessário."
           }
         },
         "ru" : {
@@ -19748,7 +19748,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi допомагає оптимізувати продуктивність акумулятора macOS завдяки розумному керуванню рівнями заряду, надаючи повний контроль — заряджання до 100% тільки тоді, коли це необхідно."
+            "value" : "BatFi допомагає оптимізувати продуктивність акумулятора macOS завдяки розумному керуванню рівнями заряду, надаючи повний контроль, заряджання до 100% тільки тоді, коли це необхідно."
           }
         },
         "zh-Hans" : {
@@ -25622,7 +25622,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "80% — це рекомендоване значення для щоденного використання."
+            "value" : "80%, це рекомендоване значення для щоденного використання."
           }
         },
         "zh-Hans" : {
@@ -26262,31 +26262,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi nemůže na tomto Macu řídit nabíjení — jeho firmware to nepodporuje."
+            "value" : "BatFi nemůže na tomto Macu řídit nabíjení, jeho firmware to nepodporuje."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi kann das Laden auf diesem Mac nicht steuern — die Firmware unterstützt das nicht."
+            "value" : "BatFi kann das Laden auf diesem Mac nicht steuern, die Firmware unterstützt das nicht."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi can’t control charging on this Mac — its firmware doesn’t support it."
+            "value" : "BatFi can’t control charging on this Mac. Its firmware doesn’t support it."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi ne peut pas contrôler la charge sur ce Mac — son micrologiciel ne le permet pas."
+            "value" : "BatFi ne peut pas contrôler la charge sur ce Mac, son micrologiciel ne le permet pas."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi non può controllare la ricarica su questo Mac — il suo firmware non lo supporta."
+            "value" : "BatFi non può controllare la ricarica su questo Mac, il suo firmware non lo supporta."
           }
         },
         "ja" : {
@@ -26304,43 +26304,43 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi kan het opladen op deze Mac niet regelen — de firmware ondersteunt dat niet."
+            "value" : "BatFi kan het opladen op deze Mac niet regelen, de firmware ondersteunt dat niet."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi nie może kontrolować ładowania na tym Macu — jego firmware tego nie obsługuje."
+            "value" : "BatFi nie może kontrolować ładowania na tym Macu, jego firmware tego nie obsługuje."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O BatFi não consegue controlar o carregamento neste Mac — o firmware dele não oferece suporte a isso."
+            "value" : "O BatFi não consegue controlar o carregamento neste Mac, o firmware dele não oferece suporte a isso."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi не может управлять зарядкой на этом Mac — его прошивка это не поддерживает."
+            "value" : "BatFi не может управлять зарядкой на этом Mac, его прошивка это не поддерживает."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi bu Mac’te şarj etmeyi denetleyemiyor — donanım yazılımı bunu desteklemiyor."
+            "value" : "BatFi bu Mac’te şarj etmeyi denetleyemiyor, donanım yazılımı bunu desteklemiyor."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi не може керувати заряджанням на цьому Mac — його прошивка цього не підтримує."
+            "value" : "BatFi не може керувати заряджанням на цьому Mac, його прошивка цього не підтримує."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "BatFi无法控制这台Mac的充电——其固件不支持。"
+            "value" : "BatFi无法控制这台Mac的充电，其固件不支持。"
           }
         }
       }
@@ -26618,31 +26618,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Baterie může klesnout až o %@ pod limit, než se nabíjení znovu spustí. Tento pokles je způsob, jakým firmware limit udržuje — nejde o závadu."
+            "value" : "Baterie může klesnout až o %@ pod limit, než se nabíjení znovu spustí. Tento pokles je způsob, jakým firmware limit udržuje, nejde o závadu."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dein Akku kann bis zu %@ unter das Limit fallen, bevor das Laden wieder beginnt. Dieses Absinken ist die Art, wie die Firmware das Limit hält — es ist kein Fehler."
+            "value" : "Dein Akku kann bis zu %@ unter das Limit fallen, bevor das Laden wieder beginnt. Dieses Absinken ist die Art, wie die Firmware das Limit hält, es ist kein Fehler."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn’t a fault."
+            "value" : "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit. It isn’t a fault."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre batterie peut descendre jusqu'à %@ en dessous de la limite avant que la charge ne reprenne. Cette baisse correspond à la façon dont le micrologiciel maintient la limite — ce n'est pas un défaut."
+            "value" : "Votre batterie peut descendre jusqu'à %@ en dessous de la limite avant que la charge ne reprenne. Cette baisse correspond à la façon dont le micrologiciel maintient la limite, ce n'est pas un défaut."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La batteria può scendere fino a %@ sotto il limite prima che la ricarica riprenda. Questo calo è il modo in cui il firmware mantiene il limite — non è un difetto."
+            "value" : "La batteria può scendere fino a %@ sotto il limite prima che la ricarica riprenda. Questo calo è il modo in cui il firmware mantiene il limite, non è un difetto."
           }
         },
         "ja" : {
@@ -26660,37 +26660,37 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Je batterij kan tot %@ onder de limiet zakken voordat het opladen weer begint. Die daling is de manier waarop de firmware de limiet aanhoudt — het is geen storing."
+            "value" : "Je batterij kan tot %@ onder de limiet zakken voordat het opladen weer begint. Die daling is de manier waarop de firmware de limiet aanhoudt, het is geen storing."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bateria może spaść nawet o %@ poniżej limitu, zanim ładowanie znów się rozpocznie. Ten spadek to sposób, w jaki firmware utrzymuje limit — to nie jest usterka."
+            "value" : "Bateria może spaść nawet o %@ poniżej limitu, zanim ładowanie znów się rozpocznie. Ten spadek to sposób, w jaki firmware utrzymuje limit, to nie jest usterka."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sua bateria pode cair até %@ abaixo do limite antes que o carregamento recomece. Essa queda é a forma como o firmware mantém o limite — não é uma falha."
+            "value" : "Sua bateria pode cair até %@ abaixo do limite antes que o carregamento recomece. Essa queda é a forma como o firmware mantém o limite, não é uma falha."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Заряд аккумулятора может опуститься на %@ ниже лимита, прежде чем зарядка возобновится. Такое снижение — это способ, которым прошивка удерживает лимит, а не неисправность."
+            "value" : "Заряд аккумулятора может опуститься на %@ ниже лимита, прежде чем зарядка возобновится. Такое снижение, это способ, которым прошивка удерживает лимит, а не неисправность."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Şarj yeniden başlamadan önce piliniz sınırın %@ altına kadar düşebilir. Bu düşüş, donanım yazılımının sınırı koruma biçimidir — bir arıza değildir."
+            "value" : "Şarj yeniden başlamadan önce piliniz sınırın %@ altına kadar düşebilir. Bu düşüş, donanım yazılımının sınırı koruma biçimidir, bir arıza değildir."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Заряд акумулятора може впасти на %@ нижче ліміту, перш ніж заряджання відновиться. Таке просідання — це спосіб, у який прошивка утримує ліміт, а не несправність."
+            "value" : "Заряд акумулятора може впасти на %@ нижче ліміту, перш ніж заряджання відновиться. Таке просідання, це спосіб, у який прошивка утримує ліміт, а не несправність."
           }
         },
         "zh-Hans" : {
@@ -26796,31 +26796,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Během tohoto poklesu může BatFi v řádku nabídek i v oznámeních stále zobrazovat Mac jako nabíjející se. Firmware nehlásí, kdy limit drží, takže BatFi stav odvozuje z úrovně nabití baterie — samotný limit je i tak dodržován přesně."
+            "value" : "Během tohoto poklesu může BatFi v řádku nabídek i v oznámeních stále zobrazovat Mac jako nabíjející se. Firmware nehlásí, kdy limit drží, takže BatFi stav odvozuje z úrovně nabití baterie, samotný limit je i tak dodržován přesně."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Während dieses Absinkens zeigt BatFi deinen Mac in der Menüleiste und in den Mitteilungen möglicherweise weiterhin als ladend an. Die Firmware meldet nicht, wann sie das Limit hält, daher leitet BatFi den Status aus dem Akkustand ab — das Limit selbst wird weiterhin exakt eingehalten."
+            "value" : "Während dieses Absinkens zeigt BatFi deinen Mac in der Menüleiste und in den Mitteilungen möglicherweise weiterhin als ladend an. Die Firmware meldet nicht, wann sie das Limit hält, daher leitet BatFi den Status aus dem Akkustand ab, das Limit selbst wird weiterhin exakt eingehalten."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level — the limit itself is still enforced exactly."
+            "value" : "During that dip BatFi may still show your Mac as charging, in the menu bar and in its notifications. The firmware doesn’t report when it’s holding, so BatFi works the status out from the battery level. The limit itself is still enforced exactly."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pendant cette baisse, BatFi peut continuer d'indiquer que votre Mac est en charge, dans la barre des menus et dans ses notifications. Le micrologiciel ne signale pas lorsqu'il maintient la limite, BatFi déduit donc l'état à partir du niveau de la batterie — la limite elle-même reste appliquée avec précision."
+            "value" : "Pendant cette baisse, BatFi peut continuer d'indiquer que votre Mac est en charge, dans la barre des menus et dans ses notifications. Le micrologiciel ne signale pas lorsqu'il maintient la limite, BatFi déduit donc l'état à partir du niveau de la batterie, la limite elle-même reste appliquée avec précision."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Durante questo calo BatFi potrebbe continuare a mostrare il Mac come in carica, nella barra dei menu e nelle sue notifiche. Il firmware non segnala quando sta mantenendo il limite, quindi BatFi deduce lo stato dal livello della batteria — il limite stesso viene comunque applicato con precisione."
+            "value" : "Durante questo calo BatFi potrebbe continuare a mostrare il Mac come in carica, nella barra dei menu e nelle sue notifiche. Il firmware non segnala quando sta mantenendo il limite, quindi BatFi deduce lo stato dal livello della batteria, il limite stesso viene comunque applicato con precisione."
           }
         },
         "ja" : {
@@ -26838,43 +26838,43 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tijdens die daling kan BatFi je Mac nog steeds als opladend tonen, in de menubalk en in de meldingen. De firmware meldt niet wanneer ze de limiet aanhoudt, dus BatFi leidt de status af uit het batterijniveau — de limiet zelf wordt nog steeds exact aangehouden."
+            "value" : "Tijdens die daling kan BatFi je Mac nog steeds als opladend tonen, in de menubalk en in de meldingen. De firmware meldt niet wanneer ze de limiet aanhoudt, dus BatFi leidt de status af uit het batterijniveau, de limiet zelf wordt nog steeds exact aangehouden."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Podczas tego spadku BatFi może nadal pokazywać Maca jako ładującego się — na pasku menu i w powiadomieniach. Firmware nie informuje, kiedy utrzymuje limit, więc BatFi wnioskuje status z poziomu naładowania baterii — sam limit jest nadal egzekwowany dokładnie."
+            "value" : "Podczas tego spadku BatFi może nadal pokazywać Maca jako ładującego się, na pasku menu i w powiadomieniach. Firmware nie informuje, kiedy utrzymuje limit, więc BatFi wnioskuje status z poziomu naładowania baterii, sam limit jest nadal egzekwowany dokładnie."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Durante essa queda, o BatFi pode continuar mostrando o Mac como carregando, na barra de menus e em suas notificações. O firmware não informa quando está mantendo o limite, então o BatFi deduz o status a partir do nível da bateria — o limite em si continua sendo aplicado com exatidão."
+            "value" : "Durante essa queda, o BatFi pode continuar mostrando o Mac como carregando, na barra de menus e em suas notificações. O firmware não informa quando está mantendo o limite, então o BatFi deduz o status a partir do nível da bateria, o limite em si continua sendo aplicado com exatidão."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Во время такого снижения BatFi может по-прежнему показывать Mac как заряжающийся — в строке меню и в уведомлениях. Прошивка не сообщает, когда она удерживает лимит, поэтому BatFi определяет статус по уровню заряда — сам лимит при этом соблюдается точно."
+            "value" : "Во время такого снижения BatFi может по-прежнему показывать Mac как заряжающийся, в строке меню и в уведомлениях. Прошивка не сообщает, когда она удерживает лимит, поэтому BatFi определяет статус по уровню заряда, сам лимит при этом соблюдается точно."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu düşüş sırasında BatFi, menü çubuğunda ve bildirimlerinde Mac’inizi hâlâ şarj oluyor olarak gösterebilir. Donanım yazılımı sınırı ne zaman koruduğunu bildirmediğinden BatFi durumu pil seviyesinden çıkarır — sınırın kendisi yine tam olarak uygulanır."
+            "value" : "Bu düşüş sırasında BatFi, menü çubuğunda ve bildirimlerinde Mac’inizi hâlâ şarj oluyor olarak gösterebilir. Donanım yazılımı sınırı ne zaman koruduğunu bildirmediğinden BatFi durumu pil seviyesinden çıkarır, sınırın kendisi yine tam olarak uygulanır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Під час такого просідання BatFi може й далі показувати Mac як такий, що заряджається, — у рядку меню та в сповіщеннях. Прошивка не повідомляє, коли вона утримує ліміт, тому BatFi визначає статус за рівнем заряду — сам ліміт при цьому дотримується точно."
+            "value" : "Під час такого просідання BatFi може й далі показувати Mac як такий, що заряджається, у рядку меню та в сповіщеннях. Прошивка не повідомляє, коли вона утримує ліміт, тому BatFi визначає статус за рівнем заряду, сам ліміт при цьому дотримується точно."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在回落期间，BatFi可能仍会在菜单栏和通知中把这台Mac显示为充电中。固件不会报告它何时在维持限制，因此BatFi根据电量推断状态——限制本身仍会被精确执行。"
+            "value" : "在回落期间，BatFi可能仍会在菜单栏和通知中把这台Mac显示为充电中。固件不会报告它何时在维持限制，因此BatFi根据电量推断状态，限制本身仍会被精确执行。"
           }
         }
       }
@@ -26974,31 +26974,31 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Provoz na baterii stále funguje — využívá jinou část firmwaru, kterou tento Mac má."
+            "value" : "Provoz na baterii stále funguje, využívá jinou část firmwaru, kterou tento Mac má."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Betrieb über den Akku funktioniert weiterhin — dafür wird ein anderer Teil der Firmware genutzt, den dieser Mac noch hat."
+            "value" : "Der Betrieb über den Akku funktioniert weiterhin, dafür wird ein anderer Teil der Firmware genutzt, den dieser Mac noch hat."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Running on battery still works — it uses a separate part of the firmware, which this Mac still has."
+            "value" : "Running on battery still works. It uses a separate part of the firmware, which this Mac still has."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Le fonctionnement sur batterie reste possible — il utilise une autre partie du micrologiciel, dont ce Mac dispose toujours."
+            "value" : "Le fonctionnement sur batterie reste possible, il utilise une autre partie du micrologiciel, dont ce Mac dispose toujours."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il funzionamento a batteria resta possibile — usa una parte diversa del firmware, di cui questo Mac dispone ancora."
+            "value" : "Il funzionamento a batteria resta possibile, usa una parte diversa del firmware, di cui questo Mac dispone ancora."
           }
         },
         "ja" : {
@@ -27016,43 +27016,43 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Werken op de batterij blijft mogelijk — daarvoor wordt een ander deel van de firmware gebruikt, dat deze Mac nog wel heeft."
+            "value" : "Werken op de batterij blijft mogelijk, daarvoor wordt een ander deel van de firmware gebruikt, dat deze Mac nog wel heeft."
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zasilanie z baterii nadal działa — korzysta z innej części firmware’u, którą ten Mac wciąż ma."
+            "value" : "Zasilanie z baterii nadal działa, korzysta z innej części firmware’u, którą ten Mac wciąż ma."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Funcionar na bateria continua possível — isso usa uma parte separada do firmware, que este Mac ainda possui."
+            "value" : "Funcionar na bateria continua possível, isso usa uma parte separada do firmware, que este Mac ainda possui."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Работа от аккумулятора по-прежнему возможна — она использует отдельную часть прошивки, которая на этом Mac есть."
+            "value" : "Работа от аккумулятора по-прежнему возможна, она использует отдельную часть прошивки, которая на этом Mac есть."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pille çalışma yine de mümkündür — bunun için donanım yazılımının bu Mac’te hâlâ bulunan ayrı bir bölümü kullanılır."
+            "value" : "Pille çalışma yine de mümkündür, bunun için donanım yazılımının bu Mac’te hâlâ bulunan ayrı bir bölümü kullanılır."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Робота від акумулятора й далі працює — вона використовує окрему частину прошивки, яка на цьому Mac є."
+            "value" : "Робота від акумулятора й далі працює, вона використовує окрему частину прошивки, яка на цьому Mac є."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "使用电池供电仍然可用——它使用固件中另一部分功能，这台Mac仍具备该功能。"
+            "value" : "使用电池供电仍然可用，它使用固件中另一部分功能，这台Mac仍具备该功能。"
           }
         }
       }
@@ -28212,7 +28212,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Аккумулятор перестанет заряжаться на установленном вами лимите. На этом Mac этот лимит обеспечивает macOS, а не BatFi, поэтому наименьший доступный лимит — 80%."
+            "value" : "Аккумулятор перестанет заряжаться на установленном вами лимите. На этом Mac этот лимит обеспечивает macOS, а не BatFi, поэтому наименьший доступный лимит, 80%."
           }
         },
         "tr" : {
@@ -28224,7 +28224,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Акумулятор припинить заряджатися на встановленому вами ліміті. На цьому Mac цей ліміт забезпечує macOS, а не BatFi, тож найнижчий доступний ліміт — 80%."
+            "value" : "Акумулятор припинить заряджатися на встановленому вами ліміті. На цьому Mac цей ліміт забезпечує macOS, а не BatFi, тож найнижчий доступний ліміт, 80%."
           }
         },
         "zh-Hans" : {
@@ -28514,7 +28514,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limits unter 80%% können auf diesem Mac nicht angewendet werden. BatFi hält das Laden stattdessen bei %@ — dem niedrigsten Wert, den das macOS-Ladelimit zulässt."
+            "value" : "Limits unter 80%% können auf diesem Mac nicht angewendet werden. BatFi hält das Laden stattdessen bei %@, dem niedrigsten Wert, den das macOS-Ladelimit zulässt."
           }
         },
         "en" : {
@@ -28568,7 +28568,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Лимиты ниже 80%% нельзя применить на этом Mac. Вместо этого BatFi удерживает зарядку на %@ — это наименьшее значение, которое принимает лимит заряда macOS."
+            "value" : "Лимиты ниже 80%% нельзя применить на этом Mac. Вместо этого BatFi удерживает зарядку на %@, это наименьшее значение, которое принимает лимит заряда macOS."
           }
         },
         "tr" : {
@@ -28580,7 +28580,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ліміти нижче 80%% не можна застосувати на цьому Mac. Натомість BatFi утримує заряджання на %@ — це найнижче значення, яке приймає ліміт заряду macOS."
+            "value" : "Ліміти нижче 80%% не можна застосувати на цьому Mac. Натомість BatFi утримує заряджання на %@, це найнижче значення, яке приймає ліміт заряду macOS."
           }
         },
         "zh-Hans" : {
