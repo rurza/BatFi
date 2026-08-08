@@ -44,6 +44,33 @@ public actor ChargingManager: ChargingModeManager {
     /// mismatch is the permanent steady state for anyone whose limit is below 80%, and
     /// this runs on every status update. Cleared in `disengage()` so re-engaging says it
     /// once again.
+    /// Whether the hardware may no longer be holding what it was last told.
+    ///
+    /// The charging appliers re-issue their command on every status update, and status
+    /// updates are driven by `powerSourceChanges()` — which fires continuously. Measured on
+    /// one machine that was doing nothing but holding a limit: 2,748 XPC round trips into
+    /// the helper and back in 2h20m, one every 3.2 seconds, every one of them re-sending a
+    /// command the SMC was already holding and answering "no SMC write needed".
+    ///
+    /// Re-sending was never the point, though — it was insurance against the SMC being put
+    /// back to defaults by something other than BatFi. That does happen, but it happens at
+    /// identifiable moments, not continuously, so the insurance is kept and the polling
+    /// dropped: anything that could have reset the hardware sets this, and the next applier
+    /// re-issues unconditionally regardless of what the app believes the mode to be.
+    private var hardwareStateMayBeStale = true
+    /// When the last charging command actually reached the hardware.
+    private var lastAppliedAt: Date?
+    /// How long a command is trusted to still be in force before it is re-sent regardless.
+    ///
+    /// The named events — sleep, wake, a helper restart, the charger moving — cover every
+    /// way the SMC is *known* to lose what BatFi put there. This covers the rest: firmware
+    /// doing something unannounced, a mechanism quietly declining a write, anything not
+    /// thought of here. The old code had that insurance too, at one round trip every 3.2
+    /// seconds; five minutes buys the same protection for about a thousandth of the traffic,
+    /// and the worst case it allows — a limit unenforced for a few minutes on a battery that
+    /// moves by roughly a percent in that time — is not a worst case worth 27,000 XPC calls
+    /// a day to avoid.
+    private static let reassertionInterval: TimeInterval = 300
     private var lastReportedChargeLimit: AppliedChargeLimit?
 
     /// The last failure `applyChargeLimit(_:)` reported, for the same reason and with the
@@ -160,6 +187,9 @@ public actor ChargingManager: ChargingModeManager {
                 case .willSleep:
                     computerIsAsleep = true
                     logger.debug("Mac is going to sleep")
+                    // The inhibit below is the whole reason this hook exists; it must go out
+                    // even if the app already believes charging is inhibited.
+                    invalidateHardwareState()
                     let appChargingMode = await appChargingState.currentAppChargingMode()
                     let currentMode = appChargingMode.mode
                     let powerState = try? await powerSourceClient.currentPowerSourceState()
@@ -185,6 +215,9 @@ public actor ChargingManager: ChargingModeManager {
                 case .didWake:
                     logger.notice("Mac did wake up")
                     computerIsAsleep = false
+                    // A sleep/wake cycle is the classic way for the SMC to come back
+                    // holding something BatFi did not put there.
+                    invalidateHardwareState()
                     await fetchAndUpdateAppChargingState()
                     await updateStatusWithCurrentState()
                 }
@@ -301,6 +334,10 @@ public actor ChargingManager: ChargingModeManager {
                 defer { wasHealthy = health.isHealthy }
                 guard health.isHealthy, !wasHealthy else { continue }
                 logger.notice("Helper is reachable again; re-driving charging state")
+                // A helper that went away and came back is a new process that has just
+                // restored system defaults on its way out of the old one. Whatever the app
+                // believes is in force, the hardware is not holding it.
+                invalidateHardwareState()
                 await updateStatusWithCurrentState()
             }
         }
@@ -630,6 +667,9 @@ public actor ChargingManager: ChargingModeManager {
         // episode and is worth reporting again even if it resolves — or fails — the same way.
         lastReportedChargeLimit = nil
         lastReportedChargeLimitFailure = nil
+        // Handing charging back puts the hardware somewhere BatFi did not choose, so the
+        // next command it does issue must not be skipped as already in force.
+        invalidateHardwareState()
         logger.debug("Disengaging — restoring system defaults")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Disengaging — restoring system defaults")
         do {
@@ -660,6 +700,36 @@ public actor ChargingManager: ChargingModeManager {
         await appChargingState.updateChargingMode(.charging)
     }
 
+    /// Whether a charging command has to be sent, or whether the hardware is already known
+    /// to be holding it.
+    ///
+    /// `currentMode` is what the app believes the hardware was last told, and it is only
+    /// advanced by an applier that succeeded — a throw leaves it where it was, so a failed
+    /// command is retried by the next update rather than assumed to have landed.
+    ///
+    /// The staleness flag is what keeps this from being a one-way latch. Sleep, a wake, a
+    /// helper that went away and came back, the charger being plugged or unplugged: each is
+    /// a moment when the SMC can be holding something BatFi did not put there, and each
+    /// clears the flag's assumption so the next command goes out no matter what the mode
+    /// says.
+    private func shouldApply(_ target: ChargingMode, currentMode: ChargingMode) -> Bool {
+        if hardwareStateMayBeStale || currentMode != target { return true }
+        guard let lastAppliedAt else { return true }
+        return date.now.timeIntervalSince(lastAppliedAt) >= Self.reassertionInterval
+    }
+
+    /// Called once a command has actually reached the hardware.
+    private func didApply() {
+        hardwareStateMayBeStale = false
+        lastAppliedAt = date.now
+    }
+
+    /// Called when something may have changed the hardware behind the app's back, so the
+    /// next command is sent whether or not the app thinks it is already in force.
+    private func invalidateHardwareState() {
+        hardwareStateMayBeStale = true
+    }
+
     /// Whether a discharge-related sleep assertion could be outstanding.
     ///
     /// The release sites used to be gated on `allowDischargingFullBattery` alone, so
@@ -674,6 +744,7 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        guard shouldApply(.charging, currentMode: currentMode) else { return }
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
         do {
@@ -682,6 +753,7 @@ public actor ChargingManager: ChargingModeManager {
                 try? await sleepAssertionClient.disableSleep(false)
             }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Charging turned on")
+            didApply()
             await appChargingState.updateChargingMode(.charging)
         } catch {
             logger.warning("Failed to turn on charging: \(error, privacy: .public)")
@@ -691,6 +763,12 @@ public actor ChargingManager: ChargingModeManager {
 
     private func inhibitCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await updateChargerConnected(chargerConnected)
+        guard shouldApply(.inhibit, currentMode: currentMode) else {
+            // Already inhibiting and nothing has happened that could have undone it. The
+            // pulling task is not restarted here: it was started when this mode was entered
+            // and is still running.
+            return
+        }
         logger.debug("Inhibiting charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibiting charging")
         do {
@@ -699,6 +777,7 @@ public actor ChargingManager: ChargingModeManager {
                 try? await sleepAssertionClient.disableSleep(false)
             }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
+            didApply()
             await appChargingState.updateChargingMode(.inhibit)
             await startPullingPowerStateIfNeeded()
         } catch {
@@ -722,11 +801,16 @@ public actor ChargingManager: ChargingModeManager {
         if defaults.value(.disableSleepDuringDischarging) {
             try? await sleepAssertionClient.disableSleep(true)
         }
+        // Below the sleep assertions on purpose. Those follow `disableSleep`, which the user
+        // can change while the discharge is already running, so they are not the mode's to
+        // skip — only the charging command itself is.
+        guard shouldApply(.forceDischarge, currentMode: currentMode) else { return }
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on discharging")
         logger.debug("Turning on discharging")
         do {
             try await chargingClient.forceDischarge()
             await analytics.addBreadcrumb(category: .chargingManager, message: "Discharging turned on")
+            didApply()
             await appChargingState.updateChargingMode(.forceDischarge)
 
         } catch {
@@ -838,9 +922,22 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
+    /// The value last written to the log and the breadcrumb trail, which is not the same as
+    /// the value last handed to `appChargingState` — that one is set on every pass because
+    /// it is local and free, while these two are neither.
+    private var lastLoggedChargerConnected: Bool?
+
     private func updateChargerConnected(_ chargerConnected: Bool) async {
-        await analytics.addBreadcrumb(category: .chargingManager, message: "Updating charger connected status")
-        logger.notice("Updating charger connected status: \(chargerConnected)")
+        // On change, not on every pass, for the same reason the applied charge limit is
+        // reported on change: this runs on every power-source notification. Unconditional,
+        // it wrote 2,748 identical `notice` lines and 2,748 Sentry breadcrumbs in 2h20m on a
+        // Mac that was sitting still — which is both a cost in itself and the reason a real
+        // helper failure took as long as it did to find in the log afterwards.
+        if lastLoggedChargerConnected != chargerConnected {
+            lastLoggedChargerConnected = chargerConnected
+            await analytics.addBreadcrumb(category: .chargingManager, message: "Updating charger connected status")
+            logger.notice("Updating charger connected status: \(chargerConnected)")
+        }
         await appChargingState.setChargerConnected(chargerConnected)
     }
 
@@ -850,6 +947,9 @@ public actor ChargingManager: ChargingModeManager {
         if let lastChargerConnectedStatus {
             if lastChargerConnectedStatus.isConnected != chargerConnected {
                 logger.debug("Update last charger connected status: \(chargerConnected)")
+                // Unplugging drops whatever the charge mechanism was holding, so the command
+                // has to be re-sent when the charger comes back rather than assumed intact.
+                invalidateHardwareState()
                 self.lastChargerConnectedStatus = newState
             }
         } else {
