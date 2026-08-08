@@ -16202,10 +16202,88 @@
     "notifications.alert.informative_text.helper_needs_manual_reset" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS si drží zastaralou registraci pomocného nástroje BatFi — obvykle ji zanechala kopie BatFi, která už byla smazána — a odmítá jej spustit. BatFi ji nedokáže odstranit sám.\n\nOtevřete níže Nastavení systému, najděte BatFi v seznamu a poté jej vypněte a znovu zapněte. BatFi se sám během několika sekund znovu připojí.\n\nDo té doby je omezování nabíjení pozastaveno."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS hält eine veraltete Registrierung für den Helper von BatFi — meist von einem Exemplar von BatFi zurückgelassen, das inzwischen gelöscht wurde — und weigert sich, ihn zu starten. BatFi kann das nicht selbst beheben.\n\nÖffne unten die Systemeinstellungen, suche BatFi in der Liste und schalte es dann aus und wieder ein. BatFi stellt die Verbindung innerhalb weniger Sekunden von selbst wieder her.\n\nBis dahin ist die Ladebegrenzung pausiert."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nTo fix it:\n1. Open System Settings → General → Login Items & Extensions\n2. Find BatFi under \"Allow in the Background\"\n3. Turn it off\n4. Turn it back on\n\nBatFi will reconnect by itself within a few seconds. Charge limiting is paused until then."
+            "value" : "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nCharge limiting is paused until then."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS conserve un enregistrement obsolète de l'assistant de BatFi — généralement laissé par une copie de BatFi supprimée depuis — et refuse de le démarrer. BatFi ne peut pas le supprimer lui-même.\n\nOuvrez les réglages système ci-dessous, trouvez BatFi dans la liste, puis désactivez-le et réactivez-le. BatFi se reconnectera de lui-même en quelques secondes.\n\nD'ici là, la limitation de charge est suspendue."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS conserva una registrazione obsoleta dell'Helper di BatFi — di solito lasciata da una copia di BatFi che nel frattempo è stata eliminata — e si rifiuta di avviarlo. BatFi non può rimuoverla da solo.\n\nApri le Impostazioni di Sistema qui sotto, trova BatFi nell'elenco, quindi disattivalo e riattivalo. BatFi si riconnetterà da solo nel giro di pochi secondi.\n\nFino ad allora la limitazione della ricarica è sospesa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOSがBatFiのヘルパーの古い登録情報を保持しているため、起動を拒否しています。これは通常、すでに削除されたBatFiのコピーが残したものです。BatFi自身でこれを解除することはできません。\n\n下からシステム設定を開き、リストでBatFiを見つけて、一度オフにしてから再度オンにしてください。BatFiは数秒で自動的に再接続します。\n\nそれまで充電上限は一時停止されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS가 BatFi 보조 프로그램의 오래된 등록 정보를 가지고 있어 실행을 거부하고 있습니다. 보통 이미 삭제된 BatFi 사본이 남긴 것입니다. BatFi가 스스로 지울 수는 없습니다.\n\n아래에서 시스템 설정을 열고 목록에서 BatFi를 찾아 껐다가 다시 켜세요. BatFi가 몇 초 안에 자동으로 다시 연결됩니다.\n\n그때까지 충전 제한은 일시 중지됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS houdt een verouderde registratie van het hulpprogramma van BatFi vast — meestal achtergelaten door een kopie van BatFi die inmiddels is verwijderd — en weigert het te starten. BatFi kan dit niet zelf oplossen.\n\nOpen hieronder Systeeminstellingen, zoek BatFi in de lijst en schakel het uit en weer in. BatFi maakt binnen enkele seconden vanzelf opnieuw verbinding.\n\nTot die tijd is het oplaadlimiet gepauzeerd."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS przechowuje nieaktualną rejestrację Helpera BatFi — zwykle pozostawioną przez kopię BatFi, która została już usunięta — i odmawia jego uruchomienia. BatFi nie może usunąć jej samodzielnie.\n\nOtwórz poniżej Ustawienia systemowe, znajdź BatFi na liście, a następnie wyłącz go i włącz ponownie. BatFi połączy się sam w ciągu kilku sekund.\n\nDo tego czasu limitowanie ładowania jest wstrzymane."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O macOS mantém um registro desatualizado do Helper do BatFi — normalmente deixado por uma cópia do BatFi que já foi apagada — e se recusa a iniciá-lo. O BatFi não consegue removê-lo sozinho.\n\nAbra os Ajustes do Sistema abaixo, encontre o BatFi na lista e desligue-o e ligue-o novamente. O BatFi voltará a se conectar sozinho em alguns segundos.\n\nAté lá, a limitação de carregamento fica pausada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS хранит устаревшую регистрацию помощника BatFi — обычно её оставляет копия BatFi, которая уже удалена, — и отказывается его запускать. BatFi не может удалить её самостоятельно.\n\nОткройте Системные настройки ниже, найдите BatFi в списке, затем выключите его и включите снова. BatFi подключится сам в течение нескольких секунд.\n\nДо этого момента ограничение зарядки приостановлено."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS, BatFi’nin yardımcısına ait güncelliğini yitirmiş bir kaydı tutuyor — bunu genellikle sonradan silinmiş bir BatFi kopyası bırakır — ve yardımcıyı başlatmayı reddediyor. BatFi bunu kendi başına temizleyemez.\n\nAşağıdan Sistem Ayarları’nı açın, listede BatFi’yi bulun, ardından kapatıp yeniden açın. BatFi birkaç saniye içinde kendiliğinden yeniden bağlanacaktır.\n\nO ana kadar şarj sınırlama duraklatılır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS зберігає застарілу реєстрацію помічника BatFi — зазвичай її залишає копія BatFi, яку вже видалено, — і відмовляється його запускати. BatFi не може видалити її самостійно.\n\nВідкрийте Системні параметри нижче, знайдіть BatFi у списку, а потім вимкніть його й увімкніть знову. BatFi під’єднається сам протягом кількох секунд.\n\nДо того часу обмеження заряджання призупинено."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS保留着BatFi的Helper的过时注册信息，因此拒绝启动它。这通常是由已被删除的BatFi副本遗留下来的。BatFi无法自行清除。\n\n请在下方打开系统设置，在列表中找到BatFi，将其关闭后再重新打开。BatFi会在几秒内自行重新连接。\n\n在此之前，充电限制处于暂停状态。"
           }
         }
       }
@@ -16747,10 +16825,88 @@
     "notifications.alert.title.helper_needs_manual_reset" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pomocný nástroj BatFi je potřeba ručně resetovat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Helper von BatFi muss manuell zurückgesetzt werden"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "BatFi needs you to reset its helper"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'assistant de BatFi doit être réinitialisé manuellement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Helper di BatFi va reimpostato manualmente"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiのヘルパーを手動でリセットしてください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi 보조 프로그램을 직접 재설정해야 합니다"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het hulpprogramma van BatFi moet handmatig opnieuw worden ingesteld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helper BatFi wymaga ręcznego zresetowania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Helper do BatFi precisa ser redefinido manualmente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помощник BatFi нужно сбросить вручную"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi’nin yardımcısının elle sıfırlanması gerekiyor"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помічника BatFi потрібно скинути вручну"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi的Helper需要你手动重置"
           }
         }
       }

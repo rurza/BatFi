@@ -454,13 +454,22 @@ public enum L10n {
 
                 /// macOS is holding a stale registration for BatFi's helper…
                 ///
-                /// Numbered because it is a procedure, not an explanation. The cause — a
-                /// launch constraint left behind by a copy of BatFi that no longer exists —
-                /// is deliberately described in one plain clause and not elaborated: it is
-                /// not actionable, and the four steps under it are.
+                /// The cause — a launch constraint left behind by a copy of BatFi that no
+                /// longer exists — gets one plain clause and no elaboration: it is not
+                /// actionable, and what follows it is.
+                ///
+                /// Neither the settings pane nor the section inside it is named, and that is
+                /// deliberate. Apple has renamed both across the range of macOS this app
+                /// supports: the pane was "Login Items" through macOS 14 and "Login Items &
+                /// Extensions" after it, and the section holding background items was "Allow
+                /// in the Background" until macOS 26 renamed it "Background App Activity".
+                /// Naming either sends some portion of users hunting for a heading their Mac
+                /// does not have. The alert's own button deep-links to the right pane on
+                /// every version, so the instruction only has to describe what to do once
+                /// they are looking at it.
                 public static let helperNeedsManualReset = String(
                     localized: "notifications.alert.informative_text.helper_needs_manual_reset",
-                    defaultValue: "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nTo fix it:\n1. Open System Settings → General → Login Items & Extensions\n2. Find BatFi under \"Allow in the Background\"\n3. Turn it off\n4. Turn it back on\n\nBatFi will reconnect by itself within a few seconds. Charge limiting is paused until then.",
+                    defaultValue: "macOS is holding an outdated registration for BatFi's helper — usually left behind by a copy of BatFi that has since been deleted — and refuses to start it. BatFi cannot clear this on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nCharge limiting is paused until then.",
                     bundle: Bundle.module
                 )
 
