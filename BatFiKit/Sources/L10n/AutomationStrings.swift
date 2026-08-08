@@ -79,8 +79,19 @@ public extension L10n {
         }
 
         // Menu label
+        ///
+        /// Rule first, limit second. The other way round — "85%: “Dom”" — leads with the
+        /// number, which is the rule's property rather than its identity, and reads as
+        /// though the percentage were the thing being named. It also sat directly under a
+        /// heading that already says "Automation", so the row's job is to say *which* rule
+        /// is running; the limit is what it happens to be doing.
+        ///
+        /// The interpolation order is load-bearing: `String(localized:defaultValue:)` hands
+        /// the arguments over in the order they appear here, and the catalog's format
+        /// consumes them positionally. Name must stay ahead of limit in both, or `%@` is
+        /// handed the integer.
         public static func menuActive(limit: Int, name: String) -> String {
-            String(localized: "automation.menu.active", defaultValue: "Automation · \(limit)% — “\(name)”", bundle: Bundle.module)
+            String(localized: "automation.menu.active", defaultValue: "“\(name)”: \(limit)%", bundle: Bundle.module)
         }
         public static func menuActiveUntil(_ time: String) -> String {
             String(localized: "automation.menu.active_until", defaultValue: "until \(time)", bundle: Bundle.module)

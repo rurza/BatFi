@@ -6148,85 +6148,85 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld %%: „%@“"
+            "value" : "„%@“: %lld %%"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld %%: „%@“"
+            "value" : "„%@“: %lld %%"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: “%@”"
+            "value" : "“%@”: %lld%%"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld %% : « %@ »"
+            "value" : "« %@ » : %lld %%"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: “%@”"
+            "value" : "“%@”: %lld%%"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%：「%@」"
+            "value" : "「%@」：%lld%%"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: “%@”"
+            "value" : "“%@”: %lld%%"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: ‘%@’"
+            "value" : "‘%@’: %lld%%"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: „%@”"
+            "value" : "„%@”: %lld%%"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: “%@”"
+            "value" : "“%@”: %lld%%"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: «%@»"
+            "value" : "«%@»: %lld%%"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%%%lld: “%@”"
+            "value" : "“%@”: %%%lld"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%: «%@»"
+            "value" : "«%@»: %lld%%"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld%%：“%@”"
+            "value" : "“%@”：%lld%%"
           }
         }
       }
