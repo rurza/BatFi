@@ -33,7 +33,39 @@ public enum HelperHealth: Sendable, Equatable {
         case notRegistered
         case requiresApproval
         /// Registered and reported `.enabled`, but unreachable over XPC. The wedged case.
+        ///
+        /// Interim rather than final: it means the helper is not answering *yet*, and the
+        /// app still has an unregister/register attempt to spend on it. What that attempt
+        /// settles is which of the two terminal states this becomes — `.healthy`, or
+        /// `.staleRegistrationNeedsUserReset` when re-registering changes nothing.
         case registeredButUnreachable
+        /// Unreachable, and a re-registration from this app has already run and made no
+        /// difference — so nothing this app can do will fix it.
+        ///
+        /// The Background Task Management record carries a cached launch constraint (an
+        /// LWCR) derived from the bundle that registered it. When that bundle is gone —
+        /// a copy run once from a disk image or `~/Downloads` and then deleted, a build
+        /// directory that has since been cleaned — the constraint can no longer be
+        /// resolved, and every spawn dies before the helper runs a single instruction:
+        ///
+        ///     Requesting repair LWCR update: runs=2
+        ///     Service could not initialize: Unable to get updated LWCR for
+        ///         (<uuid>, (null), 0), error 0x3 - No such process
+        ///     xpcproxy exited due to exit(78)
+        ///     Service only ran for 0 seconds. Pushing respawn out by 10 seconds
+        ///
+        /// `SMAppService.unregister()` does not clear this. It marks the record disabled and
+        /// leaves the item — and its poisoned constraint — in place, so the `register()`
+        /// that follows logs `registerLaunchItem: found existing item: uuid=<the same one>`
+        /// and returns *success* while changing nothing. The app is told the repair worked
+        /// and the helper still never starts.
+        ///
+        /// What does clear it is `invalidateLaunchItem`, which destroys the record outright
+        /// and is only reachable at uid 0 — from System Settings, when the user turns the
+        /// item off. The next `register()` then mints a fresh record with a constraint that
+        /// resolves. That is why this state names the user's toggle as the remedy instead of
+        /// sending them somewhere to watch the app fail again.
+        case staleRegistrationNeedsUserReset
         case installFailed(String)
         /// Reachable, correctly signed, and belonging to a *different* copy of the app.
         /// The one degraded state that looks perfectly healthy from every other angle:

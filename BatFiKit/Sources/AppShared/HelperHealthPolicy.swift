@@ -44,6 +44,18 @@ public struct HelperHealthPolicy: Sendable {
     public static let firstProbeDelay = Duration.seconds(5)
     public static let maxProbeDelay = Duration.seconds(60)
 
+    /// Failed pings required *after* a re-registration reported success before the record is
+    /// declared beyond this app's reach.
+    ///
+    /// More than one, because a register that genuinely worked is not always answerable on
+    /// the first try: launchd throttles a service that has just died on it — "Service only
+    /// ran for 0 seconds. Pushing respawn out by 10 seconds" — so the first probe after a
+    /// repair can land inside a window where even a perfectly good record cannot spawn.
+    /// Two failures span that window at the ping timeout the app uses, which is the point:
+    /// the state this leads to tells the user to go and fix something by hand, and saying
+    /// that to someone whose helper was about to start on its own is its own bug.
+    public static let postRegistrationProbeBudget = 2
+
     public private(set) var health: HelperHealth = .unknown
 
     /// Consecutive failures since the last success or re-registration. A lone failure is
@@ -97,9 +109,14 @@ public struct HelperHealthPolicy: Sendable {
         case let .retryFinished(error):
             guard let error else {
                 // The re-registration itself worked; whether it helped is a question only a
-                // ping can answer. Seed the count so that one more failure is conclusive —
-                // we already have two failures on record from before the retry.
-                consecutivePingFailures = 1
+                // ping can answer — and `register()` returning cleanly is not evidence that
+                // it did, because it returns cleanly over a record it merely re-found.
+                //
+                // Reset rather than seeded. The failures banked before the repair say
+                // nothing about the state after it, and counting them towards the verdict
+                // would spend most of the post-registration budget before launchd has even
+                // been given the chance to spawn.
+                consecutivePingFailures = 0
                 // A re-registration can change which binary launchd starts, which is the
                 // whole point of it. Whatever was established about the previous process
                 // says nothing about the next one.
@@ -161,6 +178,16 @@ public struct HelperHealthPolicy: Sendable {
             // Never conclusive on its own: a wedged record reports `.enabled` forever.
             return health.isHealthy ? [] : [.verifyWithPing]
         case .notRegistered:
+            // The record is gone, which is the one transition that can undo
+            // `.staleRegistrationNeedsUserReset`: it is what the user's toggle produces, and
+            // installing over it is what mints a record with a constraint that resolves.
+            //
+            // So the install that follows is given a full budget rather than inheriting the
+            // failures banked against the record it replaces. Those were the old record's,
+            // and holding them against a new one would report the repair as broken while it
+            // was still starting.
+            consecutivePingFailures = 0
+            hasVerifiedIdentity = false
             return publishing(.degraded(.notRegistered)) + [.installHelper]
         case .requiresApproval:
             // Only the user can clear this, so re-registering would just churn the record.
@@ -176,14 +203,25 @@ public struct HelperHealthPolicy: Sendable {
         // next has to be identified again.
         hasVerifiedIdentity = false
         consecutivePingFailures += 1
-        guard consecutivePingFailures >= 2 else { return [.verifyWithPing] }
 
-        if !hasRetriedRegistration {
-            hasRetriedRegistration = true
-            consecutivePingFailures = 0
-            return [.retryRegistrationOnce]
+        // Past the one re-registration, and it did not help. Everything from here is about
+        // establishing that as a fact rather than retrying into it: the record cannot be
+        // repaired from inside this process, so the only useful output is guidance naming
+        // the one thing that does repair it.
+        if hasRetriedRegistration {
+            guard consecutivePingFailures >= Self.postRegistrationProbeBudget else {
+                // Published, not concluded. Downstream has to stop trusting the helper
+                // immediately — the charge limit must not be driven through a daemon that
+                // is not answering — but the user is told nothing until the verdict is in.
+                return publishing(.degraded(.registeredButUnreachable)) + [.verifyWithPing]
+            }
+            return concluding(.degraded(.staleRegistrationNeedsUserReset))
         }
-        return concluding(.degraded(.registeredButUnreachable))
+
+        guard consecutivePingFailures >= 2 else { return [.verifyWithPing] }
+        hasRetriedRegistration = true
+        consecutivePingFailures = 0
+        return [.retryRegistrationOnce]
     }
 
     /// Publishes a settled failure. Guidance is emitted only on entering the state, so the
