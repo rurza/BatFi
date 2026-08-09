@@ -88,26 +88,6 @@ public extension L10n {
             String(localized: "automation.summary.limit", defaultValue: "\(limit)%", bundle: Bundle.module)
         }
 
-        // Menu label
-        ///
-        /// Rule first, limit second. The other way round — "85%: “Dom”" — leads with the
-        /// number, which is the rule's property rather than its identity, and reads as
-        /// though the percentage were the thing being named. It also sat directly under a
-        /// heading that already says "Automation", so the row's job is to say *which* rule
-        /// is running; the limit is what it happens to be doing.
-        ///
-        /// The interpolation order is load-bearing: `String(localized:defaultValue:)` hands
-        /// the arguments over in the order they appear here, and the catalog's format
-        /// consumes them positionally. Name must stay ahead of limit in both, or `%@` is
-        /// handed the integer.
-        public static func menuActive(limit: Int, name: String) -> String {
-            String(localized: "automation.menu.active", defaultValue: "“\(name)”: \(limit)%", bundle: Bundle.module)
-        }
-        public static let menuIdle = String(localized: "automation.menu.idle", defaultValue: "Idle", bundle: Bundle.module)
-        public static func menuNext(name: String, when: String) -> String {
-            String(localized: "automation.menu.next", defaultValue: "next: “\(name)” \(when)", bundle: Bundle.module)
-        }
-
         // Help popover
         public static let helpButtonAccessibility = String(localized: "automation.help.button_accessibility", defaultValue: "About automation", bundle: Bundle.module)
         public static let helpHeading = String(localized: "automation.help.heading", defaultValue: "How automation works", bundle: Bundle.module)

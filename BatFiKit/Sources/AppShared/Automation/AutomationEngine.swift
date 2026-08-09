@@ -23,6 +23,16 @@ public enum AutomationEngine {
         return rules.first { $0.matches(at: date, satisfiedFenceIDs: satisfiedFenceIDs, calendar: calendar) }
     }
 
+    /// The rule the runtime last published as active, resolved from the ID it stores. What is
+    /// persisted is the ID, not the rule, so every reader that wants to name what is in
+    /// force — the Charging pane, the menu, notifications — has to answer the same two
+    /// questions: does that rule still exist, and is it still enabled. Asking them in one
+    /// place is what keeps those surfaces from disagreeing about whether anything is active.
+    public static func activeRule(in rules: [AutomationRule], activeRuleID: String) -> AutomationRule? {
+        guard !activeRuleID.isEmpty else { return nil }
+        return rules.first { $0.id.uuidString == activeRuleID && $0.isEnabled }
+    }
+
     /// The soonest upcoming schedule start across all enabled, scheduled rules, paired with
     /// the rule it belongs to. Used for the menu's "next" hint. Rules without a schedule are
     /// ignored here (they have no future start to announce).

@@ -161,11 +161,10 @@ public class NotificationsManager: NSObject {
     /// Name of the automation rule the engine currently considers active, or nil if none can
     /// be resolved. Empty names fall back to a generic label.
     private func activeAutomationRuleName() -> String? {
-        let activeRuleID = defaults.value(.automationActiveRuleID)
-        guard !activeRuleID.isEmpty else { return nil }
-        guard let rule = defaults.value(.automationRules)
-            .first(where: { $0.id.uuidString == activeRuleID && $0.isEnabled })
-        else { return nil }
+        guard let rule = AutomationEngine.activeRule(
+            in: defaults.value(.automationRules),
+            activeRuleID: defaults.value(.automationActiveRuleID)
+        ) else { return nil }
         return rule.name.isEmpty ? L10n.Automation.untitledRule : rule.name
     }
 

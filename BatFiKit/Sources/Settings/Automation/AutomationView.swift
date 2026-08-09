@@ -169,7 +169,7 @@ struct AutomationView: View {
 
     private var statusLine: String? {
         guard automationEnabled,
-              let active = rules.first(where: { $0.id.uuidString == activeRuleID && $0.isEnabled }) else {
+              let active = AutomationEngine.activeRule(in: rules, activeRuleID: activeRuleID) else {
             return nil
         }
         let name = active.name.isEmpty ? L10n.Automation.untitledRule : active.name

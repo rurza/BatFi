@@ -161,3 +161,32 @@ private func range(_ sh: Int, _ sm: Int, _ eh: Int, _ em: Int) -> TimeRange {
         #expect(AutomationEngine.activeRule(in: [r], enabled: true, at: date(2026, 6, 1, 3, 0), satisfiedFenceIDs: [], calendar: utc)?.name == "fallback")
     }
 }
+
+/// Resolving the published active-rule ID back to a rule. The Charging pane, the menu and the
+/// notifications all read this to decide whether to say anything at all, so it has to answer
+/// the same way for all three.
+@Suite struct PublishedActiveRuleTests {
+    private func rule(_ name: String, enabled: Bool = true) -> AutomationRule {
+        AutomationRule(name: name, isEnabled: enabled, limit: 60)
+    }
+
+    @Test func emptyIDMeansNothingIsActive() {
+        #expect(AutomationEngine.activeRule(in: [rule("work")], activeRuleID: "") == nil)
+    }
+
+    @Test func resolvesTheNamedRule() {
+        let work = rule("work")
+        let home = rule("home")
+        #expect(AutomationEngine.activeRule(in: [home, work], activeRuleID: work.id.uuidString)?.name == "work")
+    }
+
+    @Test func ruleTurnedOffSinceItWasPublishedIsNotActive() {
+        let work = rule("work", enabled: false)
+        #expect(AutomationEngine.activeRule(in: [work], activeRuleID: work.id.uuidString) == nil)
+    }
+
+    @Test func deletedRuleIsNotActive() {
+        let deleted = rule("work")
+        #expect(AutomationEngine.activeRule(in: [rule("home")], activeRuleID: deleted.id.uuidString) == nil)
+    }
+}
