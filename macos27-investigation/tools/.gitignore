@@ -1,0 +1,7 @@
+# Compiled probes. Each tool is a single .swift file built on demand with
+#   swiftc -O <name>.swift -o <name>
+# so the binaries are disposable and must not be committed.
+*
+!*.swift
+!*.py
+!.gitignore
