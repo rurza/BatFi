@@ -353,7 +353,7 @@ actor SMCService {
                 if inForce.applied >= ChargeLimitRange.systemChargeLimitLowest {
                     return inForce.applied
                 }
-                if await ManualChargeLimitDefaults.shared.currentLimit() == percentage {
+                if await ManualChargeLimitDefaults.shared.isSatisfied(percentage) {
                     return inForce.applied
                 }
                 logger.notice("Charge limit no longer holds \(percentage, privacy: .public)%; re-applying")
@@ -400,23 +400,24 @@ actor SMCService {
                 } catch let defaultsError {
                     logger.error("Charge limit \(percentage, privacy: .public)% via defaults failed: \(defaultsError, privacy: .public); falling back to the values PowerUI accepts")
                 }
-                // Both mechanisms refused. Only now does the picker list mean anything: it
-                // is the one evidence-backed set of values this machine is known to take.
-                // Round up, never down — a limit exists in order not to be exceeded.
-                let available = await PowerUICharging.shared.availableLimits()
-                guard let applied = SystemChargeLimit.applicableLimit(for: percentage, from: available),
-                      applied != percentage else {
-                    logger.error("System limit refused \(percentage, privacy: .public)% and PowerUI offered no other value; refusing to guess one")
-                    throw error
-                }
-                try await PowerUICharging.shared.adoptSystemLimit(applied, under: backend)
-                if applied > percentage {
-                    logger.notice("Requested \(percentage, privacy: .public)% refused; raised to \(applied, privacy: .public)%, the lowest value this system limit accepts")
-                } else {
-                    logger.notice("Requested \(percentage, privacy: .public)% refused; clamped to \(applied, privacy: .public)%, the highest value this system limit accepts")
-                }
-                appliedSystemLimit = AppliedChargeLimit(requested: percentage, applied: applied)
-                return applied
+                // **Never raise the limit above what the user asked for.** Rounding a refused
+                // 60% up to 80% does not approximate the request, it inverts it: the Mac then
+                // charges *past* the value the user set, which is the one thing a charge limit
+                // exists to prevent. Observed doing exactly that — dropping the limit from 65%
+                // to 60% started charging, because one transient refusal was answered with 80%.
+                //
+                // The rounding rule that used to live here was written when 80 was a hard floor
+                // and there was nothing else to offer. There is now: the defaults channel
+                // applies the user's real value, so a refusal from it is a transient failure,
+                // not a statement about the machine. Nothing is written, the request stands,
+                // and the next pass tries again — `appliedSystemLimit` is deliberately left as
+                // it was so the re-assertion check still sees drift and re-applies.
+                //
+                // Clamping *down* does not arise: no measured firmware refuses a value for
+                // being too low, and the one that refuses 60 refuses everything below 80, so
+                // there is no lower accepted value to clamp to.
+                logger.error("Could not put \(percentage, privacy: .public)% in force; leaving the limit alone rather than raising it, and retrying on the next pass")
+                throw error
             }
         case .unsupported:
             // Before the throw, not after it: a band armed by this process while the probe

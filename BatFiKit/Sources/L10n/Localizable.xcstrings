@@ -20649,6 +20649,17 @@
         }
       }
     },
+    "settings.button.description.discharge_is_system_driven" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS does this on your Mac, so it keeps working with the lid closed and while asleep. BatFi isn’t doing it, so this can’t be switched off."
+          }
+        }
+      }
+    },
     "settings.button.description.lid_must_be_opened_disable_sleep" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -27610,6 +27621,17 @@
         }
       }
     },
+    "settings.label.magsafe_green_light_system_driven" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS turns the light green while the system charge limit is holding. BatFi isn’t pausing charging here, so this can’t be switched off."
+          }
+        }
+      }
+    },
     "settings.label.magsafe_green_light_unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -27793,88 +27815,10 @@
     "settings.label.system_charge_limit_banner" : {
       "extractionState" : "manual",
       "localizations" : {
-        "cs" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Baterie se přestane nabíjet na limitu, který nastavíte. Na tomto Macu tento limit vynucuje macOS, nikoli BatFi, což znamená, že nejnižší dostupný limit je 80 %."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dein Akku hört bei dem von dir festgelegten Limit auf zu laden. Auf diesem Mac setzt macOS dieses Limit durch und nicht BatFi, deshalb ist 80% das niedrigste verfügbare Limit."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre batterie cessera de se charger à la limite que vous avez définie. Sur ce Mac, c'est macOS qui applique cette limite et non BatFi, ce qui signifie que la limite la plus basse disponible est de 80%."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La batteria smetterà di ricaricarsi al limite che hai impostato. Su questo Mac è macOS ad applicare quel limite e non BatFi, il che significa che il limite più basso disponibile è 80%."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定した上限でバッテリーの充電が停止します。このMacではBatFiではなくmacOSが上限を適用するため、設定できる最小の上限は80%です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "설정한 한도에서 배터리 충전이 멈춥니다. 이 Mac에서는 BatFi가 아니라 macOS가 한도를 적용하므로 설정할 수 있는 가장 낮은 한도는 80%입니다."
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je batterij stopt met opladen bij de limiet die je instelt. Op deze Mac wordt die limiet door macOS afgedwongen en niet door BatFi, waardoor 80% de laagst beschikbare limiet is."
-          }
-        },
-        "pl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bateria przestanie się ładować przy ustawionym przez Ciebie limicie. Na tym Macu limit wymusza macOS, a nie BatFi, co oznacza, że najniższy dostępny limit to 80%."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sua bateria vai parar de carregar no limite que você definir. Neste Mac, quem aplica esse limite é o macOS e não o BatFi, o que significa que o limite mais baixo disponível é 80%."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Аккумулятор перестанет заряжаться на установленном вами лимите. На этом Mac этот лимит обеспечивает macOS, а не BatFi, поэтому наименьший доступный лимит, 80%."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Piliniz, belirlediğiniz sınırda şarj olmayı durdurur. Bu Mac’te bu sınırı BatFi değil macOS uygular; bu da kullanılabilen en düşük sınırın %80 olduğu anlamına gelir."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Акумулятор припинить заряджатися на встановленому вами ліміті. На цьому Mac цей ліміт забезпечує macOS, а не BatFi, тож найнижчий доступний ліміт, 80%."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "电池会在你设定的限制值处停止充电。在这台Mac上，该限制由macOS而非BatFi执行，因此可设置的最低限制为80%。"
+            "value" : "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi. If the battery is already above your limit, macOS slowly discharges down to it — that keeps working with the lid closed and while the Mac is asleep."
           }
         }
       }

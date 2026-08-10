@@ -30,6 +30,7 @@
 //
 
 import Foundation
+import IOKit.ps
 import os
 
 enum ManualChargeLimitError: Error {
@@ -98,6 +99,23 @@ actor ManualChargeLimitDefaults {
     /// the same millisecond. Actor isolation alone does not serialise this.
     private var applyInFlight: Int?
 
+    /// Whether `limit` is as applied as it can currently be.
+    ///
+    /// powerd enforcing it is the strong answer and the only one that means charging is
+    /// actually being held. But while unplugged there is no policy to enforce anything and
+    /// nothing is charging, so a written preference is the whole of what "applied" can mean —
+    /// and reading that as drift is what made the caller re-apply on every status pass, once
+    /// every three seconds, for as long as the Mac stayed on battery.
+    ///
+    /// Deliberately separate from `currentLimit()`, which stays a report of what powerd holds
+    /// and nothing else. Diagnostics and the settings pane need that distinction; only the
+    /// re-assertion check wants this softer question.
+    func isSatisfied(_ limit: Int) -> Bool {
+        if currentLimit() == limit { return true }
+        guard !isOnAdapterPower() else { return false }
+        return CFPreferencesCopyValue(limitKey, domain, user, host) as? Int == limit
+    }
+
     /// Puts a limit in force through PowerUIAgent.
     ///
     /// `MCLFeatureState` switches the feature on; `mclLimitValue` carries the number. Both are
@@ -112,13 +130,35 @@ actor ManualChargeLimitDefaults {
         // pass anyway, so reporting the in-flight attempt as this one's outcome cannot strand
         // a limit that never landed.
         guard applyInFlight != limit else { return }
+
+        // Already written, and on battery nothing will adopt it — so there is nothing left to
+        // do until the adapter returns. Without this the caller's drift check never settles:
+        // it compares against powerd's `soclimit`, which while unplugged is whatever was last
+        // in force and can never become the target, so every status pass reads as drift and
+        // re-applies. Measured rewriting the keys and re-posting the notification once every
+        // three seconds, indefinitely.
+        if !isOnAdapterPower(), CFPreferencesCopyValue(limitKey, domain, user, host) as? Int == limit {
+            return
+        }
+
         applyInFlight = limit
         defer { applyInFlight = nil }
 
-        CFPreferencesSetValue(limitKey, limit as CFNumber, domain, user, host)
-        CFPreferencesSetValue(stateKey, 1 as CFNumber, domain, user, host)
-        CFPreferencesSynchronize(domain, user, host)
-        postChangeNotification()
+        writeRequest(limit)
+
+        // **powerd keeps a charge policy only while on the adapter.** Unplugged, the policies
+        // array is empty, so waiting for adoption can only ever time out — and the caller
+        // treats that timeout as a refusal: it writes 80 into the user's own System Settings
+        // limit and the pane then says limits below 80% cannot be applied *on this Mac*, which
+        // is a claim about the hardware when the only true thing is that the charger is out.
+        // Measured doing exactly that, once per status pass, 45s at a time.
+        //
+        // The preference stays written, so PowerUIAgent picks it up when the adapter returns.
+        // Nothing is being charged meanwhile, so there is no limit left unenforced.
+        guard isOnAdapterPower() else {
+            logger.notice("Charge limit \(limit, privacy: .public)% written; on battery, so powerd will adopt it when the adapter is connected")
+            return
+        }
 
         // With Apple's charge limit switched off entirely, nothing is there to honour a
         // policy. `enableMCL:` takes no value, so unlike `setMCLLimit:` it cannot make powerd
@@ -152,16 +192,40 @@ actor ManualChargeLimitDefaults {
         throw ManualChargeLimitError.notAdopted
     }
 
-    /// Polls powerd's own policy, which is the only evidence that a limit is in force.
+    /// Writes both keys and tells PowerUIAgent to re-read them.
+    private func writeRequest(_ limit: Int) {
+        CFPreferencesSetValue(limitKey, limit as CFNumber, domain, user, host)
+        CFPreferencesSetValue(stateKey, 1 as CFNumber, domain, user, host)
+        CFPreferencesSynchronize(domain, user, host)
+        postChangeNotification()
+    }
+
+    /// Polls powerd's own policy, which is the only evidence that a limit is in force, and
+    /// **re-asserts the request if it goes missing**.
     ///
-    /// Deliberately not `getMCLLimitWithError:`. That reports the *preference* back — it read
-    /// 62 while powerd held 80 and the battery charged straight past it — so it can confirm
-    /// only that we wrote something, never that anything is enforcing it.
+    /// Writing once and waiting is too fragile to be correct. Adoption can take tens of
+    /// seconds, and over that window plenty can remove the request: a `release()` from a
+    /// teardown path, or another `apply` for a different value while the user drags the
+    /// slider. Measured exactly that — a release landed sixteen seconds into the wait, the
+    /// preference was gone, and this then waited out its whole budget for an adoption that
+    /// could no longer happen. The caller read that as a refusal and raised the limit to 80,
+    /// so lowering the limit from 65% to 60% *started charging*.
+    ///
+    /// Re-asserting is cheap and idempotent, and only happens when the request has actually
+    /// been lost, so a settled apply still writes exactly once.
+    ///
+    /// Deliberately not checked with `getMCLLimitWithError:`. That reports the *preference*
+    /// back — it read 62 while powerd held 80 and the battery charged straight past it — so it
+    /// can confirm only that we wrote something, never that anything is enforcing it.
     private func powerdAdopts(_ limit: Int, within duration: Duration) async -> Bool {
         let deadline = ContinuousClock.now + duration
         while ContinuousClock.now < deadline {
             try? await Task.sleep(for: .milliseconds(500))
             if currentLimit() == limit { return true }
+            if CFPreferencesCopyValue(limitKey, domain, user, host) as? Int != limit {
+                logger.notice("Charge limit request for \(limit, privacy: .public)% went missing while waiting; writing it again")
+                writeRequest(limit)
+            }
         }
         return false
     }
@@ -184,6 +248,18 @@ actor ManualChargeLimitDefaults {
         CFPreferencesSynchronize(domain, user, host)
         postChangeNotification()
         logger.notice("Charge limit request cleared")
+    }
+
+    /// Whether the Mac is running on the power adapter.
+    ///
+    /// Optimistic when the power source cannot be read, because the two failure directions are
+    /// not equal: waiting needlessly costs a slow apply, while skipping the wait wrongly would
+    /// report a limit as in force without ever confirming it.
+    private func isOnAdapterPower() -> Bool {
+        guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
+              let providing = IOPSGetProvidingPowerSourceType(snapshot)?.takeRetainedValue()
+        else { return true }
+        return (providing as String) == kIOPMACPowerKey
     }
 
     private func postChangeNotification() {
