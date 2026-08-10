@@ -140,8 +140,68 @@ actor PowerUICharging {
         return query(client, selector).boolValue
     }
 
+    /// Whether Apple's charge limit is currently switched **on**.
+    ///
+    /// Load-bearing for the sub-80 path: powerd only honours a `ChargeCtrlPolicy` while the
+    /// feature is enabled, and re-enabling it when it is already on makes powerd rewrite its
+    /// own policy — which is drift BatFi would then "correct", writing again, forever.
+    var isMCLCurrentlyEnabled: Bool {
+        guard let client, let clientClass else { return false }
+        let selector = NSSelectorFromString("isMCLCurrentlyEnabled:")
+        guard let method = class_getInstanceMethod(clientClass, selector) else { return false }
+        typealias Query = @convention(c) (AnyObject, Selector, AutoreleasingUnsafeMutablePointer<NSError?>?) -> ObjCBool
+        let query = unsafeBitCast(method_getImplementation(method), to: Query.self)
+        var error: NSError?
+        let value = query(client, selector, &error).boolValue
+        return error == nil && value
+    }
+
+    /// Switches Apple's charge limit **on** without setting a value.
+    ///
+    /// Deliberately not `adoptSystemLimit`, and the difference is the whole point: that one
+    /// calls `setMCLLimit:`, which makes powerd rewrite its own policy to the value passed —
+    /// the write-fight. `enableMCL:` takes no value at all (`B24@0:8^@16` — BOOL return plus
+    /// `NSError**`), so it can only make PowerUIAgent re-evaluate, which is precisely what
+    /// the sub-80 path needs after writing the preference that carries the number.
+    ///
+    /// **Not** required to make a sub-80 limit take: the preference write plus the defaults
+    /// notification is sufficient on its own, measured. An earlier reading of this as
+    /// mandatory was an artifact of a six-second poll — PowerUIAgent can take tens of seconds
+    /// to adopt, so the call that happened to precede a late adoption looked like its cause.
+    ///
+    /// Kept, and called, for the one case that is a genuine precondition: Apple's charge
+    /// limit switched off entirely, where there is nothing to honour a policy at all. Gated
+    /// on `isMCLCurrentlyEnabled` so a settled machine never reaches it.
+    @discardableResult
+    func enableMCL() -> Bool {
+        guard let client, let clientClass else { return false }
+        let selector = NSSelectorFromString("enableMCL:")
+        guard let method = class_getInstanceMethod(clientClass, selector) else {
+            logger.error("enableMCL: selector not exposed on client")
+            return false
+        }
+        typealias Invoke = @convention(c) (AnyObject, Selector, AutoreleasingUnsafeMutablePointer<NSError?>?) -> ObjCBool
+        let invoke = unsafeBitCast(method_getImplementation(method), to: Invoke.self)
+        var error: NSError?
+        let succeeded = invoke(client, selector, &error).boolValue
+        if succeeded {
+            logger.notice("Apple's charge limit switched on")
+        } else {
+            logger.error("enableMCL: failed: \(error?.localizedDescription ?? "no error", privacy: .public)")
+        }
+        return succeeded
+    }
+
     /// Values Apple accepts, measured as (80, 85, 90, 95, 100). Queried rather than
     /// hardcoded so a future macOS that widens the range works without a code change.
+    ///
+    /// The floor is corroborated against the setter itself, not just read off this list:
+    /// on macOS 27 (26A5388g) `setMCLLimit:error:` refuses 50 with
+    /// `PowerUISmartChargingErrorDomain` code 4 while accepting 80 and 85, and
+    /// `temporarilyOverrideMCLTargetSoC:error:` refuses 75 with the same code. So this list
+    /// does describe the accepted range — but it is no longer *trusted* to, because a list
+    /// and a setter can disagree and only one of them decides. `adoptSystemLimit` asks the
+    /// setter and falls back to this list when refused.
     func availableLimits() -> [Int] {
         guard let client, let clientClass else { return [] }
         let selector = NSSelectorFromString("availableChargeLimitsWithError:")
@@ -274,13 +334,17 @@ actor PowerUICharging {
     func adoptSystemLimit(_ percentage: Int, under backend: ChargeBackend) throws {
         guard isAvailable else { throw PowerUIChargingError.frameworkUnavailable }
 
-        let available = availableLimits()
-        guard !available.isEmpty else {
-            throw PowerUIChargingError.availableLimitsUnavailable
-        }
-        guard available.contains(percentage) else {
-            throw PowerUIChargingError.limitOutOfRange(requested: percentage, available: available)
-        }
+        // **Deliberately not gated on `availableLimits()`.** It used to be, which made the
+        // floor unfalsifiable: the call that would have revealed the real constraint was
+        // never made, so `availableChargeLimitsWithError:` could only ever confirm itself.
+        //
+        // The setter is the authority. `adoptSystemLimitWithoutSnapshotting` turns a
+        // genuine refusal into `apiCallFailed`/`apiCallReturnedFalse` and `SMCService`
+        // catches that and falls back to the list, so nothing is lost by asking first —
+        // and asking is what established that the 80 floor is Apple's rather than BatFi's
+        // (`setMCLLimit:` refuses 50 with code 4 on macOS 27, and the override selector
+        // refuses 75 the same way). Had the range ever widened, this would have found out;
+        // the gate never would.
 
         // Gate the write on a confirmed read: if we cannot learn the user's current value,
         // we must not overwrite it, because we would then have no correct value to restore.
@@ -305,6 +369,20 @@ actor PowerUICharging {
     /// silently forgetting the value there was to restore.
     func releaseSystemLimit() {
         guard hasAdoptedSystemLimit, let snapshot = userSystemLimitSnapshot else { return }
+        // Belt and braces against a snapshot that cannot be restored. The capture guard makes
+        // a sub-80 value unrecordable, so this should be unreachable — but a snapshot taken by
+        // an earlier build, before that guard existed, is still sitting in a running helper,
+        // and `setMCLLimit:` refuses sub-80. Retrying is what makes it pathological: the
+        // snapshot is cleared only on success, so without this it fails identically on every
+        // release for the life of the process. Dropping it is strictly better than looping —
+        // the value is not restorable by any route, and clearing BatFi's charge-limit request
+        // returns the Mac to the user's System Settings value anyway.
+        guard snapshot >= ChargeLimitRange.systemChargeLimitLowest else {
+            logger.error("Discarding an unrestorable system charge limit snapshot of \(snapshot, privacy: .public)%; it is below what setMCLLimit: accepts and cannot have been the user's value")
+            hasAdoptedSystemLimit = false
+            userSystemLimitSnapshot = nil
+            return
+        }
         do {
             try adoptSystemLimitWithoutSnapshotting(snapshot)
             hasAdoptedSystemLimit = false
@@ -397,6 +475,35 @@ actor PowerUICharging {
 
         guard let current = currentSystemLimit() else {
             logger.error("Could not read the user's system charge limit; not recording one")
+            return false
+        }
+
+        // **A sub-80 reading is never the user's own value.** System Settings offers only
+        // 80/85/90/95/100, so nothing the user can do produces a lower one — but
+        // `getMCLLimitWithError:` reports the *preference* the charge-limit defaults carry,
+        // which is how BatFi's own sub-80 request reads back here. Measured: it returned 62
+        // while powerd was still enforcing 80.
+        //
+        // Recording that as the user's setting is unrecoverable in two ways at once. The
+        // user's real value is lost, and the restore can never succeed either, because
+        // `setMCLLimit:` refuses sub-80 — and since the snapshot is cleared only on a
+        // successful restore, it would fail identically on every release for the life of the
+        // process. That is exactly what was observed: `code=4` on each teardown.
+        //
+        // Refusing here is safe for the sub-80 path itself: `adoptSystemLimit` turns this into
+        // `snapshotUnavailable`, and `SMCService` already catches any adopt failure and falls
+        // through to the defaults channel, which is what applies the limit anyway.
+        guard current >= ChargeLimitRange.systemChargeLimitLowest else {
+            if !hasReportedSnapshotRefusal {
+                hasReportedSnapshotRefusal = true
+                logger.error("""
+                BatFi will not record \(current, privacy: .public)% as the user's own system charge \
+                limit: System Settings cannot express a value below \
+                \(ChargeLimitRange.systemChargeLimitLowest, privacy: .public)%, so this is BatFi's \
+                own charge-limit request reading back rather than the user's setting. Recording it \
+                would lose the user's real value and leave a restore that can never succeed.
+                """)
+            }
             return false
         }
 

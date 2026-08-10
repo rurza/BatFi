@@ -126,11 +126,41 @@ import Testing
         #expect(ChargeBackendResolver.resolve(caps, systemChargeLimitSupported: true) == .systemChargeLimit)
     }
 
-    @Test func onlySMCBackendsHonourLimitsBelow80() {
+    /// Every backend that can apply a limit at all honours one below 80%, including
+    /// `.systemChargeLimit` — not through PowerUI, which refuses sub-80 in its own client
+    /// code, but through the preference domain `ManualChargeLimitDefaults` writes and
+    /// PowerUIAgent reads.
+    @Test func everyUsableBackendHonoursLimitsBelow80() {
         #expect(ChargeBackend.chte.honoursLimitsBelow80)
         #expect(ChargeBackend.legacyCH0BC.honoursLimitsBelow80)
-        #expect(!ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
+        #expect(ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
         #expect(!ChargeBackend.unsupported.honoursLimitsBelow80)
+    }
+
+    /// Only Apple's own limit drains the battery down to the limit by itself — the policy
+    /// PowerUIAgent registers carries `drain: true`. Everywhere else that discharge is
+    /// BatFi's own `CHIE` force discharge and must keep running.
+    ///
+    /// Load-bearing in both directions: a false positive stops BatFi discharging on a Mac
+    /// where nothing else will, and a false negative has BatFi running `CHIE` alongside the
+    /// system's own drain while holding sleep off for it.
+    @Test func onlyTheSystemChargeLimitDrainsToTheLimitItself() {
+        for backend in ChargeBackend.allCases {
+            #expect(
+                backend.dischargesToLimitItself == (backend == .systemChargeLimit),
+                "\(backend.rawValue)"
+            )
+        }
+    }
+
+    /// The two capabilities are independent and must not be collapsed: `.firmwareRange`
+    /// cannot mirror the charging state on the MagSafe LED yet still needs BatFi to perform
+    /// the discharge, while `.systemChargeLimit` is the exact opposite on both counts.
+    @Test func drivingTheLEDAndDrivingTheDischargeAreSeparateQuestions() {
+        #expect(!ChargeBackend.firmwareRange.canMirrorChargingStateOnMagSafeLED)
+        #expect(!ChargeBackend.firmwareRange.dischargesToLimitItself)
+        #expect(ChargeBackend.systemChargeLimit.canMirrorChargingStateOnMagSafeLED)
+        #expect(ChargeBackend.systemChargeLimit.dischargesToLimitItself)
     }
 
     /// The single decision behind MCL ownership, pinned as behaviour rather than as a
@@ -221,7 +251,8 @@ import Testing
     @Test func honouringLimitsAndPausingAreIndependent() {
         #expect(ChargeBackend.firmwareRange.honoursLimitsBelow80)
         #expect(!ChargeBackend.firmwareRange.canPauseChargingOnDemand)
-        #expect(!ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
+        #expect(ChargeBackend.systemChargeLimit.honoursLimitsBelow80)
+        #expect(!ChargeBackend.systemChargeLimit.canPauseChargingOnDemand)
         #expect(ChargeBackend.chte.canPauseChargingOnDemand)
     }
 

@@ -227,6 +227,51 @@ import Testing
         #expect(decoded.magSafeGreenLightAvailable == false)
     }
 
+    // MARK: - magSafeGreenLightIsSystemDriven
+
+    /// Only Apple's own limit drives the light itself: macOS sets `ACLC` while the system
+    /// charge limit holds, so the setting is shown on and greyed out rather than as a choice
+    /// that changes nothing.
+    @Test func onlyTheSystemChargeLimitDrivesTheGreenLightItself() {
+        for backend in ChargeBackend.allCases {
+            let value = diagnostics(backend: backend.rawValue, magSafeLEDAvailable: true)
+            #expect(
+                value.magSafeGreenLightIsSystemDriven == (backend == .systemChargeLimit),
+                "\(backend.rawValue)"
+            )
+        }
+    }
+
+    /// System-driven is **not** unavailable, and the pair must not be confused: under
+    /// `.systemChargeLimit` the light works, which is the whole reason the switch is forced
+    /// on instead of off.
+    @Test func aSystemDrivenGreenLightIsStillAvailable() {
+        let value = diagnostics(
+            backend: ChargeBackend.systemChargeLimit.rawValue,
+            magSafeLEDAvailable: true
+        )
+        #expect(value.magSafeGreenLightIsSystemDriven == true)
+        #expect(value.magSafeGreenLightAvailable == true)
+    }
+
+    /// Nil on a backend this build does not know, so an older app talking to a newer helper
+    /// renders the ordinary editable control rather than asserting macOS owns the light.
+    @Test func anUnrecognizedBackendMakesNoClaimAboutWhoDrivesTheLight() {
+        let unknownBackend = "aBackendNoBuildHasEverShipped"
+        #expect(ChargeBackend(rawValue: unknownBackend) == nil)
+        let value = diagnostics(backend: unknownBackend, magSafeLEDAvailable: true)
+        #expect(value.magSafeGreenLightIsSystemDriven == nil)
+    }
+
+    /// Read app-side off a decoded instance, like every other answer the settings pane uses.
+    @Test func theSystemDrivenAnswerSurvivesTheXPCRoundTrip() throws {
+        let decoded = try roundTrip(diagnostics(
+            backend: ChargeBackend.systemChargeLimit.rawValue,
+            magSafeLEDAvailable: true
+        ))
+        #expect(decoded.magSafeGreenLightIsSystemDriven == true)
+    }
+
     // MARK: - systemChargeLimitIsHoldingCharge
 
     /// The case the MagSafe LED exists to mirror: Apple's limit is the backend, and the

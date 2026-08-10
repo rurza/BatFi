@@ -267,6 +267,11 @@ actor SMCService {
             // at BatFi's value. Done before the band write, so a throwing write cannot be
             // what strands it. `releaseSystemLimit` self-guards on the snapshot.
             await PowerUICharging.shared.releaseSystemLimit()
+            // The charge-limit request goes back for the same reason and is *more* dangerous
+            // to strand: it is a persistent, root-owned preference that survives the process,
+            // so one left behind here would cap an SMC-backend Mac at a value nothing in
+            // BatFi's UI still refers to.
+            await ManualChargeLimitDefaults.shared.release()
             appliedSystemLimit = nil
             // The needs-write short-circuit, and it matters more here than it does under
             // `.systemChargeLimit`, where the same guard is applied and explained.
@@ -306,6 +311,9 @@ actor SMCService {
             // silently capping every later SMC-driven limit above it. `releaseSystemLimit`
             // self-guards on the snapshot, so this is a no-op on machines that never adopted.
             await PowerUICharging.shared.releaseSystemLimit()
+            // And BatFi's charge-limit request with it: this backend drives the SMC, so a
+            // request left standing would hold a second, invisible ceiling underneath it.
+            await ManualChargeLimitDefaults.shared.release()
             // Any note from an earlier resolution goes with it, so diagnostics cannot claim
             // a raised limit under a backend that never raises one.
             appliedSystemLimit = nil
@@ -318,38 +326,98 @@ actor SMCService {
             return percentage
         case .systemChargeLimit:
             releaseFirmwareRangeIfStranded()
-            let available = await PowerUICharging.shared.availableLimits()
-            guard let applied = SystemChargeLimit.applicableLimit(for: percentage, from: available) else {
-                logger.error("PowerUI reported no accepted charge limit values; refusing to guess one")
-                throw PowerUIChargingError.availableLimitsUnavailable
-            }
-            let outcome = AppliedChargeLimit(requested: percentage, applied: applied)
             // `applyChargeLimit` runs on every status update — roughly once a minute for
             // the life of the process — and `setMCLLimit:` mutates a control the user can
             // see and touch in System Settings. Rewriting the value already in force buys
             // nothing, so don't.
+            //
+            // Compared on the **request** rather than on the whole outcome, which is what
+            // `AppliedChargeLimit.needsWrite` does and why it is not used here. What a
+            // request resolves to is no longer a pure function of it — `setMCLLimit:`
+            // decides, and may refuse — so a request that fell back to another value would
+            // differ from the outcome recorded for it and be retried on every pass, for the
+            // life of the process, on exactly the machines where the write does not work.
             //
             // Safe here in a way it would not be inside `PowerUICharging.adoptSystemLimit`,
             // where skipping the write would also skip the snapshot capture: this field is
             // non-nil only *after* a successful adopt, which is after the user's value was
             // captured. The guard can therefore never fire before a snapshot exists. If an
             // adopt throws the field stays as it was, so the next pass writes again.
-            guard AppliedChargeLimit.needsWrite(outcome, inForce: appliedSystemLimit) else {
-                return applied
+            if let inForce = appliedSystemLimit, inForce.requested == percentage {
+                // Above the floor the adopt stands on its own and nothing else touches it.
+                // Below it, the limit lives in a policy PowerUIAgent owns — and powerd
+                // retires that policy whenever Apple's charge limit changes underneath — so
+                // "already applied" cannot be assumed here, only checked. Skipping the check
+                // is how a limit silently reverts and stays reverted for the life of the
+                // process.
+                if inForce.applied >= ChargeLimitRange.systemChargeLimitLowest {
+                    return inForce.applied
+                }
+                if await ManualChargeLimitDefaults.shared.currentLimit() == percentage {
+                    return inForce.applied
+                }
+                logger.notice("Charge limit no longer holds \(percentage, privacy: .public)%; re-applying")
             }
             // The temporary override belongs to the SMC backends and is dropped before
             // adopting anything. Its renewal task would otherwise write 100 over the
             // value set below, and while it is live the user's own saved limit reads
             // back as the overridden one.
             await PowerUICharging.shared.clearMCLOverride()
-            try await PowerUICharging.shared.adoptSystemLimit(applied, under: backend)
-            if applied > percentage {
-                logger.notice("Requested \(percentage, privacy: .public)% raised to \(applied, privacy: .public)% — the system limit cannot go lower")
-            } else if applied < percentage {
-                logger.notice("Requested \(percentage, privacy: .public)% clamped to \(applied, privacy: .public)%, the highest value the system limit accepts")
+            do {
+                // The value the user actually asked for, unrounded. Asking is the only way
+                // to learn what this machine's limit really accepts: a list read from
+                // `availableChargeLimitsWithError:` cannot contradict itself, while the
+                // setter can, and does on firmware whose range differs from the picker's.
+                try await PowerUICharging.shared.adoptSystemLimit(percentage, under: backend)
+                // PowerUI took it, so BatFi's own request must not be left standing: a lower
+                // value from an earlier sub-80 request would go on capping charge below the
+                // limit now in force.
+                await ManualChargeLimitDefaults.shared.release()
+                appliedSystemLimit = AppliedChargeLimit(requested: percentage, applied: percentage)
+                return percentage
+            } catch {
+                // Refused — and on every machine measured so far that means the value is
+                // below 80. That floor is validation inside `PowerUI.framework`, which loads
+                // into *this* process; it is not a limit of PowerUIAgent, of powerd, or of
+                // the firmware. Asking the agent directly, in the terms it already reads, has
+                // no such floor. See `ManualChargeLimitDefaults` for the measurements.
+                do {
+                    // One write, no dance. `MCLFeatureState` switches Apple's charge limit on
+                    // and `mclLimitValue` carries the number, both in the same domain, so
+                    // there is no enable-then-write ordering to get wrong and nothing here
+                    // calls `setMCLLimit:`.
+                    //
+                    // That last point is what retires the re-assertion write-fight seen
+                    // earlier: `setMCLLimit:` mutates a control powerd owns, so calling it on
+                    // every pass made powerd rewrite its policy, which BatFi then read as
+                    // drift and corrected — a loop measured at roughly one round every three
+                    // seconds. Writing only the defaults leaves powerd nothing to argue with,
+                    // and `apply` no-ops when the limit is already the one in force.
+                    try await ManualChargeLimitDefaults.shared.apply(limit: percentage)
+                    logger.notice("System limit refused \(percentage, privacy: .public)%; applied it through the charge-limit defaults instead")
+                    appliedSystemLimit = AppliedChargeLimit(requested: percentage, applied: percentage)
+                    return percentage
+                } catch let defaultsError {
+                    logger.error("Charge limit \(percentage, privacy: .public)% via defaults failed: \(defaultsError, privacy: .public); falling back to the values PowerUI accepts")
+                }
+                // Both mechanisms refused. Only now does the picker list mean anything: it
+                // is the one evidence-backed set of values this machine is known to take.
+                // Round up, never down — a limit exists in order not to be exceeded.
+                let available = await PowerUICharging.shared.availableLimits()
+                guard let applied = SystemChargeLimit.applicableLimit(for: percentage, from: available),
+                      applied != percentage else {
+                    logger.error("System limit refused \(percentage, privacy: .public)% and PowerUI offered no other value; refusing to guess one")
+                    throw error
+                }
+                try await PowerUICharging.shared.adoptSystemLimit(applied, under: backend)
+                if applied > percentage {
+                    logger.notice("Requested \(percentage, privacy: .public)% refused; raised to \(applied, privacy: .public)%, the lowest value this system limit accepts")
+                } else {
+                    logger.notice("Requested \(percentage, privacy: .public)% refused; clamped to \(applied, privacy: .public)%, the highest value this system limit accepts")
+                }
+                appliedSystemLimit = AppliedChargeLimit(requested: percentage, applied: applied)
+                return applied
             }
-            appliedSystemLimit = outcome
-            return applied
         case .unsupported:
             // Before the throw, not after it: a band armed by this process while the probe
             // still resolved `.firmwareRange` is exactly what a degrading connection can
@@ -374,6 +442,12 @@ actor SMCService {
             await PowerUICharging.shared.clearMCLOverride()
         }
         await PowerUICharging.shared.releaseSystemLimit()
+        // The one release that must never be skipped. Unlike every SMC write and unlike
+        // Apple's own limit, the charge-limit request is persistent state in root's
+        // preference domain that outlives BatFi entirely — so a request still standing when
+        // BatFi is quit or uninstalled leaves the user's Mac capped with nothing left on the
+        // machine that knows how to undo it.
+        await ManualChargeLimitDefaults.shared.release()
         appliedSystemLimit = nil
 
         logger.notice("Restoring SMC defaults (auto charge, force discharge off)")

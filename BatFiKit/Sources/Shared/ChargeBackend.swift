@@ -31,12 +31,38 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
 
     public var isUsable: Bool { self != .unsupported }
 
-    /// Whether this backend can express a limit below 80%. Apple's own limit cannot,
-    /// which is the single most important thing to tell the user when it is active.
+    /// Whether this backend can express a limit below 80%.
+    ///
+    /// **`.systemChargeLimit` is true, and the 80% floor everyone reports is real but not
+    /// Apple's last word.** Both of PowerUI's write paths do floor at 80, measured on a
+    /// Mac15,8 running macOS 27.0 (26A5388g), firmware 20457.0.125.0.2:
+    ///
+    /// - `setMCLLimit:error:` — 50 refused, `PowerUISmartChargingErrorDomain` code 4;
+    ///   80 and 85 accepted.
+    /// - `temporarilyOverrideMCLTargetSoC:error:` — 75 refused, same code 4;
+    ///   85, 90 and 100 accepted.
+    ///
+    /// Both refusals reproduce while *discharging* and values ≥80 succeed in that same
+    /// state, so code 4 refuses the **value**, not the power source — and BatFi's own root
+    /// helper is refused too, so privilege is not the missing ingredient.
+    ///
+    /// That floor is validation inside **`PowerUI.framework`**, which loads into the calling
+    /// process — not a limit of PowerUIAgent, of powerd, or of the firmware.
+    /// `ManualChargeLimitDefaults` asks the agent directly, through the preference domain it
+    /// already watches, and that path has no floor: 72% applied and held on the same machine,
+    /// with `pmset` reporting `AC attached; not charging`. PowerUI will even *read* that value
+    /// back through `getMCLLimitWithError:` while refusing to write it — and refuses it while
+    /// it is already in force, which is the clearest proof that `setMCLLimit:` is not what
+    /// puts it there.
+    ///
+    /// So the honest answer for this backend is yes — with the caveat that it is delivered
+    /// by undocumented private state rather than by the API, which is why `SMCService` only
+    /// reaches for the defaults once `setMCLLimit:` has actually refused, and falls back to
+    /// rounding if that fails too.
     public var honoursLimitsBelow80: Bool {
         switch self {
-        case .firmwareRange, .chte, .legacyCH0BC: return true
-        case .systemChargeLimit, .unsupported: return false
+        case .firmwareRange, .chte, .legacyCH0BC, .systemChargeLimit: return true
+        case .unsupported: return false
         }
     }
 
@@ -143,6 +169,30 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
         switch self {
         case .chte, .legacyCH0BC, .systemChargeLimit, .unsupported: return true
         case .firmwareRange: return false
+        }
+    }
+
+    /// Whether macOS itself drains the battery down to the limit when it is already above it.
+    ///
+    /// True under `.systemChargeLimit`, where the `ChargeCtrlPolicy` PowerUIAgent registers
+    /// carries `drain: true` and the system performs the discharge — **including with the lid
+    /// closed and while asleep**, which BatFi's own force discharge cannot do.
+    ///
+    /// Not controllable. `drain` is exposed as `chargeSocLimitDrain` only on powerd's
+    /// interface behind `com.apple.private.iokit.soc-limit`, an Apple-private entitlement
+    /// held by PowerUIAgent and powerd; PowerUIAgent contains no drain vocabulary at all, so
+    /// no preference can influence it either. It is a fact about the Mac, not a setting.
+    ///
+    /// Two things follow, and both are behavioural rather than cosmetic. BatFi must not run
+    /// its own discharge alongside it — the system drains to whatever limit is *in force*, so
+    /// BatFi's `CHIE` discharge is redundant in every case, including the one where a sub-80
+    /// request was refused and 80 is holding instead. And it must not hold sleep off for a
+    /// discharge that continues perfectly well without it, which costs the user battery and
+    /// heat for nothing.
+    public var dischargesToLimitItself: Bool {
+        switch self {
+        case .systemChargeLimit: return true
+        case .chte, .legacyCH0BC, .firmwareRange, .unsupported: return false
         }
     }
 }

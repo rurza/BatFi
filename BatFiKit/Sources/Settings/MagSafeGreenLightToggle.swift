@@ -15,6 +15,13 @@
 //  it — the `ACLC` probe narrowed by `ChargeBackend.canMirrorChargingStateOnMagSafeLED` —
 //  and this view only renders it.
 //
+//  Three states, not two. Besides available and unavailable there is *system-driven*: under
+//  `.systemChargeLimit` the light works and is already green, because macOS sets `ACLC`
+//  itself while its own limit holds. The switch is shown on and greyed out there, with the
+//  reason underneath, because a setting the user can move but that changes nothing is worse
+//  than one visibly not theirs to move. `ChargingDiagnostics.magSafeGreenLightIsSystemDriven`
+//  carries that rule too.
+//
 
 import Clients
 import Defaults
@@ -53,13 +60,33 @@ struct MagSafeGreenLightToggle: View {
     /// pair never renders "no light" on a Mac that has one.
     @State private var hasMagSafeLED = true
 
+    /// The system, not BatFi, is driving the light. Pessimistic before the fetch — the
+    /// opposite default to the two above, and for the same reason they are optimistic:
+    /// the honest pre-answer state is the ordinary editable control, not a claim.
+    @State private var isSystemDriven = false
+
+    /// Only a Mac that actually has the light can be told who is driving it. Without this
+    /// guard a USB-C-only Mac under `.systemChargeLimit` would be shown a forced-on switch
+    /// describing an indicator it does not have, instead of the "no light" reason it should
+    /// get.
+    private var showsSystemDriven: Bool { isSystemDriven && hasMagSafeLED }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Toggle(isOn: $greenLight) {
+            // Forced on rather than bound: the light *is* green under this backend, so the
+            // control has to show that. Deliberately not written through to `Defaults` —
+            // the user's own preference has to survive a change of backend, and this state
+            // is a property of the backend rather than a choice they made.
+            Toggle(isOn: showsSystemDriven ? .constant(true) : $greenLight) {
                 Text(L10n.Settings.Button.Label.magsafeUseGreenLight)
             }
-            .disabled(!isAvailable)
-            if !isAvailable {
+            .disabled(!isAvailable || showsSystemDriven)
+            if showsSystemDriven {
+                Text(L10n.Settings.Label.magSafeGreenLightSystemDriven)
+                    .offset(x: 19)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .settingDescription()
+            } else if !isAvailable {
                 Text(
                     hasMagSafeLED
                         ? L10n.Settings.Label.magSafeGreenLightUnavailable
@@ -79,6 +106,10 @@ struct MagSafeGreenLightToggle: View {
             if let diagnostics = try? await chargingClient.chargingDiagnostics() {
                 isAvailable = diagnostics.magSafeGreenLightAvailable ?? true
                 hasMagSafeLED = diagnostics.magSafeLEDAvailable ?? true
+                // `?? false` rather than `?? true`, unlike the two above: an unrecognized
+                // backend leaves the ordinary editable control in place instead of forcing
+                // a switch on and telling the user macOS owns it.
+                isSystemDriven = diagnostics.magSafeGreenLightIsSystemDriven ?? false
             }
         }
     }

@@ -131,6 +131,22 @@ public actor ChargingManager: ChargingModeManager {
         return backend.canPauseChargingOnDemand
     }
 
+    /// Whether macOS drains the battery to the limit itself on this Mac.
+    ///
+    /// **`false` while the backend is unknown** — the opposite default to
+    /// `backendCanPauseChargingOnDemand`, and right for the same reason that one is `true`.
+    /// Both keep BatFi doing what it has always done until it learns otherwise: there,
+    /// attempting a pause; here, performing its own discharge. Withholding a discharge from a
+    /// Mac that needs BatFi to do it, because the first diagnostics call had not landed, would
+    /// leave the battery sitting above the user's limit with nothing coming to fix it.
+    private func systemDischargesToLimitItself() async -> Bool {
+        if let cachedChargeBackend { return cachedChargeBackend.dischargesToLimitItself }
+        guard let diagnostics = try? await chargingClient.chargingDiagnostics(),
+              let backend = ChargeBackend(rawValue: diagnostics.backend) else { return false }
+        cachedChargeBackend = backend
+        return backend.dischargesToLimitItself
+    }
+
     public func setUpObserving() {
         assert(licenseModel != nil)
         observeHelperHealth()
@@ -578,7 +594,18 @@ public actor ChargingManager: ChargingModeManager {
             }
         } else {
             if currentBatteryLevel >= effectiveLimitInForce {
-                if currentBatteryLevel > effectiveLimitInForce, allowDischarging, isLidOpenedOrSleepDisabled, !computerIsAsleep {
+                // `await !systemDischargesToLimitItself()`: under Apple's charge limit macOS
+                // performs this discharge itself, and the branch is keyed on the limit **in
+                // force** rather than the one requested — so the system is draining to
+                // exactly the value tested here, including when a sub-80 request was refused
+                // and 80 is holding instead. Running `CHIE` alongside it duplicates a
+                // discharge that is already happening, and `turnOnDischarging` is also what
+                // takes the sleep assertion: the system's own drain continues while asleep
+                // and lid-closed, so holding sleep off for it burns battery and heat to buy
+                // nothing. Falls through to `inhibitCharging`, which is the honest mode —
+                // charging is being held, just not by BatFi.
+                if currentBatteryLevel > effectiveLimitInForce, allowDischarging, isLidOpenedOrSleepDisabled,
+                   !computerIsAsleep, await !systemDischargesToLimitItself() {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
                         disableSleep: disableSleepDuringDischarge,

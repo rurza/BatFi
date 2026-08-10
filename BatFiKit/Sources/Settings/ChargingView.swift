@@ -124,26 +124,48 @@ struct ChargingView: View {
 
                                 if !forceDischargeUnavailable {
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Toggle(isOn: $dischargeBatteryWhenFull) {
+                                        // Forced on and greyed out where macOS performs the
+                                        // discharge, the same treatment the MagSafe green
+                                        // light gets and for the same reason: the behaviour is
+                                        // real and better than BatFi's, it simply is not
+                                        // BatFi's to switch off. Shown rather than hidden
+                                        // because it *does* happen — the pane hides settings
+                                        // this Mac has lost, and this is the opposite case.
+                                        // Not written through to `Defaults`, so the user's own
+                                        // choice survives a change of backend.
+                                        Toggle(isOn: dischargeIsSystemDriven ? .constant(true) : $dischargeBatteryWhenFull) {
                                             Text(l10n.Button.Label.dischargeBatterWhenOvercharged)
                                         }
-                                        .disabled(!manageCharging)
+                                        .disabled(!manageCharging || dischargeIsSystemDriven)
                                         .onChange(of: dischargeBatteryWhenFull) { _, newValue in
                                             if newValue {
                                                 disableSleepDuringDischarging = true
                                             }
                                         }
-                                        Text(l10n.Button.Description.lidMustBeOpened)
-                                            .offset(x: 19)
-                                            .fixedSize(horizontal: false, vertical: true)
-                                            .settingDescription()
-                                            .opacity(manageCharging ? 1 : 0.4)
+                                        Text(
+                                            dischargeIsSystemDriven
+                                                ? l10n.Button.Description.dischargeIsSystemDriven
+                                                : l10n.Button.Description.lidMustBeOpened
+                                        )
+                                        .offset(x: 19)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                        .settingDescription()
+                                        .opacity(manageCharging ? 1 : 0.4)
                                     }
                                     // Only meaningful while discharging, so it shares the
                                     // gate. Its lack of a `manageCharging` check is
                                     // pre-existing and left alone.
-                                    Toggle(isOn: $disableSleepDuringDischarging) {
-                                        Text(l10n.Button.Label.disableSleepWhileDischarging)
+                                    //
+                                    // Absent entirely where macOS drives the discharge: that
+                                    // drain continues while asleep and lid-closed, so there is
+                                    // nothing for holding sleep off to protect. This is the
+                                    // pane's usual rule for a setting that cannot do anything
+                                    // — and here it would do worse than nothing, since BatFi
+                                    // no longer takes the assertion at all under this backend.
+                                    if !dischargeIsSystemDriven {
+                                        Toggle(isOn: $disableSleepDuringDischarging) {
+                                            Text(l10n.Button.Label.disableSleepWhileDischarging)
+                                        }
                                     }
                                 }
                             }
@@ -231,6 +253,21 @@ struct ChargingView: View {
     /// both discharge settings depend on. Probed from its own SMC key, so it is answered
     /// separately from charge limiting and can outlive it.
     private var forceDischargeUnavailable: Bool { !forceDischargeAvailableCache }
+
+    /// Whether macOS performs the over-limit discharge itself on this Mac.
+    ///
+    /// Read from the cached backend rather than from `facts`, for the same reason the two
+    /// capability caches above it exist: the row then renders in its final state on the first
+    /// pass, instead of showing an editable toggle that greys itself out a moment later.
+    ///
+    /// Defaults to false on an unknown or unrecognised backend, so a Mac whose backend has not
+    /// been resolved yet keeps the ordinary editable control rather than being told macOS owns
+    /// a discharge it may well not be doing.
+    private var dischargeIsSystemDriven: Bool {
+        guard let raw = Defaults[.lastKnownChargeBackend], let backend = ChargeBackend(rawValue: raw)
+        else { return false }
+        return backend.dischargesToLimitItself
+    }
 
     /// Writes what the helper just said into the cache the panes render from. Called on
     /// every successful fetch, so a firmware change costs one stale render and settles.

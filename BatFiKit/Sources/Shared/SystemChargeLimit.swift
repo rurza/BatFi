@@ -8,8 +8,17 @@
 import Foundation
 
 /// Rounding for Apple's Manual Charge Limit, which accepts only a short list of
-/// values — measured as 80, 85, 90, 95, 100. Pure and free of PowerUI so the
-/// decision can be reasoned about, and tested, without the private framework.
+/// values — measured as 80, 85, 90, 95, 100.
+///
+/// **Now the fallback path rather than the first move.** `SMCService` asks `setMCLLimit:`
+/// for the user's exact value and rounds through here only once the setter has actually
+/// refused it. The outcome is the same on firmware whose accepted range matches the list —
+/// which macOS 27 (26A5388g) does, refusing 50 with `PowerUISmartChargingErrorDomain`
+/// code 4 — but the refusal is now observed rather than assumed, so firmware that widens
+/// or narrows the range is discovered instead of being predicted wrongly and silently.
+///
+/// Pure and free of PowerUI so the decision can be reasoned about, and tested, without
+/// the private framework.
 public enum SystemChargeLimit {
     /// The value to apply for a requested percentage, rounded **up** to the nearest
     /// accepted value.

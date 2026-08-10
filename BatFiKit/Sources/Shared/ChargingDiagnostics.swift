@@ -178,6 +178,27 @@ public final class ChargingDiagnostics: NSObject, NSSecureCoding, @unchecked Sen
         return true
     }
 
+    /// Whether the green light belongs to macOS rather than to BatFi.
+    ///
+    /// True under `.systemChargeLimit`. There the hold is the system's, and macOS drives
+    /// `ACLC` itself while the limit is in force — observed going green the moment a sub-80
+    /// limit was applied, with nothing in BatFi writing the key. The setting cannot turn
+    /// that off, so rendering it as a live choice offers the user a switch that does
+    /// nothing.
+    ///
+    /// Distinct from `magSafeGreenLightAvailable`, which stays **true** here: the light does
+    /// work under this backend, which is exactly the point. This is not a capability BatFi
+    /// lost, it is one the system is already exercising, so the setting is shown on rather
+    /// than off — and, unlike the durable unavailability in `MagSafeGreenLightSetting`, the
+    /// stored preference is deliberately left untouched so it survives a backend change.
+    ///
+    /// Nil when the backend string is unrecognized: an older app talking to a newer helper
+    /// should render the ordinary control rather than assert something it cannot support.
+    public var magSafeGreenLightIsSystemDriven: Bool? {
+        guard let resolved = ChargeBackend(rawValue: backend) else { return nil }
+        return resolved == .systemChargeLimit
+    }
+
     public func encode(with coder: NSCoder) {
         coder.encode(backend, forKey: "backend")
         coder.encode(firmwareVersion, forKey: "firmwareVersion")

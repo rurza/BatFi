@@ -619,8 +619,10 @@ import Testing
 
     /// The constraint: rather than letting the user pick a value that gets silently
     /// raised, the mechanism's real floor is what the slider offers.
-    @Test func theSystemChargeLimitRaisesTheSliderFloor() {
-        #expect(ChargeLimitRange.lowestSelectable(for: .systemChargeLimit) == 80)
+    /// Was 80, because PowerUI refuses sub-80 in its client code. The powerd charge policy
+    /// has no such floor, so the slider offers the same range here as on the SMC backends.
+    @Test func theSystemChargeLimitKeepsTheFullRange() {
+        #expect(ChargeLimitRange.lowestSelectable(for: .systemChargeLimit) == 50)
     }
 
     @Test func theSMCBackendsKeepTheFullRange() {
@@ -696,7 +698,8 @@ import Testing
     /// that can honour it — and clamping it would erase the very setting the disclosure
     /// exists to talk about.
     @Test func aStoredLimitBelowTheFloorIsDisplayedAtTheFloor() {
-        #expect(ChargeLimitRange.displayedLimit(configured: 55, for: .systemChargeLimit) == 80)
+        #expect(ChargeLimitRange.displayedLimit(configured: 30, for: .systemChargeLimit) == ChargeLimitRange.lowest)
+        #expect(ChargeLimitRange.displayedLimit(configured: 55, for: .systemChargeLimit) == 55)
         #expect(ChargeLimitRange.displayedLimit(configured: 55, for: .chte) == 55)
     }
 

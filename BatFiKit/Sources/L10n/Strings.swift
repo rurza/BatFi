@@ -809,6 +809,15 @@ public enum L10n {
             public enum Description {
                 /// Works only when the lid is open. Disable sleep mode to use it in clamshell mode.
                 public static let lidMustBeOpened = String(localized: "settings.button.description.lid_must_be_opened_disable_sleep", defaultValue: "Works only when the lid is open. Disable sleep to use it in clamshell mode.", bundle: Bundle.module)
+
+                /// The over-limit discharge is macOS's, not BatFi's.
+                ///
+                /// Replaces `lidMustBeOpened` under Apple's charge limit, where that sentence
+                /// is not merely irrelevant but **wrong**: the system's own drain keeps going
+                /// with the lid shut and while asleep. Says so explicitly, because "works only
+                /// when the lid is open" is the limitation users of this feature have learned
+                /// to plan around, and here it no longer applies.
+                public static let dischargeIsSystemDriven = String(localized: "settings.button.description.discharge_is_system_driven", defaultValue: "macOS does this on your Mac, so it keeps working with the lid closed and while asleep. BatFi isn’t doing it, so this can’t be switched off.", bundle: Bundle.module)
             }
 
             public enum Label {
@@ -1060,8 +1069,19 @@ public enum L10n {
             // Mac. Every one of these is a statement about *this machine* — never about a
             // macOS version, which is not what charge control tracks.
 
-            /// This Mac's firmware doesn't support BatFi's own charge control, so BatFi is using the macOS charge limit instead. That limit only accepts values from 80% to 100%.
-            public static let systemChargeLimitBanner = String(localized: "settings.label.system_charge_limit_banner", defaultValue: "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi, which means the lowest limit available is 80%.", bundle: Bundle.module)
+            /// This Mac's firmware doesn't support BatFi's own charge control, so BatFi is using the macOS charge limit instead — at any percentage, and macOS discharges down to it when the battery is above.
+            ///
+            /// **No longer claims an 80% floor.** It used to, and that was true of
+            /// `setMCLLimit:` — but that API is not how the limit is set here. Values below
+            /// 80 go through the preference channel PowerUIAgent reads, so the floor is gone.
+            /// If a sub-80 value cannot be applied on some machine, `systemChargeLimitBelow80`
+            /// says so from the value actually in force, which is the honest place for it:
+            /// a conditional failure, not a blanket capability claim.
+            ///
+            /// The discharge sentence is here because it is the one behaviour of this backend
+            /// users notice and do not expect — a battery above the limit visibly draining on
+            /// mains power. It also carries the part BatFi's own discharge could never do.
+            public static let systemChargeLimitBanner = String(localized: "settings.label.system_charge_limit_banner", defaultValue: "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi. If the battery is already above your limit, macOS slowly discharges down to it — that keeps working with the lid closed and while the Mac is asleep.", bundle: Bundle.module)
 
             /// Limits below 80% can't be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.
             ///
@@ -1221,6 +1241,16 @@ public enum L10n {
             /// battery level, so the light would be dark for most of the time it should be
             /// lit.
             public static let magSafeGreenLightUnavailable = String(localized: "settings.label.magsafe_green_light_unavailable", defaultValue: "Not available on this Mac. Its firmware decides when to charge and doesn’t report when it’s holding, so BatFi can’t tell the light when to come on.", bundle: Bundle.module)
+
+            /// The light is green because macOS is holding the charge, not because BatFi is
+            /// pausing it.
+            ///
+            /// Shown under the setting when it is forced on and greyed out, on a Mac using
+            /// Apple's own charge limit. The user is looking at a switch they cannot move,
+            /// so the only useful thing to say is whose behaviour it is — and, specifically,
+            /// that BatFi is not pausing charging here, which is what the setting's own
+            /// wording would otherwise imply.
+            public static let magSafeGreenLightSystemDriven = String(localized: "settings.label.magsafe_green_light_system_driven", defaultValue: "macOS turns the light green while the system charge limit is holding. BatFi isn’t pausing charging here, so this can’t be switched off.", bundle: Bundle.module)
 
             /// Not available on this Mac, which doesn't have a MagSafe indicator light.
             ///
