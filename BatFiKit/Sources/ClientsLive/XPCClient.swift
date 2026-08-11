@@ -40,6 +40,18 @@ actor XPCClient {
     /// probe's speed that decides how long the app can be wrong about itself.
     private static let pingTimeout = Duration.seconds(5)
 
+    /// `quitHelper`'s budget.
+    ///
+    /// Longer than a ping because the helper hands the hardware back *before* it answers —
+    /// see `XPCServiceHandler.quit()` — and that restore carries a 5s ceiling of its own.
+    /// Sized to clear that ceiling rather than to expire on top of it, which would report a
+    /// failure for a helper that was doing exactly what it was asked.
+    ///
+    /// Missing the reply is no longer serious either way: the helper watches the client
+    /// process and restores and exits on its own when it dies, so a timeout here costs an
+    /// orderly quit, not a leaked root process.
+    private static let quitTimeout = Duration.seconds(6)
+
     private init() { }
 
     static let shared = XPCClient()
@@ -246,7 +258,7 @@ actor XPCClient {
 
     func quitHelper() async throws -> Bool {
         logger.debug("Quitting helper")
-        return try await call(timeout: Self.pingTimeout) { service, continuation in
+        return try await call(timeout: Self.quitTimeout) { service, continuation in
             service.quit { success, error in
                 if let error {
                     continuation.resume(throwing: error)

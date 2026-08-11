@@ -15,46 +15,35 @@ private struct UnsafeSendableBox<T>: @unchecked Sendable {
 
 final class ListenerDelegate: NSObject, NSXPCListenerDelegate {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "ListenerDelegate")
-    private let lock = NSLock()
-    private var liveConnections = 0
 
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
         newConnection.exportedInterface = NSXPCInterface(with: XPCService.self)
         newConnection.exportedObject = XPCServiceHandler()
-        // The helper's only way of learning that the app is gone without having been asked
-        // to quit — a crash, a jetsam kill, a force-quit, or a `restoreSystemDefaults()`
-        // that lost the race with the app's terminate watchdog.
+
+        // The client's pid is read here, on the accept, because this is the one moment the
+        // process is provably alive — which is what makes the watch armed from it race-free.
         //
-        // It matters for exactly one piece of state, and only since Phase 4: the firmware
-        // charge band. Every other mechanism BatFi drives is an inhibit that a dead helper
-        // stops asserting, or Apple's own limit, which the app owns. The band is enforced
-        // by the firmware itself, with no process running and nothing in System Settings
-        // showing it, so a band left armed by a vanished app is a Mac capped forever.
-        //
-        // `invalidationHandler` only — invalidation is terminal, while an interruption can
-        // be followed by the same client reconnecting, and running a restore under a
-        // client that is still there would release a limit it is still asking for.
-        newConnection.invalidationHandler = { [weak self] in
-            self?.connectionDidInvalidate()
+        // That watch, not this connection, is how the helper learns the app is gone. It
+        // survives every way an app can die and needs no cooperation from it: a crash, a
+        // jetsam kill, a force-quit, an installer's `SIGKILL`, or simply a quit message that
+        // was never sent because the app's terminate watchdog won the race first. That last
+        // one is not hypothetical — it is what left a stale helper bound to the mach service
+        // across an in-place update, so the relaunched app was routed to the previous build.
+        let pid = newConnection.processIdentifier
+        let connectionID = HelperShutdownPolicy.ConnectionID()
+        logger.notice("Accepted a connection from pid \(pid, privacy: .public)")
+        HelperShutdown.shared.handle(.clientConnected(connectionID, pid: pid))
+
+        // Reported, and deliberately not acted on. A connection dying proves nothing about
+        // the app: `XPCClient` tears one down on purpose whenever a call goes unanswered and
+        // builds a replacement on the next call. Restoring here — which is what this used to
+        // do once the count reached zero — releases the firmware charge band under an app
+        // that is still running and still asking for it.
+        newConnection.invalidationHandler = {
+            HelperShutdown.shared.handle(.connectionInvalidated(connectionID))
         }
-        lock.withLock { liveConnections += 1 }
         newConnection.resume()
         return true
-    }
-
-    private func connectionDidInvalidate() {
-        let remaining = lock.withLock { () -> Int in
-            liveConnections = max(0, liveConnections - 1)
-            return liveConnections
-        }
-        guard remaining == 0 else { return }
-        logger.notice("The last app connection dropped without a quit; restoring system defaults")
-        Task {
-            // `try?`: nothing is left to report to. On the existing fleet the band write
-            // inside this throws because the key is absent, which is exactly the case that
-            // must not be treated as a failure.
-            try? await SMCService.shared.restoreSystemDefaults()
-        }
     }
 }
 
@@ -186,13 +175,31 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         reply(true, nil)
     }
 
+    /// Restores *before* replying, and this ordering is load-bearing in both directions.
+    ///
+    /// `SMCService.close()` only drops the SMC connection — it hands nothing back. Until now
+    /// the restore on this path happened entirely through `ListenerDelegate`'s invalidation
+    /// handler, on the way out. That handler no longer restores, so this has to, or
+    /// `HelperConnectionManager.takeOwnership()` stops releasing the firmware charge band it
+    /// evicts a foreign helper specifically to release.
+    ///
+    /// And the reply has to come after, not before: the caller treats it as proof the helper
+    /// is finished, and on the app's own quit path terminates the moment it lands. A restore
+    /// still running past that point would be racing Sparkle's relaunch for the mach
+    /// service, which is the failure this whole path exists to prevent.
     func quit(_ reply: @escaping (Bool, Error?) -> Void) {
         let reply = UnsafeSendableBox(value: reply)
         Task {
-            await smcService.close()
-            reply.value(true, nil)
-            try? await Task.sleep(for: .milliseconds(100))
-            exit(0)
+            // Does not return: `HelperShutdown` restores, runs this, and exits.
+            await HelperShutdown.shared.handle(.quitRequested) {
+                await SMCService.shared.close()
+                reply.value(true, nil)
+                // The reply is written to the connection asynchronously, so exiting on the
+                // same turn can truncate it. Nothing depends on it arriving any more — a
+                // missed reply now costs the caller a timeout rather than a leaked root
+                // process — but a clean answer is still worth 100ms.
+                try? await Task.sleep(for: .milliseconds(100))
+            }
         }
     }
 

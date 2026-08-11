@@ -21,15 +21,16 @@ Task { try? await Task.sleep(for: .seconds(5)); NSApp.reply(...) }   // "watchdo
 Task {
     await chargingManager.appWillQuit()      // restoreSystemDefaults ≈ 2s, +~2s SMC reopen
     await magSafeColorManager.appWillQuit()  // another round trip
-    try? await helperClient.quitHelper()     // XPCClient.callTimeout = 15s
+    try? await helperClient.quitHelper()     // 5s of its own, and it starts last
     NSApp.reply(...)
 }
 ```
 
-The five-second timer is not a fallback. It is an unconditional competitor, and the work
-ahead of `quitHelper()` routinely consumes most of the budget before the quit message is
-sent at all — while `quitHelper()` itself is permitted 15s. On a slow quit the timer wins,
-the process exits, the message is never delivered, and the helper survives.
+The five-second timer is not a fallback. It is an unconditional competitor, and it starts
+counting at the top of the sequence while `quitHelper()` starts only after everything ahead
+of it has finished. That work routinely consumes most of the budget on its own. On a slow
+quit the timer wins, the process exits, the message is never delivered, and the helper
+survives.
 
 ### Why a surviving helper breaks the next launch
 
@@ -145,14 +146,23 @@ root process forever. No restore: by construction it never had a client and hold
 
 ### Layer 2 — a deterministic quit sequence in the app
 
-`quitHelper()` gets its own short budget (~3s) rather than the shared 15s
-`XPCClient.callTimeout`, and `willQuit()`'s watchdog becomes a genuine fallback instead of a
-second racer for `NSApp.reply(toApplicationShouldTerminate:)`.
+`willQuit()`'s watchdog becomes a genuine fallback instead of a second racer for
+`NSApp.reply(toApplicationShouldTerminate:)`: a single `TerminateReply` answers once,
+whichever path reaches it first.
 
-With layer 1 in place the app can afford to be impatient: a missed `quit()` is no longer a
-leaked root process. Layer 2 exists for ordering, not for safety. It matters because Sparkle
-relaunches within a second or two, and the relaunched app must not connect while the old
-helper is still mid-restore and still holding the mach service.
+The three timeouts are sized as one chain, and the ordering between them is the point:
+
+| Budget | Value | Why |
+|---|---|---|
+| Helper's restore before exiting | 5s | Covers several PowerUI round trips plus a ~2s SMC reopen |
+| App's `quitHelper()` | 6s | Must *clear* the helper's restore ceiling, not expire on top of it |
+| App's terminate fallback | 10s | Must clear the sequence it backs up, not interrupt it |
+
+With layer 1 in place the app can afford to overshoot: a missed `quit()` is no longer a
+leaked root process, so the cost of the fallback firing is an untidy quit rather than a
+stranded root daemon. Layer 2 exists for ordering, not for safety. It matters because
+Sparkle relaunches within a second or two, and the relaunched app must not connect while the
+old helper is still mid-restore and still holding the mach service.
 
 ## Error handling
 

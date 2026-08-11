@@ -81,23 +81,32 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
     }
 
     public func willQuit() {
+        let terminate = TerminateReply()
         Task {
-            // Five seconds, not one. The work this races now does materially more than it
-            // did: `restoreSystemDefaults()` makes several PowerUI round trips, can spend
-            // up to ~2 s reopening a dropped SMC connection, and may re-probe the whole
-            // nine-key table to decide whether a firmware charge band is held. Losing that
-            // race under `.firmwareRange` leaves the band armed in hardware with nothing
-            // running that knows about it. Still well inside launchd's terminate window,
-            // and `ListenerDelegate` now restores on connection loss as a second net.
-            try? await Task.sleep(for: .seconds(5))
-            await analyticsClient.addBreadcrumb(category: .lifecycle, message: "XRPC hangs, timeout, the app should terminate")
-            NSApp.reply(toApplicationShouldTerminate: true)
+            // A fallback now, rather than a competitor. At five seconds this was not backing
+            // the sequence below up — it was racing it, and the work down there routinely
+            // outlasted it: `restoreSystemDefaults()` alone makes several PowerUI round
+            // trips and can spend ~2s reopening a dropped SMC connection. When this Task won,
+            // the app terminated before `quitHelper()` had been sent at all.
+            //
+            // That is how a helper survived an in-place update. launchd binds the mach
+            // service to the running *process*, so a helper that outlives the app keeps
+            // answering after Sparkle has replaced the bundle underneath it, and the
+            // relaunched app is routed to the previous build.
+            //
+            // Ten seconds, sized to clear the sequence below rather than to interrupt it.
+            // Overshooting is cheap now: the helper watches this process and restores and
+            // exits on its own when it dies, so the worst case here is an untidy quit rather
+            // than a root daemon left running.
+            try? await Task.sleep(for: .seconds(10))
+            await analyticsClient.addBreadcrumb(category: .lifecycle, message: "Helper shutdown did not finish in time; terminating anyway")
+            terminate.send()
         }
         Task {
             await self.chargingManager.appWillQuit()
             await self.magSafeColorManager.appWillQuit()
             try? await self.helperClient.quitHelper()
-            NSApp.reply(toApplicationShouldTerminate: true)
+            terminate.send()
         }
     }
 
@@ -486,5 +495,23 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         alert.addButton(withTitle: L10n.Menu.Label.quit)
         _ = alert.runModal()
         NSApp.terminate(nil)
+    }
+}
+
+/// Answers `applicationShouldTerminate` exactly once, whichever path reaches it first.
+///
+/// `willQuit()` runs two Tasks — the shutdown sequence and the fallback that bounds it — and
+/// both end in a reply. Which one arrives first is a race by design; replying twice is not.
+///
+/// Main-actor isolated to match `BatFi`, which picks up `@MainActor` from its
+/// `StatusItemManagerDelegate` conformance, so the flag needs no synchronisation of its own.
+@MainActor
+private final class TerminateReply {
+    private var hasReplied = false
+
+    func send() {
+        guard !hasReplied else { return }
+        hasReplied = true
+        NSApp.reply(toApplicationShouldTerminate: true)
     }
 }

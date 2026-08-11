@@ -44,6 +44,12 @@ public final class Server {
         listener.delegate = delegate
         listener.resume()
 
+        // launchd starts this daemon on a mach service *lookup*, and a lookup does not have
+        // to become a connection — the listener's code-signing requirement can reject the
+        // client, or the caller can give up first. Without this the helper would stay
+        // resident as an idle root process until reboot.
+        HelperShutdown.shared.startGracePeriod()
+
         if AppDefaults.userAllowsAnalytics {
             SentrySDK.start { options in
                 options.dsn = "https://858e7a160cc0add058de86a8fcd489c8@o4506988322357248.ingest.us.sentry.io/4506988323799040"

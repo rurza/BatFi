@@ -251,8 +251,10 @@ final class HelperConnectionManager: @unchecked Sendable {
     /// the things it may be holding is a firmware charge band, which is enforced by the
     /// hardware and outlives every process that knows about it. Unregistering underneath a
     /// live helper would leave that band armed with nothing left to release it. `quit`
-    /// closes the SMC connection and, through `ListenerDelegate`'s invalidation handler,
-    /// restores system defaults on the way out.
+    /// restores system defaults, closes the SMC connection, and only then answers — see
+    /// `XPCServiceHandler.quit()`, which owns that ordering. The restore used to be a side
+    /// effect of `ListenerDelegate`'s invalidation handler instead; it is explicit now,
+    /// because invalidation no longer implies the client is gone.
     ///
     /// `staleBinary` stops there. That case is our own path running a previous build —
     /// after an in-place update — and launchd starts the current binary the next time the
