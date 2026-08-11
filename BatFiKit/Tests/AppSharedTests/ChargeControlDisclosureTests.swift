@@ -345,7 +345,11 @@ import Testing
             chargeLimitWasRaised: true,
             requestedChargeLimit: nil
         )
-        #expect(value.disclosures == [.usingSystemChargeLimit, .managingSystemSettingsLimit])
+        #expect(value.disclosures == [
+            .usingSystemChargeLimit,
+            .managingSystemSettingsLimit,
+            .mayChargeToFullForCalibration,
+        ])
     }
 
     /// A limit the mechanism could express exactly is not a raise, and must not be
@@ -387,6 +391,67 @@ import Testing
     @Test func noLimitHeldMeansNoClaimOfManagingSystemSettings() {
         let value = facts(backend: .systemChargeLimit, appliedChargeLimit: nil)
         #expect(value.disclosures.contains(.managingSystemSettingsLimit) == false)
+    }
+
+    // MARK: - The calibration charge to full
+
+    /// Apple documents that a Mac on Charge Limit "will occasionally charge to 100% to
+    /// maintain accurate battery state-of-charge estimates". A user who set 70% and finds
+    /// the battery above it is looking at that, and has no way to know unless told — the
+    /// alternative is filing it as a BatFi bug, which is exactly what happened.
+    @Test func theSystemChargeLimitDisclosesTheOccasionalChargeToFull() {
+        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: 80)
+        #expect(value.disclosures.contains(.mayChargeToFullForCalibration))
+    }
+
+    /// Read after the number in force, never before it: the sentence is about that number
+    /// being exceeded, so a user who meets it first has nothing for it to refer to.
+    @Test func theCalibrationChargeFollowsTheRowThatNamesTheLimitInForce() {
+        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: 80)
+        #expect(value.disclosures == [
+            .usingSystemChargeLimit,
+            .managingSystemSettingsLimit,
+            .mayChargeToFullForCalibration,
+        ])
+    }
+
+    /// At 100% the limit *is* full, so there is nothing to exceed and the sentence would
+    /// warn about the user's own setting being honoured.
+    @Test func aLimitOfFullChargeDisclosesNoCalibrationCharge() {
+        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: 100)
+        #expect(value.disclosures.contains(.mayChargeToFullForCalibration) == false)
+    }
+
+    /// No limit held, nothing to be charged past. The same rule
+    /// `.managingSystemSettingsLimit` follows, and for the same reason.
+    @Test func noLimitHeldMeansNoCalibrationChargeIsDisclosed() {
+        let value = facts(backend: .systemChargeLimit, appliedChargeLimit: nil)
+        #expect(value.disclosures.contains(.mayChargeToFullForCalibration) == false)
+    }
+
+    /// A refused snapshot means no limit is being applied at all. Telling that user their
+    /// battery will "occasionally charge past the limit" implies one is in force.
+    @Test func aRefusedSnapshotDisclosesNoCalibrationCharge() {
+        let value = facts(
+            backend: .systemChargeLimit,
+            appliedChargeLimit: 80,
+            systemLimitSnapshotRefused: true
+        )
+        #expect(value.disclosures.contains(.mayChargeToFullForCalibration) == false)
+    }
+
+    /// Scoped to the one backend it is true of. The calibration charge is a behaviour of
+    /// *Apple's* charge limit; under `.firmwareRange` BatFi hands the firmware a band
+    /// directly and Apple's smart charging is not the mechanism, while the SMC backends
+    /// hold charge themselves. Claiming it there would describe a Mac that does not exist.
+    @Test func onlyTheSystemChargeLimitDisclosesTheCalibrationCharge() {
+        for backend in [ChargeBackend.firmwareRange, .chte, .legacyCH0BC, .unsupported] {
+            let value = facts(backend: backend, appliedChargeLimit: 80)
+            #expect(
+                value.disclosures.contains(.mayChargeToFullForCalibration) == false,
+                "\(backend) must not claim Apple's calibration charge"
+            )
+        }
     }
 
     // MARK: - The snapshot refusal
@@ -483,7 +548,8 @@ import Testing
     // MARK: - Ordering
 
     /// Read top to bottom: what is in use, what that means for the limit, what BatFi is
-    /// touching to do it, then what stopped working.
+    /// touching to do it, how the battery behaves against that limit, then what stopped
+    /// working.
     @Test func disclosuresAreOrderedForReading() {
         let value = facts(
             backend: .systemChargeLimit,
@@ -497,6 +563,7 @@ import Testing
             .usingSystemChargeLimit,
             .limitRaisedToSystemMinimum(applied: 80),
             .managingSystemSettingsLimit,
+            .mayChargeToFullForCalibration,
             .pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true),
         ])
     }
@@ -516,6 +583,7 @@ import Testing
             .usingSystemChargeLimit,
             .limitRoundedUp(requested: 87, applied: 90),
             .managingSystemSettingsLimit,
+            .mayChargeToFullForCalibration,
             .pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true),
         ])
     }
@@ -767,6 +835,7 @@ import Testing
             .usingSystemChargeLimit,
             .limitRaisedToSystemMinimum(applied: 80),
             .managingSystemSettingsLimit,
+            .mayChargeToFullForCalibration,
             .pausingChargingUnavailable(heldBy: .macOSChargeLimit, forceDischargeStillAvailable: true),
         ])
     }

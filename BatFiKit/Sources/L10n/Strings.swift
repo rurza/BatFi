@@ -1145,6 +1145,22 @@ public enum L10n {
             /// BatFi isn't applying a charge limit on this Mac. It couldn't record the limit you have in System Settings › Battery, and it won't change a value it might not be able to put back.
             public static let systemChargeLimitNoSnapshot = String(localized: "settings.label.system_charge_limit_no_snapshot", defaultValue: "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back.", bundle: Bundle.module)
 
+            /// Every so often macOS charges the battery all the way to 100%, even with your limit set. It does that to keep its reading of the battery level accurate. Your limit applies again afterwards.
+            ///
+            /// Apple documents this: a Mac on Optimised Battery Charging or Charge Limit
+            /// "will occasionally charge to 100% to maintain accurate battery
+            /// state-of-charge estimates". Without the sentence, the only reading available
+            /// to a user who set 70% and sees the battery above it is that BatFi failed —
+            /// and that is what they report. From the outside a calibration charge and a
+            /// limit that did not hold are indistinguishable.
+            ///
+            /// Names macOS as the actor, not BatFi. Saying "BatFi occasionally charges to
+            /// 100%" would describe the app doing the one thing a charge limit exists to
+            /// prevent, and it is not what happens: BatFi's limit stays in force and macOS
+            /// overrides it. Closes on the limit applying again, so nobody reads this as the
+            /// limit having been abandoned.
+            public static let systemChargeLimitMayChargeToFull = String(localized: "settings.label.system_charge_limit_may_charge_to_full", defaultValue: "Every so often macOS charges the battery all the way to 100%, even with your limit set. It does that to keep its reading of the battery level accurate. Your limit applies again afterwards.", bundle: Bundle.module)
+
             /// Charging can't be paused on this Mac. The macOS charge limit holds charging at a percentage instead of stopping it, so pausing on sleep and stopping when the battery gets hot won't take effect.
             public static let systemChargeLimitCannotPauseCharging = String(localized: "settings.label.system_charge_limit_cannot_pause_charging", defaultValue: "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at a percentage rather than stopped on request.", bundle: Bundle.module)
 

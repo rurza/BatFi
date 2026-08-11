@@ -28001,6 +28001,95 @@
         }
       }
     },
+    "settings.label.system_charge_limit_may_charge_to_full" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Čas od času macOS nabije baterii až na 100 %, i když máte nastavený limit. Dělá to proto, aby si udržel přesný odečet úrovně baterie. Poté váš limit znovu platí."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ab und zu lädt macOS den Akku vollständig auf 100 %, auch wenn du ein Limit gesetzt hast. Das dient dazu, die Anzeige des Akkustands genau zu halten. Danach gilt dein Limit wieder."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every so often macOS charges the battery all the way to 100%, even with your limit set. It does that to keep its reading of the battery level accurate. Your limit applies again afterwards."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De temps en temps, macOS charge la batterie jusqu'à 100 %, même si vous avez défini une limite. Il le fait pour conserver une lecture précise du niveau de la batterie. Votre limite s'applique de nouveau ensuite."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni tanto macOS carica la batteria fino al 100%, anche con il limite impostato. Lo fa per mantenere accurata la lettura del livello della batteria. Dopodiché il limite torna ad applicarsi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上限を設定していても、macOSはときどきバッテリーを100%まで充電します。バッテリー残量の表示を正確に保つためです。その後は上限が再び適用されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한도를 설정해 두었더라도 macOS는 가끔 배터리를 100%까지 충전합니다. 배터리 잔량 표시를 정확하게 유지하기 위해서입니다. 이후에는 한도가 다시 적용됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zo nu en dan laadt macOS de batterij helemaal op tot 100%, ook als je een limiet hebt ingesteld. Dat doet macOS om de meting van het batterijniveau nauwkeurig te houden. Daarna geldt je limiet weer."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Co jakiś czas macOS ładuje baterię do pełnych 100%, nawet gdy masz ustawiony limit. Robi to, aby zachować dokładny odczyt poziomu baterii. Potem Twój limit znów obowiązuje."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De vez em quando, o macOS carrega a bateria até 100%, mesmo com o seu limite definido. Ele faz isso para manter precisa a leitura do nível da bateria. Depois disso, o seu limite volta a valer."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время от времени macOS заряжает аккумулятор до 100 %, даже если у вас задан лимит. Так система поддерживает точность показаний уровня заряда. После этого ваш лимит снова действует."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "macOS arada bir, siz bir sınır belirlemiş olsanız da pili %100’e kadar şarj eder. Bunu, pil düzeyi okumasını doğru tutmak için yapar. Sınırınız daha sonra yeniden geçerli olur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Час від часу macOS заряджає акумулятор до 100 %, навіть якщо ви встановили ліміт. Так система підтримує точність показників рівня заряду. Після цього ваш ліміт знову діє."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使你设置了充电上限，macOS有时也会将电池充至100%。这是为了保持电量读数准确。之后你的上限会再次生效。"
+          }
+        }
+      }
+    },
     "settings.label.system_charge_limit_no_snapshot" : {
       "extractionState" : "manual",
       "localizations" : {

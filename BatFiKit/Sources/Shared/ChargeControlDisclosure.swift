@@ -102,6 +102,24 @@ public enum ChargeControlDisclosure: Equatable, Sendable {
     /// has the same problem, does not get this sentence.
     case chargingStatusIsInferred
 
+    /// The battery will go *above* the limit sometimes, on purpose. Apple documents that a
+    /// Mac on Optimised Battery Charging or Charge Limit "will occasionally charge to 100%
+    /// to maintain accurate battery state-of-charge estimates", so a user who set 70% and
+    /// finds 71% — or 100% — is looking at the mechanism working.
+    ///
+    /// The counterpart to `batteryMayDipBelowLimit`, and emitted for the same reason: that
+    /// case explains the battery sitting below the limit under the firmware band, this one
+    /// explains it sitting above the limit under Apple's. Without it the only reading
+    /// available to the user is that BatFi failed to hold the limit they set, which is what
+    /// they will report — the two are indistinguishable from the outside, and one of them
+    /// is a defect.
+    ///
+    /// Scoped to `.systemChargeLimit` alone. The calibration charge is a behaviour of
+    /// *Apple's* charge limit; under `.firmwareRange` BatFi hands the firmware a band
+    /// directly and Apple's smart charging is not the mechanism in force, while the SMC
+    /// backends hold charge themselves. See the `.systemChargeLimit` arm of `disclosures`.
+    case mayChargeToFullForCalibration
+
     /// Pausing charging outright cannot engage: the mechanism in force holds charge at a
     /// percentage and has no "stop now" to write. This is why hot-battery protection and
     /// pause-on-sleep do nothing, and it cannot be fixed — only disclosed.
@@ -423,6 +441,14 @@ public extension ChargeControlFacts {
                 // every route that ends BatFi's ownership of the system limit, so this
                 // cannot claim BatFi is managing a value it has handed back.
                 disclosures.append(.managingSystemSettingsLimit)
+                // Last, because it is about the number the rows above just named being
+                // exceeded, and a user who meets it first has nothing for it to refer to.
+                //
+                // Not at 100: there the limit *is* full charge, so nothing can exceed it and
+                // the sentence would warn about the user's own setting being honoured.
+                if applied < ChargeLimitRange.highest {
+                    disclosures.append(.mayChargeToFullForCalibration)
+                }
             }
 
             if pausingChargingIsExpected {

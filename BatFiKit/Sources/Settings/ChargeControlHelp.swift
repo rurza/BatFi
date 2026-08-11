@@ -126,6 +126,8 @@ enum ChargeControlDisclosureText {
             )
         case .managingSystemSettingsLimit:
             return l10n.systemChargeLimitManagesSystemSettings
+        case .mayChargeToFullForCalibration:
+            return l10n.systemChargeLimitMayChargeToFull
         case .limitNotAppliedWithoutSnapshot:
             return l10n.systemChargeLimitNoSnapshot
         case .firmwareEnforcedLimit:
@@ -155,7 +157,8 @@ enum ChargeControlDisclosureText {
             return stillAvailable
         case .usingSystemChargeLimit, .limitRaisedToSystemMinimum, .limitRoundedUp,
              .managingSystemSettingsLimit, .limitNotAppliedWithoutSnapshot,
-             .firmwareEnforcedLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred:
+             .firmwareEnforcedLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred,
+             .mayChargeToFullForCalibration:
             return false
         }
     }
@@ -185,11 +188,18 @@ enum ChargeControlDisclosureText {
         case .pausingChargingUnavailable:
             return false
         // These describe how this Mac works, and the first of them is good news.
+        //
+        // `mayChargeToFullForCalibration` belongs here despite being the one row that says
+        // the limit will be exceeded. The bar is whether the user's battery ends up
+        // somewhere they did not ask for *because something is wrong*, and a calibration
+        // charge is macOS working as Apple documents it. Badging it orange would turn a
+        // designed behaviour into a permanent fault light on every Mac using this backend.
         case .usingSystemChargeLimit,
              .managingSystemSettingsLimit,
              .firmwareEnforcedLimit,
              .batteryMayDipBelowLimit,
-             .chargingStatusIsInferred:
+             .chargingStatusIsInferred,
+             .mayChargeToFullForCalibration:
             return false
         }
     }
@@ -204,7 +214,7 @@ enum ChargeControlDisclosureText {
         // Kept in step with `isWarning`: a triangle beside this row inside the popover
         // would reintroduce, one level down, exactly the alarm the button no longer raises.
         case .usingSystemChargeLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred,
-             .pausingChargingUnavailable:
+             .pausingChargingUnavailable, .mayChargeToFullForCalibration:
             return "info.circle"
         case .firmwareEnforcedLimit:
             return "checkmark.seal"
