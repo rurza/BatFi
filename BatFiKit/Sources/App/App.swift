@@ -63,7 +63,7 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
             }
             setFeatureFlags(beta: isBeta)
             analyticsManager.start(shouldEnable: isBeta || defaults.value(.sendAnalytics))
-            _ = updater // initialize updater
+            updater.startUpdater()
             if defaults.value(.onboardingIsDone) {
                 await runMigration()
                 dockIcon.show(false)

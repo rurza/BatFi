@@ -15,42 +15,56 @@ import Sparkle
 import UserNotifications
 
 extension Updater: DependencyKey {
-    public static let liveValue: Updater = {
-        let updaterDelegate = UpdaterDelegate.instance
-
-        nonisolated(unsafe) let updaterController = SPUStandardUpdaterController(
-            startingUpdater: true,
-            updaterDelegate: updaterDelegate,
-            userDriverDelegate: updaterDelegate
-        )
-
-        let client = Updater(
-            checkForUpdates: {
-                DispatchQueue.main.async {
-                    updaterController.checkForUpdates(nil)
-                }
-            },
-            automaticallyChecksForUpdates: {
-                updaterController.updater.automaticallyChecksForUpdates
-            }, automaticallyDownloadsUpdates: {
-                updaterController.updater.automaticallyDownloadsUpdates
-            },
-            setAutomaticallyChecksForUpdates: { check in
-                updaterController.updater.automaticallyChecksForUpdates = check
-
-            },
-            setAutomaticallyDownloadsUpdates: { download in
-                updaterController.updater.automaticallyDownloadsUpdates = download
+    public static let liveValue = Updater(
+        startUpdater: {
+            Task { @MainActor in _ = SparkleUpdater.shared }
+        },
+        checkForUpdates: {
+            Task { @MainActor in SparkleUpdater.shared.controller.checkForUpdates(nil) }
+        },
+        automaticallyChecksForUpdates: {
+            SparkleUpdater.shared.controller.updater.automaticallyChecksForUpdates
+        },
+        automaticallyDownloadsUpdates: {
+            SparkleUpdater.shared.controller.updater.automaticallyDownloadsUpdates
+        },
+        setAutomaticallyChecksForUpdates: { check in
+            Task { @MainActor in
+                SparkleUpdater.shared.controller.updater.automaticallyChecksForUpdates = check
             }
-        )
-        return client
-    }()
+        },
+        setAutomaticallyDownloadsUpdates: { download in
+            Task { @MainActor in
+                SparkleUpdater.shared.controller.updater.automaticallyDownloadsUpdates = download
+            }
+        }
+    )
 }
 
-private class UpdaterDelegate: NSObject, SPUUpdaterDelegate, SPUStandardUserDriverDelegate, @unchecked Sendable {
-    static let instance = UpdaterDelegate()
+/// Owns the one Sparkle controller for the process.
+///
+/// Sparkle has been main-thread-only since 2.8 and says so in its headers as of 2.9, so
+/// the controller is built and touched here and nowhere else. The delegate is held
+/// strongly because Sparkle does not.
+@MainActor
+private final class SparkleUpdater {
+    static let shared = SparkleUpdater()
 
-    var supportsGentleScheduledUpdateReminders: Bool {
+    let controller: SPUStandardUpdaterController
+    private let delegate = UpdaterDelegate()
+
+    private init() {
+        controller = SPUStandardUpdaterController(
+            startingUpdater: true,
+            updaterDelegate: delegate,
+            userDriverDelegate: delegate
+        )
+    }
+}
+
+@MainActor
+private final class UpdaterDelegate: NSObject, SPUUpdaterDelegate, @MainActor SPUStandardUserDriverDelegate {
+    nonisolated var supportsGentleScheduledUpdateReminders: Bool {
         true
     }
 
