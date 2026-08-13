@@ -62,6 +62,20 @@ import Testing
         #expect(output?.count == 20000 * 9)
     }
 
+    @Test func runReportsSuccessWhenTheCommandExitsZero() async {
+        #expect(await Subprocess.run("/usr/bin/true", timeout: .seconds(10)))
+    }
+
+    @Test func runReportsFailureWhenTheCommandExitsNonZero() async {
+        #expect(await Subprocess.run("/usr/bin/false", timeout: .seconds(10)) == false)
+    }
+
+    /// The whole point of the helper: a command that cannot be spawned is a `false`, not a
+    /// terminated process.
+    @Test func runReportsFailureWhenTheExecutableDoesNotExist() async {
+        #expect(await Subprocess.run("/nonexistent/definitely-not-here", timeout: .seconds(10)) == false)
+    }
+
     /// The deadline must be enforced by SIGTERM, not by the SIGKILL grace that backs it up.
     ///
     /// Both paths return `nil`, so timing is the only thing that tells them apart — hence

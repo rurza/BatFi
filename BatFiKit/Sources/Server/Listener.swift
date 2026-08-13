@@ -51,6 +51,19 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
     private lazy var logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "XPCServiceHandler")
     private lazy var smcService = SMCService.shared
 
+    private static let pmset = "/usr/bin/pmset"
+    /// `pmset` answers in milliseconds; this only bounds a wedged one. It runs as root here,
+    /// so an unbounded wait would strand a root process rather than merely a slow reply.
+    private static let pmsetTimeout: Duration = .seconds(10)
+
+    private static func pmsetError(_ description: String) -> NSError {
+        NSError(
+            domain: Constant.helperBundleIdentifier,
+            code: 0,
+            userInfo: [NSLocalizedDescriptionKey: description]
+        )
+    }
+
     func setForceDischarge(_ reply: @escaping ((any Error)?) -> Void) {
         changeChargingMode(.forceDischarging, reply: reply)
     }
@@ -206,11 +219,16 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
     func turnPowerMode(_ mode: UInt8, lowPowerModeOnly: Bool, _ handler: @escaping ((any Error)?) -> Void) {
         let handler = UnsafeSendableBox(value: handler)
         Task {
-            let process = Process()
-            process.launchPath = "/usr/bin/pmset"
-            process.arguments = ["-a", (lowPowerModeOnly ? "lowpowermode" : "powermode"), mode.description]
-            process.launch()
-            process.waitUntilExit()
+            let key = lowPowerModeOnly ? "lowpowermode" : "powermode"
+            guard await Subprocess.run(
+                Self.pmset,
+                arguments: ["-a", key, mode.description],
+                timeout: Self.pmsetTimeout
+            ) else {
+                logger.error("Could not set \(key, privacy: .public) to \(mode, privacy: .public)")
+                handler.value(Self.pmsetError("Could not set \(key)"))
+                return
+            }
             handler.value(nil)
         }
     }
@@ -218,89 +236,59 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
     func currentPowerMode(_ handler: @escaping (NSNumber?, Bool) -> Void) {
         let handler = UnsafeSendableBox(value: handler)
         Task {
-            func parsePowerMode(output: String) -> UInt8? {
-                // Extract the value by trimming spaces and suffixing the last character
-                let trimmedOutput = output.trimmingCharacters(in: .whitespacesAndNewlines)
-                if let lastSpaceIndex = trimmedOutput.lastIndex(of: " ") {
-                    let valueStartIndex = trimmedOutput.index(after: lastSpaceIndex)
-                    if let uint = UInt8(trimmedOutput[valueStartIndex...]) {
-                        return uint
-                    }
-                }
-                return nil
+            func readPowerMode() async -> UInt8? {
+                guard let output = await Subprocess.standardOutput(
+                    of: Self.pmset,
+                    arguments: ["-g"],
+                    timeout: Self.pmsetTimeout
+                ) else { return nil }
+                return PmsetOutput.value(forKey: "powermode", in: output)
             }
 
-            func newPmset(output: Pipe) -> Process {
-                let pmsetProcess = Process()
-                // Configure the `pmset` process
-                pmsetProcess.launchPath = "/usr/bin/pmset"
-                pmsetProcess.arguments = ["-g"]
-                pmsetProcess.standardOutput = output
-                return pmsetProcess
+            if let mode = await readPowerMode() {
+                handler.value(NSNumber(value: mode), true)
+                return
             }
 
-            func newGrep(input: Pipe, output: Pipe, argument: String) -> Process {
-                let grepProcess = Process()
-                grepProcess.launchPath = "/usr/bin/grep"
-                grepProcess.arguments = ["-w", argument]
-                grepProcess.standardInput = input
-                grepProcess.standardOutput = output
-                return grepProcess
-            }
-
-            let inputPipe = Pipe()
-            let outputPipe = Pipe()
-            let pmsetProcess = newPmset(output: inputPipe)
-            let grepProcess = newGrep(input: inputPipe, output: outputPipe, argument: "powermode")
-            do {
-                try pmsetProcess.run()
-                try grepProcess.run()
-            } catch {
+            // The second look is carried over verbatim, including the part that looks wrong.
+            //
+            // Both attempts read the same key, so the retry can only change the answer if
+            // the first `pmset` failed transiently — yet succeeding on the retry reports
+            // `false` for the flag the app reads as "high power mode is available", which
+            // is not a claim a retry can support. The shape of the code it replaced says
+            // what was meant: the lookup was factored into a function taking the key as a
+            // parameter, and then called twice with the same one. The second was almost
+            // certainly meant to ask for `lowpowermode`, which is the key Macs without high
+            // power mode publish instead, and would make the flag mean what its name says.
+            //
+            // Left alone because it cannot be checked here: this Mac publishes `powermode`,
+            // so the branch that matters never runs on it. The user-visible outcome is also
+            // the same either way today — the app's only reader treats a thrown error and a
+            // `false` flag identically, showing "High power mode is not supported" — so
+            // guessing buys nothing and risks a wrong answer on hardware nobody tested.
+            guard let mode = await readPowerMode() else {
+                logger.error("Could not read powermode from pmset")
                 handler.value(nil, false)
+                return
             }
-            pmsetProcess.waitUntilExit()
-            grepProcess.waitUntilExit()
-
-            // Read the output from the `grep` process
-            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-            if let output = String(data: outputData, encoding: .utf8),
-               let result = parsePowerMode(output: output) {
-                handler.value(NSNumber(value: result), true)
-            } else {
-                let inputPipe = Pipe()
-                let outputPipe = Pipe()
-                let pmsetProcess = newPmset(output: inputPipe)
-                let grepProcess = newGrep(input: inputPipe, output: outputPipe, argument: "powermode")
-                do {
-                    try pmsetProcess.run()
-                    try grepProcess.run()
-                } catch {
-                    handler.value(nil, false)
-                }
-                pmsetProcess.waitUntilExit()
-                grepProcess.waitUntilExit()
-                let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-                guard let output = String(data: outputData, encoding: .utf8),
-                let result = parsePowerMode(output: output) else {
-                    handler.value(nil, false)
-                    return
-                }
-                handler.value(NSNumber(value: result), false)
-            }
+            handler.value(NSNumber(value: mode), false)
         }
     }
 
     func disableAutosleep(_ disable: Bool, _ handler: @escaping (Error?) -> Void) {
-        let process = Process()
-        process.launchPath = "/usr/bin/pmset"
-        process.arguments = ["-a", "disablesleep", disable ? "1" : "0"]
-        do {
-            try process.run()
-        } catch {
-            handler(error)
+        let handler = UnsafeSendableBox(value: handler)
+        Task {
+            guard await Subprocess.run(
+                Self.pmset,
+                arguments: ["-a", "disablesleep", disable ? "1" : "0"],
+                timeout: Self.pmsetTimeout
+            ) else {
+                logger.error("Could not set disablesleep to \(disable, privacy: .public)")
+                handler.value(Self.pmsetError("Could not set disablesleep"))
+                return
+            }
+            handler.value(nil)
         }
-        process.waitUntilExit()
-        handler(nil)
     }
 
     // MARK: - Priv

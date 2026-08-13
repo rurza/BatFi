@@ -37,6 +37,18 @@ public enum Subprocess {
         return String(data: data, encoding: .utf8)
     }
 
+    /// Runs `executable` for its effect, reporting only whether it succeeded. Same
+    /// guarantees as `standardOutput(of:arguments:timeout:)`: a child that cannot be
+    /// spawned is `false`, never a raised exception.
+    @discardableResult
+    public static func run(
+        _ executable: String,
+        arguments: [String] = [],
+        timeout: Duration
+    ) async -> Bool {
+        await standardOutput(of: executable, arguments: arguments, timeout: timeout) != nil
+    }
+
     /// How long a child gets to die politely before it is killed outright.
     private static let terminationGraceMS: Int32 = 2000
 
