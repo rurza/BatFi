@@ -86,22 +86,21 @@ final class ChartsViewModel: ObservableObject {
         }
     }
 
-    func offsetDateFor(_ point: PowerStatePoint) -> Date {
-        guard let index = powerStatePoints.index(id: point.id) else {
-            // this timestamp can be used in upper bound
-            // so let's add some small time interval to mitigate crash
-            return point.timestamp.addingTimeInterval(0.1)
-        }
+    /// The x-axis extent of `point`'s marks. Hands back a range rather than an end date
+    /// so that no caller can plot a reversed one — see `ChartMarkInterval`.
+    func markRange(for point: PowerStatePoint) -> Range<Date> {
+        ChartMarkInterval.range(start: point.timestamp, naturalEnd: naturalEnd(for: point))
+    }
 
-        if index < powerStatePoints.count - 1 {
-            let nextPointIndex = powerStatePoints.index(after: index)
-            let nextPoint = powerStatePoints[nextPointIndex]
-            if nextPoint.appChargingMode == point.appChargingMode {
-                return nextPoint.timestamp
-            }
-        } else {
-            return date.now
-        }
-        return point.timestamp.addingTimeInterval(0.1)
+    /// Where `point`'s sample stops being the current one, or `nil` if that is unknowable.
+    ///
+    /// Note the newest sample answers `date.now`, read here at render time while
+    /// `point.timestamp` was read at fetch time — so this can legitimately land *before*
+    /// the start. `ChartMarkInterval` is what absorbs that.
+    private func naturalEnd(for point: PowerStatePoint) -> Date? {
+        guard let index = powerStatePoints.index(id: point.id) else { return nil }
+        guard index < powerStatePoints.count - 1 else { return date.now }
+        let nextPoint = powerStatePoints[powerStatePoints.index(after: index)]
+        return nextPoint.appChargingMode == point.appChargingMode ? nextPoint.timestamp : nil
     }
 }
