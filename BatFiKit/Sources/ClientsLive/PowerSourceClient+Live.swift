@@ -428,39 +428,23 @@ private actor BatteryHealthState {
     /// machine NominalChargeCapacity/DesignCapacity gave 82% and AppleRawMaxCapacity/
     /// DesignCapacity gave 80% where system_profiler reported 85%. Do not substitute one.
     ///
-    /// `static` (hence nonisolated) is deliberate, not incidental: this function blocks on
-    /// subprocess I/O and must run on the cooperative thread pool, never on this actor's
-    /// executor. If `NonisolatedNonsendingByDefault` is ever enabled for this target
-    /// (BatFiKit/Package.swift:308, currently commented out), nonisolated async functions
-    /// stop hopping off their actor by default, and these blocking calls would run on
-    /// `BatteryHealthState`'s executor instead — serializing with, and blocking, every
-    /// other actor method, including the non-blocking `currentHealth()` read on the hot path.
+    /// `static` (hence nonisolated) is deliberate, not incidental: it keeps this off
+    /// `BatteryHealthState`'s executor, so a slow `system_profiler` cannot serialize with
+    /// the non-blocking `currentHealth()` read on the hot path. `Subprocess` now parks its
+    /// blocking pipe reads on a dispatch queue rather than on whichever thread called it,
+    /// so this is defence in depth rather than the only thing holding the hot path open —
+    /// including if `NonisolatedNonsendingByDefault` is ever enabled for this target
+    /// (BatFiKit/Package.swift:308, currently commented out), which stops nonisolated async
+    /// functions from hopping off their actor by default.
     private static func readMaximumCapacity() async -> Int? {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/sbin/system_profiler")
-        process.arguments = ["SPPowerDataType"]
-        let pipe = Pipe()
-        process.standardOutput = pipe
-        process.standardError = FileHandle.nullDevice
-        do { try process.run() } catch { return nil }
-
-        // Cancelling a task cannot interrupt the blocking reads below, so the only
-        // real timeout is signalling the child. SIGTERM closes the pipe's write end,
-        // which unblocks readDataToEndOfFile() and lets waitUntilExit() reap.
-        let box = ProcessBox(process)
-        let watchdog = Task {
-            try await Task.sleep(for: Self.timeout)
-            if box.process.isRunning {
-                logger.error("system_profiler did not exit before the timeout; terminating it and reporting no health reading")
-                box.process.terminate()
-            }
+        guard let output = await Subprocess.standardOutput(
+            of: "/usr/sbin/system_profiler",
+            arguments: ["SPPowerDataType"],
+            timeout: Self.timeout
+        ) else {
+            logger.error("system_profiler produced no usable reading; reporting no battery health")
+            return nil
         }
-        defer { watchdog.cancel() }
-
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        process.waitUntilExit()
-        guard process.terminationStatus == 0,
-              let output = String(data: data, encoding: .utf8) else { return nil }
         for line in output.split(separator: "\n") where line.contains("Maximum Capacity") {
             let components = line.components(separatedBy: ":")
             guard components.count == 2 else { return nil }
@@ -469,13 +453,6 @@ private actor BatteryHealthState {
         }
         return nil
     }
-}
-
-/// `Process` is not `Sendable`. The watchdog touches only `isRunning` and
-/// `terminate()` while the owning task blocks in `waitUntilExit()`.
-private final class ProcessBox: @unchecked Sendable {
-    let process: Process
-    init(_ process: Process) { self.process = process }
 }
 
 private struct BatteryHealth {
