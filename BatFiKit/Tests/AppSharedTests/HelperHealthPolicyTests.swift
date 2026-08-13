@@ -352,7 +352,7 @@ import Testing
     func notRegisteredAsksRatherThanInstalling() {
         var policy = HelperHealthPolicy()
 
-        let actions = policy.handle(.statusObserved(.notRegistered))
+        let actions = observeSustainedAbsence(&policy)
 
         #expect(actions.contains(.publish(.degraded(.notRegistered))))
         #expect(actions.contains(.showGuidance))
@@ -371,7 +371,7 @@ import Testing
     func notFoundIsReportedAsNotRegistered() {
         var policy = HelperHealthPolicy()
 
-        let actions = policy.handle(.statusObserved(.notFound))
+        let actions = observeSustainedAbsence(&policy, .notFound)
 
         #expect(actions.contains(.publish(.degraded(.notRegistered))))
         #expect(actions.contains(.showGuidance))
@@ -411,6 +411,125 @@ import Testing
         emitted += policy.handle(.pingFailed)
 
         #expect(!emitted.contains(.installHelper))
+    }
+
+    // MARK: - A missing record, corroborated
+
+    /// The complaint this rule comes from: a modal seconds after launch offering to install a
+    /// helper that was installed, running, and answering.
+    ///
+    /// `SMAppService.status` reads Background Task Management, not the daemon, and the answer
+    /// is not reliable the instant the app asks — which at launch is the first thing it does,
+    /// from `observeHelperStatus()`'s immediate first yield. Observed live: the app published
+    /// this absence while its own helper was running, and a ping to it succeeded ten seconds
+    /// later.
+    ///
+    /// Every other verdict in this policy waits for a second opinion — two ping failures
+    /// before anything mutating, two more before the unfixable verdict. This one concluded on
+    /// a single reading, and it is the one reading taken before the machine has settled.
+    @Test("A single absent reading distrusts the helper but tells the user nothing")
+    func oneAbsentStatusIsNotAVerdict() {
+        var policy = HelperHealthPolicy()
+
+        let actions = policy.handle(.statusObserved(.notRegistered))
+
+        #expect(actions == [.publish(.degraded(.notRegistered))])
+        #expect(!actions.contains(.showGuidance))
+    }
+
+    /// The launch this is all for: BTM had not answered properly yet, and by the next poll the
+    /// record it had failed to report was there all along. Nothing should have been said, and
+    /// the helper should end up believed like any other.
+    @Test("A record that appears within the window is never reported missing")
+    func absenceContradictedByTheNextReadingIsNeverAnnounced() {
+        var policy = HelperHealthPolicy()
+        var emitted: [HelperHealthPolicy.Action] = []
+
+        for _ in 1 ..< HelperHealthPolicy.absentStatusBudget {
+            emitted += policy.handle(.statusObserved(.notFound))
+        }
+        emitted += policy.handle(.statusObserved(.enabled))
+        emitted += reachAndIdentify(&policy)
+
+        #expect(!emitted.contains(.showGuidance))
+        #expect(policy.health == .healthy)
+    }
+
+    /// Corroboration delays the verdict; it does not cancel it. A record that is genuinely
+    /// gone — the copy of BatFi that registered it having been deleted — still has to reach
+    /// the alert whose button installs a new one.
+    @Test("An absence that survives the window is reported")
+    func sustainedAbsenceIsAnnounced() {
+        var policy = HelperHealthPolicy()
+
+        let actions = observeSustainedAbsence(&policy)
+
+        #expect(actions.contains(.showGuidance))
+        #expect(policy.health == .degraded(.notRegistered))
+    }
+
+    /// The stream keeps yielding the same absence every 1.5s for as long as it lasts, and none
+    /// of those readings is new information.
+    @Test("The absence is announced once, not on every poll that follows")
+    func absenceIsAnnouncedOnce() {
+        var policy = HelperHealthPolicy()
+        observeSustainedAbsence(&policy)
+
+        var later: [HelperHealthPolicy.Action] = []
+        for _ in 0 ..< 10 {
+            later += policy.handle(.statusObserved(.notRegistered))
+        }
+
+        #expect(later.isEmpty)
+    }
+
+    /// Absence has to be consecutive to count. An `.enabled` in between says the record is
+    /// there, which retires whatever was banked against its absence.
+    @Test("A reading that finds the record resets the corroboration")
+    func enabledResetsTheAbsenceCount() {
+        var policy = HelperHealthPolicy()
+        for _ in 1 ..< HelperHealthPolicy.absentStatusBudget {
+            _ = policy.handle(.statusObserved(.notRegistered))
+        }
+        _ = policy.handle(.statusObserved(.enabled))
+
+        let actions = policy.handle(.statusObserved(.notRegistered))
+
+        #expect(!actions.contains(.showGuidance))
+    }
+
+    /// A helper answering is better evidence than any number of readings about whether a record
+    /// exists, and it arrives first: the install button's `register()` returns, the ping
+    /// succeeds, and Background Task Management catches up in its own time. A reading banked
+    /// before that must not be allowed to complete a verdict against a helper that is now
+    /// doing the work — which would report "there is no helper" moments after installing one.
+    @Test("A helper that starts answering retires the absence banked against it")
+    func healthRetiresTheAbsenceCount() {
+        var policy = HelperHealthPolicy()
+        _ = policy.handle(.statusObserved(.notFound))    // one absent reading banked
+        _ = policy.handle(.pingSucceeded)
+        reachAndIdentify(&policy)                        // ... and then the helper answers
+
+        var later: [HelperHealthPolicy.Action] = []
+        for _ in 1 ..< HelperHealthPolicy.absentStatusBudget {
+            later += policy.handle(.statusObserved(.notFound))
+        }
+
+        #expect(!later.contains(.showGuidance))
+    }
+
+    /// Feeds the absent status as many times as the stream would before the policy is allowed
+    /// to conclude anything from it, and returns the actions from the reading that concludes.
+    @discardableResult
+    private func observeSustainedAbsence(
+        _ policy: inout HelperHealthPolicy,
+        _ status: HelperServiceStatus = .notRegistered
+    ) -> [HelperHealthPolicy.Action] {
+        var actions: [HelperHealthPolicy.Action] = []
+        for _ in 0 ..< HelperHealthPolicy.absentStatusBudget {
+            actions = policy.handle(.statusObserved(status))
+        }
+        return actions
     }
 
     // MARK: - Ownership

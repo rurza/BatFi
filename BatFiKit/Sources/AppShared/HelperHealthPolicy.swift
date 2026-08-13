@@ -44,6 +44,24 @@ public struct HelperHealthPolicy: Sendable {
     public static let firstProbeDelay = Duration.seconds(5)
     public static let maxProbeDelay = Duration.seconds(60)
 
+    /// Absent status readings required before the app tells the user there is no helper.
+    ///
+    /// `SMAppService.status` answers from Background Task Management rather than from the
+    /// daemon, and the answer is not trustworthy the instant it is asked for. The app asks at
+    /// its earliest possible moment — `observeHelperStatus()` yields `service.status`
+    /// synchronously, before its first poll — so a launch that outruns BTM read `.notFound`
+    /// and, until this budget existed, put a modal on screen offering to install a helper that
+    /// was already registered and running. A reading that disagrees with a working helper is
+    /// not hypothetical: one was observed publishing this absence while the helper answered a
+    /// ping ten seconds later.
+    ///
+    /// So this is a second opinion, which every other verdict here already required. Three
+    /// readings against a stream that ticks every 1.5s is about three seconds of agreement —
+    /// sized to the poll interval rather than to any measured settling time, which is not a
+    /// number this codebase knows. It must stay above one, or the first reading both
+    /// distrusts the helper and reports it, which is the behaviour it replaces.
+    public static let absentStatusBudget = 3
+
     /// Failed pings required *after* a re-registration reported success before the record is
     /// declared beyond this app's reach.
     ///
@@ -58,6 +76,10 @@ public struct HelperHealthPolicy: Sendable {
 
     public private(set) var health: HelperHealth = .unknown
 
+    /// Consecutive absent readings since the last status that reported a record. Counted
+    /// rather than acted on, so that an absence which is gone by the next poll costs the user
+    /// nothing.
+    private var consecutiveAbsentStatuses = 0
     /// Consecutive failures since the last success or re-registration. A lone failure is
     /// treated as transient — XPC calls die for reasons that have nothing to do with the
     /// helper being wedged — so nothing mutating happens until a second one confirms it.
@@ -82,9 +104,14 @@ public struct HelperHealthPolicy: Sendable {
     /// carries states published to suppress belief rather than to report to anyone.
     private var announcedHealth: HelperHealth?
     private var nextProbeDelay = HelperHealthPolicy.firstProbeDelay
-    /// The status stream repeats every 1.5s by design. Only transitions carry information —
-    /// and in the failure this type exists for, the repeated value is `.enabled`, so acting
-    /// on every repeat would ping continuously and make the probe backoff meaningless.
+    /// The status stream repeats every 1.5s by design, and for `.enabled` only transitions
+    /// carry information — in the failure this type exists for the repeated value *is*
+    /// `.enabled`, so acting on every repeat would ping continuously and make the probe
+    /// backoff meaningless.
+    ///
+    /// The absence branch is the exception, and it needs the repeats: agreement across
+    /// successive readings is the whole of its evidence, and the readings are identical by
+    /// nature. `consecutiveAbsentStatuses` is what bounds the repetition there instead.
     private var lastObservedStatus: HelperServiceStatus?
 
     public init() {}
@@ -170,11 +197,15 @@ public struct HelperHealthPolicy: Sendable {
     }
 
     private mutating func handleStatus(_ status: HelperServiceStatus) -> [Action] {
-        guard status != lastObservedStatus else { return [] }
+        // Tracked per branch rather than discarded up front, because the absence below has to
+        // count the repeats in order to require agreement across them.
+        let isRepeat = status == lastObservedStatus
         lastObservedStatus = status
 
         switch status {
         case .enabled:
+            consecutiveAbsentStatuses = 0
+            guard !isRepeat else { return [] }
             // Never conclusive on its own: a wedged record reports `.enabled` forever.
             return health.isHealthy ? [] : [.verifyWithPing]
         case .notRegistered, .notFound:
@@ -194,8 +225,24 @@ public struct HelperHealthPolicy: Sendable {
             // in Login Items — is noticed without one.
             consecutivePingFailures = 0
             hasVerifiedIdentity = false
-            return concluding(.degraded(.notRegistered), scheduleProbe: false)
+            consecutiveAbsentStatuses += 1
+            switch consecutiveAbsentStatuses {
+            case 1:
+                // Distrusted at once, reported only once corroborated. Nothing may be driven
+                // through a daemon that may not be there, but one reading of a Background
+                // Task Management state that has not necessarily loaded yet is not something
+                // to put a modal on screen about. See `absentStatusBudget`.
+                return publishing(.degraded(.notRegistered))
+            case Self.absentStatusBudget:
+                return concluding(.degraded(.notRegistered), scheduleProbe: false)
+            default:
+                // Neither corroborated nor contradicted yet, and already distrusted. The
+                // stream's next tick is what moves this along.
+                return []
+            }
         case .requiresApproval:
+            consecutiveAbsentStatuses = 0
+            guard !isRepeat else { return [] }
             // Only the user can clear this, so re-registering would just churn the record.
             return concluding(.degraded(.requiresApproval), scheduleProbe: false)
         }
@@ -275,6 +322,13 @@ public struct HelperHealthPolicy: Sendable {
         // comes back after a good spell is reported again rather than swallowed as a repeat.
         if newHealth.isHealthy {
             announcedHealth = nil
+            // And it retires the readings banked against the record, which a helper that
+            // answers has just outvoted. They are not evidence about the helper the app now
+            // has: `register()` returning and the ping succeeding both land before Background
+            // Task Management necessarily reports the new record, so leaving the count standing
+            // let a stale reading finish a verdict — telling the user there was no helper
+            // moments after they installed one and it started working.
+            consecutiveAbsentStatuses = 0
         }
         return [.publish(newHealth)]
     }

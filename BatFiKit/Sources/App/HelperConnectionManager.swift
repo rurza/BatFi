@@ -127,8 +127,18 @@ final class HelperConnectionManager: @unchecked Sendable {
 
     private func observeHelperStatus() {
         Task {
+            // Logged on change only — the stream repeats every 1.5s — and at notice level, so
+            // it survives in the persisted log. What the app read from `SMAppService` and when
+            // is the first thing any "it said my helper was missing" report needs, and it used
+            // to be the one input to this state machine that was never recorded at all.
+            var lastLogged: HelperServiceStatus?
             for await status in helperClient.observeHelperStatus() {
-                await send(.statusObserved(status.helperServiceStatus))
+                let observed = status.helperServiceStatus
+                if observed != lastLogged {
+                    lastLogged = observed
+                    logger.notice("Helper service status: \(String(describing: observed), privacy: .public)")
+                }
+                await send(.statusObserved(observed))
             }
         }
     }
@@ -319,6 +329,9 @@ final class HelperConnectionManager: @unchecked Sendable {
         guard await !state.claimGuidance() else { return }
 
         let health = await helperHealthClient.currentHealth()
+        // Notice, not debug: this is the app interrupting someone who asked for nothing, and it
+        // was the one decision here that left no trace in a log that outlives the session.
+        logger.notice("Reporting a helper failure to the user: \(String(describing: health), privacy: .public)")
         await MainActor.run {
             switch health {
             case let .degraded(.foreignHelper(conflict)):
