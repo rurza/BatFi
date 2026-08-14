@@ -115,6 +115,10 @@ enum ChargeControlDisclosureText {
         switch disclosure {
         case .chargingControlUnavailable:
             return l10n.diagnosticsChargingControlUnsupportedExplanation
+        case .batFiPausesChargingAtLimit:
+            return l10n.chargeControlBatFiPausesCharging
+        case .limitRequiresBatFiRunning:
+            return l10n.chargeControlLimitRequiresBatFiRunning
         case .usingSystemChargeLimit:
             return l10n.systemChargeLimitBanner
         case .limitRaisedToSystemMinimum(let applied):
@@ -158,7 +162,11 @@ enum ChargeControlDisclosureText {
         case .usingSystemChargeLimit, .limitRaisedToSystemMinimum, .limitRoundedUp,
              .managingSystemSettingsLimit, .limitNotAppliedWithoutSnapshot,
              .firmwareEnforcedLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred,
-             .mayChargeToFullForCalibration:
+             .mayChargeToFullForCalibration,
+             // Charge limiting is working on these Macs, so the line exists to reassure a
+             // user whose Run on Battery survived without it. There is nothing here it
+             // could reassure them about.
+             .batFiPausesChargingAtLimit, .limitRequiresBatFiRunning:
             return false
         }
     }
@@ -199,7 +207,13 @@ enum ChargeControlDisclosureText {
              .firmwareEnforcedLimit,
              .batteryMayDipBelowLimit,
              .chargingStatusIsInferred,
-             .mayChargeToFullForCalibration:
+             .mayChargeToFullForCalibration,
+             // The two rows that describe a Mac with nothing wrong with it. While BatFi
+             // runs, the limit in force is exactly the one the user chose — the bar this
+             // property sets — and a permanent orange glyph on the most common firmware in
+             // the fleet is precisely what replacing the old banner was meant to stop.
+             .batFiPausesChargingAtLimit,
+             .limitRequiresBatFiRunning:
             return false
         }
     }
@@ -214,8 +228,14 @@ enum ChargeControlDisclosureText {
         // Kept in step with `isWarning`: a triangle beside this row inside the popover
         // would reintroduce, one level down, exactly the alarm the button no longer raises.
         case .usingSystemChargeLimit, .batteryMayDipBelowLimit, .chargingStatusIsInferred,
-             .pausingChargingUnavailable, .mayChargeToFullForCalibration:
+             .pausingChargingUnavailable, .mayChargeToFullForCalibration,
+             .limitRequiresBatFiRunning:
             return "info.circle"
+        // The mechanism row, glyphed for what it does rather than with the generic
+        // information mark: this is the one row in the popover that names the action the
+        // user switched BatFi on to get.
+        case .batFiPausesChargingAtLimit:
+            return "pause.circle"
         case .firmwareEnforcedLimit:
             return "checkmark.seal"
         case .managingSystemSettingsLimit:

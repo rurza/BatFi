@@ -62,11 +62,31 @@ import Testing
         #expect(facts(backend: nil).conflictingSystemLimit == nil)
     }
 
-    /// The SMC backends apply the user's value exactly. There is nothing to explain, and
-    /// this is every Mac that works today.
-    @Test func theSMCBackendsDiscloseNothing() {
+    /// The SMC backends apply the user's value exactly, so nothing here is a limitation —
+    /// but "how does this work?" still has an answer, and it is the one thing that
+    /// distinguishes these backends from `.firmwareRange`: the pause is BatFi's own.
+    ///
+    /// Order matters and is asserted as a whole list rather than by membership. The
+    /// mechanism is read first and the dependency second, the same how-then-what-it-costs
+    /// shape `.firmwareRange` leads with.
+    @Test func theSMCBackendsExplainThatBatFiHoldsTheLimit() {
         for backend in [ChargeBackend.chte, .legacyCH0BC] {
-            #expect(facts(backend: backend).disclosures.isEmpty, "\(backend.rawValue)")
+            #expect(
+                facts(backend: backend).disclosures == [
+                    .batFiPausesChargingAtLimit,
+                    .limitRequiresBatFiRunning,
+                ],
+                "\(backend.rawValue)"
+            )
+        }
+    }
+
+    /// Nothing at all with management off — the same guard `.firmwareRange` and
+    /// `.systemChargeLimit` carry. BatFi holds no inhibit then, so both sentences would
+    /// describe a limit that is not being applied.
+    @Test func theSMCBackendsDiscloseNothingWithManagementOff() {
+        for backend in [ChargeBackend.chte, .legacyCH0BC] {
+            #expect(facts(backend: backend, manageCharging: false).disclosures.isEmpty, "\(backend.rawValue)")
         }
     }
 
@@ -78,7 +98,7 @@ import Testing
             hotBatteryProtectionEnabled: true,
             pauseChargingOnSleepEnabled: true
         )
-        #expect(value.disclosures.isEmpty)
+        #expect(!value.disclosures.contains { if case .pausingChargingUnavailable = $0 { true } else { false } })
     }
 
     // MARK: - .firmwareRange

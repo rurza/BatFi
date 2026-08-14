@@ -25021,6 +25021,95 @@
         }
       }
     },
+    "settings.label.charge_control_batfi_pauses_charging" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když baterie dosáhne limitu, BatFi nabíjení pozastaví a znovu ho povolí, jakmile úroveň klesne."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi pausiert das Laden, sobald dein Akku das Limit erreicht, und lässt ihn wieder laden, wenn der Ladestand sinkt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi pauses charging when your battery reaches the limit, then lets it charge again when the level drops."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi met la charge en pause lorsque votre batterie atteint la limite, puis la laisse reprendre quand le niveau redescend."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi mette in pausa la ricarica quando la batteria raggiunge il limite e la lascia riprendere quando il livello scende."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バッテリーが上限に達するとBatFiが充電を一時停止し、残量が下がると再び充電させます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배터리가 한도에 도달하면 BatFi가 충전을 일시 정지하고, 잔량이 내려가면 다시 충전되도록 합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi pauzeert het opladen zodra je batterij de limiet bereikt en laat hem weer opladen als het niveau daalt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy bateria osiągnie limit, BatFi wstrzymuje ładowanie i pozwala je wznowić, gdy poziom spadnie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O BatFi pausa o carregamento quando a bateria atinge o limite e o deixa recomeçar quando o nível cai."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда аккумулятор достигает лимита, BatFi приостанавливает зарядку и снова разрешает её, когда уровень падает."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pil sınıra ulaştığında BatFi şarjı duraklatır, seviye düştüğünde ise yeniden şarj olmasına izin verir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Коли акумулятор досягає ліміту, BatFi призупиняє заряджання й дозволяє його знову, коли рівень падає."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当电池达到限制值时，BatFi会暂停充电；电量下降后再让它继续充电。"
+          }
+        }
+      }
+    },
     "settings.label.charge_control_help_button_accessibility" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -25195,6 +25284,95 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "这台Mac的充电工作方式"
+          }
+        }
+      }
+    },
+    "settings.label.charge_control_limit_requires_batfi_running" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto pozastavení zajišťuje sám BatFi, takže když BatFi neběží, Mac se nabíjí normálně."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Pause kommt von BatFi selbst, sodass dein Mac ganz normal lädt, wenn BatFi nicht läuft."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The pause is BatFi’s own, so your Mac charges normally whenever BatFi isn’t running."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cette pause vient de BatFi lui-même, si bien que votre Mac se recharge normalement dès que BatFi ne tourne pas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La pausa è di BatFi, quindi quando BatFi non è in esecuzione il Mac si ricarica normalmente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この一時停止はBatFi自身によるものなので、BatFiが動いていないときMacは通常どおり充電されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 일시 정지는 BatFi가 직접 수행하므로, BatFi가 실행 중이 아닐 때는 Mac이 평소대로 충전됩니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die pauze komt van BatFi zelf, dus als BatFi niet draait, laadt je Mac gewoon normaal op."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To wstrzymanie pochodzi od samego BatFi, więc gdy BatFi nie działa, Mac ładuje się normalnie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essa pausa é do próprio BatFi, então, quando o BatFi não está em execução, o Mac carrega normalmente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту паузу обеспечивает сам BatFi, поэтому когда BatFi не запущен, Mac заряжается как обычно."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu duraklatmayı BatFi’nin kendisi yapar; BatFi çalışmıyorken Mac’iniz normal şekilde şarj olur."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цю паузу забезпечує сам BatFi, тож коли BatFi не запущено, Mac заряджається як звичайно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个暂停由BatFi自己完成，因此在BatFi未运行时，Mac会照常充电。"
           }
         }
       }

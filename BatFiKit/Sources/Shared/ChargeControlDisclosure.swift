@@ -34,6 +34,35 @@ public enum ChargeControlDisclosure: Equatable, Sendable {
     /// works perfectly.
     case chargingControlUnavailable(forceDischargeStillAvailable: Bool)
 
+    /// BatFi itself pauses charging when the battery reaches the limit, and lets it resume
+    /// when the level drops. The mechanism on every Mac whose firmware still has a charge
+    /// inhibit — which is to say the ordinary, fully working case.
+    ///
+    /// This is the one disclosure that describes a Mac with nothing wrong with it, and it
+    /// exists because "nothing is wrong" and "nothing to say" are not the same thing. The
+    /// help button renders only when this list is non-empty, so leaving these Macs with an
+    /// empty list left the pane's only explanation of how charging works unreachable on
+    /// exactly the hardware most users have — and made a missing button ambiguous between
+    /// "this Mac is fine" and "diagnostics never arrived", which look identical on screen.
+    ///
+    /// Deliberately carries no percentage. `configuredChargeLimit` is optional here, and
+    /// the slider naming the same number sits directly above the button that opens this, so
+    /// a second copy of it could only ever disagree.
+    case batFiPausesChargingAtLimit
+
+    /// The pause above is BatFi's own, so the Mac charges normally whenever BatFi is not
+    /// running. The exact inverse of `.firmwareEnforcedLimit`, and it belongs in the same
+    /// position that case holds: immediately beside the mechanism it qualifies.
+    ///
+    /// Not a warning. While BatFi runs the limit in force is precisely the one the user
+    /// chose — the bar `ChargeControlDisclosureText.isWarning` sets — and a permanent orange
+    /// glyph on every working Mac is what this whole popover replaced.
+    ///
+    /// True by construction rather than by assumption: `SMCService.restoreSystemDefaults()`
+    /// releases the inhibit on the way out, and the helper's `PROC_EXIT` handler runs the
+    /// same restore when BatFi dies without asking.
+    case limitRequiresBatFiRunning
+
     /// BatFi is driving Apple's Manual Charge Limit, which only accepts 80–100%.
     case usingSystemChargeLimit
 
@@ -317,10 +346,19 @@ public extension ChargeControlFacts {
 
         switch backend {
         case .chte, .legacyCH0BC:
-            // The mechanism honours the user's value exactly. There is nothing to
-            // disclose, and inventing something here is how the pane would start warning
-            // every working Mac about a problem it does not have.
-            return []
+            // The mechanism honours the user's value exactly, so nothing here is a
+            // limitation — and nothing here may read like one. What these Macs are owed is
+            // an answer to "how does this work?", which this pane previously gave only to
+            // the Macs with something wrong: an empty list hides the help button entirely.
+            //
+            // Nothing at all with management off, the same guard the two arms below carry.
+            // BatFi holds no inhibit then, so both sentences would describe a limit that is
+            // not being applied.
+            guard manageCharging else { return [] }
+
+            // Mechanism first, then what it depends on — the how-then-what-it-costs shape
+            // `.firmwareRange` leads with, and the reason its first row is the good news.
+            return [.batFiPausesChargingAtLimit, .limitRequiresBatFiRunning]
 
         case .firmwareRange:
             // The firmware enforces the user's own value, below 80% included, and BatFi

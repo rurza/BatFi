@@ -1189,6 +1189,29 @@ public enum L10n {
             // a tooltip needs a control to hover over. The help popover carries the
             // explanation instead.
 
+            // MARK: The ordinary, fully working Mac
+            //
+            // The only two lines here that describe a machine with nothing wrong with it,
+            // and neither may read like a limitation. This is the firmware most users
+            // have; a translation that reaches for the vocabulary of failure — "only",
+            // "cannot", "unfortunately" — would invent a fault the Mac does not have.
+
+            /// BatFi pauses charging when your battery reaches the limit, then lets it charge again when the level drops.
+            ///
+            /// States the mechanism, and deliberately names no percentage: the slider
+            /// showing that number sits directly above the button that opens this popover,
+            /// so a second copy of it could only ever disagree with the first.
+            public static let chargeControlBatFiPausesCharging = String(localized: "settings.label.charge_control_batfi_pauses_charging", defaultValue: "BatFi pauses charging when your battery reaches the limit, then lets it charge again when the level drops.", bundle: Bundle.module)
+
+            /// The pause is BatFi’s own, so your Mac charges normally whenever BatFi isn’t running.
+            ///
+            /// The exact inverse of `firmwareRangeEnforcedByFirmware`, and it has to stay
+            /// readable as a plain fact rather than a caveat — nothing the user asked for
+            /// has stopped happening. "Charges normally" is the operative phrase: the Mac
+            /// is not left in some degraded state when BatFi quits, it simply goes back to
+            /// charging the way it would if BatFi had never been installed.
+            public static let chargeControlLimitRequiresBatFiRunning = String(localized: "settings.label.charge_control_limit_requires_batfi_running", defaultValue: "The pause is BatFi’s own, so your Mac charges normally whenever BatFi isn’t running.", bundle: Bundle.module)
+
             // MARK: The firmware-managed charge range
             //
             // The lead statement first. On this firmware BatFi is not doing less — it is
