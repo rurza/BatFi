@@ -27,18 +27,23 @@ extension PowerSourceClient: DependencyKey {
         /// that would emit it.
         let chargerConnectedGate = DumpGate()
 
+        /// The same one-shot idea as `dumpGate`, for a field `DumpGate` cannot key on:
+        /// `PowerSourceField` is the set of *required* fields and temperature is not one.
+        let temperatureGate = OneShotGate()
+
+        @Sendable
+        func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
+            guard service != IO_OBJECT_NULL else { return nil }
+            if let valueRef = IORegistryEntryCreateCFProperty(service, identifier as CFString, kCFAllocatorDefault, 0) {
+                let value = valueRef.takeUnretainedValue() as? DataType
+                valueRef.release()
+                return value
+            }
+            return nil
+        }
+
         @Sendable
         func getPowerSourceInfo() async throws -> PowerState {
-            func getValue<DataType>(_ identifier: String, from service: io_service_t) -> DataType? {
-                guard service != IO_OBJECT_NULL else { return nil }
-                if let valueRef = IORegistryEntryCreateCFProperty(service, identifier as CFString, kCFAllocatorDefault, 0) {
-                    let value = valueRef.takeUnretainedValue() as? DataType
-                    valueRef.release()
-                    return value
-                }
-                return nil
-            }
-
             var readings = PowerSourceReadings()
 
             let snapshotRef = IOPSCopyPowerSourcesInfo()
@@ -83,14 +88,7 @@ extension PowerSourceClient: DependencyKey {
             defer { if service != IO_OBJECT_NULL { IOObjectRelease(service) } }
 
             readings.cycleCount = getValue(kIOPMPSCycleCountKey, from: service)
-            // `Temperature` as a second source, not as a synonym. Both keys are published on
-            // `IOPMPowerSource` today — measured on this Mac as 3084 and 3519 respectively,
-            // about 4 °C apart, with `VirtualTemperature` reading hotter — so the fallback
-            // trips the hot-battery cutout *later* than the primary and the primary stays
-            // first. It exists because the alternative is nil, and a nil temperature does
-            // not stop BatFi managing charging: it only removes the cutout, silently.
-            readings.temperatureRaw = getValue("VirtualTemperature", from: service)
-                ?? getValue("Temperature", from: service)
+            readings.temperatureRaw = batteryTemperatureRaw(from: service)
             // `AppleRawExternalConnected` as a second source, present on this Mac's
             // `IOPMPowerSource` node and carrying the same signal. Worth trying before the
             // power-source-string derivation in `PowerStateAssembler`, which is wrong
@@ -108,6 +106,84 @@ extension PowerSourceClient: DependencyKey {
             readings.batteryHealth = await batteryHealthState.currentHealth()
 
             return try PowerStateAssembler.assemble(readings)
+        }
+
+        /// The battery temperature, in hundredths of a degree Celsius, from wherever this
+        /// firmware publishes it — see `BatteryTemperatureLocator` for the two known shapes.
+        ///
+        /// The subtree walk is what macOS 27 needs: the matched node stopped publishing the
+        /// reading entirely, and it is now on the child `AppleSmartBatteryPack`. It is
+        /// reached by descending from the battery already matched, rather than by matching
+        /// `AppleSmartBatteryPack` by name — the same reason `matchingBatteryService`
+        /// matches the stable superclass instead of `AppleSmartBattery`. So a firmware that
+        /// renames the pack class, or pushes the value one level deeper again, keeps
+        /// working. The subtree is small (two children on this Mac) and the walk stops at
+        /// the first node that has the value, which on macOS 27 is the first child.
+        ///
+        /// This is the only source available to the app: SMC also carries battery
+        /// temperature, but every SMC read needs root, so it would mean an XPC round trip
+        /// to the helper and would fail whenever the helper is not healthy — a strictly
+        /// less available fallback than the thing it is backing up. IOPS, `pmset -g rawbatt`
+        /// and `AppleSmartBatteryManager` publish no temperature at all.
+        ///
+        /// A missing temperature is not an error here: it degrades to nil, which removes
+        /// the hot-battery cutout. `ChargingManager` is what says so out loud.
+        @Sendable
+        func batteryTemperatureRaw(from service: io_service_t) -> Double? {
+            guard service != IO_OBJECT_NULL else { return nil }
+            if let raw = BatteryTemperatureLocator.temperatureRaw({ getValue($0, from: service) }) {
+                return raw
+            }
+
+            var descendants: io_iterator_t = 0
+            guard IORegistryEntryCreateIterator(
+                service, kIOServicePlane, IOOptionBits(kIORegistryIterateRecursively), &descendants
+            ) == KERN_SUCCESS else { return nil }
+            defer { IOObjectRelease(descendants) }
+
+            while case let node = IOIteratorNext(descendants), node != IO_OBJECT_NULL {
+                defer { IOObjectRelease(node) }
+                if let raw = BatteryTemperatureLocator.temperatureRaw({ getValue($0, from: node) }) {
+                    return raw
+                }
+            }
+
+            logMissingBatteryTemperature(under: service)
+            return nil
+        }
+
+        /// Names the nodes that were searched, once per process, when the temperature is
+        /// nowhere in the battery subtree.
+        ///
+        /// It has moved twice now, and each time the only symptom was a row quietly missing
+        /// from the menu — `PowerSourceField` covers the *required* fields, so neither
+        /// `assemble` nor `logAvailableBatteryProperties` can ever fire for this one. Where
+        /// it went next is the question this line exists to answer from a bug report, so it
+        /// lists the candidate nodes rather than just saying the value is gone.
+        @Sendable
+        func logMissingBatteryTemperature(under service: io_service_t) {
+            guard temperatureGate.shouldFire() else { return }
+
+            func name(of node: io_service_t) -> String {
+                var buffer = [CChar](repeating: 0, count: 128)
+                guard IORegistryEntryGetName(node, &buffer) == KERN_SUCCESS else { return "?" }
+                return String(cString: buffer)
+            }
+
+            var names = [name(of: service)]
+            var descendants: io_iterator_t = 0
+            if IORegistryEntryCreateIterator(
+                service, kIOServicePlane, IOOptionBits(kIORegistryIterateRecursively), &descendants
+            ) == KERN_SUCCESS {
+                defer { IOObjectRelease(descendants) }
+                while case let node = IOIteratorNext(descendants), node != IO_OBJECT_NULL {
+                    defer { IOObjectRelease(node) }
+                    names.append(name(of: node))
+                }
+            }
+
+            let keys = BatteryTemperatureLocator.keys.joined(separator: "/")
+            logger.error("No battery temperature: neither \(keys, privacy: .public) is published, at the top level or under \(BatteryTemperatureLocator.nestedDictionaryKey, privacy: .public), by any of \(names.joined(separator: ", "), privacy: .public). Firmware \(SystemFirmware.version() ?? "unknown", privacy: .public). Hot-battery protection cannot fire.")
         }
 
         /// The `IOPMPowerSource` node that is the Mac's own battery.
@@ -364,6 +440,22 @@ extension PowerSourceClient: DependencyKey {
 /// lock-protected class rather than an actor: the call site is synchronous
 /// (inside a `catch`), and the set is tiny, so a lock is simpler than adding
 /// `await` through `fetchWithRetry`'s error path.
+/// One-shot for a diagnostic with nothing to key on. Same reason as `DumpGate`:
+/// `getPowerSourceInfo` runs on every power change with ~6-8 subscribers driving it, so an
+/// ungated line is a flood on exactly the firmware that would emit it.
+private final class OneShotGate: @unchecked Sendable {
+    private let lock = NSLock()
+    private var fired = false
+
+    /// Returns `true` the first time only, for the lifetime of the process.
+    func shouldFire() -> Bool {
+        lock.withLock {
+            defer { fired = true }
+            return !fired
+        }
+    }
+}
+
 private final class DumpGate: @unchecked Sendable {
     private let lock = NSLock()
     private var dumped: Set<PowerSourceField> = []
