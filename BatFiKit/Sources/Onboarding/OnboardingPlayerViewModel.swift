@@ -39,8 +39,20 @@ class OnboardingPlayerViewModel: ObservableObject {
     init(_ currentPage: AnyPublisher<OnboardingScreen, Never>) {
         currentPageCancellable = currentPage
             .sink { [weak self] currentPage in
-                self?.updatePlayer(currentPage.fileName)
+                self?.updatePlayer(for: currentPage)
             }
+    }
+
+    private func updatePlayer(for screen: OnboardingScreen) {
+        // Only the helper pane's clip, which is the one being re-recorded and the one the pane
+        // stands a flat fill in for. Every other pane plays exactly what it ships with — one
+        // player is shared between them, so skipping the fetch outright would leave the others
+        // showing an empty player rather than their own video.
+        guard !(OnboardingRecordingMode.isEnabled && screen == .helper) else {
+            player.replaceCurrentItem(with: nil)
+            return
+        }
+        updatePlayer(screen.fileName)
     }
 
     private func updatePlayer(_ filename: String?) {

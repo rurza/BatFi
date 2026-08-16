@@ -15,10 +15,16 @@ struct InstallHelperView: View {
     var body: some View {
         VStack(spacing: 20) {
             let l10n = L10n.Onboarding.Label.self
-            AVPlayerViewRepresented(player: model.player)
-                .edgesIgnoringSafeArea(.all)
-                .frame(maxWidth: .infinity)
-                .aspectRatio(1.33333, contentMode: .fill)
+            Group {
+                if OnboardingRecordingMode.isEnabled {
+                    OnboardingRecordingMode.fillColor
+                } else {
+                    AVPlayerViewRepresented(player: model.player)
+                }
+            }
+            .edgesIgnoringSafeArea(.all)
+            .frame(maxWidth: .infinity)
+            .aspectRatio(1.33333, contentMode: .fill)
             VStack(alignment: .leading, spacing: 10) {
                 Text(l10n.almostDone)
                     .font(.system(size: 24, weight: .bold))
