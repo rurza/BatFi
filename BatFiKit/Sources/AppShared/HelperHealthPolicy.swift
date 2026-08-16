@@ -22,6 +22,13 @@ public struct HelperHealthPolicy: Sendable {
         case identityChecked(HelperOwnership)
         /// The one-shot take-ownership cycle finished. `error` is nil on success.
         case takeoverFinished(error: String?)
+        /// The user removed the helper on purpose.
+        ///
+        /// Without this the policy only ever sees the consequence — a helper that stopped
+        /// answering — which is the same evidence a wedged record produces, and the recovery
+        /// for that is to re-register. A deliberate removal was therefore undone about a
+        /// second after it was asked for.
+        case removalRequestedByUser
     }
 
     public enum Action: Sendable, Equatable {
@@ -95,6 +102,11 @@ public struct HelperHealthPolicy: Sendable {
     /// Whether the currently reachable helper has been identified since the last event that
     /// could have replaced it. Reset by anything that re-registers or restarts the daemon.
     private var hasVerifiedIdentity = false
+    /// Set while the absence of a helper is the outcome the user asked for. Cleared by a
+    /// status that reports a record again, so the suppression covers the removal rather than
+    /// the rest of the launch — a helper installed afterwards can wedge like any other, and
+    /// the one recovery this policy is allowed has to still be there for it.
+    private var wasRemovedByUser = false
     /// The conflict the takeover was asked to resolve. Kept so that a *failed* takeover can
     /// still be reported as what it is — someone else's helper — rather than collapsing
     /// into the generic install failure, which would send the user to Login Items to fix a
@@ -164,6 +176,14 @@ public struct HelperHealthPolicy: Sendable {
             }
             guard let lastConflict else { return concluding(.degraded(.installFailed(error))) }
             return concluding(.degraded(.foreignHelper(lastConflict)))
+        case .removalRequestedByUser:
+            // Published rather than concluded. Downstream has to stop trusting the helper at
+            // once, but the guidance for an absent one offers to install it, which is the
+            // opposite of what was just asked for.
+            wasRemovedByUser = true
+            consecutivePingFailures = 0
+            hasVerifiedIdentity = false
+            return publishing(.degraded(.notRegistered))
         }
     }
 
@@ -205,6 +225,10 @@ public struct HelperHealthPolicy: Sendable {
         switch status {
         case .enabled:
             consecutiveAbsentStatuses = 0
+            // A record exists again, so whatever the user removed has been replaced — by this
+            // app's own install, or by their hand in Login Items. The suppression covered the
+            // removal, not the rest of the launch.
+            wasRemovedByUser = false
             guard !isRepeat else { return [] }
             // Never conclusive on its own: a wedged record reports `.enabled` forever.
             return health.isHealthy ? [] : [.verifyWithPing]
@@ -234,6 +258,10 @@ public struct HelperHealthPolicy: Sendable {
                 // to put a modal on screen about. See `absentStatusBudget`.
                 return publishing(.degraded(.notRegistered))
             case Self.absentStatusBudget:
+                // Corroborated, but not news. The alert this verdict carries offers to install
+                // a helper, and the reason there is none is that the user removed it moments
+                // ago — the absence is the outcome they asked for, not a fault to report.
+                guard !wasRemovedByUser else { return publishing(.degraded(.notRegistered)) }
                 return concluding(.degraded(.notRegistered), scheduleProbe: false)
             default:
                 // Neither corroborated nor contradicted yet, and already distrusted. The
@@ -254,6 +282,14 @@ public struct HelperHealthPolicy: Sendable {
         // next has to be identified again.
         hasVerifiedIdentity = false
         consecutivePingFailures += 1
+
+        // The helper not answering is the outcome that was asked for, not a fault to repair.
+        // Re-registering here is what undid the removal roughly a second after it happened —
+        // the dropped connection reports one failure and the ping it prompts reports the
+        // second, which is the whole budget the recovery needs.
+        if wasRemovedByUser {
+            return publishing(.degraded(.notRegistered))
+        }
 
         // Past the one re-registration, and it did not help. Everything from here is about
         // establishing that as a fact rather than retrying into it: the record cannot be

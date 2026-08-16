@@ -42,6 +42,11 @@ public protocol StatusItemManagerDelegate: AnyObject {
     func openOnboarding()
     func openAutomationSettings()
     func showHelperTroubleshooting()
+    /// Routed through the app rather than calling `helperClient.removeHelper()` from here, so
+    /// the helper health state machine learns the removal was asked for. Told only about the
+    /// consequence, it reads an unreachable helper as the wedged case and re-registers — which
+    /// put the daemon back about a second after it was removed.
+    func removeHelperRequestedByUser()
 
     var chargingModeManager: ChargingModeManager { get }
 }
@@ -442,18 +447,20 @@ public final class StatusItemManager {
         if dependencies.showDebugMenu {
             SeparatorItem()
             MenuItem(L10n.Menu.Label.debug)
-                // The clients are captured instead of `self`. A `[weak self]` on the items alone
-                // was not weak at all: the enclosing `submenu` closure escapes, so it had to hold
-                // `self` strongly for the items to weaken it — and the menu is reachable from
-                // `self`. These three items only ever need the two clients anyway.
-                .submenu { [helperManager, defaults] in
+                // The weak capture belongs here, on the closure that escapes, rather than on the
+                // items: `[weak self]` on those alone was not weak at all, because the enclosing
+                // `submenu` closure then had to hold `self` strongly for them to weaken it, and
+                // the menu is reachable from `self`. The clients still come in directly — only
+                // the removal needs `self`, to reach the delegate at the moment it is chosen
+                // rather than at the moment the menu was built.
+                .submenu { [weak self, helperManager, defaults] in
                     MenuItem(L10n.Menu.Label.installHelper)
                         .onSelect {
                             Task { try? await helperManager.installHelper() }
                         }
                     MenuItem(L10n.Menu.Label.removeHelper)
                         .onSelect {
-                            Task { try? await helperManager.removeHelper() }
+                            self?.delegate?.removeHelperRequestedByUser()
                         }
                     SeparatorItem()
                     MenuItem(L10n.Menu.Label.resetSettings)

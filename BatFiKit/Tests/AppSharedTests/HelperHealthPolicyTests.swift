@@ -64,6 +64,72 @@ import Testing
         #expect(actions == [.publish(.healthy)])
     }
 
+    // MARK: - Removal the user asked for
+
+    /// The reported bug. Removing the helper makes it stop answering, which is exactly what a
+    /// wedged helper looks like — so the recovery re-registered it about a second later and
+    /// the removal never took. The two ping failures arrive on their own: the dropped XPC
+    /// connection reports one, and the `verifyWithPing` it prompts reports the second.
+    @Test("A removal the user asked for is not repaired by re-registering")
+    func userRemovalDoesNotTriggerReregistration() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+
+        policy.handle(.removalRequestedByUser)
+        let first = policy.handle(.pingFailed)
+        let second = policy.handle(.pingFailed)
+
+        #expect(!first.contains(.retryRegistrationOnce))
+        #expect(!second.contains(.retryRegistrationOnce))
+    }
+
+    /// Removing it is not a fault to report. The guidance for an absent helper offers to
+    /// install one, which is the opposite of what was just asked for.
+    @Test("A removal the user asked for stops belief without announcing a failure")
+    func userRemovalPublishesWithoutGuidance() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+
+        let actions = policy.handle(.removalRequestedByUser)
+
+        #expect(actions.contains(.publish(.degraded(.notRegistered))))
+        #expect(!actions.contains(.showGuidance))
+        #expect(policy.health != .healthy)
+    }
+
+    /// The absence is now real, so the status stream corroborates it and the policy reaches
+    /// its verdict — but the alert that verdict carries offers to install a helper, which is
+    /// the thing that was just deliberately removed.
+    @Test("A removal the user asked for is not reported back to them as a missing helper")
+    func userRemovalIsNotAnnouncedAsAFault() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+        policy.handle(.removalRequestedByUser)
+
+        var actions: [HelperHealthPolicy.Action] = []
+        for _ in 0 ..< HelperHealthPolicy.absentStatusBudget {
+            actions += policy.handle(.statusObserved(.notRegistered))
+        }
+
+        #expect(!actions.contains(.showGuidance))
+    }
+
+    /// The suppression is scoped to the removal, not to the rest of the launch. Once a
+    /// registration exists again the helper can wedge like any other, and the one recovery
+    /// this policy is allowed has to still be there for it.
+    @Test("Recovery is available again once a registration exists")
+    func recoveryReturnsAfterReinstall() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+        policy.handle(.removalRequestedByUser)
+
+        policy.handle(.statusObserved(.enabled))
+        policy.handle(.pingFailed)
+        let actions = policy.handle(.pingFailed)
+
+        #expect(actions.contains(.retryRegistrationOnce))
+    }
+
     @Test("Status .enabled alone never reports healthy — it only asks for a ping")
     func enabledStatusAloneIsNotHealthy() {
         var policy = HelperHealthPolicy()
