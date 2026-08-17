@@ -1603,6 +1603,17 @@
         }
       }
     },
+    "app_charging_mode.state.title.system_discharging_to_limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discharging to the limit"
+          }
+        }
+      }
+    },
     "app_charging_mode.state.title.temp_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -25022,7 +25033,6 @@
       }
     },
     "settings.label.charge_control_batfi_pauses_charging" : {
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -25289,7 +25299,6 @@
       }
     },
     "settings.label.charge_control_limit_requires_batfi_running" : {
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

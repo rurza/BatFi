@@ -111,6 +111,8 @@ public enum L10n {
                 public static let forceDischarge = String(localized: "app_charging_mode.state.title.force_discharge", defaultValue: "Discharging", bundle: Bundle.module)
                 /// Inhibiting charging
                 public static let inhibit = String(localized: "app_charging_mode.state.title.inhibit", defaultValue: "Inhibiting charging", bundle: Bundle.module)
+                /// Discharging to the limit
+                public static let systemDischargingToLimit = String(localized: "app_charging_mode.state.title.system_discharging_to_limit", defaultValue: "Discharging to the limit", bundle: Bundle.module)
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
 

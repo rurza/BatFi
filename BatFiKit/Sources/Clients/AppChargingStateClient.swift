@@ -20,6 +20,16 @@ public struct AppChargingStateClient: Sendable {
     public var userTempOverrideDidChange: @Sendable () -> AsyncStream<UserTempChargingMode?> = { AsyncStream { _ in } }
     public var currentUserTempOverrideMode: @Sendable () async -> UserTempChargingMode?
     public var updateChargingMode: @Sendable (ChargingMode) async -> Void
+    /// Whether macOS is draining the battery down to the limit on its own right now.
+    ///
+    /// Deliberately **not** folded into `updateChargingMode`. The mode is what BatFi last
+    /// told the hardware and is only ever advanced by an applier that succeeded; this is a
+    /// fact about the machine that keeps changing while the mode sits still — `.inhibit`
+    /// covers both the drain and the hold that follows it. Setting the two together would
+    /// put this behind `ChargingManager.shouldApply`, which skips the applier entirely once
+    /// the mode is already in force, and the label would then latch on whatever was true
+    /// the last time a command actually went out.
+    public var setSystemIsDischargingToLimit: @Sendable (Bool) async -> Void
     public var setTempOverride: @Sendable (UserTempChargingMode?) async -> Void
     public var setChargerConnected: @Sendable (Bool) async -> Void
     /// Base charge limit requested by the automation engine; nil falls back to the user's

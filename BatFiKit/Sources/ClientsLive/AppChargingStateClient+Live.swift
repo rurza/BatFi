@@ -67,6 +67,9 @@ extension AppChargingStateClient: DependencyKey {
             updateChargingMode: { mode in
                 await state.updateMode(mode)
             },
+            setSystemIsDischargingToLimit: { isDischarging in
+                await state.updateSystemIsDischargingToLimit(isDischarging)
+            },
             setTempOverride: { mode in
                 await state.updateOverride(mode)
             },
@@ -124,22 +127,50 @@ private actor AppChargingState {
         }
     }
 
+    // `updateSystemIsDischargingToLimit` is the only writer of that flag. The three around
+    // it carry it across rather than letting it default back to `false`: none of them is
+    // told anything about the drain, and dropping it would relabel a Mac mid-drain as
+    // "Inhibiting charging" on the next charger-connection update — which the appliers issue
+    // on every pass, i.e. throughout the drain.
+
     func updateMode(_ newMode: ChargingMode) {
         let newAppChargingMode = AppChargingMode(
             mode: newMode,
             userTempOverride: mode.userTempOverride,
-            chargerConnected: mode.chargerConnected
+            chargerConnected: mode.chargerConnected,
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit
+        )
+        setAppChargingMode(newAppChargingMode)
+    }
+
+    func updateSystemIsDischargingToLimit(_ isDischarging: Bool) {
+        guard isDischarging != mode.systemIsDischargingToLimit else { return }
+        let newAppChargingMode = AppChargingMode(
+            mode: mode.mode,
+            userTempOverride: mode.userTempOverride,
+            chargerConnected: mode.chargerConnected,
+            systemIsDischargingToLimit: isDischarging
         )
         setAppChargingMode(newAppChargingMode)
     }
 
     func updateOverride(_ override: UserTempChargingMode?) {
-        let newAppChargingMode = AppChargingMode(mode: mode.mode, userTempOverride: override, chargerConnected: mode.chargerConnected)
+        let newAppChargingMode = AppChargingMode(
+            mode: mode.mode,
+            userTempOverride: override,
+            chargerConnected: mode.chargerConnected,
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit
+        )
         setAppChargingMode(newAppChargingMode)
     }
 
     func updateChargerConnected(_ connected: Bool) {
-        let newAppChargingMode = AppChargingMode(mode: mode.mode, userTempOverride: mode.userTempOverride, chargerConnected: connected)
+        let newAppChargingMode = AppChargingMode(
+            mode: mode.mode,
+            userTempOverride: mode.userTempOverride,
+            chargerConnected: connected,
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit
+        )
         setAppChargingMode(newAppChargingMode)
     }
 

@@ -20,6 +20,7 @@ import License
 import MenuBuilder
 import PowerCharts
 import PowerDistributionInfo
+import Shared
 import SharedUI
 import SnapKit
 import SwiftUI
@@ -151,7 +152,8 @@ public final class StatusItemManager {
                             lidOpened: await appChargingState.lidOpened() ?? false,
                             showPowerModeOptions: showPowerModeOptions,
                             powerMode: powerMode,
-                            helperHealth: helperHealth
+                            helperHealth: helperHealth,
+                            chargingCanBePausedOnDemand: self.chargingCanBePausedOnDemand
                         )
                 )
             }
@@ -287,7 +289,10 @@ public final class StatusItemManager {
                 lidClosedSoBatteryWontDischargeDisclaimer
             }
 
-            if showInhibitChargingCommand(chargingMode: dependencies.appChargingState) {
+            if StatusMenuCommands.showsInhibitCharging(
+                mode: dependencies.appChargingState,
+                chargingCanBePausedOnDemand: dependencies.chargingCanBePausedOnDemand
+            ) {
                 MenuItem(L10n.Menu.Label.inhibitCharging)
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.inhibitCharging()
@@ -425,9 +430,18 @@ public final class StatusItemManager {
         }
     }
 
-    private func showInhibitChargingCommand(chargingMode: AppChargingMode) -> Bool {
-        guard chargingMode.chargerConnected else { return false }
-        return chargingMode.mode == .charging || chargingMode.mode == .forceDischarge
+    /// Whether this Mac's charge mechanism can stop charging on demand.
+    ///
+    /// Read synchronously off the `lastKnownChargeBackend` cache, the same way
+    /// `ChargingView` and `RuleEditorView` read it: the backend is a property of the
+    /// firmware, which cannot change while this process runs. Unresolved answers `true`,
+    /// which is the same default `ChargingManager.backendCanPauseChargingOnDemand()` takes
+    /// and for the same reason — the menu rebuilds on every mode change, so the first
+    /// diagnostics call not having landed yet costs at most one stale build.
+    private var chargingCanBePausedOnDemand: Bool {
+        guard let raw = defaults.value(.lastKnownChargeBackend),
+              let backend = ChargeBackend(rawValue: raw) else { return true }
+        return backend.canPauseChargingOnDemand
     }
 
     @MenuBuilder
@@ -557,6 +571,11 @@ struct MenuDependencies {
     let showPowerModeOptions: Bool
     let powerMode: PowerMode?
     let helperHealth: HelperHealth
+    /// `ChargeBackend.canPauseChargingOnDemand` for this Mac, read from the
+    /// `lastKnownChargeBackend` cache rather than fetched: a backend is a property of the
+    /// firmware and cannot change while BatFi runs, and every pane that needs it already
+    /// reads that cache. `true` while it is unresolved — see `StatusMenuCommands`.
+    let chargingCanBePausedOnDemand: Bool
 }
 
 private enum MenuMetrics {

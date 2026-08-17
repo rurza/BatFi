@@ -613,7 +613,22 @@ public actor ChargingManager: ChargingModeManager {
                     )
                     return
                 } else {
-                    await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
+                    // `.inhibit` is the honest mode here — charge is being held — but on a
+                    // mechanism that drains to the limit itself it is being held by macOS,
+                    // which is also actively running the battery *down* to get there. The
+                    // condition is the same one the discharge arm above steps aside for, so
+                    // the two cannot both claim the battery is being discharged, and it is
+                    // keyed on the limit **in force** rather than the one requested because
+                    // that is the value the system drains to.
+                    await inhibitCharging(
+                        chargerConnected: chargerConnected,
+                        currentMode: currentMode,
+                        systemIsDischargingToLimit: SystemChargeDrain.isUnderway(
+                            batteryLevel: currentBatteryLevel,
+                            limitInForce: effectiveLimitInForce,
+                            mechanismDrainsToLimitItself: await systemDischargesToLimitItself()
+                        )
+                    )
                 }
             } else if inhibitChargingOnSleep, computerIsAsleep, await backendCanPauseChargingOnDemand() {
                 // Same gate as the `willSleep` hook, and it has to be here too: a poll can
@@ -690,6 +705,10 @@ public actor ChargingManager: ChargingModeManager {
     private func disengage(chargerConnected: Bool) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // BatFi is handing charging back and releasing the limit it applied, so there is no
+        // BatFi limit left for the system to drain to. Whatever the user's own System
+        // Settings limit then does is not something this app may narrate.
+        await appChargingState.setSystemIsDischargingToLimit(false)
         // BatFi is handing charging back, so the next limit it applies starts a new
         // episode and is worth reporting again even if it resolves — or fails — the same way.
         lastReportedChargeLimit = nil
@@ -771,6 +790,11 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // Charging, so nothing is draining. Cleared here rather than only where it is set,
+        // and above the guard for the same reason it is set above one: this pass may skip
+        // the command as already in force, and a stale "Discharging to the limit" outliving
+        // the drain is the failure the flag exists to prevent.
+        await appChargingState.setSystemIsDischargingToLimit(false)
         guard shouldApply(.charging, currentMode: currentMode) else { return }
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
@@ -788,8 +812,26 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
-    private func inhibitCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
+    /// - Parameter systemIsDischargingToLimit: whether macOS is draining the battery down to
+    ///   the limit on its own right now. Defaults to `false` because every caller but one is
+    ///   on a path where BatFi genuinely holds the inhibit: the two backend-gated sleep
+    ///   hooks and the hot-battery cutout all check `backendCanPauseChargingOnDemand()`
+    ///   first, and the override arms are labelled by the override rather than by the mode.
+    ///   Only the no-override arm of `updateStatus` can reach `.inhibit` *because* the
+    ///   system is draining, and it is the only site that answers this.
+    private func inhibitCharging(
+        chargerConnected: Bool,
+        currentMode: ChargingMode,
+        systemIsDischargingToLimit: Bool = false
+    ) async {
         await updateChargerConnected(chargerConnected)
+        // Beside `updateChargerConnected` and above the guard, deliberately. This reports
+        // what is true right now rather than what BatFi just wrote, and it goes on changing
+        // while the mode does not: a 61% battery draining to a 55% limit is `.inhibit` for
+        // the whole descent and `.inhibit` again when it settles. Below the guard it would
+        // only ever be refreshed on the passes that actually send a command, so the label
+        // would latch at whichever value was true when the mode last changed.
+        await appChargingState.setSystemIsDischargingToLimit(systemIsDischargingToLimit)
         guard shouldApply(.inhibit, currentMode: currentMode) else {
             // Already inhibiting and nothing has happened that could have undone it. The
             // pulling task is not restarted here: it was started when this mode was entered
@@ -816,6 +858,11 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnDischarging(chargerConnected: Bool, disableSleep: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // BatFi's own discharge, which `.forceDischarge` already names. The system's drain
+        // and this one are mutually exclusive by construction — `updateStatus` skips its
+        // discharge arm entirely on a mechanism that drains itself — so this can only ever
+        // be clearing a value left by an earlier pass.
+        await appChargingState.setSystemIsDischargingToLimit(false)
         // Ahead of the assertion, not after it. Taking the assertion first and then
         // returning through this guard stranded it: nothing below runs, and every release
         // site is on a path this pass no longer reaches.
@@ -905,7 +952,14 @@ public actor ChargingManager: ChargingModeManager {
                         reported: powerState.chargerConnected,
                         isDerived: powerState.chargerConnectionIsDerived,
                         appMode: mode
-                    )
+                    ),
+                    // Stated rather than inherited: this is built from the *helper's* status
+                    // read, which carries no answer about the drain, and the paths that
+                    // reach it — a wake, a display change, the first mode of the session —
+                    // are exactly the ones where an earlier answer should not be trusted.
+                    // `updateStatusWithCurrentState()` on the next line re-derives it from
+                    // the current battery level and limit.
+                    systemIsDischargingToLimit: false
                 )
             )
             await updateStatusWithCurrentState()
