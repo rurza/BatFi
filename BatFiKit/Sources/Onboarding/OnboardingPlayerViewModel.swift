@@ -17,7 +17,11 @@ private extension OnboardingScreen {
         case .helper:
             return "helper"
         case .charging:
-            return "usage"
+            // Re-recorded for 4.0. The clip it replaces showed a three-tab Settings window
+            // and a Charging pane several releases behind this one; the name is versioned
+            // rather than overwritten so an older build keeps playing the video that matches
+            // the app it is.
+            return "usage_v4"
         case .license:
             return "license_v2"
         }
