@@ -15,7 +15,11 @@ private extension OnboardingScreen {
         case .welcome:
             return nil
         case .helper:
-            return "helper"
+            // Re-recorded for 4.0. The order of the panes changed, so the clip it replaces no
+            // longer showed what is on screen around it; the name is versioned rather than
+            // overwritten so an older build keeps playing the video that matches the app it
+            // is.
+            return "helper_v4"
         case .charging:
             // Re-recorded for 4.0. The clip it replaces showed a three-tab Settings window
             // and a Charging pane several releases behind this one; the name is versioned

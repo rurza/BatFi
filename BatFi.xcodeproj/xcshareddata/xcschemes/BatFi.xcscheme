@@ -51,8 +51,8 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--record-onboarding"
-            isEnabled = "YES">
+            argument = "--onboarding-stream"
+            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
