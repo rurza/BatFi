@@ -21,6 +21,13 @@ public struct ChargingClient: Sendable {
     /// limit is expressed as an inhibit and the request is honoured exactly, so they
     /// return it unchanged.
     public var applyChargeLimit: @Sendable (_ percentage: Int) async throws -> Int
+    /// Applies a limit with the helper's record of what it already applied thrown away, and
+    /// returns the one actually put in force.
+    ///
+    /// For the case `applyChargeLimit` cannot serve: it skips the write when the limit it
+    /// recorded matches the request, which is right on the pass where nothing has changed
+    /// and wrong on the pass where the battery says the recorded limit is not holding.
+    public var reassertChargeLimit: @Sendable (_ percentage: Int) async throws -> Int
     public var chargingStatus: @Sendable () async throws -> SMCChargingStatus
     public var mclStatus: @Sendable () async throws -> MCLStatus?
     public var chargingDiagnostics: @Sendable () async throws -> ChargingDiagnostics?

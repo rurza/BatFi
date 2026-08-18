@@ -247,6 +247,29 @@ actor SMCService {
         }
     }
 
+    /// Applies a charge limit with everything this service believes it already applied
+    /// thrown away first.
+    ///
+    /// The app asks for this when the battery contradicts that belief — charging at or above
+    /// the limit, or sitting above it with the firmware naming nothing that holds it. Both
+    /// short-circuits below key on a record of a past write rather than on the state of the
+    /// machine, which is what makes a limit retired underneath BatFi invisible for the life
+    /// of the process: powerd drops the policy when Apple's charge limit changes, and the
+    /// `.firmwareRange` band is a set of SMC keys anything with root can clear.
+    ///
+    /// Costed rather than free, which is why the app waits a minute of continuous
+    /// contradiction before asking: under `.firmwareRange` this re-runs `engageSequence`,
+    /// whose first write is `bfF0 = 0x00`, so the band really is off for the width of that
+    /// sequence. Against a band that is genuinely gone that window costs nothing; against
+    /// one that is fine it is a brief unrestricted moment, and doing it per status pass
+    /// would be the write-loop this file has already been burned by once.
+    func reassertChargeLimit(_ percentage: Int) async throws -> Int {
+        logger.notice("Reasserting charge limit \(percentage, privacy: .public)%; discarding what this process recorded as applied")
+        appliedSystemLimit = nil
+        appliedFirmwareRange = nil
+        return try await applyChargeLimit(percentage)
+    }
+
     /// Applies a charge limit using whichever mechanism this firmware supports.
     ///
     /// Returns the limit actually applied, which may be higher than requested when the

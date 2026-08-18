@@ -45,3 +45,44 @@ import Testing
         #expect(NotChargingReason.decode([0x80]).isEmpty)
     }
 }
+
+/// Which of the firmware's reasons mean *something is holding charge back* — the question
+/// `ChargeHoldDrift` asks before deciding a battery sitting above its limit is a fault.
+///
+/// The distinction is the whole check. A full battery reports a reason too, and reading
+/// "the firmware gave a reason" as "the limit is working" would make the fault invisible
+/// in exactly the state a user is in when they write in: 100%, nothing charging, no limit
+/// left holding anything.
+@Suite struct NotChargingReasonHoldTests {
+    @Test func aSystemChargeLimitIsAHold() {
+        #expect(NotChargingReason.systemChargeLimit.holdsChargeBack)
+    }
+
+    @Test func batFisOwnInhibitsAreHolds() {
+        #expect(NotChargingReason.inhibitedCH0C.holdsChargeBack)
+        #expect(NotChargingReason.inhibitedCH0BOrCH0K.holdsChargeBack)
+    }
+
+    /// Force discharge stops charging too, and BatFi is the one doing it. Counting it as a
+    /// hold is what keeps "Run on Battery" above the limit from being reported as a fault.
+    @Test func aDisabledAdapterIsAHold() {
+        #expect(NotChargingReason.adapterDisabledCH0I.holdsChargeBack)
+        #expect(NotChargingReason.adapterDisabledCH0J.holdsChargeBack)
+    }
+
+    /// The one that matters most. A battery at 100% with no limit in force reports exactly
+    /// this and nothing else.
+    @Test func aFullBatteryIsNotAHold() {
+        #expect(NotChargingReason.batteryFull.holdsChargeBack == false)
+    }
+
+    @Test func anAbsentChargerIsNotAHold() {
+        #expect(NotChargingReason.noCharger.holdsChargeBack == false)
+    }
+
+    /// Transient, and not a limit. Letting it read as a hold would mask a real fault for as
+    /// long as battery management stayed busy; the drift clock is what absorbs the blips.
+    @Test func busyBatteryManagementIsNotAHold() {
+        #expect(NotChargingReason.batteryManagementBusy.holdsChargeBack == false)
+    }
+}

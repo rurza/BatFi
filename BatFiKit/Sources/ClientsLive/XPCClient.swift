@@ -160,6 +160,23 @@ actor XPCClient {
         }
     }
 
+    /// Applies the limit with the helper's memory of what it already applied discarded.
+    /// Used when the battery contradicts that memory — see `ChargeHoldDrift`.
+    func reassertChargeLimit(_ percentage: Int) async throws -> Int {
+        logger.notice("Reasserting charge limit: \(percentage, privacy: .public)%")
+        return try await call { service, continuation in
+            service.reassertChargeLimit(UInt8(clamping: percentage)) { applied, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else if applied <= 100 {
+                    continuation.resume(returning: Int(applied))
+                } else {
+                    continuation.resume(throwing: XPCClientError.invalidChargeLimitReply(applied))
+                }
+            }
+        }
+    }
+
     func getMCLStatus() async throws -> MCLStatus? {
         try await call { service, continuation in
             service.getMCLStatus { status, error in

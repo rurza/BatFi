@@ -32,6 +32,30 @@ public enum NotChargingReason: String, Sendable, CaseIterable {
         }
     }
 
+    /// Whether this reason is something deliberately **holding charge back** — a limit, an
+    /// inhibit, a disabled adapter — as opposed to a reason there is nothing left to charge.
+    ///
+    /// Read by `ChargeHoldDrift` to tell a battery that is being held above its limit from
+    /// one that is merely sitting there with nothing holding it. "The firmware gave some
+    /// reason" cannot stand in for it: a full battery always gives one, and that is the
+    /// state a Mac whose limit has quietly gone ends up in.
+    public var holdsChargeBack: Bool {
+        switch self {
+        case .systemChargeLimit, .inhibitedCH0C, .inhibitedCH0BOrCH0K:
+            return true
+        // BatFi's own force discharge, which stops charging by taking the adapter out of
+        // the circuit. A hold for this purpose: "Run on Battery" above the limit must not
+        // be reported as a mechanism that stopped working.
+        case .adapterDisabledCH0I, .adapterDisabledCH0J:
+            return true
+        // Not holds. A full battery and an absent charger are reasons there is nothing to
+        // charge, and battery management being busy is a transient the drift clock absorbs
+        // — counting any of them would mask the fault rather than describe it.
+        case .batteryFull, .noCharger, .batteryManagementBusy:
+            return false
+        }
+    }
+
     public static func decode(_ bytes: [UInt8]) -> [NotChargingReason] {
         guard bytes.count >= 8 else { return [] }
         var value: UInt64 = 0
