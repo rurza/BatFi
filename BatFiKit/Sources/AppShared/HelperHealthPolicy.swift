@@ -81,12 +81,39 @@ public struct HelperHealthPolicy: Sendable {
     /// that to someone whose helper was about to start on its own is its own bug.
     public static let postRegistrationProbeBudget = 2
 
+    /// Pending-approval readings required before the app interrupts the user about one.
+    ///
+    /// Registering a privileged daemon is what makes macOS post its own consent prompt —
+    /// "BatFi.app can run in the background for all users. Do you want to allow this?" — and
+    /// `SMAppService.status` reports `.requiresApproval` from the moment the registration
+    /// lands, measured 0.6s after `register()`. The prompt is still on screen at that point,
+    /// unanswered, offering in one click exactly what this policy's guidance sends the user
+    /// to System Settings to do by hand. Announcing there talks over the system and
+    /// recommends the longer route.
+    ///
+    /// Ten readings against a stream that ticks every 1.5s is about fifteen seconds: long
+    /// enough for a person to read a notification and click Allow, short enough that a prompt
+    /// they dismissed or never saw is still explained while they are looking at the app. Sized
+    /// to the poll interval, like `absentStatusBudget`, rather than to any measured settling
+    /// time — and it must stay above one, or the reading that arrives while macOS is asking is
+    /// the reading that interrupts.
+    ///
+    /// The verdict itself is *published* on the first reading regardless. The status item's
+    /// warning row should be honest immediately, and nothing may be driven through a helper
+    /// that is not running; only the interruption waits.
+    public static let pendingApprovalBudget = 10
+
     public private(set) var health: HelperHealth = .unknown
 
     /// Consecutive absent readings since the last status that reported a record. Counted
     /// rather than acted on, so that an absence which is gone by the next poll costs the user
     /// nothing.
     private var consecutiveAbsentStatuses = 0
+    /// Consecutive `.requiresApproval` readings since the last status that was not one.
+    /// Counted for the same reason as the absences above, against a different clock: this one
+    /// is not waiting for Background Task Management to settle, it is waiting for a person to
+    /// answer the prompt macOS has just put in front of them.
+    private var consecutivePendingApprovals = 0
     /// Consecutive failures since the last success or re-registration. A lone failure is
     /// treated as transient — XPC calls die for reasons that have nothing to do with the
     /// helper being wedged — so nothing mutating happens until a second one confirms it.
@@ -225,6 +252,7 @@ public struct HelperHealthPolicy: Sendable {
         switch status {
         case .enabled:
             consecutiveAbsentStatuses = 0
+            consecutivePendingApprovals = 0
             // A record exists again, so whatever the user removed has been replaced — by this
             // app's own install, or by their hand in Login Items. The suppression covered the
             // removal, not the rest of the launch.
@@ -249,6 +277,7 @@ public struct HelperHealthPolicy: Sendable {
             // in Login Items — is noticed without one.
             consecutivePingFailures = 0
             hasVerifiedIdentity = false
+            consecutivePendingApprovals = 0
             consecutiveAbsentStatuses += 1
             switch consecutiveAbsentStatuses {
             case 1:
@@ -270,9 +299,26 @@ public struct HelperHealthPolicy: Sendable {
             }
         case .requiresApproval:
             consecutiveAbsentStatuses = 0
-            guard !isRepeat else { return [] }
-            // Only the user can clear this, so re-registering would just churn the record.
-            return concluding(.degraded(.requiresApproval), scheduleProbe: false)
+            // Counted rather than gated on `isRepeat`, for the same reason the absence above
+            // is: agreement across readings is the whole mechanism, and the repeats are what
+            // it is counting.
+            consecutivePendingApprovals += 1
+            switch consecutivePendingApprovals {
+            case 1:
+                // Published, not announced. macOS is asking the user this exact second, and
+                // it offers the approval in one click; an alert here recommends the same
+                // thing the long way round and covers whatever the user was looking at.
+                return publishing(.degraded(.requiresApproval))
+            case Self.pendingApprovalBudget:
+                // The prompt has gone unanswered — dismissed, missed, or never posted because
+                // macOS had already asked once. System Settings is the only route left, and
+                // the app is the only thing that will mention it. No probe and no
+                // re-registration: only the user can clear this, so re-registering would just
+                // churn the record.
+                return concluding(.degraded(.requiresApproval), scheduleProbe: false)
+            default:
+                return []
+            }
         }
     }
 
@@ -365,6 +411,7 @@ public struct HelperHealthPolicy: Sendable {
             // let a stale reading finish a verdict — telling the user there was no helper
             // moments after they installed one and it started working.
             consecutiveAbsentStatuses = 0
+            consecutivePendingApprovals = 0
         }
         return [.publish(newHealth)]
     }

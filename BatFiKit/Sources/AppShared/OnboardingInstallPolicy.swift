@@ -42,6 +42,22 @@ public enum OnboardingInstallPolicy: Sendable {
     /// 1.5s, so this is about thirty seconds.
     public static let failureGraceTicks = 20
 
+    /// Status ticks a pending approval must survive before the pane says anything. About
+    /// fifteen seconds against the same 1.5s stream.
+    ///
+    /// Registering posts macOS's own consent prompt — "BatFi.app can run in the background
+    /// for all users. Do you want to allow this?" — and `SMAppService.status` reports
+    /// `.requiresApproval` from the moment the registration lands, which is *before* anyone
+    /// has had a chance to answer it. Measured at 0.6s after `register()`. Announcing there
+    /// puts a modal over the pane to recommend the long way round — open System Settings,
+    /// find BatFi in a list, turn it on — while the one-click Allow is still on screen.
+    ///
+    /// Long enough for a person to read a notification and click a button; short enough that
+    /// someone who dismissed it is not left watching a spinner. The System Settings route is
+    /// still the only one that works for a prompt that has been missed, so nothing is lost by
+    /// saying it late, and it stays said for every later tick.
+    public static let approvalGraceTicks = 10
+
     /// One arm per reading, exhaustively — a missing arm is the whole bug this replaces.
     ///
     /// - Parameter registrationError: what `register()` threw, if it threw. Not a verdict on
@@ -64,6 +80,9 @@ public enum OnboardingInstallPolicy: Sendable {
         // left, and only once it has outlived the grace — a lone EPERM here is the ordinary
         // transient refusal, and a transient one is gone before the grace is up.
         case .requiresApproval:
+            // The prompt macOS raised on registration is still up and unanswered. It offers
+            // exactly what this pane would ask for, in one click.
+            guard tick >= approvalGraceTicks else { return .waiting }
             guard registrationError != nil, tick >= failureGraceTicks else { return .needsApproval }
             return .needsManualReset
         // A record exists. Whether a helper answers is a different question, and the ping and

@@ -23,13 +23,56 @@ import Testing
 @testable import AppShared
 
 @Suite struct OnboardingInstallPolicyTests {
-    /// The bug, at its smallest. macOS has already spoken; there is nothing to wait for.
-    @Test func requiresApprovalIsReportedAtOnce() {
+    /// MEASURED 2026-08-18, and the reason this grace exists:
+    ///
+    ///     22:17:29.745  Installing daemon...
+    ///     22:17:29.790  register() → SMAppServiceErrorDomain Code=1 "Operation not permitted"
+    ///     22:17:30.414  status requiresApproval
+    ///     22:17:30.4    the pane's approval alert, on screen
+    ///
+    /// And on screen beside it, macOS's own prompt: "BatFi.app can run in the background for
+    /// all users. Do you want to allow this?" — one click, already offered. The pane talked
+    /// over it to say the same thing the long way round: open System Settings, find BatFi in
+    /// a list, turn it on. It also covered the pane it was explaining.
+    ///
+    /// `.requiresApproval` in the first seconds after a registration is not a user who needs
+    /// directions, it is a consent prompt that has not been answered yet. Nothing BatFi can
+    /// add is worth interrupting it.
+    @Test func theSystemsOwnConsentPromptIsGivenTimeToBeAnswered() {
+        for tick in [0, 1, OnboardingInstallPolicy.approvalGraceTicks - 1] {
+            #expect(
+                OnboardingInstallPolicy.progress(
+                    status: .requiresApproval,
+                    registrationError: nil,
+                    tick: tick
+                ) == .waiting,
+                "tick \(tick): macOS is still asking; the pane has nothing to add"
+            )
+        }
+    }
+
+    /// The registration in that session was *refused* — EPERM — and the record still landed
+    /// in `.requiresApproval` 0.6s later. Neither reading is worth an alert while the prompt
+    /// is up, so the error does not shorten the grace.
+    @Test func aRefusalAlongsideThePromptDoesNotShortenTheGrace() {
+        #expect(
+            OnboardingInstallPolicy.progress(
+                status: .requiresApproval,
+                registrationError: "Operation not permitted",
+                tick: 0
+            ) == .waiting
+        )
+    }
+
+    /// Once the prompt has gone unanswered — dismissed, missed, or never posted because macOS
+    /// had already asked once — the System Settings route is the only one left, and the pane
+    /// is the only thing that will mention it.
+    @Test func approvalIsAskedForOnceThePromptHasGoneUnanswered() {
         #expect(
             OnboardingInstallPolicy.progress(
                 status: .requiresApproval,
                 registrationError: nil,
-                tick: 0
+                tick: OnboardingInstallPolicy.approvalGraceTicks
             ) == .needsApproval
         )
     }
@@ -39,7 +82,7 @@ import Testing
     /// dismisses the alert, the equality never matches again, and the pane goes quiet for the
     /// rest of the session.
     @Test func requiresApprovalKeepsBeingReportedOnEveryLaterTick() {
-        for tick in [1, 19, 20, 21, 500] {
+        for tick in [OnboardingInstallPolicy.approvalGraceTicks, 19, 20, 21, 500] {
             #expect(
                 OnboardingInstallPolicy.progress(
                     status: .requiresApproval,
@@ -103,7 +146,7 @@ import Testing
     /// they take to give it. Nothing here should ever escalate to telling them to reset a
     /// record that is working exactly as intended.
     @Test func anAcceptedRegistrationNeverEscalatesToAManualReset() {
-        for tick in [0, 20, 500, 5000] {
+        for tick in [OnboardingInstallPolicy.approvalGraceTicks, 20, 500, 5000] {
             #expect(
                 OnboardingInstallPolicy.progress(
                     status: .requiresApproval,
