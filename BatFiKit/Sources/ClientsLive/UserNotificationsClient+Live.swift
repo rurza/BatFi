@@ -38,8 +38,21 @@ extension UserNotificationsClient: DependencyKey {
                 }
 
                 content.interruptionLevel = .active // to show the notification
+                // Unique per notification, with the caller's identifier kept as the prefix so
+                // the logs stay readable.
+                //
+                // A reused identifier makes the new notification *replace* the delivered one
+                // rather than arrive as a new one, and a replacement updates the entry in
+                // Notification Center instead of presenting a banner. These report in-app
+                // events — a charging mode change, a power mode change, a battery warning —
+                // where each occurrence is its own event and has to be able to announce
+                // itself. `threadIdentifier` is what groups them, and it is passed separately.
+                //
+                // Nothing reads these back: the one identifier the app matches on afterwards
+                // belongs to the update notification, which `Updater+Live` posts to the centre
+                // directly rather than through here.
                 let request = UNNotificationRequest(
-                    identifier: identifier,
+                    identifier: "\(identifier).\(UUID().uuidString)",
                     content: content,
                     trigger: trigger
                 )

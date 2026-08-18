@@ -20,6 +20,7 @@ import License
 import MenuBuilder
 import PowerCharts
 import PowerDistributionInfo
+import Shared
 import SharedUI
 import SnapKit
 import SwiftUI
@@ -42,6 +43,11 @@ public protocol StatusItemManagerDelegate: AnyObject {
     func openOnboarding()
     func openAutomationSettings()
     func showHelperTroubleshooting()
+    /// Routed through the app rather than calling `helperClient.removeHelper()` from here, so
+    /// the helper health state machine learns the removal was asked for. Told only about the
+    /// consequence, it reads an unreachable helper as the wedged case and re-registers — which
+    /// put the daemon back about a second after it was removed.
+    func removeHelperRequestedByUser()
 
     var chargingModeManager: ChargingModeManager { get }
 }
@@ -146,7 +152,8 @@ public final class StatusItemManager {
                             lidOpened: await appChargingState.lidOpened() ?? false,
                             showPowerModeOptions: showPowerModeOptions,
                             powerMode: powerMode,
-                            helperHealth: helperHealth
+                            helperHealth: helperHealth,
+                            chargingCanBePausedOnDemand: self.chargingCanBePausedOnDemand
                         )
                 )
             }
@@ -282,7 +289,10 @@ public final class StatusItemManager {
                 lidClosedSoBatteryWontDischargeDisclaimer
             }
 
-            if showInhibitChargingCommand(chargingMode: dependencies.appChargingState) {
+            if StatusMenuCommands.showsInhibitCharging(
+                mode: dependencies.appChargingState,
+                chargingCanBePausedOnDemand: dependencies.chargingCanBePausedOnDemand
+            ) {
                 MenuItem(L10n.Menu.Label.inhibitCharging)
                     .onSelect { [weak self] in
                         self?.delegate?.chargingModeManager.inhibitCharging()
@@ -420,9 +430,18 @@ public final class StatusItemManager {
         }
     }
 
-    private func showInhibitChargingCommand(chargingMode: AppChargingMode) -> Bool {
-        guard chargingMode.chargerConnected else { return false }
-        return chargingMode.mode == .charging || chargingMode.mode == .forceDischarge
+    /// Whether this Mac's charge mechanism can stop charging on demand.
+    ///
+    /// Read synchronously off the `lastKnownChargeBackend` cache, the same way
+    /// `ChargingView` and `RuleEditorView` read it: the backend is a property of the
+    /// firmware, which cannot change while this process runs. Unresolved answers `true`,
+    /// which is the same default `ChargingManager.backendCanPauseChargingOnDemand()` takes
+    /// and for the same reason — the menu rebuilds on every mode change, so the first
+    /// diagnostics call not having landed yet costs at most one stale build.
+    private var chargingCanBePausedOnDemand: Bool {
+        guard let raw = defaults.value(.lastKnownChargeBackend),
+              let backend = ChargeBackend(rawValue: raw) else { return true }
+        return backend.canPauseChargingOnDemand
     }
 
     @MenuBuilder
@@ -442,18 +461,20 @@ public final class StatusItemManager {
         if dependencies.showDebugMenu {
             SeparatorItem()
             MenuItem(L10n.Menu.Label.debug)
-                // The clients are captured instead of `self`. A `[weak self]` on the items alone
-                // was not weak at all: the enclosing `submenu` closure escapes, so it had to hold
-                // `self` strongly for the items to weaken it — and the menu is reachable from
-                // `self`. These three items only ever need the two clients anyway.
-                .submenu { [helperManager, defaults] in
+                // The weak capture belongs here, on the closure that escapes, rather than on the
+                // items: `[weak self]` on those alone was not weak at all, because the enclosing
+                // `submenu` closure then had to hold `self` strongly for them to weaken it, and
+                // the menu is reachable from `self`. The clients still come in directly — only
+                // the removal needs `self`, to reach the delegate at the moment it is chosen
+                // rather than at the moment the menu was built.
+                .submenu { [weak self, helperManager, defaults] in
                     MenuItem(L10n.Menu.Label.installHelper)
                         .onSelect {
                             Task { try? await helperManager.installHelper() }
                         }
                     MenuItem(L10n.Menu.Label.removeHelper)
                         .onSelect {
-                            Task { try? await helperManager.removeHelper() }
+                            self?.delegate?.removeHelperRequestedByUser()
                         }
                     SeparatorItem()
                     MenuItem(L10n.Menu.Label.resetSettings)
@@ -550,6 +571,11 @@ struct MenuDependencies {
     let showPowerModeOptions: Bool
     let powerMode: PowerMode?
     let helperHealth: HelperHealth
+    /// `ChargeBackend.canPauseChargingOnDemand` for this Mac, read from the
+    /// `lastKnownChargeBackend` cache rather than fetched: a backend is a property of the
+    /// firmware and cannot change while BatFi runs, and every pane that needs it already
+    /// reads that cache. `true` while it is unresolved — see `StatusMenuCommands`.
+    let chargingCanBePausedOnDemand: Bool
 }
 
 private enum MenuMetrics {

@@ -172,6 +172,34 @@ public enum ChargeBackend: String, Sendable, CaseIterable {
         }
     }
 
+    /// Whether the firmware names this backend's hold in `CHNC`, so that the **absence** of
+    /// an attribution is evidence that nothing is holding charge.
+    ///
+    /// Read by `ChargeHoldDrift` for the steady-state half of its question — a battery above
+    /// its limit with nothing charging, which is ordinary under a working limit and is also
+    /// what a Mac looks like once its limit has silently gone. Only the firmware separates
+    /// the two, and only where it answers at all.
+    ///
+    /// **Not `canMirrorChargingStateOnMagSafeLED`, which is one case away and answers a
+    /// different question.** That property is true for `.unsupported`, where BatFi holds
+    /// nothing and a green light that never fires is honest. Here `.unsupported` must be
+    /// false for the same underlying fact and the opposite conclusion: nothing holds charge,
+    /// so nothing attributes a hold, and reading that silence as "nothing is holding" would
+    /// report every Mac with no usable mechanism as a mechanism that had failed. Sharing the
+    /// switch would make the next edit to either question wrong for the other.
+    public var attributesChargeHolds: Bool {
+        switch self {
+        // Bit 24 — measured on 26A5416b as `NotChargingReason` 16777216 while macOS drained
+        // a 74% battery toward a 60% limit.
+        case .systemChargeLimit: return true
+        // Bits 14 and 15, BatFi's own inhibit.
+        case .chte, .legacyCH0BC: return true
+        // No bit exists for the band. The same absence that disables the green light here.
+        case .firmwareRange: return false
+        case .unsupported: return false
+        }
+    }
+
     /// Whether macOS itself drains the battery down to the limit when it is already above it.
     ///
     /// True under `.systemChargeLimit`, where the `ChargeCtrlPolicy` PowerUIAgent registers

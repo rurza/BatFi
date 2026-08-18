@@ -1603,6 +1603,17 @@
         }
       }
     },
+    "app_charging_mode.state.title.system_discharging_to_limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discharging to the limit"
+          }
+        }
+      }
+    },
     "app_charging_mode.state.title.temp_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -17356,6 +17367,17 @@
         }
       }
     },
+    "notifications.notification.body.charge_limit_not_holding" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi re-applied your %@ limit, but the battery went past it anyway. macOS sometimes charges past a limit on purpose to calibrate the battery. If this keeps happening, the app's log has the details."
+          }
+        }
+      }
+    },
     "notifications.notification.body.low_battery" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -17886,6 +17908,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "⚠️ BatFi无法读取电池信息"
+          }
+        }
+      }
+    },
+    "notifications.notification.title.charge_limit_not_holding" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "⚠️ Your charge limit isn't holding"
           }
         }
       }
@@ -25022,7 +25055,6 @@
       }
     },
     "settings.label.charge_control_batfi_pauses_charging" : {
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -25289,7 +25321,6 @@
       }
     },
     "settings.label.charge_control_limit_requires_batfi_running" : {
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

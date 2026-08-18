@@ -159,6 +159,10 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         }
     }
 
+    public func removeHelperRequestedByUser() {
+        helperConnectionManager.removeHelperRequestedByUser()
+    }
+
     /// The single place that decides which helper alert a given health means.
     @MainActor
     private func presentHelperGuidance(for health: HelperHealth) {

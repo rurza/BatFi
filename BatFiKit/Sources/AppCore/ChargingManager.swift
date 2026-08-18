@@ -12,6 +12,7 @@ import DefaultsKeys
 import Dependencies
 import Foundation
 import IOKit.pwr_mgt
+import L10n
 import License
 import os
 import Settings
@@ -30,6 +31,21 @@ public actor ChargingManager: ChargingModeManager {
     @Dependency(\.defaults) private var defaults
     @Dependency(\.analyticsClient) private var analytics
     @Dependency(\.date) private var date
+    @Dependency(\.userNotificationsClient) private var userNotificationsClient
+
+    /// The run of readings that contradict the hold BatFi's configuration implies.
+    ///
+    /// Everything else here re-issues commands on a schedule and believes what it wrote.
+    /// This is the one thing that asks the battery, so that a limit retired underneath BatFi
+    /// — by macOS, by another app taking the mechanism over, by firmware doing something
+    /// nobody has characterised — is noticed rather than reported as applied forever.
+    private var driftMonitor = ChargeHoldDriftMonitor()
+    /// The firmware's last answer to "is anything holding charge right now", and when it was
+    /// asked. Throttled because asking is an XPC round trip into
+    /// `SMCService.chargingDiagnostics()`, which opens the SMC, reads `CHNC`, queries PowerUI
+    /// and probes three more keys — on the same actor that serves `applyChargeLimit`.
+    private var lastHoldAttribution: Bool?
+    private var lastHoldAttributionAt: Date?
 
     private var computerIsAsleep = false
     private lazy var logger = Logger(category: "Charging Manager")
@@ -140,11 +156,149 @@ public actor ChargingManager: ChargingModeManager {
     /// Mac that needs BatFi to do it, because the first diagnostics call had not landed, would
     /// leave the battery sitting above the user's limit with nothing coming to fix it.
     private func systemDischargesToLimitItself() async -> Bool {
-        if let cachedChargeBackend { return cachedChargeBackend.dischargesToLimitItself }
+        await chargeBackend()?.dischargesToLimitItself ?? false
+    }
+
+    /// The resolved backend, memoized for the life of the process — a backend is a property
+    /// of the firmware, and firmware is reflashed only by a macOS install, which restarts
+    /// this process.
+    private func chargeBackend() async -> ChargeBackend? {
+        if let cachedChargeBackend { return cachedChargeBackend }
         guard let diagnostics = try? await chargingClient.chargingDiagnostics(),
-              let backend = ChargeBackend(rawValue: diagnostics.backend) else { return false }
+              let backend = ChargeBackend(rawValue: diagnostics.backend) else { return nil }
         cachedChargeBackend = backend
-        return backend.dischargesToLimitItself
+        // Said once per process, at `notice`, because every report that arrives without it
+        // starts with a round of questions: which mechanism this Mac has, what firmware it
+        // is on, and whether the limit in force is the one that was asked for. All of it is
+        // already in hand here.
+        logger.notice(
+            "Charge mechanism: \(backend.rawValue, privacy: .public), firmware \(diagnostics.firmwareVersion ?? "unknown", privacy: .public), requested limit \(diagnostics.requestedChargeLimit.map(String.init) ?? "n/a", privacy: .public), applied \(diagnostics.appliedChargeLimit.map(String.init) ?? "n/a", privacy: .public), force discharge \(diagnostics.forceDischargeAvailable.map(String.init) ?? "unknown", privacy: .public), not charging because: \(diagnostics.notChargingReasons.joined(separator: ", "), privacy: .public)"
+        )
+        return backend
+    }
+
+    /// Compares the battery against the hold BatFi's configuration implies, and puts the
+    /// limit back when the two disagree.
+    ///
+    /// The check every other path here is missing. The appliers re-issue what they last
+    /// wrote and the helper skips a write whose value it has already recorded, so a limit
+    /// that stops being enforced stays invisible: powerd retires its policy whenever Apple's
+    /// charge limit changes underneath, the `.firmwareRange` band is SMC keys anything with
+    /// root can clear, and another charge-limiting app takes the same mechanisms over by
+    /// design. None of those announce themselves, and all of them leave BatFi reporting a
+    /// limit it once applied.
+    private func checkForChargeHoldDrift(
+        powerState: PowerState,
+        chargerConnected: Bool,
+        requestedLimit: Int,
+        limitInForce: Int,
+        currentMode: ChargingMode
+    ) async {
+        // BatFi's own discharge has the fault's exact shape — charger in, battery above the
+        // limit, going down — and is deliberate. The firmware would attribute it
+        // (`adapterDisabledCH0I`), but not asking is cheaper and does not depend on that key
+        // being readable on this machine.
+        guard currentMode != .forceDischarge else {
+            driftMonitor = ChargeHoldDriftMonitor()
+            return
+        }
+
+        let now = date.now
+        let holdIsAttributed = await holdAttribution(
+            chargerConnected: chargerConnected,
+            isCharging: powerState.isCharging,
+            batteryLevel: powerState.batteryLevel,
+            limitInForce: limitInForce,
+            now: now
+        )
+        let isDrifting = ChargeHoldDrift.isDrifting(
+            chargerConnected: chargerConnected,
+            isCharging: powerState.isCharging,
+            batteryLevel: powerState.batteryLevel,
+            limitInForce: limitInForce,
+            holdIsAttributed: holdIsAttributed
+        )
+
+        let response = driftMonitor.record(isDrifting: isDrifting, at: now)
+        guard response != .none else {
+            if isDrifting {
+                // The first minute of a run. Logged so that a fault which corrects itself
+                // still leaves a trace — those are the ones that are otherwise impossible
+                // to tell from a user misremembering.
+                logger.debug("Battery contradicts the hold at \(powerState.batteryLevel, privacy: .public)% against \(limitInForce, privacy: .public)%; watching before acting")
+            }
+            return
+        }
+
+        let attribution = holdIsAttributed.map(String.init) ?? "not asked"
+        logger.error("Charge limit is not holding: battery \(powerState.batteryLevel, privacy: .public)%, limit in force \(limitInForce, privacy: .public)%, charging \(powerState.isCharging, privacy: .public), firmware attributes a hold: \(attribution, privacy: .public). Reasserting \(requestedLimit, privacy: .public)%")
+        await analytics.addBreadcrumb(
+            category: .chargingManager,
+            message: "Charge limit not holding at \(powerState.batteryLevel)% against \(limitInForce)%; reasserting"
+        )
+        // Whatever took the limit may have taken the SMC mode with it, so the next applier
+        // re-issues its command too rather than trusting what it last wrote.
+        hardwareStateMayBeStale = true
+        do {
+            let applied = try await chargingClient.reassertChargeLimit(requestedLimit)
+            logger.notice("Charge limit reasserted; \(applied, privacy: .public)% now in force")
+        } catch {
+            logger.error("Reasserting charge limit \(requestedLimit, privacy: .public)% failed: \(error, privacy: .public)")
+        }
+
+        if response == .warnTheUser {
+            await warnThatTheChargeLimitIsNotHolding(limit: requestedLimit)
+        }
+    }
+
+    /// Whether the firmware names something holding charge back right now, or nil where it
+    /// was not asked.
+    ///
+    /// Asked only for the steady-state half of the drift question — a battery above its
+    /// limit with nothing charging — and only on backends whose hold the firmware attributes
+    /// at all. Nil is "no evidence" everywhere else, never "nothing is holding".
+    private func holdAttribution(
+        chargerConnected: Bool,
+        isCharging: Bool,
+        batteryLevel: Int,
+        limitInForce: Int,
+        now: Date
+    ) async -> Bool? {
+        guard chargerConnected, !isCharging, batteryLevel > limitInForce else { return nil }
+        guard let backend = await chargeBackend(), backend.attributesChargeHolds else { return nil }
+        if let lastHoldAttributionAt,
+           now.timeIntervalSince(lastHoldAttributionAt) < ChargeHoldDriftMonitor.attributionInterval {
+            return lastHoldAttribution
+        }
+        lastHoldAttributionAt = now
+        guard let diagnostics = try? await chargingClient.chargingDiagnostics() else {
+            // A helper that could not answer has not said "nothing is holding".
+            lastHoldAttribution = nil
+            return nil
+        }
+        let attributed = diagnostics.notChargingReasons
+            .compactMap(NotChargingReason.init(rawValue:))
+            .contains(where: \.holdsChargeBack)
+        lastHoldAttribution = attributed
+        logger.debug("Firmware not-charging reasons: \(diagnostics.notChargingReasons.joined(separator: ", "), privacy: .public); holds charge: \(attributed, privacy: .public)")
+        return attributed
+    }
+
+    /// Tells the user, once per run, that the limit they set is not being honoured.
+    private func warnThatTheChargeLimitIsNotHolding(limit: Int) async {
+        guard await userNotificationsClient.requestAuthorization() == true else { return }
+        let percentage = percentageFormatter.string(from: NSNumber(value: Double(limit) / 100)) ?? "\(limit)%"
+        do {
+            try await userNotificationsClient.showUserNotification(
+                title: L10n.Notifications.Notification.Title.chargeLimitNotHolding,
+                body: L10n.Notifications.Notification.Body.chargeLimitNotHolding(percentage),
+                identifier: "software.micropixels.BatFi.notifications.chargeLimitNotHolding",
+                threadIdentifier: "Charge limit",
+                delay: nil
+            )
+        } catch {
+            logger.error("Could not post the charge-limit warning: \(error, privacy: .public)")
+        }
     }
 
     public func setUpObserving() {
@@ -478,6 +632,16 @@ public actor ChargingManager: ChargingModeManager {
         // stop happening because Apple's limit could not be set.
         let effectiveLimitInForce = await applyChargeLimit(requestedLimit) ?? requestedLimit
 
+        // Asked of the battery rather than of the mechanism, and asked after the limit has
+        // been put in force so that both are read on the same pass.
+        await checkForChargeHoldDrift(
+            powerState: powerState,
+            chargerConnected: chargerConnected,
+            requestedLimit: requestedLimit,
+            limitInForce: effectiveLimitInForce,
+            currentMode: currentMode
+        )
+
         switch HotBatteryProtection.decision(
             isEnabled: turnOffChargingWithHotBattery,
             temperature: powerState.batteryTemperature,
@@ -613,7 +777,22 @@ public actor ChargingManager: ChargingModeManager {
                     )
                     return
                 } else {
-                    await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
+                    // `.inhibit` is the honest mode here — charge is being held — but on a
+                    // mechanism that drains to the limit itself it is being held by macOS,
+                    // which is also actively running the battery *down* to get there. The
+                    // condition is the same one the discharge arm above steps aside for, so
+                    // the two cannot both claim the battery is being discharged, and it is
+                    // keyed on the limit **in force** rather than the one requested because
+                    // that is the value the system drains to.
+                    await inhibitCharging(
+                        chargerConnected: chargerConnected,
+                        currentMode: currentMode,
+                        systemIsDischargingToLimit: SystemChargeDrain.isUnderway(
+                            batteryLevel: currentBatteryLevel,
+                            limitInForce: effectiveLimitInForce,
+                            mechanismDrainsToLimitItself: await systemDischargesToLimitItself()
+                        )
+                    )
                 }
             } else if inhibitChargingOnSleep, computerIsAsleep, await backendCanPauseChargingOnDemand() {
                 // Same gate as the `willSleep` hook, and it has to be here too: a poll can
@@ -690,6 +869,10 @@ public actor ChargingManager: ChargingModeManager {
     private func disengage(chargerConnected: Bool) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // BatFi is handing charging back and releasing the limit it applied, so there is no
+        // BatFi limit left for the system to drain to. Whatever the user's own System
+        // Settings limit then does is not something this app may narrate.
+        await appChargingState.setSystemIsDischargingToLimit(false)
         // BatFi is handing charging back, so the next limit it applies starts a new
         // episode and is worth reporting again even if it resolves — or fails — the same way.
         lastReportedChargeLimit = nil
@@ -771,6 +954,11 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // Charging, so nothing is draining. Cleared here rather than only where it is set,
+        // and above the guard for the same reason it is set above one: this pass may skip
+        // the command as already in force, and a stale "Discharging to the limit" outliving
+        // the drain is the failure the flag exists to prevent.
+        await appChargingState.setSystemIsDischargingToLimit(false)
         guard shouldApply(.charging, currentMode: currentMode) else { return }
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
@@ -788,8 +976,26 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
-    private func inhibitCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
+    /// - Parameter systemIsDischargingToLimit: whether macOS is draining the battery down to
+    ///   the limit on its own right now. Defaults to `false` because every caller but one is
+    ///   on a path where BatFi genuinely holds the inhibit: the two backend-gated sleep
+    ///   hooks and the hot-battery cutout all check `backendCanPauseChargingOnDemand()`
+    ///   first, and the override arms are labelled by the override rather than by the mode.
+    ///   Only the no-override arm of `updateStatus` can reach `.inhibit` *because* the
+    ///   system is draining, and it is the only site that answers this.
+    private func inhibitCharging(
+        chargerConnected: Bool,
+        currentMode: ChargingMode,
+        systemIsDischargingToLimit: Bool = false
+    ) async {
         await updateChargerConnected(chargerConnected)
+        // Beside `updateChargerConnected` and above the guard, deliberately. This reports
+        // what is true right now rather than what BatFi just wrote, and it goes on changing
+        // while the mode does not: a 61% battery draining to a 55% limit is `.inhibit` for
+        // the whole descent and `.inhibit` again when it settles. Below the guard it would
+        // only ever be refreshed on the passes that actually send a command, so the label
+        // would latch at whichever value was true when the mode last changed.
+        await appChargingState.setSystemIsDischargingToLimit(systemIsDischargingToLimit)
         guard shouldApply(.inhibit, currentMode: currentMode) else {
             // Already inhibiting and nothing has happened that could have undone it. The
             // pulling task is not restarted here: it was started when this mode was entered
@@ -816,6 +1022,11 @@ public actor ChargingManager: ChargingModeManager {
     private func turnOnDischarging(chargerConnected: Bool, disableSleep: Bool, currentMode: ChargingMode) async {
         await cancelPullingPowerStateTaskIfNeeded()
         await updateChargerConnected(chargerConnected)
+        // BatFi's own discharge, which `.forceDischarge` already names. The system's drain
+        // and this one are mutually exclusive by construction — `updateStatus` skips its
+        // discharge arm entirely on a mechanism that drains itself — so this can only ever
+        // be clearing a value left by an earlier pass.
+        await appChargingState.setSystemIsDischargingToLimit(false)
         // Ahead of the assertion, not after it. Taking the assertion first and then
         // returning through this guard stranded it: nothing below runs, and every release
         // site is on a path this pass no longer reaches.
@@ -905,7 +1116,14 @@ public actor ChargingManager: ChargingModeManager {
                         reported: powerState.chargerConnected,
                         isDerived: powerState.chargerConnectionIsDerived,
                         appMode: mode
-                    )
+                    ),
+                    // Stated rather than inherited: this is built from the *helper's* status
+                    // read, which carries no answer about the drain, and the paths that
+                    // reach it — a wake, a display change, the first mode of the session —
+                    // are exactly the ones where an earlier answer should not be trusted.
+                    // `updateStatusWithCurrentState()` on the next line re-derives it from
+                    // the current battery level and limit.
+                    systemIsDischargingToLimit: false
                 )
             )
             await updateStatusWithCurrentState()

@@ -17,12 +17,14 @@ import Testing
     private func mode(
         _ mode: ChargingMode,
         override: Int? = nil,
-        chargerConnected: Bool = true
+        chargerConnected: Bool = true,
+        systemIsDischargingToLimit: Bool = false
     ) -> AppChargingMode {
         AppChargingMode(
             mode: mode,
             userTempOverride: override.map(UserTempChargingMode.init(limit:)),
-            chargerConnected: chargerConnected
+            chargerConnected: chargerConnected,
+            systemIsDischargingToLimit: systemIsDischargingToLimit
         )
     }
 
@@ -99,6 +101,42 @@ import Testing
             let withHealth = mode(anyMode).stateDescription(helperHealth: .healthy)
             #expect(withHealth == mode(anyMode).stateDescription)
         }
+    }
+
+    // MARK: - The system draining to the limit is not BatFi pausing
+
+    // On firmware whose mechanism owns the charging decision, macOS drains the battery down
+    // to the limit by itself. BatFi writes no inhibit there and takes `.inhibit` as the
+    // honest mode for "charge is being held, just not by me" — but the title said
+    // "Inhibiting charging" while the battery visibly fell, which is the one reading a user
+    // watching 61% drop toward a 55% limit can prove wrong.
+
+    @Test func systemDischargingToTheLimitIsNotReportedAsInhibiting() {
+        let title = mode(.inhibit, systemIsDischargingToLimit: true).stateDescription
+        #expect(title != L10n.AppChargingMode.State.Title.inhibit)
+        #expect(title == L10n.AppChargingMode.State.Title.systemDischargingToLimit)
+    }
+
+    @Test func inhibitingWithoutASystemDrainIsUnchanged() {
+        let title = mode(.inhibit).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.inhibit)
+    }
+
+    /// The flag describes why charge is being held; it says nothing about any other mode and
+    /// must not leak into one.
+    @Test func aSystemDrainDoesNotRelabelTheOtherModes() {
+        for otherMode in [ChargingMode.charging, .forceDischarge] {
+            let drained = mode(otherMode, systemIsDischargingToLimit: true).stateDescription
+            #expect(drained == mode(otherMode).stateDescription)
+        }
+    }
+
+    /// A temp override is BatFi acting on the user's own instruction, and the override text
+    /// already says so. It outranks the system's drain for the same reason it outranks
+    /// automation attribution below.
+    @Test func aTempOverrideOutranksASystemDrain() {
+        let title = mode(.inhibit, override: 100, systemIsDischargingToLimit: true).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.chargeOverride)
     }
 
     // MARK: - Temp override wins over automation

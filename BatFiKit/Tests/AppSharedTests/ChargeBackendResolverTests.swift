@@ -274,3 +274,31 @@ import Testing
         #expect(ChargeBackend.unsupported.canMirrorChargingStateOnMagSafeLED)
     }
 }
+
+/// Whether the firmware will say, in `CHNC`, that *this* backend is holding charge.
+///
+/// Deliberately its own property rather than a reuse of `canMirrorChargingStateOnMagSafeLED`,
+/// which is one case away from it and answers a different question. That one is true for
+/// `.unsupported` — where BatFi holds nothing, so a green light that never fires is honest.
+/// Here `.unsupported` must be false: nothing holds charge, so nothing attributes a hold,
+/// and treating absence of attribution as evidence would report every such Mac as faulty.
+@Suite struct ChargeHoldAttributionTests {
+    @Test func appleSystemLimitAttributesItsHold() {
+        #expect(ChargeBackend.systemChargeLimit.attributesChargeHolds)
+    }
+
+    @Test func theInhibitBackendsAttributeTheirHolds() {
+        #expect(ChargeBackend.chte.attributesChargeHolds)
+        #expect(ChargeBackend.legacyCH0BC.attributesChargeHolds)
+    }
+
+    /// No bit exists for the firmware band — the same absence that disables the MagSafe
+    /// green light there. Drift detection on that backend has the charging signal only.
+    @Test func theFirmwareRangeAttributesNothing() {
+        #expect(ChargeBackend.firmwareRange.attributesChargeHolds == false)
+    }
+
+    @Test func anUnsupportedMechanismAttributesNothing() {
+        #expect(ChargeBackend.unsupported.attributesChargeHolds == false)
+    }
+}

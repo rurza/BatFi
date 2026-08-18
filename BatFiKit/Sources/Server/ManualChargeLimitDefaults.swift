@@ -32,6 +32,7 @@
 import Foundation
 import IOKit.ps
 import os
+import Shared
 
 enum ManualChargeLimitError: Error {
     /// Preferences were written and the notification posted, but powerd never adopted a
@@ -40,6 +41,11 @@ enum ManualChargeLimitError: Error {
     case notAdopted
     /// The helper is not running as root, so `CurrentUser` is not the user PowerUIAgent reads.
     case notRoot
+    /// A newer request for a different limit arrived while this one was waiting. Not a
+    /// failure of the mechanism — this request simply stopped being the answer, and the
+    /// newer one is still running. Distinguished from `notAdopted` because the two want
+    /// opposite handling: a refusal is worth falling back over, being superseded is not.
+    case superseded
 }
 
 /// Writes the charge limit into the preference domain PowerUIAgent reads, and confirms the
@@ -99,6 +105,23 @@ actor ManualChargeLimitDefaults {
     /// the same millisecond. Actor isolation alone does not serialise this.
     private var applyInFlight: Int?
 
+    /// Identity of the newest request the mechanism has seen, handed out in order.
+    ///
+    /// `applyInFlight` alone cannot answer "has a newer request taken over", and that is the
+    /// question the polling loop has to ask before it writes. Two different limits both pass
+    /// the guard above — that is what it is for, a slider drag is a stream of different
+    /// values — and each then sees the other's write as its own request going missing and
+    /// puts its own back, twice a second, for as long as 45 seconds. Captured live on
+    /// 26A5416b with 65% and 70% fighting; powerd ended up enforcing the stale 65% nine
+    /// seconds after it had adopted 70%.
+    ///
+    /// Identity rather than a value, and monotonic rather than a flag, because being
+    /// superseded has to **outlive the request that superseded it**: the newer request
+    /// finishes and clears `applyInFlight`, and an older one comparing against "is anything
+    /// in flight" would find the field empty and resume fighting a limit that is already in
+    /// force.
+    private var latestRequestID: ChargeLimitRequestID = 0
+
     /// Whether `limit` is as applied as it can currently be.
     ///
     /// powerd enforcing it is the strong answer and the only one that means charging is
@@ -123,13 +146,24 @@ actor ManualChargeLimitDefaults {
     /// them — posting first simply loses the update.
     func apply(limit: Int) async throws {
         guard geteuid() == 0 else { throw ManualChargeLimitError.notRoot }
-        guard currentLimit() != limit else { return }
+        // Every early return below says why. They are the passes that write nothing, they
+        // are the majority — this runs on every status update — and until they were logged
+        // a limit that was never applied and a limit that needed no applying left exactly
+        // the same trace: none.
+        let enforced = currentLimit()
+        guard enforced != limit else {
+            logger.debug("Charge limit \(limit, privacy: .public)% is already the policy powerd holds; nothing to write")
+            return
+        }
         // The same request is already being waited on. Joining it rather than repeating it:
         // a second write of identical values buys nothing and the re-posted notification is
         // actively harmful while the agent is mid-settle. The caller re-checks on its next
         // pass anyway, so reporting the in-flight attempt as this one's outcome cannot strand
         // a limit that never landed.
-        guard applyInFlight != limit else { return }
+        guard applyInFlight != limit else {
+            logger.notice("Charge limit \(limit, privacy: .public)% is already being waited on; joining that request")
+            return
+        }
 
         // Already written, and on battery nothing will adopt it — so there is nothing left to
         // do until the adapter returns. Without this the caller's drift check never settles:
@@ -138,12 +172,22 @@ actor ManualChargeLimitDefaults {
         // re-applies. Measured rewriting the keys and re-posting the notification once every
         // three seconds, indefinitely.
         if !isOnAdapterPower(), CFPreferencesCopyValue(limitKey, domain, user, host) as? Int == limit {
+            logger.notice("Charge limit \(limit, privacy: .public)% is written and the Mac is on battery; leaving it for the adapter's return")
             return
         }
 
+        // Arriving is what makes a request the newest one: it carries the value the user
+        // last asked for, and every request still waiting carries a value they have moved
+        // away from.
+        latestRequestID &+= 1
+        let requestID = latestRequestID
         applyInFlight = limit
-        defer { applyInFlight = nil }
+        // Only if it is still ours. Clearing unconditionally would hand a newer request's
+        // slot back on this one's way out, and the identical-value join above would then
+        // let a duplicate through.
+        defer { if latestRequestID == requestID { applyInFlight = nil } }
 
+        logger.notice("Applying charge limit \(limit, privacy: .public)%; powerd currently holds \(enforced.map(String.init) ?? "no policy", privacy: .public)")
         writeRequest(limit)
 
         // **powerd keeps a charge policy only while on the adapter.** Unplugged, the policies
@@ -183,13 +227,17 @@ actor ManualChargeLimitDefaults {
         //
         // Only ever paid when the limit is not already in force: the `currentLimit()` guard
         // above returns immediately on the once-a-minute re-assertion of a settled limit.
-        if await powerdAdopts(limit, within: .seconds(45)) {
+        switch await waitForAdoption(of: limit, requestID: requestID, within: .seconds(45)) {
+        case .adopted:
             logger.notice("Charge limit \(limit, privacy: .public)% adopted by powerd")
             return
+        case .superseded:
+            logger.notice("Charge limit \(limit, privacy: .public)% was superseded by a newer request; abandoning it rather than writing it again")
+            throw ManualChargeLimitError.superseded
+        case .timedOut:
+            logger.error("Charge limit \(limit, privacy: .public)% was written but powerd did not adopt it within 45s")
+            throw ManualChargeLimitError.notAdopted
         }
-
-        logger.error("Charge limit \(limit, privacy: .public)% was written but powerd did not adopt it")
-        throw ManualChargeLimitError.notAdopted
     }
 
     /// Writes both keys and tells PowerUIAgent to re-read them.
@@ -201,33 +249,68 @@ actor ManualChargeLimitDefaults {
     }
 
     /// Polls powerd's own policy, which is the only evidence that a limit is in force, and
-    /// **re-asserts the request if it goes missing**.
+    /// **re-asserts the request if it goes missing — unless a newer request has taken over**.
     ///
     /// Writing once and waiting is too fragile to be correct. Adoption can take tens of
-    /// seconds, and over that window plenty can remove the request: a `release()` from a
-    /// teardown path, or another `apply` for a different value while the user drags the
-    /// slider. Measured exactly that — a release landed sixteen seconds into the wait, the
+    /// seconds, and over that window a `release()` from a teardown path can remove the
+    /// request. Measured exactly that — a release landed sixteen seconds into the wait, the
     /// preference was gone, and this then waited out its whole budget for an adoption that
     /// could no longer happen. The caller read that as a refusal and raised the limit to 80,
     /// so lowering the limit from 65% to 60% *started charging*.
     ///
+    /// The second way a request disappears is **another request replacing it**, and that one
+    /// must not be re-asserted. A slider drag produces a stream of different values, each
+    /// admitted by the identical-value guard in `apply`, and before `requestID` existed each
+    /// read the next one's write as its own going missing and put its own back — twice a
+    /// second, each, until one of them timed out. Captured on 26A5416b with 65% and 70%
+    /// fighting for five seconds; powerd adopted 70%, then the stale 65% nine seconds later,
+    /// and it took a later status pass to undo it. A stale request winning with a *higher*
+    /// value is the same bug charging the battery past the limit the user just set.
+    ///
     /// Re-asserting is cheap and idempotent, and only happens when the request has actually
-    /// been lost, so a settled apply still writes exactly once.
+    /// been lost and this request is still the current one, so a settled apply still writes
+    /// exactly once.
     ///
     /// Deliberately not checked with `getMCLLimitWithError:`. That reports the *preference*
     /// back — it read 62 while powerd held 80 and the battery charged straight past it — so it
     /// can confirm only that we wrote something, never that anything is enforcing it.
-    private func powerdAdopts(_ limit: Int, within duration: Duration) async -> Bool {
+    private enum AdoptionOutcome {
+        case adopted
+        case superseded
+        case timedOut
+    }
+
+    private func waitForAdoption(
+        of limit: Int,
+        requestID: ChargeLimitRequestID,
+        within duration: Duration
+    ) async -> AdoptionOutcome {
         let deadline = ContinuousClock.now + duration
         while ContinuousClock.now < deadline {
             try? await Task.sleep(for: .milliseconds(500))
-            if currentLimit() == limit { return true }
-            if CFPreferencesCopyValue(limitKey, domain, user, host) as? Int != limit {
-                logger.notice("Charge limit request for \(limit, privacy: .public)% went missing while waiting; writing it again")
+            // The decision itself is in `Shared`, where the test target can reach it. It is
+            // three lines and it was wrong in a way only a log capture of two live requests
+            // revealed, which is exactly the sort of thing that belongs under test.
+            let written = CFPreferencesCopyValue(limitKey, domain, user, host) as? Int
+            switch ChargeLimitReassertion.step(
+                requested: limit,
+                requestID: requestID,
+                latestRequestID: latestRequestID,
+                enforcedLimit: currentLimit(),
+                writtenRequest: written
+            ) {
+            case .adopted:
+                return .adopted
+            case .superseded:
+                return .superseded
+            case .rewriteRequest:
+                logger.notice("Charge limit request for \(limit, privacy: .public)% went missing while waiting (domain holds \(written.map(String.init) ?? "nothing", privacy: .public)); writing it again")
                 writeRequest(limit)
+            case .keepWaiting:
+                continue
             }
         }
-        return false
+        return .timedOut
     }
 
     /// Removes BatFi's request, so the limit cannot outlive BatFi.

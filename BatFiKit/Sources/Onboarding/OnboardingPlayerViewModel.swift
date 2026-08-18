@@ -15,9 +15,17 @@ private extension OnboardingScreen {
         case .welcome:
             return nil
         case .helper:
-            return "helper"
+            // Re-recorded for 4.0. The order of the panes changed, so the clip it replaces no
+            // longer showed what is on screen around it; the name is versioned rather than
+            // overwritten so an older build keeps playing the video that matches the app it
+            // is.
+            return "helper_v4"
         case .charging:
-            return "usage"
+            // Re-recorded for 4.0. The clip it replaces showed a three-tab Settings window
+            // and a Charging pane several releases behind this one; the name is versioned
+            // rather than overwritten so an older build keeps playing the video that matches
+            // the app it is.
+            return "usage_v4"
         case .license:
             return "license_v2"
         }
@@ -39,19 +47,50 @@ class OnboardingPlayerViewModel: ObservableObject {
     init(_ currentPage: AnyPublisher<OnboardingScreen, Never>) {
         currentPageCancellable = currentPage
             .sink { [weak self] currentPage in
-                self?.updatePlayer(currentPage.fileName)
+                self?.updatePlayer(for: currentPage)
             }
+    }
+
+    private func updatePlayer(for screen: OnboardingScreen) {
+        // Only the helper pane's clip, which is the one being re-recorded and the one the pane
+        // stands a flat fill in for. Every other pane plays exactly what it ships with — one
+        // player is shared between them, so skipping the fetch outright would leave the others
+        // showing an empty player rather than their own video.
+        // The live feed is not the player's to drive, and leaving the shipped clip playing
+        // behind it would fetch a video nobody can see.
+        if screen == .helper, OnboardingRecordingMode.streamsDesktop {
+            player.replaceCurrentItem(with: nil)
+            return
+        }
+        if screen == .helper, let localVideoURL = OnboardingRecordingMode.localVideoURL {
+            // The previous pass, playing where the finished clip will play. Local rather than
+            // fetched: the file being filmed does not exist on the server yet, and will not
+            // until the last pass is the one that ships.
+            play(AVPlayerItem(url: localVideoURL))
+            return
+        }
+        guard !(OnboardingRecordingMode.showsFill && screen == .helper) else {
+            player.replaceCurrentItem(with: nil)
+            return
+        }
+        updatePlayer(screen.fileName)
     }
 
     private func updatePlayer(_ filename: String?) {
         if let filename {
-            let item = playerItemForVideoName(filename)
-            player.replaceCurrentItem(with: item)
-            setUpSubscribersForItem(item)
-            player.play()
+            play(playerItemForVideoName(filename))
         } else {
             player.replaceCurrentItem(with: nil)
         }
+    }
+
+    /// Starts an item and arms the loop. Shared by the shipped clips and the local file a
+    /// recording pass plays, so a pass loops exactly as the real thing does — which matters,
+    /// because the loop is visible in the footage being filmed.
+    private func play(_ item: AVPlayerItem) {
+        player.replaceCurrentItem(with: item)
+        setUpSubscribersForItem(item)
+        player.play()
     }
 
     private func setUpSubscribersForItem(_ item: AVPlayerItem) {

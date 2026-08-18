@@ -247,6 +247,29 @@ actor SMCService {
         }
     }
 
+    /// Applies a charge limit with everything this service believes it already applied
+    /// thrown away first.
+    ///
+    /// The app asks for this when the battery contradicts that belief — charging at or above
+    /// the limit, or sitting above it with the firmware naming nothing that holds it. Both
+    /// short-circuits below key on a record of a past write rather than on the state of the
+    /// machine, which is what makes a limit retired underneath BatFi invisible for the life
+    /// of the process: powerd drops the policy when Apple's charge limit changes, and the
+    /// `.firmwareRange` band is a set of SMC keys anything with root can clear.
+    ///
+    /// Costed rather than free, which is why the app waits a minute of continuous
+    /// contradiction before asking: under `.firmwareRange` this re-runs `engageSequence`,
+    /// whose first write is `bfF0 = 0x00`, so the band really is off for the width of that
+    /// sequence. Against a band that is genuinely gone that window costs nothing; against
+    /// one that is fine it is a brief unrestricted moment, and doing it per status pass
+    /// would be the write-loop this file has already been burned by once.
+    func reassertChargeLimit(_ percentage: Int) async throws -> Int {
+        logger.notice("Reasserting charge limit \(percentage, privacy: .public)%; discarding what this process recorded as applied")
+        appliedSystemLimit = nil
+        appliedFirmwareRange = nil
+        return try await applyChargeLimit(percentage)
+    }
+
     /// Applies a charge limit using whichever mechanism this firmware supports.
     ///
     /// Returns the limit actually applied, which may be higher than requested when the
@@ -282,7 +305,10 @@ actor SMCService {
             // also the one plausible brake on a write → `IOPSNotification` →
             // `powerSourceChanges` → `applyChargeLimit` → write feedback loop on firmware
             // that raises a power-source change per SMC charge write.
-            guard appliedFirmwareRange != percentage else { return percentage }
+            guard appliedFirmwareRange != percentage else {
+                logger.debug("Firmware charge range for \(percentage, privacy: .public)% is already armed; no write this pass")
+                return percentage
+            }
             // Recorded before the writes, so a sequence that throws part-way still leaves
             // the release owed. Erring toward "BatFi owes a release" costs one write that
             // fails harmlessly; erring the other way is C1.
@@ -351,9 +377,11 @@ actor SMCService {
                 // is how a limit silently reverts and stays reverted for the life of the
                 // process.
                 if inForce.applied >= ChargeLimitRange.systemChargeLimitLowest {
+                    logger.debug("System charge limit \(inForce.applied, privacy: .public)% was adopted and is at or above the floor; no write this pass")
                     return inForce.applied
                 }
                 if await ManualChargeLimitDefaults.shared.isSatisfied(percentage) {
+                    logger.debug("Charge limit \(percentage, privacy: .public)% still holds; no write this pass")
                     return inForce.applied
                 }
                 logger.notice("Charge limit no longer holds \(percentage, privacy: .public)%; re-applying")
@@ -397,6 +425,17 @@ actor SMCService {
                     logger.notice("System limit refused \(percentage, privacy: .public)%; applied it through the charge-limit defaults instead")
                     appliedSystemLimit = AppliedChargeLimit(requested: percentage, applied: percentage)
                     return percentage
+                } catch ManualChargeLimitError.superseded {
+                    // Not a refusal, so none of the fallback below applies: a newer request
+                    // for a different limit is still running and will decide what holds.
+                    // Reporting what powerd actually holds rather than this request's value
+                    // is the honest answer *and* the one the caller wants — the mode decision
+                    // in `ChargingManager` branches on what is in force, not on what was
+                    // asked for. `appliedSystemLimit` is deliberately not recorded: it is the
+                    // record of an adopt that happened, and this one did not.
+                    let inForce = await ManualChargeLimitDefaults.shared.currentLimit()
+                    logger.notice("Charge limit \(percentage, privacy: .public)% was superseded while being applied; powerd holds \(inForce.map(String.init) ?? "no policy", privacy: .public)")
+                    return inForce ?? percentage
                 } catch let defaultsError {
                     logger.error("Charge limit \(percentage, privacy: .public)% via defaults failed: \(defaultsError, privacy: .public); falling back to the values PowerUI accepts")
                 }

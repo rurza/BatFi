@@ -22,6 +22,13 @@ public struct HelperHealthPolicy: Sendable {
         case identityChecked(HelperOwnership)
         /// The one-shot take-ownership cycle finished. `error` is nil on success.
         case takeoverFinished(error: String?)
+        /// The user removed the helper on purpose.
+        ///
+        /// Without this the policy only ever sees the consequence — a helper that stopped
+        /// answering — which is the same evidence a wedged record produces, and the recovery
+        /// for that is to re-register. A deliberate removal was therefore undone about a
+        /// second after it was asked for.
+        case removalRequestedByUser
     }
 
     public enum Action: Sendable, Equatable {
@@ -74,12 +81,39 @@ public struct HelperHealthPolicy: Sendable {
     /// that to someone whose helper was about to start on its own is its own bug.
     public static let postRegistrationProbeBudget = 2
 
+    /// Pending-approval readings required before the app interrupts the user about one.
+    ///
+    /// Registering a privileged daemon is what makes macOS post its own consent prompt —
+    /// "BatFi.app can run in the background for all users. Do you want to allow this?" — and
+    /// `SMAppService.status` reports `.requiresApproval` from the moment the registration
+    /// lands, measured 0.6s after `register()`. The prompt is still on screen at that point,
+    /// unanswered, offering in one click exactly what this policy's guidance sends the user
+    /// to System Settings to do by hand. Announcing there talks over the system and
+    /// recommends the longer route.
+    ///
+    /// Ten readings against a stream that ticks every 1.5s is about fifteen seconds: long
+    /// enough for a person to read a notification and click Allow, short enough that a prompt
+    /// they dismissed or never saw is still explained while they are looking at the app. Sized
+    /// to the poll interval, like `absentStatusBudget`, rather than to any measured settling
+    /// time — and it must stay above one, or the reading that arrives while macOS is asking is
+    /// the reading that interrupts.
+    ///
+    /// The verdict itself is *published* on the first reading regardless. The status item's
+    /// warning row should be honest immediately, and nothing may be driven through a helper
+    /// that is not running; only the interruption waits.
+    public static let pendingApprovalBudget = 10
+
     public private(set) var health: HelperHealth = .unknown
 
     /// Consecutive absent readings since the last status that reported a record. Counted
     /// rather than acted on, so that an absence which is gone by the next poll costs the user
     /// nothing.
     private var consecutiveAbsentStatuses = 0
+    /// Consecutive `.requiresApproval` readings since the last status that was not one.
+    /// Counted for the same reason as the absences above, against a different clock: this one
+    /// is not waiting for Background Task Management to settle, it is waiting for a person to
+    /// answer the prompt macOS has just put in front of them.
+    private var consecutivePendingApprovals = 0
     /// Consecutive failures since the last success or re-registration. A lone failure is
     /// treated as transient — XPC calls die for reasons that have nothing to do with the
     /// helper being wedged — so nothing mutating happens until a second one confirms it.
@@ -95,6 +129,11 @@ public struct HelperHealthPolicy: Sendable {
     /// Whether the currently reachable helper has been identified since the last event that
     /// could have replaced it. Reset by anything that re-registers or restarts the daemon.
     private var hasVerifiedIdentity = false
+    /// Set while the absence of a helper is the outcome the user asked for. Cleared by a
+    /// status that reports a record again, so the suppression covers the removal rather than
+    /// the rest of the launch — a helper installed afterwards can wedge like any other, and
+    /// the one recovery this policy is allowed has to still be there for it.
+    private var wasRemovedByUser = false
     /// The conflict the takeover was asked to resolve. Kept so that a *failed* takeover can
     /// still be reported as what it is — someone else's helper — rather than collapsing
     /// into the generic install failure, which would send the user to Login Items to fix a
@@ -164,6 +203,14 @@ public struct HelperHealthPolicy: Sendable {
             }
             guard let lastConflict else { return concluding(.degraded(.installFailed(error))) }
             return concluding(.degraded(.foreignHelper(lastConflict)))
+        case .removalRequestedByUser:
+            // Published rather than concluded. Downstream has to stop trusting the helper at
+            // once, but the guidance for an absent one offers to install it, which is the
+            // opposite of what was just asked for.
+            wasRemovedByUser = true
+            consecutivePingFailures = 0
+            hasVerifiedIdentity = false
+            return publishing(.degraded(.notRegistered))
         }
     }
 
@@ -205,6 +252,11 @@ public struct HelperHealthPolicy: Sendable {
         switch status {
         case .enabled:
             consecutiveAbsentStatuses = 0
+            consecutivePendingApprovals = 0
+            // A record exists again, so whatever the user removed has been replaced — by this
+            // app's own install, or by their hand in Login Items. The suppression covered the
+            // removal, not the rest of the launch.
+            wasRemovedByUser = false
             guard !isRepeat else { return [] }
             // Never conclusive on its own: a wedged record reports `.enabled` forever.
             return health.isHealthy ? [] : [.verifyWithPing]
@@ -225,6 +277,7 @@ public struct HelperHealthPolicy: Sendable {
             // in Login Items — is noticed without one.
             consecutivePingFailures = 0
             hasVerifiedIdentity = false
+            consecutivePendingApprovals = 0
             consecutiveAbsentStatuses += 1
             switch consecutiveAbsentStatuses {
             case 1:
@@ -234,6 +287,10 @@ public struct HelperHealthPolicy: Sendable {
                 // to put a modal on screen about. See `absentStatusBudget`.
                 return publishing(.degraded(.notRegistered))
             case Self.absentStatusBudget:
+                // Corroborated, but not news. The alert this verdict carries offers to install
+                // a helper, and the reason there is none is that the user removed it moments
+                // ago — the absence is the outcome they asked for, not a fault to report.
+                guard !wasRemovedByUser else { return publishing(.degraded(.notRegistered)) }
                 return concluding(.degraded(.notRegistered), scheduleProbe: false)
             default:
                 // Neither corroborated nor contradicted yet, and already distrusted. The
@@ -242,9 +299,26 @@ public struct HelperHealthPolicy: Sendable {
             }
         case .requiresApproval:
             consecutiveAbsentStatuses = 0
-            guard !isRepeat else { return [] }
-            // Only the user can clear this, so re-registering would just churn the record.
-            return concluding(.degraded(.requiresApproval), scheduleProbe: false)
+            // Counted rather than gated on `isRepeat`, for the same reason the absence above
+            // is: agreement across readings is the whole mechanism, and the repeats are what
+            // it is counting.
+            consecutivePendingApprovals += 1
+            switch consecutivePendingApprovals {
+            case 1:
+                // Published, not announced. macOS is asking the user this exact second, and
+                // it offers the approval in one click; an alert here recommends the same
+                // thing the long way round and covers whatever the user was looking at.
+                return publishing(.degraded(.requiresApproval))
+            case Self.pendingApprovalBudget:
+                // The prompt has gone unanswered — dismissed, missed, or never posted because
+                // macOS had already asked once. System Settings is the only route left, and
+                // the app is the only thing that will mention it. No probe and no
+                // re-registration: only the user can clear this, so re-registering would just
+                // churn the record.
+                return concluding(.degraded(.requiresApproval), scheduleProbe: false)
+            default:
+                return []
+            }
         }
     }
 
@@ -254,6 +328,14 @@ public struct HelperHealthPolicy: Sendable {
         // next has to be identified again.
         hasVerifiedIdentity = false
         consecutivePingFailures += 1
+
+        // The helper not answering is the outcome that was asked for, not a fault to repair.
+        // Re-registering here is what undid the removal roughly a second after it happened —
+        // the dropped connection reports one failure and the ping it prompts reports the
+        // second, which is the whole budget the recovery needs.
+        if wasRemovedByUser {
+            return publishing(.degraded(.notRegistered))
+        }
 
         // Past the one re-registration, and it did not help. Everything from here is about
         // establishing that as a fact rather than retrying into it: the record cannot be
@@ -329,6 +411,7 @@ public struct HelperHealthPolicy: Sendable {
             // let a stale reading finish a verdict — telling the user there was no helper
             // moments after they installed one and it started working.
             consecutiveAbsentStatuses = 0
+            consecutivePendingApprovals = 0
         }
         return [.publish(newHealth)]
     }

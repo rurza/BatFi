@@ -78,9 +78,6 @@ struct ChargingLimitView: View {
                     }
                     .padding()
                 }
-                Text(l10n.appIsReady)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding(20)
         }

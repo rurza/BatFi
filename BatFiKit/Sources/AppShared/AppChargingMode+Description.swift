@@ -50,7 +50,16 @@ public extension AppChargingMode {
         case .forceDischarge:
             return label.forceDischarge
         case .inhibit:
-            return label.inhibit
+            // `.inhibit` covers two different things on two different kinds of Mac, and only
+            // one of them is BatFi pausing charging. Where the mechanism owns the charging
+            // decision, macOS drains the battery down to the limit itself and BatFi writes
+            // no inhibit at all — so this is the mode BatFi records for "charge is being
+            // held, just not by me", and the label has to say which.
+            //
+            // The description below is left alone deliberately: "The charging limit is set
+            // to 55%" is true either way, and it is the title that a user watching 61% fall
+            // toward 55% can prove wrong.
+            return systemIsDischargingToLimit ? label.systemDischargingToLimit : label.inhibit
         }
     }
 

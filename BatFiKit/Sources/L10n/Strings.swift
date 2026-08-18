@@ -111,6 +111,8 @@ public enum L10n {
                 public static let forceDischarge = String(localized: "app_charging_mode.state.title.force_discharge", defaultValue: "Discharging", bundle: Bundle.module)
                 /// Inhibiting charging
                 public static let inhibit = String(localized: "app_charging_mode.state.title.inhibit", defaultValue: "Inhibiting charging", bundle: Bundle.module)
+                /// Discharging to the limit
+                public static let systemDischargingToLimit = String(localized: "app_charging_mode.state.title.system_discharging_to_limit", defaultValue: "Discharging to the limit", bundle: Bundle.module)
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
 
@@ -659,6 +661,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// ⚠️ Your charge limit isn't holding
+                public static let chargeLimitNotHolding = String(
+                    localized: "notifications.notification.title.charge_limit_not_holding",
+                    defaultValue: "⚠️ Your charge limit isn't holding",
+                    bundle: Bundle.module
+                )
+
                 /// ⚠️ BatFi can't read battery information
                 public static let cannotReadBatteryInfo = String(
                     localized: "notifications.notification.title.cannot_read_battery_info",
@@ -677,6 +686,18 @@ public enum L10n {
                     defaultValue: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
                     bundle: Bundle.module
                 )
+
+                /// BatFi re-applied your %@ limit, but the battery went past it anyway. …
+                public static func chargeLimitNotHolding(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.notification.body.charge_limit_not_holding",
+                            defaultValue: "BatFi re-applied your %@ limit, but the battery went past it anyway. macOS sometimes charges past a limit on purpose to calibrate the battery. If this keeps happening, the app's log has the details.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
 
                 /// macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.
                 public static let cannotReadBatteryInfo = String(

@@ -92,6 +92,10 @@ final class HelperConnectionManager: @unchecked Sendable {
 
     /// Set while onboarding is up. Onboarding has its own helper UI, and stacking a modal
     /// on top of it helps nobody.
+    ///
+    /// Also read by the initial-mode watchdog, which is not a modal but has the same problem:
+    /// while this window is up the app has not been set up, so the charging mode it inspects
+    /// has not had a chance to leave `.initial` yet.
     var suppressesGuidance = false
 
     init(delegate: HelperConnectionManagerDelegate) {
@@ -113,6 +117,21 @@ final class HelperConnectionManager: @unchecked Sendable {
         Task {
             logger.notice("Install requested by the user")
             await perform(.installHelper)
+        }
+    }
+
+    /// Removes on the user's say-so, from the debug menu.
+    ///
+    /// The order is load-bearing. Removing the helper drops the XPC connection, and
+    /// `observeConnectionFailures()` turns that into a ping failure while the health is still
+    /// `.healthy`; the `verifyWithPing` that follows reports a second one, which is the entire
+    /// budget `handlePingFailure` needs to re-register. Announcing the removal afterwards would
+    /// arrive behind the recovery it exists to prevent, so the policy is told first.
+    func removeHelperRequestedByUser() {
+        Task {
+            logger.notice("Removal requested by the user")
+            await send(.removalRequestedByUser)
+            try? await helperClient.removeHelper()
         }
     }
 
@@ -362,11 +381,18 @@ final class HelperConnectionManager: @unchecked Sendable {
 
     func observerHelperConnection() {
         Task {
-            for await _ in appChargingState
+            for await state in appChargingState
                 .appChargingModeDidChage()
-                .debounce(for: .seconds(30))
-                .filter({ $0.mode == .initial }) {
-                guard await helperHealthClient.currentHealth() == .healthy else { continue }
+                .debounce(for: .seconds(30)) {
+                // `suppressesGuidance` stands in for "onboarding is up", which is the case the
+                // mode filter alone cannot tell apart: onboarding defers `setUpTheApp()` until
+                // the helper is in, so `.initial` there is the starting value rather than a
+                // reading that never arrived.
+                guard await InitialModeWarningPolicy.shouldWarn(
+                    mode: state.mode,
+                    health: helperHealthClient.currentHealth(),
+                    onboardingIsUp: suppressesGuidance
+                ) else { continue }
                 // Not `try`: a failed notification used to throw out of the enclosing Task
                 // and silently end this watchdog for the rest of the session.
                 try? await userNotificationsClient.showUserNotification(

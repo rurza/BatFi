@@ -64,6 +64,72 @@ import Testing
         #expect(actions == [.publish(.healthy)])
     }
 
+    // MARK: - Removal the user asked for
+
+    /// The reported bug. Removing the helper makes it stop answering, which is exactly what a
+    /// wedged helper looks like — so the recovery re-registered it about a second later and
+    /// the removal never took. The two ping failures arrive on their own: the dropped XPC
+    /// connection reports one, and the `verifyWithPing` it prompts reports the second.
+    @Test("A removal the user asked for is not repaired by re-registering")
+    func userRemovalDoesNotTriggerReregistration() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+
+        policy.handle(.removalRequestedByUser)
+        let first = policy.handle(.pingFailed)
+        let second = policy.handle(.pingFailed)
+
+        #expect(!first.contains(.retryRegistrationOnce))
+        #expect(!second.contains(.retryRegistrationOnce))
+    }
+
+    /// Removing it is not a fault to report. The guidance for an absent helper offers to
+    /// install one, which is the opposite of what was just asked for.
+    @Test("A removal the user asked for stops belief without announcing a failure")
+    func userRemovalPublishesWithoutGuidance() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+
+        let actions = policy.handle(.removalRequestedByUser)
+
+        #expect(actions.contains(.publish(.degraded(.notRegistered))))
+        #expect(!actions.contains(.showGuidance))
+        #expect(policy.health != .healthy)
+    }
+
+    /// The absence is now real, so the status stream corroborates it and the policy reaches
+    /// its verdict — but the alert that verdict carries offers to install a helper, which is
+    /// the thing that was just deliberately removed.
+    @Test("A removal the user asked for is not reported back to them as a missing helper")
+    func userRemovalIsNotAnnouncedAsAFault() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+        policy.handle(.removalRequestedByUser)
+
+        var actions: [HelperHealthPolicy.Action] = []
+        for _ in 0 ..< HelperHealthPolicy.absentStatusBudget {
+            actions += policy.handle(.statusObserved(.notRegistered))
+        }
+
+        #expect(!actions.contains(.showGuidance))
+    }
+
+    /// The suppression is scoped to the removal, not to the rest of the launch. Once a
+    /// registration exists again the helper can wedge like any other, and the one recovery
+    /// this policy is allowed has to still be there for it.
+    @Test("Recovery is available again once a registration exists")
+    func recoveryReturnsAfterReinstall() {
+        var policy = enabledAndVerifying()
+        reachAndIdentify(&policy)
+        policy.handle(.removalRequestedByUser)
+
+        policy.handle(.statusObserved(.enabled))
+        policy.handle(.pingFailed)
+        let actions = policy.handle(.pingFailed)
+
+        #expect(actions.contains(.retryRegistrationOnce))
+    }
+
     @Test("Status .enabled alone never reports healthy — it only asks for a ping")
     func enabledStatusAloneIsNotHealthy() {
         var policy = HelperHealthPolicy()
@@ -332,16 +398,55 @@ import Testing
         #expect(actions == [.verifyWithPing])
     }
 
-    @Test("requiresApproval goes straight to guidance and never re-registers")
-    func requiresApprovalDoesNotRetryRegistration() {
+    /// MEASURED 2026-08-18, in onboarding, and the same reading reaches this policy outside
+    /// it:
+    ///
+    ///     22:17:29.745  Installing daemon...
+    ///     22:17:29.790  register() → SMAppServiceErrorDomain Code=1 "Operation not permitted"
+    ///     22:17:30.414  status requiresApproval
+    ///
+    /// Registering is what makes macOS post "BatFi.app can run in the background for all
+    /// users. Do you want to allow this?", and the status reports the pending approval 0.6s
+    /// later — while that prompt is still on screen, unanswered, offering the very thing an
+    /// alert here would ask the user to go and do by hand.
+    ///
+    /// So the state is published at once, because the status item's warning row should be
+    /// honest immediately and nothing may be driven through a helper that is not running.
+    /// Only the interruption waits.
+    @Test("A pending approval is published at once and not announced over the system's prompt")
+    func requiresApprovalIsPublishedBeforeItIsAnnounced() {
         var policy = HelperHealthPolicy()
 
         let actions = policy.handle(.statusObserved(.requiresApproval))
 
         #expect(actions.contains(.publish(.degraded(.requiresApproval))))
+        #expect(!actions.contains(.showGuidance))
+    }
+
+    @Test("An approval that keeps going unanswered is eventually announced, and never re-registers")
+    func requiresApprovalIsAnnouncedOnceItPersists() {
+        var policy = HelperHealthPolicy()
+
+        let actions = observeSustainedPendingApproval(&policy)
+
         #expect(actions.contains(.showGuidance))
         #expect(!actions.contains(.retryRegistrationOnce))
         #expect(!actions.contains(.verifyWithPing))
+    }
+
+    /// The prompt answered with Allow, which is the outcome the grace exists to leave room
+    /// for. Nothing about the pending approval may survive into the next run of readings.
+    @Test("Approving inside the grace leaves nothing banked")
+    func anApprovalGrantedInsideTheGraceIsForgotten() {
+        var policy = HelperHealthPolicy()
+
+        for _ in 0 ..< (HelperHealthPolicy.pendingApprovalBudget - 1) {
+            _ = policy.handle(.statusObserved(.requiresApproval))
+        }
+        _ = policy.handle(.statusObserved(.enabled))
+        let actions = policy.handle(.statusObserved(.requiresApproval))
+
+        #expect(!actions.contains(.showGuidance))
     }
 
     /// Registering a privileged daemon makes macOS post a background-item notification and
@@ -516,6 +621,19 @@ import Testing
         }
 
         #expect(!later.contains(.showGuidance))
+    }
+
+    /// Feeds a pending approval for as long as the stream would before the policy is allowed
+    /// to interrupt the user, and returns the actions from the reading that concludes.
+    @discardableResult
+    private func observeSustainedPendingApproval(
+        _ policy: inout HelperHealthPolicy
+    ) -> [HelperHealthPolicy.Action] {
+        var actions: [HelperHealthPolicy.Action] = []
+        for _ in 0 ..< HelperHealthPolicy.pendingApprovalBudget {
+            actions = policy.handle(.statusObserved(.requiresApproval))
+        }
+        return actions
     }
 
     /// Feeds the absent status as many times as the stream would before the policy is allowed

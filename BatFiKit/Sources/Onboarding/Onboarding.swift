@@ -7,6 +7,7 @@
 
 import AVKit
 import AppCore
+import AppShared
 import Clients
 import ConfettiSwiftUI
 import Defaults
@@ -95,27 +96,36 @@ struct Onboarding: View {
             repetitionInterval: 0.7
         )
         .alert(
-            alertL10n.Title.helperNotInstalled,
+            model.installAlert?.title ?? alertL10n.Title.helperNotInstalled,
             isPresented: Binding<Bool>(
-                get: { model.helperError != nil },
-                set: { _ in model.helperError = nil }
+                get: { model.installAlert != nil },
+                set: { _ in model.installAlert = nil }
             ),
-            actions: {
+            presenting: model.installAlert,
+            actions: { _ in
                 Button(alertL10n.Button.Label.openSystemSettings, role: .cancel) {
                     NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension")!)
                 }
             },
-            message: {
-                Text(alertL10n.Message.helperNotInstalled)
+            message: { alert in
+                Text(alert.message)
             }
         )
         .edgesIgnoringSafeArea(.top)
         // Height is shared by every pane and set by the tallest, which is the final one:
         // video (300pt at this width) plus a group that has grown a slider, a toggle and a
         // wrapping recommendation line. At 620 that pane overran the window and "The app is
-        // ready to use!" was clipped off the bottom edge. The other panes end in a `Spacer`,
-        // so the extra room simply spreads there.
-        .frame(width: 420, height: 680)
+        // ready to use!" was clipped off the bottom edge, which is what 680 was sized for.
+        //
+        // That label has since been removed, and 680 outlived it by 36pt: one line of body
+        // text plus the 20pt `VStack` spacing above it. The other panes end in a `Spacer` and
+        // simply spread the slack, but the limit pane's `Spacer` sits *above* its settings
+        // group to pin the group to the bottom — so slack there opens as a hole in the middle
+        // of the pane rather than closing up at the end of it.
+        //
+        // Load-bearing, not incidental: `PageView` is a `GeometryReader`, which has no
+        // intrinsic size and fills whatever it is given, so no pane can size this window.
+        .frame(width: 420, height: 644)
     }
 
     var nextButtonTitle: String {
@@ -144,14 +154,76 @@ struct Onboarding: View {
 }
 
 extension Onboarding {
+    /// The three ways this pane can stop short, and the words for each.
+    ///
+    /// The approval case reuses the sentences the menu already shows for it rather than
+    /// writing onboarding its own: it is the same state, the existing text is right, and a
+    /// second wording would be a second thing to translate and to keep true.
+    enum InstallAlert: Equatable {
+        /// Nothing is broken. macOS has the registration and wants a switch turned on.
+        case needsApproval
+        /// The switch is already on and macOS is refusing the record anyway. The remedy is
+        /// the opposite of the one above — off, then on — and telling these apart is the
+        /// whole reason this pane stopped trusting `.requiresApproval` on its own.
+        case needsManualReset
+        /// macOS refused the registration. Carries the reason it gave.
+        case installFailed(String)
+        /// The reachable helper belongs to another copy of BatFi, and claiming it failed.
+        case helperBelongsToAnotherCopy(String)
+
+        var title: String {
+            switch self {
+            case .needsApproval:
+                return L10n.Notifications.Alert.Title.helperNeedsApproval
+            case .needsManualReset:
+                return L10n.Notifications.Alert.Title.helperNeedsManualReset
+            case .installFailed:
+                return L10n.Notifications.Alert.Title.helperInstallFailed
+            case .helperBelongsToAnotherCopy:
+                return L10n.Onboarding.Alert.Title.helperNotInstalled
+            }
+        }
+
+        var message: String {
+            switch self {
+            case .needsApproval:
+                return L10n.Notifications.Alert.InformativeText.helperNeedsApproval
+            case .needsManualReset:
+                return L10n.Notifications.Alert.InformativeText.helperNeedsManualReset
+            // The reason is worth quoting now that it is only ever an outright refusal:
+            // "Operation not permitted" is also what macOS returns while it holds a record
+            // pending approval, and that reading is claimed above before it reaches here.
+            case let .installFailed(reason):
+                return L10n.Notifications.Alert.InformativeText.helperInstallFailed(reason)
+            case let .helperBelongsToAnotherCopy(message):
+                return message
+            }
+        }
+    }
+
     final class Model: ObservableObject {
         let didInstallHelper: () -> Void
         @MainActor @Published
         private(set) var currentScreen: OnboardingScreen = .welcome
+        /// Which of the things that can stop this pane is true.
+        ///
+        /// Replaces a lone `NSError`, which could only ever produce one sentence — "Helper
+        /// (still) not installed" — and produced it for the state that least deserves it:
+        /// a registration macOS has accepted and is holding for the user's consent.
         @MainActor @Published
-        var helperError: NSError?
+        var installAlert: InstallAlert?
         @MainActor @Published
         var isLoading: Bool = false
+        /// The running status-observation loop, so a second tap replaces it rather than
+        /// stacking another one behind it. Load-bearing now that the button stops spinning
+        /// while the loop is still going: before this the button was busy for as long as the
+        /// loop lived, and could not be tapped twice.
+        @MainActor
+        private var installTask: Task<Void, Never>?
+        /// The verdict the user has already been shown, so a state that is true on every
+        /// 1.5s tick is announced when it becomes true rather than every tick forever.
+        @MainActor
+        private var announcedProgress: OnboardingInstallProgress?
         /// Whether the helper went in. Until this reorder that was also the end of
         /// onboarding, which is why it used to be called `onboardingIsFinished`; the limit
         /// pane now comes after it, so the two are different moments and the old name would
@@ -191,7 +263,11 @@ extension Onboarding {
                     }
                     return
                 }
-                Task {
+                // Replaces any loop already running rather than stacking a second one behind
+                // it. Reachable now that the button stops spinning while the loop continues,
+                // which is what lets a refused install be retried from here at all.
+                installTask?.cancel()
+                installTask = Task {
                     /// One unregister/register cycle, to claim a daemon record that another
                     /// copy of BatFi is holding.
                     ///
@@ -230,11 +306,9 @@ extension Onboarding {
                                         // Claimed once and still not ours, which means the
                                         // other copy is open and registering too. Onboarding
                                         // cannot resolve that; saying so beats looping.
-                                        self.helperError = NSError(
-                                            domain: Constant.appBundleIdentifier,
-                                            code: 0,
-                                            userInfo: [NSLocalizedDescriptionKey: L10n.Notifications.Alert.InformativeText
-                                                .foreignHelperOtherCopyInstalled(conflict.owningAppPath ?? conflict.runningExecutablePath)]
+                                        self.installAlert = .helperBelongsToAnotherCopy(
+                                            L10n.Notifications.Alert.InformativeText
+                                                .foreignHelperOtherCopyInstalled(conflict.owningAppPath ?? conflict.runningExecutablePath)
                                         )
                                         counter += 1
                                         continue
@@ -244,7 +318,7 @@ extension Onboarding {
                                     counter += 1
                                     continue
                                 }
-                                self.helperError = nil
+                                self.installAlert = nil
                                 // The first moment BatFi can ask, and it must be answered
                                 // before the pane that renders the floor appears — a slider
                                 // that draws at 50% and corrects itself to 80% is the defect
@@ -261,25 +335,40 @@ extension Onboarding {
                                 }
                                 NSSound(named: "Funk")?.play()
                                 break
-                            } else if let error, counter == 20 {
-                                self.helperError = error as NSError
-                            } else if status == .notRegistered, counter == 0 {
-                                // Once, not on every 1.5s tick. Re-registering in a loop is
-                                // the behaviour most plausibly associated with wedging the
-                                // registration record this screen is waiting on.
-                                try? await helperManager.installHelper()
+                            } else {
+                                // Every reading that is not a working helper now gets a
+                                // verdict. `.requiresApproval` used to match no arm at all,
+                                // so the loop ran on in silence with the button still busy —
+                                // for a state macOS will never resolve on its own, because
+                                // it is waiting for the user.
+                                announce(OnboardingInstallPolicy.progress(
+                                    status: status.helperServiceStatus,
+                                    registrationError: error?.localizedDescription,
+                                    tick: counter
+                                ))
+                                if status == .notRegistered, counter == 0 {
+                                    // Once, not on every 1.5s tick. Re-registering in a loop
+                                    // is the behaviour most plausibly associated with wedging
+                                    // the registration record this screen is waiting on.
+                                    try? await helperManager.installHelper()
+                                }
                             }
                             counter += 1
                         }
                     }
                     isLoading = true
+                    announcedProgress = nil
                     do {
                         try await helperManager.installHelper()
                         await observeHelperStatus(error: nil)
                     } catch {
                         await observeHelperStatus(error: error)
                     }
-                    isLoading = false
+                    // Not when cancelled: a second tap has already replaced this loop and
+                    // set the flag for its own attempt, and this line would land after it.
+                    if !Task.isCancelled {
+                        isLoading = false
+                    }
                 }
             case .license:
                 Task {
@@ -298,6 +387,29 @@ extension Onboarding {
                 if let next = currentScreen.next() {
                     changeScreenTo(next)
                 }
+            }
+        }
+
+        /// Reflects a verdict, and only when it changes.
+        ///
+        /// The status stream repeats every 1.5s and `.needsApproval` stays true until someone
+        /// walks to System Settings, so announcing on every tick would put the alert back on
+        /// screen a second and a half after each dismissal, forever. `isLoading` is set every
+        /// time regardless: it describes the present state rather than a transition.
+        @MainActor
+        private func announce(_ progress: OnboardingInstallProgress) {
+            isLoading = progress.isBusy
+            guard progress != announcedProgress else { return }
+            announcedProgress = progress
+            switch progress {
+            case .waiting:
+                installAlert = nil
+            case .needsApproval:
+                installAlert = .needsApproval
+            case .needsManualReset:
+                installAlert = .needsManualReset
+            case let .failed(reason):
+                installAlert = .installFailed(reason)
             }
         }
 
