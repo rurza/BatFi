@@ -52,7 +52,14 @@ class OnboardingPlayerViewModel: ObservableObject {
         // stands a flat fill in for. Every other pane plays exactly what it ships with — one
         // player is shared between them, so skipping the fetch outright would leave the others
         // showing an empty player rather than their own video.
-        guard !(OnboardingRecordingMode.isEnabled && screen == .helper) else {
+        if screen == .helper, let localVideoURL = OnboardingRecordingMode.localVideoURL {
+            // The previous pass, playing where the finished clip will play. Local rather than
+            // fetched: the file being filmed does not exist on the server yet, and will not
+            // until the last pass is the one that ships.
+            play(AVPlayerItem(url: localVideoURL))
+            return
+        }
+        guard !(OnboardingRecordingMode.showsFill && screen == .helper) else {
             player.replaceCurrentItem(with: nil)
             return
         }
@@ -61,13 +68,19 @@ class OnboardingPlayerViewModel: ObservableObject {
 
     private func updatePlayer(_ filename: String?) {
         if let filename {
-            let item = playerItemForVideoName(filename)
-            player.replaceCurrentItem(with: item)
-            setUpSubscribersForItem(item)
-            player.play()
+            play(playerItemForVideoName(filename))
         } else {
             player.replaceCurrentItem(with: nil)
         }
+    }
+
+    /// Starts an item and arms the loop. Shared by the shipped clips and the local file a
+    /// recording pass plays, so a pass loops exactly as the real thing does — which matters,
+    /// because the loop is visible in the footage being filmed.
+    private func play(_ item: AVPlayerItem) {
+        player.replaceCurrentItem(with: item)
+        setUpSubscribersForItem(item)
+        player.play()
     }
 
     private func setUpSubscribersForItem(_ item: AVPlayerItem) {
