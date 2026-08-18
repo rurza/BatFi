@@ -64,7 +64,7 @@ public final class BatteryIndicatorViewModel: ObservableObject {
                 logger.debug("Update battery indicator: \(powerState)")
                 self.batteryLevel = powerState.batteryLevel
                 self.hasReading = true
-                self.chargingMode = ChargingMode(appChargingStateMode: mode)
+                self.chargingMode = ChargingMode(appChargingMode: mode)
                 self.monochrome = showMonochrome
                 self.showPercentage = showPercentage
                 self.showPercentageNextToIndicator = showPercentageOnBatteryIcon
@@ -74,31 +74,7 @@ public final class BatteryIndicatorViewModel: ObservableObject {
 }
 
 extension BatteryIndicatorViewModel {
-    public enum ChargingMode: Hashable {
-        case charging
-        case discharging
-        case inhibited
-        case error
-
-        init(appChargingStateMode: AppChargingMode) {
-            guard appChargingStateMode.mode != .initial else {
-                self = .error
-                return
-            }
-            guard appChargingStateMode.chargerConnected else {
-                self = .discharging
-                return
-            }
-            switch appChargingStateMode.mode {
-            case .charging:
-                self = .charging
-            case .inhibit:
-                self = .inhibited
-            case .forceDischarge:
-                self = .discharging
-            case .initial:
-                self = .error
-            }
-        }
-    }
+    /// Lives in `AppShared`, where a test target can reach the mapping. The name stays for
+    /// the call sites — the views and the Previews app both spell it this way.
+    public typealias ChargingMode = BatteryIndicatorMode
 }
