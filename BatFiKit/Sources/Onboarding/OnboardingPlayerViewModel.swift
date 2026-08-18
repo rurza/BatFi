@@ -52,6 +52,12 @@ class OnboardingPlayerViewModel: ObservableObject {
         // stands a flat fill in for. Every other pane plays exactly what it ships with — one
         // player is shared between them, so skipping the fetch outright would leave the others
         // showing an empty player rather than their own video.
+        // The live feed is not the player's to drive, and leaving the shipped clip playing
+        // behind it would fetch a video nobody can see.
+        if screen == .helper, OnboardingRecordingMode.streamsDesktop {
+            player.replaceCurrentItem(with: nil)
+            return
+        }
         if screen == .helper, let localVideoURL = OnboardingRecordingMode.localVideoURL {
             // The previous pass, playing where the finished clip will play. Local rather than
             // fetched: the file being filmed does not exist on the server yet, and will not

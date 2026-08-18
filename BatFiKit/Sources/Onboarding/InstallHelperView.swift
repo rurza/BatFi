@@ -16,7 +16,9 @@ struct InstallHelperView: View {
         VStack(spacing: 20) {
             let l10n = L10n.Onboarding.Label.self
             Group {
-                if OnboardingRecordingMode.showsFill {
+                if OnboardingRecordingMode.streamsDesktop {
+                    DesktopStreamView()
+                } else if OnboardingRecordingMode.showsFill {
                     OnboardingRecordingMode.fillColor
                 } else {
                     AVPlayerViewRepresented(player: model.player)

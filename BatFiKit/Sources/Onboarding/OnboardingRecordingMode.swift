@@ -48,9 +48,24 @@ enum OnboardingRecordingMode {
     /// once and grant access before recording anything.
     static let videoArgument = "--onboarding-video"
 
+    /// Plays a **live feed of the display** in the helper pane:
+    ///
+    ///     open -a BatFi.app --args --onboarding-stream
+    ///
+    /// The pane shows the screen, the screen contains the pane, and the recursion is on
+    /// screen as it is filmed — one take, no passes, no compositing and nothing to export
+    /// between levels. Everything the other two routes have to fake is simply happening.
+    ///
+    /// Needs Screen Recording permission, which is a one-time prompt: grant it and relaunch
+    /// **before** filming, or the consent dialog lands in the middle of a take. It outranks
+    /// both the fill and a local file — passing it means the feed is what belongs in the rect.
+    static let streamArgument = "--onboarding-stream"
+
     /// Read once. This is consulted from a view body, and `ProcessInfo.arguments` rebuilds the
     /// array on every access.
     static let isEnabled: Bool = ProcessInfo.processInfo.arguments.contains(launchArgument)
+
+    static let streamsDesktop: Bool = ProcessInfo.processInfo.arguments.contains(streamArgument)
 
     /// The file to play in the helper pane, if one was given and exists.
     ///
@@ -72,7 +87,7 @@ enum OnboardingRecordingMode {
     /// picture of the wrong app, and the mistake would be found after the take rather than
     /// before it. Magenta is found immediately.
     static var showsFill: Bool {
-        guard localVideoURL == nil else { return false }
+        guard !streamsDesktop, localVideoURL == nil else { return false }
         return isEnabled || videoPath(from: ProcessInfo.processInfo.arguments) != nil
     }
 
