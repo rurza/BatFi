@@ -28,7 +28,8 @@ extension PowerDistributionClient: DependencyKey {
                         task.cancel()
                     }
                 }
-            }
+            },
+            powerInfo: { try await powerInfo() }
         )
         return client
     }()

@@ -160,6 +160,24 @@ actor XPCClient {
         }
     }
 
+    /// Moves the enforced limit and puts the target back, to re-open a charge session macOS
+    /// closed below the limit — see `ChargeResumeNudge`.
+    func nudgeChargeLimit(to nudgeValue: Int, restoring target: Int) async throws -> Bool {
+        logger.notice("Nudging charge limit to \(nudgeValue, privacy: .public)%, restoring \(target, privacy: .public)%")
+        return try await call { service, continuation in
+            service.nudgeChargeLimit(
+                to: UInt8(clamping: nudgeValue),
+                restoring: UInt8(clamping: target)
+            ) { nudged, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume(returning: nudged)
+                }
+            }
+        }
+    }
+
     /// Applies the limit with the helper's memory of what it already applied discarded.
     /// Used when the battery contradicts that memory — see `ChargeHoldDrift`.
     func reassertChargeLimit(_ percentage: Int) async throws -> Int {

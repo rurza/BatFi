@@ -32,6 +32,11 @@ public protocol XPCService {
     /// recorded is the one asked for; this is the app reporting that the recorded limit is
     /// not what the battery is doing, so the record is what must not be trusted.
     func reassertChargeLimit(_ percentage: UInt8, _ handler: @escaping (UInt8, Error?) -> Void)
+    func nudgeChargeLimit(
+        to nudgeValue: UInt8,
+        restoring target: UInt8,
+        _ handler: @escaping (Bool, Error?) -> Void
+    )
     func getMCLStatus(_ handler: @escaping (MCLStatus?, Error?) -> Void)
     func getChargingDiagnostics(_ handler: @escaping (ChargingDiagnostics?, Error?) -> Void)
     func getCurrentChargingStatus(_ handler: @escaping (SMCChargingStatus?, Error?) -> Void)

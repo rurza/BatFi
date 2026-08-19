@@ -33,6 +33,9 @@ extension ChargingClient: DependencyKey {
             reassertChargeLimit: { percentage in
                 try await XPCClient.shared.reassertChargeLimit(percentage)
             },
+            nudgeChargeLimit: { nudgeValue, target in
+                try await XPCClient.shared.nudgeChargeLimit(to: nudgeValue, restoring: target)
+            },
             chargingStatus: {
                 return try await XPCClient.shared.getSMCChargingStatus()
             },

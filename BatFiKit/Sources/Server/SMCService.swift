@@ -270,6 +270,32 @@ actor SMCService {
         return try await applyChargeLimit(percentage)
     }
 
+    /// Asks powerd to re-open a charge session it closed while the battery sits below the limit.
+    ///
+    /// Only `.systemChargeLimit` can be in this state: it is the backend where macOS owns the
+    /// charging decision, drains to the limit itself and then holds. Under the inhibit backends
+    /// a battery below the limit is charging because BatFi released its inhibit, and under
+    /// `.firmwareRange` the band charges back up on its own — so a nudge there would be writing
+    /// to a limit to fix something that is not happening.
+    func nudgeChargeLimit(to nudgeValue: Int, restoring target: Int) async throws -> Bool {
+        guard await currentBackend() == .systemChargeLimit else {
+            logger.debug("Charge-resume nudge asked for on a backend that cannot be in that state; ignoring")
+            return false
+        }
+        let nudged = try await ManualChargeLimitDefaults.shared.nudgeToResumeCharging(
+            to: nudgeValue,
+            restoring: target
+        )
+        if nudged {
+            // What the nudge moved is exactly what this file short-circuits on, so the record
+            // has to go: the restore went through `apply` rather than through `applyChargeLimit`,
+            // and leaving the old record standing would let a later pass skip a write on the
+            // strength of a value the nudge has since overwritten twice.
+            appliedSystemLimit = nil
+        }
+        return nudged
+    }
+
     /// Applies a charge limit using whichever mechanism this firmware supports.
     ///
     /// Returns the limit actually applied, which may be higher than requested when the

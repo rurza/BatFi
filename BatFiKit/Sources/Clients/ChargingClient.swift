@@ -28,6 +28,10 @@ public struct ChargingClient: Sendable {
     /// recorded matches the request, which is right on the pass where nothing has changed
     /// and wrong on the pass where the battery says the recorded limit is not holding.
     public var reassertChargeLimit: @Sendable (_ percentage: Int) async throws -> Int
+    /// Moves the enforced limit to `nudgeValue` and restores `target`, to re-open a charge
+    /// session macOS closed while the battery sits below the limit. Returns whether a nudge was
+    /// actually performed — false where the backend cannot be in that state.
+    public var nudgeChargeLimit: @Sendable (_ nudgeValue: Int, _ target: Int) async throws -> Bool
     public var chargingStatus: @Sendable () async throws -> SMCChargingStatus
     public var mclStatus: @Sendable () async throws -> MCLStatus?
     public var chargingDiagnostics: @Sendable () async throws -> ChargingDiagnostics?

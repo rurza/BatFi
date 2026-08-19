@@ -33,6 +33,7 @@ import Testing
                 batteryLevel: 56,
                 limitInForce: 60,
                 holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             )
         )
@@ -50,6 +51,7 @@ import Testing
                 batteryLevel: 56,
                 limitInForce: 60,
                 holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -66,6 +68,7 @@ import Testing
                 batteryLevel: 60,
                 limitInForce: 60,
                 holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -82,6 +85,7 @@ import Testing
                 batteryLevel: 61,
                 limitInForce: 60,
                 holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -98,6 +102,7 @@ import Testing
                 batteryLevel: 56,
                 limitInForce: 60,
                 holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -117,6 +122,7 @@ import Testing
                 batteryLevel: 56,
                 limitInForce: 60,
                 holdIsAttributed: nil,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -132,6 +138,7 @@ import Testing
                 batteryLevel: 56,
                 limitInForce: 60,
                 holdIsAttributed: false,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -149,8 +156,64 @@ import Testing
                 batteryLevel: 56,
                 limitInForce: 60,
                 holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
                 mechanismOwnsChargingDecision: false
             ) == false
+        )
+    }
+
+    // MARK: - The SMC outranks IOKit on a transition
+
+    // Measured 2026-08-19 16:12:54, comparing BatFi's own menu against `ioreg` at the same
+    // second: the SMC reported 46.2W flowing *into* the battery while `AppleSmartBattery` still
+    // said `Amperage=0`, `IsCharging=false` and `CHNC` bit 24 set. IOKit did not catch up for
+    // ~17s. So on the transition out of a hold, IOKit is stale and the SMC is right — and
+    // without this the menu says "Charging paused by macOS" directly above its own graph showing
+    // 46W going into the battery.
+
+    @Test func chargeFlowingInEndsTheHoldEvenWhileIOKitStillSaysOtherwise() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 74,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: true,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// The SMC was asked and says nothing is going in. That is the hold, confirmed by the
+    /// fresher of the two sources rather than merely unrefuted by the staler one.
+    @Test func noChargeFlowingInConfirmsTheHold() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 74,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: false,
+                mechanismOwnsChargingDecision: true
+            )
+        )
+    }
+
+    /// Nil is "not asked" here too. The SMC read is an XPC round trip, so callers that have not
+    /// paid for one still get the IOKit answer rather than nothing.
+    @Test func anUnaskedSMCLeavesTheIOKitAnswerStanding() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 74,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                mechanismOwnsChargingDecision: true
+            )
         )
     }
 }

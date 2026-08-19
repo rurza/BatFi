@@ -40,6 +40,10 @@ public enum SystemChargeHold {
     ///   - holdIsAttributed: whether the firmware names something holding charge back right
     ///     now — `CHNC` bit 24 for Apple's limit. **Nil where it was not asked**, and nil is
     ///     "no evidence", never "nothing is holding".
+    ///   - chargeIsFlowingIn: the SMC's answer to whether power is going *into* the battery
+    ///     (`PowerDistributionInfo.batteryPower < 0`), or **nil where it was not asked** —
+    ///     it costs an XPC round trip, so callers that have not paid for one still get the
+    ///     IOKit answer rather than nothing.
     ///   - mechanismOwnsChargingDecision: `ChargeBackend.dischargesToLimitItself`.
     ///
     /// Strictly below the limit, never at it. At the limit a mechanism holding charge is
@@ -58,9 +62,18 @@ public enum SystemChargeHold {
         batteryLevel: Int,
         limitInForce: Int,
         holdIsAttributed: Bool?,
+        chargeIsFlowingIn: Bool?,
         mechanismOwnsChargingDecision: Bool
     ) -> Bool {
         guard mechanismOwnsChargingDecision, chargerConnected, !isCharging else { return false }
+        // The SMC outranks IOKit here, and only in this direction. Measured 2026-08-19: the SMC
+        // reported 46.2W going into the battery while `AppleSmartBattery` still said 0 mA, not
+        // charging, bit 24 set — and IOKit did not catch up for ~17s. Trusting IOKit alone put
+        // "Charging paused by macOS" directly above a graph showing 46W entering the battery.
+        //
+        // It cannot create a hold, only end one: a `false` from the SMC is not taken as proof of
+        // the fault on its own, because a battery merely resting at 0 mA reads the same way.
+        if chargeIsFlowingIn == true { return false }
         return batteryLevel < limitInForce && holdIsAttributed == true
     }
 }

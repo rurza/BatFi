@@ -122,6 +122,15 @@ actor ManualChargeLimitDefaults {
     /// force.
     private var latestRequestID: ChargeLimitRequestID = 0
 
+    /// Whether BatFi is deliberately holding a value other than the user's target right now.
+    ///
+    /// The nudge below writes a limit the user did not ask for, on purpose, for a few seconds.
+    /// Every re-assertion path in this app exists to undo exactly that, and one of them —
+    /// `SMCService`'s `isSatisfied` check — reacted in **two seconds** when the nudge was tried
+    /// by hand on 26A5416b. It did not matter there, because the change alone re-arms the
+    /// charger, but a remedy that races its own protection is one bug away from a write-loop.
+    private var nudgeInFlight = false
+
     /// Whether `limit` is as applied as it can currently be.
     ///
     /// powerd enforcing it is the strong answer and the only one that means charging is
@@ -134,6 +143,9 @@ actor ManualChargeLimitDefaults {
     /// and nothing else. Diagnostics and the settings pane need that distinction; only the
     /// re-assertion check wants this softer question.
     func isSatisfied(_ limit: Int) -> Bool {
+        // BatFi moved the limit itself and is about to move it back. Reporting this as
+        // satisfied is what keeps the re-assertion check from undoing the nudge mid-flight.
+        if nudgeInFlight { return true }
         if currentLimit() == limit { return true }
         guard !isOnAdapterPower() else { return false }
         return CFPreferencesCopyValue(limitKey, domain, user, host) as? Int == limit
@@ -238,6 +250,51 @@ actor ManualChargeLimitDefaults {
             logger.error("Charge limit \(limit, privacy: .public)% was written but powerd did not adopt it within 45s")
             throw ManualChargeLimitError.notAdopted
         }
+    }
+
+    /// Makes powerd re-open a charge session it closed, by moving the enforced value and
+    /// putting the target straight back.
+    ///
+    /// Measured on 26A5416b, 2026-08-19, against a live hold at 74% under a 75% limit:
+    /// re-writing the *same* limit does nothing — 75s of it, plus PowerUIAgent's own periodic
+    /// re-registrations, left the battery at 0 mA. Raising it by three points re-armed the
+    /// charger, and the raised value only had to be in force for about **eight seconds**: the
+    /// revert-protection put 75% back after 8s and current appeared anyway, ~25s after the
+    /// change. So the stimulus is the change itself, not the value that follows it.
+    ///
+    /// The target therefore goes back immediately rather than after waiting for current. That
+    /// is both faster and safer: while the nudged value is in force it is the limit the machine
+    /// would charge to, so the shortest possible window is the one that cannot overshoot. The
+    /// same measurement showed restoring mid-charge does not cancel the session — the battery
+    /// charged on and stopped at 75%.
+    ///
+    /// Both writes go through `apply`, so they inherit the reentrancy guard, the supersede
+    /// logic and the adoption wait rather than reimplementing them. A nudge that fails to be
+    /// adopted still restores: the restore is what protects the user, and skipping it because
+    /// the first write timed out would leave a limit they never chose in force.
+    func nudgeToResumeCharging(to nudgeValue: Int, restoring target: Int) async throws -> Bool {
+        guard geteuid() == 0 else { throw ManualChargeLimitError.notRoot }
+        guard nudgeValue != target else { return false }
+        guard !nudgeInFlight else {
+            logger.notice("A charge-resume nudge is already in flight; not starting another")
+            return false
+        }
+        nudgeInFlight = true
+        logger.notice("Nudging the charge limit to \(nudgeValue, privacy: .public)% to re-open the charge session, then restoring \(target, privacy: .public)%")
+        do {
+            try await apply(limit: nudgeValue)
+        } catch {
+            // Logged and swallowed. A timeout here does not mean the write was refused — the
+            // adoption may still be in flight — and either way the restore below is what has
+            // to happen next.
+            logger.error("Charge-resume nudge to \(nudgeValue, privacy: .public)% did not confirm: \(error, privacy: .public)")
+        }
+        // Cleared before the restore, not after: the restore is an ordinary apply of the
+        // user's own limit and must be visible to `isSatisfied` as such.
+        nudgeInFlight = false
+        try await apply(limit: target)
+        logger.notice("Charge limit \(target, privacy: .public)% restored after the nudge")
+        return true
     }
 
     /// Writes both keys and tells PowerUIAgent to re-read them.

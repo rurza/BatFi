@@ -112,6 +112,25 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         }
     }
 
+    func nudgeChargeLimit(
+        to nudgeValue: UInt8,
+        restoring target: UInt8,
+        _ reply: @escaping (Bool, (any Error)?) -> Void
+    ) {
+        let reply = UnsafeSendableBox(value: reply)
+        Task {
+            do {
+                let nudged = try await smcService.nudgeChargeLimit(
+                    to: Int(nudgeValue),
+                    restoring: Int(target)
+                )
+                reply.value(nudged, nil)
+            } catch {
+                reply.value(false, error)
+            }
+        }
+    }
+
     func reassertChargeLimit(_ percentage: UInt8, _ reply: @escaping (UInt8, (any Error)?) -> Void) {
         let reply = UnsafeSendableBox(value: reply)
         Task {

@@ -32,6 +32,7 @@ public actor ChargingManager: ChargingModeManager {
     @Dependency(\.analyticsClient) private var analytics
     @Dependency(\.date) private var date
     @Dependency(\.userNotificationsClient) private var userNotificationsClient
+    @Dependency(\.powerDistributionClient) private var powerDistributionClient
 
     /// The run of readings that contradict the hold BatFi's configuration implies.
     ///
@@ -40,6 +41,7 @@ public actor ChargingManager: ChargingModeManager {
     /// — by macOS, by another app taking the mechanism over, by firmware doing something
     /// nobody has characterised — is noticed rather than reported as applied forever.
     private var driftMonitor = ChargeHoldDriftMonitor()
+    private var nudgeMonitor = ChargeResumeNudgeMonitor()
     /// The firmware's last answer to "is anything holding charge right now", and when it was
     /// asked. Throttled because asking is an XPC round trip into
     /// `SMCService.chargingDiagnostics()`, which opens the SMC, reads `CHNC`, queries PowerUI
@@ -647,6 +649,22 @@ public actor ChargingManager: ChargingModeManager {
             currentMode: currentMode
         )
 
+        // Answered once per pass, here rather than inside the mode decision, and answered on
+        // **every** pass rather than only on the branch that consumes it. The monitor below
+        // needs the clean readings as much as the held ones: its clock is reset by them, and a
+        // clock left half-elapsed by a pass that never asked would fire a write within seconds
+        // of the next dip instead of after a minute of it.
+        let systemIsHoldingBelowLimit = await systemIsHoldingChargeBelowLimit(
+            powerState: powerState,
+            chargerConnected: chargerConnected,
+            limitInForce: effectiveLimitInForce
+        )
+        await checkForChargeResumeStall(
+            isHolding: systemIsHoldingBelowLimit,
+            target: requestedLimit,
+            now: date.now
+        )
+
         switch HotBatteryProtection.decision(
             isEnabled: turnOffChargingWithHotBattery,
             temperature: powerState.batteryTemperature,
@@ -808,11 +826,7 @@ public actor ChargingManager: ChargingModeManager {
                     chargerConnected: chargerConnected,
                     currentMode: currentMode
                 )
-            } else if await systemIsHoldingChargeBelowLimit(
-                powerState: powerState,
-                chargerConnected: chargerConnected,
-                limitInForce: effectiveLimitInForce
-            ) {
+            } else if systemIsHoldingBelowLimit {
                 // Below the limit and *still* not charging, with the firmware naming Apple's
                 // own limit as the reason. `turnOnCharging` below would be the honest answer
                 // on every backend BatFi drives with an inhibit of its own — there, below the
@@ -838,6 +852,36 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
+    /// Gets a charge session macOS closed re-opened, once a hold has lasted long enough to be
+    /// worth writing to the user's own charge limit over.
+    ///
+    /// Separate from `checkForChargeHoldDrift` because it is a different fault with a different
+    /// remedy: drift is the limit failing to hold and is answered by re-asserting it, which was
+    /// measured *not* to help here. This is the limit holding immaculately while the charger
+    /// stays off, and the only thing that answers it is changing the enforced value.
+    private func checkForChargeResumeStall(isHolding: Bool, target: Int, now: Date) async {
+        guard nudgeMonitor.record(isHolding: isHolding, at: now) == .nudge else { return }
+        guard let nudgeValue = ChargeResumeNudge.target(forLimitInForce: target) else {
+            logger.notice("Charge is held below a \(target, privacy: .public)% limit but there is no room to nudge above it")
+            return
+        }
+        logger.notice("Charge has been held below the limit for \(Int(ChargeResumeNudgeMonitor.nudgeAfter), privacy: .public)s; nudging the limit to \(nudgeValue, privacy: .public)% to re-open the charge session")
+        await analytics.addBreadcrumb(
+            category: .chargingManager,
+            message: "Nudging charge limit to \(nudgeValue)% to resume charging below a \(target)% limit"
+        )
+        do {
+            let nudged = try await chargingClient.nudgeChargeLimit(nudgeValue, target)
+            if nudged {
+                // The helper moved the limit twice, so nothing this process recorded about the
+                // hardware is still trustworthy.
+                hardwareStateMayBeStale = true
+            }
+        } catch {
+            logger.error("Charge-resume nudge failed: \(error, privacy: .public)")
+        }
+    }
+
     /// Whether macOS is holding charge on a battery that sits below the limit.
     ///
     /// The backend question is asked first and on its own, so that `holdAttribution` — an XPC
@@ -857,12 +901,32 @@ public actor ChargingManager: ChargingModeManager {
             limitInForce: limitInForce,
             now: date.now
         )
+        // Asked only where the IOKit answer would otherwise be "held", which bounds this XPC
+        // round trip to a state that is by definition idle. Everywhere else it stays nil and
+        // the rule falls back to IOKit, as it did before.
+        let iokitSaysHeld = SystemChargeHold.isHoldingBelowLimit(
+            chargerConnected: chargerConnected,
+            isCharging: powerState.isCharging,
+            batteryLevel: powerState.batteryLevel,
+            limitInForce: limitInForce,
+            holdIsAttributed: holdIsAttributed,
+            chargeIsFlowingIn: nil,
+            mechanismOwnsChargingDecision: true
+        )
+        var chargeIsFlowingIn: Bool?
+        if iokitSaysHeld {
+            // `batteryPower < 0` is the battery as a *target* rather than a source — the sign
+            // convention `PowerGraph` renders. A helper that cannot answer leaves this nil, so
+            // an unreachable helper cannot turn a hold into a phantom charge.
+            chargeIsFlowingIn = (try? await powerDistributionClient.powerInfo()).map { $0.batteryPower < 0 }
+        }
         let isHolding = SystemChargeHold.isHoldingBelowLimit(
             chargerConnected: chargerConnected,
             isCharging: powerState.isCharging,
             batteryLevel: powerState.batteryLevel,
             limitInForce: limitInForce,
             holdIsAttributed: holdIsAttributed,
+            chargeIsFlowingIn: chargeIsFlowingIn,
             mechanismOwnsChargingDecision: true
         )
         // Logged on the transition only, and compared against the *published* flag rather
