@@ -18,13 +18,15 @@ import Testing
         _ mode: ChargingMode,
         override: Int? = nil,
         chargerConnected: Bool = true,
-        systemIsDischargingToLimit: Bool = false
+        systemIsDischargingToLimit: Bool = false,
+        systemIsHoldingBelowLimit: Bool = false
     ) -> AppChargingMode {
         AppChargingMode(
             mode: mode,
             userTempOverride: override.map(UserTempChargingMode.init(limit:)),
             chargerConnected: chargerConnected,
-            systemIsDischargingToLimit: systemIsDischargingToLimit
+            systemIsDischargingToLimit: systemIsDischargingToLimit,
+            systemIsHoldingBelowLimit: systemIsHoldingBelowLimit
         )
     }
 
@@ -129,6 +131,51 @@ import Testing
             let drained = mode(otherMode, systemIsDischargingToLimit: true).stateDescription
             #expect(drained == mode(otherMode).stateDescription)
         }
+    }
+
+    // MARK: - Charge held below the limit
+
+    // Measured on 26A5416b, 2026-08-19: 56% against a 60% limit, 0 mA, `CHNC` bit 24 set, for
+    // two hours. The mode decision reads `batteryLevel < limitInForce` and so chose
+    // `.charging` — the menu said "Charging to the limit" while no current flowed at all.
+    // `.inhibit` is the honest mode, and "Inhibiting charging" is still the wrong sentence
+    // for it: BatFi wrote nothing, and the number the user set is not the one being held at.
+
+    @Test func systemHoldingChargeBelowTheLimitIsNotReportedAsInhibiting() {
+        let title = mode(.inhibit, systemIsHoldingBelowLimit: true).stateDescription
+        #expect(title != L10n.AppChargingMode.State.Title.inhibit)
+        #expect(title == L10n.AppChargingMode.State.Title.systemHoldingBelowLimit)
+    }
+
+    @Test func inhibitingWithoutASystemHoldIsUnchanged() {
+        let title = mode(.inhibit).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.inhibit)
+    }
+
+    /// Same containment the drain flag gets: it explains why charge is being held and must
+    /// not leak into a mode where nothing is.
+    @Test func aSystemHoldDoesNotRelabelTheOtherModes() {
+        for otherMode in [ChargingMode.charging, .forceDischarge] {
+            let held = mode(otherMode, systemIsHoldingBelowLimit: true).stateDescription
+            #expect(held == mode(otherMode).stateDescription)
+        }
+    }
+
+    @Test func aTempOverrideOutranksASystemHold() {
+        let title = mode(.inhibit, override: 100, systemIsHoldingBelowLimit: true).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.chargeOverride)
+    }
+
+    /// The two cannot both be true of one reading — a drain needs the battery above the limit
+    /// and a hold needs it below — but the struct cannot express that, so the precedence is
+    /// pinned here. The drain wins: it is the one the user can watch happening.
+    @Test func aDrainOutranksAHoldIfBothAreSomehowSet() {
+        let title = mode(
+            .inhibit,
+            systemIsDischargingToLimit: true,
+            systemIsHoldingBelowLimit: true
+        ).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.systemDischargingToLimit)
     }
 
     /// A temp override is BatFi acting on the user's own instruction, and the override text

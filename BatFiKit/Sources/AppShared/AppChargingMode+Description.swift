@@ -50,16 +50,27 @@ public extension AppChargingMode {
         case .forceDischarge:
             return label.forceDischarge
         case .inhibit:
-            // `.inhibit` covers two different things on two different kinds of Mac, and only
-            // one of them is BatFi pausing charging. Where the mechanism owns the charging
-            // decision, macOS drains the battery down to the limit itself and BatFi writes
-            // no inhibit at all — so this is the mode BatFi records for "charge is being
-            // held, just not by me", and the label has to say which.
+            // `.inhibit` covers three different things, and only one of them is BatFi pausing
+            // charging. Where the mechanism owns the charging decision, macOS drains the
+            // battery down to the limit itself and BatFi writes no inhibit at all — so this
+            // is the mode BatFi records for "charge is being held, just not by me", and the
+            // label has to say which.
+            //
+            // The order is the precedence, and it is pinned by a test. The two system states
+            // are mutually exclusive on any real reading — a drain needs the battery above
+            // the limit, a hold needs it below — but the flags are independent, and the drain
+            // is the one a user can watch happening.
             //
             // The description below is left alone deliberately: "The charging limit is set
-            // to 55%" is true either way, and it is the title that a user watching 61% fall
-            // toward 55% can prove wrong.
-            return systemIsDischargingToLimit ? label.systemDischargingToLimit : label.inhibit
+            // to 55%" is true in all three cases, and it is the title that a user watching
+            // 61% fall toward 55% — or 56% sit still under a 60% limit — can prove wrong.
+            if systemIsDischargingToLimit {
+                return label.systemDischargingToLimit
+            }
+            if systemIsHoldingBelowLimit {
+                return label.systemHoldingBelowLimit
+            }
+            return label.inhibit
         }
     }
 

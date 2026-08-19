@@ -1614,6 +1614,17 @@
         }
       }
     },
+    "app_charging_mode.state.title.system_holding_below_limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charging paused by macOS"
+          }
+        }
+      }
+    },
     "app_charging_mode.state.title.temp_charging" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

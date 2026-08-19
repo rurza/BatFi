@@ -67,8 +67,8 @@ extension AppChargingStateClient: DependencyKey {
             updateChargingMode: { mode in
                 await state.updateMode(mode)
             },
-            setSystemIsDischargingToLimit: { isDischarging in
-                await state.updateSystemIsDischargingToLimit(isDischarging)
+            setSystemChargeHold: { draining, holdingBelowLimit in
+                await state.updateSystemChargeHold(draining: draining, holdingBelowLimit: holdingBelowLimit)
             },
             setTempOverride: { mode in
                 await state.updateOverride(mode)
@@ -127,9 +127,9 @@ private actor AppChargingState {
         }
     }
 
-    // `updateSystemIsDischargingToLimit` is the only writer of that flag. The three around
-    // it carry it across rather than letting it default back to `false`: none of them is
-    // told anything about the drain, and dropping it would relabel a Mac mid-drain as
+    // `updateSystemChargeHold` is the only writer of those flags. The three around it carry
+    // them across rather than letting them default back to `false`: none of them is told
+    // anything about the drain or the hold, and dropping them would relabel a Mac mid-drain as
     // "Inhibiting charging" on the next charger-connection update — which the appliers issue
     // on every pass, i.e. throughout the drain.
 
@@ -138,18 +138,21 @@ private actor AppChargingState {
             mode: newMode,
             userTempOverride: mode.userTempOverride,
             chargerConnected: mode.chargerConnected,
-            systemIsDischargingToLimit: mode.systemIsDischargingToLimit
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit
         )
         setAppChargingMode(newAppChargingMode)
     }
 
-    func updateSystemIsDischargingToLimit(_ isDischarging: Bool) {
-        guard isDischarging != mode.systemIsDischargingToLimit else { return }
+    func updateSystemChargeHold(draining: Bool, holdingBelowLimit: Bool) {
+        guard draining != mode.systemIsDischargingToLimit
+            || holdingBelowLimit != mode.systemIsHoldingBelowLimit else { return }
         let newAppChargingMode = AppChargingMode(
             mode: mode.mode,
             userTempOverride: mode.userTempOverride,
             chargerConnected: mode.chargerConnected,
-            systemIsDischargingToLimit: isDischarging
+            systemIsDischargingToLimit: draining,
+            systemIsHoldingBelowLimit: holdingBelowLimit
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -159,7 +162,8 @@ private actor AppChargingState {
             mode: mode.mode,
             userTempOverride: override,
             chargerConnected: mode.chargerConnected,
-            systemIsDischargingToLimit: mode.systemIsDischargingToLimit
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -169,7 +173,8 @@ private actor AppChargingState {
             mode: mode.mode,
             userTempOverride: mode.userTempOverride,
             chargerConnected: connected,
-            systemIsDischargingToLimit: mode.systemIsDischargingToLimit
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit
         )
         setAppChargingMode(newAppChargingMode)
     }

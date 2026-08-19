@@ -36,8 +36,24 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
     /// is not.
     public let systemIsDischargingToLimit: Bool
 
+    /// Whether macOS is holding charge on a battery that sits **below** the limit.
+    ///
+    /// The other half of what `.inhibit` covers on a mechanism that owns the charging
+    /// decision, and it is here for the same reasons `systemIsDischargingToLimit` is: BatFi
+    /// did not ask for it, issues no write while it lasts, and cannot currently end it —
+    /// re-writing the same limit does not re-open the charge session macOS closed.
+    ///
+    /// Mutually exclusive with the drain in practice, because that one needs the battery
+    /// above the limit and this one needs it below. The struct cannot express that; the
+    /// precedence lives in `stateDescription` and is pinned by a test.
+    ///
+    /// **Defaults to `false`, meaning "not known to be held"** — the same reading the drain
+    /// flag gets. `ChargingManager` is the one place that knows the level, the limit in
+    /// force, the firmware's attribution and the backend at the same moment.
+    public let systemIsHoldingBelowLimit: Bool
+
     public var id: String {
-        "\(mode.id)\(userTempOverride?.id.description ?? "null")\(chargerConnected)\(systemIsDischargingToLimit)"
+        "\(mode.id)\(userTempOverride?.id.description ?? "null")\(chargerConnected)\(systemIsDischargingToLimit)\(systemIsHoldingBelowLimit)"
     }
 
     public var description: String {
@@ -46,6 +62,7 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         userTempOverride: \(userTempOverride?.limit.description ?? "nil")
         chargerConnected: \(chargerConnected)
         systemIsDischargingToLimit: \(systemIsDischargingToLimit)
+        systemIsHoldingBelowLimit: \(systemIsHoldingBelowLimit)
         """
     }
 
@@ -53,12 +70,14 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         mode: ChargingMode,
         userTempOverride: UserTempChargingMode?,
         chargerConnected: Bool,
-        systemIsDischargingToLimit: Bool = false
+        systemIsDischargingToLimit: Bool = false,
+        systemIsHoldingBelowLimit: Bool = false
     ) {
         self.mode = mode
         self.userTempOverride = userTempOverride
         self.chargerConnected = chargerConnected
         self.systemIsDischargingToLimit = systemIsDischargingToLimit
+        self.systemIsHoldingBelowLimit = systemIsHoldingBelowLimit
     }
 
 }
