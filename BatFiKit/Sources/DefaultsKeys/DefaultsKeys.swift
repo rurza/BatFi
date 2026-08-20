@@ -22,6 +22,10 @@ public extension Defaults.Keys {
     static let chargeLimit = Key<Int>("chargeLimit", default: 80)
     static let allowDischargingFullBattery = Key<Bool>("allowDischargingFullBattery", default: false)
     static let disableSleepDuringDischarging = Key<Bool>("disableSleepDuringDischarging", default: false)
+    /// Whether the user has ticked "Don't show this again" on the alert that discloses that a
+    /// manual discharge disables sleep entirely — lid close included. Only ever reached on a
+    /// backend where macOS drains to the limit itself; see `ManualDischargeSleepNotice`.
+    static let suppressManualDischargeSleepNotice = Key<Bool>("suppressManualDischargeSleepNotice", default: false)
 
     // Menu bar
     static let showMenuBarIcon = Key<Bool>("showMenuBarIcon", default: true)

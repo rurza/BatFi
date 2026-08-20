@@ -9,6 +9,8 @@ import About
 import AppCore
 import AppShared
 import Cocoa
+import Defaults
+import DefaultsKeys
 import Dependencies
 import KeyboardShortcuts
 import L10n
@@ -207,8 +209,44 @@ public final class BatFi: StatusItemManagerDelegate, HelperConnectionManagerDele
         chargingManager.forceCharge()
     }
 
+    /// The single funnel for the menu item and the `.dischargeBattery` hotkey, which is why the
+    /// disclosure lives here rather than in either one.
     public func dischargeBattery(to limit: Int) {
-        chargingManager.dischargeBattery(to: limit)
+        Task { @MainActor in
+            let backendOwnsDischarge = await chargingManager.manualDischargeDisablesSleep()
+            if ManualDischargeSleepNotice.shouldShow(
+                backendOwnsDischarge: backendOwnsDischarge,
+                userSuppressed: Defaults[.suppressManualDischargeSleepNotice]
+            ) {
+                // Cancel means nothing happens at all: no override, no `pmset` write. Asked
+                // before the discharge starts rather than after, so the answer still matters.
+                guard showManualDischargeDisablesSleepAlert() else { return }
+            }
+            chargingManager.dischargeBattery(to: limit)
+        }
+    }
+
+    /// Discloses that "Run on Battery" stops this Mac sleeping at all — lid close included —
+    /// and returns whether the user still wants it.
+    ///
+    /// Disabling sleep is a system-wide, root-owned side effect (`pmset -a disablesleep`), which
+    /// is worth saying out loud once. The suppression is recorded whichever button is pressed:
+    /// the checkbox is about the alert, not about the discharge.
+    @MainActor
+    private func showManualDischargeDisablesSleepAlert() -> Bool {
+        let alert = NSAlert()
+        alert.alertStyle = .informational
+        alert.messageText = L10n.Notifications.Alert.Title.manualDischargeDisablesSleep
+        alert.informativeText = L10n.Notifications.Alert.InformativeText.manualDischargeDisablesSleep
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.runOnBattery)
+        alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.cancel)
+        alert.showsSuppressionButton = true
+        alert.suppressionButton?.title = L10n.Notifications.Alert.Button.Label.dontShowAgain
+        let response = alert.runModal()
+        if alert.suppressionButton?.state == .on {
+            Defaults[.suppressManualDischargeSleepNotice] = true
+        }
+        return response == .alertFirstButtonReturn
     }
 
     public func stopOverride() {

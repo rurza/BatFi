@@ -14886,6 +14886,17 @@
         }
       }
     },
+    "notifications.alert.button.label.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
     "notifications.alert.button.label.close" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -14971,6 +14982,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "关闭"
+          }
+        }
+      }
+    },
+    "notifications.alert.button.label.dont_show_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Don't show this again"
           }
         }
       }
@@ -15327,6 +15349,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "恢复状态栏图标"
+          }
+        }
+      }
+    },
+    "notifications.alert.button.label.run_on_battery" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Run on Battery"
           }
         }
       }
@@ -16132,6 +16165,17 @@
         }
       }
     },
+    "notifications.alert.informative_text.manual_discharge_disables_sleep" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Running on battery takes the charger out of the circuit, so BatFi keeps this Mac awake for as long as it lasts. It won't sleep on its own, and it won't sleep when you close the lid — if it's on an external display, it keeps running with the lid shut.\n\nTurning “Run on Battery” off restores normal sleep straight away."
+          }
+        }
+      }
+    },
     "notifications.alert.informative_text.not_laptop" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -16929,6 +16973,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "BatFi的Helper应用未安装"
+          }
+        }
+      }
+    },
+    "notifications.alert.title.manual_discharge_disables_sleep" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This Mac won't be able to sleep"
           }
         }
       }

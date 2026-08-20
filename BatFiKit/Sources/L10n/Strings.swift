@@ -405,6 +405,13 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// This Mac won't be able to sleep
+                public static let manualDischargeDisablesSleep = String(
+                    localized: "notifications.alert.title.manual_discharge_disables_sleep",
+                    defaultValue: "This Mac won't be able to sleep",
+                    bundle: Bundle.module
+                )
+
                 /// BatFi's helper isn't responding
                 public static let helperNotResponding = String(
                     localized: "notifications.alert.title.helper_not_responding",
@@ -460,6 +467,13 @@ public enum L10n {
                 public static let installHelperTroubleshooting = String(
                     localized: "notifications.alert.informative_text.install_helper_troubleshooting",
                     defaultValue: "The app won't work without it.\nOpen and complete the Onboarding process from the More menu.\nVerify that the app is on the 'Allow in background' list with the switch turned on in System Settings → General → Login Items.\n",
+                    bundle: Bundle.module
+                )
+
+                /// Running on battery takes the charger out of the circuit, so BatFi keeps this Mac awake for as long as it lasts. It won't sleep on its own, and it won't sleep when you close the lid — if it's on an external display, it keeps running with the lid shut. Turning “Run on Battery” off restores normal sleep straight away.
+                public static let manualDischargeDisablesSleep = String(
+                    localized: "notifications.alert.informative_text.manual_discharge_disables_sleep",
+                    defaultValue: "Running on battery takes the charger out of the circuit, so BatFi keeps this Mac awake for as long as it lasts. It won't sleep on its own, and it won't sleep when you close the lid — if it's on an external display, it keeps running with the lid shut.\n\nTurning “Run on Battery” off restores normal sleep straight away.",
                     bundle: Bundle.module
                 )
 
@@ -598,6 +612,15 @@ public enum L10n {
                 public enum Label {
                     /// Open System Settings
                     public static let openSystemSettings = String(localized: "notifications.alert.button.label.open_system_settings", defaultValue: "Open System Settings…", bundle: Bundle.module)
+
+                    /// Run on Battery
+                    public static let runOnBattery = String(localized: "notifications.alert.button.label.run_on_battery", defaultValue: "Run on Battery", bundle: Bundle.module)
+
+                    /// Cancel
+                    public static let cancel = String(localized: "notifications.alert.button.label.cancel", defaultValue: "Cancel", bundle: Bundle.module)
+
+                    /// Don't show this again
+                    public static let dontShowAgain = String(localized: "notifications.alert.button.label.dont_show_again", defaultValue: "Don't show this again", bundle: Bundle.module)
 
                     /// Close
                     public static let close = String(

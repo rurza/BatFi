@@ -429,7 +429,7 @@ public actor ChargingManager: ChargingModeManager {
 
     public func appWillQuit() async {
         try? await chargingClient.restoreSystemDefaults()
-        try? await sleepAssertionClient.disableSleep(false)
+        await setSleepDisabled(false)
         await restoreSleepifNeeded()
     }
 
@@ -713,7 +713,22 @@ public actor ChargingManager: ChargingModeManager {
             isLidOpened = await fetchLidStatus()
         }
 
-        let isLidOpenedOrSleepDisabled = isLidOpened || disableSleepDuringDischarge
+        // A manual discharge on a mechanism that drains to the limit itself is the only thing
+        // left driving the SMC, and it takes the adapter out of the circuit — so BatFi disables
+        // sleep outright for its duration. That is what lets the lid be closed on an external
+        // display, which `pmset -a disablesleep` buys and an IOPM assertion explicitly does not.
+        // Disclosed once by the alert behind `ManualDischargeSleepNotice`.
+        // Bound on its own rather than folded into an `&&`: the right-hand side of a
+        // short-circuiting operator is an autoclosure and cannot be async. The cheap
+        // short-circuit is kept by only asking when an override is actually present.
+        let manualDischargeDisablesSleep: Bool
+        if userTempChargingMode != nil {
+            manualDischargeDisablesSleep = await systemDischargesToLimitItself()
+        } else {
+            manualDischargeDisablesSleep = false
+        }
+        let sleepIsDisabledForDischarge = disableSleepDuringDischarge || manualDischargeDisablesSleep
+        let isLidOpenedOrSleepDisabled = isLidOpened || sleepIsDisabledForDischarge
 
         let currentBatteryLevel = powerState.batteryLevel
         if let tempLimit = userTempChargingMode?.limit {
@@ -766,7 +781,7 @@ public actor ChargingManager: ChargingModeManager {
             if currentBatteryLevel > tempLimit, isLidOpenedOrSleepDisabled {
                 return await turnOnDischarging(
                     chargerConnected: chargerConnected,
-                    disableSleep: disableSleepDuringDischarge,
+                    disableSleep: sleepIsDisabledForDischarge,
                     currentMode: currentMode
                 )
             } else if currentBatteryLevel < effectiveLimitInForce {
@@ -796,7 +811,7 @@ public actor ChargingManager: ChargingModeManager {
                    !computerIsAsleep, await !systemDischargesToLimitItself() {
                     await turnOnDischarging(
                         chargerConnected: chargerConnected,
-                        disableSleep: disableSleepDuringDischarge,
+                        disableSleep: sleepIsDisabledForDischarge,
                         currentMode: currentMode
                     )
                     return
@@ -1044,7 +1059,7 @@ public actor ChargingManager: ChargingModeManager {
         // `.inhibit`/`.forceDischarge` for the rest of the session, the MagSafe LED green,
         // and a sleep assertion held. `.charging` is the accurate report either way.
         if sleepAssertionMayBeHeldForDischarging {
-            try? await sleepAssertionClient.disableSleep(false)
+            await setSleepDisabled(false)
         }
         // BatFi is handing charging back, so it must not still be preventing automatic
         // sleep. The license-invalid guard in `updateStatus` returns through here *before*
@@ -1092,7 +1107,31 @@ public actor ChargingManager: ChargingModeManager {
     /// switched off out from under its own release. Still gated rather than unconditional:
     /// `disableSleep(false)` makes an XPC call, and this runs on every status update.
     private var sleepAssertionMayBeHeldForDischarging: Bool {
-        defaults.value(.allowDischargingFullBattery) || defaults.value(.disableSleepDuringDischarging)
+        sleepWasDisabledForDischarging
+            || defaults.value(.allowDischargingFullBattery)
+            || defaults.value(.disableSleepDuringDischarging)
+    }
+
+    /// Whether BatFi currently has sleep disabled for a discharge.
+    ///
+    /// Naming the settings above is no longer enough to know that: a manual discharge on a
+    /// mechanism that drains to the limit itself disables sleep with **neither** of them on, so
+    /// the guard would skip the release and leave the Mac unable to sleep after the discharge
+    /// ended. Recording the fact beats enumerating the causes, which is the trap the comment
+    /// above already describes — every future taker is covered without being listed.
+    private var sleepWasDisabledForDischarging = false
+
+    /// The single writer, so the flag cannot drift from what was actually asked for.
+    private func setSleepDisabled(_ disabled: Bool) async {
+        try? await sleepAssertionClient.disableSleep(disabled)
+        sleepWasDisabledForDischarging = disabled
+    }
+
+    /// Whether a discharge on this Mac would be BatFi's own SMC discharge on a mechanism that
+    /// otherwise drains to the limit itself — the one case that disables sleep outright.
+    /// Read by the app layer to decide whether the disclosure alert is owed.
+    public func manualDischargeDisablesSleep() async -> Bool {
+        await systemDischargesToLimitItself()
     }
 
     private func turnOnCharging(chargerConnected: Bool, currentMode: ChargingMode) async {
@@ -1109,7 +1148,7 @@ public actor ChargingManager: ChargingModeManager {
         do {
             try await chargingClient.turnOnAutoChargingMode()
             if sleepAssertionMayBeHeldForDischarging {
-                try? await sleepAssertionClient.disableSleep(false)
+                await setSleepDisabled(false)
             }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Charging turned on")
             didApply()
@@ -1160,7 +1199,7 @@ public actor ChargingManager: ChargingModeManager {
         do {
             try await chargingClient.inhibitCharging()
             if sleepAssertionMayBeHeldForDischarging {
-                try? await sleepAssertionClient.disableSleep(false)
+                await setSleepDisabled(false)
             }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
             didApply()
@@ -1185,12 +1224,12 @@ public actor ChargingManager: ChargingModeManager {
         // site is on a path this pass no longer reaches.
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
-            try? await sleepAssertionClient.disableSleep(false)
+            await setSleepDisabled(false)
             return
         }
-        try? await sleepAssertionClient.disableSleep(disableSleep)
+        await setSleepDisabled(disableSleep)
         if defaults.value(.disableSleepDuringDischarging) {
-            try? await sleepAssertionClient.disableSleep(true)
+            await setSleepDisabled(true)
         }
         // Below the sleep assertions on purpose. Those follow `disableSleep`, which the user
         // can change while the discharge is already running, so they are not the mode's to
