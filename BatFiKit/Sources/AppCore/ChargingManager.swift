@@ -5,8 +5,10 @@
 //  Created by Adam on 04/05/2023.
 //
 
+import AppKit
 import AppShared
 import AsyncAlgorithms
+import Defaults
 import Clients
 import DefaultsKeys
 import Dependencies
@@ -455,10 +457,45 @@ public actor ChargingManager: ChargingModeManager {
         }
     }
 
+    /// Where the menu item and the `.dischargeBattery` hotkey actually converge.
+    ///
+    /// The menu reaches `ChargingModeManager`, which `App` satisfies with the manager itself
+    /// rather than with `App` — so a gate in the app layer covered the hotkey and nothing else.
+    /// It belongs here, below both.
     nonisolated public func dischargeBattery(to limit: Int) {
         guard limit >= 0, limit <= 100 else { return }
         Task {
+            guard await confirmManualDischargeIfNeeded() else { return }
             await appChargingState.setTempOverride(.init(limit: limit))
+        }
+    }
+
+    /// Discloses, once, that a manual discharge stops this Mac sleeping at all — and returns
+    /// whether the user still wants it. Cancel means nothing happens: no override, no `pmset`.
+    private func confirmManualDischargeIfNeeded() async -> Bool {
+        guard ManualDischargeSleepNotice.shouldShow(
+            backendOwnsDischarge: await systemDischargesToLimitItself(),
+            userSuppressed: Defaults[.suppressManualDischargeSleepNotice]
+        ) else { return true }
+        return await MainActor.run {
+            let alert = NSAlert()
+            alert.alertStyle = .informational
+            alert.messageText = L10n.Notifications.Alert.Title.manualDischargeDisablesSleep
+            alert.informativeText = L10n.Notifications.Alert.InformativeText.manualDischargeDisablesSleep
+            alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.runOnBattery)
+            alert.addButton(withTitle: L10n.Notifications.Alert.Button.Label.cancel)
+            alert.showsSuppressionButton = true
+            alert.suppressionButton?.title = L10n.Notifications.Alert.Button.Label.dontShowAgain
+            // The app is an accessory, so the alert can otherwise open behind whatever is in
+            // front and wait there for a click nobody knows to give.
+            NSApp.activate(ignoringOtherApps: true)
+            let response = alert.runModal()
+            // Recorded whichever button was pressed: the checkbox is about the alert, not
+            // about the discharge.
+            if alert.suppressionButton?.state == .on {
+                Defaults[.suppressManualDischargeSleepNotice] = true
+            }
+            return response == .alertFirstButtonReturn
         }
     }
 
@@ -1224,7 +1261,20 @@ public actor ChargingManager: ChargingModeManager {
         // site is on a path this pass no longer reaches.
         guard chargerConnected else {
             logger.debug("Charger not connected, skipping discharging")
-            await setSleepDisabled(false)
+            // Restoring sleep here is right when the charger is genuinely gone and wrong when
+            // it is gone *because of this discharge*. `CHIE` takes the adapter out of the
+            // circuit, so `ExternalConnected` goes false within seconds of starting, and this
+            // guard then undid the very disable the discharge needs: measured on 26A5416b,
+            // "Restoring sleep" 13s after "Force discharge", and the Mac slept with the lid
+            // closed mid-discharge.
+            //
+            // `disableSleep` is the caller stating that this discharge requires sleep off, and
+            // `TempOverrideDisconnectPolicy` already reads an absent charger during a discharge
+            // override as "the requested state, not a reason to drop it". The release still
+            // happens when the discharge ends, through `sleepAssertionMayBeHeldForDischarging`.
+            if !disableSleep {
+                await setSleepDisabled(false)
+            }
             return
         }
         await setSleepDisabled(disableSleep)
