@@ -657,7 +657,8 @@ public actor ChargingManager: ChargingModeManager {
         let systemIsHoldingBelowLimit = await systemIsHoldingChargeBelowLimit(
             powerState: powerState,
             chargerConnected: chargerConnected,
-            limitInForce: effectiveLimitInForce
+            limitInForce: effectiveLimitInForce,
+            currentMode: currentMode
         )
         await checkForChargeResumeStall(
             isHolding: systemIsHoldingBelowLimit,
@@ -891,7 +892,8 @@ public actor ChargingManager: ChargingModeManager {
     private func systemIsHoldingChargeBelowLimit(
         powerState: PowerState,
         chargerConnected: Bool,
-        limitInForce: Int
+        limitInForce: Int,
+        currentMode: ChargingMode
     ) async -> Bool {
         guard await systemDischargesToLimitItself() else { return false }
         let holdIsAttributed = await holdAttribution(
@@ -911,6 +913,7 @@ public actor ChargingManager: ChargingModeManager {
             limitInForce: limitInForce,
             holdIsAttributed: holdIsAttributed,
             chargeIsFlowingIn: nil,
+            batFiIsDischarging: currentMode == .forceDischarge,
             mechanismOwnsChargingDecision: true
         )
         var chargeIsFlowingIn: Bool?
@@ -927,6 +930,7 @@ public actor ChargingManager: ChargingModeManager {
             limitInForce: limitInForce,
             holdIsAttributed: holdIsAttributed,
             chargeIsFlowingIn: chargeIsFlowingIn,
+            batFiIsDischarging: currentMode == .forceDischarge,
             mechanismOwnsChargingDecision: true
         )
         // Logged on the transition only, and compared against the *published* flag rather

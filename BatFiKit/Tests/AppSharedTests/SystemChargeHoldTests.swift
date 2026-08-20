@@ -34,6 +34,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             )
         )
@@ -52,6 +53,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -69,6 +71,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -86,6 +89,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -103,6 +107,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -123,6 +128,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: nil,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -139,6 +145,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: false,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -157,6 +164,7 @@ import Testing
                 limitInForce: 60,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: false
             ) == false
         )
@@ -180,6 +188,7 @@ import Testing
                 limitInForce: 75,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: true,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             ) == false
         )
@@ -196,6 +205,7 @@ import Testing
                 limitInForce: 75,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: false,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             )
         )
@@ -212,8 +222,35 @@ import Testing
                 limitInForce: 75,
                 holdIsAttributed: true,
                 chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
                 mechanismOwnsChargingDecision: true
             )
+        )
+    }
+
+    // MARK: - BatFi's own discharge is not a system hold
+
+    /// "Run on Battery" takes the adapter out of the circuit, and the firmware attributes that
+    /// the same way it attributes a hold — `ChargingDiagnostics.holdsChargeBack` returns true
+    /// for `adapterDisabledCH0I`/`CH0J` on purpose, so that a deliberate discharge is not
+    /// reported as a mechanism that stopped working.
+    ///
+    /// Which makes it indistinguishable here without being told: below the limit, not charging,
+    /// firmware naming a hold. Reporting it would put "Charging paused by macOS" on a discharge
+    /// the user asked for, and — worse — hand `ChargeResumeNudgeMonitor` a run to act on, so
+    /// BatFi would start writing to the charge limit to undo its own discharge.
+    @Test func batFiDischargingOnPurposeIsNotASystemHold() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 70,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: true,
+                mechanismOwnsChargingDecision: true
+            ) == false
         )
     }
 }

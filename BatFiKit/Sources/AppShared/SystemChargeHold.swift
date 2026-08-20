@@ -44,6 +44,11 @@ public enum SystemChargeHold {
     ///     (`PowerDistributionInfo.batteryPower < 0`), or **nil where it was not asked** —
     ///     it costs an XPC round trip, so callers that have not paid for one still get the
     ///     IOKit answer rather than nothing.
+    ///   - batFiIsDischarging: whether BatFi is running the battery down on the user's own
+    ///     instruction (`.forceDischarge`). Has to be told, because the firmware attributes
+    ///     that discharge as a hold on purpose — `holdsChargeBack` counts
+    ///     `adapterDisabledCH0I`/`CH0J` so a deliberate discharge is not read as a broken
+    ///     mechanism — which leaves it indistinguishable from this fault by every other input.
     ///   - mechanismOwnsChargingDecision: `ChargeBackend.dischargesToLimitItself`.
     ///
     /// Strictly below the limit, never at it. At the limit a mechanism holding charge is
@@ -63,9 +68,14 @@ public enum SystemChargeHold {
         limitInForce: Int,
         holdIsAttributed: Bool?,
         chargeIsFlowingIn: Bool?,
+        batFiIsDischarging: Bool,
         mechanismOwnsChargingDecision: Bool
     ) -> Bool {
         guard mechanismOwnsChargingDecision, chargerConnected, !isCharging else { return false }
+        // The same exclusion `ChargeHoldDrift`'s caller makes, and needed here for a sharper
+        // reason: this fault has a remedy that writes to the charge limit, so mistaking a
+        // discharge the user asked for would have BatFi nudging the limit to undo its own work.
+        guard !batFiIsDischarging else { return false }
         // The SMC outranks IOKit here, and only in this direction. Measured 2026-08-19: the SMC
         // reported 46.2W going into the battery while `AppleSmartBattery` still said 0 mA, not
         // charging, bit 24 set — and IOKit did not catch up for ~17s. Trusting IOKit alone put
