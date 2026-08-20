@@ -1158,6 +1158,27 @@ public actor ChargingManager: ChargingModeManager {
     /// above already describes — every future taker is covered without being listed.
     private var sleepWasDisabledForDischarging = false
 
+    /// How long to let the adapter come back before sleep is allowed again.
+    ///
+    /// The charge command is issued first and returns immediately, but the adapter does not
+    /// reappear the instant `CHIE` comes off — `ExternalConnected` stays false for a moment
+    /// afterwards. Re-enabling sleep inside that window puts the Mac back on the very footing
+    /// the disable existed to prevent, and a closed lid sleeps it: measured on 26A5416b,
+    /// stopping "Run on Battery" with the lid shut still slept the machine.
+    private static let sleepRestoreDelayAfterDischarge: Duration = .seconds(2)
+
+    /// Puts sleep back once charging has actually resumed.
+    ///
+    /// Only waits where BatFi is the one that disabled it. A release owed to nothing more than
+    /// an idle-sleep assertion has no adapter to wait for, and delaying it would slow every
+    /// ordinary pass that happens to have one outstanding.
+    private func restoreSleepAfterDischarge() async {
+        if sleepWasDisabledForDischarging {
+            try? await clock.sleep(for: Self.sleepRestoreDelayAfterDischarge)
+        }
+        await setSleepDisabled(false)
+    }
+
     /// The single writer, so the flag cannot drift from what was actually asked for.
     private func setSleepDisabled(_ disabled: Bool) async {
         try? await sleepAssertionClient.disableSleep(disabled)
@@ -1184,12 +1205,14 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
         do {
             try await chargingClient.turnOnAutoChargingMode()
-            if sleepAssertionMayBeHeldForDischarging {
-                await setSleepDisabled(false)
-            }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Charging turned on")
             didApply()
             await appChargingState.updateChargingMode(.charging)
+            // Last, and after a pause — see `restoreSleepAfterDischarge`. Ahead of the mode
+            // update it also delayed the menu by the length of that pause.
+            if sleepAssertionMayBeHeldForDischarging {
+                await restoreSleepAfterDischarge()
+            }
         } catch {
             logger.warning("Failed to turn on charging: \(error, privacy: .public)")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to turn on charging. Error: \(error.localizedDescription)")
@@ -1235,13 +1258,13 @@ public actor ChargingManager: ChargingModeManager {
         await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibiting charging")
         do {
             try await chargingClient.inhibitCharging()
-            if sleepAssertionMayBeHeldForDischarging {
-                await setSleepDisabled(false)
-            }
             await analytics.addBreadcrumb(category: .chargingManager, message: "Inhibit charging turned on")
             didApply()
             await appChargingState.updateChargingMode(.inhibit)
             await startPullingPowerStateIfNeeded()
+            if sleepAssertionMayBeHeldForDischarging {
+                await restoreSleepAfterDischarge()
+            }
         } catch {
             logger.warning("Failed to inhibit charging: \(error, privacy: .public)")
             await analytics.addBreadcrumb(category: .chargingManager, message: "Failed to inhibit charging. Error: \(error.localizedDescription)")
