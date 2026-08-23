@@ -26,6 +26,22 @@ public extension Defaults.Keys {
     /// manual discharge disables sleep entirely — lid close included. Only ever reached on a
     /// backend where macOS drains to the limit itself; see `ManualDischargeSleepNotice`.
     static let suppressManualDischargeSleepNotice = Key<Bool>("suppressManualDischargeSleepNotice", default: false)
+    /// Whether the system-wide `pmset disablesleep` flag currently up is one **BatFi** put
+    /// there. Not a setting — nothing in the UI reads or writes it.
+    ///
+    /// `SleepDisabled` is global, persistent and settable by hand, and it carries no record
+    /// of who set it, so this is that record. It decides whether BatFi is allowed to take
+    /// the flag back down; see `SystemSleepDisableOwnership`. Persisted rather than held in
+    /// memory because the flag outlives the process: a BatFi that crashed mid-discharge
+    /// would otherwise leave a Mac that never sleeps again, with nothing left that knows to
+    /// release it.
+    static let systemSleepDisabledByBatFi = Key<Bool>("systemSleepDisabledByBatFi", default: false)
+    /// Whether the one-off look for a sleep disable left up by a version that predates the
+    /// record above has been made. Also not a setting.
+    static let didCheckForSleepDisableLeftByAnEarlierVersion = Key<Bool>(
+        "didCheckForSleepDisableLeftByAnEarlierVersion",
+        default: false
+    )
 
     // Menu bar
     static let showMenuBarIcon = Key<Bool>("showMenuBarIcon", default: true)

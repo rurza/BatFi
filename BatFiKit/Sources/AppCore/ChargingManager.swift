@@ -313,6 +313,10 @@ public actor ChargingManager: ChargingModeManager {
     public func setUpObserving() {
         assert(licenseModel != nil)
         observeHelperHealth()
+        // Not awaited: it costs an XPC round trip, and nothing below depends on its answer
+        // — a pass that runs first simply declines to release a flag it does not yet know
+        // is BatFi's, and the next one releases it.
+        Task { await adoptSleepDisableLeftByAnEarlierVersionIfNeeded() }
         Task {
             for await (
                 (
@@ -1095,7 +1099,7 @@ public actor ChargingManager: ChargingModeManager {
         // writes failed, turning "manage charging" off left the app reporting
         // `.inhibit`/`.forceDischarge` for the rest of the session, the MagSafe LED green,
         // and a sleep assertion held. `.charging` is the accurate report either way.
-        if sleepAssertionMayBeHeldForDischarging {
+        if batFiHoldsSystemSleepDisable {
             await setSleepDisabled(false)
         }
         // BatFi is handing charging back, so it must not still be preventing automatic
@@ -1136,27 +1140,25 @@ public actor ChargingManager: ChargingModeManager {
         hardwareStateMayBeStale = true
     }
 
-    /// Whether a discharge-related sleep assertion could be outstanding.
+    /// Whether BatFi currently holds the system-wide sleep disable.
     ///
-    /// The release sites used to be gated on `allowDischargingFullBattery` alone, so
-    /// turning that off mid-discharge stranded the assertion with nothing left that would
-    /// release it. Both settings that can *take* one are named here, so neither can be
-    /// switched off out from under its own release. Still gated rather than unconditional:
-    /// `disableSleep(false)` makes an XPC call, and this runs on every status update.
-    private var sleepAssertionMayBeHeldForDischarging: Bool {
-        sleepWasDisabledForDischarging
-            || defaults.value(.allowDischargingFullBattery)
-            || defaults.value(.disableSleepDuringDischarging)
+    /// This used to be a guess — `allowDischargingFullBattery || disableSleepDuringDischarging`,
+    /// the settings that can *take* the flag — and the guess is what issue #148 was. Those
+    /// release sites sit on the ordinary charging path, so with one of the settings merely
+    /// switched **on** every pass wrote `pmset -a disablesleep 0`, whether or not BatFi had
+    /// disabled anything. A `SleepDisabled` the user had set by hand went down with it,
+    /// within minutes, over and over, with no BatFi feature running that would explain it.
+    ///
+    /// The record replaces the guess: this is `true` only where BatFi actually wrote the
+    /// flag, so every future taker is covered without being listed and nothing else's flag
+    /// is ever touched. It is also still a gate rather than a bare `true`, and the reason is
+    /// unchanged — `disableSleep(false)` makes an XPC call, and this runs on every status
+    /// update.
+    ///
+    /// Persisted, because the flag it tracks outlives the process: see the key's own note.
+    private var batFiHoldsSystemSleepDisable: Bool {
+        defaults.value(.systemSleepDisabledByBatFi)
     }
-
-    /// Whether BatFi currently has sleep disabled for a discharge.
-    ///
-    /// Naming the settings above is no longer enough to know that: a manual discharge on a
-    /// mechanism that drains to the limit itself disables sleep with **neither** of them on, so
-    /// the guard would skip the release and leave the Mac unable to sleep after the discharge
-    /// ended. Recording the fact beats enumerating the causes, which is the trap the comment
-    /// above already describes — every future taker is covered without being listed.
-    private var sleepWasDisabledForDischarging = false
 
     /// How long to let the adapter come back before sleep is allowed again.
     ///
@@ -1169,20 +1171,75 @@ public actor ChargingManager: ChargingModeManager {
 
     /// Puts sleep back once charging has actually resumed.
     ///
-    /// Only waits where BatFi is the one that disabled it. A release owed to nothing more than
-    /// an idle-sleep assertion has no adapter to wait for, and delaying it would slow every
-    /// ordinary pass that happens to have one outstanding.
+    /// The wait is unconditional because both callers already are: they reach this only
+    /// where BatFi holds the flag, which is exactly the case that has an adapter to wait
+    /// for. It used to re-check that here, back when the callers asked a broader question
+    /// and an ordinary pass could arrive with nothing held.
     private func restoreSleepAfterDischarge() async {
-        if sleepWasDisabledForDischarging {
-            try? await clock.sleep(for: Self.sleepRestoreDelayAfterDischarge)
-        }
+        try? await clock.sleep(for: Self.sleepRestoreDelayAfterDischarge)
         await setSleepDisabled(false)
     }
 
-    /// The single writer, so the flag cannot drift from what was actually asked for.
+    /// Takes back a system sleep disable an earlier BatFi left up, once.
+    ///
+    /// Versions before `systemSleepDisabledByBatFi` re-enabled sleep on the next charging
+    /// pass whether or not it was theirs to re-enable, which is the bug — but it also meant
+    /// a process that died mid-discharge healed itself on the next launch. The record ends
+    /// both, so the healing is done deliberately here instead, and exactly once.
+    private func adoptSleepDisableLeftByAnEarlierVersionIfNeeded() async {
+        guard !defaults.value(.didCheckForSleepDisableLeftByAnEarlierVersion) else { return }
+        let systemAlreadyDisabled = await sleepAssertionClient.systemSleepIsDisabled()
+        // Nothing recorded where the helper could not answer — during onboarding, say, or
+        // while it is being reclaimed. Spending the one look on a "don't know" would leave
+        // a genuinely stranded flag stranded for good.
+        guard systemAlreadyDisabled != nil else { return }
+        defaults.setValue(.didCheckForSleepDisableLeftByAnEarlierVersion, value: true)
+        guard SystemSleepDisableOwnership.adoptsFlagLeftByAnEarlierVersion(
+            systemAlreadyDisabled: systemAlreadyDisabled,
+            disableSleepDuringDischarging: defaults.value(.disableSleepDuringDischarging)
+        ) else { return }
+        logger.notice("Adopting the system sleep disable an earlier version left up")
+        defaults.setValue(.systemSleepDisabledByBatFi, value: true)
+    }
+
+    /// The single writer, so the record cannot drift from what was actually written.
+    ///
+    /// `SleepDisabled` is one global flag with several possible owners, so the decision of
+    /// whether this write may go out at all belongs to `SystemSleepDisableOwnership` — the
+    /// short version being that BatFi takes down only what BatFi put up.
     private func setSleepDisabled(_ disabled: Bool) async {
-        try? await sleepAssertionClient.disableSleep(disabled)
-        sleepWasDisabledForDischarging = disabled
+        let holdsIt = batFiHoldsSystemSleepDisable
+        // Asked only where the answer can change anything, which is a fresh take. A release
+        // BatFi does not own is refused whatever the live value says, and a re-assert of a
+        // flag it already holds goes out either way — neither is worth an XPC round trip on
+        // a path that runs on every status update.
+        let systemAlreadyDisabled = disabled && !holdsIt
+            ? await sleepAssertionClient.systemSleepIsDisabled()
+            : nil
+        let decision = SystemSleepDisableOwnership.decide(
+            disable: disabled,
+            batFiHoldsIt: holdsIt,
+            systemAlreadyDisabled: systemAlreadyDisabled
+        )
+        guard decision.writes else {
+            logger.debug("Leaving the system sleep flag alone; BatFi does not own it")
+            return
+        }
+        // Claimed before the write and released only after one that succeeded. Both point
+        // the same way on purpose: a process that dies mid-call is remembered as holding a
+        // flag it may not have set, which costs one redundant `0`, rather than forgetting
+        // one it did set, which costs a Mac that never sleeps again.
+        if decision.batFiHoldsIt, !holdsIt {
+            defaults.setValue(.systemSleepDisabledByBatFi, value: true)
+        }
+        do {
+            try await sleepAssertionClient.disableSleep(disabled)
+            if holdsIt, !decision.batFiHoldsIt {
+                defaults.setValue(.systemSleepDisabledByBatFi, value: false)
+            }
+        } catch {
+            logger.warning("Could not set the system sleep flag: \(error, privacy: .public)")
+        }
     }
 
     /// Whether a discharge on this Mac would be BatFi's own SMC discharge on a mechanism that
@@ -1210,7 +1267,7 @@ public actor ChargingManager: ChargingModeManager {
             await appChargingState.updateChargingMode(.charging)
             // Last, and after a pause — see `restoreSleepAfterDischarge`. Ahead of the mode
             // update it also delayed the menu by the length of that pause.
-            if sleepAssertionMayBeHeldForDischarging {
+            if batFiHoldsSystemSleepDisable {
                 await restoreSleepAfterDischarge()
             }
         } catch {
@@ -1262,7 +1319,7 @@ public actor ChargingManager: ChargingModeManager {
             didApply()
             await appChargingState.updateChargingMode(.inhibit)
             await startPullingPowerStateIfNeeded()
-            if sleepAssertionMayBeHeldForDischarging {
+            if batFiHoldsSystemSleepDisable {
                 await restoreSleepAfterDischarge()
             }
         } catch {
@@ -1294,16 +1351,17 @@ public actor ChargingManager: ChargingModeManager {
             // `disableSleep` is the caller stating that this discharge requires sleep off, and
             // `TempOverrideDisconnectPolicy` already reads an absent charger during a discharge
             // override as "the requested state, not a reason to drop it". The release still
-            // happens when the discharge ends, through `sleepAssertionMayBeHeldForDischarging`.
+            // happens when the discharge ends, through `batFiHoldsSystemSleepDisable`.
             if !disableSleep {
                 await setSleepDisabled(false)
             }
             return
         }
-        await setSleepDisabled(disableSleep)
-        if defaults.value(.disableSleepDuringDischarging) {
-            await setSleepDisabled(true)
-        }
+        // One call, not a `false` immediately followed by a `true`. Both reach the same
+        // global flag, so the pair used to release it and take it straight back on every
+        // pass of a discharge with the setting on — two writes and, now, a needless handover
+        // of ownership.
+        await setSleepDisabled(disableSleep || defaults.value(.disableSleepDuringDischarging))
         // Below the sleep assertions on purpose. Those follow `disableSleep`, which the user
         // can change while the discharge is already running, so they are not the mode's to
         // skip — only the charging command itself is.

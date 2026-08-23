@@ -330,6 +330,19 @@ actor XPCClient {
         }
     }
 
+    /// The live system-wide `SleepDisabled` value, or `nil` where it could not be read.
+    ///
+    /// Never throws: every failure — an unreadable `pmset`, a helper too old to know this
+    /// call at all — is the same answer to the caller, which is "unknown".
+    func systemSleepIsDisabled() async -> Bool? {
+        logger.debug("Reading system SleepDisabled")
+        return try? await call { service, continuation in
+            service.sleepIsDisabled { disabled in
+                continuation.resume(returning: disabled?.boolValue)
+            }
+        }
+    }
+
     func setDisableAutosleep(_ disable: Bool) async throws {
         logger.debug("Setting disable autosleep: \(disable)")
         return try await call { service, continuation in

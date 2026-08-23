@@ -49,4 +49,12 @@ public protocol XPCService {
     /// Boolean is telling us if the high power mode is available
     func currentPowerMode(_ handler: @escaping (NSNumber?, Bool) -> Void)
     func disableAutosleep(_ disable: Bool, _ handler: @escaping (Error?) -> Void)
+    /// The live system-wide `SleepDisabled` value: `true` where something has disabled
+    /// sleep outright, `false` otherwise, and `nil` where `pmset` could not be read.
+    ///
+    /// Asked before BatFi disables sleep itself, so it can tell a flag it set from one that
+    /// was already there — see `SystemSleepDisableOwnership`. `nil` is a real answer here
+    /// rather than an error: the caller has a defined behaviour for "unknown", and a helper
+    /// too old to implement this at all fails the call, which reaches the same branch.
+    func sleepIsDisabled(_ handler: @escaping (NSNumber?) -> Void)
 }

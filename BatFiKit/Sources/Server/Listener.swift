@@ -314,6 +314,22 @@ final class XPCServiceHandler: NSObject, XPCService, @unchecked Sendable {
         }
     }
 
+    func sleepIsDisabled(_ handler: @escaping (NSNumber?) -> Void) {
+        let handler = UnsafeSendableBox(value: handler)
+        Task {
+            guard let output = await Subprocess.standardOutput(
+                of: Self.pmset,
+                arguments: ["-g"],
+                timeout: Self.pmsetTimeout
+            ), let value = PmsetOutput.value(forKey: "SleepDisabled", in: output) else {
+                logger.error("Could not read SleepDisabled from pmset")
+                handler.value(nil)
+                return
+            }
+            handler.value(NSNumber(value: value != 0))
+        }
+    }
+
     func disableAutosleep(_ disable: Bool, _ handler: @escaping (Error?) -> Void) {
         let handler = UnsafeSendableBox(value: handler)
         Task {
