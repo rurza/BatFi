@@ -23,7 +23,8 @@ import Testing
                 isCharging: true,
                 batteryLevel: 74,
                 limitInForce: 60,
-                holdIsAttributed: nil
+                holdIsAttributed: nil,
+                systemIsChargingPastLimit: false
             )
         )
     }
@@ -37,7 +38,8 @@ import Testing
                 isCharging: true,
                 batteryLevel: 60,
                 limitInForce: 60,
-                holdIsAttributed: nil
+                holdIsAttributed: nil,
+                systemIsChargingPastLimit: false
             )
         )
     }
@@ -51,7 +53,8 @@ import Testing
                 isCharging: true,
                 batteryLevel: 59,
                 limitInForce: 60,
-                holdIsAttributed: nil
+                holdIsAttributed: nil,
+                systemIsChargingPastLimit: false
             ) == false
         )
     }
@@ -68,7 +71,8 @@ import Testing
                 isCharging: false,
                 batteryLevel: 74,
                 limitInForce: 60,
-                holdIsAttributed: true
+                holdIsAttributed: true,
+                systemIsChargingPastLimit: false
             ) == false
         )
     }
@@ -82,7 +86,8 @@ import Testing
                 isCharging: false,
                 batteryLevel: 100,
                 limitInForce: 60,
-                holdIsAttributed: true
+                holdIsAttributed: true,
+                systemIsChargingPastLimit: false
             ) == false
         )
     }
@@ -94,7 +99,8 @@ import Testing
                 isCharging: true,
                 batteryLevel: 100,
                 limitInForce: 60,
-                holdIsAttributed: false
+                holdIsAttributed: false,
+                systemIsChargingPastLimit: false
             ) == false
         )
     }
@@ -112,7 +118,8 @@ import Testing
                 isCharging: false,
                 batteryLevel: 100,
                 limitInForce: 60,
-                holdIsAttributed: false
+                holdIsAttributed: false,
+                systemIsChargingPastLimit: false
             )
         )
     }
@@ -128,7 +135,8 @@ import Testing
                 isCharging: false,
                 batteryLevel: 100,
                 limitInForce: 60,
-                holdIsAttributed: nil
+                holdIsAttributed: nil,
+                systemIsChargingPastLimit: false
             ) == false
         )
     }
@@ -142,7 +150,8 @@ import Testing
                 isCharging: false,
                 batteryLevel: 60,
                 limitInForce: 60,
-                holdIsAttributed: false
+                holdIsAttributed: false,
+                systemIsChargingPastLimit: false
             ) == false
         )
     }
@@ -218,41 +227,66 @@ import Testing
         #expect(monitor.record(isDrifting: true, at: later.addingTimeInterval(60)) == .reapply)
     }
 
-    // MARK: - Apple's calibration charge
+    // MARK: - Apple's calibration charge is not drift
 
-    // The fault's twin, and indistinguishable from it by every input this monitor has: on
-    // 2026-08-26 a 75% limit stayed in force while macOS charged the battery from 76% to 100%,
-    // and BatFi re-applied 75% 61 times over the hour and told the user their limit was not
-    // holding. The re-apply is kept — it is what would fix a limit that really had stopped
-    // being enforced — and the warning is not.
+    // The fault's twin, and indistinguishable from it by the level and the attribution alone.
+    // Measured 2026-08-26: a 75% limit stayed in force while macOS charged 76% -> 100% and then
+    // sat at full for hours. Arm 1 fired through the climb and arm 2 through the plateau, so
+    // BatFi re-applied a limit that was already in force ~80 times and told the user it was not
+    // holding — while the firmware's own reason for not charging was `batteryFull`.
+    //
+    // Excluded at the source rather than at the warning: re-applying the same value is what
+    // Apple already does for free, it was measured changing nothing across 61 attempts, and a
+    // run that never starts cannot spend the one warning it is allowed.
 
-    @Test func aTopUpIsStillReAppliedAgainstButNotWarnedAbout() {
-        var monitor = ChargeHoldDriftMonitor()
-        let start = Date(timeIntervalSince1970: 0)
-        _ = monitor.record(isDrifting: true, warningIsWarranted: false, at: start)
-        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(60)) == .reapply)
-        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(600)) == .reapply)
-        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(3_600)) == .reapply)
+    @Test func aTopUpIsNotDriftWhileTheBatteryClimbs() {
+        #expect(
+            ChargeHoldDrift.isDrifting(
+                chargerConnected: true,
+                isCharging: true,
+                batteryLevel: 82,
+                limitInForce: 75,
+                holdIsAttributed: nil,
+                systemIsChargingPastLimit: true
+            ) == false
+        )
     }
 
-    /// The suppression must not spend the run's one warning. A top-up that ends with the
-    /// battery still above the limit and nothing holding it is the genuine fault, and the
-    /// user is owed the warning then.
-    @Test func aRunThatOutlivesTheTopUpCanStillWarn() {
-        var monitor = ChargeHoldDriftMonitor()
-        let start = Date(timeIntervalSince1970: 0)
-        _ = monitor.record(isDrifting: true, warningIsWarranted: false, at: start)
-        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(600)) == .reapply)
-        #expect(monitor.hasWarned == false)
-        #expect(monitor.record(isDrifting: true, warningIsWarranted: true, at: start.addingTimeInterval(660)) == .warnTheUser)
+    @Test func aTopUpIsNotDriftOnThePlateauEither() {
+        #expect(
+            ChargeHoldDrift.isDrifting(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 100,
+                limitInForce: 75,
+                holdIsAttributed: false,
+                systemIsChargingPastLimit: true
+            ) == false
+        )
     }
 
-    /// And the default is unchanged, so every backend BatFi drives with an inhibit of its own
-    /// keeps the behaviour it had.
-    @Test func warningIsWarrantedByDefault() {
+    /// The exact reading from 12:57, with the top-up flag absent — this must stay a fault, or
+    /// the detector stops catching a limit that really did stop being enforced.
+    @Test func theSameReadingWithoutATopUpIsStillDrift() {
+        #expect(
+            ChargeHoldDrift.isDrifting(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 100,
+                limitInForce: 75,
+                holdIsAttributed: false,
+                systemIsChargingPastLimit: false
+            )
+        )
+    }
+
+    /// A clean reading ends the run, so a top-up also clears a run that had already accrued.
+    @Test func aTopUpEndsARunThatWasAlreadyAccruing() {
         var monitor = ChargeHoldDriftMonitor()
         let start = Date(timeIntervalSince1970: 0)
         _ = monitor.record(isDrifting: true, at: start)
-        #expect(monitor.record(isDrifting: true, at: start.addingTimeInterval(600)) == .warnTheUser)
+        #expect(monitor.record(isDrifting: true, at: start.addingTimeInterval(60)) == .reapply)
+        #expect(monitor.record(isDrifting: false, at: start.addingTimeInterval(70)) == .none)
+        #expect(monitor.driftingSince == nil)
     }
 }

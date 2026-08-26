@@ -22,7 +22,7 @@ import Testing
                 batteryLevel: 100,
                 limitInForce: 75,
                 isCharging: true,
-                chargeIsFlowingIn: nil,
+                batteryPower: nil,
                 mechanismDrainsToLimitItself: true
             )
         )
@@ -35,7 +35,7 @@ import Testing
                 batteryLevel: 82,
                 limitInForce: 75,
                 isCharging: true,
-                chargeIsFlowingIn: nil,
+                batteryPower: nil,
                 mechanismDrainsToLimitItself: true
             )
         )
@@ -49,7 +49,7 @@ import Testing
                 batteryLevel: 76,
                 limitInForce: 75,
                 isCharging: false,
-                chargeIsFlowingIn: true,
+                batteryPower: -7.0,
                 mechanismDrainsToLimitItself: true
             )
         )
@@ -64,7 +64,7 @@ import Testing
                 batteryLevel: 100,
                 limitInForce: 75,
                 isCharging: false,
-                chargeIsFlowingIn: nil,
+                batteryPower: nil,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
@@ -80,7 +80,7 @@ import Testing
                 batteryLevel: 75,
                 limitInForce: 75,
                 isCharging: true,
-                chargeIsFlowingIn: true,
+                batteryPower: -7.0,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
@@ -95,38 +95,130 @@ import Testing
                 batteryLevel: 100,
                 limitInForce: 75,
                 isCharging: true,
-                chargeIsFlowingIn: true,
+                batteryPower: -7.0,
                 mechanismDrainsToLimitItself: false
             ) == false
         )
     }
 
-    /// The property the two types exist to guarantee. Sweeping the whole space rather than
-    /// naming cases, because the failure this fixes was precisely one of these combinations
-    /// having no owner.
-    @Test func theTopUpAndTheDrainNeverBothClaimAReading() {
+    // MARK: - The plateau
+
+    /// Measured 2026-08-26 12:57, ~3h after the charge itself finished: 100% against a 75%
+    /// limit, `Amperage` 0, `FullyCharged` true, `NotChargingReason` bit 0 (`batteryFull`) and
+    /// **not** bit 24 — so the firmware's own reason for not charging is that there is nothing
+    /// left to charge, not that a limit is holding. macOS had taken the battery to full and had
+    /// not yet given the limit back.
+    ///
+    /// The same episode as the climb, so the same state: a battery only reaches 100% above the
+    /// user's limit because macOS put it there.
+    @Test func aFullBatteryRestingAboveTheLimitIsStillTheTopUp() {
+        #expect(
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: false,
+                batteryPower: 0,
+                mechanismDrainsToLimitItself: true
+            )
+        )
+    }
+
+    /// Only at full. A battery resting *between* the limit and full was not put there by a
+    /// calibration charge that ran to 100%, so there is no episode to attribute it to and
+    /// nothing here should claim one.
+    @Test func aBatteryRestingBelowFullIsNotTheTopUp() {
+        #expect(
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 90,
+                limitInForce: 75,
+                isCharging: false,
+                batteryPower: 0,
+                mechanismDrainsToLimitItself: true
+            ) == false
+        )
+    }
+
+    /// A full battery being actively run down is the drain, not the plateau. This is the reading
+    /// the plateau rule must not swallow — it is how the episode ends.
+    @Test func aFullBatteryGivingCurrentUpIsTheDrainNotThePlateau() {
+        #expect(
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: false,
+                batteryPower: 7.4,
+                mechanismDrainsToLimitItself: true
+            ) == false
+        )
+        #expect(
+            SystemChargeDrain.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: false,
+                batteryPower: 7.4,
+                mechanismDrainsToLimitItself: true
+            )
+        )
+    }
+
+    /// No SMC answer stays no answer, even at full. The plateau is claimed on evidence that the
+    /// battery is resting, not on the level alone — which is the mistake this whole file is a
+    /// record of.
+    @Test func aFullBatteryWithNoSMCAnswerClaimsNothing() {
+        #expect(
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: false,
+                batteryPower: nil,
+                mechanismDrainsToLimitItself: true
+            ) == false
+        )
+    }
+
+    /// The property the two types exist to guarantee, swept rather than sampled — the failure
+    /// this replaces was precisely one combination having the wrong owner.
+    ///
+    /// They are no longer complements, and that is the fix: each requires a *named* direction,
+    /// so a reading that is neither (a full battery resting, or no SMC answer at all) is claimed
+    /// by neither instead of falling to whichever one tested for an absence.
+    @Test func eachStateRequiresItsOwnDirectionAndNeitherClaimsTheRest() {
+        let powers: [Float?] = [nil, -46.2, -7.0, -0.04, 0, 0.04, 7.4, 46.2]
         for level in 70...100 {
             for isCharging in [true, false] {
-                for flowing in [true, false, nil] {
+                for power in powers {
                     let toppingUp = SystemChargeTopUp.isUnderway(
-                        batteryLevel: level,
-                        limitInForce: 75,
-                        isCharging: isCharging,
-                        chargeIsFlowingIn: flowing,
+                        batteryLevel: level, limitInForce: 75,
+                        isCharging: isCharging, batteryPower: power,
                         mechanismDrainsToLimitItself: true
                     )
                     let draining = SystemChargeDrain.isUnderway(
-                        batteryLevel: level,
-                        limitInForce: 75,
-                        isCharging: isCharging,
-                        chargeIsFlowingIn: flowing,
+                        batteryLevel: level, limitInForce: 75,
+                        isCharging: isCharging, batteryPower: power,
                         mechanismDrainsToLimitItself: true
                     )
-                    #expect(!(toppingUp && draining), "both claimed level \(level), charging \(isCharging), flowing \(String(describing: flowing))")
-                    // And above the limit exactly one of them owns the reading, so no state
-                    // above the limit can fall through to a label about a hold.
-                    if level > 75 {
-                        #expect(toppingUp != draining, "neither claimed level \(level), charging \(isCharging), flowing \(String(describing: flowing))")
+                    let where_ = "level \(level), charging \(isCharging), power \(String(describing: power))"
+                    #expect(!(toppingUp && draining), "both claimed \(where_)")
+
+                    let flow = ChargeDirection.flow(isCharging: isCharging, batteryPower: power)
+                    guard level > 75 else {
+                        #expect(!toppingUp && !draining, "claimed at or below the limit: \(where_)")
+                        continue
+                    }
+                    switch flow {
+                    case .intoTheBattery:
+                        #expect(toppingUp && !draining, "expected a top-up for \(where_)")
+                    case .outOfTheBattery:
+                        #expect(draining && !toppingUp, "expected a drain for \(where_)")
+                    case .idle:
+                        // Idle at full is the plateau; idle short of full belongs to neither.
+                        if level >= 100 {
+                            #expect(toppingUp && !draining, "expected the plateau for \(where_)")
+                        } else {
+                            #expect(!toppingUp && !draining, "expected neither for \(where_)")
+                        }
+                    case .unknown:
+                        #expect(!toppingUp && !draining, "expected neither for \(where_)")
                     }
                 }
             }

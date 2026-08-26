@@ -34,9 +34,9 @@ public enum SystemChargeTopUp {
     ///   - limitInForce: the limit the mechanism is actually holding, **not** the one the
     ///     user asked for. The two come apart under Apple's Manual Charge Limit, and it is
     ///     the value in force that the battery is climbing past.
-    ///   - isCharging: `kIOPSIsChargingKey`, and `chargeIsFlowingIn` the SMC's answer to the
-    ///     same question. Both go to `ChargeDirection`; the SMC is what keeps the first ~17s
-    ///     of a top-up from reading as a drain while IOKit catches up.
+    ///   - isCharging: `kIOPSIsChargingKey`, and `batteryPower` the SMC's signed reading. Both
+    ///     go to `ChargeDirection`; the SMC is what keeps the first ~17s of a top-up from
+    ///     reading as something else while IOKit catches up.
     ///   - mechanismDrainsToLimitItself: `ChargeBackend.dischargesToLimitItself`. False on
     ///     every backend BatFi holds charge on with an inhibit of its own — there, charging
     ///     past the limit is not macOS overriding BatFi but the limit failing, which is
@@ -48,14 +48,34 @@ public enum SystemChargeTopUp {
     /// past the limit would relabel every healthy Mac at the moment it finishes charging.
     /// The cost is that the label is the plain inhibit for the one percentage point before
     /// the battery clears the limit.
+    ///
+    /// **Two readings, one episode.** Charge arriving is the climb. A battery resting at *full*
+    /// above the limit is the same episode after the charge has finished and before macOS gives
+    /// the limit back — measured 2026-08-26 sitting there for hours with `Amperage` 0,
+    /// `FullyCharged` true and `NotChargingReason` naming `batteryFull` rather than the charge
+    /// limit. Reporting only the climb left the plateau to be read as a drain by one rule and as
+    /// a limit that had stopped holding by another, on the same pass.
+    ///
+    /// The plateau is claimed only at full, and only on evidence that the battery is resting.
+    /// Between the limit and full there is no calibration charge to attribute a rest to, and
+    /// `.unknown` is not evidence — a battery only reaches 100% above the user's limit because
+    /// macOS put it there, which is what makes the level meaningful *here* and nowhere else in
+    /// this file.
     public static func isUnderway(
         batteryLevel: Int,
         limitInForce: Int,
         isCharging: Bool,
-        chargeIsFlowingIn: Bool?,
+        batteryPower: Float?,
         mechanismDrainsToLimitItself: Bool
     ) -> Bool {
         guard mechanismDrainsToLimitItself, batteryLevel > limitInForce else { return false }
-        return ChargeDirection.isFlowingIn(isCharging: isCharging, chargeIsFlowingIn: chargeIsFlowingIn)
+        switch ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) {
+        case .intoTheBattery:
+            return true
+        case .idle:
+            return batteryLevel >= 100
+        case .outOfTheBattery, .unknown:
+            return false
+        }
     }
 }

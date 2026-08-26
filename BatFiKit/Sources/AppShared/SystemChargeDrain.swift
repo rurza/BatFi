@@ -26,8 +26,8 @@ public enum SystemChargeDrain {
     ///   - limitInForce: the limit the mechanism is actually holding — **not** the one the
     ///     user asked for. The two come apart under Apple's Manual Charge Limit, and the
     ///     system drains to the value in force.
-    ///   - isCharging: `kIOPSIsChargingKey`, and `chargeIsFlowingIn` the SMC's answer to the
-    ///     same question. Both go to `ChargeDirection`; see there for why two are needed.
+    ///   - isCharging: `kIOPSIsChargingKey`, and `batteryPower` the SMC's signed reading. Both
+    ///     go to `ChargeDirection`; see there for why two are needed and which wins.
     ///   - mechanismDrainsToLimitItself: `ChargeBackend.dischargesToLimitItself`.
     ///
     /// Strictly above the limit, never at it. At the limit the drain has finished and the
@@ -36,22 +36,31 @@ public enum SystemChargeDrain {
     /// "Discharging to the limit" on a battery that had stopped discharging, for as long as
     /// it sat there.
     ///
-    /// And strictly *giving current up*, never taking it. Above the limit on the charger is
-    /// two states, not one: macOS draining back to the limit, and macOS charging past the
-    /// limit for the calibration Apple documents. The level cannot tell them apart, and for
-    /// as long as it was the only test, a Mac being topped up to 100% was reported as doing
-    /// the exact opposite — measured 2026-08-26 at 100% against a 75% limit with 477 mA
-    /// going in, the menu reading "Discharging to the limit" over it. `SystemChargeTopUp`
-    /// owns that half and answers on the same rule negated, so above the limit exactly one
-    /// of the two claims any reading.
+    /// And strictly *charge leaving the battery*. Above the limit on the charger is **three**
+    /// states, not one, and the level tells none of them apart:
+    ///
+    /// - macOS charging past the limit, for the calibration Apple documents — `SystemChargeTopUp`.
+    /// - macOS draining back down to the limit — this.
+    /// - The battery sitting there, full or held, with nothing flowing at all.
+    ///
+    /// Both of the first two have been reported as this one. First the top-up, while the level
+    /// was the only test: measured 2026-08-26 at 100% against a 75% limit with 477 mA going in.
+    /// Then the resting battery, once the test became "charge is not flowing in" — which a
+    /// battery at exactly 0 mA also satisfies: measured the same afternoon at 100%, `Amperage`
+    /// 0, `FullyCharged` true, 8.2 W going straight past the battery to the system, with
+    /// `ChargeHoldDrift` logging every 60s that the limit was not holding while the menu
+    /// announced a discharge.
+    ///
+    /// So this asks for the drain's own direction rather than for the absence of the other's.
+    /// A reading that is neither is claimed by neither.
     public static func isUnderway(
         batteryLevel: Int,
         limitInForce: Int,
         isCharging: Bool,
-        chargeIsFlowingIn: Bool?,
+        batteryPower: Float?,
         mechanismDrainsToLimitItself: Bool
     ) -> Bool {
         guard mechanismDrainsToLimitItself, batteryLevel > limitInForce else { return false }
-        return !ChargeDirection.isFlowingIn(isCharging: isCharging, chargeIsFlowingIn: chargeIsFlowingIn)
+        return ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) == .outOfTheBattery
     }
 }

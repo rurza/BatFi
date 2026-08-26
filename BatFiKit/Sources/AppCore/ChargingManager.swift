@@ -221,16 +221,11 @@ public actor ChargingManager: ChargingModeManager {
             isCharging: powerState.isCharging,
             batteryLevel: powerState.batteryLevel,
             limitInForce: limitInForce,
-            holdIsAttributed: holdIsAttributed
+            holdIsAttributed: holdIsAttributed,
+            systemIsChargingPastLimit: systemIsChargingPastLimit
         )
 
-        // Apple's documented calibration charge is this fault's twin, and the re-apply is
-        // kept for it while the warning is not — see `record(isDrifting:warningIsWarranted:at:)`.
-        let response = driftMonitor.record(
-            isDrifting: isDrifting,
-            warningIsWarranted: !systemIsChargingPastLimit,
-            at: now
-        )
+        let response = driftMonitor.record(isDrifting: isDrifting, at: now)
         guard response != .none else {
             if isDrifting {
                 // The first minute of a run. Logged so that a fault which corrects itself
@@ -957,15 +952,17 @@ public actor ChargingManager: ChargingModeManager {
 
     /// What macOS is doing to a battery that sits **above** the limit.
     ///
-    /// Two states, not one, and the level cannot tell them apart: macOS draining back down to
-    /// the limit, and macOS charging past it for the calibration Apple documents. Both are
-    /// `.inhibit` — BatFi issues no write for either and cannot stop either — so the only
-    /// thing that separates them is which way charge is moving.
+    /// Three states, not one, and the level tells none of them apart: macOS charging past the
+    /// limit, macOS draining back down to it, and the battery simply sitting there with nothing
+    /// flowing. All three are `.inhibit` — BatFi issues no write for any of them and cannot stop
+    /// any of them — so the only thing that separates them is which way charge is moving.
     ///
-    /// Resolved here, in one place, because the two answers have to agree: they are exact
-    /// complements, and `SystemChargeDrain`/`SystemChargeTopUp` guarantee that only by reading
-    /// the same direction rule. Returning both from one call is what stops a later edit from
-    /// gating one and not the other.
+    /// Resolved here, in one place, off one SMC reading, because the answers have to agree.
+    /// Neither returned flag is the negation of the other: each names its own direction, so the
+    /// third state is claimed by neither instead of falling to whichever one tested for an
+    /// absence. That absence test is what reported a full battery resting on the charger as a
+    /// discharge, while `ChargeHoldDrift` — on this very pass — was logging that the limit was
+    /// not holding.
     ///
     /// The backend question is asked first and on its own, so the SMC round trip below is
     /// never reached on a mechanism BatFi drives itself, where a battery above the limit is
@@ -977,32 +974,30 @@ public actor ChargingManager: ChargingModeManager {
         guard await systemDischargesToLimitItself(),
               powerState.batteryLevel > limitInForce else { return (false, false) }
 
-        // Asked only where IOKit would otherwise say "draining", which is the same bound
-        // `systemIsHoldingChargeBelowLimit` puts on the same round trip. The SMC can only ever
-        // turn that answer into a top-up and never the other way about — see
-        // `ChargeDirection` — so a reading IOKit already calls a charge needs no second
-        // opinion, and the pass pays nothing for it.
+        // Asked whenever IOKit is not already asserting a charge, because everything IOKit can
+        // say short of that is "not charging" — which covers both a drain and a full battery
+        // resting, and those need telling apart. `PowerState` carries no amperage, so the SMC's
+        // signed reading is the only thing that can.
         //
-        // `batteryPower < 0` is the battery as a *target* rather than a source, the sign
-        // convention `PowerGraph` renders. A helper that cannot answer leaves this nil, and
-        // nil falls back to IOKit rather than to a guess.
-        var chargeIsFlowingIn: Bool?
+        // The same bound `systemIsHoldingChargeBelowLimit` puts on the same round trip, and it
+        // is cheap either way: `powerInfoChanges` already polls this at 1 Hz for the menu.
+        var batteryPower: Float?
         if !powerState.isCharging {
-            chargeIsFlowingIn = (try? await powerDistributionClient.powerInfo()).map { $0.batteryPower < 0 }
+            batteryPower = (try? await powerDistributionClient.powerInfo())?.batteryPower
         }
 
         let isToppingUp = SystemChargeTopUp.isUnderway(
             batteryLevel: powerState.batteryLevel,
             limitInForce: limitInForce,
             isCharging: powerState.isCharging,
-            chargeIsFlowingIn: chargeIsFlowingIn,
+            batteryPower: batteryPower,
             mechanismDrainsToLimitItself: true
         )
         let isDraining = SystemChargeDrain.isUnderway(
             batteryLevel: powerState.batteryLevel,
             limitInForce: limitInForce,
             isCharging: powerState.isCharging,
-            chargeIsFlowingIn: chargeIsFlowingIn,
+            batteryPower: batteryPower,
             mechanismDrainsToLimitItself: true
         )
         // Logged on the transition only, and against the published flag rather than a private
