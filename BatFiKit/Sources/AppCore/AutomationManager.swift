@@ -36,6 +36,10 @@ public actor AutomationManager {
     public init() {}
 
     public func setUpObserving() {
+        // Retained, but reassigned without cancelling, so a second call left the first loop
+        // running and every config change was handled twice. Same flaw as
+        // `ChargingManager.setUpObserving()`; here the stored reference makes it cheap to fix.
+        observeTask?.cancel()
         let defaults = self.defaults
         observeTask = Task { [weak self] in
             let enabled = defaults.observe(.automationEnabled)

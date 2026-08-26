@@ -22,7 +22,15 @@ public final class PersistenceManager: @unchecked Sendable {
 
     public init() {}
 
+    /// Whether `setUpObserving()` has already run.
+    private var isObserving = false
+
     public func setUpObserving() {
+        // Once only. The task below is never retained, so a second call added a
+        // second observer rather than replacing the first, and `setUpTheApp()` calls
+        // this from two places. Same flaw as `ChargingManager.setUpObserving()`.
+        guard !isObserving else { return }
+        isObserving = true
         Task {
             for await (state, mode) in combineLatest(
                 powerSourceClient.powerSourceChanges(),

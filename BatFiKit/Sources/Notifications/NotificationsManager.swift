@@ -32,10 +32,10 @@ public class NotificationsManager: NSObject {
     private lazy var center = UNUserNotificationCenter.current()
     private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
-    /// The last state a notification was actually posted for, so a re-emission of an unchanged
-    /// one is not announced again. Cleared when observing stops, so re-enabling the setting
-    /// announces the current state once.
-    private var lastNotifiedChargingMode: AppChargingMode?
+    /// The title and body of the last charging-mode notification actually posted, so the same
+    /// sentence is never posted twice in a row. Cleared when observing stops, so re-enabling the
+    /// setting announces the current state once.
+    private var lastAnnounced: (title: String, body: String)?
     private var optimizedBatteryChargingTask: Task<Void, Never>?
     private var lastAlertDate: Date = .distantPast
     private var didShowLowBatteryNotification = false
@@ -128,33 +128,30 @@ public class NotificationsManager: NSObject {
         // collapsing into one — which is correct for genuine repeat events and merciless here.
         chargingModeTask?.cancel()
         chargingModeTask = Task {
+            // Debounced, so a run of changes announces only where it settled.
+            //
+            // The charging state can move several times in a couple of seconds — a launch
+            // settling, a limit being changed, macOS handing the policy back — and each step is
+            // a real change with real, *different* text, so the dedupe below cannot collapse
+            // them and should not: they are not repeats. But the intermediate states are not
+            // worth a banner each; only the one the battery ends up in is.
+            //
+            // Trailing, which is what `debounce` gives: nothing is posted until 2s of quiet, and
+            // then only the latest value. A settled state is announced 2s late, which nobody
+            // notices, and a burst is announced once, which is the point. The same operator and
+            // the same injected clock as `startObservingOptimizedBatteryCharging`.
+            //
+            // Kept *alongside* the text dedupe rather than instead of it: debounce collapses
+            // bursts, and the dedupe stops an unchanged sentence being repeated after a gap
+            // longer than the window, which `combineLatest` re-emissions would otherwise do.
             for await (chargingMode, manageCharging) in combineLatest(
                 appChargingState.appChargingModeDidChage(),
                 defaults.observe(.manageCharging)
-            ) {
+            ).debounce(for: .seconds(2), clock: AnyClock(self.clock)) {
                 guard chargingMode.mode != .initial,
                       manageCharging,
                       chargingMode.chargerConnected
                 else { continue }
-                // Only when the state actually changed.
-                //
-                // `combineLatest` emits whenever **either** side does, and re-emits the cached
-                // value of the other — so every tick of `defaults.observe(.manageCharging)`
-                // re-delivered a mode that had not changed, and each re-delivery posted its own
-                // notification. `setAppChargingMode` already dedupes the mode stream, which is
-                // why the duplicates were invisible from that end.
-                //
-                // Measured 2026-08-26 20:59:35: three notifications inside six milliseconds on
-                // launch — "Charging to the limit" twice and then the drain — for two real
-                // states. Identifiers are deliberately unique per notification, so duplicates
-                // stack as separate banners rather than collapsing, which is right for genuine
-                // repeat events and merciless for these.
-                //
-                // Compared on the whole `AppChargingMode` rather than on `mode`: the system
-                // flags are part of what the sentence says, so a drain becoming a top-up is a
-                // real change even though `mode` stays `.inhibit`.
-                guard chargingMode != lastNotifiedChargingMode else { continue }
-                lastNotifiedChargingMode = chargingMode
                 logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
@@ -162,7 +159,7 @@ public class NotificationsManager: NSObject {
     }
 
     func cancelObservingChargingStateMode() {
-        lastNotifiedChargingMode = nil
+        lastAnnounced = nil
         chargingModeTask?.cancel()
     }
 
@@ -170,7 +167,6 @@ public class NotificationsManager: NSObject {
         guard (try? await licenseClient.cachedLicense()) != nil else { return }
         if await userNotificationsClient.requestAuthorization() == true {
             do {
-                logger.debug("Adding notification request to the notification center")
                 // Automation can override the configured limit. When it's active, show the
                 // limit it actually applies and name the responsible rule.
                 let automationLimit = await appChargingState.currentAutomationLimit()
@@ -180,12 +176,40 @@ public class NotificationsManager: NSObject {
                     ? (activeAutomationRuleName() ?? L10n.Automation.untitledRule)
                     : nil
 
+                let title = L10n.Notifications.Notification.Subtitle.newMode(mode.stateDescription)
+                let body = mode.stateDescription(
+                    chargeLimitFraction: chargeLimitFraction,
+                    automationRuleName: automationRuleName
+                ) ?? ""
+
+                // Deduped on the rendered sentence, and it has to be the sentence.
+                //
+                // Two things upstream conspire. `combineLatest` emits whenever *either* side
+                // does and re-emits the cached value of the other, so a tick of
+                // `defaults.observe(.manageCharging)` re-delivers a mode nobody changed. And
+                // several distinct `AppChargingMode` values render the *same* text —
+                // `stateDescription` returns "Charging to the limit" for `.charging` whatever
+                // the system flags say, so a flag flip under an unchanged mode is a different
+                // model and an identical notification.
+                //
+                // Keying on the model was the fix that did not work: measured 2026-08-26,
+                // "Charging to the limit / The limit is 85%" arrived twice on launch with the
+                // model comparison already in place. The user cannot see the model. What must
+                // not repeat is the words, so the words are the key.
+                //
+                // The state still has to be *re-announceable* later: this remembers only the
+                // last thing said, so charging -> discharging -> charging notifies three times,
+                // which is correct. It suppresses only saying the same thing twice in a row.
+                guard lastAnnounced?.title != title || lastAnnounced?.body != body else {
+                    logger.debug("Charging mode notification suppressed; the same text was just posted")
+                    return
+                }
+                lastAnnounced = (title, body)
+
+                logger.debug("Adding notification request to the notification center")
                 try await userNotificationsClient.showUserNotification(
-                    title: L10n.Notifications.Notification.Subtitle.newMode(mode.stateDescription),
-                    body: mode.stateDescription(
-                        chargeLimitFraction: chargeLimitFraction,
-                        automationRuleName: automationRuleName
-                    ) ?? "",
+                    title: title,
+                    body: body,
                     identifier: "software.micropixels.BatFi.notifications.mode",
                     threadIdentifier: "Charging mode",
                     delay: 1.5

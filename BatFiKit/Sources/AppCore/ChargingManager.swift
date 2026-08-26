@@ -55,6 +55,8 @@ public actor ChargingManager: ChargingModeManager {
     private lazy var logger = Logger(category: "Charging Manager")
 
     private var powerStatePullingTask: Task<Void, Never>?
+    /// Whether `setUpObserving()` has already run. See there.
+    private var isObserving = false
     private var licenseModel: LicenseModel?
 
     private var lastChargerConnectedStatus: ChargerConnectedStatus?
@@ -313,6 +315,21 @@ public actor ChargingManager: ChargingModeManager {
     }
 
     public func setUpObserving() {
+        // Called once, whatever the caller does.
+        //
+        // Every `Task` below runs for the life of the process and none was retained, so a
+        // second call did not replace the observers — it *added* a set. `setUpTheApp()` calls
+        // this from two places (launch, and the onboarding completion handler), and each extra
+        // main loop is another `updateStatus` driving the same state concurrently. `actor`
+        // does not save it: `updateStatus` awaits throughout, and actors are reentrant, so the
+        // passes interleave rather than queue. Measured 2026-08-26 — the top-up transition,
+        // which by construction can only be logged once per entry, logged twice in the same
+        // second, each pass having read the flag before either wrote it.
+        guard !isObserving else {
+            logger.notice("setUpObserving() called again; the observers are already running")
+            return
+        }
+        isObserving = true
         assert(licenseModel != nil)
         observeHelperHealth()
         // Not awaited: it costs an XPC round trip, and nothing below depends on its answer
