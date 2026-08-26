@@ -67,8 +67,12 @@ extension AppChargingStateClient: DependencyKey {
             updateChargingMode: { mode in
                 await state.updateMode(mode)
             },
-            setSystemChargeHold: { draining, holdingBelowLimit in
-                await state.updateSystemChargeHold(draining: draining, holdingBelowLimit: holdingBelowLimit)
+            setSystemChargeHold: { draining, holdingBelowLimit, chargingPastLimit in
+                await state.updateSystemChargeHold(
+                    draining: draining,
+                    holdingBelowLimit: holdingBelowLimit,
+                    chargingPastLimit: chargingPastLimit
+                )
             },
             setTempOverride: { mode in
                 await state.updateOverride(mode)
@@ -139,20 +143,23 @@ private actor AppChargingState {
             userTempOverride: mode.userTempOverride,
             chargerConnected: mode.chargerConnected,
             systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
-            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit
         )
         setAppChargingMode(newAppChargingMode)
     }
 
-    func updateSystemChargeHold(draining: Bool, holdingBelowLimit: Bool) {
+    func updateSystemChargeHold(draining: Bool, holdingBelowLimit: Bool, chargingPastLimit: Bool) {
         guard draining != mode.systemIsDischargingToLimit
-            || holdingBelowLimit != mode.systemIsHoldingBelowLimit else { return }
+            || holdingBelowLimit != mode.systemIsHoldingBelowLimit
+            || chargingPastLimit != mode.systemIsChargingPastLimit else { return }
         let newAppChargingMode = AppChargingMode(
             mode: mode.mode,
             userTempOverride: mode.userTempOverride,
             chargerConnected: mode.chargerConnected,
             systemIsDischargingToLimit: draining,
-            systemIsHoldingBelowLimit: holdingBelowLimit
+            systemIsHoldingBelowLimit: holdingBelowLimit,
+            systemIsChargingPastLimit: chargingPastLimit
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -163,7 +170,8 @@ private actor AppChargingState {
             userTempOverride: override,
             chargerConnected: mode.chargerConnected,
             systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
-            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -174,7 +182,8 @@ private actor AppChargingState {
             userTempOverride: mode.userTempOverride,
             chargerConnected: connected,
             systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
-            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit
         )
         setAppChargingMode(newAppChargingMode)
     }

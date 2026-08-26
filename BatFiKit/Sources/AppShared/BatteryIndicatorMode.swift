@@ -34,12 +34,23 @@ public enum BatteryIndicatorMode: Hashable, Sendable {
         case .charging:
             self = .charging
         case .inhibit:
-            // `.inhibit` is the mode on both sides of a line the icon has to draw
-            // differently. Where the mechanism owns the charging decision, macOS drains the
-            // battery down to the limit itself and BatFi writes no inhibit at all — so the
-            // plug, which says charging is paused, sits over a falling percentage. The
-            // battery is doing there exactly what it does under `.forceDischarge`, and is
-            // drawn the same.
+            // `.inhibit` is the mode on all three sides of a line the icon has to draw
+            // differently, because where the mechanism owns the charging decision BatFi
+            // writes no inhibit at all and the battery does as macOS pleases.
+            //
+            // Draining to the limit: the plug, which says charging is paused, would sit over
+            // a falling percentage. The battery is doing exactly what it does under
+            // `.forceDischarge`, and is drawn the same.
+            //
+            // Charging past the limit: the plug sat over a *rising* percentage, and the bolt
+            // — the one thing in the status item that means "charge is going in" — was
+            // missing for the whole top-up. Same mode, opposite direction, and the icon has
+            // to follow the battery rather than the mode. Checked first, matching the
+            // precedence in `stateDescription`.
+            if appChargingMode.systemIsChargingPastLimit {
+                self = .charging
+                return
+            }
             self = appChargingMode.systemIsDischargingToLimit ? .discharging : .inhibited
         case .forceDischarge:
             self = .discharging

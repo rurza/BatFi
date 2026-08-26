@@ -18,13 +18,15 @@ import Testing
     private func mode(
         _ mode: ChargingMode,
         chargerConnected: Bool = true,
-        systemIsDischargingToLimit: Bool = false
+        systemIsDischargingToLimit: Bool = false,
+        systemIsChargingPastLimit: Bool = false
     ) -> AppChargingMode {
         AppChargingMode(
             mode: mode,
             userTempOverride: nil,
             chargerConnected: chargerConnected,
-            systemIsDischargingToLimit: systemIsDischargingToLimit
+            systemIsDischargingToLimit: systemIsDischargingToLimit,
+            systemIsChargingPastLimit: systemIsChargingPastLimit
         )
     }
 
@@ -74,6 +76,46 @@ import Testing
             BatteryIndicatorMode(
                 appChargingMode: mode(.initial, chargerConnected: false)
             ) == .error
+        )
+    }
+
+    /// The third thing `.inhibit` covers, and the one the icon was silent about: macOS
+    /// charging past the limit. The plug sat over a *rising* percentage and the bolt — the
+    /// only mark in the status item that means "charge is going in" — was missing for the
+    /// whole top-up, because the mode is `.inhibit` and the old drain flag was true.
+    @Test func aSystemTopUpPastTheLimitIsDrawnAsCharging() {
+        #expect(
+            BatteryIndicatorMode(
+                appChargingMode: mode(.inhibit, systemIsChargingPastLimit: true)
+            ) == .charging
+        )
+    }
+
+    /// The precedence in `stateDescription`, drawn. The two cannot both be true of a real
+    /// reading; the icon must not depend on which flag it happens to test first.
+    @Test func aTopUpOutranksADrainIfBothAreSomehowSet() {
+        #expect(
+            BatteryIndicatorMode(
+                appChargingMode: mode(
+                    .inhibit,
+                    systemIsDischargingToLimit: true,
+                    systemIsChargingPastLimit: true
+                )
+            ) == .charging
+        )
+    }
+
+    /// Off the charger nothing macOS does above a limit is in play, and the bolt would be a
+    /// plain lie. Guards the early return the new branch sits below.
+    @Test func aTopUpOffTheChargerIsStillDrawnAsDischarging() {
+        #expect(
+            BatteryIndicatorMode(
+                appChargingMode: mode(
+                    .inhibit,
+                    chargerConnected: false,
+                    systemIsChargingPastLimit: true
+                )
+            ) == .discharging
         )
     }
 }

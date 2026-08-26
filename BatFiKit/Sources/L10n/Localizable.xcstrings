@@ -713,6 +713,17 @@
         }
       }
     },
+    "app_charging_mode.state.description.system_charging_past_limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "It does that now and then to keep its battery reading accurate. Your %@ limit applies again afterwards."
+          }
+        }
+      }
+    },
     "app_charging_mode.state.description.temp_charging_to" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -1599,6 +1610,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "充电覆盖"
+          }
+        }
+      }
+    },
+    "app_charging_mode.state.title.system_charging_past_limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "macOS is charging to 100%"
           }
         }
       }

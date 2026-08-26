@@ -86,6 +86,31 @@ public enum L10n {
                     )
                 }
 
+                /// It does that now and then to keep its battery reading accurate. Your %@ limit applies again afterwards.
+                ///
+                /// Reached in the menu, where the title above is all a user sees, and in the
+                /// mode-change notification, where it is the body. The reassurance is the
+                /// point: without "applies again afterwards" the only reading available to
+                /// someone who set 75% and is looking at 100% is that BatFi stopped working,
+                /// which is what they report.
+                ///
+                /// "now and then" rather than a promise about this particular charge. The
+                /// calibration is the usual cause and the one Apple documents, but a limit
+                /// that stopped being enforced looks identical from here, so the sentence
+                /// says what macOS does in general and does not certify what is happening
+                /// this time.
+                public static func systemChargingPastLimit(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.description.system_charging_past_limit",
+                            defaultValue: "It does that now and then to keep its battery reading accurate. Your %@ limit applies again afterwards.",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
+
                 /// The charging limit has been temporarily set to %@.
                 public static func tempChargingTo(_ p1: Any) -> String {
                     String(
@@ -115,6 +140,24 @@ public enum L10n {
                 public static let systemDischargingToLimit = String(localized: "app_charging_mode.state.title.system_discharging_to_limit", defaultValue: "Discharging to the limit", bundle: Bundle.module)
                 /// Charging paused by macOS
                 public static let systemHoldingBelowLimit = String(localized: "app_charging_mode.state.title.system_holding_below_limit", defaultValue: "Charging paused by macOS", bundle: Bundle.module)
+                /// macOS is charging to 100%
+                ///
+                /// Names macOS as the actor, which the Settings row this state pairs with
+                /// (`ChargeControlDisclosure.mayChargeToFullForCalibration`) established for
+                /// the same reason: "Charging to 100%" alone would read as BatFi doing the
+                /// one thing a charge limit exists to prevent, and it is not what happens —
+                /// BatFi's limit stays in force and macOS overrides it.
+                ///
+                /// Not "Calibration charge", though that is usually the cause. A limit that
+                /// genuinely stopped being enforced produces an identical reading, so naming
+                /// the cause here would be a confident lie in exactly the case that matters.
+                /// The reason belongs in the description, hedged, and the decision about
+                /// whether it is a fault stays with `ChargeHoldDrift`.
+                ///
+                /// Also unlike the two temp-override titles, which describe charging the
+                /// *user* asked for: "Temporary 100% charge" would sit next to
+                /// "Temporarily charging" and read as BatFi's own doing.
+                public static let systemChargingPastLimit = String(localized: "app_charging_mode.state.title.system_charging_past_limit", defaultValue: "macOS is charging to 100%", bundle: Bundle.module)
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
 

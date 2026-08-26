@@ -41,7 +41,7 @@ public struct AppChargingStateClient: Sendable {
     /// reading. Every caller knows both at once, and one setter is one place to keep them
     /// consistent: set separately, a path that cleared one and forgot the other would latch
     /// the stale sentence, which is the exact failure these flags exist to prevent.
-    public var setSystemChargeHold: @Sendable (_ draining: Bool, _ holdingBelowLimit: Bool) async -> Void
+    public var setSystemChargeHold: @Sendable (_ draining: Bool, _ holdingBelowLimit: Bool, _ chargingPastLimit: Bool) async -> Void
     public var setTempOverride: @Sendable (UserTempChargingMode?) async -> Void
     public var setChargerConnected: @Sendable (Bool) async -> Void
     /// Base charge limit requested by the automation engine; nil falls back to the user's

@@ -56,14 +56,18 @@ public extension AppChargingMode {
             // is the mode BatFi records for "charge is being held, just not by me", and the
             // label has to say which.
             //
-            // The order is the precedence, and it is pinned by a test. The two system states
-            // are mutually exclusive on any real reading — a drain needs the battery above
-            // the limit, a hold needs it below — but the flags are independent, and the drain
-            // is the one a user can watch happening.
+            // The order is the precedence, and it is pinned by a test. All three system
+            // states are mutually exclusive on any real reading — the top-up and the drain
+            // read one direction rule and negate it, and the hold needs the battery below a
+            // limit both of the others need it above — but the flags are independent, so an
+            // order is still owed.
             //
-            // The description below is left alone deliberately: "The charging limit is set
-            // to 55%" is true in all three cases, and it is the title that a user watching
-            // 61% fall toward 55% — or 56% sit still under a 60% limit — can prove wrong.
+            // The top-up leads because it is the one whose absence was a contradiction rather
+            // than merely a vague label: for as long as the drain was keyed on the level
+            // alone, a Mac being charged to 100% by macOS was told it was discharging.
+            if systemIsChargingPastLimit {
+                return label.systemChargingPastLimit
+            }
             if systemIsDischargingToLimit {
                 return label.systemDischargingToLimit
             }
@@ -106,6 +110,14 @@ public extension AppChargingMode {
             }
             return label.forceDischarge
         case .inhibit:
+            // Ahead of the automation attribution, and the one place the description does not
+            // simply restate the limit. "The charging limit is set to 75%" is true while the
+            // battery sits at 100%, and it is the sentence that makes a user read the state
+            // as BatFi having failed; naming the rule that set the limit helps even less.
+            // Which limit is in force is not in doubt here — that it still applies is.
+            if systemIsChargingPastLimit {
+                return label.systemChargingPastLimit(limit)
+            }
             if let automationRuleName {
                 return L10n.Automation.inhibitByAutomation(limit, name: automationRuleName)
             }

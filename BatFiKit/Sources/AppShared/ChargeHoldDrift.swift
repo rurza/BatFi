@@ -114,7 +114,21 @@ public struct ChargeHoldDriftMonitor: Equatable, Sendable {
     ///
     /// `.warnTheUser` implies the re-apply as well — the caller does both — so the run keeps
     /// being corrected after the warning rather than being handed over to the user.
-    public mutating func record(isDrifting: Bool, at now: Date) -> Response {
+    ///
+    /// - Parameter warningIsWarranted: whether this run is worth telling the user about at
+    ///   all. False while macOS is charging past the limit on a mechanism that owns the
+    ///   charging decision (`SystemChargeTopUp`): Apple documents that charge, BatFi's limit
+    ///   is still in force underneath it, and it was measured surviving 61 consecutive
+    ///   re-applies on 2026-08-26 — so "⚠️ Your charge limit isn't holding" names a fault
+    ///   that is usually not one, in front of a user who can see the battery climbing and
+    ///   will read the warning as confirmation.
+    ///
+    ///   It suppresses only the warning, not the run. The re-apply keeps going, because the
+    ///   one reading this state cannot be told apart from is a limit that really did stop
+    ///   being enforced — and there, re-applying is the thing that fixes it. `hasWarned` is
+    ///   deliberately left alone too, so a run that is still drifting once the top-up ends
+    ///   can still raise its one warning.
+    public mutating func record(isDrifting: Bool, warningIsWarranted: Bool = true, at now: Date) -> Response {
         guard isDrifting else {
             // One clean reading ends the run. The fault is a steady state, so a run that
             // breaks was either fixed or was never one.
@@ -132,7 +146,7 @@ public struct ChargeHoldDriftMonitor: Equatable, Sendable {
         // Checked ahead of the floor, and deliberately: the warning is a once-per-run event
         // of its own, and a run that has been failing for ten minutes has to be able to say
         // so on the pass that crosses the line, whatever happened seconds earlier.
-        if elapsed >= Self.warnAfter, !hasWarned {
+        if elapsed >= Self.warnAfter, !hasWarned, warningIsWarranted {
             hasWarned = true
             lastActedAt = now
             return .warnTheUser

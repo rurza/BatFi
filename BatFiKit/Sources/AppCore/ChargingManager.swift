@@ -196,7 +196,8 @@ public actor ChargingManager: ChargingModeManager {
         chargerConnected: Bool,
         requestedLimit: Int,
         limitInForce: Int,
-        currentMode: ChargingMode
+        currentMode: ChargingMode,
+        systemIsChargingPastLimit: Bool
     ) async {
         // BatFi's own discharge has the fault's exact shape — charger in, battery above the
         // limit, going down — and is deliberate. The firmware would attribute it
@@ -223,7 +224,13 @@ public actor ChargingManager: ChargingModeManager {
             holdIsAttributed: holdIsAttributed
         )
 
-        let response = driftMonitor.record(isDrifting: isDrifting, at: now)
+        // Apple's documented calibration charge is this fault's twin, and the re-apply is
+        // kept for it while the warning is not — see `record(isDrifting:warningIsWarranted:at:)`.
+        let response = driftMonitor.record(
+            isDrifting: isDrifting,
+            warningIsWarranted: !systemIsChargingPastLimit,
+            at: now
+        )
         guard response != .none else {
             if isDrifting {
                 // The first minute of a run. Logged so that a fault which corrects itself
@@ -680,6 +687,17 @@ public actor ChargingManager: ChargingModeManager {
         // stop happening because Apple's limit could not be set.
         let effectiveLimitInForce = await applyChargeLimit(requestedLimit) ?? requestedLimit
 
+        // What macOS is doing to a battery above the limit, worked out once and read twice —
+        // by the drift check immediately below and by the mode decision further down. Both
+        // have to see the same answer: the drift check's whole job is deciding whether this
+        // reading is a fault, and the label's is saying what it is, and those two disagreeing
+        // is how a user came to be shown "Discharging to the limit" and warned that the limit
+        // was not holding, about one battery, at the same moment.
+        let aboveLimit = await systemChargeAboveLimit(
+            powerState: powerState,
+            limitInForce: effectiveLimitInForce
+        )
+
         // Asked of the battery rather than of the mechanism, and asked after the limit has
         // been put in force so that both are read on the same pass.
         await checkForChargeHoldDrift(
@@ -687,7 +705,8 @@ public actor ChargingManager: ChargingModeManager {
             chargerConnected: chargerConnected,
             requestedLimit: requestedLimit,
             limitInForce: effectiveLimitInForce,
-            currentMode: currentMode
+            currentMode: currentMode,
+            systemIsChargingPastLimit: aboveLimit.isToppingUp
         )
 
         // Answered once per pass, here rather than inside the mode decision, and answered on
@@ -867,11 +886,8 @@ public actor ChargingManager: ChargingModeManager {
                     await inhibitCharging(
                         chargerConnected: chargerConnected,
                         currentMode: currentMode,
-                        systemIsDischargingToLimit: SystemChargeDrain.isUnderway(
-                            batteryLevel: currentBatteryLevel,
-                            limitInForce: effectiveLimitInForce,
-                            mechanismDrainsToLimitItself: await systemDischargesToLimitItself()
-                        )
+                        systemIsDischargingToLimit: aboveLimit.isDraining,
+                        systemIsChargingPastLimit: aboveLimit.isToppingUp
                     )
                 }
             } else if inhibitChargingOnSleep, computerIsAsleep, await backendCanPauseChargingOnDemand() {
@@ -937,6 +953,73 @@ public actor ChargingManager: ChargingModeManager {
         } catch {
             logger.error("Charge-resume nudge failed: \(error, privacy: .public)")
         }
+    }
+
+    /// What macOS is doing to a battery that sits **above** the limit.
+    ///
+    /// Two states, not one, and the level cannot tell them apart: macOS draining back down to
+    /// the limit, and macOS charging past it for the calibration Apple documents. Both are
+    /// `.inhibit` — BatFi issues no write for either and cannot stop either — so the only
+    /// thing that separates them is which way charge is moving.
+    ///
+    /// Resolved here, in one place, because the two answers have to agree: they are exact
+    /// complements, and `SystemChargeDrain`/`SystemChargeTopUp` guarantee that only by reading
+    /// the same direction rule. Returning both from one call is what stops a later edit from
+    /// gating one and not the other.
+    ///
+    /// The backend question is asked first and on its own, so the SMC round trip below is
+    /// never reached on a mechanism BatFi drives itself, where a battery above the limit is
+    /// BatFi's own inhibit holding and neither state can arise.
+    private func systemChargeAboveLimit(
+        powerState: PowerState,
+        limitInForce: Int
+    ) async -> (isDraining: Bool, isToppingUp: Bool) {
+        guard await systemDischargesToLimitItself(),
+              powerState.batteryLevel > limitInForce else { return (false, false) }
+
+        // Asked only where IOKit would otherwise say "draining", which is the same bound
+        // `systemIsHoldingChargeBelowLimit` puts on the same round trip. The SMC can only ever
+        // turn that answer into a top-up and never the other way about — see
+        // `ChargeDirection` — so a reading IOKit already calls a charge needs no second
+        // opinion, and the pass pays nothing for it.
+        //
+        // `batteryPower < 0` is the battery as a *target* rather than a source, the sign
+        // convention `PowerGraph` renders. A helper that cannot answer leaves this nil, and
+        // nil falls back to IOKit rather than to a guess.
+        var chargeIsFlowingIn: Bool?
+        if !powerState.isCharging {
+            chargeIsFlowingIn = (try? await powerDistributionClient.powerInfo()).map { $0.batteryPower < 0 }
+        }
+
+        let isToppingUp = SystemChargeTopUp.isUnderway(
+            batteryLevel: powerState.batteryLevel,
+            limitInForce: limitInForce,
+            isCharging: powerState.isCharging,
+            chargeIsFlowingIn: chargeIsFlowingIn,
+            mechanismDrainsToLimitItself: true
+        )
+        let isDraining = SystemChargeDrain.isUnderway(
+            batteryLevel: powerState.batteryLevel,
+            limitInForce: limitInForce,
+            isCharging: powerState.isCharging,
+            chargeIsFlowingIn: chargeIsFlowingIn,
+            mechanismDrainsToLimitItself: true
+        )
+        // Logged on the transition only, and against the published flag rather than a private
+        // copy, for the reason the hold's twin below gives. This is the line that says whether
+        // a support log's hour of re-applied limits was Apple calibrating or a limit that had
+        // genuinely stopped holding — the two produce identical readings otherwise.
+        let wasToppingUp = await appChargingState.currentAppChargingMode().systemIsChargingPastLimit
+        if isToppingUp, !wasToppingUp {
+            logger.notice("macOS is charging past the limit: battery \(powerState.batteryLevel, privacy: .public)%, limit in force \(limitInForce, privacy: .public)%. Apple's charge limit does this to keep its state-of-charge estimate accurate; BatFi's limit stays in force and there is no write that stops it.")
+            await analytics.addBreadcrumb(
+                category: .chargingManager,
+                message: "System is charging past the limit at \(powerState.batteryLevel)% against \(limitInForce)%"
+            )
+        } else if !isToppingUp, wasToppingUp {
+            logger.notice("macOS is no longer charging past the limit; battery \(powerState.batteryLevel, privacy: .public)%, charging \(powerState.isCharging, privacy: .public)")
+        }
+        return (isDraining, isToppingUp)
     }
 
     /// Whether macOS is holding charge on a battery that sits below the limit.
@@ -1072,7 +1155,7 @@ public actor ChargingManager: ChargingModeManager {
         // BatFi is handing charging back and releasing the limit it applied, so there is no
         // BatFi limit left for the system to drain to. Whatever the user's own System
         // Settings limit then does is not something this app may narrate.
-        await appChargingState.setSystemChargeHold(false, false)
+        await appChargingState.setSystemChargeHold(false, false, false)
         // BatFi is handing charging back, so the next limit it applies starts a new
         // episode and is worth reporting again even if it resolves — or fails — the same way.
         lastReportedChargeLimit = nil
@@ -1256,7 +1339,7 @@ public actor ChargingManager: ChargingModeManager {
         // and above the guard for the same reason it is set above one: this pass may skip
         // the command as already in force, and a stale "Discharging to the limit" outliving
         // the drain is the failure the flag exists to prevent.
-        await appChargingState.setSystemChargeHold(false, false)
+        await appChargingState.setSystemChargeHold(false, false, false)
         guard shouldApply(.charging, currentMode: currentMode) else { return }
         logger.debug("Turning on charging")
         await analytics.addBreadcrumb(category: .chargingManager, message: "Turning on charging")
@@ -1292,7 +1375,8 @@ public actor ChargingManager: ChargingModeManager {
         chargerConnected: Bool,
         currentMode: ChargingMode,
         systemIsDischargingToLimit: Bool = false,
-        systemIsHoldingBelowLimit: Bool = false
+        systemIsHoldingBelowLimit: Bool = false,
+        systemIsChargingPastLimit: Bool = false
     ) async {
         await updateChargerConnected(chargerConnected)
         // Beside `updateChargerConnected` and above the guard, deliberately. This reports
@@ -1303,7 +1387,8 @@ public actor ChargingManager: ChargingModeManager {
         // would latch at whichever value was true when the mode last changed.
         await appChargingState.setSystemChargeHold(
             systemIsDischargingToLimit,
-            systemIsHoldingBelowLimit
+            systemIsHoldingBelowLimit,
+            systemIsChargingPastLimit
         )
         guard shouldApply(.inhibit, currentMode: currentMode) else {
             // Already inhibiting and nothing has happened that could have undone it. The
@@ -1335,7 +1420,7 @@ public actor ChargingManager: ChargingModeManager {
         // and this one are mutually exclusive by construction — `updateStatus` skips its
         // discharge arm entirely on a mechanism that drains itself — so this can only ever
         // be clearing a value left by an earlier pass.
-        await appChargingState.setSystemChargeHold(false, false)
+        await appChargingState.setSystemChargeHold(false, false, false)
         // Ahead of the assertion, not after it. Taking the assertion first and then
         // returning through this guard stranded it: nothing below runs, and every release
         // site is on a path this pass no longer reaches.

@@ -52,8 +52,26 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
     /// force, the firmware's attribution and the backend at the same moment.
     public let systemIsHoldingBelowLimit: Bool
 
+    /// Whether macOS is charging the battery **past** the limit, on its own.
+    ///
+    /// The third thing `.inhibit` covers on a mechanism that owns the charging decision, and
+    /// here for the same reasons the other two are: Apple's charge limit occasionally charges
+    /// to 100% to keep its state-of-charge estimate honest, BatFi's limit stays in force
+    /// throughout, and BatFi issues no write and cannot stop it. See `SystemChargeTopUp`.
+    ///
+    /// Mutually exclusive with the drain by construction rather than in practice — the two
+    /// read one direction rule and negate it — and with the hold, which needs the battery
+    /// below the limit. The struct still cannot express that; the precedence lives in
+    /// `stateDescription` and is pinned by a test.
+    ///
+    /// **Defaults to `false`, meaning "not known to be charging past the limit"** — the same
+    /// reading the other two flags get, and erring the same way: it costs the plain inhibit
+    /// label on a Mac being topped up, where claiming a top-up by default would put "macOS is
+    /// charging to 100%" on every Mac holding its limit correctly.
+    public let systemIsChargingPastLimit: Bool
+
     public var id: String {
-        "\(mode.id)\(userTempOverride?.id.description ?? "null")\(chargerConnected)\(systemIsDischargingToLimit)\(systemIsHoldingBelowLimit)"
+        "\(mode.id)\(userTempOverride?.id.description ?? "null")\(chargerConnected)\(systemIsDischargingToLimit)\(systemIsHoldingBelowLimit)\(systemIsChargingPastLimit)"
     }
 
     public var description: String {
@@ -63,6 +81,7 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         chargerConnected: \(chargerConnected)
         systemIsDischargingToLimit: \(systemIsDischargingToLimit)
         systemIsHoldingBelowLimit: \(systemIsHoldingBelowLimit)
+        systemIsChargingPastLimit: \(systemIsChargingPastLimit)
         """
     }
 
@@ -71,13 +90,15 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         userTempOverride: UserTempChargingMode?,
         chargerConnected: Bool,
         systemIsDischargingToLimit: Bool = false,
-        systemIsHoldingBelowLimit: Bool = false
+        systemIsHoldingBelowLimit: Bool = false,
+        systemIsChargingPastLimit: Bool = false
     ) {
         self.mode = mode
         self.userTempOverride = userTempOverride
         self.chargerConnected = chargerConnected
         self.systemIsDischargingToLimit = systemIsDischargingToLimit
         self.systemIsHoldingBelowLimit = systemIsHoldingBelowLimit
+        self.systemIsChargingPastLimit = systemIsChargingPastLimit
     }
 
 }

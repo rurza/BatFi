@@ -19,14 +19,16 @@ import Testing
         override: Int? = nil,
         chargerConnected: Bool = true,
         systemIsDischargingToLimit: Bool = false,
-        systemIsHoldingBelowLimit: Bool = false
+        systemIsHoldingBelowLimit: Bool = false,
+        systemIsChargingPastLimit: Bool = false
     ) -> AppChargingMode {
         AppChargingMode(
             mode: mode,
             userTempOverride: override.map(UserTempChargingMode.init(limit:)),
             chargerConnected: chargerConnected,
             systemIsDischargingToLimit: systemIsDischargingToLimit,
-            systemIsHoldingBelowLimit: systemIsHoldingBelowLimit
+            systemIsHoldingBelowLimit: systemIsHoldingBelowLimit,
+            systemIsChargingPastLimit: systemIsChargingPastLimit
         )
     }
 
@@ -184,6 +186,73 @@ import Testing
     @Test func aTempOverrideOutranksASystemDrain() {
         let title = mode(.inhibit, override: 100, systemIsDischargingToLimit: true).stateDescription
         #expect(title == L10n.AppChargingMode.State.Title.chargeOverride)
+    }
+
+    // MARK: - macOS charging past the limit
+
+    // Measured 2026-08-26: 100% against a 75% limit in force, `IsCharging` true, 477 mA and
+    // 7.0 W going into the battery — and the menu read "Discharging to the limit" over it,
+    // because the drain was keyed on the level alone. Apple documents this charge; BatFi has
+    // no representation for it and so reported its opposite.
+
+    @Test func systemChargingPastTheLimitIsNotReportedAsADrain() {
+        let title = mode(.inhibit, systemIsChargingPastLimit: true).stateDescription
+        #expect(title != L10n.AppChargingMode.State.Title.systemDischargingToLimit)
+        #expect(title != L10n.AppChargingMode.State.Title.inhibit)
+        #expect(title == L10n.AppChargingMode.State.Title.systemChargingPastLimit)
+    }
+
+    /// The description is the one place the `.inhibit` body does not simply restate the limit:
+    /// "The charging limit is set to 75%" is true at 100% and is exactly what makes the state
+    /// read as BatFi having failed.
+    @Test func theTopUpDescriptionSaysTheLimitStillApplies() {
+        let body = mode(.inhibit, systemIsChargingPastLimit: true)
+            .stateDescription(chargeLimitFraction: 0.75)
+        #expect(body == L10n.AppChargingMode.State.Description.systemChargingPastLimit(percent(0.75)))
+        #expect(body != L10n.AppChargingMode.State.Description.inhibit(percent(0.75)))
+        // Asserted on the content rather than only against the same call, which would hold
+        // however badly the string resolved. The limit has to reach the sentence: an
+        // unsubstituted `%@` here is the whole reassurance lost, and the catalog entry is
+        // new — `systemChargeLimitRaised` has already been shipped once reading "set below
+        // 100%" because a percentage never crossed a boundary.
+        #expect(body?.contains(percent(0.75)) == true)
+        #expect(body?.contains("%@") == false)
+    }
+
+    /// Automation attribution names the rule that set the limit. During a top-up the limit is
+    /// not what is in doubt, so the reassurance outranks it.
+    @Test func theTopUpDescriptionOutranksAutomationAttribution() {
+        let body = mode(.inhibit, systemIsChargingPastLimit: true)
+            .stateDescription(chargeLimitFraction: 0.75, automationRuleName: "Work")
+        #expect(body == L10n.AppChargingMode.State.Description.systemChargingPastLimit(percent(0.75)))
+    }
+
+    /// Same containment the other two system flags get.
+    @Test func aTopUpDoesNotRelabelTheOtherModes() {
+        for otherMode in [ChargingMode.charging, .forceDischarge] {
+            let toppedUp = mode(otherMode, systemIsChargingPastLimit: true).stateDescription
+            #expect(toppedUp == mode(otherMode).stateDescription)
+        }
+    }
+
+    @Test func aTempOverrideOutranksATopUp() {
+        let title = mode(.inhibit, override: 100, systemIsChargingPastLimit: true).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.chargeOverride)
+    }
+
+    /// The three cannot co-occur on any real reading — the top-up and the drain read one
+    /// direction rule and negate it, and the hold needs the battery below a limit both of the
+    /// others need it above — but the flags are independent, so the order is pinned here. The
+    /// top-up leads: it is the only one of the three whose absence produced a contradiction
+    /// rather than a merely vague sentence.
+    @Test func aTopUpOutranksBothOtherSystemStatesIfAllAreSomehowSet() {
+        let title = mode(
+            .inhibit,
+            systemIsDischargingToLimit: true,
+            systemIsHoldingBelowLimit: true,
+            systemIsChargingPastLimit: true
+        ).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.systemChargingPastLimit)
     }
 
     // MARK: - Temp override wins over automation

@@ -217,4 +217,42 @@ import Testing
         #expect(monitor.record(isDrifting: true, at: later) == .none)
         #expect(monitor.record(isDrifting: true, at: later.addingTimeInterval(60)) == .reapply)
     }
+
+    // MARK: - Apple's calibration charge
+
+    // The fault's twin, and indistinguishable from it by every input this monitor has: on
+    // 2026-08-26 a 75% limit stayed in force while macOS charged the battery from 76% to 100%,
+    // and BatFi re-applied 75% 61 times over the hour and told the user their limit was not
+    // holding. The re-apply is kept — it is what would fix a limit that really had stopped
+    // being enforced — and the warning is not.
+
+    @Test func aTopUpIsStillReAppliedAgainstButNotWarnedAbout() {
+        var monitor = ChargeHoldDriftMonitor()
+        let start = Date(timeIntervalSince1970: 0)
+        _ = monitor.record(isDrifting: true, warningIsWarranted: false, at: start)
+        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(60)) == .reapply)
+        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(600)) == .reapply)
+        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(3_600)) == .reapply)
+    }
+
+    /// The suppression must not spend the run's one warning. A top-up that ends with the
+    /// battery still above the limit and nothing holding it is the genuine fault, and the
+    /// user is owed the warning then.
+    @Test func aRunThatOutlivesTheTopUpCanStillWarn() {
+        var monitor = ChargeHoldDriftMonitor()
+        let start = Date(timeIntervalSince1970: 0)
+        _ = monitor.record(isDrifting: true, warningIsWarranted: false, at: start)
+        #expect(monitor.record(isDrifting: true, warningIsWarranted: false, at: start.addingTimeInterval(600)) == .reapply)
+        #expect(monitor.hasWarned == false)
+        #expect(monitor.record(isDrifting: true, warningIsWarranted: true, at: start.addingTimeInterval(660)) == .warnTheUser)
+    }
+
+    /// And the default is unchanged, so every backend BatFi drives with an inhibit of its own
+    /// keeps the behaviour it had.
+    @Test func warningIsWarrantedByDefault() {
+        var monitor = ChargeHoldDriftMonitor()
+        let start = Date(timeIntervalSince1970: 0)
+        _ = monitor.record(isDrifting: true, at: start)
+        #expect(monitor.record(isDrifting: true, at: start.addingTimeInterval(600)) == .warnTheUser)
+    }
 }

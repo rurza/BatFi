@@ -3,10 +3,10 @@
 //  BatFi
 //
 //  When macOS is draining the battery to the limit by itself, BatFi's mode is `.inhibit`
-//  and the label has to say which of the two things `.inhibit` covers is happening. The
-//  boundary is the whole decision: one point above the limit is a drain, exactly at it is a
-//  hold, and getting that wrong leaves "Discharging to the limit" on screen for a battery
-//  that has finished discharging.
+//  and the label has to say which of the things `.inhibit` covers is happening. Two
+//  boundaries decide it, and both have been wrong: the level, where one point above the
+//  limit is a drain and exactly at it is a hold; and the direction, where a battery above
+//  the limit that is *taking* current is macOS topping it up rather than draining it.
 //
 
 import Foundation
@@ -15,13 +15,46 @@ import Testing
 @testable import AppShared
 
 @Suite struct SystemChargeDrainTests {
-    @Test func aBatteryAboveTheLimitOnADrainingMechanismIsDraining() {
+    @Test func aBatteryAboveTheLimitGivingCurrentUpIsDraining() {
         #expect(
             SystemChargeDrain.isUnderway(
                 batteryLevel: 61,
                 limitInForce: 55,
+                isCharging: false,
+                chargeIsFlowingIn: nil,
                 mechanismDrainsToLimitItself: true
             )
+        )
+    }
+
+    /// The regression, captured live on 26A5416b-class firmware 2026-08-26: 100% against a
+    /// 75% limit in force, `IsCharging` true, `Amperage` +477, and BatFi reporting
+    /// `systemIsDischargingToLimit: true` over it. The level test alone cannot tell Apple's
+    /// documented calibration charge from the drain that follows it.
+    @Test func aBatteryAboveTheLimitTakingCurrentIsNotDraining() {
+        #expect(
+            SystemChargeDrain.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: true,
+                chargeIsFlowingIn: nil,
+                mechanismDrainsToLimitItself: true
+            ) == false
+        )
+    }
+
+    /// The SMC leads IOKit by ~17s, so for that window a top-up that has already begun
+    /// still reads as `IsCharging` false. Trusting the level and IOKit alone puts
+    /// "Discharging to the limit" over a battery the SMC can already see taking current.
+    @Test func theSMCEndsADrainClaimBeforeIOKitDoes() {
+        #expect(
+            SystemChargeDrain.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: false,
+                chargeIsFlowingIn: true,
+                mechanismDrainsToLimitItself: true
+            ) == false
         )
     }
 
@@ -32,6 +65,8 @@ import Testing
             SystemChargeDrain.isUnderway(
                 batteryLevel: 55,
                 limitInForce: 55,
+                isCharging: false,
+                chargeIsFlowingIn: nil,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
@@ -42,6 +77,8 @@ import Testing
             SystemChargeDrain.isUnderway(
                 batteryLevel: 54,
                 limitInForce: 55,
+                isCharging: false,
+                chargeIsFlowingIn: nil,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
@@ -54,6 +91,8 @@ import Testing
             SystemChargeDrain.isUnderway(
                 batteryLevel: 61,
                 limitInForce: 55,
+                isCharging: false,
+                chargeIsFlowingIn: nil,
                 mechanismDrainsToLimitItself: false
             ) == false
         )
