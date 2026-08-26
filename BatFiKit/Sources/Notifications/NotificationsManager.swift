@@ -32,6 +32,10 @@ public class NotificationsManager: NSObject {
     private lazy var center = UNUserNotificationCenter.current()
     private lazy var logger = Logger(category: "🔔")
     private var chargingModeTask: Task<Void, Never>?
+    /// The last state a notification was actually posted for, so a re-emission of an unchanged
+    /// one is not announced again. Cleared when observing stops, so re-enabling the setting
+    /// announces the current state once.
+    private var lastNotifiedChargingMode: AppChargingMode?
     private var optimizedBatteryChargingTask: Task<Void, Never>?
     private var lastAlertDate: Date = .distantPast
     private var didShowLowBatteryNotification = false
@@ -130,8 +134,27 @@ public class NotificationsManager: NSObject {
             ) {
                 guard chargingMode.mode != .initial,
                       manageCharging,
-                      chargingMode.chargerConnected 
+                      chargingMode.chargerConnected
                 else { continue }
+                // Only when the state actually changed.
+                //
+                // `combineLatest` emits whenever **either** side does, and re-emits the cached
+                // value of the other — so every tick of `defaults.observe(.manageCharging)`
+                // re-delivered a mode that had not changed, and each re-delivery posted its own
+                // notification. `setAppChargingMode` already dedupes the mode stream, which is
+                // why the duplicates were invisible from that end.
+                //
+                // Measured 2026-08-26 20:59:35: three notifications inside six milliseconds on
+                // launch — "Charging to the limit" twice and then the drain — for two real
+                // states. Identifiers are deliberately unique per notification, so duplicates
+                // stack as separate banners rather than collapsing, which is right for genuine
+                // repeat events and merciless for these.
+                //
+                // Compared on the whole `AppChargingMode` rather than on `mode`: the system
+                // flags are part of what the sentence says, so a drain becoming a top-up is a
+                // real change even though `mode` stays `.inhibit`.
+                guard chargingMode != lastNotifiedChargingMode else { continue }
+                lastNotifiedChargingMode = chargingMode
                 logger.info("Should display notification")
                 await showChargingStateModeDidChangeNotification(chargingMode)
             }
@@ -139,6 +162,7 @@ public class NotificationsManager: NSObject {
     }
 
     func cancelObservingChargingStateMode() {
+        lastNotifiedChargingMode = nil
         chargingModeTask?.cancel()
     }
 

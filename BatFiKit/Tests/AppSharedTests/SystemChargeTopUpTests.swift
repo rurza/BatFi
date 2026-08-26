@@ -118,61 +118,50 @@ import Testing
         )
     }
 
-    /// The stability requirement, and the reason the level decides this and the SMC does not.
-    ///
-    /// Measured 2026-08-26 13:59–14:03: at 100% and resting, `batteryPower` crossed a 0.1 W
-    /// threshold nine times in four minutes — 90 successful SMC reads in the same window, so
-    /// the helper was answering and the *value* was moving. A full battery on the charger sits
-    /// near zero and jitters, and it briefly supplements the adapter whenever a load burst
-    /// outruns it. Each crossing flipped the label and fired a "New mode" notification, so the
-    /// user was flooded.
-    ///
-    /// At full there is nothing an instantaneous reading can add: a battery at 100% above the
-    /// user's limit is macOS's doing whichever way a few tenths of a watt happen to be moving.
-    /// So every sign is the same answer here, and the state cannot flap.
-    @Test func atFullEverySMCReadingGivesTheSameAnswer() {
-        let powers: [Float?] = [nil, -46.2, -0.09, 0, 0.09, 0.4, 7.4, 46.2]
-        for power in powers {
-            for isCharging in [true, false] {
-                #expect(
-                    SystemChargeTopUp.isUnderway(
-                        batteryLevel: 100, limitInForce: 75,
-                        isCharging: isCharging, batteryPower: power,
-                        mechanismDrainsToLimitItself: true
-                    ),
-                    "flapped at power \(String(describing: power)), charging \(isCharging)"
-                )
-                #expect(
-                    SystemChargeDrain.isUnderway(
-                        batteryLevel: 100, limitInForce: 75,
-                        isCharging: isCharging, batteryPower: power,
-                        mechanismDrainsToLimitItself: true
-                    ) == false,
-                    "claimed a drain at full: power \(String(describing: power)), charging \(isCharging)"
-                )
-            }
-        }
-    }
-
-    /// The cost of the rule above, stated so it is a decision rather than an oversight: a drain
-    /// that has begun but not yet moved the level off 100 is reported as the plateau. It is the
-    /// same episode either way, and the drain gets its own label the moment the battery reads
-    /// 99. Trading a late label for a stable one, because the unstable one flooded the user.
-    @Test func aDrainIsNotReportedUntilTheLevelLeavesFull() {
+    /// The regression this replaced, kept as a test because it shipped. To stop the state
+    /// flapping on a jittering watt, an earlier version stopped consulting the reading at 100%
+    /// at all — so a battery measured at **-684 mA, 8.4 W leaving it**, was reported as charging
+    /// to 100%. `UISOC` stays pinned at 100 long after macOS begins draining, so "it gets the
+    /// right label at 99%" was false: the wrong label persisted.
+    @Test func aFullBatteryBeingDrainedIsNotTheTopUp() {
         #expect(
-            SystemChargeDrain.isUnderway(
-                batteryLevel: 100, limitInForce: 75,
-                isCharging: false, batteryPower: 7.4,
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 100, limitInForce: 85,
+                isCharging: false, batteryPower: 8.4,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
         #expect(
             SystemChargeDrain.isUnderway(
-                batteryLevel: 99, limitInForce: 75,
-                isCharging: false, batteryPower: 7.4,
+                batteryLevel: 100, limitInForce: 85,
+                isCharging: false, batteryPower: 8.4,
                 mechanismDrainsToLimitItself: true
             )
         )
+    }
+
+    /// Stability comes from the threshold, not from refusing to look. The jitter that caused the
+    /// flooding crossed 0.1 W; a real drain is 8.4 W and a real top-up 7 W. Every value inside
+    /// the resting band gives the plateau at full, and no value inside it gives a drain.
+    @Test func jitterAtFullStaysThePlateau() {
+        for noise in [Float(0), 0.4, -0.4, 0.9, -0.9] {
+            #expect(
+                SystemChargeTopUp.isUnderway(
+                    batteryLevel: 100, limitInForce: 85,
+                    isCharging: false, batteryPower: noise,
+                    mechanismDrainsToLimitItself: true
+                ),
+                "jitter \(noise) W left the plateau"
+            )
+            #expect(
+                SystemChargeDrain.isUnderway(
+                    batteryLevel: 100, limitInForce: 85,
+                    isCharging: false, batteryPower: noise,
+                    mechanismDrainsToLimitItself: true
+                ) == false,
+                "jitter \(noise) W read as a drain"
+            )
+        }
     }
 
     /// Only at full. A battery resting *between* the limit and full was not put there by a
@@ -239,18 +228,16 @@ import Testing
                         #expect(!toppingUp && !draining, "claimed at or below the limit: \(where_)")
                         continue
                     }
-                    guard level < 100 else {
-                        // At full the level decides and the reading is not consulted, so no
-                        // sign of `batteryPower` can move this.
-                        #expect(toppingUp && !draining, "expected the plateau for \(where_)")
-                        continue
-                    }
                     switch flow {
                     case .intoTheBattery:
                         #expect(toppingUp && !draining, "expected a top-up for \(where_)")
                     case .outOfTheBattery:
                         #expect(draining && !toppingUp, "expected a drain for \(where_)")
-                    case .idle, .unknown:
+                    case .idle:
+                        // Resting at full is the plateau; resting short of full is nobody's.
+                        #expect(!draining, "claimed a drain on a resting battery: \(where_)")
+                        #expect(toppingUp == (level >= 100), "wrong plateau call for \(where_)")
+                    case .unknown:
                         #expect(!toppingUp && !draining, "expected neither for \(where_)")
                     }
                 }

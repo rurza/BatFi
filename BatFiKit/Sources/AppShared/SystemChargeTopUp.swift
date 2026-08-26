@@ -56,24 +56,20 @@ public enum SystemChargeTopUp {
     /// limit. Reporting only the climb left the plateau to be read as a drain by one rule and as
     /// a limit that had stopped holding by another, on the same pass.
     ///
-    /// **At full the level decides and the reading is not consulted.** That is a stability
-    /// requirement, not a shortcut. A full battery on the charger sits near zero and jitters,
-    /// and it briefly supplements the adapter whenever a load burst outruns it: measured
-    /// 2026-08-26 crossing a 0.1 W threshold nine times in four minutes, across 90 successful
-    /// SMC reads. Every crossing flipped this state, and every flip fired a "New mode"
-    /// notification, so the user was flooded. At full there is nothing an instantaneous reading
-    /// can add — a battery at 100% above the user's limit is macOS's doing whichever way a few
-    /// tenths of a watt are moving — so every sign gives the same answer and the state cannot
-    /// flap.
+    /// **The plateau is a resting battery at full, not merely a battery at full.** An earlier
+    /// version stopped consulting the reading at 100% altogether, to stop the state flapping on
+    /// a jittering watt. That was the wrong trade and it shipped: `UISOC` stays pinned at 100
+    /// for a long time after macOS starts draining, so a battery measured at **-684 mA, 8.4 W
+    /// leaving it**, was reported as charging to 100% — persistently, not briefly. The
+    /// assumption that the level would leave 100 promptly is simply false.
     ///
-    /// The cost, stated so it is a decision rather than an oversight: a drain that has begun but
-    /// has not yet moved the level off 100 is reported as the plateau, and gets its own label
-    /// the moment the battery reads 99. A late label beats one that oscillates.
+    /// Stability comes from the threshold instead, which is where it belongs. The jitter that
+    /// caused the flapping crossed **0.1 W**; a real drain runs at 8.4 W and a real top-up at
+    /// 7 W, and IOKit's `Amperage` reads exactly 0 while the battery rests. One watt sits
+    /// between them with an order of magnitude to spare — see `ChargeDirection.restingThreshold`.
     ///
-    /// Below full the reading governs again, because there the two states really are different
-    /// things and a drain there runs at several watts. Between the limit and full a resting
-    /// battery is claimed by neither: no calibration charge ran to 100%, so there is no episode
-    /// to attribute a rest to.
+    /// Between the limit and full a resting battery is claimed by neither: no calibration charge
+    /// ran to 100%, so there is no episode to attribute a rest to.
     public static func isUnderway(
         batteryLevel: Int,
         limitInForce: Int,
@@ -82,7 +78,15 @@ public enum SystemChargeTopUp {
         mechanismDrainsToLimitItself: Bool
     ) -> Bool {
         guard mechanismDrainsToLimitItself, batteryLevel > limitInForce else { return false }
-        guard batteryLevel < 100 else { return true }
-        return ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) == .intoTheBattery
+        switch ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) {
+        case .intoTheBattery:
+            return true
+        case .idle:
+            // Resting *at full* above the limit is the tail of the episode; resting short of
+            // full is nobody's.
+            return batteryLevel >= 100
+        case .outOfTheBattery, .unknown:
+            return false
+        }
     }
 }
