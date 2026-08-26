@@ -56,11 +56,24 @@ public enum SystemChargeTopUp {
     /// limit. Reporting only the climb left the plateau to be read as a drain by one rule and as
     /// a limit that had stopped holding by another, on the same pass.
     ///
-    /// The plateau is claimed only at full, and only on evidence that the battery is resting.
-    /// Between the limit and full there is no calibration charge to attribute a rest to, and
-    /// `.unknown` is not evidence — a battery only reaches 100% above the user's limit because
-    /// macOS put it there, which is what makes the level meaningful *here* and nowhere else in
-    /// this file.
+    /// **At full the level decides and the reading is not consulted.** That is a stability
+    /// requirement, not a shortcut. A full battery on the charger sits near zero and jitters,
+    /// and it briefly supplements the adapter whenever a load burst outruns it: measured
+    /// 2026-08-26 crossing a 0.1 W threshold nine times in four minutes, across 90 successful
+    /// SMC reads. Every crossing flipped this state, and every flip fired a "New mode"
+    /// notification, so the user was flooded. At full there is nothing an instantaneous reading
+    /// can add — a battery at 100% above the user's limit is macOS's doing whichever way a few
+    /// tenths of a watt are moving — so every sign gives the same answer and the state cannot
+    /// flap.
+    ///
+    /// The cost, stated so it is a decision rather than an oversight: a drain that has begun but
+    /// has not yet moved the level off 100 is reported as the plateau, and gets its own label
+    /// the moment the battery reads 99. A late label beats one that oscillates.
+    ///
+    /// Below full the reading governs again, because there the two states really are different
+    /// things and a drain there runs at several watts. Between the limit and full a resting
+    /// battery is claimed by neither: no calibration charge ran to 100%, so there is no episode
+    /// to attribute a rest to.
     public static func isUnderway(
         batteryLevel: Int,
         limitInForce: Int,
@@ -69,13 +82,7 @@ public enum SystemChargeTopUp {
         mechanismDrainsToLimitItself: Bool
     ) -> Bool {
         guard mechanismDrainsToLimitItself, batteryLevel > limitInForce else { return false }
-        switch ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) {
-        case .intoTheBattery:
-            return true
-        case .idle:
-            return batteryLevel >= 100
-        case .outOfTheBattery, .unknown:
-            return false
-        }
+        guard batteryLevel < 100 else { return true }
+        return ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) == .intoTheBattery
     }
 }

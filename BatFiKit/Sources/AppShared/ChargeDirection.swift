@@ -33,10 +33,20 @@ public enum ChargeDirection {
         case unknown
     }
 
-    /// Below this many watts the battery is resting. `PowerDistributionInfo` is a live SMC
-    /// reading and jitters around zero; a hundredth of a watt is not a battery being run down,
-    /// and reading it as one is the bug this guards. Matches the precision the menu displays.
-    static let restingThreshold: Float = 0.1
+    /// Below this many watts the battery is resting.
+    ///
+    /// `PowerDistributionInfo` is a live SMC reading. Measured 2026-08-26 13:59–14:03 with a
+    /// full battery on the charger: it crossed **0.1 W nine times in four minutes**, across 90
+    /// successful reads in the same window — so the helper was answering and the value itself
+    /// was moving. A resting battery trades small amounts with the adapter and briefly
+    /// supplements it whenever a load burst outruns it, and neither is a battery being run
+    /// down. The first threshold here was 0.1 W and it flapped the label, and with it a "New
+    /// mode" notification, every time.
+    ///
+    /// One watt instead. A drain macOS performs on purpose runs at several watts — the top-up
+    /// measured the same day pushed 7 W the other way — so nothing real is lost, and the noise
+    /// no longer reaches.
+    static let restingThreshold: Float = 1.0
 
     /// - Parameters:
     ///   - isCharging: `kIOPSIsChargingKey`. Free — it is already on every `PowerState` — and it

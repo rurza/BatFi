@@ -109,6 +109,20 @@ public class NotificationsManager: NSObject {
     // MARK: - Charging mode
 
     func startObservingChargingStateMode() {
+        // Cancelled before it is replaced, or the old one keeps listening.
+        //
+        // `defaults.observe` yields the current value on subscribe and again on every write,
+        // including a write of the same value, so this runs more than once per launch. The
+        // assignment overwrote the reference without stopping the task behind it, leaving two
+        // live subscribers to `appChargingModeDidChage()` — and every mode change then posted
+        // its notification once per subscriber. Measured 2026-08-26: 13 state changes produced
+        // **26** distinct notifications, an exact doubling, which is what the duplicate pairs in
+        // Notification Center were. A third emission would have made it three.
+        //
+        // The identifiers are deliberately unique per notification (see
+        // `UserNotificationsClient+Live`), so duplicates stack as separate banners rather than
+        // collapsing into one — which is correct for genuine repeat events and merciless here.
+        chargingModeTask?.cancel()
         chargingModeTask = Task {
             for await (chargingMode, manageCharging) in combineLatest(
                 appChargingState.appChargingModeDidChage(),
@@ -206,6 +220,9 @@ public class NotificationsManager: NSObject {
     // MARK: - Optimized battery charging
 
     func startObservingOptimizedBatteryCharging() {
+        // Same as `startObservingChargingStateMode` — the identical pattern, the identical
+        // leak. Not observed doubling in the wild only because this state changes rarely.
+        optimizedBatteryChargingTask?.cancel()
         optimizedBatteryChargingTask = Task {
             for await (powerState, manageCharging) in combineLatest(
                 powerSourceClient.powerSourceChanges(),

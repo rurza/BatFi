@@ -61,6 +61,10 @@ public enum SystemChargeDrain {
         mechanismDrainsToLimitItself: Bool
     ) -> Bool {
         guard mechanismDrainsToLimitItself, batteryLevel > limitInForce else { return false }
+        // Never at full: there the plateau owns the reading whatever the SMC says, so that the
+        // two cannot trade the label back and forth on a jittering value. See
+        // `SystemChargeTopUp.isUnderway`.
+        guard batteryLevel < 100 else { return false }
         return ChargeDirection.flow(isCharging: isCharging, batteryPower: batteryPower) == .outOfTheBattery
     }
 }

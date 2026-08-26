@@ -42,7 +42,7 @@ import Testing
     /// Sensor noise around zero must not read as a drain — that is the reading the bug was
     /// about, and a hundredth of a watt is not a battery being run down.
     @Test func noiseAroundZeroIsStillIdle() {
-        for p in [Float(0.04), -0.04, 0.09, -0.09] {
+        for p in [Float(0.4), -0.4, 0.9, -0.9] {
             #expect(ChargeDirection.flow(isCharging: false, batteryPower: p) == .idle, "\(p)")
         }
     }

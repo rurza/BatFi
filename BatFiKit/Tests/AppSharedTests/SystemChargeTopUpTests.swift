@@ -55,16 +55,16 @@ import Testing
         )
     }
 
-    /// macOS draining back down to the limit after a top-up. Above the limit and on the
-    /// charger, exactly like the top-up, and the direction is the only thing that separates
-    /// them.
-    @Test func aBatteryAboveTheLimitGivingCurrentUpIsNotToppingUp() {
+    /// macOS draining back down to the limit after a top-up. Below full, where the reading
+    /// governs, the direction is the only thing separating this from the climb. At full the
+    /// plateau owns it either way — see `atFullEverySMCReadingGivesTheSameAnswer`.
+    @Test func aBatteryBelowFullGivingCurrentUpIsNotToppingUp() {
         #expect(
             SystemChargeTopUp.isUnderway(
-                batteryLevel: 100,
+                batteryLevel: 99,
                 limitInForce: 75,
                 isCharging: false,
-                batteryPower: nil,
+                batteryPower: 7.4,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
@@ -101,78 +101,112 @@ import Testing
         )
     }
 
-    // MARK: - The plateau
+    // MARK: - The plateau, and why it does not read the SMC
 
-    /// Measured 2026-08-26 12:57, ~3h after the charge itself finished: 100% against a 75%
-    /// limit, `Amperage` 0, `FullyCharged` true, `NotChargingReason` bit 0 (`batteryFull`) and
-    /// **not** bit 24 — so the firmware's own reason for not charging is that there is nothing
-    /// left to charge, not that a limit is holding. macOS had taken the battery to full and had
-    /// not yet given the limit back.
-    ///
-    /// The same episode as the climb, so the same state: a battery only reaches 100% above the
-    /// user's limit because macOS put it there.
-    @Test func aFullBatteryRestingAboveTheLimitIsStillTheTopUp() {
+    /// Measured 2026-08-26 12:57, ~3h after the charge itself finished, and still there at
+    /// 14:01: 100% against a 75% limit, `Amperage` 0, `FullyCharged` true,
+    /// `NotChargingReason` bit 0 (`batteryFull`) and **not** bit 24 — the firmware's own
+    /// reason for not charging is that there is nothing left to charge. macOS had taken the
+    /// battery to full and had not given the limit back for hours.
+    @Test func aFullBatteryRestingAboveTheLimitIsTheTopUp() {
         #expect(
             SystemChargeTopUp.isUnderway(
-                batteryLevel: 100,
-                limitInForce: 75,
-                isCharging: false,
-                batteryPower: 0,
+                batteryLevel: 100, limitInForce: 75,
+                isCharging: false, batteryPower: 0,
+                mechanismDrainsToLimitItself: true
+            )
+        )
+    }
+
+    /// The stability requirement, and the reason the level decides this and the SMC does not.
+    ///
+    /// Measured 2026-08-26 13:59–14:03: at 100% and resting, `batteryPower` crossed a 0.1 W
+    /// threshold nine times in four minutes — 90 successful SMC reads in the same window, so
+    /// the helper was answering and the *value* was moving. A full battery on the charger sits
+    /// near zero and jitters, and it briefly supplements the adapter whenever a load burst
+    /// outruns it. Each crossing flipped the label and fired a "New mode" notification, so the
+    /// user was flooded.
+    ///
+    /// At full there is nothing an instantaneous reading can add: a battery at 100% above the
+    /// user's limit is macOS's doing whichever way a few tenths of a watt happen to be moving.
+    /// So every sign is the same answer here, and the state cannot flap.
+    @Test func atFullEverySMCReadingGivesTheSameAnswer() {
+        let powers: [Float?] = [nil, -46.2, -0.09, 0, 0.09, 0.4, 7.4, 46.2]
+        for power in powers {
+            for isCharging in [true, false] {
+                #expect(
+                    SystemChargeTopUp.isUnderway(
+                        batteryLevel: 100, limitInForce: 75,
+                        isCharging: isCharging, batteryPower: power,
+                        mechanismDrainsToLimitItself: true
+                    ),
+                    "flapped at power \(String(describing: power)), charging \(isCharging)"
+                )
+                #expect(
+                    SystemChargeDrain.isUnderway(
+                        batteryLevel: 100, limitInForce: 75,
+                        isCharging: isCharging, batteryPower: power,
+                        mechanismDrainsToLimitItself: true
+                    ) == false,
+                    "claimed a drain at full: power \(String(describing: power)), charging \(isCharging)"
+                )
+            }
+        }
+    }
+
+    /// The cost of the rule above, stated so it is a decision rather than an oversight: a drain
+    /// that has begun but not yet moved the level off 100 is reported as the plateau. It is the
+    /// same episode either way, and the drain gets its own label the moment the battery reads
+    /// 99. Trading a late label for a stable one, because the unstable one flooded the user.
+    @Test func aDrainIsNotReportedUntilTheLevelLeavesFull() {
+        #expect(
+            SystemChargeDrain.isUnderway(
+                batteryLevel: 100, limitInForce: 75,
+                isCharging: false, batteryPower: 7.4,
+                mechanismDrainsToLimitItself: true
+            ) == false
+        )
+        #expect(
+            SystemChargeDrain.isUnderway(
+                batteryLevel: 99, limitInForce: 75,
+                isCharging: false, batteryPower: 7.4,
                 mechanismDrainsToLimitItself: true
             )
         )
     }
 
     /// Only at full. A battery resting *between* the limit and full was not put there by a
-    /// calibration charge that ran to 100%, so there is no episode to attribute it to and
-    /// nothing here should claim one.
+    /// calibration charge that ran to 100%, so there is no episode to attribute a rest to.
     @Test func aBatteryRestingBelowFullIsNotTheTopUp() {
         #expect(
             SystemChargeTopUp.isUnderway(
-                batteryLevel: 90,
-                limitInForce: 75,
-                isCharging: false,
-                batteryPower: 0,
+                batteryLevel: 90, limitInForce: 75,
+                isCharging: false, batteryPower: 0,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
     }
 
-    /// A full battery being actively run down is the drain, not the plateau. This is the reading
-    /// the plateau rule must not swallow — it is how the episode ends.
-    @Test func aFullBatteryGivingCurrentUpIsTheDrainNotThePlateau() {
-        #expect(
-            SystemChargeTopUp.isUnderway(
-                batteryLevel: 100,
-                limitInForce: 75,
-                isCharging: false,
-                batteryPower: 7.4,
-                mechanismDrainsToLimitItself: true
-            ) == false
-        )
+    /// Below full the reading still governs, and the threshold has to clear the same jitter.
+    /// A drain macOS performs on purpose runs at several watts; a few tenths is a resting
+    /// battery trading with the adapter.
+    @Test func belowFullOnlyARealOutwardFlowIsADrain() {
+        for noise in [Float(0.4), 0.9, -0.9] {
+            #expect(
+                SystemChargeDrain.isUnderway(
+                    batteryLevel: 90, limitInForce: 75,
+                    isCharging: false, batteryPower: noise,
+                    mechanismDrainsToLimitItself: true
+                ) == false,
+                "called \(noise) W a drain"
+            )
+        }
         #expect(
             SystemChargeDrain.isUnderway(
-                batteryLevel: 100,
-                limitInForce: 75,
-                isCharging: false,
-                batteryPower: 7.4,
+                batteryLevel: 90, limitInForce: 75,
+                isCharging: false, batteryPower: 6.0,
                 mechanismDrainsToLimitItself: true
             )
-        )
-    }
-
-    /// No SMC answer stays no answer, even at full. The plateau is claimed on evidence that the
-    /// battery is resting, not on the level alone — which is the mistake this whole file is a
-    /// record of.
-    @Test func aFullBatteryWithNoSMCAnswerClaimsNothing() {
-        #expect(
-            SystemChargeTopUp.isUnderway(
-                batteryLevel: 100,
-                limitInForce: 75,
-                isCharging: false,
-                batteryPower: nil,
-                mechanismDrainsToLimitItself: true
-            ) == false
         )
     }
 
@@ -183,7 +217,7 @@ import Testing
     /// so a reading that is neither (a full battery resting, or no SMC answer at all) is claimed
     /// by neither instead of falling to whichever one tested for an absence.
     @Test func eachStateRequiresItsOwnDirectionAndNeitherClaimsTheRest() {
-        let powers: [Float?] = [nil, -46.2, -7.0, -0.04, 0, 0.04, 7.4, 46.2]
+        let powers: [Float?] = [nil, -46.2, -7.0, -0.4, 0, 0.4, 7.4, 46.2]
         for level in 70...100 {
             for isCharging in [true, false] {
                 for power in powers {
@@ -205,19 +239,18 @@ import Testing
                         #expect(!toppingUp && !draining, "claimed at or below the limit: \(where_)")
                         continue
                     }
+                    guard level < 100 else {
+                        // At full the level decides and the reading is not consulted, so no
+                        // sign of `batteryPower` can move this.
+                        #expect(toppingUp && !draining, "expected the plateau for \(where_)")
+                        continue
+                    }
                     switch flow {
                     case .intoTheBattery:
                         #expect(toppingUp && !draining, "expected a top-up for \(where_)")
                     case .outOfTheBattery:
                         #expect(draining && !toppingUp, "expected a drain for \(where_)")
-                    case .idle:
-                        // Idle at full is the plateau; idle short of full belongs to neither.
-                        if level >= 100 {
-                            #expect(toppingUp && !draining, "expected the plateau for \(where_)")
-                        } else {
-                            #expect(!toppingUp && !draining, "expected neither for \(where_)")
-                        }
-                    case .unknown:
+                    case .idle, .unknown:
                         #expect(!toppingUp && !draining, "expected neither for \(where_)")
                     }
                 }
