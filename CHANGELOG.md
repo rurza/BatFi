@@ -25,6 +25,18 @@ All notable changes to BatFi are documented here. The format is based on
   version, and lists the features that mechanism does and doesn't support.
 
 ### Fixed
+- **"Charge to 100%" no longer switches itself off the moment you switch it on.** Both rules
+  that retire a temporary override — the two-minute cleanup after the charger comes out, and
+  "the battery reached 100%, so this is done" — read the state the click landed in, with no way
+  to tell whether that state predated the click. An override switched on while the Mac was
+  already running on battery was therefore born past the cleanup deadline and disappeared on the
+  next status pass, which is why the first click looked like it did nothing and the second one
+  worked. Switching it on with the battery already reading 100% failed the same way through the
+  other rule — and that reading persists well into a discharge, so it covered exactly the moment
+  the command is worth using. Both rules now measure from the moment the override was switched
+  on. It stays on until you turn it off or the charger has genuinely been gone for two minutes,
+  and switching it on at 100% holds the charge there rather than handing the battery straight
+  back to the limit.
 - **BatFi now notices when the helper it is talking to belongs to a different copy of the
   app, and takes it back.** Every copy of BatFi on a Mac registers the same background
   helper, and macOS keys that registration to whichever copy asked first. A second
