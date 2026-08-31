@@ -61,6 +61,22 @@ public actor ChargingManager: ChargingModeManager {
 
     private var lastChargerConnectedStatus: ChargerConnectedStatus?
 
+    /// When the temp override now in force was armed, and what the battery read then.
+    ///
+    /// Both rules that *delete* an override ask whether something happened since the user
+    /// asked for it — the charger has been out long enough, the battery reached full — and
+    /// neither could tell that from the state the click landed in. So an override armed on
+    /// battery was born past the disconnect deadline, and one armed against a full battery
+    /// satisfied its own completion test, and both were deleted by the status pass that
+    /// followed the click, about 100 ms later. Caught in a customer log 2026-08-31:
+    /// "Charger disconnected long enough, removing temp override" 184 ms before the charger
+    /// read connected again.
+    ///
+    /// Kept here rather than on `UserTempChargingMode`, which is a value the whole app
+    /// compares for equality and posts through notifications; this is bookkeeping for the
+    /// two rules below and nothing else reads it.
+    private var tempOverrideArm: TempOverrideArm?
+
     /// The last request/applied pair `applyChargeLimit(_:)` reported, so a mismatch is
     /// reported as an event rather than as a state. Under the system charge limit a
     /// mismatch is the permanent steady state for anyone whose limit is below 80%, and
@@ -634,6 +650,10 @@ public actor ChargingManager: ChargingModeManager {
         disableSleepDuringDischarge: Bool
     ) async {
         logger.debug("Update status")
+        // Ahead of every guard below. The arm is what the removal rules are measured
+        // against, and a pass that returns early — no mode yet, no licence, charging not
+        // managed — must not be the one that loses it.
+        let overrideArm = noteTempOverrideArm(userTempChargingMode, batteryLevel: powerState.batteryLevel)
         let appChargingMode = await appChargingState.currentAppChargingMode()
         let currentMode = appChargingMode.mode
         // Resolved rather than read straight off the reading, and the mode has to be in
@@ -809,7 +829,11 @@ public actor ChargingManager: ChargingModeManager {
             // disconnect policy — keeps reading the value the *user* asked for. Only the
             // charge/hold/discharge comparisons move to what is in force; an override
             // raised from 55% to 80% is still a 55% override as far as removing it goes.
-            if tempLimit >= 100, currentBatteryLevel >= 100 {
+            if ChargeToFullCompletion.isReached(
+                overrideLimit: tempLimit,
+                batteryLevel: currentBatteryLevel,
+                batteryLevelWhenArmed: overrideArm?.batteryLevel ?? currentBatteryLevel
+            ) {
                 logger.notice("Battery reached 100%, removing charge-to-full override")
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Battery reached 100%, removing charge-to-full override")
                 removeTempOverride()
@@ -836,7 +860,8 @@ public actor ChargingManager: ChargingModeManager {
             handleRemovingTempOverrideOnDisconnect(
                 chargerConnected: chargerConnected,
                 batteryLevel: currentBatteryLevel,
-                overrideLimit: tempLimit
+                overrideLimit: tempLimit,
+                armedAt: overrideArm?.armedAt
             )
             // The discharge decision reads the limit the *user asked for*, not the one the
             // charge mechanism could express — and that difference is the whole feature on
@@ -1625,19 +1650,66 @@ public actor ChargingManager: ChargingModeManager {
 
     private var removeTempOverrideTask: Task<Void, Never>?
 
-    private func handleRemovingTempOverrideOnDisconnect(chargerConnected: Bool, batteryLevel: Int, overrideLimit: Int) {
+    /// What the world looked like when the override now in force was armed.
+    private struct TempOverrideArm {
+        let limit: Int
+        let armedAt: Date
+        let batteryLevel: Int
+    }
+
+    /// Keeps `tempOverrideArm` in step with the override, and hands back the arm the
+    /// removal rules are to be measured against.
+    ///
+    /// Every route that sets an override — the menu, the hotkeys, the App Intents,
+    /// automation — goes through `appChargingState`, and `updateStatus` runs on every change
+    /// it makes, so recognising the change here covers all of them without each having to
+    /// remember to stamp anything. The limit is the identity: an override replaced by a
+    /// different one is a new arm, and the same one on a later pass is not.
+    private func noteTempOverrideArm(
+        _ userTempChargingMode: UserTempChargingMode?,
+        batteryLevel: Int
+    ) -> TempOverrideArm? {
+        guard let userTempChargingMode else {
+            tempOverrideArm = nil
+            return nil
+        }
+        if let arm = tempOverrideArm, arm.limit == userTempChargingMode.limit { return arm }
+        let arm = TempOverrideArm(
+            limit: userTempChargingMode.limit,
+            armedAt: date.now,
+            batteryLevel: batteryLevel
+        )
+        tempOverrideArm = arm
+        return arm
+    }
+
+    private func handleRemovingTempOverrideOnDisconnect(
+        chargerConnected: Bool,
+        batteryLevel: Int,
+        overrideLimit: Int,
+        armedAt: Date?
+    ) {
         let secondsSinceDisconnect: TimeInterval?
+        // Whether the override predates the unplug, which is what makes it *left over*
+        // rather than a standing request for the next connection. An arm we have no record
+        // of is treated as predating: that is the behaviour this rule has always had, and
+        // the record is only ever missing before the first status pass has seen the
+        // override at all.
+        let armedBeforeDisconnect: Bool
         if let disconnectStatus = lastChargerConnectedStatus, !disconnectStatus.isConnected {
             secondsSinceDisconnect = date.now.timeIntervalSince(disconnectStatus.date)
+            armedBeforeDisconnect = armedAt.map { $0 <= disconnectStatus.date } ?? true
         } else {
             secondsSinceDisconnect = nil
+            armedBeforeDisconnect = true
         }
 
         switch TempOverrideDisconnectPolicy.decision(
             chargerConnected: chargerConnected,
             batteryLevel: batteryLevel,
             overrideLimit: overrideLimit,
-            secondsSinceDisconnect: secondsSinceDisconnect
+            secondsSinceDisconnect: secondsSinceDisconnect,
+            overrideArmedBeforeDisconnect: armedBeforeDisconnect
         ) {
         case .keep:
             if removeTempOverrideTask != nil {
