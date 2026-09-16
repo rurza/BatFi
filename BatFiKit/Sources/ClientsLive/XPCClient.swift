@@ -40,6 +40,23 @@ actor XPCClient {
     /// probe's speed that decides how long the app can be wrong about itself.
     private static let pingTimeout = Duration.seconds(5)
 
+    /// The budget for a call that applies a charge limit.
+    ///
+    /// Every other call here does bounded work and answers. These wait on *powerd*: below
+    /// Apple's 80% floor the limit goes in through PowerUIAgent's preference domain and the
+    /// helper then watches powerd's own policy until it appears, for up to
+    /// `ChargeLimitApplyBudget.adoptionCeiling`. Under the generic budget that wait was
+    /// unfinishable — measured 2026-09-16, the helper started at 12:48:54 and this watchdog
+    /// tore the connection down at 12:49:09, 30 seconds before the answer arrived.
+    ///
+    /// Taken from `ChargeLimitApplyBudget` rather than restated, so the two ends cannot drift
+    /// apart again; see that file for why the ceiling is what it is.
+    private static let chargeLimitTimeout = ChargeLimitApplyBudget.clientTimeout
+
+    /// The same, doubled, for the nudge — two applies in one call. See
+    /// `ChargeLimitApplyBudget.nudgeClientTimeout`.
+    private static let nudgeTimeout = ChargeLimitApplyBudget.nudgeClientTimeout
+
     /// `quitHelper`'s budget.
     ///
     /// Longer than a ping because the helper hands the hardware back *before* it answers —
@@ -140,7 +157,7 @@ actor XPCClient {
     /// one asked for — Apple's Manual Charge Limit cannot go below 80%.
     func applyChargeLimit(_ percentage: Int) async throws -> Int {
         logger.debug("Applying charge limit: \(percentage)")
-        return try await call { service, continuation in
+        return try await call(timeout: Self.chargeLimitTimeout) { service, continuation in
             // Clamped rather than trusted: `percentage` reaches here from settings and
             // from automation rules, and a value outside 0...100 would wrap on the way
             // into a byte and ask the helper for a limit nobody chose.
@@ -164,7 +181,7 @@ actor XPCClient {
     /// closed below the limit — see `ChargeResumeNudge`.
     func nudgeChargeLimit(to nudgeValue: Int, restoring target: Int) async throws -> Bool {
         logger.notice("Nudging charge limit to \(nudgeValue, privacy: .public)%, restoring \(target, privacy: .public)%")
-        return try await call { service, continuation in
+        return try await call(timeout: Self.nudgeTimeout) { service, continuation in
             service.nudgeChargeLimit(
                 to: UInt8(clamping: nudgeValue),
                 restoring: UInt8(clamping: target)
@@ -182,7 +199,7 @@ actor XPCClient {
     /// Used when the battery contradicts that memory — see `ChargeHoldDrift`.
     func reassertChargeLimit(_ percentage: Int) async throws -> Int {
         logger.notice("Reasserting charge limit: \(percentage, privacy: .public)%")
-        return try await call { service, continuation in
+        return try await call(timeout: Self.chargeLimitTimeout) { service, continuation in
             service.reassertChargeLimit(UInt8(clamping: percentage)) { applied, error in
                 if let error {
                     continuation.resume(throwing: error)

@@ -239,7 +239,7 @@ actor ManualChargeLimitDefaults {
         //
         // Only ever paid when the limit is not already in force: the `currentLimit()` guard
         // above returns immediately on the once-a-minute re-assertion of a settled limit.
-        switch await waitForAdoption(of: limit, requestID: requestID, within: .seconds(45)) {
+        switch await waitForAdoption(of: limit, requestID: requestID, within: ChargeLimitApplyBudget.adoptionCeiling) {
         case .adopted:
             logger.notice("Charge limit \(limit, privacy: .public)% adopted by powerd")
             return
@@ -247,7 +247,7 @@ actor ManualChargeLimitDefaults {
             logger.notice("Charge limit \(limit, privacy: .public)% was superseded by a newer request; abandoning it rather than writing it again")
             throw ManualChargeLimitError.superseded
         case .timedOut:
-            logger.error("Charge limit \(limit, privacy: .public)% was written but powerd did not adopt it within 45s")
+            logger.error("Charge limit \(limit, privacy: .public)% was written but powerd did not adopt it within \(ChargeLimitApplyBudget.adoptionCeiling.components.seconds, privacy: .public)s")
             throw ManualChargeLimitError.notAdopted
         }
     }
