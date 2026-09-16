@@ -45,6 +45,21 @@ public enum ChargeHoldDrift {
     ///     already does for free and was measured changing nothing across 61 consecutive
     ///     attempts, so there is no remedy being given up — and a run that never starts cannot
     ///     spend the single warning it is allowed on a state that is usually correct.
+    ///   - systemIsDrainingToLimit: `SystemChargeDrain.isUnderway`, resolved on the same pass
+    ///     and off the same reading as the flag above. macOS running the battery *down* to the
+    ///     limit is the mechanism working, and the strongest possible evidence that the limit
+    ///     is in force — so it is the last state that should be reported as the limit failing.
+    ///
+    ///     It needs saying separately because `isCharging` cannot. The first arm below reads
+    ///     that flag as "current is going into the battery", and it is a `Bool` from IOKit that
+    ///     lags: measured 2026-09-16, still true 43 seconds into a drain of 9.0 W, at 85%
+    ///     against 80% in force — arm one's exact shape, from a machine doing the opposite of
+    ///     drifting. It went unwarned only because the top-up flag happened to be wrongly set
+    ///     for the same window and suppressed it here.
+    ///
+    ///     False on every backend BatFi holds charge on with an inhibit of its own, where a
+    ///     battery above the limit is BatFi's own hold and this rule's questions stand
+    ///     unchanged.
     ///
     /// Two contradictions, because one signal cannot see both halves of the failure:
     ///
@@ -60,15 +75,21 @@ public enum ChargeHoldDrift {
     /// progress. Only the firmware's own attribution separates "held above the limit" from
     /// "nothing is holding this at all", which is why the strong question is asked of the
     /// firmware and the weak one is not.
+    ///
+    /// `systemIsDrainingToLimit` defaults to false so that the cases above — which are about
+    /// the level, the attribution and the charger, on backends where no system drain exists —
+    /// keep saying what they are about. The one production caller passes it explicitly, off the
+    /// same pass that produces `systemIsChargingPastLimit`.
     public static func isDrifting(
         chargerConnected: Bool,
         isCharging: Bool,
         batteryLevel: Int,
         limitInForce: Int,
         holdIsAttributed: Bool?,
-        systemIsChargingPastLimit: Bool
+        systemIsChargingPastLimit: Bool,
+        systemIsDrainingToLimit: Bool = false
     ) -> Bool {
-        guard chargerConnected, !systemIsChargingPastLimit else { return false }
+        guard chargerConnected, !systemIsChargingPastLimit, !systemIsDrainingToLimit else { return false }
         if isCharging, batteryLevel >= limitInForce { return true }
         if !isCharging, batteryLevel > limitInForce, holdIsAttributed == false { return true }
         return false

@@ -215,7 +215,8 @@ public actor ChargingManager: ChargingModeManager {
         requestedLimit: Int,
         limitInForce: Int,
         currentMode: ChargingMode,
-        systemIsChargingPastLimit: Bool
+        systemIsChargingPastLimit: Bool,
+        systemIsDrainingToLimit: Bool
     ) async {
         // BatFi's own discharge has the fault's exact shape — charger in, battery above the
         // limit, going down — and is deliberate. The firmware would attribute it
@@ -240,7 +241,8 @@ public actor ChargingManager: ChargingModeManager {
             batteryLevel: powerState.batteryLevel,
             limitInForce: limitInForce,
             holdIsAttributed: holdIsAttributed,
-            systemIsChargingPastLimit: systemIsChargingPastLimit
+            systemIsChargingPastLimit: systemIsChargingPastLimit,
+            systemIsDrainingToLimit: systemIsDrainingToLimit
         )
 
         let response = driftMonitor.record(isDrifting: isDrifting, at: now)
@@ -725,6 +727,11 @@ public actor ChargingManager: ChargingModeManager {
         // reading is a fault, and the label's is saying what it is, and those two disagreeing
         // is how a user came to be shown "Discharging to the limit" and warned that the limit
         // was not holding, about one battery, at the same moment.
+        //
+        // **Both flags go to the drift check, not just the top-up.** They exclude the two
+        // states that wear the fault's shape without being one, and the drain needs saying out
+        // loud: while the top-up flag was wrongly set during a drain it was suppressing the
+        // drift arm by accident, and correcting the direction took that accident away.
         let aboveLimit = await systemChargeAboveLimit(
             powerState: powerState,
             limitInForce: effectiveLimitInForce
@@ -738,7 +745,8 @@ public actor ChargingManager: ChargingModeManager {
             requestedLimit: requestedLimit,
             limitInForce: effectiveLimitInForce,
             currentMode: currentMode,
-            systemIsChargingPastLimit: aboveLimit.isToppingUp
+            systemIsChargingPastLimit: aboveLimit.isToppingUp,
+            systemIsDrainingToLimit: aboveLimit.isDraining
         )
 
         // Answered once per pass, here rather than inside the mode decision, and answered on
@@ -1016,17 +1024,23 @@ public actor ChargingManager: ChargingModeManager {
         guard await systemDischargesToLimitItself(),
               powerState.batteryLevel > limitInForce else { return (false, false) }
 
-        // Asked whenever IOKit is not already asserting a charge, because everything IOKit can
-        // say short of that is "not charging" — which covers both a drain and a full battery
-        // resting, and those need telling apart. `PowerState` carries no amperage, so the SMC's
-        // signed reading is the only thing that can.
+        // Asked unconditionally, including when IOKit is asserting a charge. `PowerState`
+        // carries no amperage, so the SMC's signed reading is the only thing that can tell the
+        // three states apart — and `isCharging` is precisely the reading that needs checking,
+        // not the one that excuses the check.
         //
-        // The same bound `systemIsHoldingChargeBelowLimit` puts on the same round trip, and it
-        // is cheap either way: `powerInfoChanges` already polls this at 1 Hz for the menu.
-        var batteryPower: Float?
-        if !powerState.isCharging {
-            batteryPower = (try? await powerDistributionClient.powerInfo())?.batteryPower
-        }
+        // It was bounded to `!powerState.isCharging` and that bound is what shipped the bug:
+        // this pass runs off `powerSourceChanges()`, so a stale `isCharging` persists until
+        // powerd posts the next one. Measured 2026-09-16, that was 43 seconds — the limit
+        // lowered under a resting battery at 12:48:53, macOS draining 11 ms later, and IOKit
+        // not correcting itself until 12:49:36. For all of it the reading that said so was one
+        // round trip away and never taken, while the menu drew that same 9.0 W from
+        // `powerInfoChanges` under a label calling it a charge to 100%.
+        //
+        // Cheap, and already being paid: `powerInfoChanges` polls this at 1 Hz for the menu,
+        // and the guard above means it is only reached on a battery above the limit on a
+        // mechanism that drains to it itself.
+        let batteryPower = (try? await powerDistributionClient.powerInfo())?.batteryPower
 
         let isToppingUp = SystemChargeTopUp.isUnderway(
             batteryLevel: powerState.batteryLevel,

@@ -244,4 +244,54 @@ import Testing
             }
         }
     }
+
+    /// Lowering the limit under a battery that is already above it is not a top-up, and the
+    /// only thing that says so is the SMC.
+    ///
+    /// Reported from the shipped app 2026-09-16 12:48:53. The limit went 85% → 75%, PowerUI
+    /// refused the sub-80 value and held 80, and the battery was resting at 85% — so
+    /// `batteryLevel > limitInForce` became true without the battery having climbed anywhere.
+    /// macOS declared `DischargingToMCL` in the same millisecond and began the drain the user
+    /// expected; IOKit went on reporting `IsCharging` true for **43 seconds**, so the menu
+    /// announced "macOS is charging to 100%", posted a banner for it, and drew the power
+    /// distribution — 9.0 W leaving the battery — directly underneath.
+    ///
+    /// The climb and the drop are indistinguishable by level alone: both are a battery above
+    /// the limit with IOKit asserting a charge. Only the direction of the current tells them
+    /// apart, which is why the reading has to be taken even when IOKit claims a charge.
+    @Test func theLimitDroppingUnderARestingBatteryIsADrainNotATopUp() {
+        #expect(
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 85,
+                limitInForce: 80,
+                isCharging: true,
+                batteryPower: 9.0,
+                mechanismDrainsToLimitItself: true
+            ) == false
+        )
+        #expect(
+            SystemChargeDrain.isUnderway(
+                batteryLevel: 85,
+                limitInForce: 80,
+                isCharging: true,
+                batteryPower: 9.0,
+                mechanismDrainsToLimitItself: true
+            )
+        )
+    }
+
+    /// And the genuine article still survives it: a real top-up pushes current *into* the pack,
+    /// which no amount of the rule above touches. Measured 2026-08-26, 7.0 W entering at 100%
+    /// against a 75% limit.
+    @Test func aRealTopUpIsUnaffectedByTheOutwardRule() {
+        #expect(
+            SystemChargeTopUp.isUnderway(
+                batteryLevel: 100,
+                limitInForce: 75,
+                isCharging: true,
+                batteryPower: -7.0,
+                mechanismDrainsToLimitItself: true
+            )
+        )
+    }
 }

@@ -15,6 +15,14 @@
 //  by neither state, rather than falling through to whichever one happened to test for an
 //  absence.
 //
+//  Which source wins was the second thing to get wrong here. IOKit's `isCharging` was decisive
+//  for a charge and an outward SMC reading could not contradict it, on the reasoning that a
+//  stale SMC read and a resting battery are indistinguishable. True of a reading near zero, and
+//  false of nine watts: measured 2026-09-16, a limit lowered under a resting battery put macOS
+//  into its drain immediately while `IsCharging` stayed true for 43 seconds, and the menu called
+//  it a charge to 100% for all of them. The threshold, not the source, is what separates a
+//  reading that can settle the question from one that cannot.
+//
 
 import Foundation
 
@@ -55,23 +63,30 @@ public enum ChargeDirection {
     ///     where it was not asked**. Negative is the battery as a *target* rather than a source
     ///     — the sign convention `PowerGraph` renders — so negative is charge going in.
     ///
-    /// The SMC leads IOKit into a charge and only ever adds: measured ~17s on 26A5416b, where it
-    /// reported 46.2 W entering the battery while `AppleSmartBattery` still said 0 mA. So an
-    /// inward SMC reading settles it.
+    /// The SMC leads IOKit in **both** directions, so a reading that clears the resting band
+    /// settles it either way. Into a charge: measured ~17s on 26A5416b, the SMC reporting
+    /// 46.2 W entering the battery while `AppleSmartBattery` still said 0 mA. Out of one:
+    /// measured 43s on 2026-09-16, `IsCharging` still true — with an `AvgTimeToFull` of 33
+    /// minutes behind it — while 9.0 W left the pack and macOS had already declared
+    /// `DischargingToMCL`. `isCharging` is a `Bool`: it can only assert a charge, and nothing
+    /// in it expires, so it goes on asserting one until the next power-source notification
+    /// happens to arrive.
     ///
-    /// In the other direction IOKit wins. An SMC reading of ~0, or even one pointing outward,
-    /// cannot contradict `isCharging` — a battery resting at 0 mA and one whose SMC read is
-    /// merely stale look identical from here, and the cost of getting it wrong is asymmetric:
-    /// claiming a discharge over a battery that is charging is the failure this file exists to
-    /// prevent, while a top-up label that lingers a few seconds into the drain that follows is
-    /// nothing anyone reports.
+    /// What IOKit still wins is everything *inside* the band. An SMC read of ~0 cannot
+    /// contradict `isCharging`, because a battery resting at 0 mA and one whose SMC read is
+    /// merely stale look identical from here, and claiming a discharge on that is the failure
+    /// this file exists to prevent. The threshold is the whole distinction: a battery supplying
+    /// the system at several watts is not being charged under any reading, whoever says
+    /// otherwise, and an earlier version of this let `isCharging` outrank exactly that — which
+    /// is how a drain the user had just asked for was announced as a charge to 100%, with the
+    /// nine watts leaving the battery drawn one section below the sentence.
     public static func flow(isCharging: Bool, batteryPower: Float?) -> Flow {
         guard let batteryPower else {
             return isCharging ? .intoTheBattery : .unknown
         }
         if batteryPower < -restingThreshold { return .intoTheBattery }
-        if isCharging { return .intoTheBattery }
         if batteryPower > restingThreshold { return .outOfTheBattery }
+        if isCharging { return .intoTheBattery }
         return .idle
     }
 }

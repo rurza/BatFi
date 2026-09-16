@@ -63,11 +63,31 @@ import Testing
         #expect(ChargeDirection.flow(isCharging: true, batteryPower: 0) == .intoTheBattery)
     }
 
-    /// Nor can an outward one. IOKit saying "charging" while the SMC shows power leaving is a
-    /// disagreement neither reading can settle, and claiming a discharge on it is the failure
-    /// this file exists to prevent.
-    @Test func anOutwardSMCReadCannotContradictIOKitEither() {
-        #expect(ChargeDirection.flow(isCharging: true, batteryPower: 7.4) == .intoTheBattery)
+    /// But a *decisive* outward one can, and the rule that said otherwise shipped.
+    ///
+    /// Measured 2026-09-16 12:48:53–12:49:36: the limit was lowered 85% → 75% under a battery
+    /// resting at 85%, macOS declared `DischargingToMCL` 11 ms later, and `IsCharging` stayed
+    /// **true for 43 seconds** — with an `AvgTimeToFull` of 33 minutes, so the menu offered
+    /// "Time to Charge 33 min" over a battery it was draining. The SMC read 9.0 W leaving,
+    /// rendered in the same menu one section below the label that called it a charge to 100%.
+    /// IOKit only corrected itself when powerd posted the next `chargingiconography`.
+    ///
+    /// The staleness is symmetric, so the tie-break is too: the SMC leads IOKit *out* of a
+    /// charge exactly as it leads it in, and `isCharging` is a `Bool` that can go on asserting
+    /// a charge long after the current reverses. What cannot be settled is a reading near zero
+    /// — kept above — where a resting battery and a stale read look identical. Nine watts
+    /// leaving the pack is not that: a battery supplying the system at several watts is not
+    /// being charged under any reading, whatever IOKit still says.
+    @Test func aDecisiveOutwardSMCReadOutranksAStaleIOKitCharge() {
+        #expect(ChargeDirection.flow(isCharging: true, batteryPower: 9.0) == .outOfTheBattery)
+    }
+
+    /// The threshold is what separates the two, and it is the same one everywhere else: only a
+    /// reading that clears the resting band may overrule `isCharging`. Jitter never does.
+    @Test func jitterSizedOutwardReadsStillCannotContradictIOKit() {
+        for noise in [Float(0.1), 0.4, 0.9, 1.0] {
+            #expect(ChargeDirection.flow(isCharging: true, batteryPower: noise) == .intoTheBattery, "\(noise)")
+        }
     }
 
     // MARK: - No answer at all

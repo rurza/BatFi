@@ -239,6 +239,34 @@ import Testing
     // Apple already does for free, it was measured changing nothing across 61 attempts, and a
     // run that never starts cannot spend the one warning it is allowed.
 
+    /// The drain macOS runs *is the limit working*, and it must not be read as the limit
+    /// failing — however loudly IOKit is still claiming a charge.
+    ///
+    /// The exclusion the top-up's arrival accidentally provided and its correction took away.
+    /// Measured 2026-09-16: a limit lowered under a resting battery put macOS straight into
+    /// `DischargingToMCL` while `IsCharging` stayed true for 43 seconds at 85% against 80% in
+    /// force — which is arm one of this rule, exactly. It went unreported only because
+    /// `systemIsChargingPastLimit` was wrongly true for the same 43 seconds and suppressed it
+    /// here. With the direction read correctly that shield is gone, so the drain has to be
+    /// excluded on its own terms, as the top-up already is.
+    ///
+    /// Nothing is given up by it: `SystemChargeDrain.isUnderway` is false on every backend
+    /// BatFi holds charge on with an inhibit of its own, so this can only ever exclude the one
+    /// mechanism that genuinely performs the discharge itself.
+    @Test func aSystemDrainIsNotDriftEvenWhileIOKitStillClaimsACharge() {
+        #expect(
+            ChargeHoldDrift.isDrifting(
+                chargerConnected: true,
+                isCharging: true,
+                batteryLevel: 85,
+                limitInForce: 80,
+                holdIsAttributed: nil,
+                systemIsChargingPastLimit: false,
+                systemIsDrainingToLimit: true
+            ) == false
+        )
+    }
+
     @Test func aTopUpIsNotDriftWhileTheBatteryClimbs() {
         #expect(
             ChargeHoldDrift.isDrifting(

@@ -29,16 +29,23 @@ import Testing
     }
 
     /// The regression, captured live on 26A5416b-class firmware 2026-08-26: 100% against a
-    /// 75% limit in force, `IsCharging` true, `Amperage` +477, and BatFi reporting
-    /// `systemIsDischargingToLimit: true` over it. The level test alone cannot tell Apple's
-    /// documented calibration charge from the drain that follows it.
+    /// 75% limit in force, `IsCharging` true, `Amperage` +477, 7.0 W **entering** the battery,
+    /// and BatFi reporting `systemIsDischargingToLimit: true` over it. The level test alone
+    /// cannot tell Apple's documented calibration charge from the drain that follows it.
+    ///
+    /// The watts carried the wrong sign until 2026-09-16 and the test passed anyway, on the
+    /// tie-break rather than on the reading: `batteryPower` is negative when the battery is the
+    /// *target*, so +7.4 was charge leaving a battery the prose above describes as taking it,
+    /// and only `isCharging` outranking an outward read kept the drain false. That rule is
+    /// gone — a decisive outward reading now settles the direction — so the captured reading
+    /// goes in as it was measured, which is what it should always have been.
     @Test func aBatteryAboveTheLimitTakingCurrentIsNotDraining() {
         #expect(
             SystemChargeDrain.isUnderway(
                 batteryLevel: 100,
                 limitInForce: 75,
                 isCharging: true,
-                batteryPower: 7.4,
+                batteryPower: -7.0,
                 mechanismDrainsToLimitItself: true
             ) == false
         )
