@@ -4,6 +4,25 @@ All notable changes to BatFi are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.1] - 2026-09-16
+
+### Fixed
+- **Lowering your charge limit below the current battery level no longer announces that macOS
+  is charging to 100%.** Lowering the limit puts the battery above it immediately, and macOS
+  responds by running the battery down to the new limit — but the system goes on reporting a
+  charge in progress for up to a minute after the current has already reversed. BatFi believed
+  that report, so the menu named Apple's occasional charge to 100% and sent a notification
+  saying so, while the power distribution directly below it showed nine watts leaving the
+  battery. BatFi now reads which way the current is actually flowing rather than taking the
+  system's word for it, and only falls back to that word when the battery is resting and there
+  is no current to read. The same reading also keeps a discharge macOS performs on purpose from
+  being mistaken for your limit failing to hold.
+- **A charge limit below 80% is no longer reported as failed while it is still being applied.**
+  Limits below 80% take a route through macOS that can take up to 45 seconds to be accepted, and
+  BatFi gave up waiting after 15 — closing the connection to its helper 30 seconds before the
+  answer arrived, logging a failure for a limit that was on its way in, and then working from a
+  limit that was never in force. BatFi now waits as long as the request can legitimately take.
+
 ## [4.0.0] - 2026-08-05
 
 ### Added
@@ -157,6 +176,7 @@ All notable changes to BatFi are documented here. The format is based on
 - Defer the menu rebuild on macOS 26 while the menu is open, fixing a blank area at the top
   of the dropdown.
 
+[4.0.1]: https://github.com/rurza/BatFi-Priv/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/rurza/BatFi-Priv/compare/3.1.1...4.0.0
 [3.1.1]: https://github.com/rurza/BatFi-Priv/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.1.0
