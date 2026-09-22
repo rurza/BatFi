@@ -624,6 +624,17 @@
         }
       }
     },
+    "app_charging_mode.state.description.holding_full_charge_until_unplugged" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Charged to 100%% as you asked. Your %@ limit takes over once the charger is unplugged."
+          }
+        }
+      }
+    },
     "app_charging_mode.state.description.inhibit" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
@@ -1343,6 +1354,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Helper未运行"
+          }
+        }
+      }
+    },
+    "app_charging_mode.state.title.holding_full_charge_until_unplugged" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Holding 100% until unplugged"
           }
         }
       }

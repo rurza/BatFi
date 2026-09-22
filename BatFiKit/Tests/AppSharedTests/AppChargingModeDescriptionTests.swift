@@ -20,7 +20,8 @@ import Testing
         chargerConnected: Bool = true,
         systemIsDischargingToLimit: Bool = false,
         systemIsHoldingBelowLimit: Bool = false,
-        systemIsChargingPastLimit: Bool = false
+        systemIsChargingPastLimit: Bool = false,
+        isHoldingFullChargeUntilUnplugged: Bool = false
     ) -> AppChargingMode {
         AppChargingMode(
             mode: mode,
@@ -28,7 +29,8 @@ import Testing
             chargerConnected: chargerConnected,
             systemIsDischargingToLimit: systemIsDischargingToLimit,
             systemIsHoldingBelowLimit: systemIsHoldingBelowLimit,
-            systemIsChargingPastLimit: systemIsChargingPastLimit
+            systemIsChargingPastLimit: systemIsChargingPastLimit,
+            isHoldingFullChargeUntilUnplugged: isHoldingFullChargeUntilUnplugged
         )
     }
 
@@ -253,6 +255,107 @@ import Testing
             systemIsChargingPastLimit: true
         ).stateDescription
         #expect(title == L10n.AppChargingMode.State.Title.systemChargingPastLimit)
+    }
+
+    // MARK: - Holding 100% until unplugged
+
+    // Customer log 2026-09-22: "Charge to 100%" completed against a 70% limit with
+    // "Discharge battery when overcharged" on, and the next pass force-discharged the 30%
+    // the user had just asked for. BatFi now keeps requesting 100 until the charger comes
+    // out — which means the mode under this state alternates between `.charging` (topping
+    // 99 back to 100) and `.inhibit` (resting at 100), and the label must be the same
+    // sentence for both rather than flickering between "Charging to the limit" and
+    // "Inhibiting charging".
+
+    @Test func holdingFullChargeIsLabelledForBothModesItCanSitUnder() {
+        for heldMode in [ChargingMode.charging, .inhibit] {
+            let title = mode(heldMode, isHoldingFullChargeUntilUnplugged: true).stateDescription
+            #expect(title == L10n.AppChargingMode.State.Title.holdingFullChargeUntilUnplugged)
+        }
+    }
+
+    @Test func holdingFullChargeDescribesTheLimitThatTakesOverOnUnplug() {
+        for heldMode in [ChargingMode.charging, .inhibit] {
+            let body = mode(heldMode, isHoldingFullChargeUntilUnplugged: true)
+                .stateDescription(chargeLimitFraction: 0.7)
+            #expect(body == L10n.AppChargingMode.State.Description.holdingFullChargeUntilUnplugged(percent(0.7)))
+            // The limit has to reach the sentence — an unsubstituted `%@` is the whole
+            // explanation of what happens next, lost.
+            #expect(body?.contains(percent(0.7)) == true)
+            #expect(body?.contains("%@") == false)
+            // The literal percent is escaped as `100%%` in the format string, because
+            // unescaped `% a` parses as a conversion and swallows the limit argument. That
+            // escape must not survive into the rendered sentence.
+            #expect(body?.contains("100%") == true)
+            #expect(body?.contains("100%%") == false)
+        }
+    }
+
+    /// The hold is BatFi's own state and explains a battery sitting at 100% over a lower
+    /// limit; which rule set that limit is not what is in doubt.
+    @Test func theHoldDescriptionOutranksAutomationAttribution() {
+        let body = mode(.inhibit, isHoldingFullChargeUntilUnplugged: true)
+            .stateDescription(chargeLimitFraction: 0.7, automationRuleName: "Work")
+        #expect(body == L10n.AppChargingMode.State.Description.holdingFullChargeUntilUnplugged(percent(0.7)))
+        #expect(body?.contains("Work") == false)
+    }
+
+    /// The three `systemIs…` flags describe what macOS is doing to a battery *above the
+    /// limit*. While the hold is on, the limit in force is 100 and the battery is at it, so
+    /// none of them can truthfully be set — but they are independent flags, and the hold is
+    /// the state BatFi chose, so it leads.
+    @Test func theHoldOutranksEverySystemState() {
+        let title = mode(
+            .inhibit,
+            systemIsDischargingToLimit: true,
+            systemIsHoldingBelowLimit: true,
+            systemIsChargingPastLimit: true,
+            isHoldingFullChargeUntilUnplugged: true
+        ).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.holdingFullChargeUntilUnplugged)
+    }
+
+    /// A new override replaces the intent the hold came from, and `ChargingManager` clears
+    /// the flag when one is armed — but the label's own order says the same thing, for the
+    /// pass where both are briefly true.
+    @Test func aTempOverrideOutranksTheHold() {
+        let title = mode(.inhibit, override: 80, isHoldingFullChargeUntilUnplugged: true).stateDescription
+        #expect(title == L10n.AppChargingMode.State.Title.chargeOverride)
+
+        let body = mode(.charging, override: 80, isHoldingFullChargeUntilUnplugged: true)
+            .stateDescription(chargeLimitFraction: 0.7)
+        #expect(body == L10n.AppChargingMode.State.Description.tempChargingTo(percent(0.8)))
+    }
+
+    /// Nothing is force-discharged while the hold is on — that is the bug it fixes — so
+    /// `.forceDischarge` never wears the hold's label.
+    @Test func forceDischargeIgnoresTheHold() {
+        let held = mode(.forceDischarge, isHoldingFullChargeUntilUnplugged: true)
+        #expect(held.stateDescription == mode(.forceDischarge).stateDescription)
+        #expect(
+            held.stateDescription(chargeLimitFraction: 0.7)
+                == mode(.forceDischarge).stateDescription(chargeLimitFraction: 0.7)
+        )
+    }
+
+    /// The two guards at the top of `stateDescription` still come first: a mode BatFi has
+    /// not established yet, and a charger that is not plugged in — which is exactly the
+    /// event that ends the hold, so it must never be described as holding.
+    @Test func theInitialAndUnpluggedGuardsStillWin() {
+        #expect(
+            mode(.initial, isHoldingFullChargeUntilUnplugged: true).stateDescription
+                == L10n.AppChargingMode.State.Title.initial
+        )
+        let unplugged = mode(.inhibit, chargerConnected: false, isHoldingFullChargeUntilUnplugged: true)
+        #expect(unplugged.stateDescription == L10n.AppChargingMode.State.Title.chargerNotConnected)
+        #expect(unplugged.stateDescription(chargeLimitFraction: 0.7) == nil)
+    }
+
+    /// Same containment the system flags get: it explains a battery held at 100% and must
+    /// not leak into a mode where nothing is being held.
+    @Test func theHoldDoesNotRelabelAModeItCannotSitUnder() {
+        let initialMode = mode(.initial, isHoldingFullChargeUntilUnplugged: true)
+        #expect(initialMode.stateDescription == mode(.initial).stateDescription)
     }
 
     // MARK: - Temp override wins over automation

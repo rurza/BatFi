@@ -74,6 +74,9 @@ extension AppChargingStateClient: DependencyKey {
                     chargingPastLimit: chargingPastLimit
                 )
             },
+            setHoldingFullChargeUntilUnplugged: { holding in
+                await state.updateHoldingFullChargeUntilUnplugged(holding)
+            },
             setTempOverride: { mode in
                 await state.updateOverride(mode)
             },
@@ -131,11 +134,15 @@ private actor AppChargingState {
         }
     }
 
-    // `updateSystemChargeHold` is the only writer of those flags. The three around it carry
-    // them across rather than letting them default back to `false`: none of them is told
-    // anything about the drain or the hold, and dropping them would relabel a Mac mid-drain as
+    // `updateSystemChargeHold` is the only writer of those flags, and
+    // `updateHoldingFullChargeUntilUnplugged` the only writer of the charge-to-full hold.
+    // Every mutator around them carries across every field it is not itself setting, rather
+    // than letting it default back to `false`: none of them is told anything about the drain,
+    // the hold, or the charge-to-full hold, and dropping one would relabel a Mac mid-drain as
     // "Inhibiting charging" on the next charger-connection update — which the appliers issue
-    // on every pass, i.e. throughout the drain.
+    // on every pass, i.e. throughout the drain. The charge-to-full hold is worse still: it
+    // sits under a mode that keeps alternating between `.charging` and `.inhibit`, so
+    // `updateMode` alone would clear it within seconds of it being set.
 
     func updateMode(_ newMode: ChargingMode) {
         let newAppChargingMode = AppChargingMode(
@@ -144,7 +151,8 @@ private actor AppChargingState {
             chargerConnected: mode.chargerConnected,
             systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
             systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
-            systemIsChargingPastLimit: mode.systemIsChargingPastLimit
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit,
+            isHoldingFullChargeUntilUnplugged: mode.isHoldingFullChargeUntilUnplugged
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -159,7 +167,22 @@ private actor AppChargingState {
             chargerConnected: mode.chargerConnected,
             systemIsDischargingToLimit: draining,
             systemIsHoldingBelowLimit: holdingBelowLimit,
-            systemIsChargingPastLimit: chargingPastLimit
+            systemIsChargingPastLimit: chargingPastLimit,
+            isHoldingFullChargeUntilUnplugged: mode.isHoldingFullChargeUntilUnplugged
+        )
+        setAppChargingMode(newAppChargingMode)
+    }
+
+    func updateHoldingFullChargeUntilUnplugged(_ holding: Bool) {
+        guard holding != mode.isHoldingFullChargeUntilUnplugged else { return }
+        let newAppChargingMode = AppChargingMode(
+            mode: mode.mode,
+            userTempOverride: mode.userTempOverride,
+            chargerConnected: mode.chargerConnected,
+            systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
+            systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit,
+            isHoldingFullChargeUntilUnplugged: holding
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -171,7 +194,8 @@ private actor AppChargingState {
             chargerConnected: mode.chargerConnected,
             systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
             systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
-            systemIsChargingPastLimit: mode.systemIsChargingPastLimit
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit,
+            isHoldingFullChargeUntilUnplugged: mode.isHoldingFullChargeUntilUnplugged
         )
         setAppChargingMode(newAppChargingMode)
     }
@@ -183,7 +207,8 @@ private actor AppChargingState {
             chargerConnected: connected,
             systemIsDischargingToLimit: mode.systemIsDischargingToLimit,
             systemIsHoldingBelowLimit: mode.systemIsHoldingBelowLimit,
-            systemIsChargingPastLimit: mode.systemIsChargingPastLimit
+            systemIsChargingPastLimit: mode.systemIsChargingPastLimit,
+            isHoldingFullChargeUntilUnplugged: mode.isHoldingFullChargeUntilUnplugged
         )
         setAppChargingMode(newAppChargingMode)
     }

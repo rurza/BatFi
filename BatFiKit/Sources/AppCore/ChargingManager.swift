@@ -77,6 +77,24 @@ public actor ChargingManager: ChargingModeManager {
     /// two rules below and nothing else reads it.
     private var tempOverrideArm: TempOverrideArm?
 
+    /// Whether the battery is being kept at 100% because a "Charge to 100%" got it there and
+    /// the charger has not come out since.
+    ///
+    /// Not carried on the override, because the override is gone by the time this begins —
+    /// `ChargeToFullCompletion` retires it at 100% and that is exactly the moment this starts.
+    /// That gap is the bug, from a customer log of 2026-09-22: the limit snapped back to 70%,
+    /// the next pass read 100% against a 70–75% band with "Discharge battery when overcharged"
+    /// on, and BatFi force-discharged for twenty minutes the 30% the user had just asked it to
+    /// put in.
+    ///
+    /// Plain in-memory state rather than a preference: a relaunch drops the hold and the
+    /// battery goes back to the user's limit, which is accepted for now. Restoring it would
+    /// mean persisting an intent whose end condition — the next unplug — cannot be checked
+    /// against anything a restarted process knows about the one before it.
+    ///
+    /// Read by `ChargeToFullHold`, which owns the transitions.
+    private var holdingFullChargeUntilUnplugged = false
+
     /// The last request/applied pair `applyChargeLimit(_:)` reported, so a mismatch is
     /// reported as an event rather than as a state. Under the system charge limit a
     /// mismatch is the permanent steady state for anyone whose limit is below 80%, and
@@ -706,8 +724,18 @@ public actor ChargingManager: ChargingModeManager {
         // and ahead of the mode decision, so whichever branch is taken below the limit is
         // already in force. The value follows the same precedence used everywhere else a
         // target limit is worked out: a manual temp override beats the automation limit,
-        // which beats the user's configured one.
-        let requestedLimit = userTempChargingMode?.limit ?? effectiveChargeLimit
+        // which beats the user's configured one — with a charge-to-full hold slotted in
+        // between the two, above automation exactly as the override it came from was. The
+        // hold *is* this substitution: with 100 requested, the no-override branch below
+        // inhibits at 100% and charges at 99% on its own, `systemChargeAboveLimit`'s
+        // `level > limitInForce` guard stays false, and nothing discharges a battery the
+        // user asked to have filled.
+        let requestedLimit = userTempChargingMode?.limit
+            ?? ChargeToFullHold.requestedLimit(holding: holdingFullChargeUntilUnplugged, otherwise: effectiveChargeLimit)
+        // Published once per pass, after every event that could have moved the flag above
+        // (a new override arm, an unplug) and before the mode decision reads it, so the
+        // label and the limit in force always describe the same pass.
+        await appChargingState.setHoldingFullChargeUntilUnplugged(holdingFullChargeUntilUnplugged)
         // **The mode decision below branches on what was applied, not on what was asked
         // for**, and the two come apart under `.systemChargeLimit`, which cannot express a
         // limit below 80%. With a 55% limit and "allow discharging" on, branching on the
@@ -845,6 +873,18 @@ public actor ChargingManager: ChargingModeManager {
                 logger.notice("Battery reached 100%, removing charge-to-full override")
                 await analytics.addBreadcrumb(category: .chargingManager, message: "Battery reached 100%, removing charge-to-full override")
                 removeTempOverride()
+                // The override is retired, but the request it expressed is not finished: the
+                // user asked for a full battery and handing the limit straight back would take
+                // it away again within seconds — by draining it, where discharging is allowed.
+                // BatFi goes on requesting 100 instead, until the charger comes out. See
+                // `ChargeToFullHold`.
+                holdingFullChargeUntilUnplugged = ChargeToFullHold.next(
+                    holding: holdingFullChargeUntilUnplugged,
+                    event: .chargeToFullCompleted
+                )
+                await appChargingState.setHoldingFullChargeUntilUnplugged(holdingFullChargeUntilUnplugged)
+                logger.notice("Charged to 100% as asked; holding it until the charger is unplugged")
+                await analytics.addBreadcrumb(category: .chargingManager, message: "Charged to 100% as asked; holding it until the charger is unplugged")
                 return await inhibitCharging(chargerConnected: chargerConnected, currentMode: currentMode)
             }
             // Symmetric to the charge-to-full removal above, and needed for the same reason
@@ -1207,6 +1247,14 @@ public actor ChargingManager: ChargingModeManager {
         // BatFi limit left for the system to drain to. Whatever the user's own System
         // Settings limit then does is not something this app may narrate.
         await appChargingState.setSystemChargeHold(false, false, false)
+        // Same reasoning for the charge-to-full hold: it *is* a limit of 100 that BatFi keeps
+        // requesting, and there is no request left to make. Published as well as cleared, so
+        // the label goes with it.
+        holdingFullChargeUntilUnplugged = ChargeToFullHold.next(
+            holding: holdingFullChargeUntilUnplugged,
+            event: .chargingHandedBack
+        )
+        await appChargingState.setHoldingFullChargeUntilUnplugged(false)
         // BatFi is handing charging back, so the next limit it applies starts a new
         // episode and is worth reporting again even if it resolves — or fails — the same way.
         lastReportedChargeLimit = nil
@@ -1655,6 +1703,22 @@ public actor ChargingManager: ChargingModeManager {
                 // Unplugging drops whatever the charge mechanism was holding, so the command
                 // has to be re-sent when the charger comes back rather than assumed intact.
                 invalidateHardwareState()
+                // ...and it is the end condition of a charge-to-full hold. Only the edge to
+                // *disconnected* is an event: a connect has nothing to undo, because the hold
+                // was cleared when the charger came out. The value is the resolved
+                // `ChargerConnection.isConnected`, so a derived "Battery Power" during a BatFi
+                // discharge is not mistaken for an unplug — and no discharge runs while the
+                // hold is on, which is the point of it.
+                if !chargerConnected {
+                    let wasHolding = holdingFullChargeUntilUnplugged
+                    holdingFullChargeUntilUnplugged = ChargeToFullHold.next(
+                        holding: holdingFullChargeUntilUnplugged,
+                        event: .chargerDisconnected
+                    )
+                    if wasHolding {
+                        logger.notice("Charger unplugged; the charge-to-full hold is over and the limit applies again")
+                    }
+                }
                 self.lastChargerConnectedStatus = newState
             }
         } else {
@@ -1688,6 +1752,12 @@ public actor ChargingManager: ChargingModeManager {
             return nil
         }
         if let arm = tempOverrideArm, arm.limit == userTempChargingMode.limit { return arm }
+        // A new override replaces the intent a charge-to-full hold came from, so the hold
+        // ends here rather than lying in wait to re-assert 100 once the new override is done.
+        holdingFullChargeUntilUnplugged = ChargeToFullHold.next(
+            holding: holdingFullChargeUntilUnplugged,
+            event: .overrideArmed
+        )
         let arm = TempOverrideArm(
             limit: userTempChargingMode.limit,
             armedAt: date.now,

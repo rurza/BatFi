@@ -70,8 +70,25 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
     /// charging to 100%" on every Mac holding its limit correctly.
     public let systemIsChargingPastLimit: Bool
 
+    /// Whether BatFi is keeping the battery at 100% until the charger is unplugged, because
+    /// the user asked it to charge to full and it got there.
+    ///
+    /// Unlike the three flags above, this is **BatFi's own chosen state, not a system one**.
+    /// The others exist because `.inhibit` was being credited to BatFi when macOS was doing
+    /// the holding; this one exists because the hold has no single mode at all. BatFi keeps
+    /// requesting a limit of 100 (see `ChargeToFullHold`), so the mode underneath alternates:
+    /// `.charging` while a battery that slipped to 99% is topped back up, `.inhibit` while it
+    /// rests at 100. Both are one state to the user, and a label that flickered between
+    /// "Charging to the limit" and "Inhibiting charging" would describe a fault rather than a
+    /// request being honoured.
+    ///
+    /// **Defaults to `false`, meaning "not holding".** `ChargingManager` is the only thing
+    /// that knows a charge-to-full override completed, and the flag lives there rather than
+    /// on the override because the override is gone by the time the hold begins.
+    public let isHoldingFullChargeUntilUnplugged: Bool
+
     public var id: String {
-        "\(mode.id)\(userTempOverride?.id.description ?? "null")\(chargerConnected)\(systemIsDischargingToLimit)\(systemIsHoldingBelowLimit)\(systemIsChargingPastLimit)"
+        "\(mode.id)\(userTempOverride?.id.description ?? "null")\(chargerConnected)\(systemIsDischargingToLimit)\(systemIsHoldingBelowLimit)\(systemIsChargingPastLimit)\(isHoldingFullChargeUntilUnplugged)"
     }
 
     public var description: String {
@@ -82,6 +99,7 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         systemIsDischargingToLimit: \(systemIsDischargingToLimit)
         systemIsHoldingBelowLimit: \(systemIsHoldingBelowLimit)
         systemIsChargingPastLimit: \(systemIsChargingPastLimit)
+        isHoldingFullChargeUntilUnplugged: \(isHoldingFullChargeUntilUnplugged)
         """
     }
 
@@ -91,7 +109,8 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         chargerConnected: Bool,
         systemIsDischargingToLimit: Bool = false,
         systemIsHoldingBelowLimit: Bool = false,
-        systemIsChargingPastLimit: Bool = false
+        systemIsChargingPastLimit: Bool = false,
+        isHoldingFullChargeUntilUnplugged: Bool = false
     ) {
         self.mode = mode
         self.userTempOverride = userTempOverride
@@ -99,6 +118,7 @@ public struct AppChargingMode: Equatable, Identifiable, CustomStringConvertible,
         self.systemIsDischargingToLimit = systemIsDischargingToLimit
         self.systemIsHoldingBelowLimit = systemIsHoldingBelowLimit
         self.systemIsChargingPastLimit = systemIsChargingPastLimit
+        self.isHoldingFullChargeUntilUnplugged = isHoldingFullChargeUntilUnplugged
     }
 
 }

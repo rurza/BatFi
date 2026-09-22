@@ -42,6 +42,20 @@ public extension AppChargingMode {
             return label.chargeOverride
         }
 
+        // Ahead of the `switch` because it is the one state that spans two modes. BatFi
+        // keeps requesting 100 until the charger comes out, so the battery is topped back up
+        // (`.charging`) whenever it slips to 99% and held (`.inhibit`) the rest of the time —
+        // one state to the user, and a label alternating between "Charging to the limit" and
+        // "Inhibiting charging" would read as a fault rather than as the request being kept.
+        //
+        // Below the override, which supersedes the intent this hold came from and is cleared
+        // by `ChargingManager` when one is armed; the order here covers the pass where both
+        // are briefly true. Restricted to the two modes the hold can actually produce:
+        // `.forceDischarge` never wears it, since not discharging is the whole point.
+        if isHoldingFullChargeUntilUnplugged, mode == .charging || mode == .inhibit {
+            return label.holdingFullChargeUntilUnplugged
+        }
+
         switch self.mode {
         case .initial:
             return label.initial
@@ -94,6 +108,14 @@ public extension AppChargingMode {
             let limitFraction = Double(overrideLimit) / 100
             let percentage = percentageFormatter.string(from: NSNumber(floatLiteral: limitFraction))!
             return label.tempChargingTo(percentage)
+        }
+
+        // Same precedence and the same reason as in the title: one sentence across the two
+        // modes the hold alternates between, below the override that would supersede it, and
+        // ahead of the automation attribution — which rule set the limit is not in question
+        // here, what happens to the battery next is.
+        if isHoldingFullChargeUntilUnplugged, mode == .charging || mode == .inhibit {
+            return label.holdingFullChargeUntilUnplugged(limit)
         }
 
         switch self.mode {

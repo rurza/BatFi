@@ -111,6 +111,28 @@ public enum L10n {
                     )
                 }
 
+                /// Charged to 100% as you asked. Your %@ limit takes over once the charger is unplugged.
+                ///
+                /// The first half credits the request so a battery sitting at 100% over a 70%
+                /// limit does not read as the limit having failed; the second says where the
+                /// limit went. Before this, BatFi answered that question by draining the
+                /// battery back down within seconds of reaching full — the bug this state
+                /// exists to end — so the sentence has to make plain that the limit is still
+                /// there and simply waiting for the charger to come out.
+                public static func holdingFullChargeUntilUnplugged(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.description.holding_full_charge_until_unplugged",
+                            // `100%%`, not `100%` — see `systemChargeLimitRaised`. Unescaped,
+                            // `% a` reads as a conversion and swallows the limit.
+                            defaultValue: "Charged to 100%% as you asked. Your %@ limit takes over once the charger is unplugged.",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
+
                 /// The charging limit has been temporarily set to %@.
                 public static func tempChargingTo(_ p1: Any) -> String {
                     String(
@@ -158,6 +180,18 @@ public enum L10n {
                 /// *user* asked for: "Temporary 100% charge" would sit next to
                 /// "Temporarily charging" and read as BatFi's own doing.
                 public static let systemChargingPastLimit = String(localized: "app_charging_mode.state.title.system_charging_past_limit", defaultValue: "macOS is charging to 100%", bundle: Bundle.module)
+                /// Holding 100% until unplugged
+                ///
+                /// One sentence for a state that spans two modes: BatFi goes on requesting a
+                /// limit of 100 after a "Charge to 100%" completes, so the battery is topped
+                /// back up whenever it slips to 99% and inhibited the rest of the time. Both
+                /// readings are the same thing to the user.
+                ///
+                /// "until unplugged" rather than "temporarily" or a duration, because the
+                /// charger coming out is literally the end condition — and because it answers
+                /// the question the old behaviour raised: the limit has not been forgotten,
+                /// it is waiting.
+                public static let holdingFullChargeUntilUnplugged = String(localized: "app_charging_mode.state.title.holding_full_charge_until_unplugged", defaultValue: "Holding 100% until unplugged", bundle: Bundle.module)
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
 

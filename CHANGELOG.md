@@ -7,6 +7,14 @@ All notable changes to BatFi are documented here. The format is based on
 ## [4.0.1] - 2026-09-16
 
 ### Fixed
+- **Charging to 100% no longer drains straight back down to your limit while the charger is
+  still plugged in.** Asking BatFi to charge to 100% did exactly that, and then — the moment
+  the battery arrived — handed control back to your ordinary limit, which found a full battery
+  sitting well above it. With "Discharge battery when overcharged" turned on, BatFi began
+  running the battery down again within seconds of filling it, and spent the next twenty
+  minutes undoing what you had just asked for. BatFi now keeps the battery at 100% once it
+  gets there and leaves it there until you unplug the charger, saying so in the menu. Your
+  limit — and the discharge, if you have it enabled — take over from the unplug onwards.
 - **Lowering your charge limit below the current battery level no longer announces that macOS
   is charging to 100%.** Lowering the limit puts the battery above it immediately, and macOS
   responds by running the battery down to the new limit — but the system goes on reporting a
