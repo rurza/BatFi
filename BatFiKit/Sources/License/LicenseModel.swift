@@ -135,7 +135,7 @@ public final class LicenseModel: ObservableObject {
     }
 
     public func purchaseLicenseButtonClicked() {
-        NSWorkspace.shared.open(URL(string: "https://micropixels.software/batfi")!)
+        NSWorkspace.shared.open(URL(string: "https://micropixels.gumroad.com/l/batfi?wanted=true")!)
     }
 
     public func dimissErrorClicked() {
