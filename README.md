@@ -1,48 +1,45 @@
 # BatFi
-BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.
 
-<a href="https://micropixels.gumroad.com/l/batfi">
+BatFi is a battery charge limiter for Mac. Stop charging at 80%, or hold any
+limit. Change it by time and place. Charge to 100% the moment you need it.
+
+**[Download BatFi at micropixels.software/batfi](https://micropixels.software/batfi/)**
+
+$15, once. Not a subscription. One licence covers every Mac you own.
+Requires macOS Sonoma 14.8 or later on a Mac with Apple silicon.
+
+This repository holds BatFi's code up to version 2.3 (2025). The current
+app, BatFi 4, is developed separately. Download it at
+[micropixels.software/batfi](https://micropixels.software/batfi/).
+
+<a href="https://micropixels.gumroad.com/l/batfi?wanted=true">
     <img width="200" alt="buy_on_gumroad" src="https://github-production-user-asset-6210df.s3.amazonaws.com/2467137/269984099-a4628c9d-10a8-4c83-a3cc-dfe04fef71d8.png">
 </a>
-<p><sub><sup>Requires macOS Ventura or later and Apple Silicon Mac</sup></sub></p>
-<br>
 
-## Why?
-Maintaining a lithium-ion battery at a high state of charge can significantly reduce its lifespan. Although macOS offers a feature that automatically postpones charging the battery to 100%, it lacks user control. This automated approach relies on machine learning to adapt to user habits, leaving users without the ability to determine when and how long the charging should be delayed. Consequently, this solution may not be effective for users with irregular computer usage patterns or for devices frequently connected to power sources, such as monitors like Apple's Studio Display or Pro Display XDR.
+## BatFi and the charge limit in macOS
 
-On the other hand, BatFi works differently. The app allows you to set a user-chosen limit for charging the battery and maintain it indefinitely. With BatFi, you have the flexibility to decide when to charge the battery to 100% based on your usage needs.
+Keeping a lithium-ion battery at a high charge wears it faster.
+
+Since macOS Tahoe 26.4, a Mac with Apple silicon can stop charging anywhere
+from 80% to 100%. BatFi does much more:
+
+- Holds any limit, below 80% included.
+- Changes the limit by time and place.
+- Charges to 100% in one click when you need the power.
+- Pauses charging when the battery gets hot.
+- Shows which apps are using a lot of energy.
+- Shows battery health, cycle count, temperature and time left on battery.
+- Reminds you when the battery hasn't been run down and fully charged in a while.
+- Turns on Low Power Mode from a keyboard shortcut, in any app.
+
+It runs on macOS Sonoma 14.8 and later. With BatFi, turn off the limit in
+macOS and Optimized Battery Charging.
+
+More, and the download, at [micropixels.software/batfi](https://micropixels.software/batfi/).
+Questions are answered in [BatFi's FAQ](https://micropixels.software/support/#batfi).
 
 <p float="left">
   <img src="https://github.com/rurza/BatFi/assets/2467137/db8870bb-0a61-4088-a361-b44d0db2cff7" width=300>
   <img src="https://github.com/rurza/BatFi/assets/2467137/8cf4f6e3-fbe9-48ee-b034-b6fa8f0dc50c" width=300>
   <img src="https://github.com/rurza/BatFi/assets/2467137/ad75de07-157b-48ba-8584-27ce930d078e" width=300>
 </p>
-
-## Localization
-
-The app uses [String Catalog](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog) which makes localization super straightforward.
-
-<details>
-<summary>If you know how to use Git</summary>
-    
-1) Install Xcode 15 ([Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12))
-2) Fork this repo, the develop branch
-3) There are two `.xcstrings` files. One related to the app's UI and second one for the App Intents (used for Siri Shortcuts):
-- App UI `./BatFiKit/Sources/L10n/Localizable.xcstrings`
-- App Intents `./App/Localizable.xcstrings`
-4) Open and edit them with Xcode 15. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
-5) Commit changes and make pull request
-
-</details>
-
-<details>
-<summary>If you have no idea what Git is</summary>
-    
-1) Install Xcode 15 ([Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12))
-2) Download [App UI Localizable.xcstrings](https://github.com/rurza/BatFi/blob/develop/BatFiKit/Sources/L10n/Localizable.xcstrings) using the "Download raw file" button in the top right corner
-3) Download [App Intents Localizable.xcstrings](https://github.com/rurza/BatFi/blob/develop/App/Localizable.xcstrings) using the "Download raw file" button in the top right corner
-4) Open and edit downloaded file. It'll open in Xcode. I highly recommend to use Apple conventions for basic commands, like "Quit" etc. You can find all of them on [Apple Localization Terms Glossary](https://applelocalization.com/macos) 
-5) Send it to me: adam@micropixels.pl
-
-</details>
-
