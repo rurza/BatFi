@@ -11,10 +11,11 @@ import Clients
 import Dependencies
 
 extension MenuDelegate: DependencyKey {
-    public static var liveValue: MenuDelegate = {
-        let observer = MenuObserver.shared
+    nonisolated(unsafe) public static var liveValue: MenuDelegate = {
         let md = MenuDelegate {
-            observer.$menuIsOpened.values.eraseToStream()
+            await MainActor.run {
+                MenuObserver.shared.$menuIsOpened.values.eraseToStream()
+            }
         }
         return md
     }()

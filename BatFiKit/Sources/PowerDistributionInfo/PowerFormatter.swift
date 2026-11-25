@@ -7,7 +7,7 @@
 
 import Foundation
 
-let powerFormatter: MeasurementFormatter = {
+nonisolated(unsafe) let powerFormatter: MeasurementFormatter = {
     let formatter = MeasurementFormatter()
     formatter.unitStyle = .short
     let numberFormatter = NumberFormatter()

@@ -1,7 +1,7 @@
 import Foundation
 
-public class PowerDistributionInfo: NSObject, Codable, NSSecureCoding {
-    public static var supportsSecureCoding: Bool = true
+public class PowerDistributionInfo: NSObject, Codable, NSSecureCoding, @unchecked Sendable {
+    public static let supportsSecureCoding: Bool = true
 
     public let batteryPower: Float
     public let externalPower: Float

@@ -5,16 +5,17 @@
 //  Created by Adam on 16/05/2023.
 //
 
+import AppShared
 import Clients
 import Dependencies
 import Foundation
 import os
-import ServiceManagement
+@preconcurrency import ServiceManagement
 import Shared
 
 extension HelperClient: DependencyKey {
     public static let liveValue: HelperClient = {
-        let service = SMAppService.daemon(plistName: Constant.helperPlistName)
+        nonisolated(unsafe) let service = SMAppService.daemon(plistName: Constant.helperPlistName)
         let installer = HelperInstaller(service: service)
         let logger = Logger(category: "Helper Client")
         let manager = HelperClient(
@@ -39,15 +40,22 @@ extension HelperClient: DependencyKey {
                 }
             },
             helperStatus: {
-                logger.notice("Checking helper status...")
-                let status = installer.service.status
-                logger.notice("Helper status: \(status, privacy: .public)")
+                // Debug, not notice. `HelperConnectionManager` reads through here every 1.5s
+                // while the helper is not working, and logs each reading itself, on change.
+                logger.debug("Checking helper status...")
+                let status = await installer.service.status
+                logger.debug("Helper status: \(status, privacy: .public)")
                 return status
             },
+            // Onboarding's, and only onboarding's. A fixed fast poll is right there: it lasts
+            // as long as the install pane is waiting, and the pane counts ticks. It is wrong
+            // for the life of the app, because every `status` read makes
+            // `backgroundtaskmanagementd` re-read the whole app executable — which is why the
+            // app's long-lived reader sets its own cadence instead. See `HelperStatusPolling`.
             observeHelperStatus: {
                 AsyncStream<SMAppService.Status> { continuation in
                     let task = Task {
-                        for await _ in SuspendingClock().timer(interval: .milliseconds(1500)) {
+                        for await _ in SuspendingClock().timer(interval: HelperStatusPolling.unsettledInterval) {
                             continuation.yield(service.status)
                         }
                     }
@@ -68,13 +76,45 @@ extension HelperClient: DependencyKey {
             },
             pingHelper: {
                 return try await XPCClient.shared.pingHelper()
+            },
+            helperOwnership: {
+                // Read once per call rather than cached: the app can be moved on disk while
+                // it runs, and a cached "expected path" would then accuse the correct helper.
+                let expectedURL = HelperCodeIdentityInspector.expectedHelperExecutableURL
+                let bundled = HelperCodeIdentityInspector.identity(ofFileAt: expectedURL)
+                do {
+                    let pid = try await XPCClient.shared.helperProcessIdentifier()
+                    let running = HelperCodeIdentityInspector.identity(
+                        ofProcessWithID: pid,
+                        satisfying: xpcEntitlement
+                    )
+                    let ownership = HelperOwnershipCheck.evaluate(
+                        running: running,
+                        expectedExecutablePath: expectedURL.path,
+                        expectedCDHash: bundled?.cdHash
+                    )
+                    switch ownership {
+                    case .ours:
+                        logger.notice("The running helper belongs to this copy of BatFi")
+                    case let .foreign(conflict):
+                        logger.error("The running helper is not ours (\(String(describing: conflict.kind), privacy: .public)). Running: \(conflict.runningExecutablePath, privacy: .public). Expected: \(conflict.expectedExecutablePath, privacy: .public)")
+                    case let .undetermined(reason):
+                        logger.warning("Helper ownership undetermined: \(reason, privacy: .public)")
+                    }
+                    return ownership
+                } catch {
+                    // Unreachable, not foreign. Saying so keeps the ownership recovery — which
+                    // costs the user an approval — off a failure the reachability path owns.
+                    logger.warning("Could not identify the helper: \(error.localizedDescription, privacy: .public)")
+                    return .undetermined(error.localizedDescription)
+                }
             }
         )
         return manager
     }()
 }
 
-extension SMAppService.Status: CustomStringConvertible {
+extension SMAppService.Status: @retroactive CustomStringConvertible {
     public var description: String {
         switch self {
         case .enabled:

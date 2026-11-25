@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum MagSafeLEDOption: UInt8, Codable, CustomStringConvertible {
+public enum MagSafeLEDOption: UInt8, Codable, CustomStringConvertible, Sendable {
     case reset = 0
     case off = 1
     case green = 3

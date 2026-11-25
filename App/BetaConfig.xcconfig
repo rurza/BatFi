@@ -1,0 +1,13 @@
+//
+//  BetaConfig.xcconfig
+//  BatFi
+//
+//  Created by Adam Różyński on 21/02/2025.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "AppConfig.xcconfig"
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) BETA

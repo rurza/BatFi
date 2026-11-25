@@ -10,7 +10,7 @@ import AppIntents
 import L10n
 
 struct ChargeToFullIntent: AppIntent {
-    static var title: LocalizedStringResource = .init("intent.charge_to_full.title", defaultValue: "Charge to 100%")
+    nonisolated(unsafe) static var title: LocalizedStringResource = .init("intent.charge_to_full.title", defaultValue: "Charge to 100%")
 
     @AppDependency
     var app: BatFi

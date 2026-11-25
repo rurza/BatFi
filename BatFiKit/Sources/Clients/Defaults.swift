@@ -9,10 +9,12 @@ import Defaults
 import Dependencies
 import Foundation
 
-public typealias DefaultsValue = CustomStringConvertible & Defaults.Serializable & Equatable
+public typealias DefaultsValue = CustomStringConvertible & Defaults.Serializable & Equatable & Sendable
 
-public protocol DefaultsProtocol {
+public protocol DefaultsProtocol: Sendable {
     func observe<Value: DefaultsValue>(_ key: Defaults.Key<Value>) -> AsyncStream<Value>
+    /// For a key with no value until one is first written, such as `sailingResumeLevel`.
+    func observe<Value: DefaultsValue>(_ key: Defaults.Key<Value?>) -> AsyncStream<Value?>
     func setValue<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>, value: Value)
     func value<Value: Defaults.Serializable>(_ key: Defaults.Key<Value>) -> Value
     func resetSettings()

@@ -1,4 +1,5 @@
 {
+  "originHash" : "520213c192f7bb0e768cecd607f518f18432802d9130ab066c4743de2b65680f",
   "pins" : [
     {
       "identity" : "aboutkit",
@@ -16,33 +17,6 @@
       "state" : {
         "revision" : "d7f6ec40d9f050fef87c25ab67ba5f626e4d4dee",
         "version" : "1.1.0"
-      }
-    },
-    {
-      "identity" : "bluecryptor",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kitura/BlueCryptor.git",
-      "state" : {
-        "revision" : "cec97c24b111351e70e448972a7d3fe68a756d6d",
-        "version" : "2.0.2"
-      }
-    },
-    {
-      "identity" : "blueecc",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kitura/BlueECC.git",
-      "state" : {
-        "revision" : "1485268a54f8135435a825a855e733f026fa6cc8",
-        "version" : "1.2.201"
-      }
-    },
-    {
-      "identity" : "bluersa",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kitura/BlueRSA.git",
-      "state" : {
-        "revision" : "4c9464b4a21dd558a9b1f4a4ed603bb67dcbc773",
-        "version" : "1.0.202"
       }
     },
     {
@@ -87,25 +61,7 @@
       "location" : "https://github.com/rurza/KeyboardShortcuts",
       "state" : {
         "branch" : "main",
-        "revision" : "010d5900f7eed37c834eb9d39d7b59b0d4a03911"
-      }
-    },
-    {
-      "identity" : "kituracontracts",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kitura/KituraContracts.git",
-      "state" : {
-        "revision" : "6edf7ac3dd2b3a2c61284778d430bbad7d8a6f23",
-        "version" : "2.0.1"
-      }
-    },
-    {
-      "identity" : "loggerapi",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kitura/LoggerAPI.git",
-      "state" : {
-        "revision" : "4e6b45e850ffa275e8e26a24c6454fd709d5b6ac",
-        "version" : "2.0.0"
+        "revision" : "762945f68b1b0681b3e8aa367625fcca3e72001a"
       }
     },
     {
@@ -115,6 +71,15 @@
       "state" : {
         "revision" : "ba0202c5ff6d63f0fd7ec6b1da11a769eff15000",
         "version" : "3.0.0"
+      }
+    },
+    {
+      "identity" : "pow",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EmergeTools/Pow",
+      "state" : {
+        "revision" : "1b4b1dda28c50b95f0872927ee2226fe8b58950e",
+        "version" : "1.0.6"
       }
     },
     {
@@ -132,16 +97,7 @@
       "location" : "https://github.com/rurza/SettingsKit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "e99c1e9a51afef7c7c07997ac079586138114422"
-      }
-    },
-    {
-      "identity" : "snapkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SnapKit/SnapKit",
-      "state" : {
-        "branch" : "main",
-        "revision" : "f222cbdf325885926566172f6f5f06af95473158"
+        "revision" : "6f53cef9d93d8b8616a78ebdf157a5f24c59ccf7"
       }
     },
     {
@@ -149,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "b456fd404954a9e13f55aa0c88cd5a40b8399638",
-        "version" : "2.6.3"
+        "revision" : "79bc9e872948e47877e76f194cb0c8e0412b0b90",
+        "version" : "2.9.5"
       }
     },
     {
@@ -167,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-async-algorithms",
       "state" : {
-        "revision" : "9cfed92b026c524674ed869a4ff2dcfdeedf8a2a",
-        "version" : "0.1.0"
+        "revision" : "9d349bcc328ac3c31ce40e746b5882742a0d1272",
+        "version" : "1.1.3"
       }
     },
     {
@@ -217,24 +173,6 @@
       }
     },
     {
-      "identity" : "swift-jwt",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Kitura/Swift-JWT",
-      "state" : {
-        "revision" : "2cf7ef3eeb0df84318c75662c257651285f8289f",
-        "version" : "4.0.2"
-      }
-    },
-    {
-      "identity" : "swift-log",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-log.git",
-      "state" : {
-        "revision" : "96a2f8a0fa41e9e09af4585e2724c4e825410b91",
-        "version" : "1.6.2"
-      }
-    },
-    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax",
@@ -253,5 +191,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

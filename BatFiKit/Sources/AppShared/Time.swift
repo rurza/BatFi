@@ -8,16 +8,16 @@
 import Foundation
 import L10n
 
-public struct Time: Equatable {
+public struct Time: Equatable, Sendable {
     public let info: Info
     public let direction: Direction
 
-    public enum Direction: Equatable {
+    public enum Direction: Equatable, Sendable {
         case timeLeft
         case timeToCharge
     }
 
-    public enum Info: Equatable {
+    public enum Info: Equatable, Sendable {
         case claculating
         case unknown
         case time(Int)

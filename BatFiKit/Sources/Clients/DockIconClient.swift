@@ -10,12 +10,12 @@ import Dependencies
 import DependenciesMacros
 
 @DependencyClient
-public struct DockIconClient {
+public struct DockIconClient: Sendable {
     public var show: @Sendable (Bool) -> Void
 }
 
 extension DockIconClient: TestDependencyKey {
-    public static var testValue: DockIconClient = .init()
+    nonisolated(unsafe) public static var testValue: DockIconClient = .init()
 }
 
 public extension DependencyValues {

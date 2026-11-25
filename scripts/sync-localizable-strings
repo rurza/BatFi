@@ -1,0 +1,144 @@
+#!/usr/bin/python3
+"""Bring BatFiKit's string catalog to the exact form Xcode writes, so builds stop rewriting it.
+
+After every build, the Xcode IDE merges the strings it finds in code into
+BatFiKit/Sources/L10n/Localizable.xcstrings and rewrites the whole file in its own form:
+keys and languages sorted, its own JSON spacing, and its own extractionState for each key.
+A catalog edited by hand in any other form comes back from the next IDE build as an
+uncommitted diff. (Command-line xcodebuild only compiles the catalog and never writes it.)
+
+This script runs the same merge with Apple's own tool, `xcstringstool sync`, fed by
+`xcstringstool extract` over the L10n sources. Run it after any edit to the catalog or to
+the strings in BatFiKit/Sources/L10n, and commit what it writes. It:
+
+  - adds every key found in code that the catalog lacks, with its English default;
+  - sorts keys and languages and writes Xcode's formatting;
+  - lets Xcode decide extractionState: `extracted_with_value` while the English value still
+    comes from the code (state "new"), no field once the English is set in the catalog
+    (state "translated"), `stale` for a key no longer found in code;
+  - drops `manual` from any key found in code. A manual key with a format specifier
+    compiles into every untranslated language as key -> key, so users read the raw key.
+
+  --check   change nothing; exit 1 if the catalog is not already in that form.
+"""
+
+import glob
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+L10N = os.path.join(REPO, "BatFiKit", "Sources", "L10n")
+CATALOG = os.path.join(L10N, "Localizable.xcstrings")
+TABLE = "Localizable"
+
+# What `xcstringstool extract` writes for a value it can't type: an interpolation such as
+# "\(limit)%" becomes "%arg%%", where the compiler (and so the IDE) writes "%lld%%".
+LIGHTWEIGHT_PLACEHOLDER = re.compile(r"%(\d+\$)?arg")
+
+
+def run(*args):
+    subprocess.run(["/usr/bin/xcrun", "xcstringstool", *args], check=True)
+
+
+def keys_in_code(stringsdata):
+    keys = set()
+    for path in stringsdata:
+        with open(path, encoding="utf-8") as f:
+            for entry in json.load(f).get("tables", {}).get(TABLE, []):
+                keys.add(entry["key"])
+    return keys
+
+
+def xcode_json(value):
+    """Xcode's formatting: sorted keys, two-space indent, " : " after keys, no final newline."""
+    return json.dumps(value, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=True)
+
+
+def synced(work):
+    """Returns the catalog as Xcode would write it, built in `work`."""
+    sources = sorted(glob.glob(os.path.join(L10N, "*.swift")))
+    data_dir = os.path.join(work, "stringsdata")
+    os.mkdir(data_dir)
+    run("extract", "--modern-localizable-strings", "--output-directory", data_dir, *sources)
+    stringsdata = sorted(glob.glob(os.path.join(data_dir, "*.stringsdata")))
+
+    with open(CATALOG, encoding="utf-8") as f:
+        catalog = json.load(f)
+    in_code = keys_in_code(stringsdata)
+    for key, entry in catalog["strings"].items():
+        if key in in_code and entry.get("extractionState") == "manual":
+            del entry["extractionState"]
+
+    # sync names the table after the file, so the copy must keep the catalog's name. It also
+    # leaves the file alone when the merge changes nothing, so the copy starts out in Xcode's
+    # formatting rather than relying on sync to write it.
+    copy = os.path.join(work, TABLE + ".xcstrings")
+    with open(copy, "w", encoding="utf-8") as f:
+        f.write(xcode_json(catalog))
+    run("sync", copy, *[arg for path in stringsdata for arg in ("--stringsdata", path)])
+    with open(copy, encoding="utf-8") as f:
+        return f.read()
+
+
+def lightweight_placeholders(text):
+    found = []
+    for key, entry in json.loads(text)["strings"].items():
+        for language, localization in entry.get("localizations", {}).items():
+            value = localization.get("stringUnit", {}).get("value", "")
+            if LIGHTWEIGHT_PLACEHOLDER.search(value):
+                found.append(f"{key} ({language}): {value}")
+    return found
+
+
+def changed_keys(old_text, new_text):
+    old = json.loads(old_text)["strings"]
+    new = json.loads(new_text)["strings"]
+    return sorted(k for k in old.keys() | new.keys() if old.get(k) != new.get(k))
+
+
+def main():
+    check = "--check" in sys.argv[1:]
+    work = tempfile.mkdtemp(prefix="sync-localizable-strings-")
+    try:
+        result = synced(work)
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+    with open(CATALOG, encoding="utf-8") as f:
+        current = f.read()
+
+    placeholders = lightweight_placeholders(result)
+    if placeholders:
+        print(
+            "These English values come from string interpolation, which this script can't type:\n  "
+            + "\n  ".join(placeholders)
+            + "\nWrite each one into the catalog by hand with the specifier the compiler would use"
+            " (%lld for Int, %lf for Double, %@ for String and objects) and \"state\" : \"translated\","
+            " then run the script again. Or build the string with String(format:) from a literal.",
+            file=sys.stderr,
+        )
+
+    if check:
+        if result != current:
+            keys = changed_keys(current, result)
+            print(
+                "Localizable.xcstrings is not in the form Xcode writes, so the next build will rewrite it.\n"
+                "Run scripts/sync-localizable-strings and commit the result.\n"
+                + (f"Keys that differ: {', '.join(keys)}" if keys else "Only the order or formatting differs."),
+                file=sys.stderr,
+            )
+        return 1 if result != current or placeholders else 0
+
+    if result != current:
+        with open(CATALOG, "w", encoding="utf-8") as f:
+            f.write(result)
+        print(f"Updated {os.path.relpath(CATALOG, REPO)}.")
+    return 1 if placeholders else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

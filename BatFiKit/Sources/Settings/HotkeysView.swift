@@ -6,13 +6,20 @@
 //
 
 import Defaults
+import DefaultsKeys
 import KeyboardShortcuts
 import L10n
 import SettingsKit
+import Shared
 import SharedUI
 import SwiftUI
 
 struct HotkeysView: View {
+    /// Observed rather than read once, so the row settles if the backend is first learned
+    /// while this pane is open. It is the cache rather than a fetch because the window sizes
+    /// itself from the pane's first layout; deciding from an async answer would draw the row
+    /// and then leave a gap where it was. See `Defaults.Keys.lastKnownChargeBackend`.
+    @Default(.lastKnownChargeBackend) private var lastKnownChargeBackend
 
     var body: some View {
         Container(contentWidth: settingsContentWidth) {
@@ -22,7 +29,9 @@ struct HotkeysView: View {
                         VStack(alignment: .center, spacing: 12) {
                             shortcut(label: L10n.Settings.Hotkey.Label.chargeToFull, key: .chargeToHundred)
                             shortcut(label: L10n.Settings.Hotkey.Label.discharge, key: .dischargeBattery)
-                            shortcut(label: L10n.Settings.Hotkey.Label.inhibit, key: .inhibitCharging)
+                            if InhibitChargingShortcut.isOffered(rawBackend: lastKnownChargeBackend) {
+                                shortcut(label: L10n.Settings.Hotkey.Label.inhibit, key: .inhibitCharging)
+                            }
                             shortcut(label: L10n.Settings.Hotkey.Label.stopOverride, key: .stopOverride)
                             Divider()
                             shortcut(label: L10n.Settings.Hotkey.Label.toggleLowPowerMode, key: .toggleLowPowerMode)
@@ -51,7 +60,7 @@ struct HotkeysView: View {
         identifier: NSToolbarItem.Identifier("Hotkeys"),
         title: L10n.Settings.Tab.Title.hotkeys,
         toolbarIcon: NSImage(
-            systemSymbolName: "command.square",
+            systemSymbolName: "keyboard",
             accessibilityDescription: L10n.Settings.Accessibility.Title.hotkeys
         )!
     ) {

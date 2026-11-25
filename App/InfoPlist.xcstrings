@@ -1,0 +1,297 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "BatFi"
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : ""
+          }
+        }
+      }
+    },
+    "NSLocationAlwaysAndWhenInUseUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi používá vaši polohu ke spouštění pravidel automatizace nabíjení, která závisejí na tom, kde se váš Mac nachází."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi verwendet deinen Standort, um Regeln der Ladeautomatisierung auszuführen, die davon abhängen, wo sich dein Mac befindet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi uses your location to run charging automation rules that depend on where your Mac is."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi utilise votre position pour exécuter des règles d’automatisation de la charge qui dépendent de l’endroit où se trouve votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi usa la tua posizione per eseguire regole di automazione della ricarica che dipendono dal luogo in cui si trova il tuo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiは、Macの現在地に応じた充電の自動化ルールを実行するために位置情報を使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 Mac의 위치에 따라 달라지는 충전 자동화 규칙을 실행하기 위해 위치 정보를 사용합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi gebruikt je locatie om regels voor oplaadautomatisering uit te voeren die afhangen van waar je Mac zich bevindt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi używa Twojej lokalizacji, aby uruchamiać reguły automatyzacji ładowania zależne od tego, gdzie znajduje się Twój Mac."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi usa sua localização para executar regras de automação de carregamento que dependem de onde o seu Mac está."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi использует вашу геопозицию для выполнения правил автоматизации зарядки, которые зависят от того, где находится ваш Mac."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi, Mac’inizin bulunduğu yere bağlı şarj otomasyonu kurallarını çalıştırmak için konumunuzu kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi використовує вашу геопозицію, щоб виконувати правила автоматизації заряджання, які залежать від того, де перебуває ваш Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi使用你的位置来运行取决于Mac所在位置的充电自动化规则。"
+          }
+        }
+      }
+    },
+    "NSLocationUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi používá vaši polohu ke spouštění pravidel automatizace nabíjení, která závisejí na tom, kde se váš Mac nachází."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi verwendet deinen Standort, um Regeln der Ladeautomatisierung auszuführen, die davon abhängen, wo sich dein Mac befindet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi uses your location to run charging automation rules that depend on where your Mac is."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi utilise votre position pour exécuter des règles d’automatisation de la charge qui dépendent de l’endroit où se trouve votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi usa la tua posizione per eseguire regole di automazione della ricarica che dipendono dal luogo in cui si trova il tuo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiは、Macの現在地に応じた充電の自動化ルールを実行するために位置情報を使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 Mac의 위치에 따라 달라지는 충전 자동화 규칙을 실행하기 위해 위치 정보를 사용합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi gebruikt je locatie om regels voor oplaadautomatisering uit te voeren die afhangen van waar je Mac zich bevindt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi używa Twojej lokalizacji, aby uruchamiać reguły automatyzacji ładowania zależne od tego, gdzie znajduje się Twój Mac."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi usa sua localização para executar regras de automação de carregamento que dependem de onde o seu Mac está."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi использует вашу геопозицию для выполнения правил автоматизации зарядки, которые зависят от того, где находится ваш Mac."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi, Mac’inizin bulunduğu yere bağlı şarj otomasyonu kurallarını çalıştırmak için konumunuzu kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi використовує вашу геопозицію, щоб виконувати правила автоматизації заряджання, які залежать від того, де перебуває ваш Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi使用你的位置来运行取决于Mac所在位置的充电自动化规则。"
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi používá vaši polohu ke spouštění pravidel automatizace nabíjení, která závisejí na tom, kde se váš Mac nachází."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi verwendet deinen Standort, um Regeln der Ladeautomatisierung auszuführen, die davon abhängen, wo sich dein Mac befindet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi uses your location to run charging automation rules that depend on where your Mac is."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi utilise votre position pour exécuter des règles d’automatisation de la charge qui dépendent de l’endroit où se trouve votre Mac."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi usa la tua posizione per eseguire regole di automazione della ricarica che dipendono dal luogo in cui si trova il tuo Mac."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFiは、Macの現在地に応じた充電の自動化ルールを実行するために位置情報を使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi는 Mac의 위치에 따라 달라지는 충전 자동화 규칙을 실행하기 위해 위치 정보를 사용합니다."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi gebruikt je locatie om regels voor oplaadautomatisering uit te voeren die afhangen van waar je Mac zich bevindt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi używa Twojej lokalizacji, aby uruchamiać reguły automatyzacji ładowania zależne od tego, gdzie znajduje się Twój Mac."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi usa sua localização para executar regras de automação de carregamento que dependem de onde o seu Mac está."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi использует вашу геопозицию для выполнения правил автоматизации зарядки, которые зависят от того, где находится ваш Mac."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi, Mac’inizin bulunduğu yere bağlı şarj otomasyonu kurallarını çalıştırmak için konumunuzu kullanır."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi використовує вашу геопозицію, щоб виконувати правила автоматизації заряджання, які залежать від того, де перебуває ваш Mac."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BatFi使用你的位置来运行取决于Mac所在位置的充电自动化规则。"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

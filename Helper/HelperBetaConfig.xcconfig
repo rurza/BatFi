@@ -1,0 +1,11 @@
+//
+//  HelperBetaConfig.xcconfig
+//  BatFi
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include "HelperConfig.xcconfig"
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) BETA

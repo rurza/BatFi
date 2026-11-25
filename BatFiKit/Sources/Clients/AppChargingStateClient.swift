@@ -11,7 +11,7 @@ import DependenciesMacros
 import Foundation
 
 @DependencyClient
-public struct AppChargingStateClient {
+public struct AppChargingStateClient: Sendable {
     public var updateLidOpenedStatus: @Sendable (_ opened: Bool) async -> Void
     public var lidOpened: @Sendable () async -> Bool?
     public var appChargingModeDidChage: @Sendable () -> AsyncStream<AppChargingMode> = { AsyncStream { _ in } }
@@ -20,12 +20,76 @@ public struct AppChargingStateClient {
     public var userTempOverrideDidChange: @Sendable () -> AsyncStream<UserTempChargingMode?> = { AsyncStream { _ in } }
     public var currentUserTempOverrideMode: @Sendable () async -> UserTempChargingMode?
     public var updateChargingMode: @Sendable (ChargingMode) async -> Void
+    /// Whether macOS is holding charge back on its own right now, and in which of the two
+    /// ways it does that.
+    ///
+    /// Deliberately **not** folded into `updateChargingMode`. The mode is what BatFi last
+    /// told the hardware and is only ever advanced by an applier that succeeded; this is a
+    /// fact about the machine that keeps changing while the mode sits still — `.inhibit`
+    /// covers the drain, the hold that follows it, and the hold below the limit. Setting
+    /// these together with the mode would
+    /// put this behind `ChargingManager.shouldApply`, which skips the applier entirely once
+    /// the mode is already in force, and the label would then latch on whatever was true
+    /// the last time a command actually went out.
+    /// - Parameters:
+    ///   - draining: macOS is running the battery *down* to the limit.
+    ///   - holdingBelowLimit: macOS is holding charge on a battery already *below* the limit,
+    ///     having closed the charge session and not re-opened it.
+    ///
+    /// Both facts in one call because they are two answers to the same question — why charge
+    /// is being held when BatFi is not holding it — and are mutually exclusive on any real
+    /// reading. Every caller knows both at once, and one setter is one place to keep them
+    /// consistent: set separately, a path that cleared one and forgot the other would latch
+    /// the stale sentence, which is the exact failure these flags exist to prevent.
+    public var setSystemChargeHold: @Sendable (_ draining: Bool, _ holdingBelowLimit: Bool, _ chargingPastLimit: Bool) async -> Void
+    /// Whether BatFi is keeping the battery at 100% until the charger comes out, having
+    /// charged it there on the user's instruction.
+    ///
+    /// Its own setter for the same reason `setSystemChargeHold` is: the mode underneath the
+    /// hold keeps moving between `.charging` and `.inhibit` while this stays put, and folding
+    /// it into `updateChargingMode` would put it behind `ChargingManager.shouldApply`, which
+    /// skips the applier once the mode is already in force — so the flag would latch on
+    /// whatever was true the last time a command actually went out.
+    public var setHoldingFullChargeUntilUnplugged: @Sendable (Bool) async -> Void
+    /// The level below which charging resumes while sailing holds charge, or nil when it is
+    /// not holding — see `AppChargingMode.sailingResumeLevel`.
+    ///
+    /// Its own setter for the reason `setHoldingFullChargeUntilUnplugged` is: the hold has to
+    /// be published on every pass, and `updateChargingMode` sits behind
+    /// `ChargingManager.shouldApply`, which skips the applier once the mode is in force.
+    public var setSailingHold: @Sendable (_ resumeLevel: Int?) async -> Void
+    /// Publishes `mode` and clears the sailing hold in one publish, for an applier that hands
+    /// over from a hold to charging or a discharge. Cleared ahead of the mode, the state read
+    /// as the plain inhibit for one helper round trip ("Inhibiting charging" between "On hold"
+    /// and "Charging"); cleared after it, as two publishes.
+    public var updateChargingModeEndingSailingHold: @Sendable (ChargingMode) async -> Void
     public var setTempOverride: @Sendable (UserTempChargingMode?) async -> Void
+    /// Ends `ending` if it is still the override in force, and publishes what `end` puts in
+    /// its place with it — the override it resumes, a mode, the drain — in one publish; see
+    /// `AppChargingMode.endingOverride(_:with:)`.
+    public var endOverride: @Sendable (_ ending: UserTempChargingMode, _ end: OverrideEnd) async -> Void
+    /// What a pause armed now is judged against — see `PauseHoldContext`. Kept apart from the
+    /// charging state, so its changes reach the menu and nothing else.
+    public var setPauseContext: @Sendable (PauseHoldContext?) async -> Void
+    public var currentPauseContext: @Sendable () async -> PauseHoldContext?
+    public var pauseContextDidChange: @Sendable () -> AsyncStream<PauseHoldContext?> = { AsyncStream { _ in } }
+    /// Publishes the connection beside the mode an applier derived for it, which clears
+    /// `isAwaitingModeForChargerChange`.
     public var setChargerConnected: @Sendable (Bool) async -> Void
+    /// Publishes the connection ahead of the mode, marking the mode as not yet derived for it
+    /// — see `AppChargingMode.isAwaitingModeForChargerChange`. The next `setChargerConnected`
+    /// clears the mark.
+    public var setChargerConnectedAheadOfMode: @Sendable (Bool) async -> Void
+    /// What the active automation rule requests: its limit, the base charge limit, and its own
+    /// resume level when it sails. nil falls back to the user's configured `chargeLimit` and
+    /// sailing settings. Lower precedence than a manual temp override.
+    public var setAutomationTarget: @Sendable (AutomationTarget?) async -> Void
+    public var currentAutomationTarget: @Sendable () async -> AutomationTarget?
+    public var automationTargetDidChange: @Sendable () -> AsyncStream<AutomationTarget?> = { AsyncStream { _ in } }
 }
 
 extension AppChargingStateClient: TestDependencyKey {
-    public static var testValue: AppChargingStateClient = .init()
+    nonisolated(unsafe) public static var testValue: AppChargingStateClient = .init()
 }
 
 public extension DependencyValues {

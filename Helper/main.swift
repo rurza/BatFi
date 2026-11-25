@@ -8,7 +8,11 @@
 import Foundation
 import Server
 
-let server = Server()
+#if BETA
+let server = Server(isBeta: true)
+#else
+let server = Server(isBeta: false)
+#endif
 do {
     try server.start()
 } catch {

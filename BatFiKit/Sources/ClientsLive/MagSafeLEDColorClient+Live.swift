@@ -11,7 +11,7 @@ import Foundation
 import Shared
 
 extension MagSafeLEDColorClient: DependencyKey {
-    public static var liveValue: MagSafeLEDColorClient = {
+    nonisolated(unsafe) public static var liveValue: MagSafeLEDColorClient = {
         let client = Self(
             changeMagSafeLEDColor: { (option: MagSafeLEDOption) in
                 return try await XPCClient.shared.changeMagSafeLEDColor(option)

@@ -5,7 +5,6 @@
 //  Created by Adam on 02/05/2023.
 //
 
-import AsyncXPCConnection
 import EmbeddedPropertyList
 import Foundation
 import os
@@ -15,7 +14,11 @@ import Shared
 public final class Server {
     private let logger = Logger(subsystem: Constant.helperBundleIdentifier, category: "Server")
 
-    public init() {}
+    private let isBeta: Bool
+
+    public init(isBeta: Bool) {
+        self.isBeta = isBeta
+    }
 
     public func start() throws {
         let data = try EmbeddedPropertyListReader.info.readInternal()
@@ -44,7 +47,13 @@ public final class Server {
         listener.delegate = delegate
         listener.resume()
 
-        if AppDefaults.userAllowsAnalytics {
+        // launchd starts this daemon on a mach service *lookup*, and a lookup does not have
+        // to become a connection — the listener's code-signing requirement can reject the
+        // client, or the caller can give up first. Without this the helper would stay
+        // resident as an idle root process until reboot.
+        HelperShutdown.shared.startGracePeriod()
+
+        if AppDefaults.shouldStartCrashReporting(isBeta: isBeta) {
             SentrySDK.start { options in
                 options.dsn = "https://858e7a160cc0add058de86a8fcd489c8@o4506988322357248.ingest.us.sentry.io/4506988323799040"
                 #if DEBUG

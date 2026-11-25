@@ -10,13 +10,13 @@ import DependenciesMacros
 import Shared
 
 @DependencyClient
-public struct FeatureFlagsClient {
-    public var enableFeatureFlag: (_ featureFlag: FeatureFlag) -> Void
-    public var isUsingBetaVersion: () -> Bool = { false }
+public struct FeatureFlagsClient: Sendable {
+    public var enableFeatureFlag: @Sendable (_ featureFlag: FeatureFlag) -> Void
+    public var isUsingBetaVersion: @Sendable () -> Bool = { false }
 }
 
 extension FeatureFlagsClient: TestDependencyKey {
-    public static var testValue: FeatureFlagsClient = .init()
+    nonisolated(unsafe) public static var testValue: FeatureFlagsClient = .init()
 }
 
 public extension DependencyValues {

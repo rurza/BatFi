@@ -15,18 +15,23 @@ import Foundation
 import os.log
 import SwiftUI
 
+// a lot of properties is public because I want to easily test it from the Previews app
 @MainActor
 public final class BatteryIndicatorViewModel: ObservableObject {
     @Published
-    private(set) public var chargingMode: ChargingMode = .discharging
+    public var chargingMode: ChargingMode = .discharging
     @Published
-    private(set) public var batteryLevel: Int = 0
+    public var batteryLevel: Int = 0
+    /// False until the first successful power source read. Without this, a failed read is
+    /// indistinguishable from a genuine 0% battery.
     @Published
-    private(set) public var monochrome: Bool = Defaults[.monochromeStatusIcon]
+    public var hasReading: Bool = false
     @Published
-    private(set) public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
+    public var monochrome: Bool = Defaults[.monochromeStatusIcon]
     @Published
-    private(set) public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
+    public var showPercentage: Bool = Defaults[.showBatteryPercentageInStatusIcon]
+    @Published
+    public var showPercentageNextToIndicator: Bool = Defaults[.showPercentageOnBatteryIcon]
 
     @Dependency(\.powerSourceClient.powerSourceChanges)
     private var powerSourceChanges
@@ -58,46 +63,18 @@ public final class BatteryIndicatorViewModel: ObservableObject {
             ) {
                 logger.debug("Update battery indicator: \(powerState)")
                 self.batteryLevel = powerState.batteryLevel
-                self.chargingMode = ChargingMode(appChargingStateMode: mode)
+                self.hasReading = true
+                self.chargingMode = ChargingMode(appChargingMode: mode)
                 self.monochrome = showMonochrome
                 self.showPercentage = showPercentage
                 self.showPercentageNextToIndicator = showPercentageOnBatteryIcon
-            }
-        }
-        Task {
-            for await powerState in powerSourceChanges() {
-                logger.debug("Power state did change, I should update the battery indicator")
             }
         }
     }
 }
 
 extension BatteryIndicatorViewModel {
-    public enum ChargingMode: Hashable {
-        case charging
-        case discharging
-        case inhibited
-        case error
-
-        init(appChargingStateMode: AppChargingMode) {
-            guard appChargingStateMode.mode != .initial else {
-                self = .error
-                return
-            }
-            guard appChargingStateMode.chargerConnected else {
-                self = .discharging
-                return
-            }
-            switch appChargingStateMode.mode {
-            case .charging:
-                self = .charging
-            case .inhibit:
-                self = .inhibited
-            case .forceDischarge:
-                self = .discharging
-            case .initial:
-                self = .error
-            }
-        }
-    }
+    /// Lives in `AppShared`, where a test target can reach the mapping. The name stays for
+    /// the call sites — the views and the Previews app both spell it this way.
+    public typealias ChargingMode = BatteryIndicatorMode
 }

@@ -14,7 +14,9 @@ struct PercentageLabel: View {
     var body: some View {
         HStack(spacing: 1) {
             chargingModeSymbol
-            if model.batteryLevel < 100 || model.chargingMode == .discharging {
+            if !model.hasReading {
+                Text(verbatim: "–")
+            } else if model.batteryLevel < 100 || model.chargingMode == .discharging {
                 if model.chargingMode != .error {
                     let fontHeight = fontSize(height: height, fraction: 0.85)
                     RollingNumberLabel(

@@ -50,8 +50,8 @@ struct RollingNumberLabel: View {
             animationRange = Array(repeating: 0, count: "\(currentValue)".count)
             updateText(animate: false)
         }
-        .onChange(of: initialValue) {
-            currentValue = $0
+        .onChange(of: initialValue) { _, newValue in
+            currentValue = newValue
             updateStorage()
         }
     }

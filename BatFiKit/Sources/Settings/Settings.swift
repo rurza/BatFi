@@ -7,25 +7,39 @@
 
 import Cocoa
 import KeyboardShortcuts
+import License
 import SettingsKit
 
+@MainActor
 public final class SettingsController {
+    private let licenseModel: LicenseModel
+    private let unlockModel: UnlockModel
+
     private lazy var settingsWindowController = SettingsWindowController(
         panes: [
             GeneralView.pane,
-            ChargingView.pane,
+            ChargingView.pane(unlockModel: unlockModel),
+            AutomationView.pane(unlockModel: unlockModel),
+            EnergyView.pane,
             MenubarView.pane,
+            SettingsStatusIconView.pane,
             NotificationsView.pane,
             HotkeysView.pane,
-            AdvancedView.pane,
-            TipJarView.pane
+            SettingsLicenseView.pane(licenseModel: licenseModel)
         ]
     )
 
-    public init() {}
+    public init(licenseModel: LicenseModel, unlockModel: UnlockModel) {
+        self.licenseModel = licenseModel
+        self.unlockModel = unlockModel
+    }
 
     public func openSettings() {
         settingsWindowController.show(pane: ChargingView.identifier)
+    }
+
+    public func openAutomationSettings() {
+        settingsWindowController.show(pane: AutomationView.identifier)
     }
 }
 
