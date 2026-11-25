@@ -20,7 +20,7 @@ extension Persistence: DependencyKey {
 
         @Dependency(\.date) var date
 
-        func fetchLastFullChargeDate(context: NSManagedObjectContext) throws -> Date? {
+        @Sendable func fetchLastFullChargeDate(context: NSManagedObjectContext) throws -> Date? {
             let fetchRequest = PowerStateModel.fetchRequest()
             fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
             fetchRequest.predicate = NSPredicate(format: "%K >= %@", #keyPath(PowerStateModel.batteryLevel), 100 as NSNumber)
@@ -29,7 +29,7 @@ extension Persistence: DependencyKey {
             return results.first?.timestamp
         }
 
-        func fetchLastDischargeDate(context: NSManagedObjectContext) throws -> Date? {
+        @Sendable func fetchLastDischargeDate(context: NSManagedObjectContext) throws -> Date? {
             let fetchRequest = PowerStateModel.fetchRequest()
             fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
             fetchRequest.predicate = NSPredicate(format: "%K <= %@", #keyPath(PowerStateModel.batteryLevel), 1 as NSNumber)
@@ -85,7 +85,7 @@ extension Persistence: DependencyKey {
                     fetchRequest.fetchLimit = 1
                     fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \PowerStateModel.timestamp, ascending: false)]
 
-                    let controller = NSFetchedResultsController(
+                    nonisolated(unsafe) let controller = NSFetchedResultsController(
                         fetchRequest: fetchRequest,
                         managedObjectContext: persistenceContainer.viewContext,
                         sectionNameKeyPath: nil,
@@ -134,7 +134,7 @@ extension Persistence: DependencyKey {
     }()
 }
 
-private class FetchedResultsControllerDelegate: NSObject, NSFetchedResultsControllerDelegate {
+private class FetchedResultsControllerDelegate: NSObject, NSFetchedResultsControllerDelegate, @unchecked Sendable {
     private var handler: () -> Void
 
     init(handler: @escaping () -> Void) {

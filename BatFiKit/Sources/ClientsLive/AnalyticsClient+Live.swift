@@ -10,7 +10,7 @@ import Dependencies
 import Sentry
 
 extension Clients.AnalyticsClient: DependencyKey {
-    public static var liveValue: Self = {
+    nonisolated(unsafe) public static var liveValue: Self = {
         let state = AnalyticsState()
         return Clients.AnalyticsClient(
             startSDK: {

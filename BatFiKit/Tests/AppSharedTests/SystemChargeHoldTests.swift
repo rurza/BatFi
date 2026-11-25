@@ -1,0 +1,331 @@
+//
+//  SystemChargeHoldTests.swift
+//  BatFi
+//
+//  Measured on 26A5416b, 2026-08-19: with a 60% limit in force the battery sat at 56% on
+//  mains for two hours at exactly 0 mA, `CHNC` bit 24 set the whole time. macOS had drained
+//  to the limit, closed the charge session, and a load heavier than the adapter then pulled
+//  the battery below the limit — after which nothing re-opened the session.
+//
+//  The mode BatFi showed was `.charging` ("Charging to the limit"), because the decision
+//  reads `batteryLevel < limitInForce` and assumes anything below the limit charges. On a
+//  mechanism that owns the charging decision that assumption is false, and BatFi has no
+//  write that can make it true. This rule is the missing input.
+//
+//  The boundary against `SystemChargeDrain` is the whole point: strictly below the limit is
+//  this state, at or above it is that one, and the two must never both claim a battery.
+//
+
+import Foundation
+import Testing
+
+@testable import AppShared
+
+@Suite struct SystemChargeHoldTests {
+    // MARK: - The measured state
+
+    /// The two hours at 56% against a 60% limit, 0 mA, firmware naming its own limit.
+    @Test func aBatteryHeldBelowTheLimitByTheMechanismIsHeld() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 56,
+                limitInForce: 60,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            )
+        )
+    }
+
+    // MARK: - The healthy states this must never claim
+
+    /// The ordinary case, and the one the old level comparison got right: below the limit
+    /// with current going in is charging, whoever started it.
+    @Test func aBatteryChargingBelowTheLimitIsNotHeld() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: true,
+                batteryLevel: 56,
+                limitInForce: 60,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// Sitting *at* the limit not charging is the mechanism working exactly as asked. It is
+    /// already `.inhibit` without this rule, and claiming it here would relabel every
+    /// healthy Mac that has reached its limit.
+    @Test func aBatteryAtTheLimitIsNotHeldBelowIt() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 60,
+                limitInForce: 60,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// Above the limit belongs to `SystemChargeDrain`, which reports the drain macOS runs to
+    /// get down to it. Both rules claiming the same battery would put two contradictory
+    /// sentences behind one mode.
+    @Test func aBatteryAboveTheLimitIsNotHeldBelowIt() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 61,
+                limitInForce: 60,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// Off the charger nothing is being held back — the battery is simply in use. Asked
+    /// explicitly rather than inferred from the attribution, because a stale `CHNC` read
+    /// must not be able to turn an unplugged Mac into a fault.
+    @Test func aBatteryOffTheChargerIsNotHeld() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: false,
+                isCharging: false,
+                batteryLevel: 56,
+                limitInForce: 60,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    // MARK: - Evidence, not assumption
+
+    /// Nil is "not asked", never "nothing is holding" — the same reading `ChargeHoldDrift`
+    /// gives it. Without the firmware naming the hold, a battery below the limit that is not
+    /// charging is indistinguishable from one whose adapter cannot keep up with the load,
+    /// and that state deserves a different answer.
+    @Test func anUnaskedAttributionIsNotEvidenceOfAHold() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 56,
+                limitInForce: 60,
+                holdIsAttributed: nil,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// The firmware was asked and named nothing. Then charge is not being held by the limit,
+    /// and the 0 mA has some other cause.
+    @Test func anUnattributedHoldIsNotThisFault() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 56,
+                limitInForce: 60,
+                holdIsAttributed: false,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// On every Mac where BatFi holds charge with an inhibit of its own, below the limit
+    /// means BatFi has already released it and the firmware charges. If it is not charging
+    /// there, the limit has stopped working — which is `ChargeHoldDrift`'s question, with a
+    /// remedy this state does not share.
+    @Test func aMechanismBatFiDrivesItselfIsNotThisFault() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 56,
+                limitInForce: 60,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: false
+            ) == false
+        )
+    }
+
+    // MARK: - The SMC outranks IOKit on a transition
+
+    // Measured 2026-08-19 16:12:54, comparing BatFi's own menu against `ioreg` at the same
+    // second: the SMC reported 46.2W flowing *into* the battery while `AppleSmartBattery` still
+    // said `Amperage=0`, `IsCharging=false` and `CHNC` bit 24 set. IOKit did not catch up for
+    // ~17s. So on the transition out of a hold, IOKit is stale and the SMC is right — and
+    // without this the menu says "Charging paused by macOS" directly above its own graph showing
+    // 46W going into the battery.
+
+    @Test func chargeFlowingInEndsTheHoldEvenWhileIOKitStillSaysOtherwise() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 74,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: true,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    /// The SMC was asked and says nothing is going in. That is the hold, confirmed by the
+    /// fresher of the two sources rather than merely unrefuted by the staler one.
+    @Test func noChargeFlowingInConfirmsTheHold() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 74,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: false,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            )
+        )
+    }
+
+    /// Nil is "not asked" here too. The SMC read is an XPC round trip, so callers that have not
+    /// paid for one still get the IOKit answer rather than nothing.
+    @Test func anUnaskedSMCLeavesTheIOKitAnswerStanding() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 74,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: false,
+                mechanismOwnsChargingDecision: true
+            )
+        )
+    }
+
+    // MARK: - BatFi's own discharge is not a system hold
+
+    /// "Run on Battery" takes the adapter out of the circuit, and the firmware attributes that
+    /// the same way it attributes a hold — `ChargingDiagnostics.holdsChargeBack` returns true
+    /// for `adapterDisabledCH0I`/`CH0J` on purpose, so that a deliberate discharge is not
+    /// reported as a mechanism that stopped working.
+    ///
+    /// Which makes it indistinguishable here without being told: below the limit, not charging,
+    /// firmware naming a hold. Reporting it would put "Charging paused by macOS" on a discharge
+    /// the user asked for, and — worse — hand `ChargeResumeNudgeMonitor` a run to act on, so
+    /// BatFi would start writing to the charge limit to undo its own discharge.
+    @Test func batFiDischargingOnPurposeIsNotASystemHold() {
+        #expect(
+            SystemChargeHold.isHoldingBelowLimit(
+                chargerConnected: true,
+                isCharging: false,
+                batteryLevel: 70,
+                limitInForce: 75,
+                holdIsAttributed: true,
+                chargeIsFlowingIn: nil,
+                batFiIsDischarging: true,
+                mechanismOwnsChargingDecision: true
+            ) == false
+        )
+    }
+
+    // MARK: - A raised limit powerd has not adopted yet
+
+    private func held(level: Int, applied: Int, enforced: Int?) -> Bool {
+        SystemChargeHold.isHoldingBelowLimit(
+            chargerConnected: true,
+            isCharging: false,
+            batteryLevel: level,
+            limitInForce: applied,
+            holdIsAttributed: true,
+            chargeIsFlowingIn: nil,
+            batFiIsDischarging: false,
+            mechanismOwnsChargingDecision: true,
+            enforcedLimit: enforced
+        )
+    }
+
+    /// Reported from hardware: an inhibit frozen at 77% was resumed, BatFi applied 80, and
+    /// for the ~40 s powerd took to adopt it the battery sat at 77% under the old limit with
+    /// the firmware naming that limit as the hold. That is the old limit doing its job, not
+    /// macOS holding charge below the new one — the menu said "Charging paused by macOS" and
+    /// a banner announced it. The same window opens on any raise of the slider.
+    @Test func aBatteryAtTheLimitPowerdStillEnforcesIsNotHeldBelowARaisedOne() {
+        #expect(held(level: 77, applied: 80, enforced: 77) == false)
+    }
+
+    /// Anywhere between the old limit and the new one is the same window.
+    @Test func aBatteryBetweenTheOldAndTheRaisedLimitIsNotHeld() {
+        #expect(held(level: 82, applied: 85, enforced: 80) == false)
+    }
+
+    /// Below the old limit too. A hold already there before the raise would be re-announced
+    /// with the new limit in its body — a fresh "Charging paused by macOS" banner — while the
+    /// raise is the change in the enforced value that re-opens the charge session.
+    @Test func aBatteryBelowTheOldLimitIsNotHeldWhileARaiseIsAdopted() {
+        #expect(held(level: 75, applied: 80, enforced: 77) == false)
+    }
+
+    /// Once powerd enforces the applied limit, nothing changes from before.
+    @Test func anAdoptedLimitIsJudgedAsBefore() {
+        #expect(held(level: 77, applied: 80, enforced: 80))
+    }
+
+    /// `setMCLLimit:` rounds an off-step value up, so powerd can enforce more than BatFi
+    /// applied for as long as the limit stands. That is not a pending raise, and must not
+    /// switch the rule off below the applied limit.
+    @Test func aLimitPowerdRoundedUpDoesNotHideAHold() {
+        #expect(held(level: 86, applied: 87, enforced: 90))
+    }
+
+    /// No policy, or no readable file, is no evidence: the rule falls back to the applied
+    /// limit, as it did before powerd's policy was read.
+    @Test func anUnreadablePolicyFallsBackToTheAppliedLimit() {
+        #expect(held(level: 77, applied: 80, enforced: nil))
+    }
+
+    // MARK: - Adoption window
+
+    @Test func aRaisePowerdHasNotAdoptedIsAwaitingAdoption() {
+        #expect(SystemChargeHold.isAwaitingAdoption(limitInForce: 80, enforcedLimit: 77))
+    }
+
+    @Test func anAdoptedLimitIsNotAwaitingAdoption() {
+        #expect(SystemChargeHold.isAwaitingAdoption(limitInForce: 80, enforcedLimit: 80) == false)
+    }
+
+    /// A lowered limit, or an off-step one powerd rounded up, leaves powerd above the applied
+    /// value. Neither is a window in which a hold below the limit could be misread.
+    @Test func powerdAboveTheAppliedLimitIsNotAwaitingAdoption() {
+        #expect(SystemChargeHold.isAwaitingAdoption(limitInForce: 87, enforcedLimit: 90) == false)
+    }
+
+    @Test func noPolicyIsNotAwaitingAdoption() {
+        #expect(SystemChargeHold.isAwaitingAdoption(limitInForce: 80, enforcedLimit: nil) == false)
+    }
+}

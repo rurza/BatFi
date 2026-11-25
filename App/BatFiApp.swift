@@ -10,7 +10,7 @@ import AppIntents
 import LetsMove
 import SwiftUI
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     var app: BatFi?
 
     func applicationWillFinishLaunching(_ notification: Notification) {
@@ -37,6 +37,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
         app?.shouldHandleReopen()
         return false
+    }
+
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else { return }
+        app?.handleOpeningURL(url)
     }
 
     @IBAction

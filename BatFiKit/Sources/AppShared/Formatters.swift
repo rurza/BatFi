@@ -22,7 +22,7 @@ public let shortTimeFormatter: DateComponentsFormatter = {
     return formatter
 }()
 
-public let temperatureFormatter: MeasurementFormatter = {
+public nonisolated(unsafe) let temperatureFormatter: MeasurementFormatter = {
     let formatter = MeasurementFormatter()
     formatter.unitStyle = .medium
     let numberFormatter = NumberFormatter()

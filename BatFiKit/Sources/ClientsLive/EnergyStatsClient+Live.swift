@@ -9,8 +9,11 @@ extension EnergyStatsClient: DependencyKey {
     public static var liveValue: EnergyStatsClient {
         let energyStatsLogger = Logger(category: "Energy Stats Client")
 
-        @Sendable 
-        func topCoalitionInfo(threshold: Int, duration: TimeInterval, capacity: Int) -> TopCoalitionInfo? {
+        // The set `AppThrottleClient` passes: BatFi, release or beta, gets neither action.
+        let ownBundleIDs = Set([Constant.appBundleIdentifier, Bundle.main.bundleIdentifier].compactMap { $0 })
+
+        @Sendable
+        func topCoalitionInfo(threshold: Int, duration: TimeInterval, capacity: Int) async -> TopCoalitionInfo? {
             guard let systemstats_get_top_coalitions = Private.systemstats_get_top_coalitions else {
                 energyStatsLogger.notice("No top coalitions info.")
                 return nil
@@ -25,21 +28,35 @@ extension EnergyStatsClient: DependencyKey {
                 energyStatsLogger.notice("Top coalition dictionary is empty.")
                 return nil
             }
-            var topCoalitions = [Coalition]()
+            var listed = [(bundleIdentifier: String, energyImpact: Double)]()
             for (index, bundleIdentifier) in bundleIdentifiers.enumerated() {
-                guard topCoalitions.count < capacity else {
-                    break
-                }
                 let energyImpact = energyImpacts[index] / Double(duration)
                 guard energyImpact >= Double(threshold) else {
                     break
                 }
                 let bundleIdentifier = bundleIdentifier == "REDACTED" ? "<private>" : bundleIdentifier
+                listed.append((bundleIdentifier, energyImpact))
+            }
+            // One trip to the main actor for the whole list.
+            let running = await MainActor.run {
+                Dictionary(
+                    listed.map { ($0.bundleIdentifier, RunningInstances(bundleIdentifier: $0.bundleIdentifier)) },
+                    uniquingKeysWith: { first, _ in first }
+                )
+            }
+            var topCoalitions = [Coalition]()
+            for (bundleIdentifier, energyImpact) in listed {
+                let instances = running[bundleIdentifier] ?? .notRunning
+                // The copy that is running where one is, as `AppThrottleClient` judges it.
+                let bundleURL = instances.bundleURL
+                    ?? NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier)
                 var icon: NSImage?
                 var displayName: String?
-                if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier) {
+                var infoDictionary: [String: Any]?
+                if let url = bundleURL {
                     icon = NSWorkspace.shared.icon(forFile: url.path(percentEncoded: false))
                     if let bundle = Bundle(url: url) {
+                        infoDictionary = bundle.infoDictionary
                         displayName = (
                             bundle.localizedInfoDictionary?["CFBundleDisplayName"] as? String ??
                                 bundle.infoDictionary?["CFBundleDisplayName"] as? String ??
@@ -48,10 +65,31 @@ extension EnergyStatsClient: DependencyKey {
                         )
                     }
                 }
-                let coalition = Coalition(bundleIdentifier: bundleIdentifier, energyImpact: energyImpact, icon: icon, displayName: displayName)
+                let eligible = ThrottleEligibility.canOfferActions(
+                    bundleID: bundleIdentifier,
+                    bundleURL: bundleURL,
+                    ownBundleIDs: ownBundleIDs
+                )
+                let coalition = Coalition(
+                    bundleIdentifier: bundleIdentifier,
+                    energyImpact: energyImpact,
+                    icon: icon,
+                    displayName: displayName,
+                    bundleURL: bundleURL,
+                    isRunning: instances.isRunning,
+                    canOfferActions: eligible,
+                    canSlowDown: ThrottleEligibility.canSlowDown(
+                        eligible: eligible,
+                        isRunning: instances.isRunning,
+                        isRegular: instances.isRegular,
+                        declaresNoDockIcon: ThrottleEligibility.declaresNoDockIcon(infoDictionary)
+                    )
+                )
                 topCoalitions.append(coalition)
             }
             return TopCoalitionInfo(topCoalitions: topCoalitions)
+                .droppingQuitApps()
+                .prioritizingSlowable(capacity: capacity)
         }
 
         @Sendable 
@@ -89,7 +127,7 @@ extension EnergyStatsClient: DependencyKey {
                     let task = Task {
                         var prevInfo: TopCoalitionInfo?
                         while !Task.isCancelled {
-                            if let info = topCoalitionInfo(threshold: threshold, duration: duration, capacity: capacity),
+                            if let info = await topCoalitionInfo(threshold: threshold, duration: duration, capacity: capacity),
                                info != prevInfo
                             {
                                 energyStatsLogger.notice("New top coalition info: \(info, privacy: .public)")
@@ -125,6 +163,35 @@ extension EnergyStatsClient: DependencyKey {
             }
         )
         return client
+    }
+}
+
+/// What is running of one app in the high-energy list.
+private struct RunningInstances: Sendable {
+    static let notRunning = RunningInstances(isRunning: false, isRegular: false, bundleURL: nil)
+
+    /// Whether any instance is running.
+    let isRunning: Bool
+    /// Whether any running instance has a Dock icon.
+    let isRegular: Bool
+    /// Where a running instance's bundle is.
+    let bundleURL: URL?
+
+    private init(isRunning: Bool, isRegular: Bool, bundleURL: URL?) {
+        self.isRunning = isRunning
+        self.isRegular = isRegular
+        self.bundleURL = bundleURL
+    }
+
+    @MainActor
+    init(bundleIdentifier: String) {
+        let instances = NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier)
+            .filter { !$0.isTerminated }
+        self.init(
+            isRunning: !instances.isEmpty,
+            isRegular: instances.contains { $0.activationPolicy == .regular },
+            bundleURL: instances.lazy.compactMap(\.bundleURL).first
+        )
     }
 }
 

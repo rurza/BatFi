@@ -11,18 +11,34 @@ import Dependencies
 import L10n
 import ServiceManagement
 import SettingsKit
+import Shared
 import SharedUI
 import SwiftUI
 
 struct GeneralView: View {
     @State private var automaticallyDownloadsUpdates: Bool = false
 
+    /// What the helper reports about charge control on this Mac. Read-only here — the
+    /// Charging pane keeps its own copy because it drives live decisions there (the
+    /// slider's floor, which disclosures the help button carries). This one only prints
+    /// two lines for a bug report, so it is fetched once and never refreshed.
+    @State private var diagnostics: ChargingDiagnostics?
+
     @Default(.sendAnalytics) private var sendAnalytics
     @Default(.launchAtLogin) private var launchAtLogin
     @Default(.downloadBetaVersion) private var checkForBetaUpdates
+    @Default(.showDebugMenu) private var showDebugMenu
+
+    // Read only to build `ChargeControlFacts` below, which is what keeps the "Charging
+    // control" row honest about whether BatFi is actually doing anything.
+    @Default(.manageCharging) private var manageCharging
+    @Default(.chargeLimit) private var chargeLimit
+    @Default(.temperatureSwitch) private var turnOffChargingWhenBatteryIsHot
+    @Default(.turnOnInhibitingChargingWhenGoingToSleep) private var inhibitChargingOnSleep
 
     @Dependency(\.featureFlags) private var featureFlags
     @Dependency(\.updater) private var updater
+    @Dependency(\.chargingClient) private var chargingClient
 
     @Environment(\.openURL) private var openURL
 
@@ -31,7 +47,7 @@ struct GeneralView: View {
         Container(contentWidth: settingsContentWidth) {
             Section(title: l10n.Section.general) {
                 Toggle(l10n.Button.Label.launchAtLogin, isOn: $launchAtLogin)
-                    .onChange(of: launchAtLogin) { newValue in
+                    .onChange(of: launchAtLogin) { _, newValue in
                         if newValue {
                             try? SMAppService.mainApp.register()
                         } else {
@@ -41,17 +57,23 @@ struct GeneralView: View {
             }
             Section(title: l10n.Section.updates, bottomDivider: true) {
                 Toggle(l10n.Button.Label.automaticallyDownloadUpdates, isOn: $automaticallyDownloadsUpdates)
-                    .onChange(of: automaticallyDownloadsUpdates) { newValue in
+                    .onChange(of: automaticallyDownloadsUpdates) { _, newValue in
                         updater.setAutomaticallyDownloadsUpdates(newValue)
                     }
                 Toggle(l10n.Button.Label.checkForBetaUpdates, isOn: $checkForBetaUpdates)
-                    .onChange(of: checkForBetaUpdates) { checkForBetaUpdates in
+                    .onChange(of: checkForBetaUpdates) { _, checkForBetaUpdates in
                         if checkForBetaUpdates {
                             updater.checkForUpdates()
                         }
                     }
             }
-            Section(title: l10n.Section.other, bottomDivider: true) {
+            // Diagnostics shares this section rather than holding one of its own. It is
+            // bug-report material, which is the same errand as the crash-report toggle
+            // above it, and the card carries its own boundary now — a second titled
+            // section only bought a heading the card does not need. (It lives in this pane
+            // rather than in Charging, where it started, for the same reason: it is not
+            // something to read while setting a limit.)
+            Section(title: l10n.Section.other) {
                 VStack(alignment: .leading) {
                     if featureFlags.isUsingBetaVersion() {
                         Toggle(l10n.Button.Label.sendAnalytics, isOn: .constant(true))
@@ -61,9 +83,114 @@ struct GeneralView: View {
                         Toggle(l10n.Button.Label.sendAnalytics, isOn: $sendAnalytics)
                     }
                 }
+                // Here since the Advanced pane went: like the two around it, it is for
+                // chasing a problem rather than for everyday use.
+                Toggle(l10n.Button.Label.debugMenu, isOn: $showDebugMenu)
+                diagnosticsContent
+                    .padding(.top, 6)
             }
-        }.onAppear {
+        }
+        .onAppear {
             automaticallyDownloadsUpdates = updater.automaticallyDownloadsUpdates()
+        }
+        .task {
+            // A failed fetch leaves `nil` in place, which renders as "Unknown" rather than
+            // asserting something false about this Mac.
+            if let fresh = try? await chargingClient.chargingDiagnostics() {
+                diagnostics = fresh
+            }
+        }
+    }
+
+    /// The two facts, in a card of their own — the same `GroupBackground` the Charging and
+    /// Hotkeys panes use. These are read-only reference material, not controls, so they
+    /// read as one block instead of two loose lines with the value stranded against the
+    /// window's right edge, which is what a full-width row and a `Spacer` gave.
+    ///
+    /// A `Grid` rather than stacked `HStack`s: it lines the values up in a column across
+    /// rows, and it sizes to its content, so the card is as wide as the facts it holds
+    /// rather than as wide as the pane.
+    @ViewBuilder
+    private var diagnosticsContent: some View {
+        let l10n = L10n.Settings.Label.self
+        GroupBackground {
+            Grid(alignment: .leadingFirstTextBaseline, horizontalSpacing: 24, verticalSpacing: 10) {
+                diagnosticsRow(
+                    label: l10n.diagnosticsChargingControl,
+                    value: chargingControlDescription
+                )
+                // Unsized horizontally, or the divider proposes an infinite width and the
+                // card stretches to the full pane again.
+                Divider().gridCellUnsizedAxes(.horizontal)
+                diagnosticsRow(
+                    label: l10n.diagnosticsFirmware,
+                    value: diagnostics?.firmwareVersion ?? l10n.diagnosticsFirmwareUnknown
+                )
+            }
+            // Both values, not just the firmware string. The whole point of the card is
+            // that it can be selected and pasted into a bug report.
+            .textSelection(.enabled)
+            .padding()
+        }
+    }
+
+    private func diagnosticsRow(label: String, value: String) -> some View {
+        GridRow {
+            Text(label)
+            Text(value)
+                .foregroundColor(.secondary)
+                // A long localized value wraps inside the card instead of truncating.
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    /// Everything known about charge control, in one value — the same construction the
+    /// Charging pane makes, from the same defaults, so the two panes cannot disagree about
+    /// what this Mac is doing.
+    private var facts: ChargeControlFacts {
+        ChargeControlFacts(
+            diagnostics: diagnostics,
+            manageCharging: manageCharging,
+            configuredChargeLimit: chargeLimit,
+            hotBatteryProtectionEnabled: turnOffChargingWhenBatteryIsHot,
+            pauseChargingOnSleepEnabled: inhibitChargingOnSleep
+        )
+    }
+
+    /// User-facing summary of the resolved backend. `.chte`, `.legacyCH0BC` and
+    /// `.firmwareRange` all read as "Active" — the mechanism only matters for a bug
+    /// report, and the firmware row below disambiguates it unambiguously. What the user
+    /// needs from this line is whether their own limit is being honoured, and all three
+    /// honour it exactly, below 80% included; `.systemChargeLimit` is called out
+    /// separately because it is the one that cannot. Exhaustive over `ChargeBackend` so a
+    /// future case fails to compile here rather than silently falling into another branch.
+    private var chargingControlDescription: String {
+        let l10n = L10n.Settings.Label.self
+        // Read off `facts`, not off the backend alone. The backend says what this Mac's
+        // firmware *can* do, and that is not the same question: with charge management
+        // switched off, or when the helper refused to snapshot the user's System Settings
+        // limit and is therefore applying nothing, the hardware is still perfectly capable
+        // while BatFi is doing nothing with it. Both of those used to read "Active".
+        guard let backend = facts.backend else {
+            return l10n.diagnosticsChargingControlUnknown
+        }
+        guard facts.manageCharging else {
+            // Resolved, and not in use. `.unsupported` still reports itself, since there is
+            // nothing to be idle about.
+            return backend == .unsupported
+                ? l10n.diagnosticsChargingControlUnavailable
+                : l10n.diagnosticsChargingControlIdle
+        }
+        if facts.systemLimitSnapshotRefused, backend == .systemChargeLimit {
+            return l10n.diagnosticsChargingControlUnavailable
+        }
+        switch backend {
+        case .unsupported:
+            return l10n.diagnosticsChargingControlUnavailable
+        case .firmwareRange, .chte, .legacyCH0BC:
+            return l10n.diagnosticsChargingControlActive
+        case .systemChargeLimit:
+            return l10n.diagnosticsChargingControlSystemChargeLimit
         }
     }
 

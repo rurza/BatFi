@@ -14,8 +14,8 @@ import Shared
 import UserNotifications
 
 extension UserNotificationsClient: DependencyKey {
-    public static var liveValue: UserNotificationsClient = {
-        let center = UNUserNotificationCenter.current()
+    nonisolated(unsafe) public static var liveValue: UserNotificationsClient = {
+        nonisolated(unsafe) let center = UNUserNotificationCenter.current()
         let logger = Logger(category: "User Notifications Client")
 
         return UserNotificationsClient(
@@ -38,8 +38,23 @@ extension UserNotificationsClient: DependencyKey {
                 }
 
                 content.interruptionLevel = .active // to show the notification
+                // Unique per notification, with the caller's identifier kept as the prefix so
+                // the logs stay readable.
+                //
+                // A reused identifier makes the new notification *replace* the delivered one
+                // rather than arrive as a new one, and a replacement updates the entry in
+                // Notification Center instead of presenting a banner. These report in-app
+                // events — a charging mode change, a power mode change, a battery warning —
+                // where each occurrence is its own event and has to be able to announce
+                // itself. `threadIdentifier` is what groups them, and it is passed separately.
+                //
+                // Keep the `identifier.` prefix form: the trial notices are matched on it
+                // afterwards — the click handler and the removal of delivered notices in
+                // `NotificationsManager` both test `hasPrefix` on the caller's identifier. (The
+                // update notification is matched too, but `Updater+Live` posts it to the
+                // centre directly rather than through here.)
                 let request = UNNotificationRequest(
-                    identifier: identifier,
+                    identifier: "\(identifier).\(UUID().uuidString)",
                     content: content,
                     trigger: trigger
                 )

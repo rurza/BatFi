@@ -6,18 +6,21 @@
 //
 
 import AppKit
+import AppShared
 import Clients
 import Dependencies
 
 extension DockIconClient: DependencyKey {
-    public static var liveValue: DockIconClient = {
+    nonisolated(unsafe) public static var liveValue: DockIconClient = {
         .init(
-            show: { @MainActor show in
-                if show {
-                    NSApp.setActivationPolicy(.regular)
-                    NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
-                } else {
-                    NSApp.setActivationPolicy(.accessory)
+            show: { show in
+                DispatchQueue.main.async {
+                    if show {
+                        NSApp.setActivationPolicy(.regular)
+                        activateApp()
+                    } else {
+                        NSApp.setActivationPolicy(.accessory)
+                    }
                 }
             }
         )

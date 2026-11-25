@@ -1,9 +1,10 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 6.2
 
 import PackageDescription
 
 extension Target.Dependency {
     static let aboutKit: Self = .product(name: "AboutKit", package: "AboutKit")
+    static let appCore: Self = "AppCore"
     static let appShared: Self = "AppShared"
     static let asyncAlgorithms: Self = .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
     static let asyncXPCConnection: Self = .product(name: "AsyncXPCConnection", package: "AsyncXPCConnection")
@@ -16,11 +17,13 @@ extension Target.Dependency {
     static let embeddedPropertyList: Self = .product(name: "EmbeddedPropertyList", package: "EmbeddedPropertyList")
     static let highEnergyUsage: Self = "HighEnergyUsage"
     static let identifiedCollections: Self = .product(name: "IdentifiedCollections", package: "swift-identified-collections")
-    static let jwt: Self = .product(name: "SwiftJWT", package: "Swift-JWT")
     static let keyboardShortcuts: Self = .product(name: "KeyboardShortcuts", package: "KeyboardShortcuts")
     static let l10n: Self = "L10n"
+    static let license: Self = "License"
+    static let licenseToken: Self = "LicenseToken"
     static let menuBuilder: Self = .product(name: "MenuBuilder", package: "MenuBuilder")
     static let persistence: Self = "Persistence"
+    static let pow: Self = .product(name: "Pow", package: "Pow")
     static let powerCharts: Self = "PowerCharts"
     static let powerDistributionInfo: Self = "PowerDistributionInfo"
     static let sentry: Self = .product(name: "Sentry", package: "sentry-cocoa")
@@ -28,7 +31,6 @@ extension Target.Dependency {
     static let settingsKit: Self = .product(name: "SettingsKit", package: "SettingsKit")
     static let shared: Self = "Shared"
     static let sharedUI: Self = "SharedUI"
-    static let snapKit: Self = .product(name: "SnapKit", package: "SnapKit")
     static let sparkle: Self = .product(name: "Sparkle", package: "Sparkle")
     static let statusItemArrowKit: Self = .product(name: "StatusItemArrowKit", package: "StatusItemArrowKit")
 }
@@ -36,7 +38,7 @@ extension Target.Dependency {
 let package = Package(
     name: "BatFiKit",
     defaultLocalization: "en",
-    platforms: [.macOS(.v13)],
+    platforms: [.macOS(.v14)],
     products: [
         .library(name: "App", targets: ["App"]),
         .library(name: "AppCore", targets: ["AppCore"]),
@@ -59,16 +61,15 @@ let package = Package(
         .package(url: "https://github.com/rurza/AboutKit.git", branch: "main"),
         .package(url: "https://github.com/sindresorhus/Defaults", branch: "main"),
         .package(url: "https://github.com/j-f1/MenuBuilder", from: "3.0.0"),
-        .package(url: "https://github.com/apple/swift-async-algorithms", from: "0.1.0"),
-        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.6.3"),
-        .package(url: "https://github.com/SnapKit/SnapKit", branch: "main"),
+        .package(url: "https://github.com/apple/swift-async-algorithms", from: "1.0.4"),
+        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.9.5"),
         .package(url: "https://github.com/rurza/StatusItemArrowKit.git", branch: "main"),
         .package(url: "https://github.com/simibac/ConfettiSwiftUI", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
         .package(url: "https://github.com/getsentry/sentry-cocoa", from: "8.25.0"),
         .package(url: "https://github.com/ChimeHQ/AsyncXPCConnection", from: "1.1.0"),
         .package(url: "https://github.com/rurza/KeyboardShortcuts", branch: "main"),
-        .package(url: "https://github.com/Kitura/Swift-JWT", from: "4.0.0")
+        .package(url: "https://github.com/EmergeTools/Pow", from: "1.0.6")
     ],
     targets: [
         .target(
@@ -78,13 +79,15 @@ let package = Package(
                 .appShared,
                 .l10n,
                 .sharedUI,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "App",
             dependencies: [
                 "About",
-                "AppCore",
+                .appCore,
+                .appShared,
                 "BatteryIndicator",
                 "BatteryInfo",
                 "ClientsLive",
@@ -94,10 +97,12 @@ let package = Package(
                 .defaultsKeys,
                 .keyboardShortcuts,
                 .l10n,
+                .license,
                 .menuBuilder,
                 .settings,
                 .statusItemArrowKit,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "AppCore", dependencies: [
             .appShared,
@@ -105,6 +110,7 @@ let package = Package(
             "BatteryInfo",
             "BatteryIndicator",
             .clients,
+            .confetti,
             .defaultsKeys,
             .dependencies,
             .highEnergyUsage,
@@ -114,25 +120,29 @@ let package = Package(
             .powerDistributionInfo,
             .settings,
             .shared,
-            .snapKit,
-        ]),
-        .target(name: "AppShared", dependencies: [.l10n]),
-        .target(name: "Shared"),
+            .sharedUI,
+        ], swiftSettings: swiftV6LanguageMode()),
+        .target(name: "AppShared", dependencies: [.l10n, .shared], swiftSettings: swiftV6LanguageMode()),
+        .target(name: "Shared", swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "BatteryIndicator",
             dependencies: [
                 .appShared,
                 .asyncAlgorithms,
                 .clients,
-            ]
+                .defaultsKeys,
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "BatteryInfo", dependencies: [
             .appShared,
             .asyncAlgorithms,
             .clients,
+            .defaultsKeys,
             .dependencies,
             .l10n,
-        ]),
+            .sharedUI,
+        ], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "Clients",
             dependencies: [
@@ -141,7 +151,8 @@ let package = Package(
                 .dependencies,
                 .dependenciesMacros,
                 .shared,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "ClientsLive",
@@ -153,14 +164,19 @@ let package = Package(
                 .defaults,
                 .defaultsKeys,
                 .dependencies,
-                .jwt,
+                .l10n,
+                .licenseToken,
                 .persistence,
                 .sentry,
                 .shared,
                 .sparkle,
-            ]
+            ],
+            resources: [
+                .copy("key.der")
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
-        .target(name: "DefaultsKeys", dependencies: [.defaults]),
+        .target(name: "DefaultsKeys", dependencies: [.appShared, .defaults, .shared], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "HighEnergyUsage",
             dependencies: [
@@ -172,7 +188,9 @@ let package = Package(
                 .defaultsKeys,
                 .l10n,
                 .shared,
-            ]
+                .sharedUI,
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "Notifications",
@@ -183,22 +201,42 @@ let package = Package(
                 .defaultsKeys,
                 .dependencies,
                 .l10n,
-            ]
+                .shared,
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
-            name: "L10n"
+            name: "L10n",
+            swiftSettings: swiftV6LanguageMode()
         ),
+        .target(
+            name: "License",
+            dependencies: [
+                .appShared,
+                .clients,
+                .confetti,
+                .shared,
+                .sharedUI,
+            ],
+            swiftSettings: swiftV6LanguageMode()
+        ),
+        .target(name: "LicenseToken", swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "Onboarding",
             dependencies: [
+                .appCore,
                 .appShared,
                 .clients,
                 .confetti,
                 .defaults,
                 .defaultsKeys,
                 .l10n,
+                .license,
+                .pow,
+                .shared,
                 .sharedUI,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "Persistence",
@@ -206,7 +244,8 @@ let package = Package(
                 .appShared,
                 .dependencies,
                 .shared,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(
             name: "PowerCharts",
@@ -217,7 +256,8 @@ let package = Package(
                 .l10n,
                 .persistence,
                 .identifiedCollections,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
         .target(name: "PowerDistributionInfo", dependencies: [
             .appShared,
@@ -225,28 +265,55 @@ let package = Package(
             .dependencies,
             .l10n,
             .shared,
-        ]),
+        ], swiftSettings: swiftV6LanguageMode()),
         .target(name: "Server", dependencies: [
-            .asyncXPCConnection,
-            .defaults,
-            .defaultsKeys,
             .embeddedPropertyList,
             .sentry,
             .shared,
-        ]),
+        ], swiftSettings: swiftV6LanguageMode()),
         .target(
             name: "Settings",
             dependencies: [
                 .appShared,
                 .clients,
+                .confetti,
                 .defaultsKeys,
                 .dependencies,
                 .keyboardShortcuts,
                 .l10n,
+                .license,
                 .settingsKit,
+                .shared,
                 .sharedUI,
-            ]
+            ],
+            swiftSettings: swiftV6LanguageMode()
         ),
-        .target(name: "SharedUI"),
+        .target(name: "SharedUI", dependencies: [.appShared], swiftSettings: swiftV6LanguageMode()),
+        .testTarget(
+            name: "AppSharedTests",
+            dependencies: [.appShared, .asyncAlgorithms, .defaults, .defaultsKeys, .shared, .l10n],
+            swiftSettings: swiftV6LanguageMode()
+        ),
+        .testTarget(
+            name: "LicenseTokenTests",
+            dependencies: [.licenseToken],
+            resources: [.copy("Fixtures")],
+            swiftSettings: swiftV6LanguageMode()
+        ),
     ]
 )
+
+func swiftV5LanguageMode() -> [SwiftSetting] {
+    return [
+        .swiftLanguageMode(.v5)
+    ]
+}
+
+func swiftV6LanguageMode() -> [SwiftSetting] {
+    return [
+        .swiftLanguageMode(.v6),
+//        .defaultIsolation(MainActor.self),
+//        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+//        .enableUpcomingFeature("InferIsolatedConformances")
+    ]
+}

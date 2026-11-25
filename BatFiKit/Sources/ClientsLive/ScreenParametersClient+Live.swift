@@ -14,22 +14,35 @@ import Shared
 extension ScreenParametersClient: DependencyKey {
     public static let liveValue: ScreenParametersClient = {
         let logger = Logger(category: "📺")
-        var numberOfScreens = NSScreen.screens.count
+        let screenCounter = ScreenCounter()
         let client = ScreenParametersClient(
             screenDidChangeParameters: {
-                NotificationCenter
-                    .default
-                    .notifications(named: NSApplication.didChangeScreenParametersNotification)
-                    .filter { _ in
-                        numberOfScreens != NSScreen.screens.count
+                AsyncStream { continuation in
+                    let task = Task {
+                        for await note in NotificationCenter.default.notifications(named: NSApplication.didChangeScreenParametersNotification) {
+                            let currentCount = await MainActor.run { NSScreen.screens.count }
+                            let previousCount = await screenCounter.count
+                            if currentCount != previousCount {
+                                await screenCounter.setCount(currentCount)
+                                logger.debug("\(NSApplication.didChangeScreenParametersNotification.rawValue)")
+                                continuation.yield()
+                            }
+                        }
                     }
-                    .map { _ in
-                        numberOfScreens = NSScreen.screens.count
-                        logger.debug("\(NSApplication.didChangeScreenParametersNotification.rawValue)")
+                    continuation.onTermination = { _ in
+                        task.cancel()
                     }
-                    .eraseToStream()
+                }
             }
         )
         return client
     }()
+}
+
+private actor ScreenCounter {
+    var count: Int = NSScreen.screens.count
+
+    func setCount(_ newCount: Int) {
+        count = newCount
+    }
 }

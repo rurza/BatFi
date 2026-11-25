@@ -45,7 +45,11 @@ struct NotificationsView: View {
                         min: 5,
                         max: 30,
                         step: 5,
-                        value: .convert(from: $batteryLowNotificationThreshold)
+                        value: .convert(from: $batteryLowNotificationThreshold),
+                        accessibility: (
+                            l10n.Label.batteryLowThresholdAccessibilityLabel,
+                            chargeLimitPercentageLabel(batteryLowNotificationThreshold)
+                        )
                     )
                     .disabled(!showBatteryLowNotification)
                     .frame(width: 180)
@@ -53,6 +57,9 @@ struct NotificationsView: View {
             }
 
             Section(title: l10n.Section.magSafe, bottomDivider: false) {
+                // A plain toggle, and it stays one. This fires on BatFi's own
+                // `.forceDischarge` mode, written through `CHIE` — a key that survives on
+                // firmware where charge limiting is gone — so no backend takes it away.
                 Toggle(isOn: $blinkMagSafeWhenDischarging) {
                     Text(l10n.Button.Label.blinkMagSafeWhenDischarging)
                 }

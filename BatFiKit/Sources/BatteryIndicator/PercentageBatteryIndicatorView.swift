@@ -5,11 +5,15 @@
 //  Created by Adam on 18/05/2023.
 //
 
+import Clients
+import Dependencies
 import SwiftUI
 
 struct PercentageBatteryIndicatorView: View {
     @ObservedObject var model: BatteryIndicatorViewModel
     let height: Double
+    @Dependency(\.powerModeClient) private var powerModeClient
+    @State private var lowPowerMode = false
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -18,8 +22,13 @@ struct PercentageBatteryIndicatorView: View {
                     .foregroundStyle(.primary)
                     .opacity(secondaryOpacity)
                 Rectangle()
+                    // Nothing filled before the first reading — see
+                    // `BasicBatteryIndicatorView`, which had the same defect: a default
+                    // `batteryLevel` of 0 drew an empty bar and coloured it red.
                     .frame(
-                        width: (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                        width: model.hasReading
+                            ? (Double(model.batteryLevel) / 100) * (innerProxy.size.width)
+                            : 0
                     )
                     .transition(.opacity)
                     .id(model.chargingMode)
@@ -41,14 +50,22 @@ struct PercentageBatteryIndicatorView: View {
                     PercentageLabel(model: model, height: height)
                 }
             }
+            .task {
+                for await powerMode in powerModeClient.observePowerMode() {
+                    lowPowerMode = powerMode == .low
+                }
+            }
         }
     }
 
     var fillColor: Color {
+        guard !lowPowerMode else {
+            return Color.yellow
+        }
         guard !model.monochrome else {
             return Color.primary
         }
-        guard model.batteryLevel > 10 else {
+        guard !model.hasReading || model.batteryLevel > 10 else {
             return .red
         }
         switch model.chargingMode {

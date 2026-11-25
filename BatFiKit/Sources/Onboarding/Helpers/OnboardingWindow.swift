@@ -5,15 +5,17 @@
 //  Created by Adam on 01/06/2023.
 //
 
+import AppCore
 import Cocoa
 import Defaults
+import License
 import SwiftUI
 
 public class OnboardingWindow: NSWindow {
     private let onClose: () -> Void
 
-    public init(_ installHelper: @escaping () -> Void, onClose: @escaping () -> Void) {
-        let vc = NSHostingController(rootView: Onboarding(didInstallHelper: installHelper))
+    public init(licenseModel: LicenseModel, unlockModel: UnlockModel, installHelper: @escaping () -> Void, onClose: @escaping () -> Void) {
+        let vc = NSHostingController(rootView: Onboarding(licenseModel: licenseModel, unlockModel: unlockModel, didInstallHelper: installHelper))
         vc.sizingOptions = [.preferredContentSize]
         let windowMask: NSWindow.StyleMask
         if Defaults[.onboardingIsDone] {

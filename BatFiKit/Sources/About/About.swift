@@ -7,8 +7,10 @@
 
 import AboutKit
 import AppKit
+import AppShared
 import L10n
 
+@MainActor
 public func presentAboutWindow() -> NSWindow {
     let about = AboutWindow(
         description: L10n.About.Label.aboutDescription,
@@ -17,6 +19,6 @@ public func presentAboutWindow() -> NSWindow {
         }
     )
     about.orderFrontRegardless()
-    NSRunningApplication.current.activate(options: .activateIgnoringOtherApps)
+    activateApp()
     return about
 }

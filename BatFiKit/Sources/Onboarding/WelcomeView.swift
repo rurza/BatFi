@@ -28,11 +28,3 @@ struct WelcomeView: View {
         .padding(20)
     }
 }
-
-struct WelcomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        WelcomeView()
-            .frame(width: 420, height: 600)
-            .preferredColorScheme(.dark)
-    }
-}

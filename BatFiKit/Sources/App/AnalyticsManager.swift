@@ -8,13 +8,20 @@
 import Dependencies
 import Clients
 
-final class AnalyticsManager {
+final class AnalyticsManager: @unchecked Sendable {
     @Dependency(\.defaults) private var defaults
     @Dependency(\.analyticsClient) private var analyticsClient
     private var analyticsEnabled = false
 
-    func start(shouldEnable: Bool) {
-        startAnalyticsIfNeeded(shouldEnable)
+    func start(isBeta: Bool) {
+        // Beta builds always send, and Settings shows the toggle locked on. Observing the
+        // preference there would close the SDK again on its initial value, which is `false`
+        // for anyone who never touched the toggle.
+        if isBeta {
+            startAnalyticsIfNeeded(true)
+            return
+        }
+        startAnalyticsIfNeeded(defaults.value(.sendAnalytics))
         setUpObserving()
     }
 

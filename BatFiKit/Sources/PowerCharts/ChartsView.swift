@@ -27,17 +27,17 @@ public struct ChartsView: View {
                 .padding(.bottom, 6)
             if model.powerStatePoints.count > 1 {
                 Chart(model.powerStatePoints) {
-                    let offsetDate = model.offsetDateFor($0)
+                    let markRange = model.markRange(for: $0)
                     LineMark(
-                        x: .value("Time", $0.timestamp ..< offsetDate),
+                        x: .value("Time", markRange),
                         y: .value("Battery Level", $0.batteryLevel)
                     )
                     .foregroundStyle(Color(.appGreen))
 
                     if $0.appChargingMode.chargerConnected, $0.isCharging {
                         RectangleMark(
-                            xStart: .value("Time", $0.timestamp),
-                            xEnd: .value("Time", offsetDate),
+                            xStart: .value("Time", markRange.lowerBound),
+                            xEnd: .value("Time", markRange.upperBound),
                             yStart: .value("Battery Level", 0),
                             yEnd: .value("Battery Level", 100)
                         )
@@ -45,8 +45,8 @@ public struct ChartsView: View {
                         .opacity(0.2)
                     } else if $0.appChargingMode.chargerConnected, !$0.isCharging {
                         RectangleMark(
-                            xStart: .value("Time", $0.timestamp),
-                            xEnd: .value("Time", offsetDate),
+                            xStart: .value("Time", markRange.lowerBound),
+                            xEnd: .value("Time", markRange.upperBound),
                             yStart: .value("Battery Level", 0),
                             yEnd: .value("Battery Level", 100)
                         )

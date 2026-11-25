@@ -2,6 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>software.micropixels.BatFi</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>batfi</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>BatFi uses your location to run charging automation rules that depend on where your Mac is.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>BatFi uses your location to run charging automation rules that depend on where your Mac is.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>BatFi uses your location to run charging automation rules that depend on where your Mac is.</string>
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>software.micropixels.BatFi.Helper</key>

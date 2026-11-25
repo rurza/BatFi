@@ -1,6 +1,43 @@
+// After adding or changing a string in this module, run scripts/sync-localizable-strings
+// and commit the catalog it writes. Don't hand-set extractionState or mark keys manual.
+
 import Foundation
 
 public enum L10n {
+    /// Strings that aren't tied to one screen.
+    public enum Common {
+        /// OK
+        ///
+        /// Dismisses an alert. Lives here rather than being written inline as `Button("OK")`:
+        /// a bare literal in a package is a `LocalizedStringKey` resolved against `Bundle.main`,
+        /// so it never reaches this module's catalog and always renders in English.
+        public static let ok = String(localized: "common.button.label.ok", defaultValue: "OK", bundle: Bundle.module)
+
+        /// Unknown Error
+        ///
+        /// Fallback body for an alert whose error carries no description of its own.
+        public static let unknownError = String(localized: "common.label.unknown_error", defaultValue: "Unknown Error", bundle: Bundle.module)
+    }
+
+    public enum Updater {
+        public enum Notification {
+            /// A new update is available
+            public static let updateAvailable = String(localized: "updater.notification.title.update_available", defaultValue: "A new update is available", bundle: Bundle.module)
+
+            /// Version %@ is now available
+            public static func updateAvailableBody(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "updater.notification.body.update_available",
+                        defaultValue: "Version %@ is now available",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+        }
+    }
+
     public enum About {
         public enum Button {
             public enum Label {
@@ -52,6 +89,67 @@ public enum L10n {
                     )
                 }
 
+                /// It charges to 100% now and then to keep its battery reading accurate. Your %@ limit applies again afterwards.
+                ///
+                /// Reached in the menu, where the title above is all a user sees, and in the
+                /// mode-change notification, where it is the body. The reassurance is the
+                /// point: without "applies again afterwards" the only reading available to
+                /// someone who set 75% and is looking at 100% is that BatFi stopped working,
+                /// which is what they report.
+                ///
+                /// The title names the calibration; this sentence says what that means in
+                /// terms the user can see — macOS charging past their limit to 100% — and
+                /// why it does so, then that the limit returns. "It" is macOS, the actor
+                /// the title names.
+                public static func systemChargingPastLimit(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.description.system_charging_past_limit",
+                            // `100%%`, not `100%` — see `systemChargeLimitRaised`. Unescaped,
+                            // `% n` reads as a conversion.
+                            defaultValue: "It charges to 100%% now and then to keep its battery reading accurate. Your %@ limit applies again afterwards.",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
+
+                /// Charged to 100% as you asked. Your %@ limit takes over once the charger is unplugged.
+                ///
+                /// The first half credits the request so a battery sitting at 100% over a 70%
+                /// limit does not read as the limit having failed; the second says where the
+                /// limit went. Before this, BatFi answered that question by draining the
+                /// battery back down within seconds of reaching full — the bug this state
+                /// exists to end — so the sentence has to make plain that the limit is still
+                /// there and simply waiting for the charger to come out.
+                public static func holdingFullChargeUntilUnplugged(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.description.holding_full_charge_until_unplugged",
+                            // `100%%`, not `100%` — see `systemChargeLimitRaised`. Unescaped,
+                            // `% a` reads as a conversion and swallows the limit.
+                            defaultValue: "Charged to 100%% as you asked. Your %@ limit takes over once the charger is unplugged.",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
+
+                /// Choose Resume Charging in the menu to charge again.
+                ///
+                /// The body of the one banner "Inhibit Charging" posts, once the pause holds.
+                /// Names the button that ends it, because the override behind the pause used
+                /// to be ended by "Stop Override" — a name nobody connected with the command.
+                public static let chargingPaused = String(localized: "app_charging_mode.state.description.charging_paused", defaultValue: "Choose Resume Charging in the menu to charge again.", bundle: Bundle.module)
+
+                /// Choose Resume Discharging in the menu to discharge again.
+                ///
+                /// The body of the one banner "Pause Discharging" posts — the twin of
+                /// `chargingPaused` for a battery that was discharging on the charger.
+                public static let dischargingPaused = String(localized: "app_charging_mode.state.description.discharging_paused", defaultValue: "Choose Resume Discharging in the menu to discharge again.", bundle: Bundle.module)
+
                 /// The charging limit has been temporarily set to %@.
                 public static func tempChargingTo(_ p1: Any) -> String {
                     String(
@@ -77,8 +175,47 @@ public enum L10n {
                 public static let forceDischarge = String(localized: "app_charging_mode.state.title.force_discharge", defaultValue: "Discharging", bundle: Bundle.module)
                 /// Inhibiting charging
                 public static let inhibit = String(localized: "app_charging_mode.state.title.inhibit", defaultValue: "Inhibiting charging", bundle: Bundle.module)
+                /// Discharging to the limit
+                public static let systemDischargingToLimit = String(localized: "app_charging_mode.state.title.system_discharging_to_limit", defaultValue: "Discharging to the limit", bundle: Bundle.module)
+                /// Charging paused by macOS
+                public static let systemHoldingBelowLimit = String(localized: "app_charging_mode.state.title.system_holding_below_limit", defaultValue: "Charging paused by macOS", bundle: Bundle.module)
+                /// macOS is calibrating the battery
+                ///
+                /// Names macOS as the actor, which the Settings row this state pairs with
+                /// (`ChargeControlDisclosure.mayChargeToFullForCalibration`) established for
+                /// the same reason: "Charging to 100%" alone would read as BatFi doing the
+                /// one thing a charge limit exists to prevent, and it is not what happens —
+                /// BatFi's limit stays in force and macOS overrides it.
+                ///
+                /// Names the cause, by the owner's decision. An earlier "macOS is charging
+                /// to 100%" held back on the grounds that a limit which stopped being
+                /// enforced reads the same. In practice this state is the calibration:
+                /// macOS's `ChargingUpForGauging`, during which it suspends its limit
+                /// policy and sets its own limit to 100. A limit that genuinely stopped
+                /// being enforced is still caught separately by `ChargeHoldDrift`, so the
+                /// label does not have to hedge for it.
+                ///
+                /// Not modelled on the two temp-override titles, which describe charging the
+                /// *user* asked for: "Temporary 100% charge" would sit next to
+                /// "Temporarily charging" and read as BatFi's own doing.
+                public static let systemChargingPastLimit = String(localized: "app_charging_mode.state.title.system_charging_past_limit", defaultValue: "macOS is calibrating the battery", bundle: Bundle.module)
+                /// Holding 100% until unplugged
+                ///
+                /// One sentence for a state that spans two modes: BatFi goes on requesting a
+                /// limit of 100 after a "Charge to 100%" completes, so the battery is topped
+                /// back up whenever it slips to 99% and inhibited the rest of the time. Both
+                /// readings are the same thing to the user.
+                ///
+                /// "until unplugged" rather than "temporarily" or a duration, because the
+                /// charger coming out is literally the end condition — and because it answers
+                /// the question the old behaviour raised: the limit has not been forgotten,
+                /// it is waiting.
+                public static let holdingFullChargeUntilUnplugged = String(localized: "app_charging_mode.state.title.holding_full_charge_until_unplugged", defaultValue: "Holding 100% until unplugged", bundle: Bundle.module)
                 /// Initializing
                 public static let initial = String(localized: "app_charging_mode.state.title.initial", defaultValue: "Initializing", bundle: Bundle.module)
+
+                /// Helper not running
+                public static let helperNotRunning = String(localized: "app_charging_mode.state.title.helper_not_running", defaultValue: "Helper not running", bundle: Bundle.module)
 
                 /// Temporarily discharging
                 public static let tempDischarging = String(localized: "app_charging_mode.state.title.temp_discharging", defaultValue: "Temporarily discharging", bundle: Bundle.module)
@@ -88,6 +225,38 @@ public enum L10n {
 
                 /// Disabled
                 public static let disabled = String(localized: "app_charging_mode.state.title.disabled", defaultValue: "Disabled", bundle: Bundle.module)
+
+                /// Charging paused at %@
+                ///
+                /// "Inhibit Charging", from the click, on every backend — including under Apple's
+                /// charge limit, where powerd can take up to a minute to adopt the frozen limit.
+                public static func chargingPausedAt(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.title.charging_paused_at",
+                            defaultValue: "Charging paused at %@",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
+
+                /// Discharging paused at %@
+                ///
+                /// "Pause Discharging", from the click, on every backend — the twin of
+                /// `chargingPausedAt` for a battery that was discharging on the charger.
+                public static func dischargingPausedAt(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "app_charging_mode.state.title.discharging_paused_at",
+                            defaultValue: "Discharging paused at %@",
+                            bundle: .module
+                        ),
+                        locale: Locale.current,
+                        String(describing: p1)
+                    )
+                }
 
                 // Charge Override
                 public static let chargeOverride = String(localized: "app_charging_mode.state.title.override", defaultValue: "Charge Override", bundle: Bundle.module)
@@ -144,8 +313,8 @@ public enum L10n {
         public static let activateBatFi = String(localized: "license.label.activate_batfi", defaultValue: "Activate BatFi", bundle: Bundle.module)
 
         /// The app requires a valid license key to work.
-        /// Provide the email and license key you received when getting the app.
-        public static let requiresLicense = String(localized: "license.label.requires_license", defaultValue: "The app requires a valid license key to work.\nProvide the email and license key you received when getting the app.", bundle: Bundle.module)
+        /// Provide the key you received when getting the app.
+        public static let requiresLicense = String(localized: "license.label.requires_license", defaultValue: "The app requires a valid license key to work.\nProvide the key you received when getting the app.", bundle: Bundle.module)
 
         /// Email
         public static let email = String(localized: "license.label.email", defaultValue: "Email", bundle: Bundle.module)
@@ -174,18 +343,56 @@ public enum L10n {
         /// Don't own BatFi yet? Buy it now!
         public static let buyNow = String(localized: "license.label.buy_now", defaultValue: "Don't own BatFi yet? Buy it now!", bundle: Bundle.module)
 
+        /// Can't use this link
+        ///
+        /// Shown when a `batfi://` license link can't be parsed.
+        public static let cantUseLink = String(localized: "license.alert.title.cant_use_link", defaultValue: "Can't use this link", bundle: Bundle.module)
+
+        // MARK: Receipt
+
+        /// The receipt's field labels keep their trailing colon in the catalog: French and other
+        /// languages put a non-breaking space before it, which can't be appended in code.
+        public enum Receipt {
+            /// I appreciate your support!
+            public static let appreciateSupport = String(localized: "license.receipt.appreciate_support", defaultValue: "I appreciate your support!", bundle: Bundle.module)
+
+            /// Date:
+            public static let date = String(localized: "license.receipt.date", defaultValue: "Date:", bundle: Bundle.module)
+
+            /// Email:
+            public static let email = String(localized: "license.receipt.email", defaultValue: "Email:", bundle: Bundle.module)
+
+            /// Key:
+            public static let key = String(localized: "license.receipt.key", defaultValue: "Key:", bundle: Bundle.module)
+        }
+
         // MARK: Error messages
         
         /// Can't identify system
         public static let errorSystemIdentification = String(localized: "license.error.system_identification", defaultValue: "Can't identify system", bundle: Bundle.module)
         /// Invalid response
         public static let errorInvalidResponse = String(localized: "license.error.invalid_response", defaultValue: "Invalid response", bundle: Bundle.module)
-        /// Invalid license key or email
-        public static let errorInvalidLicenseOrEmail = String(localized: "license.error.invalid_license_or_email", defaultValue: "Invalid license key or email", bundle: Bundle.module)
+        /// Invalid license key
+        public static let errorInvalidLicenseOrEmail = String(localized: "license.error.invalid_license_or_email", defaultValue: "Invalid license key", bundle: Bundle.module)
         /// License is deactivated. Please purchase the app again.
         public static let errorDeactivatedLicense = String(localized: "license.error.deactivated_license", defaultValue: "License is deactivated. Please purchase the app again.", bundle: Bundle.module)
         /// Unexpected response. Contact the developer if you think this is an error and have a valid license key.
         public static let errorUnexpectedResponse = String(localized: "license.error.unexpected_response", defaultValue: "Unexpected response. Contact the developer if you think this is an error and have a valid license key.", bundle: Bundle.module)
+
+        // MARK: Activation link errors
+        //
+        // Shown as the body of the "Can't use this link" alert. Previously these were
+        // thrown as bare English strings ("Wrong schema", "Wrong path", "Wrong query"),
+        // which reached the user verbatim in every language.
+
+        /// This isn’t a BatFi activation link.
+        public static let errorLinkNotBatFi = String(localized: "license.error.link_not_batfi", defaultValue: "This isn’t a BatFi activation link.", bundle: Bundle.module)
+
+        /// This link doesn’t activate a license.
+        public static let errorLinkWrongDestination = String(localized: "license.error.link_wrong_destination", defaultValue: "This link doesn’t activate a license.", bundle: Bundle.module)
+
+        /// The link is missing the email address or the license key.
+        public static let errorLinkMissingDetails = String(localized: "license.error.link_missing_details", defaultValue: "The link is missing the email address or the license key.", bundle: Bundle.module)
     }
 
     public enum Menu {
@@ -194,6 +401,23 @@ public enum L10n {
             public static let batfi = String(localized: "menu.label.batfi", defaultValue: "BatFi…", bundle: Bundle.module)
             /// Charge to 100%
             public static let chargeToHundred = String(localized: "menu.label.charge_to_hundred", defaultValue: "Charge to 100%", bundle: Bundle.module)
+            /// ⚠️ Helper isn't responding
+            ///
+            /// Deliberately short. This is a plain menu item, and `NSMenu` sizes itself to
+            /// its widest one — a full sentence here stretched the whole menu well past the
+            /// 220pt its content is laid out for. The consequence lives in the wrapped
+            /// disclaimer below instead.
+            public static let helperNotResponding = String(
+                localized: "menu.label.helper_not_responding",
+                defaultValue: "⚠️ Helper isn't responding",
+                bundle: Bundle.module
+            )
+            /// Charge limiting is off. Click for help.
+            public static let helperNotRespondingDisclaimer = String(
+                localized: "menu.label.helper_not_responding_disclaimer",
+                defaultValue: "Charge limiting is off. Click for help.",
+                bundle: Bundle.module
+            )
             /// Check for Updates…
             public static let checkForUpdates = String(localized: "menu.label.check_for_updates", defaultValue: "Check for Updates…", bundle: Bundle.module)
             /// Debug
@@ -224,11 +448,27 @@ public enum L10n {
             /// Stop Override
             public static let stopOverride = String(localized: "menu.label.stop_override", defaultValue: "Stop Override", bundle: Bundle.module)
 
+            /// Resume Charging
+            ///
+            /// Ends an override armed by "Inhibit Charging", in place of "Stop Override".
+            public static let resumeCharging = String(localized: "menu.label.resume_charging", defaultValue: "Resume Charging", bundle: Bundle.module)
+
+            /// Resume Discharging
+            ///
+            /// Ends an override armed by "Pause Discharging", in place of "Stop Override".
+            public static let resumeDischarging = String(localized: "menu.label.resume_discharging", defaultValue: "Resume Discharging", bundle: Bundle.module)
+
             /// Override is active only when charger is connected
             public static let chargerNotConnectedDisclaimer = String(localized: "menu.label.charger_not_connected_disclaimer", defaultValue: "Override is active only when charger is connected", bundle: .module)
 
             /// Inhibit Charging
             public static let inhibitCharging = String(localized: "menu.label.inhibit_charging", defaultValue: "Inhibit Charging", bundle: Bundle.module)
+
+            /// Pause Discharging
+            ///
+            /// "Inhibit Charging" while the battery is discharging on the charger — macOS
+            /// draining it to the limit, or BatFi's own discharge. Holds it at its level.
+            public static let pauseDischarging = String(localized: "menu.label.pause_discharging", defaultValue: "Pause Discharging", bundle: Bundle.module)
 
             /// Inhibiting charging; open lid to discharge the battery.
             public static let dischargingOverrideButLidIsClosed = String(localized: "menu.label.discharging_override_but_lid_closed", defaultValue: "Inhibiting charging; open lid to discharge the battery", bundle: .module)
@@ -272,6 +512,18 @@ public enum L10n {
 
             /// No apps with high energy impact
             public static let none = String(localized: "battery_info.label.top_coalition.none", defaultValue: "No apps using significant energy", bundle: Bundle.module)
+
+            /// Medium
+            public static let medium = String(localized: "battery_info.label.top_coalition.medium", defaultValue: "Medium", bundle: Bundle.module)
+
+            /// High
+            public static let high = String(localized: "battery_info.label.top_coalition.high", defaultValue: "High", bundle: Bundle.module)
+
+            /// Very High
+            public static let veryHigh = String(localized: "battery_info.label.top_coalition.very_high", defaultValue: "Very High", bundle: Bundle.module)
+
+            /// Severe
+            public static let batteryDraining = String(localized: "battery_info.label.top_coalition.battery_draining", defaultValue: "Severe", bundle: Bundle.module)
         }
 
         public enum Tooltip {
@@ -294,6 +546,48 @@ public enum L10n {
                 public static let installHelperTroubleshooting = String(
                     localized: "notifications.alert.title.install_helper_troubleshooting",
                     defaultValue: "BatFi's helper app is not installed",
+                    bundle: Bundle.module
+                )
+
+                /// This Mac won't be able to sleep
+                public static let manualDischargeDisablesSleep = String(
+                    localized: "notifications.alert.title.manual_discharge_disables_sleep",
+                    defaultValue: "This Mac won't be able to sleep",
+                    bundle: Bundle.module
+                )
+
+                /// BatFi's helper isn't responding
+                public static let helperNotResponding = String(
+                    localized: "notifications.alert.title.helper_not_responding",
+                    defaultValue: "BatFi's helper isn't responding",
+                    bundle: Bundle.module
+                )
+
+                /// BatFi's helper isn't installed
+                public static let helperInstallFailed = String(
+                    localized: "notifications.alert.title.helper_install_failed",
+                    defaultValue: "BatFi's helper isn't installed",
+                    bundle: Bundle.module
+                )
+
+                /// BatFi's helper needs your approval
+                public static let helperNeedsApproval = String(
+                    localized: "notifications.alert.title.helper_needs_approval",
+                    defaultValue: "BatFi's helper needs your approval",
+                    bundle: Bundle.module
+                )
+
+                /// BatFi needs you to reset its helper
+                public static let helperNeedsManualReset = String(
+                    localized: "notifications.alert.title.helper_needs_manual_reset",
+                    defaultValue: "BatFi needs you to reset its helper",
+                    bundle: Bundle.module
+                )
+
+                /// Another copy of BatFi owns the helper
+                public static let foreignHelper = String(
+                    localized: "notifications.alert.title.foreign_helper",
+                    defaultValue: "Another copy of BatFi owns the helper",
                     bundle: Bundle.module
                 )
 
@@ -320,6 +614,129 @@ public enum L10n {
                     bundle: Bundle.module
                 )
 
+                /// Running on battery takes the charger out of the circuit, so BatFi keeps this Mac awake for as long as it lasts. It won't sleep on its own, and it won't sleep when you close the lid — if it's on an external display, it keeps running with the lid shut. Turning “Run on Battery” off restores normal sleep straight away.
+                public static let manualDischargeDisablesSleep = String(
+                    localized: "notifications.alert.informative_text.manual_discharge_disables_sleep",
+                    defaultValue: "Running on battery takes the charger out of the circuit, so BatFi keeps this Mac awake for as long as it lasts. It won't sleep on its own, and it won't sleep when you close the lid — if it's on an external display, it keeps running with the lid shut.\n\nTurning “Run on Battery” off restores normal sleep straight away.",
+                    bundle: Bundle.module
+                )
+
+                /// The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own.
+                public static let helperNotResponding = String(
+                    localized: "notifications.alert.informative_text.helper_not_responding",
+                    defaultValue: "The helper is installed, but macOS isn't starting it, so charge limiting isn't running.\n\nOpen System Settings → General → Login Items, turn BatFi off and then on again. BatFi will reconnect on its own.",
+                    bundle: Bundle.module
+                )
+
+                /// macOS is holding a stale registration for BatFi's helper…
+                ///
+                /// The cause — a launch constraint left behind by a copy of BatFi that no
+                /// longer exists — gets one plain clause and no elaboration: it is not
+                /// actionable, and what follows it is.
+                ///
+                /// Neither the settings pane nor the section inside it is named, and that is
+                /// deliberate. Apple has renamed both across the range of macOS this app
+                /// supports: the pane was "Login Items" through macOS 14 and "Login Items &
+                /// Extensions" after it, and the section holding background items was "Allow
+                /// in the Background" until macOS 26 renamed it "Background App Activity".
+                /// Naming either sends some portion of users hunting for a heading their Mac
+                /// does not have. The alert's own button deep-links to the right pane on
+                /// every version, so the instruction only has to describe what to do once
+                /// they are looking at it.
+                /// macOS has registered the helper and is waiting for you to allow it…
+                ///
+                /// Nothing here mentions installing, repairing or onboarding. The
+                /// registration succeeded; a switch is off. Saying more would invite the
+                /// user to go looking for a fault that does not exist.
+                /// Says the helper is missing, and offers the one action that can add it.
+                ///
+                /// The alert this replaced for this state claimed the helper was installed
+                /// and told the user to toggle it off and on in Login Items — at the same
+                /// moment macOS was asking them to allow an item it had just been asked to
+                /// add. There is nothing in Login Items to toggle when the registration was
+                /// refused, so the remedy has to be BatFi asking macOS again, not the user
+                /// hunting for a switch.
+                ///
+                /// The reason is included because "Operation not permitted" is the ordinary
+                /// refusal here and it is transient, which is exactly what makes trying
+                /// again worth offering rather than describing as a repair.
+                /// The same state, before anything has been attempted: the record is simply
+                /// absent, which is what a user is left with once the copy of BatFi that
+                /// registered it is deleted. No reason to quote, because macOS has not
+                /// refused anything — it has not been asked yet.
+                public static let helperNotInstalled = String(
+                    localized: "notifications.alert.informative_text.helper_not_installed",
+                    defaultValue: "BatFi needs a helper to manage charging, and it isn't installed.\n\nClick Install Helper below. macOS may ask you to allow BatFi to run in the background — that request is what completes the installation.",
+                    bundle: Bundle.module
+                )
+
+                public static func helperInstallFailed(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.alert.informative_text.helper_install_failed",
+                            defaultValue: "BatFi needs a helper to manage charging, and macOS refused to add it: %@\n\nInstalling it again usually works. macOS may ask you to allow BatFi to run in the background — that request is what completes the installation.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
+                public static let helperNeedsApproval = String(
+                    localized: "notifications.alert.informative_text.helper_needs_approval",
+                    defaultValue: "macOS has registered BatFi's helper but is waiting for you to allow it to run in the background.\n\nOpen System Settings below, find BatFi in the list, and turn it on.\n\nUntil then, BatFi isn't managing charging.",
+                    bundle: Bundle.module
+                )
+
+                /// Says what BatFi is doing, not what the battery is doing.
+                ///
+                /// This used to end "Charge limiting is paused until then", which is a claim
+                /// about the hardware that BatFi is in no position to make. Where the limit
+                /// is held by Apple's own charge limit or by the firmware's charge range, it
+                /// is the Mac enforcing it, not BatFi, and it keeps being enforced with no
+                /// helper running at all. Telling those users charging is unlimited would
+                /// send them looking for a problem they do not have.
+                public static let helperNeedsManualReset = String(
+                    localized: "notifications.alert.informative_text.helper_needs_manual_reset",
+                    defaultValue: "macOS is holding an outdated registration for BatFi's helper and refuses to start it. This is usually left behind by a copy of BatFi that has since been deleted, and BatFi cannot clear it on its own.\n\nOpen System Settings below, find BatFi in the list, then turn it off and back on again. BatFi will reconnect by itself within a few seconds.\n\nUntil then, BatFi isn't managing charging.",
+                    bundle: Bundle.module
+                )
+
+                /// macOS starts the helper belonging to the copy of BatFi at %@, not this one…
+                ///
+                /// The path is the *other* copy's `.app`, which is the only part of this the
+                /// user can act on. The two variants differ by one fact — whether that copy
+                /// is open — because the remedy differs with it: quitting an app is not the
+                /// same instruction as removing one.
+                public static func foreignHelperOtherCopyRunning(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.alert.informative_text.foreign_helper_other_copy_running",
+                            defaultValue: "Another copy of BatFi is open at %@, and macOS is running its helper instead of this one.\n\nQuit that copy, or delete it and keep just one, then reopen BatFi.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
+                /// macOS is starting the helper that belongs to another copy of BatFi at %@…
+                public static func foreignHelperOtherCopyInstalled(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.alert.informative_text.foreign_helper_other_copy_installed",
+                            defaultValue: "macOS is starting the helper that belongs to another copy of BatFi at %@, and BatFi could not take it over.\n\nDelete the copy you don't want, keep one, then reopen BatFi.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
+                /// The app won't work properly with it. \nDisable it by clicking the info icon next to the "Battery Health" in System Settings.
+                public static let optimizedChargingTurnedOn = String(
+                    localized: "notifications.alert.informative_text.optimized_charging_turned_on",
+                    defaultValue: "The app won't work properly with it. \nDisable it by clicking the info icon next to the \"Battery Health\" in System Settings.",
+                    bundle: Bundle.module
+                )
+
                 /// It seems the app isn’t running on a laptop. \nPlease launch BatFi on an Apple notebook.
                 public static let notLaptop = String(
                     localized: "notifications.alert.informative_text.not_laptop",
@@ -339,6 +756,36 @@ public enum L10n {
                 public enum Label {
                     /// Open System Settings
                     public static let openSystemSettings = String(localized: "notifications.alert.button.label.open_system_settings", defaultValue: "Open System Settings…", bundle: Bundle.module)
+
+                    /// Run on Battery
+                    public static let runOnBattery = String(localized: "notifications.alert.button.label.run_on_battery", defaultValue: "Run on Battery", bundle: Bundle.module)
+
+                    /// Cancel
+                    public static let cancel = String(localized: "notifications.alert.button.label.cancel", defaultValue: "Cancel", bundle: Bundle.module)
+
+                    /// Don't show this again
+                    public static let dontShowAgain = String(localized: "notifications.alert.button.label.dont_show_again", defaultValue: "Don't show this again", bundle: Bundle.module)
+
+                    /// Close
+                    public static let close = String(
+                        localized: "notifications.alert.button.label.close",
+                        defaultValue: "Close",
+                        bundle: Bundle.module
+                    )
+
+                    /// Install Helper
+                    public static let installHelper = String(
+                        localized: "notifications.alert.button.label.install_helper",
+                        defaultValue: "Install Helper",
+                        bundle: Bundle.module
+                    )
+
+                    /// Show in Finder
+                    public static let showInFinder = String(
+                        localized: "notifications.alert.button.label.show_in_finder",
+                        defaultValue: "Show in Finder",
+                        bundle: Bundle.module
+                    )
 
                     /// Open Onboarding
                     public static let openOnboarding = String(localized: "notifications.alert.button.label.open_onboarding", defaultValue: "Open Onboarding…", bundle: Bundle.module)
@@ -373,11 +820,60 @@ public enum L10n {
                 public static let highPowerModeOn = String(localized: "notifications.notification.title.high_power_mode_on", defaultValue: "High power mode is on", bundle: Bundle.module)
                 public static let automaticPowerModeOn = String(localized: "notifications.notification.title.automatic_power_mode_on", defaultValue: "Automatic power mode is on", bundle: Bundle.module)
                 public static let highPowerModeUnsupported = String(localized: "notifications.notification.title.high_power_mode_unsupported", defaultValue: "High power mode is not supported", bundle: Bundle.module)
+
+                /// System charge limit removed
+                ///
+                /// One-off migration notice for Macs upgraded to macOS 15.
+                public static let systemChargeLimitRemoved = String(
+                    localized: "notifications.notification.title.system_charge_limit_removed",
+                    defaultValue: "System charge limit removed",
+                    bundle: Bundle.module
+                )
+
+                /// ⚠️ Your charge limit isn't holding
+                public static let chargeLimitNotHolding = String(
+                    localized: "notifications.notification.title.charge_limit_not_holding",
+                    defaultValue: "⚠️ Your charge limit isn't holding",
+                    bundle: Bundle.module
+                )
+
+                /// ⚠️ BatFi can't read battery information
+                public static let cannotReadBatteryInfo = String(
+                    localized: "notifications.notification.title.cannot_read_battery_info",
+                    defaultValue: "⚠️ BatFi can't read battery information",
+                    bundle: Bundle.module
+                )
             }
 
             public enum Body {
                 public static let lowBattery = String(localized: "notifications.notification.body.low_battery", defaultValue: "I need more juice!", bundle: Bundle.module)
                 public static let batteryCalibration = String(localized: "notifications.notification.body.battery_calibration", defaultValue: "Unplug the computer and let the battery drain completely. Then, plug it in and charge it to 100%, using the “Charge to 100%” command from the menu if needed.", bundle: Bundle.module)
+
+                /// It looks like you're running on macOS 15. The "Enable System charge limit 80% on sleep" option was removed from this macOS
+                public static let systemChargeLimitRemoved = String(
+                    localized: "notifications.notification.body.system_charge_limit_removed",
+                    defaultValue: "It looks like you're running on macOS 15. The \"Enable System charge limit 80% on sleep\" option was removed from this macOS",
+                    bundle: Bundle.module
+                )
+
+                /// BatFi re-applied your %@ limit, but the battery went past it anyway. …
+                public static func chargeLimitNotHolding(_ p1: Any) -> String {
+                    String(
+                        format: String(
+                            localized: "notifications.notification.body.charge_limit_not_holding",
+                            defaultValue: "BatFi re-applied your %@ limit, but the battery went past it anyway. macOS sometimes charges past a limit on purpose to calibrate the battery. If this keeps happening, the app's log has the details.",
+                            bundle: .module
+                        ),
+                        String(describing: p1)
+                    )
+                }
+
+                /// macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this — the app's log names the missing value.
+                public static let cannotReadBatteryInfo = String(
+                    localized: "notifications.notification.body.cannot_read_battery_info",
+                    defaultValue: "macOS isn't reporting the battery details BatFi needs. Your charge limit may still be active. Please report this, the app's log names the missing value.",
+                    bundle: Bundle.module
+                )
             }
         }
     }
@@ -395,7 +891,7 @@ public enum L10n {
                 /// It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.
                 /// You can always change permissions in the System Settings.
                 /// Please keep in mind that the app won't work without the helper tool.
-                public static let helperNotInstalled = String(localized: "onboarding.alert.message.helper_not_installed", defaultValue: "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay – it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.", bundle: Bundle.module)
+                public static let helperNotInstalled = String(localized: "onboarding.alert.message.helper_not_installed", defaultValue: "It seems that you didn't give permissions to the helper. If there was no password/Touch ID prompt that's okay, it's a macOS bug and sometimes it happens.\nYou can always change permissions in the System Settings.\nPlease keep in mind that the app won't work without the helper tool.", bundle: Bundle.module)
             }
 
             public enum Title {
@@ -425,11 +921,9 @@ public enum L10n {
             /// Almost done.
             public static let almostDone = String(localized: "onboarding.label.almost_done", defaultValue: "Almost done.", bundle: Bundle.module)
             /// BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.
-            public static let appDescription = String(localized: "onboarding.label.app_description", defaultValue: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control – charging to 100% only when it's needed.", bundle: Bundle.module)
+            public static let appDescription = String(localized: "onboarding.label.app_description", defaultValue: "BatFi helps you optimize your macOS battery performance by managing charging levels intelligently, yet giving you full control, charging to 100% only when it's needed.", bundle: Bundle.module)
             /// The app is ready to use!
             public static let appIsReady = String(localized: "onboarding.label.app_is_ready", defaultValue: "The app is ready to use!", bundle: Bundle.module)
-            /// Done.
-            public static let done = String(localized: "onboarding.label.done", defaultValue: "Done.", bundle: Bundle.module)
             /// Extend the life of your Mac.
             public static let extendLife = String(localized: "onboarding.label.extend_life", defaultValue: "Extend the life of your Mac.", bundle: Bundle.module)
             /// BatFi will install helper tool, that will work in background and is able to change your computer's charging mode.
@@ -442,8 +936,6 @@ public enum L10n {
             public static let setLimit = String(localized: "onboarding.label.set_limit", defaultValue: "Set Charging Limit.", bundle: Bundle.module)
             /// Set a maximum charging percentage to prevent keeping charge level at 100% and improve battery longevity.
             public static let setLimitDescription = String(localized: "onboarding.label.set_limit_description", defaultValue: "Set a maximum charging percentage to prevent keeping charge level at 100% and improve battery longevity.", bundle: Bundle.module)
-            /// You can modify this setting later in the app's settings.
-            public static let setLimitSetUpLater = String(localized: "onboarding.label.set_limit_set_up_later", defaultValue: "You can modify this setting later in the app's settings.", bundle: Bundle.module)
         }
 
         public enum Slider {
@@ -472,10 +964,8 @@ public enum L10n {
                 public static let general = String(localized: "settings.accessibility.title.general", defaultValue: "General pane", bundle: Bundle.module)
                 /// Notifications pane
                 public static let notifications = String(localized: "settings.accessibility.title.notifications", defaultValue: "Notifications pane", bundle: Bundle.module)
-                /// Menu bar pane
-                public static let statusBar = String(localized: "settings.accessibility.title.statusBar", defaultValue: "Menu bar pane", bundle: Bundle.module)
-                /// Advanced pane
-                public static let advanced = String(localized: "settings.accessibility.title.advanced", defaultValue: "Advanced pane", bundle: Bundle.module)
+                /// Menu pane
+                public static let menu = String(localized: "settings.accessibility.title.menu", defaultValue: "Menu pane", bundle: Bundle.module)
                 /// Hotkeys pane
                 public static let hotkeys = String(localized: "settings.accessibility.title.hotkeys", defaultValue: "Hotkeys pane", bundle: Bundle.module)
             }
@@ -507,11 +997,22 @@ public enum L10n {
             public enum Description {
                 /// Works only when the lid is open. Disable sleep mode to use it in clamshell mode.
                 public static let lidMustBeOpened = String(localized: "settings.button.description.lid_must_be_opened_disable_sleep", defaultValue: "Works only when the lid is open. Disable sleep to use it in clamshell mode.", bundle: Bundle.module)
+
+                /// The over-limit discharge is macOS's, not BatFi's.
+                ///
+                /// Replaces `lidMustBeOpened` under Apple's charge limit, where that sentence
+                /// is not merely irrelevant but **wrong**: the system's own drain keeps going
+                /// with the lid shut and while asleep. Says so explicitly, because "works only
+                /// when the lid is open" is the limitation users of this feature have learned
+                /// to plan around, and here it no longer applies.
+                public static let dischargeIsSystemDriven = String(localized: "settings.button.description.discharge_is_system_driven", defaultValue: "macOS does this on your Mac, so it keeps working with the lid closed and while asleep. BatFi isn’t doing it, so this can’t be switched off.", bundle: Bundle.module)
             }
 
             public enum Label {
                 /// Show status bar icon
                 public static let showStatusBarIcon = String(localized: "settings.button.label.show_status_bar_icon", defaultValue: "Show status bar icon", bundle: Bundle.module)
+                /// Show static status icon
+                public static let showStaticBarIcon = String(localized: "settings.button.label.show_static_bar_icon", defaultValue: "Show static status icon", bundle: Bundle.module)
                 /// Automatically check for updates
                 public static let automaticallyCheckUpdates = String(localized: "settings.button.label.automatically_check_updates", defaultValue: "Automatically check for updates", bundle: Bundle.module)
                 /// Automatically download updates
@@ -550,8 +1051,6 @@ public enum L10n {
                 public static let turnOffChargingWhenBatteryIsHot = String(localized: "settings.button.label.turn_off_charging_when_battery_is_hot", defaultValue: "Automatically turn off charging when the battery gets hot", bundle: Bundle.module)
                 /// Show the battery percentage chart in the menu
                 public static let showBatteryChartInMenu = String(localized: "settings.button.label.show_battery_chart_in_menu", defaultValue: "Show the battery percentage chart in the menu", bundle: Bundle.module)
-                /// Automatically enable system charge limit (80%) when the Mac goes to sleep
-                public static let enableSystemChargeLimitOnSleep = String(localized: "settings.button.label.enable_system_charge_limit_on_sleep", defaultValue: "Automatically enable system charge limit (80%) when the Mac goes to sleep", bundle: Bundle.module)
                 /// Show power distribution
                 public static let showPowerDiagram = String(localized: "settings.button.label.show_power_diagram", defaultValue: "Show power distribution", bundle: Bundle.module)
                 /// Show apps with high energy usage
@@ -584,6 +1083,18 @@ public enum L10n {
                 /// Show power mode options
                 public static let showPowerModeOptions = String(localized: "settings.button.label.show_power_mode_options", defaultValue: "Show power mode options", bundle: Bundle.module)
 
+                /// Choose status icon style
+                public static let chooseStatusIconStyle = String(localized: "settings.button.label.choose_status_icon_style", defaultValue: "Choose status icon style", bundle: Bundle.module)
+
+                /// Dynamic (Default)
+                public static let statusIconStyleDynamic = String(localized: "settings.button.label.status_icon_style_dynamic", defaultValue: "Dynamic (Default)", bundle: Bundle.module)
+
+                /// Static
+                public static let statusIconStyleStatic = String(localized: "settings.button.label.status_icon_style_static", defaultValue: "Static", bundle: Bundle.module)
+
+                /// Hidden
+                public static let statusIconStyleHidden = String(localized: "settings.button.label.status_icon_style_hidden", defaultValue: "Hidden", bundle: Bundle.module)
+
                 /// Tip %@
                 public static func tipJarTip(_ p1: Any) -> String {
                     String(
@@ -615,11 +1126,10 @@ public enum L10n {
             /// Show up to %@ processes
             public static func highEnergyImpactProcessesCapacity(_ p1: Int) -> String {
                 String.localizedStringWithFormat(
-                    NSLocalizedString(
-                        "settings.label.high_energy_impact_processes_capacity",
-                        bundle: .module,
-                        value: "Show up to %lld processes",
-                        comment: ""
+                    String(
+                        localized: "settings.label.high_energy_impact_processes_capacity",
+                        defaultValue: "Show up to %lld processes",
+                        bundle: .module
                     ),
                     p1
                 )
@@ -628,11 +1138,10 @@ public enum L10n {
             /// Sample duration:
             public static func highEnergyImpactProcessesDuration(_ p1: String) -> String {
                 String.localizedStringWithFormat(
-                    NSLocalizedString(
-                        "settings.label.high_energy_impact_processes_duration",
-                        bundle: .module,
-                        value: "Sample duration: %@",
-                        comment: ""
+                    String(
+                        localized: "settings.label.high_energy_impact_processes_duration",
+                        defaultValue: "Sample duration: %@",
+                        bundle: .module
                     ),
                     p1
                 )
@@ -641,11 +1150,10 @@ public enum L10n {
             /// Threshold of the energy impact: %lld
             public static func highEnergyImpactProcessesThreshold(_ p1: Int) -> String {
                 String.localizedStringWithFormat(
-                    NSLocalizedString(
-                        "settings.label.high_energy_impact_processes_threshold",
-                        bundle: .module,
-                        value: "Threshold of the energy impact: %lld",
-                        comment: ""
+                    String(
+                        localized: "settings.label.high_energy_impact_processes_threshold",
+                        defaultValue: "Threshold of the energy impact: %lld",
+                        bundle: .module
                     ),
                     p1
                 )
@@ -663,15 +1171,20 @@ public enum L10n {
             /// Battery is low at %lld%
             public static func batteryLowThreshold(_ p1: Int) -> String {
                 String.localizedStringWithFormat(
-                    NSLocalizedString(
-                        "settings.label.battery_low_threshold",
-                        bundle: .module,
-                        value: "Battery is low at %lld%%",
-                        comment: ""
+                    String(
+                        localized: "settings.label.battery_low_threshold",
+                        defaultValue: "Battery is low at %lld%%",
+                        bundle: .module
                     ),
                     p1
                 )
             }
+
+            /// Low battery threshold
+            ///
+            /// VoiceOver's name for the slider under the toggle above, which has no visible
+            /// label of its own.
+            public static let batteryLowThresholdAccessibilityLabel = String(localized: "settings.label.battery_low_threshold_accessibility_label", defaultValue: "Low battery threshold", bundle: .module)
 
             /// Enjoying BatFi?
             public static let tipJarTitle = String(localized: "settings.label.tip_jar.title", defaultValue: "Enjoying BatFi?", bundle: .module)
@@ -692,6 +1205,249 @@ public enum L10n {
 
             /// 90%
             public static let highestLimit = String(localized: "settings.label.highest_limit", defaultValue: "90%", bundle: Bundle.module)
+            
+            
+            /// Remove License from this Mac
+            public static let removeLicense = String(localized: "settings.label.remove_license", defaultValue: "Remove License from this Mac", bundle: Bundle.module)
+
+            // MARK: Charging diagnostics
+
+            /// Charging control
+            public static let diagnosticsChargingControl = String(localized: "settings.label.diagnostics_charging_control", defaultValue: "Charging control", bundle: Bundle.module)
+            /// Firmware
+            public static let diagnosticsFirmware = String(localized: "settings.label.diagnostics_firmware", defaultValue: "Firmware", bundle: Bundle.module)
+            /// Unknown
+            public static let diagnosticsFirmwareUnknown = String(localized: "settings.label.diagnostics_firmware_unknown", defaultValue: "Unknown", bundle: Bundle.module)
+            /// Active
+            public static let diagnosticsChargingControlActive = String(localized: "settings.label.diagnostics_charging_control_active", defaultValue: "Active", bundle: Bundle.module)
+            /// Active (via macOS Charge Limit)
+            public static let diagnosticsChargingControlSystemChargeLimit = String(localized: "settings.label.diagnostics_charging_control_system_charge_limit", defaultValue: "Active (via macOS Charge Limit)", bundle: Bundle.module)
+            /// Not available
+            public static let diagnosticsChargingControlUnavailable = String(localized: "settings.label.diagnostics_charging_control_unavailable", defaultValue: "Not available", bundle: Bundle.module)
+            /// Unknown
+            public static let diagnosticsChargingControlUnknown = String(localized: "settings.label.diagnostics_charging_control_unknown", defaultValue: "Unknown", bundle: Bundle.module)
+
+            /// Available, not in use
+            ///
+            /// The mechanism exists and works; BatFi is simply not driving it, because
+            /// charge management is switched off. "Active" would contradict the banner
+            /// directly above, and "Unknown" would misreport a mechanism that was resolved
+            /// perfectly well.
+            public static let diagnosticsChargingControlIdle = String(localized: "settings.label.diagnostics_charging_control_idle", defaultValue: "Available, not in use", bundle: Bundle.module)
+            /// BatFi can't control charging on this Mac — its firmware doesn't support it.
+            public static let diagnosticsChargingControlUnsupportedExplanation = String(localized: "settings.label.diagnostics_charging_control_unsupported_explanation", defaultValue: "BatFi can’t control charging on this Mac. Its firmware doesn’t support it.", bundle: Bundle.module)
+            /// Your Mac's own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi's limit is reached. Set it to 100% there so BatFi is the only thing in control.
+            ///
+            /// Replaces `diagnostics_system_charge_limit_warning`, which could only say "if it's
+            /// set below 100%" because the percentage never crossed the XPC boundary. It does
+            /// now, so the warning names the value and only appears when there is one to name.
+            public static func diagnosticsSystemChargeLimitConflict(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.diagnostics_system_charge_limit_conflict",
+                        // `100%%`, not `100%` — see `systemChargeLimitRaised`.
+                        defaultValue: "Your Mac’s own Charge Limit, in System Settings › Battery, is set to %@. It can stop charging before BatFi’s limit is reached. Set it to 100%% there so BatFi is the only thing in control.",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            // MARK: Charge control disclosures
+            //
+            // What the Charging pane owes the user about the mechanism in force on their
+            // Mac. Every one of these is a statement about *this machine* — never about a
+            // macOS version, which is not what charge control tracks.
+
+            /// This Mac's firmware doesn't support BatFi's own charge control, so BatFi is using the macOS charge limit instead — at any percentage, and macOS discharges down to it when the battery is above.
+            ///
+            /// **No longer claims an 80% floor.** It used to, and that was true of
+            /// `setMCLLimit:` — but that API is not how the limit is set here. Values below
+            /// 80 go through the preference channel PowerUIAgent reads, so the floor is gone.
+            /// If a sub-80 value cannot be applied on some machine, `systemChargeLimitBelow80`
+            /// says so from the value actually in force, which is the honest place for it:
+            /// a conditional failure, not a blanket capability claim.
+            ///
+            /// The discharge sentence is here because it is the one behaviour of this backend
+            /// users notice and do not expect — a battery above the limit visibly draining on
+            /// mains power. It also carries the part BatFi's own discharge could never do.
+            public static let systemChargeLimitBanner = String(localized: "settings.label.system_charge_limit_banner", defaultValue: "Your battery will stop charging at the limit you set. On this Mac macOS enforces that limit rather than BatFi. If the battery is already above your limit, macOS slowly discharges down to it — that keeps working with the lid closed and while the Mac is asleep.", bundle: Bundle.module)
+
+            /// Limits below 80% can't be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.
+            ///
+            /// The one thing a user set to 55% most needs told. The value is the one the
+            /// helper actually put in force, never a recomputed guess at it.
+            ///
+            /// Shown *only* for a request below the floor, where both of its claims are
+            /// true. A request above the floor that was merely rounded up gets
+            /// `systemChargeLimitRoundedUp` instead — there this string would assert that
+            /// 87% is "below 80%" and that 90% is the lowest value accepted, neither of
+            /// which is so.
+            public static func systemChargeLimitRaised(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.system_charge_limit_raised",
+                        // The literal per cent sign is doubled: this string is a `String(format:)`
+                        // template, and a lone `%` there is read as a conversion specifier. Every
+                        // translation of this key has to double it too.
+                        defaultValue: "Limits below 80%% can’t be applied on this Mac. BatFi is holding charging at %@ instead, the lowest the macOS charge limit accepts.",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            /// The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for.
+            ///
+            /// The round-up, reached by clicking stop-charging at any battery level that is
+            /// not a multiple of 5. Names both numbers and claims nothing about a floor:
+            /// "the value it was asked for" rather than "your setting", because the request
+            /// can be an automation limit or a temporary override rather than the slider.
+            ///
+            /// - Parameters:
+            ///   - p1: the limit actually in force.
+            ///   - p2: the limit that was requested.
+            public static func systemChargeLimitRoundedUp(_ p1: Any, _ p2: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.system_charge_limit_rounded_up",
+                        // Positional specifiers, not two bare `%@`. The clause order is
+                        // natural in English and not in every language, and a translator
+                        // who reorders it would swap the applied limit with the requested
+                        // one — undetectably, since both are percentages.
+                        defaultValue: "The macOS charge limit only accepts certain values, so BatFi is holding charging at %1$@ instead of the %2$@ it was asked for.",
+                        bundle: .module
+                    ),
+                    String(describing: p1),
+                    String(describing: p2)
+                )
+            }
+
+            /// To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits.
+            ///
+            /// "Puts it back" rather than "is put back". The branch's own Known Issues say
+            /// the value can keep reading 100% for a while after BatFi quits, because
+            /// current macOS gives no way to hand a temporary override back early — so an
+            /// unqualified promise about what System Settings will show is one this release
+            /// knows it cannot keep. This says what BatFi does, which is true.
+            public static let systemChargeLimitManagesSystemSettings = String(localized: "settings.label.system_charge_limit_manages_system_settings", defaultValue: "To do that, BatFi changes the charge limit in System Settings › Battery. Your own setting there was saved, and BatFi puts it back when it quits.", bundle: Bundle.module)
+
+            /// BatFi isn't applying a charge limit on this Mac. It couldn't record the limit you have in System Settings › Battery, and it won't change a value it might not be able to put back.
+            public static let systemChargeLimitNoSnapshot = String(localized: "settings.label.system_charge_limit_no_snapshot", defaultValue: "BatFi isn’t applying a charge limit on this Mac. It couldn’t record the limit you have in System Settings › Battery, and it won’t change a value it might not be able to put back.", bundle: Bundle.module)
+
+            /// Every so often macOS charges the battery all the way to 100%, even with your limit set. It does that to keep its reading of the battery level accurate. Your limit applies again afterwards.
+            ///
+            /// Apple documents this: a Mac on Optimised Battery Charging or Charge Limit
+            /// "will occasionally charge to 100% to maintain accurate battery
+            /// state-of-charge estimates". Without the sentence, the only reading available
+            /// to a user who set 70% and sees the battery above it is that BatFi failed —
+            /// and that is what they report. From the outside a calibration charge and a
+            /// limit that did not hold are indistinguishable.
+            ///
+            /// Names macOS as the actor, not BatFi. Saying "BatFi occasionally charges to
+            /// 100%" would describe the app doing the one thing a charge limit exists to
+            /// prevent, and it is not what happens: BatFi's limit stays in force and macOS
+            /// overrides it. Closes on the limit applying again, so nobody reads this as the
+            /// limit having been abandoned.
+            public static let systemChargeLimitMayChargeToFull = String(localized: "settings.label.system_charge_limit_may_charge_to_full", defaultValue: "Every so often macOS charges the battery all the way to 100%, even with your limit set. It does that to keep its reading of the battery level accurate. Your limit applies again afterwards.", bundle: Bundle.module)
+
+            /// Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The setting for pausing on sleep isn’t shown on this Mac, because charging here is held at a percentage rather than stopped on request.
+            ///
+            /// Replaces `settings.label.system_charge_limit_cannot_pause_charging`, which also
+            /// named stopping when the battery gets hot. That setting works on this Mac now —
+            /// BatFi freezes the macOS limit at the battery's level instead of pausing — and is
+            /// shown, so the old sentence would say a visible setting is hidden. A new key
+            /// rather than new English for the old one, so no translation goes on saying it.
+            public static let systemChargeLimitCannotPauseOnSleep = String(localized: "settings.label.system_charge_limit_cannot_pause_on_sleep", defaultValue: "Your limit keeps holding while the Mac is asleep, so there is nothing for BatFi to pause. The setting for pausing on sleep isn’t shown on this Mac, because charging here is held at a percentage rather than stopped on request.", bundle: Bundle.module)
+
+            /// Running on battery still works — it uses a separate part of the firmware, which this Mac still has.
+            ///
+            /// Deliberately a sentence of its own rather than a clause inside the one above:
+            /// force discharge is probed from its own key and survives on firmware that lost
+            /// charge limiting, so it is shown only where it is genuinely available.
+            ///
+            /// Not named for the system charge limit, in either the symbol or the key.
+            /// It is rendered under `.pausingChargingUnavailable` on both non-pausing
+            /// backends and under `.chargingControlUnavailable`, and a key that names one
+            /// mechanism while three cases use it is a key that mis-briefs every
+            /// translator who reads it.
+            public static let forceDischargeStillWorks = String(localized: "settings.label.force_discharge_still_works", defaultValue: "Running on battery still works. It uses a separate part of the firmware, which this Mac still has.", bundle: Bundle.module)
+
+            // MARK: The charge-control help popover
+            // Replaces the permanent banner that used to sit above the slider. The
+            // heading is phrased around the outcome the user cares about — where
+            // charging stops — rather than around which mechanism BatFi ended up using.
+            public static let chargeControlHelpButtonAccessibility = String(localized: "settings.label.charge_control_help_button_accessibility", defaultValue: "About charging on this Mac", bundle: Bundle.module)
+            public static let chargeControlHelpHeading = String(localized: "settings.label.charge_control_help_heading", defaultValue: "How charging works on this Mac", bundle: Bundle.module)
+
+            // The three "why is this greyed out" tooltips that briefly lived here are
+            // gone: the settings they explained are hidden rather than disabled now, and
+            // a tooltip needs a control to hover over. The help popover carries the
+            // explanation instead.
+
+            // MARK: The ordinary, fully working Mac
+            //
+            // The only two lines here that describe a machine with nothing wrong with it,
+            // and neither may read like a limitation. This is the firmware most users
+            // have; a translation that reaches for the vocabulary of failure — "only",
+            // "cannot", "unfortunately" — would invent a fault the Mac does not have.
+
+            /// BatFi pauses charging when your battery reaches the limit, then lets it charge again when the level drops.
+            ///
+            /// States the mechanism, and deliberately names no percentage: the slider
+            /// showing that number sits directly above the button that opens this popover,
+            /// so a second copy of it could only ever disagree with the first.
+            public static let chargeControlBatFiPausesCharging = String(localized: "settings.label.charge_control_batfi_pauses_charging", defaultValue: "BatFi pauses charging when your battery reaches the limit, then lets it charge again when the level drops.", bundle: Bundle.module)
+
+            /// The pause is BatFi’s own, so your Mac charges normally whenever BatFi isn’t running.
+            ///
+            /// The exact inverse of `firmwareRangeEnforcedByFirmware`, and it has to stay
+            /// readable as a plain fact rather than a caveat — nothing the user asked for
+            /// has stopped happening. "Charges normally" is the operative phrase: the Mac
+            /// is not left in some degraded state when BatFi quits, it simply goes back to
+            /// charging the way it would if BatFi had never been installed.
+            public static let chargeControlLimitRequiresBatFiRunning = String(localized: "settings.label.charge_control_limit_requires_batfi_running", defaultValue: "The pause is BatFi’s own, so your Mac charges normally whenever BatFi isn’t running.", bundle: Bundle.module)
+
+            // MARK: The firmware-managed charge range
+            //
+            // The lead statement first. On this firmware BatFi is not doing less — it is
+            // handing the limit to something that enforces it better, and the copy has to
+            // say so before it says what that costs. Nothing here mentions a macOS
+            // version, and nothing here calls the mechanism "limited support".
+
+            /// Your Mac's firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep.
+            ///
+            /// The good news, and it is genuinely better than BatFi's own mechanisms:
+            /// nothing has to be running for it to hold.
+            public static let firmwareRangeEnforcedByFirmware = String(localized: "settings.label.firmware_range_enforced_by_firmware", defaultValue: "Your Mac’s firmware enforces the charge limit itself. BatFi hands it your limit once and steps back, so the limit keeps working even while the Mac is asleep.", bundle: Bundle.module)
+
+            /// Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit — it isn't a fault.
+            ///
+            /// A user who sets 80% and finds the battery sitting at 75% has to be able to
+            /// find out that this is the mechanism working. The figure is passed in from
+            /// `FirmwareChargeRange.hysteresis`, the same constant the firmware is actually
+            /// given, so the sentence cannot name a number the band does not use.
+            public static func firmwareRangeBatteryMayDipBelowLimit(_ p1: Any) -> String {
+                String(
+                    format: String(
+                        localized: "settings.label.firmware_range_battery_may_dip_below_limit",
+                        defaultValue: "Your battery can drop as much as %@ below the limit before charging starts again. That dip is how the firmware holds the limit. It isn’t a fault.",
+                        bundle: .module
+                    ),
+                    String(describing: p1)
+                )
+            }
+
+            /// Charging can't be paused on this Mac. Its firmware holds charging at your limit rather than stopping it on request, so stopping when the battery gets hot, and pausing below the limit when the Mac sleeps, won't take effect.
+            ///
+            /// The `.firmwareRange` counterpart to
+            /// `systemChargeLimitCannotPauseOnSleep`, and the one that still names the hot
+            /// battery: the band cannot hold a battery where it is. Different mechanism —
+            /// and naming the wrong one would send a macOS 27 user to a System Settings
+            /// value BatFi is not touching. Spells out which sleep behaviour is
+            /// lost, because the row above says the limit *does* survive sleep and the two
+            /// are read together: what goes is pausing *below* the limit.
+            public static let firmwareRangeCannotPauseCharging = String(localized: "settings.label.firmware_range_cannot_pause_charging", defaultValue: "Your limit keeps holding while the Mac is asleep, enforced by its firmware, so there is nothing for BatFi to pause. The settings for pausing on sleep and for stopping when the battery gets hot aren’t shown on this Mac, because charging here is held at your limit rather than stopped on request.", bundle: Bundle.module)
         }
 
         public enum Section {
@@ -711,8 +1467,6 @@ public enum L10n {
             public static let updates = String(localized: "settings.section.updates", defaultValue: "Updates", bundle: Bundle.module)
             /// Menu
             public static let menu = String(localized: "settings.section.menu", defaultValue: "Menu", bundle: Bundle.module)
-            /// Charging
-            public static let charging = String(localized: "settings.section.charging", defaultValue: "Charging", bundle: Bundle.module)
             /// Debug
             public static let debug = String(localized: "settings.section.debug", defaultValue: "Debug", bundle: Bundle.module)
             /// Apps with high energy usage
@@ -745,10 +1499,10 @@ public enum L10n {
                 public static let general = String(localized: "settings.tab.title.general", defaultValue: "General", bundle: Bundle.module)
                 /// Notifications
                 public static let notifications = String(localized: "settings.tab.title.notifications", defaultValue: "Notifications", bundle: Bundle.module)
-                /// Status bar
-                public static let statusBar = String(localized: "settings.tab.title.statusbar", defaultValue: "Menu Bar", bundle: Bundle.module)
-                /// Advanced
-                public static let advanced = String(localized: "settings.tab.title.advanced", defaultValue: "Advanced", bundle: Bundle.module)
+                /// Menu
+                public static let menu = String(localized: "settings.tab.title.menu", defaultValue: "Menu", bundle: Bundle.module)
+                /// Status Icon
+                public static let statusIcon = String(localized: "settings.tab.title.status_icon", defaultValue: "Status Icon", bundle: Bundle.module)
                 /// Hotkeys
                 public static let hotkeys = String(localized: "settings.tab.title.hotkeys", defaultValue: "Hotkeys", bundle: Bundle.module)
                 /// Tip jar

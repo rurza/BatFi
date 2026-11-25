@@ -5,14 +5,12 @@
 //  Created by Adam Różyński on 04/04/2024.
 //
 
-import Defaults
-import DefaultsKeys
 import Foundation
 import Shared
 
 final class AppDefaults {
-    static var userAllowsAnalytics: Bool {
+    static func shouldStartCrashReporting(isBeta: Bool) -> Bool {
         let defaults = UserDefaults(suiteName: Constant.appBundleIdentifier)!
-        return defaults[.sendAnalytics]
+        return AnalyticsPreference.shouldStartCrashReporting(isBeta: isBeta, defaults: defaults)
     }
 }

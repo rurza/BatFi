@@ -257,6 +257,9 @@ enum DataTypes {
         DataType(type: FourCharCode(fromStaticString: "ui32"), size: 4)
     static let Float =
         DataType(type: FourCharCode(fromStaticString: "flt "), size: 4)
+    /// 8-byte opaque bitfield, e.g. `CHNC`.
+    static let Hex8 =
+        DataType(type: FourCharCode(fromStaticString: "hex_"), size: 8)
 }
 
 struct SMCKey {
@@ -278,7 +281,7 @@ func == (lhs: DataType, rhs: DataType) -> Bool {
 /// source driver for the SMC.
 enum SMCKit {
     /// Connection to the SMC driver
-    fileprivate static var connection: io_connect_t = 0
+    nonisolated(unsafe) fileprivate static var connection: io_connect_t = 0
 
     /// Open connection to the SMC driver. This must be done first before any
     /// other calls

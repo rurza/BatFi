@@ -19,6 +19,7 @@
 		6615489E2D6B4CB000091523 /* LetsMove.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6615489B2D6B4CAB00091523 /* LetsMove.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 66265D6C2D68B50A00B568E1 /* BetaConfig.xcconfig */; };
 		66558E972BC1CB5D00FC377A /* license.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66558E952BC1C47300FC377A /* license.rtf */; };
+		6661E9A52DA5BDE9007285C6 /* App in Frameworks */ = {isa = PBXBuildFile; productRef = 6661E9A42DA5BDE9007285C6 /* App */; };
 		66768FC92BE2814A002A7528 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66768FC82BE2814A002A7528 /* main.swift */; };
 		667BA0342BCDC83300369B79 /* DischargeBatteryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0322BCDC83300369B79 /* DischargeBatteryIntent.swift */; };
 		667BA0352BCDC83300369B79 /* ChargeToFullIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667BA0332BCDC83300369B79 /* ChargeToFullIntent.swift */; };
@@ -29,9 +30,8 @@
 		66CF84332BC6D4A6003C51B8 /* BatteryIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CF84322BC6D4A6003C51B8 /* BatteryIndicator.swift */; };
 		66CF84352BC6D4A6003C51B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84342BC6D4A6003C51B8 /* Assets.xcassets */; };
 		66CF84382BC6D4A6003C51B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */; };
-		66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; };
-		66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 66F50ABA2BD316970043C5DF /* Localizable.xcstrings */; };
+		09221906F9E0DA2AC2B63F21 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 8896282A618C9CF7D83777F4 /* InfoPlist.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -83,7 +83,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				66CF84402BC6D4B3003C51B8 /* BatteryIndicator in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +94,7 @@
 		5B11DE0529EB6641007A993C /* BatFiHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BatFiHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B11DE0729EB6641007A993C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperConfig.xcconfig; sourceTree = "<group>"; };
+		A1B2C3D4E5F6071829304050 /* HelperBetaConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HelperBetaConfig.xcconfig; sourceTree = "<group>"; };
 		5B2836D82A05A6F000A42566 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		5B3C14C929EB431600746A53 /* AppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppConfig.xcconfig; sourceTree = "<group>"; };
 		5B68B9DF29FC0F11008AF5FD /* BatFiKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BatFiKit; sourceTree = "<group>"; };
@@ -124,6 +124,7 @@
 		66CF84372BC6D4A6003C51B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		66CF84392BC6D4A6003C51B8 /* Previews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Previews.entitlements; sourceTree = "<group>"; };
 		66F50ABA2BD316970043C5DF /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		8896282A618C9CF7D83777F4 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,7 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66CF843F2BC6D4B3003C51B8 /* BatteryIndicator in Frameworks */,
+				6661E9A52DA5BDE9007285C6 /* App in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +161,7 @@
 			children = (
 				5B69E6E429EB67F70010AD63 /* Info.plist */,
 				5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */,
+				A1B2C3D4E5F6071829304050 /* HelperBetaConfig.xcconfig */,
 				5B11DE0729EB6641007A993C /* main.swift */,
 			);
 			path = Helper;
@@ -216,6 +218,7 @@
 				5B69E6E729EB6AB00010AD63 /* Info.plist */,
 				5B69E6EB29ECA1750010AD63 /* software.micropixels.BatFi.Helper.plist */,
 				66F50ABA2BD316970043C5DF /* Localizable.xcstrings */,
+				8896282A618C9CF7D83777F4 /* InfoPlist.xcstrings */,
 				66939C232BD5A4E600A9B73A /* AppShortcuts.swift */,
 			);
 			path = App;
@@ -313,7 +316,7 @@
 			);
 			name = Previews;
 			packageProductDependencies = (
-				66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */,
+				6661E9A42DA5BDE9007285C6 /* App */,
 			);
 			productName = Previews;
 			productReference = 66CF842E2BC6D4A6003C51B8 /* Previews.app */;
@@ -374,6 +377,7 @@
 				zh_TW,
 				pt,
 				ca,
+				uk,
 			);
 			mainGroup = 5BEE217E29E607FB0012A4DD;
 			packageReferences = (
@@ -396,6 +400,7 @@
 			files = (
 				66558E972BC1CB5D00FC377A /* license.rtf in Resources */,
 				66F50ABB2BD316970043C5DF /* Localizable.xcstrings in Resources */,
+				09221906F9E0DA2AC2B63F21 /* InfoPlist.xcstrings in Resources */,
 				66265D6D2D68B50A00B568E1 /* BetaConfig.xcconfig in Resources */,
 				5BEE218F29E607FC0012A4DD /* Assets.xcassets in Resources */,
 				5B2836D92A05A6F000A42566 /* MainMenu.xib in Resources */,
@@ -499,10 +504,11 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.8;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -517,10 +523,11 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.8;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -669,13 +676,16 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.8;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -705,13 +715,16 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.8;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -797,19 +810,22 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.8;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(APP_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = NO;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Beta;
 		};
 		665BCFC72BBF486F00200F08 /* Beta */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B11DE0C29EB6667007A993C /* HelperConfig.xcconfig */;
+			baseConfigurationReference = A1B2C3D4E5F6071829304050 /* HelperBetaConfig.xcconfig */;
 			buildSettings = {
 				ARCHS = arm64;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -818,10 +834,11 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YL78V8PY6H;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.8;
 				MARKETING_VERSION = $APP_VERSION;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Beta;
 		};
@@ -976,9 +993,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = App;
 		};
-		66CF843E2BC6D4B3003C51B8 /* BatteryIndicator */ = {
+		6661E9A42DA5BDE9007285C6 /* App */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = BatteryIndicator;
+			productName = App;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
