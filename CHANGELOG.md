@@ -4,7 +4,80 @@ All notable changes to BatFi are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.3] - 2026-10-02
+## 4.2.0 - 2026-11-26
+
+### Added
+- **Try BatFi free for 7 days.** Start the trial from the welcome screen or the licence window,
+  with no card, email or account. Every feature works during the trial. The menu shows how many
+  days are left, and BatFi tells you a day before the trial ends and when it has ended. After
+  that, charging goes back to macOS until you enter a licence key. One trial per Mac. Without a
+  licence or a running trial, the menu shows only the battery and your licence options.
+- **Resume charging below a set level.** Turn it on in Charging settings and drag the slider's
+  second handle: BatFi charges to your limit, then lets the battery drop to the lower level
+  before it charges again, instead of topping up every time it slips a point. It works on every
+  Mac BatFi can limit, including Macs whose firmware or macOS holds the limit.
+- **Each automation rule can have its own resume level.** The rule list and the banner show the
+  rule's range, for example 60–80%.
+
+### Changed
+- **The menu says so when macOS charges past your limit to calibrate the battery,** instead of
+  looking as if your limit stopped working.
+
+### Fixed
+- **BatFi no longer gives up your licence when the licence server has a problem.** It now does
+  that only when the server says the key isn't valid.
+- **A licence key pasted with extra spaces or line breaks is accepted.**
+
+## 4.1.0 - 2026-11-07
+
+### Added
+- **Automatic Low Power Mode.** BatFi can turn Low Power Mode on when the battery drops to a
+  level you choose, and turn it off again when you plug in.
+- **Slow down apps on battery.** Apps you pick run on the Mac's efficiency cores while it's on
+  battery, and get full speed back when you switch to them, plug in, or quit BatFi. Apps playing
+  audio or on a call are left alone. You can also point at an app in the menu's list of apps
+  with high energy usage to slow it down, or to stop slowing it (this needs an active licence).
+  Apps on your slow-down list show a tortoise next to their name; it turns grey when the app
+  isn't being slowed right now, and pointing at it tells you why.
+- **BatFi warns you when another charge-control tool is installed** (the battery CLI, AlDente,
+  Battery Toolkit, batt or bclm), because two tools setting the charge limit fight each other.
+  The warning shows in Charging settings, in the menu, and in the "charge limit isn't holding"
+  notification, and tells you how to remove the other tool and everything it left behind.
+
+### Changed
+- **Settings no longer has an Advanced pane.** Its options moved to Charging and General, and
+  options your Mac can't use are hidden.
+- **Crash reports are off until you turn them on in Settings.**
+
+### Fixed
+- **BatFi no longer drops your charge limit right after launch.** While BatFi was still reading
+  your licence, it could briefly hand charging back to macOS. It now waits for the licence.
+- **Inhibit charging is back in the menu and in Settings › Hotkeys on Macs that use Apple's
+  charge limit (macOS 27).** BatFi holds the battery at its current level until you stop it,
+  start another override, or leave the Mac unplugged for two minutes.
+- **"Automatically turn off charging when the battery gets hot" works on Macs that use Apple's
+  charge limit (macOS 27).** While the battery is hot, BatFi holds it at its current level.
+- **On Macs whose firmware holds the charge limit itself, BatFi shows charging as paused while
+  the battery waits a few points below your limit,** instead of saying it's charging, and the
+  MagSafe green light option is available.
+- **While macOS calibrates the battery at 100%, the menu no longer flips between "charging to
+  100%" and "draining to the limit",** and you no longer get a new banner each time macOS moves
+  between its own charging steps.
+- **The menu bar icon changes as soon as you plug in or unplug.** Before, it waited until the
+  charge limit had been applied, which on macOS 27 with a limit below 80% could take up to 45
+  seconds.
+- **BatFi no longer keeps the disk busy** by making macOS re-check the app over and over in the
+  background.
+- **The charging mode banner appears every time you plug in,** not only the first time.
+- **The menu bar icon turns yellow as soon as you switch Low Power Mode on in System Settings,**
+  instead of up to a minute later.
+- **Keyboard shortcuts no longer stay paused after you edit one in Settings.**
+- **BatFi no longer delays automatic sleep on Macs where charging can't be paused.**
+- **Apps that have already quit no longer appear in the menu's list of apps with high energy
+  usage.**
+- **Settings tab titles in Russian and Brazilian Portuguese now fit.** They were too long.
+
+## 4.0.3 - 2026-10-02
 
 ### Fixed
 - **BatFi's newer messages now appear in your language.** If you use BatFi in a language other
@@ -14,7 +87,7 @@ All notable changes to BatFi are documented here. The format is based on
   holding, and the warning that running on battery keeps your Mac from sleeping. These messages
   had never been translated. They're now available in all 13 languages BatFi is translated into.
 
-## [4.0.2] - 2026-09-25
+## 4.0.2 - 2026-09-25
 
 ### Fixed
 - **Closing the menu can no longer leave BatFi frozen.** On rare occasions, closing the menu
@@ -24,7 +97,7 @@ All notable changes to BatFi are documented here. The format is based on
   library BatFi uses to combine several live readings into one — stopping it at the wrong moment
   could lock it up. BatFi now uses a version of that library in which the bug is fixed.
 
-## [4.0.1] - 2026-09-16
+## 4.0.1 - 2026-09-16
 
 ### Fixed
 - **Charging to 100% no longer drains straight back down to your limit while the charger is
@@ -51,7 +124,7 @@ All notable changes to BatFi are documented here. The format is based on
   answer arrived, logging a failure for a limit that was on its way in, and then working from a
   limit that was never in force. BatFi now waits as long as the request can legitimately take.
 
-## [4.0.0] - 2026-08-05
+## 4.0.0 - 2026-08-05
 
 ### Added
 - **BatFi keeps working on Macs whose firmware has dropped the charge-limit mechanism BatFi
@@ -160,7 +233,7 @@ All notable changes to BatFi are documented here. The format is based on
   hand that back early, so System Settings can keep showing 100% until the temporary change
   lapses on its own. This isn't new in this release — it was simply diagnosed during this work.
 
-## [3.1.1] - 2026-06-19
+## 3.1.1 - 2026-06-19
 
 ### Added
 - **Automation overrides are now visible where they take effect.** When an automation rule
@@ -177,7 +250,7 @@ All notable changes to BatFi are documented here. The format is based on
   battery would silently stop after a short while. The cleanup is now limited to charge/hold
   overrides; *Run on Battery* stays on until you turn it off.
 
-## [3.1.0] - 2026-06-03
+## 3.1.0 - 2026-06-03
 
 ### Added
 - **Calendar / Automation.** A new **Automation** settings pane lets you automate your
@@ -196,18 +269,10 @@ All notable changes to BatFi are documented here. The format is based on
   disconnected for roughly two minutes — so it no longer lingers after you've unplugged or
   topped up.
 
-## [3.0.5]
+## 3.0.5
 
 ### Fixed
 - Restore the system charging defaults when BatFi disengages, so charging behaves normally
   after the app stops managing it.
 - Defer the menu rebuild on macOS 26 while the menu is open, fixing a blank area at the top
   of the dropdown.
-
-[4.0.3]: https://github.com/rurza/BatFi-Priv/compare/4.0.2...4.0.3
-[4.0.2]: https://github.com/rurza/BatFi-Priv/compare/4.0.1...4.0.2
-[4.0.1]: https://github.com/rurza/BatFi-Priv/compare/4.0.0...4.0.1
-[4.0.0]: https://github.com/rurza/BatFi-Priv/compare/3.1.1...4.0.0
-[3.1.1]: https://github.com/rurza/BatFi-Priv/compare/3.1.0...3.1.1
-[3.1.0]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.1.0
-[3.0.5]: https://github.com/rurza/BatFi-Priv/compare/3.0.4...3.0.5

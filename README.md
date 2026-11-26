@@ -6,6 +6,8 @@ limit. Change it by time and place. Charge to 100% the moment you need it.
 **[Download BatFi at micropixels.software/batfi](https://micropixels.software/batfi/)**
 
 $15, once. Not a subscription. One licence covers every Mac you own.
+Try it free for 7 days first, with no card, email or account. Every feature
+works during the trial, and each Mac gets one trial.
 Requires macOS Sonoma 14.8 or later on a Mac with Apple silicon.
 
 This repository holds BatFi's source code. It is updated with a snapshot of
@@ -38,10 +40,12 @@ macOS and Optimized Battery Charging.
 More, and the download, at [micropixels.software/batfi](https://micropixels.software/batfi/).
 Questions are answered in [BatFi's FAQ](https://micropixels.software/support/#batfi).
 
-<p float="left">
-  <img src="https://github.com/rurza/BatFi/assets/2467137/db8870bb-0a61-4088-a361-b44d0db2cff7" width=300>
-  <img src="https://github.com/rurza/BatFi/assets/2467137/8cf4f6e3-fbe9-48ee-b034-b6fa8f0dc50c" width=300>
-  <img src="https://github.com/rurza/BatFi/assets/2467137/ad75de07-157b-48ba-8584-27ce930d078e" width=300>
+<p>
+  <img src=".github/images/menu.png" width="220" alt="BatFi's menu: battery level, time left, cycle count, temperature and health, the power going to the Mac, apps with high energy usage, and the Charge to 100% command">
+  <img src=".github/images/settings-charging.png" width="560" alt="Charging settings: charge to 80% and resume below 60%, with pausing charging when the battery gets hot">
+</p>
+<p>
+  <img src=".github/images/settings-energy.png" width="560" alt="Energy settings: turn on Low Power Mode at a chosen battery level, and slow down chosen apps while the Mac is on battery">
 </p>
 
 ## Licence
